@@ -65,7 +65,8 @@ paths:
           required: true
           description: The id of the post to retrieve
           schema:
-            type: string
+            type: integer
+            format: int64
       responses:
         '200':
           description: Expected response to a valid request
