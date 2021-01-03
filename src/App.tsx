@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import axios from 'axios'
 import logo from './logo.svg'
 import './App.css'
 
 const App: React.FC = () => {
+  useEffect(() => {
+    async function fetchPosts() {
+      const res = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts`)
+    }
+    fetchPosts()
+  })
+
   return (
     <div className="App">
       <header className="App-header">
