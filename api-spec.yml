@@ -100,6 +100,7 @@ components:
         - title
         - body
         - author
+        - createdAt
       properties:
         id:
           type: integer
@@ -110,6 +111,10 @@ components:
           type: string
         autor:
           $ref: "#/components/schemas/Autor"
+        createdAt:
+            type: string
+        updatedAt:
+            type: string
     Posts:
       type: array
       items:
