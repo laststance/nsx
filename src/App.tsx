@@ -6,6 +6,7 @@ import './App.css'
 const App: React.FC = () => {
   useEffect(() => {
     async function fetchPosts() {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts`)
     }
     fetchPosts()
