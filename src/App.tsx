@@ -1,33 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import logo from './logo.svg'
 import './App.css'
+import { Header } from './Header'
 
 const App: React.FC = () => {
+  const [posts, setPosts] = useState()
+
   useEffect(() => {
     async function fetchPosts() {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts`)
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_API_ENDPOINT}/posts`
+        )
+        // @ts-ignore
+        setPosts(data)
+      } catch (error) {
+        console.error(error)
+      }
     }
     fetchPosts()
   })
 
+  console.log(posts)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col justify-between w-screen h-screen">
+      <Header />
+      <main></main>
+      <footer></footer>
     </div>
   )
 }
