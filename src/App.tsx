@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { RouteComponentProps } from '@reach/router'
+import { Link } from '@reach/router'
 import './App.css'
 import { Header } from './Header'
 import { Post, Posts } from '../DataStructure'
 
-const App: React.FC = () => {
+const App: React.FC<RouteComponentProps> = () => {
   const [posts, setPosts] = useState<Posts>([])
 
   useEffect(() => {
@@ -28,14 +30,14 @@ const App: React.FC = () => {
         <ul className="flex flex-col justify-start">
           {posts.map((post: Post, i) => {
             return (
-              <>
-                <li key={i}>
-                  <span className="text-base text-gray-500">
+              <Link to={`/${post.id}`}>
+                <li key={i} className="flex">
+                  <div className="text-base text-gray-500">
                     {new Date(parseInt(post.createdAt)).toLocaleDateString()}
-                  </span>
-                  <span className="space-x-8 text-lg">{post.title}</span>
+                  </div>
+                  <div className="space-x-1 text-lg">{post.title}</div>
                 </li>
-              </>
+              </Link>
             )
           })}
         </ul>
