@@ -7,7 +7,7 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     ports:
-      - "3306:33060"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
