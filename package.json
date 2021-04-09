@@ -30,6 +30,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
+    "typecheck": "tsc --noEmit",
     "server-build": "tsc -p tsconfig.server.json",
     "server-start": "nodemon --ext ts,js --watch './backend' --ignore './src' --exec ts-node --project tsconfig.server.json ./backend/server.ts",
     "lint": "eslint . --ext .ts,.tsx,.js",
