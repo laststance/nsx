@@ -42,3 +42,8 @@ Build `backend/` dir Express server.
 
 Start dev backend Express server.
 
+# API Spec
+
+[api-spec.yml](https://github.com/laststance/digital-strength/blob/master/api-spec.yml) is spefication of REST API on Express backend.
+We organize and sync to github from [Postman Workspace](https://web.postman.co/workspace/9e5a010e-45ac-48e0-80e7-45eb42452fbb/api/e9b46884-e509-4fc2-aa75-0c83ad0d3cd2).
+
