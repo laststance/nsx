@@ -22,7 +22,8 @@ const App: React.FC<RouteComponentProps> = () => {
       }
     }
     fetchPosts()
-  })
+  }, [])
+
   return (
     <div className="flex flex-col justify-between w-screen h-screen">
       <Header />
@@ -30,8 +31,8 @@ const App: React.FC<RouteComponentProps> = () => {
         <ul className="flex flex-col justify-start">
           {posts.map((post: Post, i) => {
             return (
-              <Link to={`/${post.id}`}>
-                <li key={i} className="flex">
+              <Link key={i} to={`/${post.id}`}>
+                <li className="flex">
                   <div className="text-base text-gray-500">
                     {new Date(parseInt(post.createdAt)).toLocaleDateString()}
                   </div>
