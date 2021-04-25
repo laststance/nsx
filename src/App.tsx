@@ -32,11 +32,11 @@ const App: React.FC<RouteComponentProps> = () => {
           {posts.map((post: Post, i) => {
             return (
               <Link key={i} to={`/${post.id}`}>
-                <li className="flex">
+                <li className="flex space-x-2.5">
                   <div className="text-base text-gray-500">
                     {new Date(parseInt(post.createdAt)).toLocaleDateString()}
                   </div>
-                  <div className="space-x-1 text-lg">{post.title}</div>
+                  <div className="text-base">{post.title}</div>
                 </li>
               </Link>
             )
