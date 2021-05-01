@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Router } from '@reach/router'
 import './index.css'
 import App from './App'
-import { PostPage } from './PostPage'
+import PostPage from './PostPage'
 import * as serviceWorker from './serviceWorker'
 
 ReactDOM.render(
