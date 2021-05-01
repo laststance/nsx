@@ -32,8 +32,8 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
       <Header />
       <main className="container mx-auto flex-grow py-3">
         {post && (
-          <div>
-            <h1>{post.title}</h1>
+          <div className="mx-auto text-center">
+            <h1 className="text-4xl">{post.title}</h1>
             <div>{post.body}</div>
           </div>
         )}
