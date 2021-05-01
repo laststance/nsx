@@ -3,6 +3,7 @@ import axios from 'axios'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
 import './App.css'
+import Layout from './Layout'
 import { Header } from './Header'
 import { Post, Posts } from '../DataStructure'
 
@@ -25,7 +26,7 @@ const App: React.FC<RouteComponentProps> = () => {
   }, [])
 
   return (
-    <div className="flex flex-col justify-between w-screen h-screen">
+    <Layout>
       <Header />
       <main className="container mx-auto flex-grow py-3">
         <ul className="flex flex-col justify-start">
@@ -44,7 +45,7 @@ const App: React.FC<RouteComponentProps> = () => {
         </ul>
       </main>
       <footer></footer>
-    </div>
+    </Layout>
   )
 }
 
