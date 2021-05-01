@@ -36,7 +36,7 @@ app.get('/posts', (req: Request, res: Response) => {
 })
 
 app.get('/post/:id', (req: Request, res: Response) => {
-  if (res.param.id === 1) {
+  if (req.params.id === '1') {
     res.json({
       id: 1,
       title: 'jack trance',
@@ -48,8 +48,24 @@ app.get('/post/:id', (req: Request, res: Response) => {
       createdAt: '1609683025845',
       updatedAt: '1609683052915',
     })
+  } else if (req.params.id === '2') {
+    res.json({
+      id: 2,
+      title: 'pot of greed',
+      body: 'next time down',
+      autor: {
+        id: 2,
+        name: 'odori',
+      },
+      createdAt: '1609683198726',
+      updatedAt: '1609684208831',
+    })
+  } else {
+    res.json({
+      code: 500,
+      message: 'unexpected error',
+    })
   }
-  res.json('wrok in progress...')
 })
 
 export default app

@@ -13,3 +13,8 @@ export interface Post {
 }
 
 export type Posts = Post[]
+
+export interface APIErrorMessage {
+  code: number
+  message: string
+}
