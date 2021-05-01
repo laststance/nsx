@@ -35,4 +35,21 @@ app.get('/posts', (req: Request, res: Response) => {
   ])
 })
 
+app.get('/post/:id', (req: Request, res: Response) => {
+  if (res.param.id === 1) {
+    res.json({
+      id: 1,
+      title: 'jack trance',
+      body: 'take me away to the post',
+      autor: {
+        id: 1,
+        name: 'kato',
+      },
+      createdAt: '1609683025845',
+      updatedAt: '1609683052915',
+    })
+  }
+  res.json('wrok in progress...')
+})
+
 export default app
