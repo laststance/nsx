@@ -8,6 +8,7 @@ A hand made small blog system for taking note what Today I Learned day by day.
 
 1. `yarn start`
 2. `yarn server-start`
+3. `docker-compose up -d`
 
 
 # Commands
