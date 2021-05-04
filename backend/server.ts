@@ -11,6 +11,7 @@ async function connect() {
 }
 connect()
 
+// ?????
 DB.sync({ force: true })
   .then((res) => console.log(res))
   .catch((res) => console.log(res))
