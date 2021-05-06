@@ -1,9 +1,12 @@
 import { Sequelize, DataTypes } from 'sequelize'
 
+// create DB connect setting
 const DB = new Sequelize('digital', 'strength', 'password', {
   dialect: 'mysql',
 })
 
+
+// table definition
 const Author = DB.define('author', {
   name: {
     type: DataTypes.STRING,
