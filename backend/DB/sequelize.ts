@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from 'sequelize'
 
 // Option 2: Passing parameters separately (other dialects)
-const DB = new Sequelize('digital', 'strength', 'rootpass', {
+const DB = new Sequelize('digital', 'strength', 'password', {
   dialect: 'mysql',
 })
 
