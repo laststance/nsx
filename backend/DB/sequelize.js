@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes } from 'sequelize'
+const { Sequelize, DataTypes } = require('sequelize')
 
 // create DB connect setting
 const DB = new Sequelize('digital', 'strength', 'password', {
@@ -6,13 +6,13 @@ const DB = new Sequelize('digital', 'strength', 'password', {
 })
 
 // Model table definition
-export const Author = DB.define('author', {
+const Author = DB.define('author', {
   name: {
     type: DataTypes.STRING,
   },
 })
 
-export const Post = DB.define('post', {
+const Post = DB.define('post', {
   title: {
     type: DataTypes.STRING,
   },
@@ -23,4 +23,8 @@ export const Post = DB.define('post', {
 
 Post.hasMany(Author)
 
-export default DB
+module.exports = {
+  DB: DB,
+  Author: Author,
+  Post: Post
+}

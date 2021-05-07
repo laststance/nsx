@@ -1,5 +1,5 @@
 // connect to DB and sync table definition
-import DB from './sequelize'
+const { DB } = require('./sequelize')
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const connect = async () => {
@@ -13,7 +13,7 @@ const connect = async () => {
   }
 }
 
-export default connect
+module.exports = connect
 
 // save code snipet for db sync
 // DB.sync({ force: true })
