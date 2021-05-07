@@ -1,7 +1,8 @@
 // connect to DB and sync table definition
 import DB from './sequelize'
 
-async function connect() {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const connect = async () => {
   try {
     await DB.authenticate()
     // eslint-disable-next-line no-console
@@ -11,10 +12,12 @@ async function connect() {
     console.error('Unable to connect to the database:', error)
   }
 }
-connect()
 
-DB.sync({ force: true })
-  // eslint-disable-next-line no-console
-  .then((res) => console.log(res))
-  // eslint-disable-next-line no-console
-  .catch((res) => console.log(res))
+export default connect
+
+// save code snipet for db sync
+// DB.sync({ force: true })
+//   // eslint-disable-next-line no-console
+//   .then((res) => console.log(res))
+//   // eslint-disable-next-line no-console
+//   .catch((res) => console.log(res))
