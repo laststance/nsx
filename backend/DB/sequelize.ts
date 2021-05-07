@@ -5,14 +5,14 @@ const DB = new Sequelize('digital', 'strength', 'password', {
   dialect: 'mysql',
 })
 
-// table definition
-const Author = DB.define('author', {
+// Model table definition
+export const Author = DB.define('author', {
   name: {
     type: DataTypes.STRING,
   },
 })
 
-const Post = DB.define('post', {
+export const Post = DB.define('post', {
   title: {
     type: DataTypes.STRING,
   },
