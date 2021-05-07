@@ -1,5 +1,4 @@
 import app from './app'
-import './DB/connect'
 
 const port = 4000 || process.env.port
 
