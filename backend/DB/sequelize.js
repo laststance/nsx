@@ -21,7 +21,7 @@ const Post = DB.define('post', {
   },
 })
 
-Post.hasMany(Author)
+Post.author = Post.hasMany(Author)
 
 module.exports = {
   DB: DB,
