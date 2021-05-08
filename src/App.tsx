@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
 import './App.css'
@@ -9,6 +9,8 @@ import { Post, Posts } from '../DataStructure'
 
 const App: React.FC<RouteComponentProps> = () => {
   const [posts, setPosts] = useState<Posts>([])
+  // for display network error message
+  const [axiosError, setAxiosError] = useState<AxiosError>()
 
   useEffect(() => {
     async function fetchPosts() {
@@ -17,9 +19,11 @@ const App: React.FC<RouteComponentProps> = () => {
           `${process.env.REACT_APP_API_ENDPOINT}/posts`
         )
         setPosts(data)
-      } catch (error) {
+        // @ts-ignore
+      } catch (error: AxiosError) {
         // eslint-disable-next-line no-console
         console.error(error)
+        setAxiosError(error)
       }
     }
     fetchPosts()
@@ -43,6 +47,12 @@ const App: React.FC<RouteComponentProps> = () => {
             )
           })}
         </ul>
+        {axiosError && (
+          <div>
+            {/*// @ts-ignore */}
+            <p>{axiosError.toJSON().message}</p>
+          </div>
+        )}
       </main>
       <footer></footer>
     </Layout>
