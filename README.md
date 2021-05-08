@@ -49,6 +49,14 @@ Build `backend/` dir Express server.
 
 Start dev backend Express server.
 
+## `yarn sync:db`
+
+Sync sequelize model definition to actual MySQL.
+
+## `yarn import:db:seed`
+
+Import sample data for dev environment.
+
 # API Spec
 
 [api-spec.yml](https://github.com/laststance/digital-strength/blob/master/api-spec.yml) is spefication of REST API on Express backend.
