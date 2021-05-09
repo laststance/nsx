@@ -36,6 +36,7 @@
     "server-start": "nodemon --ext ts,js --watch './backend' --ignore './src' --exec ts-node --project tsconfig.server.json ./backend/server.ts",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
+    "db:connectTest": "node ./backend/DB/connectTest.js",
     "import:db:seed": "node ./backend/DB/importSeed.js",
     "sync:db": "node ./backend/DB/sync.js"
   },
