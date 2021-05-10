@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { Post } = require('./sequelize')
+const { Post, Author } = require('./sequelize')
 
 Post.create(
   {
@@ -7,9 +7,9 @@ Post.create(
     body: 'take me away to the post',
     author: { name: 'ryota' },
   },
-  { include: [Post.author] }
+  { include: { model: Author, as: 'author' } }
 )
 Post.create(
   { title: 'pot of greed', body: 'next time down', author: { name: 'ryota' } },
-  { include: [Post.author] }
+  { include: { model: Author, as: 'author' } }
 )

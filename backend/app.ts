@@ -1,6 +1,6 @@
 import Express, { Request, Response } from 'express'
 import cors from 'cors'
-import { Post } from './DB/sequelize'
+import { Post, Author } from './DB/sequelize'
 const app = Express()
 app.use(cors())
 
@@ -10,7 +10,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.get('/posts', async (req: Request, res: Response) => {
   //@ select all posts
-  const posts = await Post.findAll()
+  const posts = await Post.findAll({ include: { model: Author, as: 'author' } })
   res.json(posts)
   // @Todo return hard coded Posts Json
   // res.json([
