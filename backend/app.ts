@@ -4,10 +4,6 @@ import { Post, Author } from './DB/sequelize'
 const app = Express()
 app.use(cors())
 
-app.get('/', (req: Request, res: Response) => {
-  res.json({ msg: 'Express server is working!' })
-})
-
 app.get('/posts', async (req: Request, res: Response) => {
   //@ select all posts
   const posts = await Post.findAll({ include: { model: Author, as: 'author' } })
