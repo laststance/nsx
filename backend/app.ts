@@ -6,7 +6,10 @@ app.use(cors())
 
 app.get('/posts', async (req: Request, res: Response) => {
   //@ select all posts
-  const posts = await Post.findAll({ include: { model: Author, as: 'author' } })
+  const posts = await Post.findAll({
+    include: { model: Author, as: 'author' },
+    attributes: { exclude: ['authorId'] },
+  })
   res.json(posts)
 })
 
