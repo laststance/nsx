@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { Sequelize, DataTypes } = require('sequelize')
 
 // create DB connect setting
@@ -21,10 +22,10 @@ const Post = DB.define('post', {
   },
 })
 
-Post.author = Post.belongsTo(Author, { as: 'author'})
+Post.author = Post.belongsTo(Author, { as: 'author' })
 
 module.exports = {
   DB: DB,
   Author: Author,
-  Post: Post
+  Post: Post,
 }

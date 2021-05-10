@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { Post } = require('./sequelize')
 
 Post.create(

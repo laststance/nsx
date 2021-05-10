@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // connect to DB and sync table definition
 const { DB } = require('./sequelize')
 const chalk = require('chalk')
