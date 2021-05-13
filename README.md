@@ -6,10 +6,13 @@ A hand made small blog system for taking note what Today I Learned day by day.
 
 # Getting start local development
 
-1. `yarn start`
-2. `yarn server-start`
-3. `docker-compose up -d`
-
+1. `yarn install`
+2. `docker-compose up -d`
+3. `yarn db:connect:test`
+4. `yarn db:sync`
+5. `yarn db:seed`
+6. `yarn start`
+7. `yarn server-start`
 
 # Commands
 
