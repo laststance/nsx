@@ -3,6 +3,7 @@
 /// JSON fixture file can be loaded directly using
 // the built-in JavaScript bundler
 // @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const requiredExample = require('../../fixtures/example')
 
 context('Files', () => {
@@ -76,6 +77,7 @@ context('Files', () => {
     })
 
     cy.fixture('users').should((users) => {
+      // eslint-disable-next-line no-unused-expressions
       expect(users[0].name).to.exist
     })
 

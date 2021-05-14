@@ -8,6 +8,7 @@ context('Spies, Stubs, and Clock', () => {
     cy.visit('https://example.cypress.io/commands/spies-stubs-clocks')
 
     const obj = {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       foo() {},
     }
 
@@ -15,6 +16,7 @@ context('Spies, Stubs, and Clock', () => {
 
     obj.foo()
 
+    // eslint-disable-next-line no-unused-expressions
     expect(spy).to.be.called
   })
 
@@ -27,6 +29,7 @@ context('Spies, Stubs, and Clock', () => {
        * @param x {any}
        */
       foo(x) {
+        // eslint-disable-next-line no-console
         console.log('obj.foo called with', x)
       },
     }
@@ -55,6 +58,7 @@ context('Spies, Stubs, and Clock', () => {
        * @param b {string}
        */
       foo(a, b) {
+        // eslint-disable-next-line no-console
         console.log('a', a, 'b', b)
       },
     }
@@ -63,6 +67,7 @@ context('Spies, Stubs, and Clock', () => {
 
     obj.foo('foo', 'bar')
 
+    // eslint-disable-next-line no-unused-expressions
     expect(stub).to.be.called
   })
 
@@ -116,6 +121,7 @@ context('Spies, Stubs, and Clock', () => {
     expect(greeter.greet('World')).to.equal('Hi')
     // @ts-ignore
     expect(() => greeter.greet(42)).to.throw('Invalid name')
+    // eslint-disable-next-line no-unused-expressions
     expect(greeter.greet).to.have.been.calledTwice
 
     // non-matched calls goes the actual method

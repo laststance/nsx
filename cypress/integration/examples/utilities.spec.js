@@ -53,12 +53,14 @@ context('Utilities', () => {
       matchBase: true,
     })
 
+    // eslint-disable-next-line no-unused-expressions
     expect(matching, 'matching wildcard').to.be.true
 
     matching = Cypress.minimatch('/users/1/comments/2', '/users/*/comments', {
       matchBase: true,
     })
 
+    // eslint-disable-next-line no-unused-expressions
     expect(matching, 'comments').to.be.false
 
     // ** matches against all downstream path segments
@@ -66,6 +68,7 @@ context('Utilities', () => {
       matchBase: true,
     })
 
+    // eslint-disable-next-line no-unused-expressions
     expect(matching, 'comments').to.be.true
 
     // whereas * matches only the next path segment
@@ -74,6 +77,7 @@ context('Utilities', () => {
       matchBase: false,
     })
 
+    // eslint-disable-next-line no-unused-expressions
     expect(matching, 'comments').to.be.false
   })
 
@@ -87,6 +91,7 @@ context('Utilities', () => {
     function waitOneSecond() {
       // return a promise that resolves after 1 second
       // @ts-ignore TS2351 (new Cypress.Promise)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return new Cypress.Promise((resolve, reject) => {
         setTimeout(() => {
           // set waited to true
@@ -104,6 +109,7 @@ context('Utilities', () => {
       // @ts-ignore TS7006
       return waitOneSecond().then((str) => {
         expect(str).to.eq('foo')
+        // eslint-disable-next-line no-unused-expressions
         expect(waited).to.be.true
       })
     })
