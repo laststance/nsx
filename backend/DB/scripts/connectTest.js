@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // connect to DB and sync table definition
-const { DB } = require('./sequelize')
+const { DB } = require('../sequelize')
 const chalk = require('chalk')
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { Post, Author } = require('./sequelize')
+const { Post, Author } = require('../sequelize')
 
 Post.create(
   {
