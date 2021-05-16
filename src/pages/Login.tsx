@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
-import { RouteComponentProps } from '@reach/router'
+import { RouteComponentProps, navigate } from '@reach/router'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
+import axios from 'axios'
 
 interface FormInputState {
   name: Author['name']
   password: string
+}
+
+interface LoginRequestResponse {
+  success: boolean
 }
 
 const Login: React.FC<RouteComponentProps> = () => {
@@ -21,8 +26,19 @@ const Login: React.FC<RouteComponentProps> = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // @TODO login logic
-    console.log('submit')
+
+    try {
+      const { data } = await axios.post<LoginRequestResponse>(
+        `${process.env.REACT_APP_API_ENDPOINT}/login`
+      )
+      if (data) {
+        // to go manage console
+        navigate('admin/dashbord')
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error)
+    }
   }
 
   return (
@@ -64,7 +80,6 @@ const Login: React.FC<RouteComponentProps> = () => {
               id="password"
               type="password"
               name="password"
-              placeholder="******************"
               onChange={(e) => handleChange(e)}
             />
           </div>
