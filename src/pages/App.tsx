@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios, { AxiosError } from 'axios'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
-import './App.css'
-import Layout from './Layout'
-import Header from './Header'
-import { Post, Posts } from '../DataStructure'
+import Layout from '../components/Layout'
+import Header from '../components/Header'
+import { Post, Posts } from '../../DataStructure'
 
 const App: React.FC<RouteComponentProps> = () => {
   const [posts, setPosts] = useState<Posts>([])

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Router } from '@reach/router'
-import App from './App'
-import PostPage from './PostPage'
-import Login from './Login'
-import Dashbord from './Dashbord'
+import App from './pages/App'
+import PostPage from './pages/PostPage'
+import Login from './pages/Login'
+import Dashbord from './pages/Dashbord'
 
 const Routes: React.FC = () => (
   <Router>

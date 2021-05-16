@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { RouteComponentProps } from '@reach/router'
-import { Post } from '../DataStructure'
-import Layout from './Layout'
-import Header from './Header'
+import { Post } from '../../DataStructure'
+import Layout from '../components/Layout'
+import Header from '../components/Header'
 import axios from 'axios'
 
 interface RouterParam {
