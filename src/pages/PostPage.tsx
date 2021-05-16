@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { RouteComponentProps } from '@reach/router'
 import { Post } from '../../DataStructure'
 import Layout from '../components/Layout'
-import Header from '../components/Header'
 import axios from 'axios'
 
 interface RouterParam {
@@ -29,15 +28,12 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
 
   return (
     <Layout>
-      <Header />
-      <main className="container mx-auto flex-grow py-3">
-        {post && (
-          <>
-            <h1 className="text-4xl mb-2">{post.title}</h1>
-            <div>{post.body}</div>
-          </>
-        )}
-      </main>
+      {post && (
+        <>
+          <h1 className="text-4xl mb-2">{post.title}</h1>
+          <div>{post.body}</div>
+        </>
+      )}
     </Layout>
   )
 }

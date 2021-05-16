@@ -3,7 +3,6 @@ import axios, { AxiosError } from 'axios'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
 import Layout from '../components/Layout'
-import Header from '../components/Header'
 import { Post, Posts } from '../../DataStructure'
 
 const TopPage: React.FC<RouteComponentProps> = () => {
@@ -30,29 +29,26 @@ const TopPage: React.FC<RouteComponentProps> = () => {
 
   return (
     <Layout>
-      <Header />
-      <main className="container mx-auto flex-grow py-3">
-        <ul className="flex flex-col justify-start">
-          {posts.map((post: Post, i) => {
-            return (
-              <Link key={i} to={`post/${post.id}`}>
-                <li className="flex space-x-2.5">
-                  <div className="text-base text-gray-500">
-                    {new Date(parseInt(post.createdAt)).toLocaleDateString()}
-                  </div>
-                  <div className="text-base">{post.title}</div>
-                </li>
-              </Link>
-            )
-          })}
-        </ul>
-        {axiosError && (
-          <div>
-            {/*// @ts-ignore */}
-            <p>{axiosError.toJSON().message}</p>
-          </div>
-        )}
-      </main>
+      <ul className="flex flex-col justify-start">
+        {posts.map((post: Post, i) => {
+          return (
+            <Link key={i} to={`post/${post.id}`}>
+              <li className="flex space-x-2.5">
+                <div className="text-base text-gray-500">
+                  {new Date(parseInt(post.createdAt)).toLocaleDateString()}
+                </div>
+                <div className="text-base">{post.title}</div>
+              </li>
+            </Link>
+          )
+        })}
+      </ul>
+      {axiosError && (
+        <div>
+          {/*// @ts-ignore */}
+          <p>{axiosError.toJSON().message}</p>
+        </div>
+      )}
       <footer></footer>
     </Layout>
   )
