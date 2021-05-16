@@ -1,17 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router } from '@reach/router'
 import './index.css'
-import App from './App'
-import PostPage from './PostPage'
 import * as serviceWorker from './serviceWorker'
+import Routes from './Routes'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App path="/" />
-      <PostPage path="post/:postId" />
-    </Router>
+    <Routes />
   </React.StrictMode>,
   document.getElementById('root')
 )
