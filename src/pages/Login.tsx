@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { RouteComponentProps, navigate } from '@reach/router'
+import { Dispatch } from 'redux'
+import { useDispatch } from 'react-redux'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
 import axios from 'axios'
+import { LoginAction } from '../redux'
 
 interface FormInputState {
   name: Author['name']
@@ -18,13 +21,14 @@ const Login: React.FC<RouteComponentProps> = () => {
     name: '',
     password: '',
   })
+  const dispatch: Dispatch<LoginAction> = useDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const loginBusinessLogic = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
@@ -32,6 +36,7 @@ const Login: React.FC<RouteComponentProps> = () => {
         `${process.env.REACT_APP_API_ENDPOINT}/login`
       )
       if (data) {
+        dispatch({ type: 'LOGIN' })
         // to go manage console
         navigate('admin/dashbord')
       }
@@ -44,7 +49,7 @@ const Login: React.FC<RouteComponentProps> = () => {
   return (
     <Layout>
       <h1 className="text-3xl mb-3">Login</h1>
-      <form className="w-full max-w-sm" onSubmit={handleLogin}>
+      <form className="w-full max-w-sm" onSubmit={loginBusinessLogic}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label

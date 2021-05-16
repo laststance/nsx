@@ -3,7 +3,7 @@ import { Router } from '@reach/router'
 import TopPage from './pages/TopPage'
 import PostPage from './pages/PostPage'
 import Login from './pages/Login'
-import Dashbord from './pages/Dashbord'
+import Dashboard from './pages/Dashboard'
 import Admin from './components/Admin'
 
 const Routes: React.FC = () => (
@@ -12,7 +12,7 @@ const Routes: React.FC = () => (
     <PostPage path="post/:postId" />
     <Login path="login" />
     <Admin path="admin">
-      <Dashbord path="dashbord" />
+      <Dashboard path="dashboard" />
     </Admin>
   </Router>
 )
