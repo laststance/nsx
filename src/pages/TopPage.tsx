@@ -6,7 +6,7 @@ import Layout from '../components/Layout'
 import Header from '../components/Header'
 import { Post, Posts } from '../../DataStructure'
 
-const App: React.FC<RouteComponentProps> = () => {
+const TopPage: React.FC<RouteComponentProps> = () => {
   const [posts, setPosts] = useState<Posts>([])
   // for display network error message
   const [axiosError, setAxiosError] = useState<AxiosError>()
@@ -58,4 +58,4 @@ const App: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default App
+export default TopPage
