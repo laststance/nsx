@@ -1,10 +1,20 @@
 import { Action, Reducer, createStore } from 'redux'
 
+/**
+ * ============================================================
+ * State
+ * ============================================================
+ */
 export interface ReduxState {
   isSignup: boolean
   isLogin: boolean
 }
 
+/**
+ * ============================================================
+ * Action
+ * ============================================================
+ */
 export interface SignupAction extends Action<'SIGNUP'> {
   type: 'SIGNUP'
 }
@@ -28,6 +38,11 @@ type MyAppAction =
   | SignupAction
   | CloseSignupSnackbarAction
 
+/**
+ * ============================================================
+ * Reducer
+ * ============================================================
+ */
 const reducer: Reducer<ReduxState | undefined, MyAppAction> = (
   state = { isSignup: false, isLogin: false },
   action
@@ -38,10 +53,13 @@ const reducer: Reducer<ReduxState | undefined, MyAppAction> = (
 
     case 'LOGOUT':
       return { ...state, isLogin: false }
+
     case 'SIGNUP':
       return { ...state, isSignup: true }
+
     case 'CLOSE_SIGINUP_SNACKBAR':
       return { ...state, isSignup: false }
+
     default:
       return state
   }
