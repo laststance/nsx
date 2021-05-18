@@ -1,15 +1,24 @@
 #!/usr/bin/env node
 const { Sequelize, DataTypes } = require('sequelize')
 
-// create DB connect setting
+/**
+ * =========================================================================
+ * Connection
+ * =========================================================================
+ */
 const DB = new Sequelize('digital', 'strength', 'password', {
   dialect: 'mysql',
 })
 
-// Model table definition
+/**
+ * =========================================================================
+ * Models
+ * =========================================================================
+ */
 const Author = DB.define('author', {
   name: {
     type: DataTypes.STRING,
+    password: DataTypes.STRING,
   },
 })
 
