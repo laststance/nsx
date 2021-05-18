@@ -32,7 +32,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      const { data } = await axios.post<LoginRequestResponse>(
+      const { status } = await axios.post<LoginRequestResponse>(
         `${process.env.REACT_APP_API_ENDPOINT}/signup`,
         {
           name: formInput.name,
@@ -40,7 +40,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
         }
       )
 
-      if (data) {
+      if (status === 201) {
         dispatch({ type: 'LOGIN' })
         // to go manage console
         navigate('admin/dashbord')
