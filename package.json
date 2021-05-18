@@ -74,6 +74,8 @@
     "db:connect:test": "node backend/DB/scripts/connectTest.js",
     "db:seed": "node backend/DB/scripts/importSeed.js",
     "db:sync": "node backend/DB/scripts/sync.js",
+    "db:drop": "node backend/DB/scripts/drop.js",
+    "db:hashgen": "node backend/DB/scripts/passhashgen.js",
     "cypress:open": "cypress open"
   }
 }
