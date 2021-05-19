@@ -1,3 +1,8 @@
+/**
+ * =====================================
+ * From Database(fetch from MySQL by RestAPI)
+ * =====================================
+ */
 export interface Author {
   id: number
   name: string
@@ -14,7 +19,19 @@ export interface Post {
 
 export type Posts = Post[]
 
+/**
+ * =====================================
+ * RestAPI specific
+ * =====================================
+ */
 export interface APIErrorMessage {
   code: number
   message: string
 }
+
+/**
+ * =====================================
+ * Frontend internal
+ * =====================================
+ */
+export type SnackBarMessage = string

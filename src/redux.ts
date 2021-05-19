@@ -1,4 +1,5 @@
 import { Action, Reducer, createStore } from 'redux'
+import { SnackBarMessage } from '../DataStructure'
 
 /**
  * ============================================================
@@ -8,11 +9,18 @@ import { Action, Reducer, createStore } from 'redux'
 export interface ReduxState {
   isNewSignup: boolean
   isLogin: boolean
+  snackbarQueue: SnackBarMessage[]
+}
+
+const initialState: ReduxState = {
+  isNewSignup: false,
+  isLogin: false,
+  snackbarQueue: [],
 }
 
 /**
  * ============================================================
- * Action
+ * Actions
  * ============================================================
  */
 export type SuccessSignupAction = Action<'SUCCESS_SIGNUP'>
@@ -35,7 +43,7 @@ type ReduxAction =
  * ============================================================
  */
 const reducer: Reducer<ReduxState | undefined, ReduxAction> = (
-  state = { isNewSignup: false, isLogin: false },
+  state = initialState,
   action
 ) => {
   switch (action.type) {
@@ -56,6 +64,11 @@ const reducer: Reducer<ReduxState | undefined, ReduxAction> = (
   }
 }
 
+/**
+ * ============================================================
+ * Create Store
+ * ============================================================
+ */
 export const store = createStore(
   reducer,
   // @ts-ignore
