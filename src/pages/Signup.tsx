@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
 import { Dispatch } from 'redux'
-import { LoginAction } from '../redux'
+import { SuccessSignupAction } from '../redux'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import Layout from '../components/Layout'
@@ -21,7 +21,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
     name: '',
     password: '',
   })
-  const dispatch: Dispatch<LoginAction> = useDispatch()
+  const dispatch: Dispatch<SuccessSignupAction> = useDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
@@ -41,7 +41,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
       )
 
       if (status === 201) {
-        dispatch({ type: 'LOGIN' })
+        dispatch({ type: 'SUCCESS_SIGNUP' })
         // to go manage console
         navigate('admin/dashbord')
       }

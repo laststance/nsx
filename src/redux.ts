@@ -15,27 +15,18 @@ export interface ReduxState {
  * Action
  * ============================================================
  */
-export interface SignupAction extends Action<'SIGNUP'> {
-  type: 'SIGNUP'
-}
+export type SuccessSignupAction = Action<'SUCCESS_SIGNUP'>
 
-export interface CloseSignupSnackbarAction
-  extends Action<'CLOSE_SIGINUP_SNACKBAR'> {
-  type: 'CLOSE_SIGINUP_SNACKBAR'
-}
+export type CloseSignupSnackbarAction = Action<'CLOSE_SIGINUP_SNACKBAR'>
 
-export interface LoginAction extends Action<'LOGIN'> {
-  type: 'LOGIN'
-}
+export type LoginAction = Action<'LOGIN'>
 
-export interface LogoutAction extends Action<'LOGOUT'> {
-  type: 'LOGOUT'
-}
+export type LogoutAction = Action<'LOGOUT'>
 
-type MyAppAction =
+type ReduxAction =
   | LoginAction
   | LogoutAction
-  | SignupAction
+  | SuccessSignupAction
   | CloseSignupSnackbarAction
 
 /**
@@ -43,8 +34,8 @@ type MyAppAction =
  * Reducer
  * ============================================================
  */
-const reducer: Reducer<ReduxState | undefined, MyAppAction> = (
-  state = { isSignup: false, isLogin: false },
+const reducer: Reducer<ReduxState | undefined, ReduxAction> = (
+  state = { isNewSignup: false, isLogin: false },
   action
 ) => {
   switch (action.type) {
@@ -54,7 +45,7 @@ const reducer: Reducer<ReduxState | undefined, MyAppAction> = (
     case 'LOGOUT':
       return { ...state, isLogin: false }
 
-    case 'SIGNUP':
+    case 'SUCCESS_SIGNUP':
       return { ...state, isNewSignup: true }
 
     case 'CLOSE_SIGINUP_SNACKBAR':
