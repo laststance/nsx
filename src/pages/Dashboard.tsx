@@ -7,7 +7,12 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
     // @TODO impl popup and close redux state
   }, [])
 
-  return <Layout>dashbord</Layout>
+  return (
+    <Layout>
+      <h1>Dashbord</h1>
+      <button>Create</button>
+    </Layout>
+  )
 }
 
 export default Dashboard
