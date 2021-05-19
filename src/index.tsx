@@ -5,11 +5,14 @@ import './index.css'
 import * as serviceWorker from './serviceWorker'
 import Routes from './Routes'
 import { store } from './redux'
+import SnackBarSystem from './systems/SnackBarSystem'
 
 ReactDOM.render(
   <React.StrictMode>
     <ReduxProvider store={store}>
-      <Routes />
+      <SnackBarSystem>
+        <Routes />
+      </SnackBarSystem>
     </ReduxProvider>
   </React.StrictMode>,
   document.getElementById('root')
