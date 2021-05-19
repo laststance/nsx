@@ -94,13 +94,6 @@ const Signup: React.FC<RouteComponentProps> = () => {
             />
           </div>
         </div>
-        <div className="md:flex md:items-center mb-6">
-          <div className="md:w-1/3"></div>
-          <label className="md:w-2/3 block text-gray-500 font-bold">
-            <input className="mr-2 leading-tight" type="checkbox" />
-            <span className="text-sm">Send me your newsletter!</span>
-          </label>
-        </div>
         <div className="md:flex md:items-center">
           <div className="md:w-1/3"></div>
           <div className="md:w-2/3">
