@@ -1,9 +1,9 @@
 // @see https://ultimatecourses.com/blog/all-about-immutable-arrays-and-objects-in-javascript
 
-type PopReturnType = [lastItem: unknown, removedLastItremArray: Array<unknown>]
+type PopReturnType = [lastItem: unknown, lastItemRemovedArray: Array<unknown>]
 type ShiftReturnType = [
   firstItem: unknown,
-  removedFirstItemArray: Array<unknown>
+  firstItemRemovedArray: Array<unknown>
 ]
 
 export interface ImmutableArrayInterface {
@@ -24,14 +24,14 @@ const ImmutableArray: ImmutableArrayInterface = {
 
   pop(arr: Array<unknown>): PopReturnType {
     const lastItem = arr[arr.length - 1]
-    const removedLastItemArray = arr.slice(0, arr.length - 1)
-    return [lastItem, removedLastItemArray]
+    const lastItemRemovedArray = arr.slice(0, arr.length - 1)
+    return [lastItem, lastItemRemovedArray]
   },
 
   shift(arr: Array<unknown>): ShiftReturnType {
     const firstItem = arr[0]
-    const removedFirstItemArray = arr.slice(1)
-    return [firstItem, removedFirstItemArray]
+    const firstItemRemovedArray = arr.slice(1)
+    return [firstItem, firstItemRemovedArray]
   },
 }
 
