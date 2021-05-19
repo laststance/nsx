@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import Admin from './components/Admin'
+import NotFound from './pages/NotFound'
 
 const Routes: React.FC = () => (
   <Router>
@@ -15,7 +16,9 @@ const Routes: React.FC = () => (
     <Signup path="signup" />
     <Admin path="admin">
       <Dashboard path="dashboard" />
+      <NotFound default />
     </Admin>
+    <NotFound default />
   </Router>
 )
 

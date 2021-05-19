@@ -43,7 +43,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
       if (status === 201) {
         dispatch({ type: 'SUCCESS_SIGNUP' })
         // to go manage console
-        navigate('admin/dashbord')
+        navigate('admin/dashboard')
       }
     } catch (error) {
       // eslint-disable-next-line no-console
