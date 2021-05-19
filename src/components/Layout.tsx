@@ -1,11 +1,25 @@
 import React from 'react'
 import Header from './Header'
 
-const Layout: React.FC = ({ children }) => {
+interface Props {
+  className?: string
+}
+
+const Layout: React.FC<Props> = ({ children, className }) => {
+  function getContainerStyle(className: Props['className']): string {
+    const base = 'container mx-auto flex-grow py-3'
+
+    if (className) {
+      return base + ' ' + className
+    } else {
+      return base
+    }
+  }
+
   return (
     <div className="flex flex-col justify-between w-screen h-screen">
       <Header />
-      <main className="container mx-auto flex-grow py-3">{children}</main>
+      <main className={getContainerStyle(className)}>{children}</main>
     </div>
   )
 }
