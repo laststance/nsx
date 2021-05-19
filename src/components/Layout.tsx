@@ -5,17 +5,17 @@ interface Props {
   className?: string
 }
 
-const Layout: React.FC<Props> = ({ children, className }) => {
-  function getContainerStyle(className: Props['className']): string {
-    const base = 'container mx-auto flex-grow py-3'
+function getContainerStyle(className: Props['className']): string {
+  const base = 'container mx-auto flex-grow py-3'
 
-    if (className) {
-      return base + ' ' + className
-    } else {
-      return base
-    }
+  if (className) {
+    return base + ' ' + className
+  } else {
+    return base
   }
+}
 
+const Layout: React.FC<Props> = ({ children, className }) => {
   return (
     <div className="flex flex-col justify-between w-screen h-screen">
       <Header />
