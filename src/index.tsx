@@ -6,14 +6,17 @@ import * as serviceWorker from './serviceWorker'
 import Routes from './Routes'
 import { store } from './redux'
 import SnackBarSystem from './systems/SnackBarSystem'
+import ErrorBoundary from './components/ErrorBoundary'
 
 ReactDOM.render(
   <React.StrictMode>
-    <ReduxProvider store={store}>
-      <SnackBarSystem>
-        <Routes />
-      </SnackBarSystem>
-    </ReduxProvider>
+    <ErrorBoundary>
+      <ReduxProvider store={store}>
+        <SnackBarSystem>
+          <Routes />
+        </SnackBarSystem>
+      </ReduxProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 )
