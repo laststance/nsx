@@ -6,7 +6,7 @@ import { Action, Reducer, createStore } from 'redux'
  * ============================================================
  */
 export interface ReduxState {
-  isSignup: boolean
+  isNewSignup: boolean
   isLogin: boolean
 }
 
@@ -55,10 +55,10 @@ const reducer: Reducer<ReduxState | undefined, MyAppAction> = (
       return { ...state, isLogin: false }
 
     case 'SIGNUP':
-      return { ...state, isSignup: true }
+      return { ...state, isNewSignup: true }
 
     case 'CLOSE_SIGINUP_SNACKBAR':
-      return { ...state, isSignup: false }
+      return { ...state, isNewSignup: false }
 
     default:
       return state
