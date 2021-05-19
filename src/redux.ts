@@ -1,4 +1,5 @@
 import { Action, Reducer, createStore } from 'redux'
+import ImmutableArray from '../lib/immutableArray'
 import { SnackBarMessage } from '../DataStructure'
 
 /**
@@ -7,14 +8,12 @@ import { SnackBarMessage } from '../DataStructure'
  * ============================================================
  */
 export interface ReduxState {
-  isNewSignup: boolean
-  isLogin: boolean
+  login: boolean
   snackbarQueue: SnackBarMessage[]
 }
 
 const initialState: ReduxState = {
-  isNewSignup: false,
-  isLogin: false,
+  login: false,
   snackbarQueue: [],
 }
 
@@ -23,19 +22,23 @@ const initialState: ReduxState = {
  * Actions
  * ============================================================
  */
-export type SuccessSignupAction = Action<'SUCCESS_SIGNUP'>
-
-export type CloseSignupSnackbarAction = Action<'CLOSE_SIGINUP_SNACKBAR'>
 
 export type LoginAction = Action<'LOGIN'>
 
 export type LogoutAction = Action<'LOGOUT'>
 
-type ReduxAction =
+export interface EnqueueSnackbarAction
+  extends Action<'ENQUEUE_SNACKBAR_MESSAGE'> {
+  payload: { message: string }
+}
+
+export type DequeueSnackbarAction = Action<'DEQUEUE_SNACKBAR_MESSAGE'>
+
+export type ReduxAction =
   | LoginAction
   | LogoutAction
-  | SuccessSignupAction
-  | CloseSignupSnackbarAction
+  | EnqueueSnackbarAction
+  | DequeueSnackbarAction
 
 /**
  * ============================================================
@@ -48,16 +51,21 @@ const reducer: Reducer<ReduxState | undefined, ReduxAction> = (
 ) => {
   switch (action.type) {
     case 'LOGIN':
-      return { ...state, isLogin: true }
+      return { ...state, login: true }
 
     case 'LOGOUT':
-      return { ...state, isLogin: false }
+      return { ...state, login: false }
 
-    case 'SUCCESS_SIGNUP':
-      return { ...state, isNewSignup: true }
+    case 'ENQUEUE_SNACKBAR_MESSAGE':
+      const queue = state.snackbarQueue
+      const message = action.payload.message
+      const enqueuedMessages = ImmutableArray.unshift(queue, message)
 
-    case 'CLOSE_SIGINUP_SNACKBAR':
-      return { ...state, isNewSignup: false }
+      return { ...state, snackbarQueue: enqueuedMessages }
+
+    case 'DEQUEUE_SNACKBAR_MESSAGE':
+      const [, firstItemRemovedArray] = ImmutableArray.pop(state.snackbarQueue)
+      return { ...state, snackbarQueue: firstItemRemovedArray }
 
     default:
       return state

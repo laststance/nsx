@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
 import { Dispatch } from 'redux'
-import { SuccessSignupAction } from '../redux'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
+import { EnqueueSnackbarAction } from '../redux'
 
 interface FormInputState {
   name: Author['name']
@@ -21,14 +21,14 @@ const Signup: React.FC<RouteComponentProps> = () => {
     name: '',
     password: '',
   })
-  const dispatch: Dispatch<SuccessSignupAction> = useDispatch()
+  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 
-  const executeSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+  const execSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
@@ -41,8 +41,10 @@ const Signup: React.FC<RouteComponentProps> = () => {
       )
 
       if (status === 201) {
-        dispatch({ type: 'SUCCESS_SIGNUP' })
-        // to go manage console
+        dispatch({
+          type: 'ENQUEUE_SNACKBAR_MESSAGE',
+          payload: { message: 'Success Signup!' },
+        })
         navigate('admin/dashboard')
       }
     } catch (error) {
@@ -54,7 +56,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
   return (
     <Layout>
       <h1 className="text-3xl mb-3">Signup</h1>
-      <form className="w-full max-w-sm" onSubmit={executeSignup}>
+      <form className="w-full max-w-sm" onSubmit={execSignup}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
