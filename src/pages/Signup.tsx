@@ -28,7 +28,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 
-  const signupBusinessLogic = async (e: React.FormEvent<HTMLFormElement>) => {
+  const executeSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
@@ -54,7 +54,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
   return (
     <Layout>
       <h1 className="text-3xl mb-3">Signup</h1>
-      <form className="w-full max-w-sm" onSubmit={signupBusinessLogic}>
+      <form className="w-full max-w-sm" onSubmit={executeSignup}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
