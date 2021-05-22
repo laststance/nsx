@@ -4,7 +4,6 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import { Model } from 'sequelize'
 import { Post, Author } from './DB/sequelize'
-// @TODO find more straightforwardway to use DataStructure's Posts interface.
 import { Post as PostType } from '../DataStructure'
 const app = express()
 app.use(bodyParser())
