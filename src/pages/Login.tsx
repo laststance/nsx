@@ -33,12 +33,16 @@ const Login: React.FC<RouteComponentProps> = () => {
 
     try {
       const { data } = await axios.post<LoginRequestResponse>(
-        `${process.env.REACT_APP_API_ENDPOINT}/login`
+        `${process.env.REACT_APP_API_ENDPOINT}/login`,
+        {
+          name: formInput.name,
+          password: formInput.password,
+        }
       )
       if (data) {
         dispatch({ type: 'LOGIN' })
         // to go manage console
-        navigate('dashbord')
+        navigate('dashboard')
       }
     } catch (error) {
       // eslint-disable-next-line no-console
