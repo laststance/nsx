@@ -10,8 +10,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
 
   useEffect(() => {
     dispatch({ type: 'LOGIN' })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch])
 
   return (
     <Layout>
