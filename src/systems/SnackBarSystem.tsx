@@ -1,7 +1,8 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { ReduxState } from '../redux'
-import SnackBar from './SnackBar'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { DequeueSnackbarAction, ReduxState } from '../redux'
+import { SnackBarMessage } from '../../DataStructure'
+import { Dispatch } from 'redux'
 
 const SnackBarSystem: React.FC = ({ children }) => {
   const messageQueue = useSelector<ReduxState, ReduxState['snackbarQueue']>(
@@ -16,6 +17,25 @@ const SnackBarSystem: React.FC = ({ children }) => {
       <SnackBar message={message} />
       {children}
     </>
+  )
+}
+
+interface Props {
+  message: SnackBarMessage
+}
+
+const SnackBar: React.FC<Props> = ({ message }) => {
+  const dispatch: Dispatch<DequeueSnackbarAction> = useDispatch()
+  useEffect(() => {
+    setTimeout(
+      () => dispatch({ type: 'DEQUEUE_SNACKBAR_MESSAGE' }),
+      9000000000000000000000
+    )
+  }, [dispatch])
+  return (
+    <div className="z-10 absolute bg-green-400 w-40 h-24">
+      <p>{message}</p>
+    </div>
   )
 }
 

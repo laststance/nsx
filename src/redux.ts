@@ -22,7 +22,6 @@ const initialState: ReduxState = {
  * Actions
  * ============================================================
  */
-
 export type LoginAction = Action<'LOGIN'>
 
 export type LogoutAction = Action<'LOGOUT'>
