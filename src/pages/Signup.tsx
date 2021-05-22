@@ -45,7 +45,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
           payload: { message: 'Success Signup!' },
         })
-        navigate('admin/dashboard')
+        navigate('dashboard')
       }
     } catch (error) {
       // eslint-disable-next-line no-console

@@ -38,7 +38,7 @@ const Login: React.FC<RouteComponentProps> = () => {
       if (data) {
         dispatch({ type: 'LOGIN' })
         // to go manage console
-        navigate('admin/dashbord')
+        navigate('dashbord')
       }
     } catch (error) {
       // eslint-disable-next-line no-console
