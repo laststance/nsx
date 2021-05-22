@@ -18,7 +18,9 @@ const DB = new Sequelize('digital', 'strength', 'password', {
 const Author = DB.define('author', {
   name: {
     type: DataTypes.STRING,
-    password: DataTypes.STRING,
+  },
+  password: {
+    type: DataTypes.STRING,
   },
 })
 

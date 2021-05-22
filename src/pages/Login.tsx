@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
 import axios from 'axios'
-import { LoginAction } from '../redux'
+import { EnqueueSnackbarAction, LoginAction } from '../redux'
 
 interface FormInputState {
   name: Author['name']
@@ -21,7 +21,7 @@ const Login: React.FC<RouteComponentProps> = () => {
     name: '',
     password: '',
   })
-  const dispatch: Dispatch<LoginAction> = useDispatch()
+  const dispatch: Dispatch<LoginAction | EnqueueSnackbarAction> = useDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
@@ -32,17 +32,27 @@ const Login: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      const { data } = await axios.post<LoginRequestResponse>(
+      const { status } = await axios.post<LoginRequestResponse>(
         `${process.env.REACT_APP_API_ENDPOINT}/login`,
         {
           name: formInput.name,
           password: formInput.password,
         }
       )
-      if (data) {
+      if (status === 200) {
         dispatch({ type: 'LOGIN' })
         // to go manage console
         navigate('dashboard')
+      } else if (status === 400) {
+        dispatch({
+          type: 'ENQUEUE_SNACKBAR_MESSAGE',
+          payload: { message: 'Invalid Password' },
+        })
+      } else if (status === 401) {
+        dispatch({
+          type: 'ENQUEUE_SNACKBAR_MESSAGE',
+          payload: { message: 'User does not exis' },
+        })
       }
     } catch (error) {
       // eslint-disable-next-line no-console

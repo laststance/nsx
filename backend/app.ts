@@ -49,8 +49,23 @@ app.post('/signup', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/login', async () => {
-  //@TODO
+app.post('/login', async (req: Request, res: Response) => {
+  const body = req.body
+  const author = await Author.findOne({
+    where: { name: body.name },
+  })
+  if (author) {
+    // @ts-ignore
+    const validPassword = await bcrypt.compare(body.password, author.password)
+
+    if (validPassword) {
+      res.status(200).json({ message: 'Valid password' })
+    } else {
+      res.status(400).json({ error: 'Invalid Password' })
+    }
+  } else {
+    res.status(401).json({ error: 'User does not exist' })
+  }
 })
 
 export default app
