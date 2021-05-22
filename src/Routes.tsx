@@ -5,7 +5,6 @@ import PostPage from './pages/PostPage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
-import Admin from './components/Admin'
 import NotFound from './pages/NotFound'
 
 const Routes: React.FC = () => (
@@ -14,10 +13,7 @@ const Routes: React.FC = () => (
     <PostPage path="post/:postId" />
     <Login path="login" />
     <Signup path="signup" />
-    <Admin path="admin">
-      <Dashboard path="dashboard" />
-      <NotFound default />
-    </Admin>
+    <Dashboard path="dashboard" />
     <NotFound default />
   </Router>
 )
