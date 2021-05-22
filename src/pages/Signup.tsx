@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
-import { EnqueueSnackbarAction } from '../redux'
+import { EnqueueSnackbarAction, LoginAction } from '../redux'
 
 interface FormInputState {
   name: Author['name']
@@ -21,7 +21,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
     name: '',
     password: '',
   })
-  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
+  const dispatch: Dispatch<EnqueueSnackbarAction | LoginAction> = useDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
@@ -45,6 +45,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
           payload: { message: 'Success Signup!', color: 'green' },
         })
+        dispatch({ type: 'LOGIN' })
         navigate('dashboard')
       }
     } catch (error) {
