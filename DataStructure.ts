@@ -35,4 +35,7 @@ export interface APIErrorMessage {
  * Frontend internal
  * =====================================
  */
-export type SnackBarMessage = string
+export interface SnackBarMessage {
+  message: string
+  color: 'red' | 'green'
+}

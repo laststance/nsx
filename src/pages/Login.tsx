@@ -46,12 +46,12 @@ const Login: React.FC<RouteComponentProps> = () => {
       } else if (status === 400) {
         dispatch({
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'Invalid Password' },
+          payload: { message: 'Invalid Password', color: 'red' },
         })
       } else if (status === 401) {
         dispatch({
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'User does not exis' },
+          payload: { message: 'User does not exis', color: 'red' },
         })
       }
     } catch (error) {

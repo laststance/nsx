@@ -28,7 +28,7 @@ export type LogoutAction = Action<'LOGOUT'>
 
 export interface EnqueueSnackbarAction
   extends Action<'ENQUEUE_SNACKBAR_MESSAGE'> {
-  payload: { message: string }
+  payload: { message: string; color: 'red' | 'green' }
 }
 
 export type DequeueSnackbarAction = Action<'DEQUEUE_SNACKBAR_MESSAGE'>
@@ -58,7 +58,9 @@ const reducer: Reducer<ReduxState | undefined, ReduxAction> = (
     case 'ENQUEUE_SNACKBAR_MESSAGE':
       const queue = state.snackbarQueue
       const message = action.payload.message
-      const enqueuedMessages = ImmutableArray.unshift(queue, message)
+      const color = action.payload.color
+      const item: SnackBarMessage = { message: message, color: color }
+      const enqueuedMessages = ImmutableArray.unshift(queue, item)
 
       return { ...state, snackbarQueue: enqueuedMessages }
 

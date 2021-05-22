@@ -43,7 +43,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
       if (status === 201) {
         dispatch({
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'Success Signup!' },
+          payload: { message: 'Success Signup!', color: 'green' },
         })
         navigate('dashboard')
       }
