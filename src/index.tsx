@@ -8,6 +8,10 @@ import { store } from './redux'
 import SnackBarSystem from './systems/SnackBarSystem'
 import ErrorBoundary from './components/ErrorBoundary'
 
+if (window.localStorage.getItem('login') === 'true') {
+  store.dispatch({ type: 'LOGIN' })
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>

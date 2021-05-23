@@ -70,6 +70,11 @@ app.post('/login', async (req: Request, res: Response) => {
   }
 })
 
+/**
+ * ==============================================
+ * Run server
+ * ==============================================
+ */
 const port = 4000 || process.env.port
 
 app.listen(port, () => {

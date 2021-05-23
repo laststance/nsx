@@ -7,7 +7,7 @@ const LoginArea: React.FC<RouteComponentProps> = ({ children }) => {
   const login: ReduxState['login'] = useSelector<
     ReduxState,
     ReduxState['login']
-  >((state) => state?.login)
+  >((state) => state.login)
 
   return login ? <>{children}</> : <Redirect to="/login" noThrow />
 }

@@ -41,7 +41,8 @@ const Login: React.FC<RouteComponentProps> = () => {
       )
       if (status === 200) {
         dispatch({ type: 'LOGIN' })
-        // to go manage console
+        window.localStorage.setItem('login', 'true')
+
         navigate('dashboard')
       } else if (status === 400) {
         dispatch({
