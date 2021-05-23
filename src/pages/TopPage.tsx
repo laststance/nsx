@@ -1,31 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import axios, { AxiosError } from 'axios'
+import React from 'react'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
 import Layout from '../components/Layout'
-import { Post, Posts } from '../../DataStructure'
+import { Post } from '../../DataStructure'
+import usePostList from '../hooks/usePostList'
 
 const TopPage: React.FC<RouteComponentProps> = () => {
-  const [posts, setPosts] = useState<Posts>([])
-  // for display network error message
-  const [axiosError, setAxiosError] = useState<AxiosError>()
-
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const { data } = await axios.get<Posts>(
-          `${process.env.REACT_APP_API_ENDPOINT}/posts`
-        )
-        setPosts(data)
-        // @ts-ignore
-      } catch (error: AxiosError) {
-        // eslint-disable-next-line no-console
-        console.error(error)
-        setAxiosError(error)
-      }
-    }
-    fetchPosts()
-  }, [])
+  const { posts, axiosError } = usePostList()
 
   return (
     <Layout>
