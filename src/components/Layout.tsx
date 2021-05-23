@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from './Header'
+import Footer from './Footer'
 
 interface Props {
   className?: string
@@ -20,6 +21,7 @@ const Layout: React.FC<Props> = ({ children, className }) => {
     <div className="flex flex-col justify-between w-screen h-screen">
       <Header />
       <main className={getContainerStyle(className)}>{children}</main>
+      <Footer />
     </div>
   )
 }

@@ -49,7 +49,6 @@ const TopPage: React.FC<RouteComponentProps> = () => {
           <p>{axiosError.toJSON().message}</p>
         </div>
       )}
-      <footer></footer>
     </Layout>
   )
 }
