@@ -30,7 +30,13 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
           <p>{axiosError.toJSON().message}</p>
         </div>
       )}
-      <button>Create</button>
+      <div className="flex gap-4 justify-end">
+        <Link to="create">
+          <button className="shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+            Create
+          </button>
+        </Link>
+      </div>
     </Layout>
   )
 }
