@@ -63,7 +63,7 @@ const Login: React.FC<RouteComponentProps> = () => {
   return (
     <Layout>
       <h1 className="text-3xl mb-3">Login</h1>
-      <form className="w-full max-w-sm" onSubmit={executeLogin}>
+      <form className="w-full max-w-sm" onSubmit={(e) => executeLogin(e)}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label

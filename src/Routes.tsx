@@ -6,14 +6,21 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
+import Create from './pages/Create'
+import Edit from './pages/Edit'
+import LoginArea from './systems/LoginArea'
 
 const Routes: React.FC = () => (
   <Router>
     <TopPage path="/" />
     <PostPage path="post/:postId" />
-    <Login path="login" />
     <Signup path="signup" />
-    <Dashboard path="dashboard" />
+    <Login path="login" />
+    <LoginArea path="dashboard">
+      <Dashboard path="/" />
+      <Create path="create" />
+      <Edit path="edit" />
+    </LoginArea>
     <NotFound default />
   </Router>
 )
