@@ -7,7 +7,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
 
   return (
     <Layout>
-      <h1>Dashbord</h1>
+      <h1 className="text-3xl mb-3">Dashbord</h1>
       <button>Create</button>
     </Layout>
   )
