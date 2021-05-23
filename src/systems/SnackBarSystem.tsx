@@ -5,9 +5,10 @@ import { SnackBarMessage } from '../../DataStructure'
 import { Dispatch } from 'redux'
 
 const SnackBarSystem: React.FC = ({ children }) => {
-  const messageQueue = useSelector<ReduxState, ReduxState['snackbarQueue']>(
-    (state) => state.snackbarQueue
-  )
+  const messageQueue: ReduxState['snackbarQueue'] = useSelector<
+    ReduxState,
+    ReduxState['snackbarQueue']
+  >((state) => state.snackbarQueue)
   if (messageQueue.length === 0) return <>{children}</>
 
   const que = messageQueue[0]
