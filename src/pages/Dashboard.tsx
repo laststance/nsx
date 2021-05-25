@@ -13,7 +13,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       <ul className="flex flex-col justify-start">
         {posts.map((post: Post, i) => {
           return (
-            <Link key={i} to={`post/${post.id}`}>
+            <Link key={i} to={`/post/${post.id}`}>
               <li className="flex space-x-2.5">
                 <div className="text-base text-gray-500">
                   {new Date(parseInt(post.createdAt)).toLocaleDateString()}
