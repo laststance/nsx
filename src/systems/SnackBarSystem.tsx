@@ -12,12 +12,7 @@ const SnackBarSystem: React.FC = ({ children }) => {
   if (messageQueue.length === 0) return <>{children}</>
 
   const que = messageQueue[0]
-  return (
-    <>
-      <SnackBar message={que.message} color={que.color} />
-      {children}
-    </>
-  )
+  return <SnackBar message={que.message} color={que.color} />
 }
 
 interface Props {

@@ -16,9 +16,8 @@ ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
       <ReduxProvider store={store}>
-        <SnackBarSystem>
-          <Routes />
-        </SnackBarSystem>
+        <SnackBarSystem />
+        <Routes />
       </ReduxProvider>
     </ErrorBoundary>
   </React.StrictMode>,

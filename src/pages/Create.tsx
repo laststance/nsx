@@ -7,8 +7,8 @@ import Layout from '../components/Layout'
 import { EnqueueSnackbarAction } from '../redux'
 
 const Create: React.FC<RouteComponentProps> = () => {
-  const [title, setTitle] = useState<string | undefined>('rr')
-  const [body, setBody] = useState<string | undefined>('rr')
+  const [title, setTitle] = useState<string | undefined>('')
+  const [body, setBody] = useState<string | undefined>('')
   const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
 
   function handleChange(
