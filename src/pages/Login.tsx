@@ -13,7 +13,8 @@ interface FormInputState {
 }
 
 interface LoginRequestResponse {
-  success: boolean
+  author: Author
+  message: string
 }
 
 const Login: React.FC<RouteComponentProps> = () => {
@@ -32,16 +33,18 @@ const Login: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      const { status } = await axios.post<LoginRequestResponse>(
+      const { status, data } = await axios.post<LoginRequestResponse>(
         `${process.env.REACT_APP_API_ENDPOINT}/login`,
         {
           name: formInput.name,
           password: formInput.password,
         }
       )
+
       if (status === 200) {
-        dispatch({ type: 'LOGIN' })
+        dispatch({ type: 'LOGIN', payload: { author: data.author } })
         window.localStorage.setItem('login', 'true')
+        window.localStorage.setItem('author', JSON.stringify(data.author))
 
         navigate('dashboard')
       } else if (status === 400) {

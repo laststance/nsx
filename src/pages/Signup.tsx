@@ -12,8 +12,9 @@ interface FormInputState {
   password: string
 }
 
-interface LoginRequestResponse {
-  success: boolean
+interface SignupRequestResponse {
+  author: Author
+  message: string
 }
 
 const Signup: React.FC<RouteComponentProps> = () => {
@@ -32,7 +33,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      const { status } = await axios.post<LoginRequestResponse>(
+      const { status, data } = await axios.post<SignupRequestResponse>(
         `${process.env.REACT_APP_API_ENDPOINT}/signup`,
         {
           name: formInput.name,
@@ -45,7 +46,9 @@ const Signup: React.FC<RouteComponentProps> = () => {
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
           payload: { message: 'Success Signup!', color: 'green' },
         })
-        dispatch({ type: 'LOGIN' })
+        dispatch({ type: 'LOGIN', payload: { author: data.author } })
+        window.localStorage.setItem('login', 'true')
+        window.localStorage.setItem('author', JSON.stringify(data.author))
         navigate('dashboard')
       }
     } catch (error) {

@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { RouteComponentProps } from '@reach/router'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
 import Layout from '../components/Layout'
-import { EnqueueSnackbarAction } from '../redux'
+import { EnqueueSnackbarAction, ReduxState } from '../redux'
 
 const Create: React.FC<RouteComponentProps> = () => {
+  // @ts-ignore
+  const authorId = useSelector<ReduxState>((state) => state.author.id)
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
   const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
@@ -27,6 +29,7 @@ const Create: React.FC<RouteComponentProps> = () => {
         {
           title,
           body,
+          authorId,
         }
       )
 

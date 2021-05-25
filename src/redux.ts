@@ -1,6 +1,6 @@
 import { Action, Reducer, createStore } from 'redux'
 import ImmutableArray from './lib/immutableArray'
-import { SnackBarMessage } from '../DataStructure'
+import { Author, SnackBarMessage } from '../DataStructure'
 
 /**
  * ============================================================
@@ -9,11 +9,13 @@ import { SnackBarMessage } from '../DataStructure'
  */
 export interface ReduxState {
   login: boolean
+  author?: Author
   snackbarQueue: SnackBarMessage[]
 }
 
 const initialState: ReduxState = {
   login: false,
+  author: undefined,
   snackbarQueue: [],
 }
 
@@ -22,7 +24,9 @@ const initialState: ReduxState = {
  * Actions
  * ============================================================
  */
-export type LoginAction = Action<'LOGIN'>
+export interface LoginAction extends Action<'LOGIN'> {
+  payload: { author: Author }
+}
 
 export type LogoutAction = Action<'LOGOUT'>
 
@@ -51,7 +55,7 @@ const reducer: Reducer<ReduxState | undefined, ReduxAction> = (
 ) => {
   switch (action.type) {
     case 'LOGIN':
-      return { ...state, login: true }
+      return { ...state, login: true, author: action.payload.author }
 
     case 'LOGOUT':
       return { ...state, login: false }

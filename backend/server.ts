@@ -46,7 +46,7 @@ app.post('/signup', async (req: Request, res: Response) => {
       password: hash,
     })
 
-    res.status(201).send(author)
+    res.status(201).json({ author })
   } catch (error) {
     res.send(500)
   }
@@ -62,7 +62,7 @@ app.post('/login', async (req: Request, res: Response) => {
     const validPassword = await bcrypt.compare(body.password, author.password)
 
     if (validPassword) {
-      res.status(200).json({ message: 'Valid password' })
+      res.status(200).json({ author })
     } else {
       res.status(400).json({ error: 'Invalid Password' })
     }
@@ -77,7 +77,7 @@ app.post('/create', async (req: Request, res: Response) => {
     const newPost = await Post.create({
       title: body.title,
       body: body.body,
-      authorId: 8,
+      authorId: body.authorId,
     })
 
     res.status(201).send(newPost)

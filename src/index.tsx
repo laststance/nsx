@@ -9,7 +9,10 @@ import SnackBarSystem from './systems/SnackBarSystem'
 import ErrorBoundary from './components/ErrorBoundary'
 
 if (window.localStorage.getItem('login') === 'true') {
-  store.dispatch({ type: 'LOGIN' })
+  // @ts-ignore
+  const author = JSON.parse(window.localStorage.getItem('author'))
+  // @ts-ignore
+  store.dispatch({ type: 'LOGIN', payload: { author: author } })
 }
 
 ReactDOM.render(
