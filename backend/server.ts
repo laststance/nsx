@@ -70,6 +70,21 @@ app.post('/login', async (req: Request, res: Response) => {
   }
 })
 
+app.post('/create', async (req: Request, res: Response) => {
+  const body = req.body
+  try {
+    const newPost = await Post.create({
+      title: body.title,
+      body: body.body,
+      authorId: 8,
+    })
+
+    res.status(201).send(newPost)
+  } catch (error) {
+    res.send(500)
+  }
+})
+
 /**
  * ==============================================
  * Run server
