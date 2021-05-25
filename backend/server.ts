@@ -15,6 +15,7 @@ app.get('/posts', async (req: Request, res: Response<Model<PostType>[]>) => {
   const posts = await Post.findAll<Model<PostType>>({
     include: { model: Author, as: 'author' },
     attributes: { exclude: ['authorId'] },
+    order: [['id', 'DESC']],
   })
 
   res.json(posts)
