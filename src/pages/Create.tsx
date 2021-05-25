@@ -21,8 +21,7 @@ const Create: React.FC<RouteComponentProps> = () => {
     cb(e.target.value)
   }
 
-  async function execCreate(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
+  async function execCreate() {
     try {
       const { status } = await axios.post(
         `${process.env.REACT_APP_API_ENDPOINT}/create`,
@@ -64,7 +63,7 @@ const Create: React.FC<RouteComponentProps> = () => {
       />
       <div className="flex gap-4 justify-end">
         <button
-          onClick={(e) => execCreate(e)}
+          onClick={execCreate}
           className="mt-3 shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
           Submit
