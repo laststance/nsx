@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { RouteComponentProps } from '@reach/router'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { Dispatch } from 'redux'
 import Layout from '../components/Layout'
+import { EnqueueSnackbarAction } from '../redux'
 
 const Create: React.FC<RouteComponentProps> = () => {
-  const [title, setTitle] = useState<string | undefined>('')
-  const [body, setBody] = useState<string | undefined>('')
+  const [title, setTitle] = useState<string | undefined>('rr')
+  const [body, setBody] = useState<string | undefined>('rr')
+  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -15,7 +19,8 @@ const Create: React.FC<RouteComponentProps> = () => {
     cb(e.target.value)
   }
 
-  async function execCreate() {
+  async function execCreate(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
     try {
       const { status } = await axios.post(
         `${process.env.REACT_APP_API_ENDPOINT}/create`,
@@ -26,11 +31,18 @@ const Create: React.FC<RouteComponentProps> = () => {
       )
 
       if (status === 201) {
-        // @TODO success
+        dispatch({
+          type: 'ENQUEUE_SNACKBAR_MESSAGE',
+          payload: { message: 'New Post Created!', color: 'green' },
+        })
       }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
+      dispatch({
+        type: 'ENQUEUE_SNACKBAR_MESSAGE',
+        payload: { message: 'Something Error Occuring.', color: 'red' },
+      })
     }
   }
 
@@ -49,7 +61,7 @@ const Create: React.FC<RouteComponentProps> = () => {
       />
       <div className="flex gap-4 justify-end">
         <button
-          onClick={execCreate}
+          onClick={(e) => execCreate(e)}
           className="mt-3 shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
           Submit
