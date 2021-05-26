@@ -5,7 +5,7 @@ const { DB } = require('../sequelize')
 const chalk = require('chalk')
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const connectTest = async () => {
+const testConnection = async () => {
   try {
     await DB.authenticate()
     // eslint-disable-next-line no-console
@@ -18,4 +18,4 @@ const connectTest = async () => {
   }
 }
 
-connectTest()
+testConnection()
