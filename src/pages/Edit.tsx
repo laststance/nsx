@@ -1,6 +1,6 @@
 import React from 'react'
 import { RouteComponentProps } from '@reach/router'
 
-const Edit: React.FC<RouteComponentProps> = () => <div>Edit</div>
+const Edit: React.FC<RouteComponentProps> = () => <>Edit</>
 
 export default Edit

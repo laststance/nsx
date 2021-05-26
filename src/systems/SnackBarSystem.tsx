@@ -20,7 +20,7 @@ interface Props {
   color: SnackBarMessage['color']
 }
 
-const SnackBar: React.FC<Props> = ({ message, color }) => {
+const SnackBar: React.FC<Props> = React.memo(({ message, color }) => {
   const dispatch: Dispatch<DequeueSnackbarAction> = useDispatch()
   const [opacity, setOpacity] = useState('opacity-0')
   const bgColor = (color: string): string => {
@@ -52,6 +52,6 @@ const SnackBar: React.FC<Props> = ({ message, color }) => {
       <p className="text-white text-lg uppercase font-medium">{message}</p>
     </div>
   )
-}
+})
 
-export default SnackBarSystem
+export default React.memo(SnackBarSystem)

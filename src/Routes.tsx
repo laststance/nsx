@@ -25,4 +25,4 @@ const Routes: React.FC = () => (
   </Router>
 )
 
-export default Routes
+export default React.memo(Routes)
