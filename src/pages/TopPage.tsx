@@ -34,4 +34,4 @@ const TopPage: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default TopPage
+export default React.memo(TopPage)

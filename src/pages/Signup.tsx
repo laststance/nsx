@@ -116,4 +116,4 @@ const Signup: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default Signup
+export default React.memo(Signup)

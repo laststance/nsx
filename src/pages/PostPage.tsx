@@ -39,4 +39,4 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   )
 }
 
-export default PostPage
+export default React.memo(PostPage)

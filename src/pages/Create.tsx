@@ -73,4 +73,4 @@ const Create: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default Create
+export default React.memo(Create)

@@ -41,4 +41,4 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default Dashboard
+export default React.memo(Dashboard)

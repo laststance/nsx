@@ -123,4 +123,4 @@ const Login: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default Login
+export default React.memo(Login)
