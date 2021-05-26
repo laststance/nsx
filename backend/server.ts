@@ -82,6 +82,8 @@ app.post('/create', async (req: Request, res: Response) => {
 
     res.status(201).send(newPost)
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error)
     res.send(500)
   }
 })
