@@ -17,8 +17,8 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
     <Layout>
       {post && (
         <>
-          <h1 className="text-3xl mb-2">{post.title}</h1>
-          <ReactMarkdown>{post.body}</ReactMarkdown>
+          <h1 className="text-3xl mt-2 mb-2">{post.title}</h1>
+          <ReactMarkdown className="text-xl">{post.body}</ReactMarkdown>
         </>
       )}
     </Layout>
