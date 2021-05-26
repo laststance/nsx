@@ -1,11 +1,13 @@
 import React from 'react'
-import { RouteComponentProps } from '@reach/router'
+import { Link, RouteComponentProps } from '@reach/router'
 import gfm from 'remark-gfm'
 import ReactMarkdown from 'react-markdown'
+import { useSelector } from 'react-redux'
 import { Post } from '../../DataStructure'
 
 import Layout from '../components/Layout'
 import useSinglePost from '../hooks/useSinglePost'
+import { ReduxState } from '../redux'
 
 interface RouterParam {
   postId: Post['id']
@@ -14,6 +16,7 @@ interface RouterParam {
 const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   // @ts-ignore
   const post = useSinglePost(postId)
+  const login = useSelector<ReduxState>((state) => state.login)
 
   return (
     <Layout>
@@ -24,6 +27,15 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
             {post.body}
           </ReactMarkdown>
         </>
+      )}
+      {login && (
+        <div className="mt-4">
+          <Link to={`/dashboard/edit/${postId}`}>
+            <button className="mt-3 shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+              Edit
+            </button>
+          </Link>
+        </div>
       )}
     </Layout>
   )
