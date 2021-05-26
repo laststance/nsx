@@ -9,6 +9,13 @@ import Layout from '../components/Layout'
 import useSinglePost from '../hooks/useSinglePost'
 import { ReduxState } from '../redux'
 
+const A = (
+  props: JSX.IntrinsicAttributes &
+    React.ClassAttributes<HTMLAnchorElement> &
+    React.AnchorHTMLAttributes<HTMLAnchorElement>
+  // eslint-disable-next-line jsx-a11y/anchor-has-content
+) => <a {...props} target="_blank" className="text-blue-700"></a>
+
 interface RouterParam {
   postId: Post['id']
 }
@@ -23,7 +30,11 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
       {post && (
         <>
           <h1 className="text-3xl mt-2 mb-2">{post.title}</h1>
-          <ReactMarkdown remarkPlugins={[gfm]} className="text-xl">
+          <ReactMarkdown
+            components={{ a: A }}
+            remarkPlugins={[gfm]}
+            className="text-xl"
+          >
             {post.body}
           </ReactMarkdown>
         </>
