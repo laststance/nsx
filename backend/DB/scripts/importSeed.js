@@ -4,7 +4,7 @@ const { Post, Author } = require('../sequelize')
 async function main() {
   const ryota = await Author.create({
     name: 'ryota',
-    password: '$2b$10$KX/AIDa3Yh6IMGevfxEhl.yRPCgR3wXgoFO5Ni1iP2rN.2Z.MP.oW',
+    password: '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC', // hash of 'popcoon'
   })
 
   Post.create({
