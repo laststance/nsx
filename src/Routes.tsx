@@ -19,7 +19,7 @@ const Routes: React.FC = () => (
     <LoginArea path="dashboard">
       <Dashboard path="/" />
       <Create path="create" />
-      <Edit path="edit" />
+      <Edit path="edit/:postId" />
     </LoginArea>
     <NotFound default />
   </Router>

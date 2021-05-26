@@ -86,6 +86,20 @@ app.post('/create', async (req: Request, res: Response) => {
   }
 })
 
+app.post('/update', async (req: Request, res: Response) => {
+  const body = req.body
+  try {
+    await Post.update(
+      { title: body.title, body: body.body },
+      { where: { id: body.postId } }
+    )
+
+    res.status(200).send('success')
+  } catch (error) {
+    res.send(500)
+  }
+})
+
 /**
  * ==============================================
  * Run server
