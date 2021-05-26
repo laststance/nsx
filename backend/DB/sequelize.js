@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require('dotenv').config()
 const { Sequelize, DataTypes } = require('sequelize')
 
 /**
@@ -6,9 +7,14 @@ const { Sequelize, DataTypes } = require('sequelize')
  * Connection
  * =========================================================================
  */
-const DB = new Sequelize('digital', 'strength', 'password', {
-  dialect: 'mysql',
-})
+const DB = new Sequelize(
+  process.env.DATABASE,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    dialect: 'mysql',
+  }
+)
 
 /**
  * =========================================================================
