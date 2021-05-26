@@ -9,7 +9,7 @@ const Header: React.FC<RouteComponentProps> = () => {
         <Link to="/">
           <h1 className="font-bold text-2xl">Digital Strength</h1>
         </Link>
-        <span className="text-sm text-gray-500">beyond the money</span>
+        <span className="text-sm text-gray-500">beyond the boundary</span>
       </div>
     </header>
   )
