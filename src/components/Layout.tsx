@@ -26,4 +26,4 @@ const Layout: React.FC<Props> = ({ children, className }) => {
   )
 }
 
-export default Layout
+export default React.memo<React.PropsWithChildren<Props>>(Layout)
