@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import { Redirect, RouteComponentProps } from '@reach/router'
 import { ReduxState } from '../redux'
 import { useSelector } from 'react-redux'
@@ -12,4 +12,4 @@ const LoginArea: React.FC<RouteComponentProps> = ({ children }) => {
   return login ? <>{children}</> : <Redirect to="/login" noThrow />
 }
 
-export default LoginArea
+export default React.memo<PropsWithChildren<RouteComponentProps>>(LoginArea)

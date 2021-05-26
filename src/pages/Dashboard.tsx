@@ -13,14 +13,22 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       <ul className="flex flex-col justify-start">
         {posts.map((post: Post, i) => {
           return (
-            <Link key={i} to={`/post/${post.id}`}>
-              <li className="flex space-x-2.5">
+            <li key={i} className="flex justify-between items-center">
+              <Link
+                to={`/post/${post.id}`}
+                className="flex items-center space-x-2"
+              >
                 <div className="text-base text-gray-500">
                   {new Date(parseInt(post.createdAt)).toLocaleDateString()}
                 </div>
                 <div className="text-base">{post.title}</div>
-              </li>
-            </Link>
+              </Link>
+              <Link to={`edit/${post.id}`}>
+                <button className="shadow focus:shadow-outline focus:outline-none py-2 px-4 rounded">
+                  Edit
+                </button>
+              </Link>
+            </li>
           )
         })}
       </ul>
@@ -30,7 +38,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
           <p>{axiosError.toJSON().message}</p>
         </div>
       )}
-      <div className="flex gap-4 justify-end">
+      <div className="flex gap-4 justify-end mt-8">
         <Link to="create">
           <button className="shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
             Create
