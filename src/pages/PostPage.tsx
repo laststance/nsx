@@ -8,13 +8,7 @@ import { Post } from '../../DataStructure'
 import Layout from '../components/Layout'
 import useSinglePost from '../hooks/useSinglePost'
 import { ReduxState } from '../redux'
-
-const A = (
-  props: JSX.IntrinsicAttributes &
-    React.ClassAttributes<HTMLAnchorElement> &
-    React.AnchorHTMLAttributes<HTMLAnchorElement>
-  // eslint-disable-next-line jsx-a11y/anchor-has-content
-) => <a {...props} target="_blank" className="text-blue-700"></a>
+import { A } from '../components/markdown'
 
 interface RouterParam {
   postId: Post['id']
