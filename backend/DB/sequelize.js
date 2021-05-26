@@ -35,7 +35,7 @@ const Post = DB.define('post', {
     type: DataTypes.STRING,
   },
   body: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
 })
 

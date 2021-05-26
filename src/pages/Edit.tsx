@@ -45,7 +45,7 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
 
   async function execEdit() {
     try {
-      const { status, data } = await axios.post(
+      const { status } = await axios.post(
         `${process.env.REACT_APP_API_ENDPOINT}/update`,
         {
           title,
@@ -53,7 +53,6 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
           postId,
         }
       )
-      console.log(data)
 
       if (status === 200) {
         dispatch({
