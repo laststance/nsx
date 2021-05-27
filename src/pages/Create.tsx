@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
 import Layout from '../components/Layout'
 import { EnqueueSnackbarAction, ReduxState } from '../redux'
+import { Author } from '../../DataStructure'
 
 const Create: React.FC<RouteComponentProps> = () => {
-  // @ts-ignore
-  const authorId = useSelector<ReduxState>((state) => state.author.id)
+  const authorId = useSelector<ReduxState, Author['id']>(
+    (state) => state.author.id
+  )
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
   const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
