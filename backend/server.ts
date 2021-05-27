@@ -11,17 +11,20 @@ const app = express()
 app.use(bodyParser())
 app.use(cors())
 
-app.get('/posts', async (req: Request, res: Response<Model<PostType>[]>) => {
-  const posts = await Post.findAll<Model<PostType>>({
-    include: { model: Author, as: 'author' },
-    attributes: { exclude: ['authorId'] },
-    order: [['id', 'DESC']],
-  })
+app.get(
+  '/api/posts',
+  async (req: Request, res: Response<Model<PostType>[]>) => {
+    const posts = await Post.findAll<Model<PostType>>({
+      include: { model: Author, as: 'author' },
+      attributes: { exclude: ['authorId'] },
+      order: [['id', 'DESC']],
+    })
 
-  res.json(posts)
-})
+    res.json(posts)
+  }
+)
 
-app.get('/post/:id', async (req: Request, res: Response) => {
+app.get('/api/post/:id', async (req: Request, res: Response) => {
   const post = await Post.findOne({
     where: { id: req.params.id },
     include: { model: Author, as: 'author' },
@@ -31,7 +34,7 @@ app.get('/post/:id', async (req: Request, res: Response) => {
   res.json(post)
 })
 
-app.post('/signup', async (req: Request, res: Response) => {
+app.post('/api/signup', async (req: Request, res: Response) => {
   const body = req.body
   if (!(body?.name && body?.password)) {
     return res.status(400).json({ error: 'Data not formatted properly' })
@@ -52,7 +55,7 @@ app.post('/signup', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/login', async (req: Request, res: Response) => {
+app.post('/api/login', async (req: Request, res: Response) => {
   const body = req.body
   const author = await Author.findOne({
     where: { name: body.name },
@@ -71,7 +74,7 @@ app.post('/login', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/create', async (req: Request, res: Response) => {
+app.post('/api/create', async (req: Request, res: Response) => {
   const body = req.body
   try {
     const newPost = await Post.create({
@@ -88,7 +91,7 @@ app.post('/create', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/update', async (req: Request, res: Response) => {
+app.post('/api/update', async (req: Request, res: Response) => {
   const body = req.body
   try {
     await Post.update(
