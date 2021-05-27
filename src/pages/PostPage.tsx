@@ -4,8 +4,8 @@ import gfm from 'remark-gfm'
 import ReactMarkdown from 'react-markdown'
 import { useSelector } from 'react-redux'
 import { Post } from '../../DataStructure'
-
 import Layout from '../components/Layout'
+import Button from '../components/Button'
 import useSinglePost from '../hooks/useSinglePost'
 import { ReduxState } from '../redux'
 import { A } from '../components/markdown'
@@ -36,9 +36,9 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
       {login && (
         <div className="mt-4">
           <Link to={`/dashboard/edit/${postId}`}>
-            <button className="mt-3 shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+            <Button className="bg-green-500 active:bg-green-600 text-white">
               Edit
-            </button>
+            </Button>
           </Link>
         </div>
       )}
