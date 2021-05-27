@@ -27,6 +27,9 @@ Start local front-end dev server by create-react-app.
 
 Make production front-end bundle.
 
+## `yarn run:prod`
+Run on production.
+
 ## `yarn test`
 
 Run create-react-app tests.
