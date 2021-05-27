@@ -31,10 +31,6 @@ Make production front-end bundle.
 
 Run create-react-app tests.
 
-## `yarn eject`
-
-As same as create-react-app eject.
-
 ## `yarn typecheck`
 
 TypeScript type check in front-end.
