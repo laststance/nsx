@@ -10,8 +10,7 @@ const Header: React.FC<RouteComponentProps> = () => {
           <h1 className="font-bold text-2xl">Digital Strength</h1>
         </Link>
         <p className="text-base text-gray-500">
-          I'm blogging what today I learned about web technology for beyond the
-          elite boundary.
+          I'm blogging what today I learned about for beyond the elite boundary.
         </p>
       </div>
     </header>
