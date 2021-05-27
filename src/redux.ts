@@ -9,13 +9,13 @@ import { Author, SnackBarMessage } from '../DataStructure'
  */
 export interface ReduxState {
   login: boolean
-  author?: Author
+  author: Author
   snackbarQueue: SnackBarMessage[]
 }
 
 const initialState: ReduxState = {
   login: false,
-  author: undefined,
+  author: { id: 9999, name: 'guest', password: 'none' },
   snackbarQueue: [],
 }
 
