@@ -5,6 +5,8 @@
 
 A hand made small blog system for taking note what Today I Learned day by day.
 
+![image](./image.jpeg)
+
 # Getting start local development
 
 1. `yarn install`
