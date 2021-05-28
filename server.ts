@@ -1,15 +1,20 @@
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
+import serveStatic from 'serve-static'
 import cors from 'cors'
+import bcrypt from 'bcrypt'
 import { Model } from 'sequelize'
 import { Author, Post } from './DB/sequelize'
 import { Post as PostType } from './DataStructure'
-import bcrypt from 'bcrypt'
+
+const isProd: boolean = process.env.NODE_ENV === 'production'
 
 const app = express()
 
 app.use(bodyParser())
 app.use(cors())
+
+if (isProd) app.use(serveStatic('../build', { index: ['index.html'] }))
 
 app.get(
   '/api/posts',
@@ -110,9 +115,9 @@ app.post('/api/update', async (req: Request, res: Response) => {
  * Run server
  * ==============================================
  */
-const port = 4000 || process.env.port
+const port = isProd ? 80 : 4000
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`API Server listening on port ${port}!`)
+  console.log(`Express Server listening on port ${port}!`)
 })
