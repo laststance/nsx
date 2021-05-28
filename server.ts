@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import { Model } from 'sequelize'
 import { Author, Post } from './DB/sequelize'
-import { Post as PostType } from '../DataStructure'
+import { Post as PostType } from './DataStructure'
 import bcrypt from 'bcrypt'
 
 const app = express()
