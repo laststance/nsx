@@ -1,6 +1,6 @@
+import path from 'path'
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
-import serveStatic from 'serve-static'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { Model } from 'sequelize'
@@ -14,7 +14,7 @@ const app = express()
 app.use(bodyParser())
 app.use(cors())
 
-if (isProd) app.use(serveStatic('../build', { index: ['index.html'] }))
+if (isProd) app.use('/', express.static(path.join(__dirname, '../build')))
 
 app.get(
   '/api/posts',
