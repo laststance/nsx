@@ -72,7 +72,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "server:start": "nodemon --ext ts,js --watch './backend' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
+    "server:start": "NODE_ENV=development nodemon --ext ts,js --watch './backend' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
     "server:build": "tsc -p tsconfig.server.json",
     "prod:run": "NODE_ENV=production node server_build/server.js",
     "test": "craco test",

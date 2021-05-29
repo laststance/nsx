@@ -1,4 +1,7 @@
 import path from 'path'
+import fs from 'fs'
+import http from 'http'
+import https from 'https'
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -8,14 +11,18 @@ import { Author, Post } from './DB/sequelize'
 import { Post as PostType } from './DataStructure'
 
 const isProd: boolean = process.env.NODE_ENV === 'production'
+const isDev: boolean = process.env.NODE_ENV === 'development'
 
 const app = express()
 
 app.use(bodyParser())
 app.use(cors())
 
-if (isProd) app.use('/', express.static(path.join(__dirname, '../build')))
-
+/**
+ * ==============================================
+ * API Implementation
+ * ==============================================
+ */
 app.get(
   '/api/posts',
   async (req: Request, res: Response<Model<PostType>[]>) => {
@@ -112,12 +119,53 @@ app.post('/api/update', async (req: Request, res: Response) => {
 
 /**
  * ==============================================
- * Run server
+ * Prod Server
  * ==============================================
  */
-const port = isProd ? 80 : 4000
+if (isProd) {
+  app.use('/', express.static(path.join(__dirname, '../build')))
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Express Server listening on port ${port}!`)
-})
+  const privateKey = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
+    'utf8'
+  )
+  const certificate = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/cert.pem',
+    'utf8'
+  )
+  const ca = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/chain.pem',
+    'utf8'
+  )
+
+  const credentials = {
+    key: privateKey,
+    cert: certificate,
+    ca: ca,
+  }
+
+  const httpServer = http.createServer(app)
+  const httpsServer = https.createServer(credentials, app)
+
+  httpServer.listen(80, () => {
+    // eslint-disable-next-line no-console
+    console.log('HTTP Server running on port 80')
+  })
+
+  httpsServer.listen(443, () => {
+    // eslint-disable-next-line no-console
+    console.log('HTTPS Server running on port 443')
+  })
+}
+
+/**
+ * ==============================================
+ * DEV Server
+ * ==============================================
+ */
+if (isDev) {
+  app.listen(4000, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Express DEV Server listening on port 4000!`)
+  })
+}
