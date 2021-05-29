@@ -2,6 +2,7 @@ import React from 'react'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
 import Layout from '../components/Layout'
+import Button from '../components/Button'
 import { Post } from '../../DataStructure'
 import usePostList from '../hooks/usePostList'
 
@@ -9,7 +10,7 @@ const TopPage: React.FC<RouteComponentProps> = () => {
   const { posts, axiosError } = usePostList()
 
   return (
-    <Layout>
+    <Layout className="flex flex-col justify-between">
       <ul className="flex flex-col justify-start">
         {posts.map((post: Post, i) => {
           return (
@@ -30,6 +31,18 @@ const TopPage: React.FC<RouteComponentProps> = () => {
           <p>{axiosError.toJSON().message}</p>
         </div>
       )}
+      <div className="flex items-center justify-around">
+        <Link to="/login">
+          <Button className="bg-blue-500 active:bg-blue-600 text-white">
+            Login
+          </Button>
+        </Link>
+        <Link to="/signup">
+          <Button className="bg-yellow-500 active:bg-yellow-600 text-white">
+            Sigunup
+          </Button>
+        </Link>
+      </div>
     </Layout>
   )
 }
