@@ -75,6 +75,7 @@
     "build": "craco build",
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch './backend' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
     "server:build": "tsc -p tsconfig.server.json",
+    "prod:deploy": "bash deploy.sh",
     "prod:run": "NODE_ENV=production pm2-runtime start server_build/server.js",
     "test": "craco test",
     "eject": "react-scripts eject",
