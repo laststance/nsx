@@ -82,7 +82,7 @@
     "server:typecheck": "tsc --noEmit -p tsconfig.server.json",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
-    "db:connect:test": "node DB/scripts/testConnection.js",
+    "db:connection:test": "node DB/scripts/testConnection.js",
     "db:seed": "node DB/scripts/importSeed.js",
     "db:sync": "node DB/scripts/sync.js",
     "db:drop": "node DB/scripts/drop.js",
