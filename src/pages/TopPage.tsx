@@ -32,16 +32,20 @@ const TopPage: React.FC<RouteComponentProps> = () => {
         </div>
       )}
       <div className="flex items-center justify-around">
-        <Link to="/login">
-          <Button className="bg-blue-500 active:bg-blue-600 text-white">
-            Login
-          </Button>
-        </Link>
-        <Link to="/signup">
-          <Button className="bg-yellow-500 active:bg-yellow-600 text-white">
-            Sigunup
-          </Button>
-        </Link>
+        {process.env.REACT_APP_ENABLE_LOGIN && (
+          <Link to="/login">
+            <Button className="bg-blue-500 active:bg-blue-600 text-white">
+              Login
+            </Button>
+          </Link>
+        )}
+        {process.env.REACT_APP_ENABLE_SIGNUP && (
+          <Link to="/signup">
+            <Button className="bg-yellow-500 active:bg-yellow-600 text-white">
+              Sigunup
+            </Button>
+          </Link>
+        )}
       </div>
     </Layout>
   )

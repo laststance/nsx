@@ -15,7 +15,7 @@ const Routes: React.FC = () => (
     <TopPage path="/" />
     <PostPage path="post/:postId" />
     {process.env.REACT_APP_ENABLE_SIGNUP && <Signup path="signup" />}
-    <Login path="login" />
+    {process.env.REACT_APP_ENABLE_LOGIN && <Login path="login" />}
     <LoginArea path="dashboard">
       <Dashboard path="/" />
       <Create path="create" />
