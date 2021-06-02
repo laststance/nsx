@@ -5,9 +5,15 @@ import Layout from '../components/Layout'
 import Button from '../components/Button'
 import { Post } from '../../DataStructure'
 import usePostList from '../hooks/usePostList'
+import { ReduxState } from '../redux'
+import { useSelector } from 'react-redux'
 
 const TopPage: React.FC<RouteComponentProps> = () => {
   const { posts, axiosError } = usePostList()
+  const login: ReduxState['login'] = useSelector<
+    ReduxState,
+    ReduxState['login']
+  >((state) => state.login)
 
   return (
     <Layout className="flex flex-col justify-between">
@@ -43,6 +49,13 @@ const TopPage: React.FC<RouteComponentProps> = () => {
           <Link to="/signup">
             <Button className="bg-yellow-500 active:bg-yellow-600 text-white">
               Sigunup
+            </Button>
+          </Link>
+        )}
+        {login && (
+          <Link to="/dashboard">
+            <Button className="bg-yellow-500 active:bg-yellow-600 text-white">
+              Dashboard
             </Button>
           </Link>
         )}
