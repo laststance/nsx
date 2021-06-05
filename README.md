@@ -11,11 +11,11 @@ A hand made small blog system for taking note what Today I Learned day by day.
 
 1. `yarn install`
 2. `docker-compose up -d`
-3. `yarn db:connect:test`
+3. `yarn db:connection:test`
 4. `yarn db:sync`
 5. `yarn db:seed`
 6. `yarn start`
-7. `yarn server-start`
+7. `yarn server:start`
 
 # Commands
 
@@ -27,8 +27,13 @@ Start local front-end dev server by create-react-app.
 
 Make production front-end bundle.
 
-## `yarn run:prod`
-Run on production.
+## `yarn deploy`
+
+run deploy.sh
+
+## `yarn workflow:deploy`
+
+all in one command for deploy
 
 ## `yarn test`
 
@@ -46,11 +51,11 @@ Run ESLint on create-react-app.
 
 Run ESlint with --fix option on create-react-app.
 
-## `yarn server-build`
+## `yarn server:build`
 
 Build `backend/` dir Express server.
 
-## `yarn server-start`
+## `yarn server:start`
 
 Start dev backend Express server.
 
@@ -58,9 +63,18 @@ Start dev backend Express server.
 
 Sync sequelize model definition to actual MySQL.
 
-## `yarn import:db:seed`
+## `yarn db:seed`
 
 Import sample data for dev environment.
+
+## `yarn db:drop`
+
+DB drop
+
+## `yarn db:hashgen`
+
+generate password hash
+
 
 # API Spec
 
