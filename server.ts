@@ -15,6 +15,7 @@ const isDev: boolean = process.env.NODE_ENV === 'development'
 
 const app = express()
 
+// @ts-ignore
 app.use(bodyParser())
 app.use(cors())
 
