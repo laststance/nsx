@@ -14,8 +14,11 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       <ul className="flex flex-col justify-start">
         {posts.map((post: Post, i) => {
           return (
-            <li key={i} className="flex justify-between items-center space-y-3">
-              <Link to={`/post/${post.id}`} className="flex items-center">
+            <li key={i} className="flex justify-between items-center space-y-2">
+              <Link
+                to={`/post/${post.id}`}
+                className="flex items-center space-x-2"
+              >
                 <div className="text-base text-gray-500">
                   {new Date(post.createdAt).toLocaleDateString('en-US', {
                     year: '2-digit',
@@ -25,9 +28,12 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
                 </div>
                 <div className="text-base">{post.title}</div>
               </Link>
-              <Link to={`edit/${post.id}`}>
-                <Button className="text-gray-500">Edit</Button>
-              </Link>
+              <div className="flex items-center space-x-2">
+                <Link to={`edit/${post.id}`}>
+                  <Button className="text-gray-500">Edit</Button>
+                </Link>
+                <Button className="bg-red-400 text-white">Delete</Button>
+              </div>
             </li>
           )
         })}
