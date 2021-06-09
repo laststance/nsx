@@ -47,6 +47,15 @@ app.get('/api/post/:id', async (req: Request, res: Response) => {
   res.json(post)
 })
 
+app.delete('/api/post/:id', async (req: Request, res: Response) => {
+  try {
+    await Post.destroy({ where: { id: req.params.id } })
+    res.send(200)
+  } catch (error) {
+    res.send(500)
+  }
+})
+
 app.post('/api/signup', async (req: Request, res: Response) => {
   const body = req.body
   if (!(body?.name && body?.password)) {

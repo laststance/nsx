@@ -3,9 +3,11 @@ import { concatSelecor } from '../utils'
 
 interface Props {
   className?: string
+  /* eslint-disable-next-line */
+  onClick?: any
 }
 
-const Button: React.FC<Props> = ({ className, children }) => {
+const Button: React.FC<Props> = ({ className, children, ...rest }) => {
   let styles
 
   if (className) {
@@ -15,7 +17,11 @@ const Button: React.FC<Props> = ({ className, children }) => {
     )
   }
 
-  return <button className={styles}>{children}</button>
+  return (
+    <button className={styles} {...rest}>
+      {children}
+    </button>
+  )
 }
 
 export default React.memo<PropsWithChildren<Props>>(Button)

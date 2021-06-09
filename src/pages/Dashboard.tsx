@@ -4,9 +4,41 @@ import Layout from '../components/Layout'
 import Button from '../components/Button'
 import { Post } from '../../DataStructure'
 import usePostList from '../hooks/usePostList'
+import axios from 'axios'
+import { Dispatch } from 'redux'
+import { useDispatch } from 'react-redux'
+import { EnqueueSnackbarAction } from '../redux'
 
 const Dashboard: React.FC<RouteComponentProps> = () => {
+  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
   const { posts, axiosError } = usePostList()
+  async function handleDelete(id: Post['id']) {
+    try {
+      const { status } = await axios.delete(
+        `${process.env.REACT_APP_API_ENDPOINT}/post/${id}`
+      )
+
+      if (status === 200) {
+        dispatch({
+          type: 'ENQUEUE_SNACKBAR_MESSAGE',
+          payload: { message: 'Delete Successful!', color: 'green' },
+        })
+      } else {
+        dispatch({
+          type: 'ENQUEUE_SNACKBAR_MESSAGE',
+          payload: { message: 'Delete Faild', color: 'red' },
+        })
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error)
+
+      dispatch({
+        type: 'ENQUEUE_SNACKBAR_MESSAGE',
+        payload: { message: 'Delete Faild', color: 'red' },
+      })
+    }
+  }
 
   return (
     <Layout className="flex flex-col justify-start">
@@ -32,7 +64,12 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
                 <Link to={`edit/${post.id}`}>
                   <Button className="text-gray-500">Edit</Button>
                 </Link>
-                <Button className="bg-red-400 text-white">Delete</Button>
+                <Button
+                  onClick={() => handleDelete(post.id)}
+                  className="bg-red-400 text-white"
+                >
+                  Delete
+                </Button>
               </div>
             </li>
           )
