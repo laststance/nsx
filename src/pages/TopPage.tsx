@@ -23,7 +23,7 @@ const TopPage: React.FC<RouteComponentProps> = () => {
             <Link key={i} to={`post/${post.id}`}>
               <li className="flex space-x-2.5">
                 <div className="text-lg text-gray-500">
-                  {new Date(parseInt(post.createdAt)).toLocaleDateString()}
+                  {new Date(post.createdAt).toLocaleDateString()}
                 </div>
                 <div className="text-lg">{post.title}</div>
               </li>
