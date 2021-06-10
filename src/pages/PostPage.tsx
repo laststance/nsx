@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from '@reach/router'
-import gfm from 'remark-gfm'
+import breaks from 'remark-breaks'
 import ReactMarkdown from 'react-markdown'
 import { useSelector } from 'react-redux'
 import { Post } from '../../DataStructure'
 import Layout from '../components/Layout'
 import Button from '../components/Button'
 import { ReduxState } from '../redux'
-import { A } from '../components/markdown'
+import { A, P } from '../components/markdown'
 import axios from 'axios'
 
 interface RouterParam {
@@ -33,15 +33,14 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   }, [postId])
 
   const login = useSelector<ReduxState>((state) => state.login)
-
   return (
     <Layout>
       {post && (
         <>
           <h1 className="text-3xl pt-2 pb-4">{post.title}</h1>
           <ReactMarkdown
-            components={{ a: A }}
-            remarkPlugins={[gfm]}
+            components={{ a: A, p: P }}
+            remarkPlugins={[breaks]}
             className="text-xl"
           >
             {post.body}
