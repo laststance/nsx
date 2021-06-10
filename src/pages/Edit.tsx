@@ -59,13 +59,21 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
           payload: { message: 'Post Updated!', color: 'green' },
         })
+      } else {
+        dispatch({
+          type: 'ENQUEUE_SNACKBAR_MESSAGE',
+          payload: {
+            message: `code:${status} Something Error Occuring.`,
+            color: 'red',
+          },
+        })
       }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
       dispatch({
         type: 'ENQUEUE_SNACKBAR_MESSAGE',
-        payload: { message: 'Something Error Occuring.', color: 'red' },
+        payload: { message: error.message, color: 'red' },
       })
     }
   }
