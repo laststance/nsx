@@ -103,4 +103,4 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   )
 }
 
-export default Edit
+export default React.memo(Edit)
