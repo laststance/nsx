@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { RouteComponentProps } from '@reach/router'
+import { navigate, RouteComponentProps } from '@reach/router'
 import Layout from '../components/PageContainer'
 import { useDispatch } from 'react-redux'
 import { EnqueueSnackbarAction } from '../redux'
@@ -58,6 +58,7 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
           payload: { message: 'Post Updated!', color: 'green' },
         })
+        navigate(`/post/${postId}`)
       } else {
         dispatch({
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
