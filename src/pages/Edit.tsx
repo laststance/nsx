@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { RouteComponentProps } from '@reach/router'
-import Layout from '../components/Layout'
+import Layout from '../components/PageContainer'
 import { useDispatch } from 'react-redux'
 import { EnqueueSnackbarAction } from '../redux'
 import { Dispatch } from 'redux'

@@ -3,7 +3,7 @@ import { RouteComponentProps } from '@reach/router'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
-import Layout from '../components/Layout'
+import Layout from '../components/PageContainer'
 import { EnqueueSnackbarAction, ReduxState } from '../redux'
 import { Author } from '../../DataStructure'
 

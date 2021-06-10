@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
-import Layout from '../components/Layout'
+import Layout from '../components/PageContainer'
 import Button from '../components/Button'
 import { Post } from '../../DataStructure'
 import usePostList from '../hooks/usePostList'
