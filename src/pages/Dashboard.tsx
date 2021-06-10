@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, RouteComponentProps } from '@reach/router'
 import Layout from '../components/PageContainer'
-import Button from '../components/Button'
+import Button from '../elements/Button'
 import { Post } from '../../DataStructure'
 import usePostList from '../hooks/usePostList'
 import axios from 'axios'

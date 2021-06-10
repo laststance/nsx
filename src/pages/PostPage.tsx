@@ -5,9 +5,9 @@ import ReactMarkdown from 'react-markdown'
 import { useSelector } from 'react-redux'
 import { Post } from '../../DataStructure'
 import Layout from '../components/PageContainer'
-import Button from '../components/Button'
+import Button from '../elements/Button'
 import { ReduxState } from '../redux'
-import { A, P } from '../components/markdown'
+import { A, P } from '../elements/markdown'
 import axios from 'axios'
 
 interface RouterParam {
