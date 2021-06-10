@@ -19,5 +19,5 @@ export const P = (
 ): React.ReactElement => <p {...props} className="pb-4"></p>
 
 export const UL: React.FC = ({ ...props }) => (
-  <ul className="list-disc pl-5" {...props}></ul>
+  <ul className="list-disc pl-5 pb-5" {...props}></ul>
 )
