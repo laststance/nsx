@@ -74,16 +74,3 @@ DB drop
 ## `yarn db:hashgen`
 
 generate password hash
-
-
-# API Spec
-
-[api-spec.yml](https://github.com/laststance/digital-strength/blob/master/api-spec.yml) is spefication of REST API on Express backend.
-We organize and sync to github from [Postman Workspace](https://web.postman.co/workspace/9e5a010e-45ac-48e0-80e7-45eb42452fbb/api/e9b46884-e509-4fc2-aa75-0c83ad0d3cd2).
-
-## Postman Mock Server
-
-Postman has Mock Server feature based on `api-spec.yml`.
-But now we can't use it cause whos facing connetion amount limitation.
-So we are using local Express server for access API during development, there is a environment value [REACT_APP_API_ENDPOINT](https://github.com/laststance/digital-strength/blob/master/.env#L2) to set API ENDPOINT.
-
