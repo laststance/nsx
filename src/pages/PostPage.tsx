@@ -37,7 +37,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
     <Layout>
       {post && (
         <>
-          <h1 className="text-3xl pt-2 pb-4">{post.title}</h1>
+          <h1 className="text-3xl pt-4 pb-6">{post.title}</h1>
           <ReactMarkdown
             components={{ a: A, p: P }}
             remarkPlugins={[breaks]}
