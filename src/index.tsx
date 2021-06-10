@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker'
 import Routes from './systems/Routes'
 import { store } from './redux'
 import SnackBarSystem from './systems/SnackBarSystem'
-import ErrorBoundary from './components/ErrorBoundary'
+import ErrorBoundary from './systems/ErrorBoundary'
 
 if (window.localStorage.getItem('login') === 'true') {
   // @ts-ignore
