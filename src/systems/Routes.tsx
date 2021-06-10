@@ -1,14 +1,14 @@
 import React from 'react'
 import { Router } from '@reach/router'
-import TopPage from './pages/TopPage'
-import PostPage from './pages/PostPage'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import Dashboard from './pages/Dashboard'
-import NotFound from './pages/NotFound'
-import Create from './pages/Create'
-import Edit from './pages/Edit'
-import AuthBoundary from './systems/AuthBoundary'
+import TopPage from '../pages/TopPage'
+import PostPage from '../pages/PostPage'
+import Login from '../pages/Login'
+import Signup from '../pages/Signup'
+import Dashboard from '../pages/Dashboard'
+import NotFound from '../pages/NotFound'
+import Create from '../pages/Create'
+import Edit from '../pages/Edit'
+import AuthBoundary from './AuthBoundary'
 
 const Routes: React.FC = () => (
   <Router>
