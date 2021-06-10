@@ -14,6 +14,7 @@ interface RouterParam {
 const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
+  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
 
   useEffect(() => {
     async function fetchPost() {
@@ -32,8 +33,6 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
     }
     fetchPost()
   }, [postId])
-
-  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
