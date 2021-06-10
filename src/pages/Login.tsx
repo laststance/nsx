@@ -61,6 +61,10 @@ const Login: React.FC<RouteComponentProps> = () => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
+      dispatch({
+        type: 'ENQUEUE_SNACKBAR_MESSAGE',
+        payload: { message: error.message, color: 'red' },
+      })
     }
   }
 
