@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from '@reach/router'
 import breaks from 'remark-breaks'
+import gfm from 'remark-gfm'
 import ReactMarkdown from 'react-markdown'
 import { useSelector } from 'react-redux'
 import { Post } from '../../DataStructure'
@@ -40,7 +41,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
           <h1 className="text-3xl pt-4 pb-6">{post.title}</h1>
           <ReactMarkdown
             components={{ a: A, p: P }}
-            remarkPlugins={[breaks]}
+            remarkPlugins={[breaks, gfm]}
             className="text-xl"
           >
             {post.body}
