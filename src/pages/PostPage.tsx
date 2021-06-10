@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from '@reach/router'
 import gfm from 'remark-gfm'
 import ReactMarkdown from 'react-markdown'
@@ -6,17 +6,32 @@ import { useSelector } from 'react-redux'
 import { Post } from '../../DataStructure'
 import Layout from '../components/Layout'
 import Button from '../components/Button'
-import useSinglePost from '../hooks/useSinglePost'
 import { ReduxState } from '../redux'
 import { A } from '../components/markdown'
+import axios from 'axios'
 
 interface RouterParam {
   postId: Post['id']
 }
 
 const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
-  // @ts-ignore
-  const post = useSinglePost(postId)
+  const [post, setPost] = useState<Post>()
+
+  useEffect(() => {
+    async function fetchPost() {
+      try {
+        const { data } = await axios.get<Post>(
+          `${process.env.REACT_APP_API_ENDPOINT}/post/${postId}`
+        )
+        setPost(data)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      }
+    }
+    fetchPost()
+  }, [postId])
+
   const login = useSelector<ReduxState>((state) => state.login)
 
   return (
