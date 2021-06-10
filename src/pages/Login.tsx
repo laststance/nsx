@@ -29,7 +29,7 @@ const Login: React.FC<RouteComponentProps> = () => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 
-  const executeLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const execLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
@@ -71,7 +71,7 @@ const Login: React.FC<RouteComponentProps> = () => {
   return (
     <Layout>
       <h1 className="text-3xl mb-3">Login</h1>
-      <form className="w-full max-w-sm" onSubmit={(e) => executeLogin(e)}>
+      <form className="w-full max-w-sm" onSubmit={(e) => execLogin(e)}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
