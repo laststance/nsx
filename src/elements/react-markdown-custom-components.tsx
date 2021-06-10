@@ -17,3 +17,7 @@ export const P = (
     React.ClassAttributes<HTMLParagraphElement> &
     React.HTMLAttributes<HTMLParagraphElement>
 ): React.ReactElement => <p {...props} className="pb-4"></p>
+
+export const UL: React.FC = ({ ...props }) => (
+  <ul className="list-disc pl-5" {...props}></ul>
+)
