@@ -3,7 +3,7 @@ import { Redirect, RouteComponentProps } from '@reach/router'
 import { ReduxState } from '../redux'
 import { useSelector } from 'react-redux'
 
-const LoginArea: React.FC<RouteComponentProps> = ({ children }) => {
+const AuthBoundary: React.FC<RouteComponentProps> = ({ children }) => {
   const login: ReduxState['login'] = useSelector<
     ReduxState,
     ReduxState['login']
@@ -12,4 +12,4 @@ const LoginArea: React.FC<RouteComponentProps> = ({ children }) => {
   return login ? <>{children}</> : <Redirect to="/login" noThrow />
 }
 
-export default React.memo<PropsWithChildren<RouteComponentProps>>(LoginArea)
+export default React.memo<PropsWithChildren<RouteComponentProps>>(AuthBoundary)

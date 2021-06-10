@@ -8,7 +8,7 @@ import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
 import Create from './pages/Create'
 import Edit from './pages/Edit'
-import LoginArea from './systems/LoginArea'
+import AuthBoundary from './systems/AuthBoundary'
 
 const Routes: React.FC = () => (
   <Router>
@@ -16,11 +16,11 @@ const Routes: React.FC = () => (
     <PostPage path="post/:postId" />
     {process.env.REACT_APP_ENABLE_SIGNUP && <Signup path="signup" />}
     {process.env.REACT_APP_ENABLE_LOGIN && <Login path="login" />}
-    <LoginArea path="dashboard">
+    <AuthBoundary path="dashboard">
       <Dashboard path="/" />
       <Create path="create" />
       <Edit path="edit/:postId" />
-    </LoginArea>
+    </AuthBoundary>
     <NotFound default />
   </Router>
 )
