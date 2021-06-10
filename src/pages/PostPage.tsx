@@ -8,7 +8,7 @@ import { Post } from '../../DataStructure'
 import Layout from '../components/PageContainer'
 import Button from '../elements/Button'
 import { ReduxState } from '../redux'
-import { A, P } from '../elements/markdown'
+import { A, P } from '../elements/react-markdown-custom-components'
 import axios from 'axios'
 
 interface RouterParam {
