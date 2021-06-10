@@ -48,7 +48,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
         </>
       )}
       {login && (
-        <div className="mt-4">
+        <div className="mt-16">
           <Link to={`/dashboard/edit/${postId}`}>
             <Button className="bg-green-500 active:bg-green-600 text-white">
               Edit
