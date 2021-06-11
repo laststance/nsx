@@ -51,7 +51,7 @@ const TopPage: React.FC<RouteComponentProps> = () => {
         )}
         {process.env.REACT_APP_ENABLE_SIGNUP && (
           <Link to="/signup">
-            <Button className="bg-yellow-500 active:bg-yellow-600 text-white">
+            <Button className="bg-green-500 active:bg-green-600 text-white">
               Sigunup
             </Button>
           </Link>
