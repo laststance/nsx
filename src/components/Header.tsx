@@ -7,7 +7,7 @@ const Header: React.FC<RouteComponentProps> = () => {
     <header data-cy="header" className="w-full border-b border-gray-200">
       <div className="container mx-auto py-3 flex gap-4 items-center">
         <Link to="/">
-          <h1 className="font-bold text-2xl">Digital Strength(β)</h1>
+          <h1 className="font-bold text-2xl">Digital Strength β</h1>
         </Link>
         <p className="text-base text-gray-500">Just putting Today I Learned</p>
       </div>
