@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { RouteComponentProps } from '@reach/router'
+import { navigate, RouteComponentProps } from '@reach/router'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
@@ -25,7 +25,7 @@ const Create: React.FC<RouteComponentProps> = () => {
 
   async function execCreate() {
     try {
-      const { status } = await axios.post(
+      const { status, data } = await axios.post(
         `${process.env.REACT_APP_API_ENDPOINT}/create`,
         {
           title,
@@ -39,6 +39,7 @@ const Create: React.FC<RouteComponentProps> = () => {
           type: 'ENQUEUE_SNACKBAR_MESSAGE',
           payload: { message: 'New Post Created!', color: 'green' },
         })
+        navigate(`/post/${data.id}`)
       }
     } catch (error) {
       // eslint-disable-next-line no-console
