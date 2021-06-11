@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from '@reach/router'
-import Layout from '../components/PageContainer'
+import Container from '../components/Container'
 import Button from '../elements/Button'
 import { Post, Posts } from '../../DataStructure'
 import axios, { AxiosError } from 'axios'
@@ -62,7 +62,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
   }, [])
 
   return (
-    <Layout className="flex flex-col justify-start">
+    <Container className="flex flex-col justify-start">
       <h1 className="text-3xl mb-3">Dashbord</h1>
       <ul className="flex flex-col justify-start">
         {posts.map((post: Post, i) => {
@@ -109,7 +109,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
           </button>
         </Link>
       </div>
-    </Layout>
+    </Container>
   )
 }
 

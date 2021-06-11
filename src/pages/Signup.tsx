@@ -3,7 +3,7 @@ import { navigate, RouteComponentProps } from '@reach/router'
 import { Dispatch } from 'redux'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
-import Layout from '../components/PageContainer'
+import Container from '../components/Container'
 import { Author } from '../../DataStructure'
 import { EnqueueSnackbarAction, LoginAction } from '../redux'
 
@@ -58,7 +58,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
   }
 
   return (
-    <Layout>
+    <Container>
       <h1 className="text-3xl mb-3">Signup</h1>
       <form className="w-full max-w-sm" onSubmit={execSignup}>
         <div className="md:flex md:items-center mb-6">
@@ -112,7 +112,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
           </div>
         </div>
       </form>
-    </Layout>
+    </Container>
   )
 }
 

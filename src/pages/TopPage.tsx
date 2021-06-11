@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
-import Layout from '../components/PageContainer'
+import Container from '../components/Container'
 import Button from '../elements/Button'
 import { Post } from '../../DataStructure'
 import usePostList from '../hooks/usePostList'
@@ -16,7 +16,7 @@ const TopPage: React.FC<RouteComponentProps> = () => {
   >((state) => state.login)
 
   return (
-    <Layout className="flex flex-col justify-between">
+    <Container className="flex flex-col justify-between">
       <ul className="flex flex-col justify-start">
         {posts.map((post: Post, i) => {
           return (
@@ -64,7 +64,7 @@ const TopPage: React.FC<RouteComponentProps> = () => {
           </Link>
         )}
       </div>
-    </Layout>
+    </Container>
   )
 }
 

@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import { useSelector, useDispatch } from 'react-redux'
 import { Dispatch } from 'redux'
 import { Post } from '../../DataStructure'
-import Layout from '../components/PageContainer'
+import Container from '../components/Container'
 import Button from '../elements/Button'
 import { ReduxState, EnqueueSnackbarAction } from '../redux'
 import { A, P, UL } from '../elements/react-markdown-custom-components'
@@ -41,7 +41,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
 
   const login = useSelector<ReduxState>((state) => state.login)
   return (
-    <Layout>
+    <Container>
       {post && (
         <>
           <h1 className="text-3xl pt-4 pb-6">{post.title}</h1>
@@ -63,7 +63,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
           </Link>
         </div>
       )}
-    </Layout>
+    </Container>
   )
 }
 

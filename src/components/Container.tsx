@@ -7,7 +7,7 @@ interface Props {
   className?: string
 }
 
-const PageContainer: React.FC<Props> = ({ children, className }) => {
+const Container: React.FC<Props> = ({ children, className }) => {
   let containerStyle = 'container mx-auto flex-grow py-3'
   if (className) {
     containerStyle = concatSelecor(containerStyle, className)
@@ -22,4 +22,4 @@ const PageContainer: React.FC<Props> = ({ children, className }) => {
   )
 }
 
-export default React.memo<React.PropsWithChildren<Props>>(PageContainer)
+export default React.memo<React.PropsWithChildren<Props>>(Container)
