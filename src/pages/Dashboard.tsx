@@ -7,7 +7,7 @@ import axios, { AxiosError } from 'axios'
 import { Dispatch } from 'redux'
 import { useDispatch } from 'react-redux'
 import { EnqueueSnackbarAction } from '../redux'
-import { formatDate } from '../lib/utils'
+import DateDisplay from '../components/DateDisplay'
 
 const Dashboard: React.FC<RouteComponentProps> = () => {
   const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
@@ -73,9 +73,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
                 to={`/post/${post.id}`}
                 className="flex items-center space-x-2"
               >
-                <div className="text-base text-gray-500">
-                  {formatDate(post.createdAt)}
-                </div>
+                <DateDisplay date={post.createdAt} />
                 <div className="text-base">{post.title}</div>
               </Link>
               <div className="flex items-center space-x-2">
