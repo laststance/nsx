@@ -19,6 +19,7 @@ interface RouterParam {
 const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   const [post, setPost] = useState<Post>()
   const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
+  const login = useSelector<ReduxState>((state) => state.login)
 
   useEffect(() => {
     async function fetchPost() {
@@ -39,7 +40,6 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
     fetchPost()
   }, [dispatch, postId])
 
-  const login = useSelector<ReduxState>((state) => state.login)
   return (
     <Container>
       {post && (
