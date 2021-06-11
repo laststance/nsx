@@ -7,6 +7,7 @@ import { Post } from '../../DataStructure'
 import usePostList from '../hooks/usePostList'
 import { ReduxState } from '../redux'
 import { useSelector } from 'react-redux'
+import { formatDate } from '../lib/utils'
 
 const TopPage: React.FC<RouteComponentProps> = () => {
   const { posts, axiosError } = usePostList()
@@ -23,11 +24,7 @@ const TopPage: React.FC<RouteComponentProps> = () => {
             <Link key={i} to={`post/${post.id}`}>
               <li className="flex space-x-2.5">
                 <div className="text-lg text-gray-500">
-                  {new Date(post.createdAt).toLocaleDateString('en-US', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })}
+                  {formatDate(post.createdAt)}
                 </div>
                 <div className="text-lg">{post.title}</div>
               </li>
