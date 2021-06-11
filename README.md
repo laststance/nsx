@@ -17,7 +17,7 @@ A hand made small blog system for taking note what Today I Learned day by day.
 6. `yarn start`
 7. `yarn server:start`
 
-# Commands
+# NPM Scripts
 
 ## `yarn start`
 
@@ -69,8 +69,14 @@ Import sample data for dev environment.
 
 ## `yarn db:drop`
 
-DB drop
+Clear every db table and data.
 
 ## `yarn db:hashgen`
 
-generate password hash
+generate password hash.
+
+# Others
+
+## `docker-compose exec db mysql -u root -p`
+
+login mysql with terminal.
