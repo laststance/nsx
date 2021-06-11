@@ -3,11 +3,12 @@ import { Link, RouteComponentProps } from '@reach/router'
 import breaks from 'remark-breaks'
 import gfm from 'remark-gfm'
 import ReactMarkdown from 'react-markdown'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { Dispatch } from 'redux'
 import { Post } from '../../DataStructure'
 import Layout from '../components/PageContainer'
 import Button from '../elements/Button'
-import { ReduxState } from '../redux'
+import { ReduxState, EnqueueSnackbarAction } from '../redux'
 import { A, P, UL } from '../elements/react-markdown-custom-components'
 import axios from 'axios'
 
@@ -17,6 +18,7 @@ interface RouterParam {
 
 const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   const [post, setPost] = useState<Post>()
+  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
 
   useEffect(() => {
     async function fetchPost() {
@@ -28,10 +30,14 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)
+        dispatch({
+          type: 'ENQUEUE_SNACKBAR_MESSAGE',
+          payload: { message: error.message, color: 'red' },
+        })
       }
     }
     fetchPost()
-  }, [postId])
+  }, [dispatch, postId])
 
   const login = useSelector<ReduxState>((state) => state.login)
   return (
