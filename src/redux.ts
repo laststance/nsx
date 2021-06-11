@@ -49,7 +49,6 @@ export type ReduxAction =
  * ============================================================
  */
 const reducer: Reducer<ReduxState | undefined, ReduxAction> = (
-  // @ts-ignore
   state = initialState,
   action
 ) => {
