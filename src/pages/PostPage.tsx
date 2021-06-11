@@ -48,7 +48,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
           <ReactMarkdown
             components={{ a: A, p: P, ul: UL }}
             remarkPlugins={[breaks, gfm]}
-            className="text-xl"
+            className="text-xl leading-8"
           >
             {post.body}
           </ReactMarkdown>
