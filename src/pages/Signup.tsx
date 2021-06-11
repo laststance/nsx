@@ -25,7 +25,6 @@ const Signup: React.FC<RouteComponentProps> = () => {
   const dispatch: Dispatch<EnqueueSnackbarAction | LoginAction> = useDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 

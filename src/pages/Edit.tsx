@@ -22,9 +22,7 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
         const { data } = await axios.get<Post>(
           `${process.env.REACT_APP_API_ENDPOINT}/post/${postId}`
         )
-        // @ts-ignore
         setTitle(data.title)
-        // @ts-ignore
         setBody(data.body)
       } catch (error) {
         // eslint-disable-next-line no-console

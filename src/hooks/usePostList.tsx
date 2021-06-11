@@ -19,8 +19,7 @@ const usePostList = (): ReturnType => {
           `${process.env.REACT_APP_API_ENDPOINT}/posts`
         )
         setPosts(data)
-        // @ts-ignore
-      } catch (error: AxiosError) {
+      } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)
         setAxiosError(error)

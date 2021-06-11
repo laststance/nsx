@@ -21,8 +21,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
         `${process.env.REACT_APP_API_ENDPOINT}/posts`
       )
       setPosts(data)
-      // @ts-ignore
-    } catch (error: AxiosError) {
+    } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
       setAxiosError(error)
@@ -93,8 +92,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       </ul>
       {axiosError && (
         <div>
-          {/*// @ts-ignore */}
-          <p>{axiosError.toJSON().message}</p>
+          <p>{(axiosError.toJSON() as { message: string }).message}</p>
         </div>
       )}
       <div className="flex gap-4 justify-end mt-8">

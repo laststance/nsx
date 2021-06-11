@@ -7,11 +7,13 @@ import Routes from './systems/Routes'
 import { store } from './redux'
 import SnackBarSystem from './systems/SnackBarSystem'
 import ErrorBoundary from './systems/ErrorBoundary'
+import { Author } from '../DataStructure'
 
 if (window.localStorage.getItem('login') === 'true') {
-  // @ts-ignore
-  const author = JSON.parse(window.localStorage.getItem('author'))
-  // @ts-ignore
+  const author = JSON.parse(
+    window.localStorage.getItem('author') as string
+  ) as Author
+
   store.dispatch({ type: 'LOGIN', payload: { author: author } })
 }
 

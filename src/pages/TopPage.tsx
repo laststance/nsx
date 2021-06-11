@@ -32,8 +32,7 @@ const TopPage: React.FC<RouteComponentProps> = () => {
       </ul>
       {axiosError && (
         <div>
-          {/*// @ts-ignore */}
-          <p>{axiosError.toJSON().message}</p>
+          <p>{(axiosError.toJSON() as { message: string }).message}</p>
         </div>
       )}
       <div className="flex items-center justify-around">

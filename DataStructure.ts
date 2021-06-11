@@ -22,16 +22,6 @@ export type Posts = Post[]
 
 /**
  * =====================================
- * RestAPI specific
- * =====================================
- */
-export interface APIErrorMessage {
-  code: number
-  message: string
-}
-
-/**
- * =====================================
  * Frontend internal
  * =====================================
  */
