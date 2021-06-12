@@ -84,11 +84,11 @@
     "server:typecheck": "tsc --noEmit -p tsconfig.server.json",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
-    "db:connection:test": "node DB/scripts/testConnection.js",
-    "db:seed": "node DB/scripts/importSeed.js",
-    "db:sync": "node DB/scripts/sync.js",
-    "db:drop": "node DB/scripts/drop.js",
-    "db:hashgen": "node DB/scripts/passhashgen.js",
+    "db:connection:test": "node db/scripts/testConnection.js",
+    "db:seed": "node db/scripts/importSeed.js",
+    "db:sync": "node db/scripts/sync.js",
+    "db:drop": "node db/scripts/drop.js",
+    "db:hashgen": "node db/scripts/passhashgen.js",
     "cypress:open": "cypress open",
     "pm2": "pm2"
   }

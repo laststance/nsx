@@ -7,7 +7,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { Model } from 'sequelize'
-import { Author, Post } from './DB/sequelize'
+import { Author, Post } from './db/sequelize'
 import { Post as PostType } from './DataStructure'
 
 const isProd: boolean = process.env.NODE_ENV === 'production'
