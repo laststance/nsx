@@ -135,7 +135,7 @@ router.post('/api/update', async (req: Request, res: Response) => {
  * ==============================================
  */
 if (isProd) {
-  app.use('*', express.static(path.join(__dirname, '../build')))
+  app.use(express.static(path.join(__dirname, '../build')))
 
   app.use(vhost('api.digitalstrength.dev', router))
 
