@@ -135,7 +135,7 @@ if (isProd) {
   const apiapp = express()
   const staticapp = express()
   apiapp.use(router)
-  staticapp.use(express.static(path.join(__dirname, '../build')))
+  staticapp.use(express.static(path.join(__dirname, '../../build')))
 
   app.use(vhost('digitalstrength.dev', staticapp))
   app.use(vhost('api.digitalstrength.dev', apiapp))
