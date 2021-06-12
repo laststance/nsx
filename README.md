@@ -3,6 +3,7 @@
 [![CI](https://github.com/laststance/digital-strength/actions/workflows/ci.yml/badge.svg)](https://github.com/laststance/digital-strength/actions/workflows/ci.yml)
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/digital-strength?project_id=17741)
 
+Prod https://digitalstrength.dev/  
 Completely personal use for myself that small blog system for written what does I today learned.
 
 # Getting start local development
