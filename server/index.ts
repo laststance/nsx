@@ -26,20 +26,17 @@ app.use(cors())
  * API Implementation
  * ==============================================
  */
-router.get(
-  '/api/posts',
-  async (req: Request, res: Response<Model<PostType>[]>) => {
-    const posts = await Post.findAll<Model<PostType>>({
-      include: { model: Author, as: 'author' },
-      attributes: { exclude: ['authorId'] },
-      order: [['id', 'DESC']],
-    })
+router.get('/posts', async (req: Request, res: Response<Model<PostType>[]>) => {
+  const posts = await Post.findAll<Model<PostType>>({
+    include: { model: Author, as: 'author' },
+    attributes: { exclude: ['authorId'] },
+    order: [['id', 'DESC']],
+  })
 
-    res.json(posts)
-  }
-)
+  res.json(posts)
+})
 
-router.get('/api/post/:id', async (req: Request, res: Response) => {
+router.get('/post/:id', async (req: Request, res: Response) => {
   const post = await Post.findOne({
     where: { id: req.params.id },
     include: { model: Author, as: 'author' },
@@ -49,7 +46,7 @@ router.get('/api/post/:id', async (req: Request, res: Response) => {
   res.json(post)
 })
 
-router.delete('/api/post/:id', async (req: Request, res: Response) => {
+router.delete('/post/:id', async (req: Request, res: Response) => {
   try {
     await Post.destroy({ where: { id: req.params.id } })
     res.send(200)
@@ -58,7 +55,7 @@ router.delete('/api/post/:id', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/api/signup', async (req: Request, res: Response) => {
+router.post('/signup', async (req: Request, res: Response) => {
   const body = req.body
   if (!(body?.name && body?.password)) {
     return res.status(400).json({ error: 'Data not formatted properly' })
@@ -79,7 +76,7 @@ router.post('/api/signup', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/api/login', async (req: Request, res: Response) => {
+router.post('/login', async (req: Request, res: Response) => {
   const body = req.body
   const author = await Author.findOne({
     where: { name: body.name },
@@ -98,7 +95,7 @@ router.post('/api/login', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/api/create', async (req: Request, res: Response) => {
+router.post('/create', async (req: Request, res: Response) => {
   const body = req.body
   try {
     const newPost = await Post.create({
@@ -115,7 +112,7 @@ router.post('/api/create', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/api/update', async (req: Request, res: Response) => {
+router.post('/update', async (req: Request, res: Response) => {
   const body = req.body
   try {
     await Post.update(
@@ -135,9 +132,13 @@ router.post('/api/update', async (req: Request, res: Response) => {
  * ==============================================
  */
 if (isProd) {
-  app.use('/', express.static(path.join(__dirname, '../build')))
+  const apiapp = express()
+  const staticapp = express()
+  apiapp.use(router)
+  staticapp.use(express.static(path.join(__dirname, '../build')))
 
-  app.use(vhost('api.digitalstrength.dev', router))
+  app.use(vhost('digitalstrength.dev', staticapp))
+  app.use(vhost('api.digitalstrength.dev', apiapp))
 
   const privateKey = fs.readFileSync(
     '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
