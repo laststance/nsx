@@ -135,6 +135,10 @@ app.post('/api/update', async (req: Request, res: Response) => {
 if (isProd) {
   app.use('/', express.static(path.join(__dirname, '../build')))
 
+  app.get('*', function (req, res) {
+    res.redirect('/')
+  })
+
   const privateKey = fs.readFileSync(
     '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
     'utf8'
