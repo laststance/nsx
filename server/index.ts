@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import http from 'http'
 import https from 'https'
+import vhost from 'vhost'
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -14,6 +15,7 @@ const isProd: boolean = process.env.NODE_ENV === 'production'
 const isDev: boolean = process.env.NODE_ENV === 'development'
 
 const app = express()
+const router = express.Router()
 
 // @ts-ignore
 app.use(bodyParser())
@@ -24,7 +26,7 @@ app.use(cors())
  * API Implementation
  * ==============================================
  */
-app.get(
+router.get(
   '/api/posts',
   async (req: Request, res: Response<Model<PostType>[]>) => {
     const posts = await Post.findAll<Model<PostType>>({
@@ -37,7 +39,7 @@ app.get(
   }
 )
 
-app.get('/api/post/:id', async (req: Request, res: Response) => {
+router.get('/api/post/:id', async (req: Request, res: Response) => {
   const post = await Post.findOne({
     where: { id: req.params.id },
     include: { model: Author, as: 'author' },
@@ -47,7 +49,7 @@ app.get('/api/post/:id', async (req: Request, res: Response) => {
   res.json(post)
 })
 
-app.delete('/api/post/:id', async (req: Request, res: Response) => {
+router.delete('/api/post/:id', async (req: Request, res: Response) => {
   try {
     await Post.destroy({ where: { id: req.params.id } })
     res.send(200)
@@ -56,7 +58,7 @@ app.delete('/api/post/:id', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/api/signup', async (req: Request, res: Response) => {
+router.post('/api/signup', async (req: Request, res: Response) => {
   const body = req.body
   if (!(body?.name && body?.password)) {
     return res.status(400).json({ error: 'Data not formatted properly' })
@@ -77,7 +79,7 @@ app.post('/api/signup', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/api/login', async (req: Request, res: Response) => {
+router.post('/api/login', async (req: Request, res: Response) => {
   const body = req.body
   const author = await Author.findOne({
     where: { name: body.name },
@@ -96,7 +98,7 @@ app.post('/api/login', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/api/create', async (req: Request, res: Response) => {
+router.post('/api/create', async (req: Request, res: Response) => {
   const body = req.body
   try {
     const newPost = await Post.create({
@@ -113,7 +115,7 @@ app.post('/api/create', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/api/update', async (req: Request, res: Response) => {
+router.post('/api/update', async (req: Request, res: Response) => {
   const body = req.body
   try {
     await Post.update(
@@ -133,11 +135,9 @@ app.post('/api/update', async (req: Request, res: Response) => {
  * ==============================================
  */
 if (isProd) {
-  app.use('/', express.static(path.join(__dirname, '../build')))
+  app.use('*', express.static(path.join(__dirname, '../build')))
 
-  app.get('*', function (req, res) {
-    res.redirect('/')
-  })
+  app.use(vhost('api.digitalstrength.dev', router))
 
   const privateKey = fs.readFileSync(
     '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
