@@ -76,7 +76,7 @@
     "build": "craco build",
     "deploy": "bash deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy && pm2 restart 0",
-    "server:start": "NODE_ENV=development nodemon --ext ts,js --watch './backend' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
+    "server:start": "NODE_ENV=development nodemon --ext ts,js --watch './backend' --ignore './src' --exec ts-node --project tsconfig.server.json server/server.ts",
     "server:build": "tsc -p tsconfig.server.json",
     "test": "craco test",
     "eject": "react-scripts eject",
