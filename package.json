@@ -81,6 +81,7 @@
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch './backend' --ignore './src' --exec ts-node --project tsconfig.server.json server/index.ts",
     "server:build": "tsc -p tsconfig.server.json",
+    "server:deploy": "bash deploy.sh -s",
     "test": "craco test",
     "eject": "react-scripts eject",
     "typecheck": "tsc --noEmit",
