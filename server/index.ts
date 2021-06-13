@@ -1,6 +1,5 @@
 import path from 'path'
 import fs from 'fs'
-import http from 'http'
 import https from 'https'
 import vhost from 'vhost'
 import express, { Request, Response } from 'express'
@@ -14,12 +13,7 @@ import { Post as PostType } from '../DataStructure'
 const isProd: boolean = process.env.NODE_ENV === 'production'
 const isDev: boolean = process.env.NODE_ENV === 'development'
 
-const app = express()
 const router = express.Router()
-
-// @ts-ignore
-app.use(bodyParser())
-app.use(cors())
 
 /**
  * ==============================================
@@ -126,52 +120,11 @@ router.post('/update', async (req: Request, res: Response) => {
   }
 })
 
-/**
- * ==============================================
- * Prod Server
- * ==============================================
- */
-if (isProd) {
-  const apiapp = express()
-  const staticapp = express()
-  apiapp.use(router)
-  staticapp.use(express.static(path.join(__dirname, '../../build')))
-
-  app.use(vhost('digitalstrength.dev', staticapp))
-  app.use(vhost('api.digitalstrength.dev', apiapp))
-
-  const privateKey = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
-    'utf8'
-  )
-  const certificate = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/cert.pem',
-    'utf8'
-  )
-  const ca = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/chain.pem',
-    'utf8'
-  )
-
-  const credentials = {
-    key: privateKey,
-    cert: certificate,
-    ca: ca,
-  }
-
-  const httpServer = http.createServer(app)
-  const httpsServer = https.createServer(credentials, app)
-
-  httpServer.listen(80, () => {
-    // eslint-disable-next-line no-console
-    console.log('HTTP Server running on port 80')
-  })
-
-  httpsServer.listen(443, () => {
-    // eslint-disable-next-line no-console
-    console.log('HTTPS Server running on port 443')
-  })
-}
+const api = express()
+// @ts-ignore
+api.use(bodyParser())
+api.use(cors())
+api.use(router)
 
 /**
  * ==============================================
@@ -179,8 +132,73 @@ if (isProd) {
  * ==============================================
  */
 if (isDev) {
-  app.listen(4000, () => {
+  api.listen(4000, () => {
     // eslint-disable-next-line no-console
     console.log(`Express DEV Server listening on port 4000!`)
+  })
+}
+
+/**
+ * ==============================================
+ * Prod Server
+ * ==============================================
+ */
+if (isProd) {
+  const staticApp = express()
+  staticApp.use(
+    vhost(
+      'digitalstrength.dev',
+      express.static(path.join(__dirname, '../../build'))
+    )
+  )
+
+  const staticPrivatekey = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
+    'utf8'
+  )
+  const staticCertificate = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/cert.pem',
+    'utf8'
+  )
+  const staticCa = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/chain.pem',
+    'utf8'
+  )
+
+  const StaticServer = https.createServer(
+    {
+      key: staticPrivatekey,
+      cert: staticCertificate,
+      ca: staticCa,
+    },
+    staticApp
+  )
+
+  const apiPrivateKey = fs.readFileSync(
+    '/etc/letsencrypt/live/api.digitalstrength.dev/privkey.pem',
+    'utf8'
+  )
+  const apiCertificate = fs.readFileSync(
+    '/etc/letsencrypt/live/api.digitalstrength.dev/cert.pem',
+    'utf8'
+  )
+  const apiCa = fs.readFileSync(
+    '/etc/letsencrypt/live/api.digitalstrength.dev/chain.pem',
+    'utf8'
+  )
+
+  const ApiServer = https.createServer({
+    key: apiPrivateKey,
+    cert: apiCertificate,
+    ca: apiCa,
+  })
+
+  StaticServer.listen(80, () => {
+    // eslint-disable-next-line no-console
+    console.log('StaticServer running on port 80')
+  })
+  ApiServer.listen(443, () => {
+    // eslint-disable-next-line no-console
+    console.log('ApiServer running on port 443')
   })
 }
