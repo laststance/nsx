@@ -74,6 +74,20 @@ Clear every db table and data.
 
 generate password hash.
 
+## CRA environment variables
+These are storing `.env` and evaluate at build time.
+
+### REACT_APP_API_ENDPOINT
+- dev: http://localhost:4000/api
+- prod: https://digitalstrength.dev/api
+
+
+### REACT_APP_ENABLE_SIGNUP
+### REACT_APP_ENABLE_LOGIN
+
+Default false.  
+These only need initial setup at the production server. 
+
 # Others
 
 ## `docker-compose exec db mysql -u root -p`
