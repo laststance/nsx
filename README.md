@@ -30,6 +30,14 @@ Make production front-end bundle.
 
 run deploy.sh
 
+```bash
+# only server code
+yarn deploy -s
+
+# only client code
+yarn deploy -c
+```
+
 ## `yarn workflow:deploy`
 
 all in one command for deploy
