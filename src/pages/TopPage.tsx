@@ -17,7 +17,7 @@ const TopPage: React.FC<RouteComponentProps> = () => {
   >((state) => state.login)
 
   return (
-    <Container className="flex flex-col justify-between">
+    <Container className="flex flex-col justify-between" data-cy="topPage">
       <ul className="flex flex-col justify-start">
         {posts.map((post: Post, i) => {
           return (

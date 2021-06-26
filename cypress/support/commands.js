@@ -34,5 +34,5 @@ Cypress.Commands.add('logout', () => {
 })
 
 Cypress.Commands.add('resetDB', () => {
-  cy.exec('yarn db:drop && yarn db:seed')
+  cy.exec('yarn db:drop && yarn db:sync && yarn db:seed')
 })
