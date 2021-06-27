@@ -24,7 +24,9 @@ const TopPage: React.FC<RouteComponentProps> = () => {
             <Link key={i} to={`post/${post.id}`}>
               <li className="flex space-x-2.5">
                 <DateDisplay date={post.createdAt} />
-                <div className="text-lg">{post.title}</div>
+                <div className="text-lg" data-cy={`postTitle-${i}`}>
+                  {post.title}
+                </div>
               </li>
             </Link>
           )

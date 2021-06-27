@@ -41,7 +41,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   }, [dispatch, postId])
 
   return (
-    <Container>
+    <Container data-cy="postPage">
       {post && (
         <>
           <h1 className="text-3xl pt-4 pb-6">{post.title}</h1>
