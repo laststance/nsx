@@ -10,7 +10,7 @@ jobs:
   build-test-lint-typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
         with:
           node-version: '14'
@@ -19,3 +19,18 @@ jobs:
       - run: yarn test
       - run: yarn lint
       - run: yarn typecheck
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+      - run: mv .env.example .env
+      - name: Setup MySQL
+      - run: docker-compose up -d
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn server:start, yarn start
