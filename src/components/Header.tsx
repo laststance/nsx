@@ -10,6 +10,9 @@ const Header: React.FC<RouteComponentProps> = () => {
           <h1 className="font-bold text-2xl">Digital Strength β</h1>
         </Link>
         <p className="text-base text-gray-500">Just putting Today I Learned</p>
+        <Link to="/about">
+          <div className="hover:text-gray-300 rounded">about</div>
+        </Link>
       </div>
     </header>
   )

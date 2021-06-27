@@ -9,11 +9,13 @@ import NotFound from '../pages/NotFound'
 import Create from '../pages/Create'
 import Edit from '../pages/Edit'
 import AuthBoundary from './AuthBoundary'
+import About from '../pages/About'
 
 const Routes: React.FC = () => (
   <Router>
     <TopPage path="/" />
     <PostPage path="post/:postId" />
+    <About path="/about" />
     {process.env.REACT_APP_ENABLE_SIGNUP && <Signup path="signup" />}
     {process.env.REACT_APP_ENABLE_LOGIN && <Login path="login" />}
     <AuthBoundary path="dashboard">
