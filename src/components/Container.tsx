@@ -7,14 +7,14 @@ interface Props {
   className?: string
 }
 
-const Container: React.FC<Props> = ({ children, className }) => {
+const Container: React.FC<Props> = ({ children, className, ...props }) => {
   let containerStyle = 'container mx-auto flex-grow py-3'
   if (className) {
     containerStyle = concatSelecor(containerStyle, className)
   }
 
   return (
-    <div className="flex flex-col justify-between w-screen h-screen">
+    <div className="flex flex-col justify-between w-screen h-screen" {...props}>
       <Header />
       <main className={containerStyle}>{children}</main>
       <Footer />
