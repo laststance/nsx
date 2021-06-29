@@ -9,7 +9,7 @@ import { ReduxState } from '../redux'
 import { useSelector } from 'react-redux'
 import DateDisplay from '../components/DateDisplay'
 
-const TopPage: React.FC<RouteComponentProps> = () => {
+const Index: React.FC<RouteComponentProps> = () => {
   const { posts, axiosError } = usePostList()
   const login: ReduxState['login'] = useSelector<
     ReduxState,
@@ -64,4 +64,4 @@ const TopPage: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default React.memo(TopPage)
+export default React.memo(Index)

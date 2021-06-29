@@ -1,6 +1,6 @@
 import React from 'react'
 import { Router } from '@reach/router'
-import TopPage from '../pages/TopPage'
+import Index from '../pages/index'
 import PostPage from '../pages/PostPage'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
@@ -13,7 +13,7 @@ import About from '../pages/About'
 
 const Routes: React.FC = () => (
   <Router>
-    <TopPage path="/" />
+    <Index path="/" />
     <PostPage path="post/:postId" />
     <About path="/about" />
     {process.env.REACT_APP_ENABLE_SIGNUP && <Signup path="signup" />}
