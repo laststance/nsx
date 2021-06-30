@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
-import Container from '../components/Container'
+import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { Post } from '../../DataStructure'
 import usePostList from '../hooks/usePostList'
@@ -17,7 +17,7 @@ const Index: React.FC<RouteComponentProps> = () => {
   >((state) => state.login)
 
   return (
-    <Container className="flex flex-col justify-between" data-cy="topPage">
+    <Layout className="flex flex-col justify-between" data-cy="topPage">
       <ul className="flex flex-col justify-start">
         {posts.map((post: Post, i) => {
           return (
@@ -69,7 +69,7 @@ const Index: React.FC<RouteComponentProps> = () => {
           </Link>
         )}
       </div>
-    </Container>
+    </Layout>
   )
 }
 

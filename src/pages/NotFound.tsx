@@ -1,11 +1,11 @@
 import React from 'react'
 import { RouteComponentProps } from '@reach/router'
-import Container from '../components/Container'
+import Layout from '../components/Layout'
 
 const NotFound: React.FC<RouteComponentProps> = (props) => (
-  <Container className="flex justify-center items-center">
+  <Layout className="flex justify-center items-center">
     <h1 className="text-6xl">Page Not Found</h1>
-  </Container>
+  </Layout>
 )
 
 export default React.memo(NotFound)

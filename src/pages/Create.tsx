@@ -3,7 +3,7 @@ import { navigate, RouteComponentProps } from '@reach/router'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
-import Container from '../components/Container'
+import Layout from '../components/Layout'
 import { EnqueueSnackbarAction, ReduxState } from '../redux'
 import { Author } from '../../DataStructure'
 
@@ -52,7 +52,7 @@ const Create: React.FC<RouteComponentProps> = () => {
   }
 
   return (
-    <Container className="flex flex-col justify-start">
+    <Layout className="flex flex-col justify-start">
       <input
         type="text"
         className="mt-3"
@@ -72,7 +72,7 @@ const Create: React.FC<RouteComponentProps> = () => {
           Submit
         </button>
       </div>
-    </Container>
+    </Layout>
   )
 }
 

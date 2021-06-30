@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { RouteComponentProps, navigate } from '@reach/router'
 import { Dispatch } from 'redux'
 import { useDispatch } from 'react-redux'
-import Container from '../components/Container'
+import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
 import axios from 'axios'
 import { EnqueueSnackbarAction, LoginAction } from '../redux'
@@ -68,7 +68,7 @@ const Login: React.FC<RouteComponentProps> = () => {
   }
 
   return (
-    <Container>
+    <Layout>
       <h1 className="text-3xl mb-3">Login</h1>
       <form className="w-full max-w-sm" onSubmit={(e) => execLogin(e)}>
         <div className="md:flex md:items-center mb-6">
@@ -122,7 +122,7 @@ const Login: React.FC<RouteComponentProps> = () => {
           </div>
         </div>
       </form>
-    </Container>
+    </Layout>
   )
 }
 

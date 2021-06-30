@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
-import Container from '../components/Container'
+import Layout from '../components/Layout'
 import { useDispatch } from 'react-redux'
 import { EnqueueSnackbarAction } from '../redux'
 import { Dispatch } from 'redux'
@@ -77,7 +77,7 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   }
 
   return (
-    <Container className="flex flex-col justify-start">
+    <Layout className="flex flex-col justify-start">
       <input
         type="text"
         className="mt-3"
@@ -97,7 +97,7 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
           Update
         </button>
       </div>
-    </Container>
+    </Layout>
   )
 }
 

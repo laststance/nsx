@@ -1,9 +1,9 @@
 import React from 'react'
 import { RouteComponentProps } from '@reach/router'
-import Container from '../components/Container'
+import Layout from '../components/Layout'
 
 const About: React.FC<RouteComponentProps> = () => (
-  <Container>
+  <Layout>
     <h1 className="text-3xl pt-4 pb-6">About</h1>
     <section className="text-xl leading-8">
       This Blog built for logging roughly what todaly I learned everyday by{' '}
@@ -36,7 +36,7 @@ const About: React.FC<RouteComponentProps> = () => (
       </a>
       's activity.
     </section>
-  </Container>
+  </Layout>
 )
 
 export default React.memo(About)
