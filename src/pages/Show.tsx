@@ -16,7 +16,7 @@ interface RouterParam {
   postId: Post['id']
 }
 
-const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
+const Show: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   const [post, setPost] = useState<Post>()
   const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
   const login = useSelector<ReduxState>((state) => state.login)
@@ -70,4 +70,4 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   )
 }
 
-export default React.memo(PostPage)
+export default React.memo(Show)
