@@ -40,21 +40,30 @@ const Index: React.FC<RouteComponentProps> = () => {
       <div className="flex items-center justify-around">
         {process.env.REACT_APP_ENABLE_LOGIN && (
           <Link to="/login">
-            <Button className="bg-blue-500 active:bg-blue-600 text-white">
+            <Button
+              className="bg-blue-500 active:bg-blue-600 text-white"
+              data-cy="login-btn"
+            >
               Login
             </Button>
           </Link>
         )}
         {process.env.REACT_APP_ENABLE_SIGNUP && (
           <Link to="/signup">
-            <Button className="bg-green-500 active:bg-green-600 text-white">
+            <Button
+              className="bg-green-500 active:bg-green-600 text-white"
+              data-cy="signup-btn"
+            >
               Sigunup
             </Button>
           </Link>
         )}
         {login && (
           <Link to="/dashboard">
-            <Button className="bg-yellow-500 active:bg-yellow-600 text-white">
+            <Button
+              className="bg-yellow-500 active:bg-yellow-600 text-white"
+              data-cy="dashboard-btn"
+            >
               Dashboard
             </Button>
           </Link>
