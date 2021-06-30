@@ -9,7 +9,7 @@ import { Post } from '../../DataStructure'
 import Container from '../components/Container'
 import Button from '../elements/Button'
 import { ReduxState, EnqueueSnackbarAction } from '../redux'
-import { A, P, UL } from '../elements/react-markdown-custom-components'
+import { A, H1, P, UL } from '../elements/react-markdown-custom-components'
 import axios from 'axios'
 
 interface RouterParam {
@@ -46,7 +46,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
         <>
           <h1 className="text-3xl pt-4 pb-6">{post.title}</h1>
           <ReactMarkdown
-            components={{ a: A, p: P, ul: UL }}
+            components={{ a: A, p: P, ul: UL, h1: H1 }}
             remarkPlugins={[breaks, gfm]}
             className="text-xl leading-8"
           >

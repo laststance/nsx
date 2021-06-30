@@ -21,3 +21,9 @@ export const P = (
 export const UL: React.FC = ({ ...props }) => (
   <ul className="list-disc pl-5 pb-5" {...props}></ul>
 )
+
+export const H1: React.FC = ({ children }) => (
+  <div className="mb-3 flex items-center">
+    <h1 className="text-2xl"># {children}</h1>
+  </div>
+)
