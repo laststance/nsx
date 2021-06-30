@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import loginReducer from './loginSlice'
+import adminReducer from './adminSlice'
 
-export const store = configureStore({ reducer: { login: loginReducer } })
+export const store = configureStore({ reducer: { admin: adminReducer } })
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>

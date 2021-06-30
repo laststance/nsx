@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Author } from '../../DataStructure'
+import { RootState } from './store'
 
-export interface LoginState {
+export interface AdminState {
   login: boolean
   author: Author
 }
@@ -12,7 +13,7 @@ const initialState = {
   author: { id: 9999, name: 'guest', password: 'none' },
 }
 
-export const loginSlice = createSlice({
+export const adminSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
@@ -27,6 +28,8 @@ export const loginSlice = createSlice({
   },
 })
 
-export const { login, logout } = loginSlice.actions
+export const selectLogin = (state: RootState): boolean => state.admin.login
 
-export default loginSlice.reducer
+export const { login, logout } = adminSlice.actions
+
+export default adminSlice.reducer
