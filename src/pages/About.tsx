@@ -23,6 +23,18 @@ const About: React.FC<RouteComponentProps> = () => (
       <br />
       It's save me from depression and remind whatever I known me when I feel
       like no grow up as a Web Engineer.
+      <br />
+      <br />
+      Here is a part of{' '}
+      <a
+        href="https://laststance.io/"
+        target="_blank"
+        rel="noreferrer"
+        className="text-gray-600 hover:text-gray-400"
+      >
+        Laststance.io
+      </a>
+      's activity.
     </section>
   </Container>
 )
