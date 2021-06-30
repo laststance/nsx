@@ -8,15 +8,15 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ children, className, ...props }) => {
-  let containerStyle = 'container mx-auto flex-grow py-3'
+  let baseStyle = 'container mx-auto flex-grow py-3'
   if (className) {
-    containerStyle = concatSelecor(containerStyle, className)
+    baseStyle = concatSelecor(baseStyle, className)
   }
 
   return (
     <div className="flex flex-col justify-between w-screen h-screen" {...props}>
       <Header />
-      <main className={containerStyle}>{children}</main>
+      <main className={baseStyle}>{children}</main>
       <Footer />
     </div>
   )
