@@ -24,6 +24,6 @@ export const UL: React.FC = ({ ...props }) => (
 
 export const H1: React.FC = ({ children }) => (
   <div className="mb-3 flex items-center">
-    <h1 className="text-2xl"># {children}</h1>
+    <h1 className="text-3xl"># {children}</h1>
   </div>
 )

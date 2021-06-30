@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from '@reach/router'
 import breaks from 'remark-breaks'
 import gfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import ReactMarkdown from 'react-markdown'
 import { useSelector, useDispatch } from 'react-redux'
 import { Dispatch } from 'redux'
@@ -44,8 +45,9 @@ const Show: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
     <Layout data-cy="postPage">
       {post && (
         <>
-          <h1 className="text-3xl pt-4 pb-6">{post.title}</h1>
+          <h1 className="text-2xl pt-4 pb-6">{post.title}</h1>
           <ReactMarkdown
+            rehypePlugins={[rehypeRaw]}
             components={{ a: A, p: P, ul: UL, h1: H1 }}
             remarkPlugins={[breaks, gfm]}
             className="text-xl leading-8"
