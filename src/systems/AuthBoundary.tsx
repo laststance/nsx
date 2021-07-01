@@ -1,13 +1,10 @@
 import React, { PropsWithChildren } from 'react'
 import { Redirect, RouteComponentProps } from '@reach/router'
-import { ReduxState } from '../redux'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../redux/hooks'
+import { selectLogin } from '../redux/adminSlice'
 
 const AuthBoundary: React.FC<RouteComponentProps> = ({ children }) => {
-  const login: ReduxState['login'] = useSelector<
-    ReduxState,
-    ReduxState['login']
-  >((state) => state.login)
+  const login = useAppSelector(selectLogin)
 
   return login ? <>{children}</> : <Redirect to="/login" noThrow />
 }
