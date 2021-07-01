@@ -12,12 +12,12 @@ import { useFetchAllPostsQuery } from '../redux/restApi'
 const Index: React.FC<RouteComponentProps> = () => {
   const login = useAppSelector(selectLogin)
   const { data, error, isLoading } = useFetchAllPostsQuery()
-  if (isLoading) return false
+  if (isLoading) return null
 
   return (
     <Layout className="flex flex-col justify-between" data-cy="topPage">
       <ul className="flex flex-col justify-start">
-        {data.map((post: Post, i) => {
+        {data?.map((post: Post, i) => {
           return (
             <Link key={i} to={`post/${post.id}`}>
               <li className="flex space-x-2.5">

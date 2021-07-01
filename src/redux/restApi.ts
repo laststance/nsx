@@ -6,11 +6,12 @@ export const restApi = createApi({
   reducerPath: 'restApi',
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_ENDPOINT }),
   endpoints: (builder) => ({
-    fetchAllPosts: builder.query<Posts>({
+    fetchAllPosts: builder.query<Posts, void>({
       query: () => 'posts',
-      fetchPost: builder.query<Post, Post['id']>({
-        query: (id) => ({ url: `post/${id}` }),
-      }),
+    }),
+
+    fetchPost: builder.query<Post, string>({
+      query: (id) => ({ url: `post/${id}` }),
     }),
   }),
 })
