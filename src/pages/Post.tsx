@@ -6,7 +6,7 @@ import rehypeRaw from 'rehype-raw'
 import ReactMarkdown from 'react-markdown'
 import { useSelector, useDispatch } from 'react-redux'
 import { Dispatch } from 'redux'
-import { Post } from '../../DataStructure'
+import { Post as PostType } from '../../DataStructure'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { ReduxState, EnqueueSnackbarAction } from '../redux'
@@ -14,18 +14,18 @@ import { A, H1, P, UL } from '../elements/react-markdown-custom-components'
 import axios from 'axios'
 
 interface RouterParam {
-  postId: Post['id']
+  postId: PostType['id']
 }
 
-const Show: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
-  const [post, setPost] = useState<Post>()
+const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
+  const [post, setPost] = useState<PostType>()
   const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
   const login = useSelector<ReduxState>((state) => state.login)
 
   useEffect(() => {
     async function fetchPost() {
       try {
-        const { data } = await axios.get<Post>(
+        const { data } = await axios.get<PostType>(
           `${process.env.REACT_APP_API_ENDPOINT}/post/${postId}`
         )
         setPost(data)
@@ -72,4 +72,4 @@ const Show: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   )
 }
 
-export default React.memo(Show)
+export default React.memo(Post)

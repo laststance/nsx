@@ -1,7 +1,7 @@
 import React from 'react'
 import { Router } from '@reach/router'
 import Index from '../pages/index'
-import Show from '../pages/Show'
+import Post from '../pages/Post'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
 import Dashboard from '../pages/Dashboard'
@@ -14,7 +14,7 @@ import About from '../pages/About'
 const Routes: React.FC = () => (
   <Router>
     <Index path="/" />
-    <Show path="post/:postId" />
+    <Post path="post/:postId" />
     <About path="/about" />
     {process.env.REACT_APP_ENABLE_SIGNUP && <Signup path="signup" />}
     {process.env.REACT_APP_ENABLE_LOGIN && <Login path="login" />}
