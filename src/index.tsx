@@ -4,17 +4,18 @@ import { Provider as ReduxProvider } from 'react-redux'
 import './index.css'
 import * as serviceWorker from './serviceWorker'
 import Routes from './systems/Routes'
-import { store } from './redux'
 import SnackBarSystem from './systems/SnackBarSystem'
 import ErrorBoundary from './systems/ErrorBoundary'
-import { Author } from '../DataStructure'
+import { Author } from './../DataStructure'
+import { store } from './redux/store'
+import { login } from './redux/adminSlice'
 
 if (window.localStorage.getItem('login') === 'true') {
   const author = JSON.parse(
     window.localStorage.getItem('author') as string
   ) as Author
 
-  store.dispatch({ type: 'LOGIN', payload: { author: author } })
+  store.dispatch(login(author))
 }
 
 ReactDOM.render(

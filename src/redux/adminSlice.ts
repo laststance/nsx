@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Author } from '../../DataStructure'
 import { RootState } from './store'
 
@@ -17,9 +17,9 @@ export const adminSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    login: (state, action) => {
+    login: (state, action: PayloadAction<Author>) => {
       state.login = true
-      state.author = action.payload.author
+      state.author = action.payload
     },
     logout: (state, action) => {
       state.login = true
