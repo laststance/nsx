@@ -50,7 +50,7 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
             rehypePlugins={[rehypeRaw]}
             components={{ a: A, p: P, ul: UL, h1: H1 }}
             remarkPlugins={[breaks, gfm]}
-            className="text-xl leading-8"
+            className="text-lg leading-8"
           >
             {post.body}
           </ReactMarkdown>
