@@ -4,22 +4,19 @@ import { Link } from '@reach/router'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { Post } from '../../DataStructure'
-import usePostList from '../hooks/usePostList'
-import { ReduxState } from '../redux'
-import { useSelector } from 'react-redux'
 import DateDisplay from '../components/DateDisplay'
+import { useAppSelector } from '../redux/hooks'
+import { selectLogin } from '../redux/adminSlice'
+import { useFetchAllPostsQuery } from '../redux/restApi'
 
 const Index: React.FC<RouteComponentProps> = () => {
-  const { posts, axiosError } = usePostList()
-  const login: ReduxState['login'] = useSelector<
-    ReduxState,
-    ReduxState['login']
-  >((state) => state.login)
+  const login = useAppSelector(selectLogin)
+  const { data, error } = useFetchAllPostsQuery()
 
   return (
     <Layout className="flex flex-col justify-between" data-cy="topPage">
       <ul className="flex flex-col justify-start">
-        {posts.map((post: Post, i) => {
+        {data.map((post: Post, i) => {
           return (
             <Link key={i} to={`post/${post.id}`}>
               <li className="flex space-x-2.5">
@@ -32,9 +29,9 @@ const Index: React.FC<RouteComponentProps> = () => {
           )
         })}
       </ul>
-      {axiosError && (
+      {error && (
         <div>
-          <p>{(axiosError.toJSON() as { message: string }).message}</p>
+          <p>error</p>
         </div>
       )}
       <div className="flex items-center justify-around">
