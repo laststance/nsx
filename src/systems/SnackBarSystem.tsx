@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { DequeueSnackbarAction, ReduxState } from '../redux'
 import { SnackBarMessage } from '../../DataStructure'
-import { Dispatch } from 'redux'
+import { useAppSelector, useAppDispatch } from '../redux/hooks'
+import { selectMessageQueue, deque } from '../redux/snackbarSlice'
 
 const SnackBarSystem: React.FC = ({ children }) => {
-  const messageQueue: ReduxState['snackbarQueue'] = useSelector<
-    ReduxState,
-    ReduxState['snackbarQueue']
-  >((state) => state.snackbarQueue)
+  const messageQueue = useAppSelector(selectMessageQueue)
   if (messageQueue.length === 0) return <>{children}</>
 
   const que = messageQueue[0]
@@ -21,7 +17,7 @@ interface Props {
 }
 
 const SnackBar: React.FC<Props> = React.memo(({ message, color }) => {
-  const dispatch: Dispatch<DequeueSnackbarAction> = useDispatch()
+  const dispatch = useAppDispatch()
   const [opacity, setOpacity] = useState('opacity-0')
   const bgColor = (color: string): string => {
     if (color === 'green') {
@@ -37,7 +33,7 @@ const SnackBar: React.FC<Props> = React.memo(({ message, color }) => {
 
     const timerId = setTimeout(() => {
       setOpacity('opacity-0')
-      dispatch({ type: 'DEQUEUE_SNACKBAR_MESSAGE' })
+      dispatch(deque())
     }, 3000)
 
     return () => clearTimeout(timerId)

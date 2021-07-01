@@ -11,7 +11,8 @@ import { useFetchAllPostsQuery } from '../redux/restApi'
 
 const Index: React.FC<RouteComponentProps> = () => {
   const login = useAppSelector(selectLogin)
-  const { data, error } = useFetchAllPostsQuery()
+  const { data, error, isLoading } = useFetchAllPostsQuery()
+  if (isLoading) return false
 
   return (
     <Layout className="flex flex-col justify-between" data-cy="topPage">

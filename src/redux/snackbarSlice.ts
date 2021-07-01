@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SnackBarMessage } from '../../DataStructure'
+import { RootState } from './store'
 
 export interface SnackBarState {
   snackbarQueue: Array<SnackBarMessage>
@@ -13,7 +14,7 @@ export const snackbarSlice = createSlice({
   name: 'snackbar',
   initialState,
   reducers: {
-    enque: (state, action) => {
+    enque: (state, action: PayloadAction<SnackBarMessage>) => {
       const message: SnackBarMessage['message'] = action.payload.message
       const color: SnackBarMessage['color'] = action.payload.color
       const newMessage: SnackBarMessage = { message, color }
@@ -25,6 +26,9 @@ export const snackbarSlice = createSlice({
     },
   },
 })
+
+export const selectMessageQueue = (state: RootState): Array<SnackBarMessage> =>
+  state.snackbar.snackbarQueue
 
 export const { enque, deque } = snackbarSlice.actions
 
