@@ -10,7 +10,7 @@ export const restApi = createApi({
       query: () => 'posts',
     }),
 
-    fetchPost: builder.query<Post, string>({
+    fetchPost: builder.query<Post, Post['id']>({
       query: (id) => ({ url: `post/${id}` }),
     }),
   }),
