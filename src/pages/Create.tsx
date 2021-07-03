@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
-import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { selectAuthor } from '../redux/adminSlice'
+import { useAppDispatch } from '../redux/hooks'
 import Layout from '../components/Layout'
 import { useCreatePostMutation } from '../redux/restApi'
 import { enque } from '../redux/snackbarSlice'
 
 const Create: React.FC<RouteComponentProps> = () => {
   const dispatch = useAppDispatch()
-  const { id: authorId } = useAppSelector(selectAuthor)
   const [createPost] = useCreatePostMutation()
 
   const [title, setTitle] = useState<string | undefined>('')
@@ -28,7 +26,6 @@ const Create: React.FC<RouteComponentProps> = () => {
       const { data } = await createPost({
         title,
         body,
-        authorId,
       })
       dispatch(enque({ message: 'New Post Created!', color: 'green' }))
       navigate(`/post/${data.id}`)
@@ -37,22 +34,6 @@ const Create: React.FC<RouteComponentProps> = () => {
       console.error(error)
       dispatch(enque({ message: 'Something Error Occuring.', color: 'red' }))
     }
-
-    //   if (status === 201) {
-    //     dispatch({
-    //       type: 'ENQUEUE_SNACKBAR_MESSAGE',
-    //       payload: { message: 'New Post Created!', color: 'green' },
-    //     })
-    //     navigate(`/post/${data.id}`)
-    //   }
-    // } catch (error) {
-    //   // eslint-disable-next-line no-console
-    //   console.error(error)
-    //   dispatch({
-    //     type: 'ENQUEUE_SNACKBAR_MESSAGE',
-    //     payload: { message: 'Something Error Occuring.', color: 'red' },
-    //   })
-    // }
   }
 
   return (

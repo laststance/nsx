@@ -21,8 +21,6 @@ const router = express.Router()
  */
 router.get('/posts', async (req: Request, res: Response<Model<PostType>[]>) => {
   const posts = await Post.findAll<Model<PostType>>({
-    include: { model: Author, as: 'author' },
-    attributes: { exclude: ['authorId'] },
     order: [['id', 'DESC']],
   })
 
@@ -32,8 +30,6 @@ router.get('/posts', async (req: Request, res: Response<Model<PostType>[]>) => {
 router.get('/post/:id', async (req: Request, res: Response) => {
   const post = await Post.findOne({
     where: { id: req.params.id },
-    include: { model: Author, as: 'author' },
-    attributes: { exclude: ['authorId'] },
   })
 
   res.json(post)
@@ -94,7 +90,6 @@ router.post('/create', async (req: Request, res: Response) => {
     const newPost = await Post.create({
       title: body.title,
       body: body.body,
-      authorId: body.authorId,
     })
 
     res.status(201).send(newPost)
