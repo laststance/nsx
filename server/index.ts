@@ -1,7 +1,6 @@
 import path from 'path'
 import fs from 'fs'
 import https from 'https'
-// import vhost from 'vhost'
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -144,14 +143,6 @@ if (isDev) {
  * ==============================================
  */
 if (isProd) {
-  // const staticApp = express()
-  // staticApp.use(
-  //   vhost(
-  //     'digitalstrength.dev',
-  //     express.static(path.join(__dirname, '../../build'))
-  //   )
-  // )
-
   app.use(express.static(path.join(__dirname, '../../build')))
 
   const staticPrivatekey = fs.readFileSync(
@@ -175,29 +166,6 @@ if (isProd) {
     },
     app
   )
-
-  //
-  // const apiPrivateKey = fs.readFileSync(
-  //   '/etc/letsencrypt/live/api.digitalstrength.dev/privkey.pem',
-  //   'utf8'
-  // )
-  // const apiCertificate = fs.readFileSync(
-  //   '/etc/letsencrypt/live/api.digitalstrength.dev/cert.pem',
-  //   'utf8'
-  // )
-  // const apiCa = fs.readFileSync(
-  //   '/etc/letsencrypt/live/api.digitalstrength.dev/chain.pem',
-  //   'utf8'
-  // )
-
-  // const ApiServer = https.createServer(
-  //   {
-  //     key: apiPrivateKey,
-  //     cert: apiCertificate,
-  //     ca: apiCa,
-  //   },
-  //   app
-  // )
 
   HttpsServer.listen(443, () => {
     // eslint-disable-next-line no-console
