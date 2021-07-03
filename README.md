@@ -96,8 +96,12 @@ These are storing `.env` and evaluate at build time.
 Default false.  
 These only need initial setup at the production server. 
 
-# Others
+# Prod
 
 ## `docker-compose exec db mysql -u root -p`
 
 login mysql with terminal.
+
+## `node_modules/.bin/pm2 ps`
+
+check node server status.
