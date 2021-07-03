@@ -11,7 +11,7 @@ import { enque } from '../redux/snackbarSlice'
 const Dashboard: React.FC<RouteComponentProps> = () => {
   const dispatch = useAppDispatch()
   // for display network error message
-  const { data, error, isLoading, refetch } = useFetchAllPostsQuery()
+  const { data, error, refetch } = useFetchAllPostsQuery()
   const [deletePost] = useDeletePostMutation()
 
   async function handleDelete(id: Post['id']) {
@@ -34,7 +34,6 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
   }
 
   if (error) return <div>error</div>
-  if (isLoading) return null
 
   return (
     <Layout className="flex flex-col justify-start">
