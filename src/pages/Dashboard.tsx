@@ -5,7 +5,7 @@ import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/restApi'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { Post } from '../../DataStructure'
-import DateDisplay from '../components/DateDisplay'
+import DateDisplay from '../elements/DateDisplay'
 import { enque } from '../redux/snackbarSlice'
 
 const Dashboard: React.FC<RouteComponentProps> = () => {
