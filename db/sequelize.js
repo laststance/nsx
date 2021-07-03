@@ -37,7 +37,7 @@ const Post = DB.define('post', {
   body: {
     type: DataTypes.TEXT,
   },
-})w
+})
 
 module.exports = {
   DB: DB,
