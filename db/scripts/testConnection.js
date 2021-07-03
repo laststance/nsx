@@ -16,3 +16,5 @@ const testConnection = async () => {
 }
 
 testConnection()
+
+process.exit(0)

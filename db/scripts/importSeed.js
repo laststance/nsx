@@ -10,12 +10,10 @@ async function main() {
   Post.create({
     title: 'jack trance',
     body: 'take me away to the post',
-    authorId: ryota.id,
   })
   Post.create({
     title: 'pot of greed',
     body: 'next time down',
-    authorId: ryota.id,
   })
 }
 

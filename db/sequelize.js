@@ -37,10 +37,7 @@ const Post = DB.define('post', {
   body: {
     type: DataTypes.TEXT,
   },
-})
-
-Author.hasMany(Post)
-Post.belongsTo(Author, { as: 'author' })
+})w
 
 module.exports = {
   DB: DB,
