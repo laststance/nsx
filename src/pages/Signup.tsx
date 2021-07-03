@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
 import { useAppDispatch } from '../redux/hooks'
-import { useSignupMutation } from '../redux/restApi'
+import { useSignupReqestMutation } from '../redux/restApi'
 import { enque } from '../redux/snackbarSlice'
+import { login } from '../redux/adminSlice'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
 
@@ -12,7 +13,7 @@ interface FormInputState {
 }
 
 const Signup: React.FC<RouteComponentProps> = () => {
-  const [signup] = useSignupMutation()
+  const [signupRequest] = useSignupReqestMutation()
   const [formInput, setFormInput] = useState<FormInputState>({
     name: '',
     password: '',
@@ -28,13 +29,13 @@ const Signup: React.FC<RouteComponentProps> = () => {
 
     try {
       // @ts-ignore
-      const { data } = await signup({
+      const { data } = await signupRequest({
         name: formInput.name,
         password: formInput.password,
       })
 
       dispatch(enque({ message: 'Success Signup!', color: 'green' }))
-      dispatch({ type: 'LOGIN', payload: { author: data } })
+      dispatch(login(data))
       window.localStorage.setItem('login', 'true')
       navigate('dashboard')
     } catch (error) {

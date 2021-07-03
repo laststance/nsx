@@ -36,7 +36,7 @@ export const restApi = createApi({
       }),
     }),
 
-    login: builder.mutation<Author, Credentials>({
+    loginReqest: builder.mutation<Author, Credentials>({
       query: (credentials) => ({
         url: 'login',
         method: 'POST',
@@ -44,7 +44,7 @@ export const restApi = createApi({
       }),
     }),
 
-    signup: builder.mutation<Author, Credentials>({
+    signupReqest: builder.mutation<Author, Credentials>({
       query: (credentials) => ({
         url: 'signup',
         method: 'POST',
@@ -62,6 +62,6 @@ export const {
   useDeletePostMutation,
   useCreatePostMutation,
   useUpdatePostMutation,
-  useLoginMutation,
-  useSignupMutation,
+  useLoginReqestMutation,
+  useSignupReqestMutation,
 } = restApi

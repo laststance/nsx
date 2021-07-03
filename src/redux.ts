@@ -1,5 +1,4 @@
 import { Action, Reducer, createStore } from 'redux'
-import ImmutableArray from './lib/immutableArray'
 import { Author, SnackBarMessage } from '../DataStructure'
 
 /**

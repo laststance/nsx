@@ -3,8 +3,9 @@ import { RouteComponentProps, navigate } from '@reach/router'
 import { useAppDispatch } from '../redux/hooks'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
-import { useLoginMutation } from '../redux/restApi'
+import { useLoginReqestMutation } from '../redux/restApi'
 import { enque } from '../redux/snackbarSlice'
+import { login } from '../redux/adminSlice'
 
 interface FormInputState {
   name: Author['name']
@@ -12,7 +13,7 @@ interface FormInputState {
 }
 
 const Login: React.FC<RouteComponentProps> = () => {
-  const [login] = useLoginMutation()
+  const [loginReqest] = useLoginReqestMutation()
   const [formInput, setFormInput] = useState<FormInputState>({
     name: '',
     password: '',
@@ -28,12 +29,13 @@ const Login: React.FC<RouteComponentProps> = () => {
 
     try {
       // @ts-ignore
-      const { data, error } = await login({
+      const { data, error } = await loginReqest({
         name: formInput.name,
         password: formInput.password,
       })
 
       if (data && !error) {
+        dispatch(login(data))
         window.localStorage.setItem('login', 'true')
         window.localStorage.setItem('author', JSON.stringify(data))
       }
