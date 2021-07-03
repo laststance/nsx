@@ -20,13 +20,11 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   const dispatch = useAppDispatch()
   const login = useAppSelector(selectLogin)
   // @ts-ignore
-  const { data, error, isLoading } = useFetchPostQuery(postId)
+  const { data, error } = useFetchPostQuery(postId)
 
   useEffect(() => {
     if (error) dispatch(enque({ message: error.toString(), color: 'red' }))
   }, [dispatch, error])
-
-  if (isLoading) return null
 
   return (
     <Layout data-cy="postPage">

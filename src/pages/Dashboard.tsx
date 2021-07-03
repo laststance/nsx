@@ -1,71 +1,46 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link, RouteComponentProps } from '@reach/router'
+import { useAppDispatch } from '../redux/hooks'
+import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/restApi'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
-import { Post, Posts } from '../../DataStructure'
-import axios, { AxiosError } from 'axios'
-import { Dispatch } from 'redux'
-import { useDispatch } from 'react-redux'
-import { EnqueueSnackbarAction } from '../redux'
+import { Post } from '../../DataStructure'
 import DateDisplay from '../components/DateDisplay'
+import { enque } from '../redux/snackbarSlice'
 
 const Dashboard: React.FC<RouteComponentProps> = () => {
-  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
-  const [posts, setPosts] = useState<Posts>([])
+  const dispatch = useAppDispatch()
   // for display network error message
-  const [axiosError, setAxiosError] = useState<AxiosError>()
-
-  async function fetchPosts() {
-    try {
-      const { data } = await axios.get<Posts>(
-        `${process.env.REACT_APP_API_ENDPOINT}/posts`
-      )
-      setPosts(data)
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-      setAxiosError(error)
-    }
-  }
+  const { data, error, isLoading, refetch } = useFetchAllPostsQuery()
+  const [deletePost] = useDeletePostMutation()
 
   async function handleDelete(id: Post['id']) {
     try {
-      const { status } = await axios.delete(
-        `${process.env.REACT_APP_API_ENDPOINT}/post/${id}`
-      )
+      await deletePost(id)
 
-      if (status === 200) {
-        dispatch({
-          type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'Delete Successful!', color: 'green' },
-        })
-        fetchPosts()
-      } else {
-        dispatch({
-          type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'Delete Faild', color: 'red' },
-        })
-      }
+      dispatch(enque({ message: 'Delete Successful!', color: 'green' }))
+      refetch()
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
 
-      dispatch({
-        type: 'ENQUEUE_SNACKBAR_MESSAGE',
-        payload: { message: 'Delete Faild', color: 'red' },
-      })
+      dispatch(
+        enque({
+          message: 'Delete Faild',
+          color: 'red',
+        })
+      )
     }
   }
 
-  useEffect(() => {
-    fetchPosts()
-  }, [])
+  if (error) return <div>error</div>
+  if (isLoading) return null
 
   return (
     <Layout className="flex flex-col justify-start">
       <h1 className="text-3xl mb-3">Dashbord</h1>
       <ul className="flex flex-col justify-start">
-        {posts.map((post: Post, i) => {
+        {data?.map((post: Post, i) => {
           return (
             <li key={i} className="flex justify-between items-center space-y-2">
               <Link
@@ -90,11 +65,6 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
           )
         })}
       </ul>
-      {axiosError && (
-        <div>
-          <p>{(axiosError.toJSON() as { message: string }).message}</p>
-        </div>
-      )}
       <div className="flex gap-4 justify-end mt-8">
         <Link to="create">
           <button className="shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">

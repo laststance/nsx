@@ -1,28 +1,23 @@
 import React, { useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
-import { Dispatch } from 'redux'
-import { useDispatch } from 'react-redux'
-import axios from 'axios'
+import { useAppDispatch } from '../redux/hooks'
+import { useSignupMutation } from '../redux/restApi'
+import { enque } from '../redux/snackbarSlice'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
-import { EnqueueSnackbarAction, LoginAction } from '../redux'
 
 interface FormInputState {
   name: Author['name']
   password: string
 }
 
-interface SignupRequestResponse {
-  author: Author
-  message: string
-}
-
 const Signup: React.FC<RouteComponentProps> = () => {
+  const [signup] = useSignupMutation()
   const [formInput, setFormInput] = useState<FormInputState>({
     name: '',
     password: '',
   })
-  const dispatch: Dispatch<EnqueueSnackbarAction | LoginAction> = useDispatch()
+  const dispatch = useAppDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
@@ -32,24 +27,16 @@ const Signup: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      const { status, data } = await axios.post<SignupRequestResponse>(
-        `${process.env.REACT_APP_API_ENDPOINT}/signup`,
-        {
-          name: formInput.name,
-          password: formInput.password,
-        }
-      )
+      // @ts-ignore
+      const { data } = await signup({
+        name: formInput.name,
+        password: formInput.password,
+      })
 
-      if (status === 201) {
-        dispatch({
-          type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'Success Signup!', color: 'green' },
-        })
-        dispatch({ type: 'LOGIN', payload: { author: data.author } })
-        window.localStorage.setItem('login', 'true')
-        window.localStorage.setItem('author', JSON.stringify(data.author))
-        navigate('dashboard')
-      }
+      dispatch(enque({ message: 'Success Signup!', color: 'green' }))
+      dispatch({ type: 'LOGIN', payload: { author: data } })
+      window.localStorage.setItem('login', 'true')
+      navigate('dashboard')
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)

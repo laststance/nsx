@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
-import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux'
-import { Dispatch } from 'redux'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { selectAuthor } from '../redux/adminSlice'
 import Layout from '../components/Layout'
-import { EnqueueSnackbarAction, ReduxState } from '../redux'
-import { Author } from '../../DataStructure'
+import { useCreatePostMutation } from '../redux/restApi'
+import { enque } from '../redux/snackbarSlice'
 
 const Create: React.FC<RouteComponentProps> = () => {
-  const authorId = useSelector<ReduxState, Author['id']>(
-    (state) => state.author.id
-  )
+  const dispatch = useAppDispatch()
+  const { id: authorId } = useAppSelector(selectAuthor)
+  const [createPost] = useCreatePostMutation()
+
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
-  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -25,30 +24,35 @@ const Create: React.FC<RouteComponentProps> = () => {
 
   async function execCreate() {
     try {
-      const { status, data } = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/create`,
-        {
-          title,
-          body,
-          authorId,
-        }
-      )
-
-      if (status === 201) {
-        dispatch({
-          type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'New Post Created!', color: 'green' },
-        })
-        navigate(`/post/${data.id}`)
-      }
+      // @ts-ignore
+      const { data } = await createPost({
+        title,
+        body,
+        authorId,
+      })
+      dispatch(enque({ message: 'New Post Created!', color: 'green' }))
+      navigate(`/post/${data.id}`)
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
-      dispatch({
-        type: 'ENQUEUE_SNACKBAR_MESSAGE',
-        payload: { message: 'Something Error Occuring.', color: 'red' },
-      })
+      dispatch(enque({ message: 'Something Error Occuring.', color: 'red' }))
     }
+
+    //   if (status === 201) {
+    //     dispatch({
+    //       type: 'ENQUEUE_SNACKBAR_MESSAGE',
+    //       payload: { message: 'New Post Created!', color: 'green' },
+    //     })
+    //     navigate(`/post/${data.id}`)
+    //   }
+    // } catch (error) {
+    //   // eslint-disable-next-line no-console
+    //   console.error(error)
+    //   dispatch({
+    //     type: 'ENQUEUE_SNACKBAR_MESSAGE',
+    //     payload: { message: 'Something Error Occuring.', color: 'red' },
+    //   })
+    // }
   }
 
   return (

@@ -1,28 +1,23 @@
 import React, { useState } from 'react'
 import { RouteComponentProps, navigate } from '@reach/router'
-import { Dispatch } from 'redux'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '../redux/hooks'
 import Layout from '../components/Layout'
 import { Author } from '../../DataStructure'
-import axios from 'axios'
-import { EnqueueSnackbarAction, LoginAction } from '../redux'
+import { useLoginMutation } from '../redux/restApi'
+import { enque } from '../redux/snackbarSlice'
 
 interface FormInputState {
   name: Author['name']
   password: string
 }
 
-interface LoginRequestResponse {
-  author: Author
-  message: string
-}
-
 const Login: React.FC<RouteComponentProps> = () => {
+  const [login] = useLoginMutation()
   const [formInput, setFormInput] = useState<FormInputState>({
     name: '',
     password: '',
   })
-  const dispatch: Dispatch<LoginAction | EnqueueSnackbarAction> = useDispatch()
+  const dispatch = useAppDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
@@ -32,38 +27,34 @@ const Login: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      const { status, data } = await axios.post<LoginRequestResponse>(
-        `${process.env.REACT_APP_API_ENDPOINT}/login`,
-        {
-          name: formInput.name,
-          password: formInput.password,
-        }
-      )
+      // @ts-ignore
+      const { data, error } = await login({
+        name: formInput.name,
+        password: formInput.password,
+      })
 
-      if (status === 200) {
-        dispatch({ type: 'LOGIN', payload: { author: data.author } })
+      if (data && !error) {
         window.localStorage.setItem('login', 'true')
-        window.localStorage.setItem('author', JSON.stringify(data.author))
-
-        navigate('dashboard')
-      } else if (status === 400) {
-        dispatch({
-          type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'Invalid Password', color: 'red' },
-        })
-      } else if (status === 401) {
-        dispatch({
-          type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'User does not exis', color: 'red' },
-        })
+        window.localStorage.setItem('author', JSON.stringify(data))
       }
+
+      navigate('dashboard')
+
+      // if (status === 400) {
+      //   dispatch({
+      //     type: 'ENQUEUE_SNACKBAR_MESSAGE',
+      //     payload: { message: 'Invalid Password', color: 'red' },
+      //   })
+      // } else if (status === 401) {
+      //   dispatch({
+      //     type: 'ENQUEUE_SNACKBAR_MESSAGE',
+      //     payload: { message: 'User does not exis', color: 'red' },
+      //   })
+      // }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
-      dispatch({
-        type: 'ENQUEUE_SNACKBAR_MESSAGE',
-        payload: { message: error.message, color: 'red' },
-      })
+      dispatch(enque({ message: error.message, color: 'red' }))
     }
   }
 

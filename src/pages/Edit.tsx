@@ -1,36 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
 import Layout from '../components/Layout'
-import { useDispatch } from 'react-redux'
-import { EnqueueSnackbarAction } from '../redux'
-import { Dispatch } from 'redux'
-import axios from 'axios'
+import { useAppDispatch } from '../redux/hooks'
+import { useFetchPostQuery, useUpdatePostMutation } from '../redux/restApi'
 import { Post } from '../../DataStructure'
+import { enque } from '../redux/snackbarSlice'
 
 interface RouterParam {
   postId: Post['id']
 }
 
 const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
+  const { data, error } = useFetchPostQuery(postId as Post['id'])
+  const [updatePost] = useUpdatePostMutation()
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
-  const dispatch: Dispatch<EnqueueSnackbarAction> = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    async function fetchPost() {
-      try {
-        const { data } = await axios.get<Post>(
-          `${process.env.REACT_APP_API_ENDPOINT}/post/${postId}`
-        )
-        setTitle(data.title)
-        setBody(data.body)
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error)
-      }
+    setTitle(data?.title)
+    setBody(data?.body)
+    if (error) {
+      dispatch(enque({ message: JSON.stringify(error), color: 'red' }))
     }
-    fetchPost()
-  }, [postId])
+  }, [data, error, dispatch])
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -42,37 +35,18 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
 
   async function execEdit() {
     try {
-      const { status } = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/update`,
-        {
-          title,
-          body,
-          postId,
-        }
-      )
-
-      if (status === 200) {
-        dispatch({
-          type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: { message: 'Post Updated!', color: 'green' },
-        })
-        navigate(`/post/${postId}`)
-      } else {
-        dispatch({
-          type: 'ENQUEUE_SNACKBAR_MESSAGE',
-          payload: {
-            message: `code:${status} Something Error Occuring.`,
-            color: 'red',
-          },
-        })
-      }
+      // @ts-ignore
+      await updatePost({
+        title,
+        body,
+        postId,
+      })
+      dispatch(enque({ message: 'Post Updated!', color: 'green' }))
+      navigate(`/post/${postId}`)
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
-      dispatch({
-        type: 'ENQUEUE_SNACKBAR_MESSAGE',
-        payload: { message: error.message, color: 'red' },
-      })
+      dispatch(enque({ message: JSON.stringify(error), color: 'red' }))
     }
   }
 
