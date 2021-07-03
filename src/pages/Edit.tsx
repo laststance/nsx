@@ -11,7 +11,7 @@ interface RouterParam {
 }
 
 const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
-  const { data, error } = useFetchPostQuery(postId as Post['id'])
+  const { data, error, refetch } = useFetchPostQuery(postId as Post['id'])
   const [updatePost] = useUpdatePostMutation()
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
@@ -42,6 +42,7 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
         postId,
       })
       dispatch(enque({ message: 'Post Updated!', color: 'green' }))
+      refetch()
       navigate(`/post/${postId}`)
     } catch (error) {
       // eslint-disable-next-line no-console
