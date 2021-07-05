@@ -28,7 +28,7 @@ const Login: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      // @ts-ignore
+      // @ts-ignore @TODO status code
       const { data, error } = await loginReqest({
         name: formInput.name,
         password: formInput.password,

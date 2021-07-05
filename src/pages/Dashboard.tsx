@@ -16,6 +16,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
 
   async function handleDelete(id: Post['id']) {
     try {
+      // @TODO status code
       await deletePost(id)
 
       dispatch(enque({ message: 'Delete Successful!', color: 'green' }))
