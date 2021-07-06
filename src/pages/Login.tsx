@@ -38,9 +38,9 @@ const Login: React.FC<RouteComponentProps> = () => {
         dispatch(login(data))
         window.localStorage.setItem('login', 'true')
         window.localStorage.setItem('author', JSON.stringify(data))
+        dispatch(enque({ message: 'Login SuccessFul', color: 'green' }))
+        navigate('dashboard')
       }
-
-      navigate('dashboard')
 
       // if (status === 400) {
       //   dispatch({
