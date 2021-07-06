@@ -11,9 +11,8 @@ import { restApi } from '../redux/restApi'
 
 const Index: React.FC<RouteComponentProps> = () => {
   const login = useAppSelector(selectLogin)
-  const d = restApi.endpoints.fetchAllPosts.useQuery()
-  console.log(d)
-  const { data, error } = d
+  const { data, error } = restApi.endpoints.fetchAllPosts.useQuery()
+  console.log(error)
 
   return (
     <Layout className="flex flex-col justify-between" data-cy="topPage">

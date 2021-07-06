@@ -10,7 +10,9 @@ interface Credentials {
 
 export const restApi = createApi({
   reducerPath: 'restApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_ENDPOINT }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.REACT_APP_API_ENDPOINT,
+  }),
   endpoints: (builder) => ({
     fetchAllPosts: builder.query<Posts, void>({
       query: () => 'posts',
