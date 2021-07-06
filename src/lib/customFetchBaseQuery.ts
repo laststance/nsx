@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { joinUrls } from './utils'
 import { isPlainObject } from '@reduxjs/toolkit'
 import type { BaseQueryFn } from './baseQueryTypes'
@@ -138,7 +139,7 @@ export function fetchBaseQuery({
       validateStatus = defaultValidateStatus,
       ...rest
     } = typeof arg == 'string' ? { url: arg } : arg
-    let config: RequestInit = {
+    const config: RequestInit = {
       ...baseFetchOptions,
       method,
       signal,
