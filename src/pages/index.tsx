@@ -12,7 +12,6 @@ import { restApi } from '../redux/restApi'
 const Index: React.FC<RouteComponentProps> = () => {
   const login = useAppSelector(selectLogin)
   const { data, error } = restApi.endpoints.fetchAllPosts.useQuery()
-  console.log(error)
 
   return (
     <Layout className="flex flex-col justify-between" data-cy="topPage">
@@ -32,7 +31,8 @@ const Index: React.FC<RouteComponentProps> = () => {
       </ul>
       {error && (
         <div>
-          <p>error</p>
+          {/* @ts-ignore */}
+          <p>Error: {error.message}</p>
         </div>
       )}
       <div className="flex items-center justify-around">
