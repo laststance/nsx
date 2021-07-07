@@ -42,6 +42,10 @@ const Login: React.FC<RouteComponentProps> = () => {
         navigate('dashboard')
       }
 
+      if (error) {
+        dispatch(enque({ message: error.message, color: 'red' }))
+      }
+
       // if (status === 400) {
       //   dispatch({
       //     type: 'ENQUEUE_SNACKBAR_MESSAGE',
