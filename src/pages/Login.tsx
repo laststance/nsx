@@ -28,35 +28,26 @@ const Login: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      // @ts-ignore @TODO status code
+      // @ts-ignore
       const { data, error } = await loginReqest({
         name: formInput.name,
         password: formInput.password,
       })
 
-      if (data && !error) {
+      if ((data as Author) && !error) {
         dispatch(login(data))
         window.localStorage.setItem('login', 'true')
         window.localStorage.setItem('author', JSON.stringify(data))
         dispatch(enque({ message: 'Login SuccessFul', color: 'green' }))
         navigate('dashboard')
+      } else {
+        if (error) {
+          if (error.code === 400)
+            dispatch(enque({ message: 'Invalid Password', color: 'red' }))
+          if (error.code === 401)
+            dispatch(enque({ message: 'User does not exis', color: 'red' }))
+        }
       }
-
-      if (error) {
-        dispatch(enque({ message: error.message, color: 'red' }))
-      }
-
-      // if (status === 400) {
-      //   dispatch({
-      //     type: 'ENQUEUE_SNACKBAR_MESSAGE',
-      //     payload: { message: 'Invalid Password', color: 'red' },
-      //   })
-      // } else if (status === 401) {
-      //   dispatch({
-      //     type: 'ENQUEUE_SNACKBAR_MESSAGE',
-      //     payload: { message: 'User does not exis', color: 'red' },
-      //   })
-      // }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
