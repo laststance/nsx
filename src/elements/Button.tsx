@@ -3,7 +3,6 @@ import { concatSelecor } from '../lib/utils'
 
 interface Props {
   className?: string
-  /* eslint-disable-next-line */
   onClick?: any
 }
 
