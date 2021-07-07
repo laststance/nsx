@@ -7,11 +7,11 @@ import { Post } from '../../DataStructure'
 import DateDisplay from '../elements/DateDisplay'
 import { useAppSelector } from '../redux/hooks'
 import { selectLogin } from '../redux/adminSlice'
-import { restApi } from '../redux/restApi'
+import { RestApi } from '../redux/restApi'
 
 const Index: React.FC<RouteComponentProps> = () => {
   const login = useAppSelector(selectLogin)
-  const { data, error } = restApi.endpoints.fetchAllPosts.useQuery()
+  const { data, error } = RestApi.endpoints.fetchAllPosts.useQuery()
 
   return (
     <Layout className="flex flex-col justify-between" data-cy="topPage">

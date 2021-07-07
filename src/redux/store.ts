@@ -2,16 +2,16 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import adminReducer from './adminSlice'
 import snackbarReducer from './snackbarSlice'
-import { restApi } from './restApi'
+import { RestApi } from './restApi'
 
 export const store = configureStore({
   reducer: {
     admin: adminReducer,
     snackbar: snackbarReducer,
-    [restApi.reducerPath]: restApi.reducer,
+    [RestApi.reducerPath]: RestApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(restApi.middleware),
+    getDefaultMiddleware().concat(RestApi.middleware),
 })
 
 setupListeners(store.dispatch)
