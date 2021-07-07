@@ -6,6 +6,9 @@
 Prod ➡️ https://digitalstrength.dev/  
 Completely personal use for myself that small blog system for written what does I today learned.
 
+![img](./image.jpg)
+
+
 # Getting start local development
 
 1. `yarn install`
