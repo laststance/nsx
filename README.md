@@ -102,6 +102,6 @@ These only need initial setup at the production server.
 
 login mysql with terminal.
 
-## `node_modules/.bin/pm2 ps`
+## `yarn pm2 ps`
 
 check node server status.
