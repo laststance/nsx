@@ -1,4 +1,4 @@
-import { formatDate } from '../lib/Myutils'
+import { formatDate } from '../lib/utils'
 import React from 'react'
 
 const DateDisplay: React.FC<{ date: string }> = ({ date }) => {

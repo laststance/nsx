@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
-import { concatSelecor } from '../lib/Myutils'
+import { concatSelecor } from '../lib/utils'
 
 interface Props {
   className?: string

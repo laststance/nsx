@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react'
-import { concatSelecor } from '../lib/Myutils'
+import { concatSelecor } from '../lib/utils'
 
 interface Props {
   className?: string
