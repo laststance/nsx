@@ -28,30 +28,22 @@ const Login: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      // @ts-ignore
-      const { data, error } = await loginReqest({
+      const data = await loginReqest({
         name: formInput.name,
         password: formInput.password,
-      })
+      }).unwrap()
 
-      if ((data as Author) && !error) {
-        dispatch(login(data))
-        window.localStorage.setItem('login', 'true')
-        window.localStorage.setItem('author', JSON.stringify(data))
-        dispatch(enque({ message: 'Login SuccessFul', color: 'green' }))
-        navigate('dashboard')
-      } else {
-        if (error) {
-          if (error.code === 400)
-            dispatch(enque({ message: 'Invalid Password', color: 'red' }))
-          if (error.code === 401)
-            dispatch(enque({ message: 'User does not exis', color: 'red' }))
-        }
-      }
+      dispatch(login(data))
+      window.localStorage.setItem('login', 'true')
+      window.localStorage.setItem('author', JSON.stringify(data))
+      dispatch(enque({ message: 'Login SuccessFul', color: 'green' }))
+      navigate('dashboard')
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-      dispatch(enque({ message: error.message, color: 'red' }))
+      if (error.code === 400)
+        dispatch(enque({ message: 'Invalid Password', color: 'red' }))
+      if (error.code === 401)
+        dispatch(enque({ message: 'User does not exis', color: 'red' }))
+      else dispatch(enque({ message: error.message, color: 'red' }))
     }
   }
 
