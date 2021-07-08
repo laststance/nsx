@@ -1,4 +1,3 @@
-import path from 'path'
 import fs from 'fs'
 import https from 'https'
 import express, { Request, Response } from 'express'
@@ -114,6 +113,11 @@ router.post('/update', async (req: Request, res: Response) => {
   }
 })
 
+/**
+ * ==============================================
+ * Express Setup
+ * ==============================================
+ */
 const app = express()
 // @ts-ignore
 app.use(bodyParser())
@@ -128,7 +132,7 @@ app.use('/api', router)
 if (isDev) {
   app.listen(4000, () => {
     // eslint-disable-next-line no-console
-    console.log(`Express DEV Server listening on port 4000!`)
+    console.log(`Api DEV Server listening on port 4000!`)
   })
 }
 
@@ -138,32 +142,30 @@ if (isDev) {
  * ==============================================
  */
 if (isProd) {
-  app.use(express.static(path.join(__dirname, '../../build')))
-
-  const staticPrivatekey = fs.readFileSync(
+  const privatekey = fs.readFileSync(
     '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
     'utf8'
   )
-  const staticCertificate = fs.readFileSync(
+  const certificate = fs.readFileSync(
     '/etc/letsencrypt/live/digitalstrength.dev/cert.pem',
     'utf8'
   )
-  const staticCa = fs.readFileSync(
+  const ca = fs.readFileSync(
     '/etc/letsencrypt/live/digitalstrength.dev/chain.pem',
     'utf8'
   )
 
-  const HttpsServer = https.createServer(
+  const ProdApiServer = https.createServer(
     {
-      key: staticPrivatekey,
-      cert: staticCertificate,
-      ca: staticCa,
+      key: privatekey,
+      cert: certificate,
+      ca: ca,
     },
     app
   )
 
-  HttpsServer.listen(443, () => {
+  ProdApiServer.listen(443, () => {
     // eslint-disable-next-line no-console
-    console.log('StaticServer running on port 443')
+    console.log('ProdApiServer running on port 443')
   })
 }
