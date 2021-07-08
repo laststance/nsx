@@ -16,21 +16,26 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
 
   async function handleDelete(id: Post['id']) {
     try {
-      // @TODO status code
-      await deletePost(id)
+      await deletePost(id).unwrap()
 
       dispatch(enque({ message: 'Delete Successful!', color: 'green' }))
+      // @TODO optimistic update
       refetch()
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-
-      dispatch(
-        enque({
-          message: 'Delete Faild',
-          color: 'red',
-        })
-      )
+      if (error.code === 500)
+        dispatch(
+          enque({
+            message: 'Delete Faild',
+            color: 'red',
+          })
+        )
+      else
+        dispatch(
+          enque({
+            message: 'System Error. Delete Faild',
+            color: 'red',
+          })
+        )
     }
   }
 
