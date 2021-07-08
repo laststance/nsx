@@ -11,16 +11,17 @@ import { A, H1, P, UL } from '../elements/react-markdown-custom-components'
 import { useFetchPostQuery } from '../redux/restApi'
 import { selectLogin } from '../redux/adminSlice'
 import { enque } from '../redux/snackbarSlice'
+import type { Post as PostType } from '../../DataStructure'
 
 interface RouterParam {
-  postId: string
+  postId: PostType['id']
 }
 
 const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   const dispatch = useAppDispatch()
   const login = useAppSelector(selectLogin)
-  // @ts-ignore
-  const { data, error } = useFetchPostQuery(postId)
+
+  const { data, error = null } = useFetchPostQuery(postId as PostType['id'])
 
   useEffect(() => {
     if (error) dispatch(enque({ message: error.toString(), color: 'red' }))
