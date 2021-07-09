@@ -4,6 +4,7 @@ import redbird from 'redbird'
 
 // @TODO redbird.listen('digitalstrength.dev', redbird.static('./build') , 443)
 // redbird.proxy('digitalstrength.dev/api', http://localhost:4534)
+// @TODO https://github.com/OptimalBits/redbird#https-example
 
 const privatekey = fs.readFileSync(
   '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
