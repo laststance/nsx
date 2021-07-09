@@ -1,5 +1,4 @@
-import fs from 'fs'
-import https from 'https'
+import http from 'https'
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -130,9 +129,10 @@ app.use('/api', router)
  * ==============================================
  */
 if (isDev) {
+  // @TODO what's the difference between app.listen() and https.createServer()
   app.listen(4000, () => {
     // eslint-disable-next-line no-console
-    console.log(`Api DEV Server listening on port 4000!`)
+    console.log(`DEV Api Server listening on port 4000!`)
   })
 }
 
@@ -142,30 +142,10 @@ if (isDev) {
  * ==============================================
  */
 if (isProd) {
-  const privatekey = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
-    'utf8'
-  )
-  const certificate = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/cert.pem',
-    'utf8'
-  )
-  const ca = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/chain.pem',
-    'utf8'
-  )
+  const ProdApiServer = http.createServer(app)
 
-  const ProdApiServer = https.createServer(
-    {
-      key: privatekey,
-      cert: certificate,
-      ca: ca,
-    },
-    app
-  )
-
-  ProdApiServer.listen(443, () => {
+  ProdApiServer.listen(4534, () => {
     // eslint-disable-next-line no-console
-    console.log('ProdApiServer running on port 443')
+    console.log('Prod Api Server running on port 4534')
   })
 }
