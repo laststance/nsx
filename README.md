@@ -101,10 +101,14 @@ These only need initial setup at the production server.
 
 # Prod
 
-## `docker-compose exec db mysql -u root -p`
+### `docker-compose exec db mysql -u root -p`
 
 login mysql with terminal.
 
-## `yarn pm2 ps`
+## pm2
+
+- `yarn pm2 start eco.system.config.js`
+- `yarn pm2 stop all`
+- `yarn pm2 ps`
 
 check node server status.
