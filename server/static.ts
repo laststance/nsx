@@ -1,13 +1,10 @@
 import path from 'path'
 import http from 'http'
 import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
+import compression from 'compression'
 
 const app = express()
-// @ts-ignore
-app.use(bodyParser())
-app.use(cors())
+app.use(compression())
 
 app.use('*', express.static(path.join(__dirname, '../../build')))
 

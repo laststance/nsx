@@ -1,5 +1,6 @@
 import http from 'http'
 import express, { Request, Response } from 'express'
+import compression from 'compression'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
@@ -121,6 +122,7 @@ const app = express()
 // @ts-ignore
 app.use(bodyParser())
 app.use(cors())
+app.use(compression())
 app.use('/api', router)
 
 /**
