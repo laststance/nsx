@@ -6,7 +6,7 @@
 Prod ➡️ https://digitalstrength.dev/  
 Completely personal use for myself that small blog system for written what does I today learned.
 
-![img](./image.jpg)
+![img](./image.png)
 
 
 # Getting start local development
