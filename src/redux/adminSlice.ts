@@ -21,7 +21,7 @@ export const adminSlice = createSlice({
       state.login = true
       state.author = action.payload
     },
-    logout: (state, action) => {
+    logout: (state) => {
       state.login = true
       state.author = { id: 9999, name: 'guest', password: 'none' }
     },

@@ -1,6 +1,5 @@
 import React from 'react'
-import { RouteComponentProps } from '@reach/router'
-import { Link } from '@reach/router'
+import { RouteComponentProps, Link } from '@reach/router'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { Post } from '../../DataStructure'

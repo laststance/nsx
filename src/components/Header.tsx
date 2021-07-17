@@ -1,6 +1,5 @@
 import React from 'react'
-import { RouteComponentProps } from '@reach/router'
-import { Link } from '@reach/router'
+import { RouteComponentProps, Link } from '@reach/router'
 
 const Header: React.FC<RouteComponentProps> = () => {
   return (
