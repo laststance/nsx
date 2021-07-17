@@ -3,7 +3,8 @@
   "extends": [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
@@ -44,8 +45,6 @@
         "semi": false
       }
     ],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
     "import/no-unresolved": "error",
     "import/named": "error",
     "import/namespace": "error",
