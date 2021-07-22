@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ children, className, ...props }) => {
-  let baseStyle = 'container mx-auto flex-grow py-3'
+  let baseStyle = 'container mx-auto flex-grow px-4 py-3'
   if (className) {
     baseStyle = concatSelecor(baseStyle, className)
   }

@@ -18,9 +18,12 @@ const Index: React.FC<RouteComponentProps> = () => {
         {data?.map((post: Post, i) => {
           return (
             <Link key={i} to={`post/${post.id}`}>
-              <li className="flex space-x-2.5">
+              <li className="flex md:space-x-2.5">
                 <DateDisplay date={post.createdAt} />
-                <div className="text-lg" data-cy={`postTitle-${i}`}>
+                <div
+                  className="text-lg break-all w-64 sm:flex-grow"
+                  data-cy={`postTitle-${i}`}
+                >
                   {post.title}
                 </div>
               </li>
