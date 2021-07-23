@@ -8,4 +8,4 @@ const NotFound: React.FC<RouteComponentProps> = () => (
   </Layout>
 )
 
-export default React.memo(NotFound)
+export default React.memo(NotFound, () => true)

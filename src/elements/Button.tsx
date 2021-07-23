@@ -23,4 +23,4 @@ const Button: React.FC<Props> = ({ className, children, ...rest }) => {
   )
 }
 
-export default React.memo<PropsWithChildren<Props>>(Button)
+export default React.memo<PropsWithChildren<Props>>(Button, () => true)

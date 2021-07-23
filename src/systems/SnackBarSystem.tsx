@@ -50,4 +50,4 @@ const SnackBar: React.FC<Props> = React.memo(({ message, color }) => {
   )
 })
 
-export default React.memo(SnackBarSystem)
+export default React.memo(SnackBarSystem, () => true)

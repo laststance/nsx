@@ -21,4 +21,4 @@ const Header: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default React.memo(Header)
+export default React.memo(Header, () => true)

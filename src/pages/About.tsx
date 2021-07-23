@@ -39,4 +39,4 @@ const About: React.FC<RouteComponentProps> = () => (
   </Layout>
 )
 
-export default React.memo(About)
+export default React.memo(About, () => true)

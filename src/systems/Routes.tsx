@@ -27,4 +27,4 @@ const Routes: React.FC = () => (
   </Router>
 )
 
-export default React.memo(Routes)
+export default React.memo(Routes, () => true)

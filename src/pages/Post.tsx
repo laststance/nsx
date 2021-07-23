@@ -58,4 +58,4 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   )
 }
 
-export default React.memo(Post)
+export default React.memo(Post, () => true)

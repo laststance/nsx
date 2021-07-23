@@ -9,4 +9,4 @@ const DateDisplay: React.FC<{ date: string }> = ({ date }) => {
   )
 }
 
-export default React.memo(DateDisplay)
+export default React.memo(DateDisplay, () => true)
