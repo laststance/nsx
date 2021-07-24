@@ -11,7 +11,11 @@ module.exports = {
       md: '768px',
       // => @media (min-width: 768px) { ... }
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
   variants: {
     extend: {

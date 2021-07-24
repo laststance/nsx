@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
-import { A, H1, P, UL } from '../elements/react-markdown-custom-components'
+import { A } from '../elements/react-markdown-custom-components'
 import { useFetchPostQuery } from '../redux/restApi'
 import { selectLogin } from '../redux/adminSlice'
 import { enque } from '../redux/snackbarSlice'
@@ -33,10 +33,10 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
         <>
           <h1 className="text-2xl pt-4 pb-6">{data.title}</h1>
           <ReactMarkdown
+            components={{ a: A }}
             rehypePlugins={[rehypeRaw]}
-            components={{ a: A, p: P, ul: UL, h1: H1 }}
             remarkPlugins={[breaks, gfm]}
-            className="text-lg leading-8 prose"
+            className="prose"
           >
             {data.body}
           </ReactMarkdown>
