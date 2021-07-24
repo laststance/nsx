@@ -120,7 +120,7 @@ router.post('/update', async (req: Request, res: Response) => {
  */
 const app = express()
 // @ts-ignore
-app.use(bodyParser())
+app.use(bodyParser.json())
 app.use(cors())
 app.use(compression())
 app.use('/api', router)
@@ -131,7 +131,6 @@ app.use('/api', router)
  * ==============================================
  */
 if (isDev) {
-  // @TODO what's the difference between app.listen() and https.createServer()
   app.listen(4000, () => {
     // eslint-disable-next-line no-console
     console.log(`DEV Api Server listening on port 4000!`)
