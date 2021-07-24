@@ -17,17 +17,15 @@ const Index: React.FC<RouteComponentProps> = () => {
       <ul className="flex flex-col justify-start">
         {data?.map((post: Post, i) => {
           return (
-            <Link key={i} to={`post/${post.id}`}>
-              <li className="flex md:space-x-2.5">
-                <DateDisplay date={post.createdAt} />
-                <div
-                  className="text-lg break-all w-64 sm:flex-grow"
-                  data-cy={`postTitle-${i}`}
-                >
-                  {post.title}
-                </div>
-              </li>
-            </Link>
+            <li key={i} className="flex sm:flex-nowrap sm:space-x-2.5">
+              <DateDisplay date={post.createdAt} />
+              <div
+                className="text-lg break-all w-64 sm:w-auto flex-initial"
+                data-cy={`postTitle-${i}`}
+              >
+                <Link to={`post/${post.id}`}>{post.title}</Link>
+              </div>
+            </li>
           )
         })}
       </ul>
