@@ -23,7 +23,9 @@ const Index: React.FC<RouteComponentProps> = () => {
                 className="text-lg break-all w-64 sm:w-auto flex-initial"
                 data-cy={`postTitle-${i}`}
               >
-                <Link to={`post/${post.id}`}>{post.title}</Link>
+                <Link className="hover:text-gray-400" to={`post/${post.id}`}>
+                  {post.title}
+                </Link>
               </div>
             </li>
           )
