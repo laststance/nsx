@@ -56,7 +56,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
                 <div className="text-base">{post.title}</div>
               </Link>
               <div className="flex items-center space-x-2">
-                <Link to={`edit/${post.id}`}>
+                <Link to={`/dashboard/edit/${post.id}`}>
                   <Button className="text-gray-500">Edit</Button>
                 </Link>
                 <Button
