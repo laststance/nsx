@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
 import { useAppDispatch } from '../redux/hooks'
-import { useSignupReqestMutation } from '../redux/restApi'
+import { useSignupReqestMutation } from '../redux/api'
 import { enque } from '../redux/snackbarSlice'
 import { login } from '../redux/adminSlice'
 import Layout from '../components/Layout'

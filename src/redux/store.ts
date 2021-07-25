@@ -2,7 +2,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import adminReducer from './adminSlice'
 import snackbarReducer from './snackbarSlice'
-import { Api } from './restApi'
+import { Api } from './api'
 
 export const store = configureStore({
   reducer: {

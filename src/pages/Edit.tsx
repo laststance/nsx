@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { navigate, RouteComponentProps } from '@reach/router'
 import Layout from '../components/Layout'
 import { useAppDispatch } from '../redux/hooks'
-import { useFetchPostQuery, useUpdatePostMutation } from '../redux/restApi'
+import { useFetchPostQuery, useUpdatePostMutation } from '../redux/api'
 import { Post } from '../../DataStructure'
 import { enque } from '../redux/snackbarSlice'
 

@@ -6,7 +6,7 @@ import { Post } from '../../DataStructure'
 import DateDisplay from '../elements/DateDisplay'
 import { useAppSelector } from '../redux/hooks'
 import { selectLogin } from '../redux/adminSlice'
-import { Api } from '../redux/restApi'
+import { Api } from '../redux/api'
 
 const Index: React.FC<RouteComponentProps> = () => {
   const login = useAppSelector(selectLogin)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, RouteComponentProps } from '@reach/router'
 import { useAppDispatch } from '../redux/hooks'
-import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/restApi'
+import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/api'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { Post } from '../../DataStructure'
