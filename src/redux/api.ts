@@ -8,8 +8,8 @@ interface Credentials {
 
 // Define a service using a base URL and expected endpoints
 
-export const RestApi = createApi({
-  reducerPath: 'restApi',
+export const Api = createApi({
+  reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
   }),
@@ -66,4 +66,4 @@ export const {
   useUpdatePostMutation,
   useLoginReqestMutation,
   useSignupReqestMutation,
-} = RestApi
+} = Api
