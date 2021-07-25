@@ -71,7 +71,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "GENERATE_SOURCEMAP=false craco build",
     "deploy": "bash deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch './server' --ignore './src' --exec ts-node --project tsconfig.server.json server/api.ts",
