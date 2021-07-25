@@ -32,7 +32,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       else
         dispatch(
           enque({
-            message: 'System Error. Delete Faild',
+            message: `System Error. Delete Faild: ${error.message}`,
             color: 'red',
           })
         )
