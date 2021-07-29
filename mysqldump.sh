@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# @TODO fix bug
 FILENAME=digital_backup_`date +"%Y%m%d"`.sql
 FILEPATH=/root/digital-strength/$FILENAME
 
