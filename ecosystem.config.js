@@ -1,13 +1,11 @@
 module.exports = {
   apps: [
     {
-      name: 'api',
-      script: './server_build/server/api.js',
+      name: 'server',
+      script: './server_build/server.ts',
       env: {
         NODE_ENV: 'production',
       },
     },
-    { name: 'static', script: './server_build/server/static.js' },
-    { name: 'reverseProxy', script: './server_build/server/reverseProxy.js' },
   ],
 }

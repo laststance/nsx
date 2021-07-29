@@ -1,12 +1,14 @@
-import http from 'http'
+import https from 'https'
+import fs from 'fs'
 import express, { Request, Response } from 'express'
 import compression from 'compression'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { Model } from 'sequelize'
-import { Author, Post } from '../db/sequelize'
-import { Post as PostType } from '../DataStructure'
+import { Author, Post } from './db/sequelize'
+import { Post as PostType } from './DataStructure'
+import path from 'path'
 
 const isProd: boolean = process.env.NODE_ENV === 'production'
 const isDev: boolean = process.env.NODE_ENV === 'development'
@@ -143,10 +145,33 @@ if (isDev) {
  * ==============================================
  */
 if (isProd) {
-  const ProdApiServer = http.createServer(app)
+  app.use('/', express.static(path.join(__dirname, '../../build')))
 
-  ProdApiServer.listen(4534, () => {
+  // Handle DirectLink
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../build/index.html'))
+  })
+
+  const privateKey = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
+    'utf-8'
+  )
+  const certificate = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/cert.pem',
+    'utf-8'
+  )
+  const ca = fs.readFileSync(
+    '/etc/letsencrypt/live/digitalstrength.dev/chain.pem',
+    'utf-8'
+  )
+
+  const ProdServer = https.createServer(
+    { key: privateKey, cert: certificate, ca: ca },
+    app
+  )
+
+  ProdServer.listen(443, () => {
     // eslint-disable-next-line no-console
-    console.log('Prod Api Server running on port 4534')
+    console.log('ProdServer listening on port 443!')
   })
 }
