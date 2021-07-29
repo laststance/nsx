@@ -107,8 +107,8 @@ login mysql with terminal.
 
 ## pm2
 
-- `yarn pm2 start eco.system.config.js`
-- `yarn pm2 stop all`
-- `yarn pm2 ps`
+- `pm2 start eco.system.config.js`
+- `pm2 stop all`
+- `pm2 ps`
 
 check node server status.
