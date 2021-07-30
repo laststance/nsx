@@ -9,7 +9,7 @@ const Header: React.FC<RouteComponentProps> = () => {
         <Link to="/" className="col-auto">
           <h1 className="font-bold text-xl sm:text-2xl">Digital Strength β</h1>
         </Link>
-        <p className="text-base text-gray-700 justify-self-start sm:pt-2.5">
+        <p className="text-base text-gray-700 justify-self-start sm:pt-2.5 sm:pl-1.5">
           What Today I Learned
           <span className="pl-1" role="img" aria-label="note emoji">
             📝
