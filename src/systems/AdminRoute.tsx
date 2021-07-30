@@ -3,10 +3,10 @@ import { Redirect, RouteComponentProps } from '@reach/router'
 import { useAppSelector } from '../redux/hooks'
 import { selectLogin } from '../redux/adminSlice'
 
-const AuthBoundary = memo<RouteComponentProps>(({ children }) => {
+const AdminRoute: React.FC<RouteComponentProps> = memo(({ children }) => {
   const login = useAppSelector(selectLogin)
 
   return login ? <>{children}</> : <Redirect to="/login" noThrow />
 })
 
-export default AuthBoundary
+export default AdminRoute
