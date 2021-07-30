@@ -5,7 +5,6 @@ const {
   getLoaders,
   throwUnexpectedConfigError,
 } = require('@craco/craco')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { ESBuildMinifyPlugin } = require('esbuild-loader')
 
 const throwError = (message) =>
