@@ -10,13 +10,12 @@ interface PageProps {
   onCreateAccount: () => void
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const Page = ({
+export const Page: React.FC<PageProps> = ({
   user,
   onLogin,
   onLogout,
   onCreateAccount,
-}: PageProps) => (
+}) => (
   <article>
     <Header
       user={user}
