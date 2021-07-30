@@ -7,30 +7,35 @@ import DateDisplay from '../elements/DateDisplay'
 import { useAppSelector } from '../redux/hooks'
 import { selectLogin } from '../redux/adminSlice'
 import { Api } from '../redux/api'
+import { Loading } from '../elements/Loading'
 
 const Index: React.FC<RouteComponentProps> = () => {
   const login = useAppSelector(selectLogin)
-  const { data, error } = Api.endpoints.fetchAllPosts.useQuery()
+  const { data, error, isLoading } = Api.endpoints.fetchAllPosts.useQuery()
 
   return (
     <Layout className="flex flex-col justify-between" data-cy="topPage">
-      <ul className="flex flex-col justify-start">
-        {data?.map((post: Post, i) => {
-          return (
-            <li key={i} className="flex sm:flex-nowrap sm:space-x-2.5">
-              <DateDisplay date={post.createdAt} />
-              <div
-                className="text-lg break-all w-64 sm:w-auto flex-initial"
-                data-cy={`postTitle-${i}`}
-              >
-                <Link className="hover:text-gray-400" to={`post/${post.id}`}>
-                  {post.title}
-                </Link>
-              </div>
-            </li>
-          )
-        })}
-      </ul>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <ul className="flex flex-col justify-start">
+          {data?.map((post: Post, i) => {
+            return (
+              <li key={i} className="flex sm:flex-nowrap sm:space-x-2.5">
+                <DateDisplay date={post.createdAt} />
+                <div
+                  className="text-lg break-all w-64 sm:w-auto flex-initial"
+                  data-cy={`postTitle-${i}`}
+                >
+                  <Link className="hover:text-gray-400" to={`post/${post.id}`}>
+                    {post.title}
+                  </Link>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      )}
       {error && (
         <div>
           {/* @ts-ignore */}

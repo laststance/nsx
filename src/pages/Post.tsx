@@ -12,6 +12,7 @@ import { useFetchPostQuery } from '../redux/api'
 import { selectLogin } from '../redux/adminSlice'
 import { enque } from '../redux/snackbarSlice'
 import type { Post as PostType } from '../../types'
+import { Loading } from '../elements/Loading'
 
 interface RouterParam {
   postId: PostType['id']
@@ -21,7 +22,11 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   const dispatch = useAppDispatch()
   const login = useAppSelector(selectLogin)
 
-  const { data, error = null } = useFetchPostQuery(postId as PostType['id'])
+  const {
+    data,
+    isLoading,
+    error = null,
+  } = useFetchPostQuery(postId as PostType['id'])
 
   useEffect(() => {
     if (error) dispatch(enque({ message: error.toString(), color: 'red' }))
@@ -29,18 +34,22 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
 
   return (
     <Layout data-cy="postPage">
-      {data && (
-        <>
-          <h1 className="text-2xl pt-4 pb-6">{data.title}</h1>
-          <ReactMarkdown
-            components={{ a, code }}
-            rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[breaks, gfm]}
-            className="prose prose-lg"
-          >
-            {data.body}
-          </ReactMarkdown>
-        </>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        data && (
+          <>
+            <h1 className="text-2xl pt-4 pb-6">{data.title}</h1>
+            <ReactMarkdown
+              components={{ a, code }}
+              rehypePlugins={[rehypeRaw]}
+              remarkPlugins={[breaks, gfm]}
+              className="prose prose-lg"
+            >
+              {data.body}
+            </ReactMarkdown>
+          </>
+        )
       )}
       {login && (
         <div className="mt-16">
