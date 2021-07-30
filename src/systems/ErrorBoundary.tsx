@@ -27,7 +27,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default React.memo(ErrorBoundary)
+export default ErrorBoundary
 
 const LayoutStyle: React.CSSProperties = {
   width: '100%',
