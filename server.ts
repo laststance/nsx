@@ -7,7 +7,7 @@ import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { Model } from 'sequelize'
 import { Author, Post } from './db/sequelize'
-import { Post as PostType } from './DataStructure'
+import { Post as PostType } from './types'
 import path from 'path'
 
 const isProd: boolean = process.env.NODE_ENV === 'production'

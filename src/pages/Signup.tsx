@@ -5,7 +5,7 @@ import { useSignupReqestMutation } from '../redux/api'
 import { enque } from '../redux/snackbarSlice'
 import { login } from '../redux/adminSlice'
 import Layout from '../components/Layout'
-import { Author } from '../../DataStructure'
+import { Author } from '../../types'
 
 interface FormInputState {
   name: Author['name']

@@ -4,7 +4,7 @@ import { useAppDispatch } from '../redux/hooks'
 import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/api'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
-import { Post } from '../../DataStructure'
+import { Post } from '../../types'
 import DateDisplay from '../elements/DateDisplay'
 import { enque } from '../redux/snackbarSlice'
 

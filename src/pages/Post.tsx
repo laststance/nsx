@@ -11,7 +11,7 @@ import { A } from '../elements/react-markdown-custom-components'
 import { useFetchPostQuery } from '../redux/api'
 import { selectLogin } from '../redux/adminSlice'
 import { enque } from '../redux/snackbarSlice'
-import type { Post as PostType } from '../../DataStructure'
+import type { Post as PostType } from '../../types'
 
 interface RouterParam {
   postId: PostType['id']

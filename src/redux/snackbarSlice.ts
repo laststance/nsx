@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SnackBarMessage } from '../../DataStructure'
+import { SnackBarMessage } from '../../types'
 import { RootState } from './store'
 
 export interface SnackBarState {

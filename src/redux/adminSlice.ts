@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Author } from '../../DataStructure'
+import { Author } from '../../types'
 import { RootState } from './store'
 
 export interface AdminState {
