@@ -30,8 +30,6 @@ class ErrorBoundary extends Component<Props, State> {
 export default ErrorBoundary
 
 const LayoutStyle: React.CSSProperties = {
-  width: '100%',
-  height: '100%',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -46,7 +44,7 @@ const MessageStyle: React.CSSProperties = {
 }
 
 const ErrorBoundaryFallbackComponent = () => (
-  <div style={LayoutStyle}>
+  <div style={LayoutStyle} className="h-full w-full">
     <div style={MessageStyle}>
       Something Error Ooccurring
       <span role="img" aria-label="face-emoji">
