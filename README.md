@@ -1,5 +1,7 @@
 [![CI](https://github.com/laststance/digital-strength/actions/workflows/ci.yml/badge.svg)](https://github.com/laststance/digital-strength/actions/workflows/ci.yml)
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/digital-strength?project_id=17741)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://digitalstrength.dev/ )
+
 
 # Digital Strength(Work in Progress 💻)
 
