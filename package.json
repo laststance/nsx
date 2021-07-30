@@ -63,6 +63,7 @@
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2",
     "sequelize-cli": "^6.2.0",
+    "source-map-explorer": "^2.5.2",
     "ts-node": "^10.1.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.3.5"
@@ -80,6 +81,7 @@
     ]
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "craco start",
     "build": "craco build",
     "deploy": "bash deploy.sh",
