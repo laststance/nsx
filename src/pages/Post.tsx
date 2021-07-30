@@ -36,7 +36,7 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
             components={{ a: A }}
             rehypePlugins={[rehypeRaw]}
             remarkPlugins={[breaks, gfm]}
-            className="prose"
+            className="prose prose-lg"
           >
             {data.body}
           </ReactMarkdown>
