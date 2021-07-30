@@ -1,5 +1,6 @@
 import React from 'react'
 import { RouteComponentProps, Link } from '@reach/router'
+import GithubIcon from '../elements/GithubIcon'
 
 const Header: React.FC<RouteComponentProps> = () => {
   return (
@@ -14,10 +15,17 @@ const Header: React.FC<RouteComponentProps> = () => {
             📝
           </span>
         </p>
-        <div className="sm:flex-grow flex sm:justify-end">
+        <div className="sm:flex-grow flex space-x-2 sm:justify-end">
           <Link to="/about">
             <div className="hover:text-gray-300 text-lg">about</div>
           </Link>
+          <a
+            href="https://github.com/laststance/digital-strength"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <GithubIcon />
+          </a>
         </div>
       </div>
     </header>
