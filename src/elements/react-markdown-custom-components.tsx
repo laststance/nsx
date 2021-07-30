@@ -3,6 +3,7 @@
  * Reffer https://github.com/remarkjs/react-markdown#appendix-b-components
  */
 import React from 'react'
+import type { CodeComponent } from 'react-markdown/src/ast-to-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
 export const a = (
@@ -14,9 +15,12 @@ export const a = (
   <a {...props} target="_blank" className="text-blue-700"></a>
 )
 
-// @ts-ignore @TODO I have no time
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const code = ({ inline, className, children, ...props }) => {
+export const code: CodeComponent = ({
+  inline,
+  className,
+  children,
+  ...props
+}) => {
   const match = /language-(\w+)/.exec(className || '')
   return !inline && match ? (
     <SyntaxHighlighter
