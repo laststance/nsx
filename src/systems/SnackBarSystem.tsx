@@ -3,13 +3,18 @@ import { SnackBarMessage } from '../../types'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import { selectMessageQueue, deque } from '../redux/snackbarSlice'
 
-const SnackBarSystem: React.FC = ({ children }) => {
-  const messageQueue = useAppSelector(selectMessageQueue)
-  if (messageQueue.length === 0) return <>{children}</>
+const SnackBarSystem = React.memo(
+  () => {
+    const messageQueue = useAppSelector(selectMessageQueue)
+    if (messageQueue.length === 0) return null
 
-  const que = messageQueue[0]
-  return <SnackBar message={que.message} color={que.color} />
-}
+    const que = messageQueue[0]
+    return <SnackBar message={que.message} color={que.color} />
+  },
+  () => true
+)
+
+export default SnackBarSystem
 
 interface Props {
   message: SnackBarMessage['message']
@@ -49,5 +54,3 @@ const SnackBar: React.FC<Props> = ({ message, color }) => {
     </div>
   )
 }
-
-export default React.memo(SnackBarSystem, () => true)
