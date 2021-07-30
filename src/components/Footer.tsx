@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { memo } from 'react'
 
-const Footer: React.FC = () => (
-  <footer>
-    <div className="w-full flex flex-col items-center px-6 border-t mt-16 border-gray-200">
-      <div className="py-6 text-center sm:w-2/3">
-        <p className="text-sm text-gray-600">© 2021 by Ryota Murakami</p>
+const Footer = memo(
+  () => (
+    <footer>
+      <div className="w-full flex flex-col items-center px-6 border-t mt-16 border-gray-200">
+        <div className="py-6 text-center sm:w-2/3">
+          <p className="text-sm text-gray-600">© 2021 by Ryota Murakami</p>
+        </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  ),
+  () => true
 )
 
-export default React.memo(Footer, () => true)
+export default Footer
