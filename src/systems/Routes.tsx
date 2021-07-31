@@ -11,8 +11,8 @@ const Login = lazy(
 const Signup = lazy(
   () => import('../pages/Signup') /* webpackChunkName: "SignupPage" */
 )
-const AdminRoute = lazy(
-  () => import('./AdminRoute') /* webpackChunkName: "AuthBoundary" */
+const AdminRoutes = lazy(
+  () => import('./AdminRoutes') /* webpackChunkName: "AdminRoutes" */
 )
 const Dashboard = lazy(
   () => import('../pages/Dashboard') /* webpackChunkName: "DashboardPage" */
@@ -35,11 +35,11 @@ const Routes = memo(() => (
       <About path="/about" />
       {process.env.REACT_APP_ENABLE_SIGNUP && <Signup path="signup" />}
       {process.env.REACT_APP_ENABLE_LOGIN && <Login path="login" />}
-      <AdminRoute path="dashboard">
+      <AdminRoutes path="dashboard">
         <Dashboard path="/" />
         <Create path="create" />
         <Edit path="edit/:postId" />
-      </AdminRoute>
+      </AdminRoutes>
       <NotFound default />
     </Router>
   </Suspense>
