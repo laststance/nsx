@@ -14,24 +14,16 @@ export const a = (
   // eslint-disable-next-line jsx-a11y/anchor-has-content
   <a {...props} target="_blank" className="text-blue-700"></a>
 )
-
-export const code: CodeComponent = ({
-  inline,
-  className,
-  children,
-  ...props
-}) => {
+// @TODO React.Component<SyntaxHighlighterProps>
+export const code: CodeComponent = ({ inline, className, children }) => {
   const match = /language-(\w+)/.exec(className || '')
   return !inline && match ? (
     <SyntaxHighlighter
       language={match[1]}
       PreTag="div"
       children={String(children).replace(/\n$/, '')}
-      {...props}
     />
   ) : (
-    <code className={className} {...props}>
-      {children}
-    </code>
+    <code className={className}>{children}</code>
   )
 }
