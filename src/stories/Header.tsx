@@ -10,13 +10,12 @@ interface HeaderProps {
   onCreateAccount: () => void
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const Header = ({
+export const Header: React.FC<HeaderProps> = ({
   user,
   onLogin,
   onLogout,
   onCreateAccount,
-}: HeaderProps) => (
+}) => (
   <header>
     <div className="wrapper">
       <div>

@@ -27,14 +27,13 @@ interface ButtonProps {
 /**
  * Primary UI component for user interaction
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const Button = ({
+export const Button: React.FC<ButtonProps> = ({
   primary = false,
   size = 'medium',
   backgroundColor,
   label,
   ...props
-}: ButtonProps) => {
+}) => {
   const mode = primary
     ? 'storybook-button--primary'
     : 'storybook-button--secondary'
