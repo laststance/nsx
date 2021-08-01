@@ -1,3 +1,5 @@
+const chalk = require('chalk')
+const log = console.log
 const {
   addAfterLoader,
   removeLoaders,
@@ -29,7 +31,7 @@ module.exports = {
       )
       if (!hasFoundAny) throwError('failed to find babel-loader')
 
-      console.log('removing babel-loader')
+      log(chalk.green('removing babel-loader'))
       const { hasRemovedAny, removedCount } = removeLoaders(
         webpackConfig,
         loaderByName('babel-loader')
@@ -38,7 +40,7 @@ module.exports = {
       if (removedCount !== 2)
         throwError('had expected to remove 2 babel loader instances')
 
-      console.log('adding esbuild-loader')
+      log(chalk.green('adding esbuild-loader'))
 
       const tsLoader = {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
@@ -56,9 +58,9 @@ module.exports = {
         tsLoader
       )
       if (!tsLoaderIsAdded) throwError('failed to add esbuild-loader')
-      console.log('added esbuild-loader')
+      log(chalk.green('added esbuild-loader'))
 
-      console.log('adding non-application JS babel-loader back')
+      log(chalk.green('adding non-application JS babel-loader back'))
       const { isAdded: babelLoaderIsAdded } = addAfterLoader(
         webpackConfig,
         loaderByName('esbuild-loader'),
@@ -66,12 +68,12 @@ module.exports = {
       )
       if (!babelLoaderIsAdded)
         throwError('failed to add back babel-loader for non-application JS')
-      console.log('added non-application JS babel-loader back')
+      log(chalk.green('added non-application JS babel-loader back'))
 
-      console.log('replacing TerserPlugin with ESBuildMinifyPlugin')
+      log(chalk.green('replacing TerserPlugin with ESBuildMinifyPlugin'))
       webpackConfig.optimization.minimizer = [
         new ESBuildMinifyPlugin({
-          target: 'es2015',
+          target: 'es2019',
         }),
       ]
 
