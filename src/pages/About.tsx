@@ -42,4 +42,6 @@ const About = memo<RouteComponentProps>(
   () => true
 )
 
+About.displayName = 'About'
+
 export default About
