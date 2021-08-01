@@ -1,9 +1,8 @@
 import React, { memo } from 'react'
-import type { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
 import GithubIcon from '../elements/GithubIcon'
 
-const Header = memo<RouteComponentProps>(
+const Header = memo(
   () => {
     return (
       <header data-cy="header" className="w-full border-b border-gray-200">

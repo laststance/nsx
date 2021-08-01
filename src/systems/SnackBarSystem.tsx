@@ -14,6 +14,8 @@ const SnackBarSystem = React.memo(
   () => true
 )
 
+SnackBarSystem.displayName = 'SnackBarSystem'
+
 export default SnackBarSystem
 
 interface Props {

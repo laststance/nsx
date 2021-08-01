@@ -44,7 +44,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
 
   return (
     <Layout className="flex flex-col justify-start">
-      <h1 className="text-3xl mb-3">Dashbord</h1>
+      <h1 className="text-3xl font-semibold mb-3">Dashbord</h1>
       <ul className="flex flex-col justify-start">
         {data?.map((post: Post, i) => {
           return (

@@ -45,4 +45,6 @@ const Routes = memo(() => (
   </Suspense>
 ))
 
+Routes.displayName = 'Routes'
+
 export default Routes
