@@ -5,10 +5,10 @@
 
 # Digital Strength (Work in Progress 🚧 Not yet public release)
 
-Prod ➡️ https://digitalstrength.dev/  
+Prod ➡️ https://digitalstrength.dev  
 Completely personal use for myself that small blog system for written what does I today learned.
 
-![img](./image.png)
+[![img](./image.png)](https://digitalstrength.dev)
 
 
 # Getting start local development
