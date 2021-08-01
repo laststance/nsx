@@ -1,10 +1,11 @@
 import React from 'react'
-import { Link, RouteComponentProps } from '@reach/router'
+import type { RouteComponentProps } from '@reach/router'
+import { Link } from '@reach/router'
 import { useAppDispatch } from '../redux/hooks'
 import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/api'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
-import { Post } from '../../types'
+import type { Post } from '../../types'
 import DateDisplay from '../elements/DateDisplay'
 import { enque } from '../redux/snackbarSlice'
 

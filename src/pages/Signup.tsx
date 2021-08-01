@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { navigate, RouteComponentProps } from '@reach/router'
+import type { RouteComponentProps } from '@reach/router'
+import { navigate } from '@reach/router'
 import { useAppDispatch } from '../redux/hooks'
 import { useSignupReqestMutation } from '../redux/api'
 import { enque } from '../redux/snackbarSlice'
 import { login } from '../redux/adminSlice'
 import Layout from '../components/Layout'
-import { Author } from '../../types'
+import type { Author } from '../../types'
 
 interface FormInputState {
   name: Author['name']

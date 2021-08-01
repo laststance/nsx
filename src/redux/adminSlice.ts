@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Author } from '../../types'
-import { RootState } from './store'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import type { Author } from '../../types'
+import type { RootState } from './store'
 
 export interface AdminState {
   login: boolean

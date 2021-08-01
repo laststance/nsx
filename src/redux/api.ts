@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Author, Post, Posts } from '../../types'
+import type { Author, Post, Posts } from '../../types'
 
 interface Credentials {
   name: string

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { navigate, RouteComponentProps } from '@reach/router'
+import type { RouteComponentProps } from '@reach/router'
+import { navigate } from '@reach/router'
 import { useAppDispatch } from '../redux/hooks'
 import Layout from '../components/Layout'
 import { useCreatePostMutation } from '../redux/api'

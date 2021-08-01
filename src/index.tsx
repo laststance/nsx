@@ -5,7 +5,7 @@ import './index.css'
 import Routes from './systems/Routes'
 import SnackBarSystem from './systems/SnackBarSystem'
 import ErrorBoundary from './systems/ErrorBoundary'
-import { Author } from '../types'
+import type { Author } from '../types'
 import { store } from './redux/store'
 import { login } from './redux/adminSlice'
 

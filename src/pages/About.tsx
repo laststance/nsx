@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { RouteComponentProps } from '@reach/router'
+import type { RouteComponentProps } from '@reach/router'
 import Layout from '../components/Layout'
 
 const About = memo<RouteComponentProps>(

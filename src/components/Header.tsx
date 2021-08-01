@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
-import { RouteComponentProps, Link } from '@reach/router'
+import type { RouteComponentProps } from '@reach/router'
+import { Link } from '@reach/router'
 import GithubIcon from '../elements/GithubIcon'
 
 const Header = memo<RouteComponentProps>(

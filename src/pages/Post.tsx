@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { Link, RouteComponentProps } from '@reach/router'
+import type { RouteComponentProps } from '@reach/router'
+import { Link } from '@reach/router'
 import breaks from 'remark-breaks'
 import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
