@@ -37,4 +37,6 @@ const Header = memo<RouteComponentProps>(
   () => true
 )
 
+Header.displayName = 'Header'
+
 export default Header

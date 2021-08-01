@@ -13,4 +13,6 @@ const Footer = memo(
   () => true
 )
 
+Footer.displayName = 'Footer'
+
 export default Footer

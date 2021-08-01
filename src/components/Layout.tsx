@@ -27,4 +27,6 @@ const Layout = memo<PropsWithChildren<Props>>(
   }
 )
 
+Layout.displayName = 'Layout'
+
 export default Layout
