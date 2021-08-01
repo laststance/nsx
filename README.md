@@ -3,7 +3,7 @@
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://digitalstrength.dev/ )
 
 
-# Digital Strength(Work in Progress 💻)
+# Digital Strength (Work in Progress 🚧 Not yet public release)
 
 Prod ➡️ https://digitalstrength.dev/  
 Completely personal use for myself that small blog system for written what does I today learned.
