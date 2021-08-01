@@ -18,4 +18,6 @@ const GithubIcon = memo(
   () => true
 )
 
+GithubIcon.displayName = 'GithubIcon'
+
 export default GithubIcon

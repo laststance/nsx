@@ -3,7 +3,7 @@ import { Router } from '@reach/router'
 import Index from '../pages/index'
 import Post from '../pages/Post'
 import About from '../pages/About'
-import { Loading } from '../elements/Loading'
+import Loading from '../elements/Loading'
 
 const Login = lazy(
   () => import('../pages/Login') /* webpackChunkName: "LoginPage" */

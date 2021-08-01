@@ -13,7 +13,7 @@ import { useFetchPostQuery } from '../redux/api'
 import { selectLogin } from '../redux/adminSlice'
 import { enque } from '../redux/snackbarSlice'
 import type { Post as PostType } from '../../types'
-import { Loading } from '../elements/Loading'
+import Loading from '../elements/Loading'
 
 interface RouterParam {
   postId: PostType['id']
