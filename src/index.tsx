@@ -17,6 +17,10 @@ if (window.localStorage.getItem('login') === 'true') {
   store.dispatch(login(author))
 }
 
+// @TODO fix Provider typing
+// @ts-ignore
+ReduxProvider.displayName = 'ReduxProvider'
+
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
