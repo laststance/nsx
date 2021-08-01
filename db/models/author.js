@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     static associate(models) {
       // define association here
     }
@@ -14,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   author.init(
     {
       name: DataTypes.STRING,
+      password: DataTypes.TEXT,
     },
     {
       sequelize,

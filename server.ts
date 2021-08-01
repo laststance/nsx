@@ -6,12 +6,13 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { Model } from 'sequelize'
-import { Author, Post } from './db/sequelize'
+import db from './db/models'
 import { Post as PostType } from './types'
 import path from 'path'
 
-const isProd: boolean = process.env.NODE_ENV === 'production'
-const isDev: boolean = process.env.NODE_ENV === 'development'
+const env: string = process.env.NODE_ENV || 'development'
+const isDev: boolean = env === 'development'
+const isProd: boolean = env === 'production'
 
 const router = express.Router()
 
@@ -21,7 +22,8 @@ const router = express.Router()
  * ==============================================
  */
 router.get('/posts', async (req: Request, res: Response<Model<PostType>[]>) => {
-  const posts = await Post.findAll<Model<PostType>>({
+  // @ts-ignore
+  const posts = await db.post.findAll<Model<PostType>>({
     order: [['id', 'DESC']],
   })
 
@@ -29,7 +31,8 @@ router.get('/posts', async (req: Request, res: Response<Model<PostType>[]>) => {
 })
 
 router.get('/post/:id', async (req: Request, res: Response) => {
-  const post = await Post.findOne({
+  // @ts-ignore
+  const post = await db.post.findOne({
     where: { id: req.params.id },
   })
 
@@ -38,7 +41,8 @@ router.get('/post/:id', async (req: Request, res: Response) => {
 
 router.delete('/post/:id', async (req: Request, res: Response) => {
   try {
-    await Post.destroy({ where: { id: req.params.id } })
+    // @ts-ignore
+    await db.post.destroy({ where: { id: req.params.id } })
     res.send(200)
   } catch (error) {
     res.send(500)
@@ -55,7 +59,8 @@ router.post('/signup', async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(body.password, salt)
 
   try {
-    const author = await Author.create({
+    // @ts-ignore
+    const author = await db.author.create({
       name: body.name,
       password: hash,
     })
@@ -68,7 +73,8 @@ router.post('/signup', async (req: Request, res: Response) => {
 
 router.post('/login', async (req: Request, res: Response) => {
   const body = req.body
-  const author = await Author.findOne({
+  // @ts-ignore
+  const author = await db.author.findOne({
     where: { name: body.name },
   })
   if (author) {
@@ -88,7 +94,8 @@ router.post('/login', async (req: Request, res: Response) => {
 router.post('/create', async (req: Request, res: Response) => {
   const body = req.body
   try {
-    const newPost = await Post.create({
+    // @ts-ignore
+    const newPost = await db.post.create({
       title: body.title,
       body: body.body,
     })
@@ -104,7 +111,8 @@ router.post('/create', async (req: Request, res: Response) => {
 router.post('/update', async (req: Request, res: Response) => {
   const body = req.body
   try {
-    await Post.update(
+    // @ts-ignore
+    await db.update(
       { title: body.title, body: body.body },
       { where: { id: body.postId } }
     )

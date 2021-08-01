@@ -11,6 +11,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
+      password: {
+        type: Sequelize.TEXT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -21,6 +24,7 @@ module.exports = {
       },
     })
   },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('authors')
   },

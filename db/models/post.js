@@ -12,9 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
+
   post.init(
     {
       title: DataTypes.STRING,
+      body: DataTypes.TEXT,
     },
     {
       sequelize,

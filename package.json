@@ -81,10 +81,10 @@
     ]
   },
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "craco start",
     "build": "craco build",
     "deploy": "bash deploy.sh",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch './server' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
     "server:build": "tsc -p tsconfig.server.json",
@@ -96,15 +96,18 @@
     "server:typecheck": "tsc --noEmit -p tsconfig.server.json",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
-    "db:connection:test": "node db/scripts/testConnection.js",
-    "db:seed": "node db/scripts/importSeed.js",
-    "db:sync": "node db/scripts/sync.js",
-    "db:drop": "node db/scripts/drop.js",
-    "db:hashgen": "node db/scripts/passhashgen.js",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --headed",
     "cypress:run:headless": "cypress run",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "db:hashgen": "node db/scripts/passhashgen.js",
+    "db:create": "sequelize db:create",
+    "db:drop": "sequelize db:drop",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed",
+    "db:seed:undo": "sequelize db:seed:undo",
+    "db:seed:all": "sequelize db:seed:all",
+    "db:seed:undo:all": "sequelize db:seed:undo:all"
   }
 }

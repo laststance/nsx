@@ -69,20 +69,6 @@ Build `backend/` dir Express server.
 
 ## `yarn server:start`
 
-Start dev backend Express server.
-
-## `yarn sync:db`
-
-Sync sequelize model definition to actual MySQL.
-
-## `yarn db:seed`
-
-Import sample data for dev environment.
-
-## `yarn db:drop`
-
-Clear every db table and data.
-
 ## `yarn db:hashgen`
 
 generate password hash.
