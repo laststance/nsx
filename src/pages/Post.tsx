@@ -40,7 +40,7 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
       ) : (
         data && (
           <>
-            <h1 className="text-2xl pt-4 pb-6">{data.title}</h1>
+            <h1 className="text-2xl pt-4 pb-6 font-semibold">{data.title}</h1>
             <ReactMarkdown
               components={{ a, code }}
               rehypePlugins={[rehypeRaw]}
