@@ -1,5 +1,6 @@
 import React from 'react'
 import type { RouteComponentProps } from '@reach/router'
+import { Helmet } from 'react-helmet'
 import { Link } from '@reach/router'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
@@ -16,6 +17,20 @@ const Index: React.FC<RouteComponentProps> = () => {
 
   return (
     <Layout className="flex flex-col justify-between" data-cy="topPage">
+      <Helmet>
+        <meta name="description" content="Today I Learnd Blog" />
+        <meta property="og:title" content="Digital Strength" />
+        <meta property="og:description" content="Today I Learnd Blog" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://digitalstrength.dev" />
+        <meta name="og:image" content="https://digitalstrength.dev/ogp.png" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@malloc007" />
+        <meta
+          name="twitter:image"
+          content="https://digitalstrength.dev/ogp.png"
+        />
+      </Helmet>
       {isLoading ? (
         <Loading />
       ) : (
