@@ -63,8 +63,8 @@
     "@types/react-redux": "^7.1.18",
     "@types/react-syntax-highlighter": "^13.5.2",
     "autoprefixer": "^9",
-    "postcss": "^7",
     "chalk": "^4.1.1",
+    "cross-env": "^7.0.3",
     "cypress": "8.1.0",
     "esbuild-loader": "^2.13.1",
     "eslint-config-prettier": "^8.3.0",
@@ -73,11 +73,13 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "^2.0.12",
+    "postcss": "^7",
     "prettier": "^2.3.2",
     "sequelize-cli": "^6.2.0",
     "ts-node": "^10.1.0",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "webpack-bundle-analyzer": "^4.4.2"
   },
   "scripts": {
     "start": "craco start",

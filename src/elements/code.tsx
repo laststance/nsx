@@ -6,16 +6,8 @@ import React from 'react'
 import type { CodeComponent } from 'react-markdown/src/ast-to-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
-export const a = (
-  props: JSX.IntrinsicAttributes &
-    React.ClassAttributes<HTMLAnchorElement> &
-    React.AnchorHTMLAttributes<HTMLAnchorElement>
-): React.ReactElement => (
-  // eslint-disable-next-line jsx-a11y/anchor-has-content
-  <a {...props} target="_blank" className="text-blue-700"></a>
-)
 // @TODO React.Component<SyntaxHighlighterProps>
-export const code: CodeComponent = ({ inline, className, children }) => {
+const code: CodeComponent = ({ inline, className, children }) => {
   const match = /language-(\w+)/.exec(className || '')
   return !inline && match ? (
     <SyntaxHighlighter
@@ -27,3 +19,5 @@ export const code: CodeComponent = ({ inline, className, children }) => {
     <code className={className}>{children}</code>
   )
 }
+
+export default code

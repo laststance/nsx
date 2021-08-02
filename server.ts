@@ -154,6 +154,7 @@ if (isDev) {
  * ==============================================
  */
 if (isProd) {
+  app.use('', express.static(path.join(__dirname, '../build')))
   app.use('/', express.static(path.join(__dirname, '../build')))
 
   // Handle DirectLink

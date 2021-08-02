@@ -6,25 +6,25 @@ import About from '../pages/About'
 import Loading from '../elements/Loading'
 
 const Login = lazy(
-  () => import('../pages/Login') /* webpackChunkName: "LoginPage" */
+  () => import(/* webpackChunkName: "LoginPage" */ '../pages/Login')
 )
 const Signup = lazy(
-  () => import('../pages/Signup') /* webpackChunkName: "SignupPage" */
+  () => import(/* webpackChunkName: "SignupPage" */ '../pages/Signup')
 )
 const AdminRoutes = lazy(
-  () => import('./AdminRoutes') /* webpackChunkName: "AdminRoutes" */
+  () => import(/* webpackChunkName: "AdminRoutes" */ './AdminRoutes')
 )
 const Dashboard = lazy(
-  () => import('../pages/Dashboard') /* webpackChunkName: "DashboardPage" */
+  () => import(/* webpackChunkName: "DashboardPage" */ '../pages/Dashboard')
 )
 const NotFound = lazy(
-  () => import('../pages/NotFound') /* webpackChunkName: "NotFound" */
+  () => import(/* webpackChunkName: "NotFound" */ '../pages/NotFound')
 )
 const Create = lazy(
-  () => import('../pages/Create') /* webpackChunkName: "CreatePage" */
+  () => import(/* webpackChunkName: "CreatePage" */ '../pages/Create')
 )
 const Edit = lazy(
-  () => import('../pages/Edit') /* webpackChunkName: "EditPage" */
+  () => import(/* webpackChunkName: "EditPage" */ '../pages/Edit')
 )
 
 const Routes = memo(() => (

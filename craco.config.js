@@ -8,6 +8,8 @@ const {
   throwUnexpectedConfigError,
 } = require('@craco/craco')
 const { ESBuildMinifyPlugin } = require('esbuild-loader')
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const throwError = (message) =>
   throwUnexpectedConfigError({
@@ -25,6 +27,15 @@ module.exports = {
   },
   webpack: {
     configure: (webpackConfig, { paths }) => {
+      const isProductionBuild = process.env.NODE_ENV === 'production'
+      const analyzerMode = process.env.REACT_APP_INTERACTIVE_ANALYZE
+        ? 'server'
+        : 'json'
+
+      if (isProductionBuild) {
+        webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode }))
+      }
+
       const { hasFoundAny, matches } = getLoaders(
         webpackConfig,
         loaderByName('babel-loader')
