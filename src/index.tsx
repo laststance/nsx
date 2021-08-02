@@ -18,7 +18,7 @@ if (window.localStorage.getItem('login') === 'true') {
 }
 
 // @TODO fix Provider typing
-// @ts-ignore
+// @ts-expect-error
 ReduxProvider.displayName = 'ReduxProvider'
 
 ReactDOM.render(
