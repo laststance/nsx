@@ -21,7 +21,7 @@ if (window.localStorage.getItem('login') === 'true') {
 // @ts-expect-error
 ReduxProvider.displayName = 'ReduxProvider'
 
-ReactDOM.render(
+const App = () => (
   <React.StrictMode>
     <ErrorBoundary>
       <ReduxProvider store={store}>
@@ -29,6 +29,12 @@ ReactDOM.render(
         <Routes />
       </ReduxProvider>
     </ErrorBoundary>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 )
+
+const rootElement = document.getElementById('root') as HTMLDivElement
+if (rootElement.hasChildNodes()) {
+  ReactDOM.hydrate(<App />, rootElement)
+} else {
+  ReactDOM.render(<App />, rootElement)
+}

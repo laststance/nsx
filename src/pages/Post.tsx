@@ -60,12 +60,12 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
               <Helmet>
                 <meta
                   name="description"
-                  content={truncateString(data.body, 80)}
+                  content={truncateString(data.body, 20)}
                 />
                 <meta property="og:title" content={data.title} />
                 <meta
                   property="og:description"
-                  content={truncateString(data.body, 80)}
+                  content={truncateString(data.body, 20)}
                 />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content="https://digitalstrength.dev" />
@@ -79,6 +79,7 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
                   name="twitter:image"
                   content="https://digitalstrength.dev/ogp.png"
                 />
+                <title>{data.title}</title>
               </Helmet>
               <h1 className="text-2xl pt-4 pb-6 font-semibold">{data.title}</h1>
               <ReactMarkdown
