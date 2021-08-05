@@ -84,6 +84,7 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
               <h1 className="text-2xl pt-4 pb-6 font-semibold">{data.title}</h1>
               <ReactMarkdown
                 components={getCustomComponents(data)}
+                /* @ts-ignore lib index.d.ts missmatch between "@types/node@16.4.12" and "rehype-raw@6.0.0" */
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[breaks, gfm]}
                 className="prose prose-lg"
