@@ -8,6 +8,7 @@ import ErrorBoundary from './systems/ErrorBoundary'
 import type { Author } from '../types'
 import { store } from './redux/store'
 import { login } from './redux/adminSlice'
+import { detectPreRender } from './redux/perfSlice'
 
 if (window.localStorage.getItem('login') === 'true') {
   const author = JSON.parse(
@@ -34,6 +35,7 @@ const App = () => (
 
 const rootElement = document.getElementById('root') as HTMLDivElement
 if (rootElement.hasChildNodes()) {
+  store.dispatch(detectPreRender())
   ReactDOM.hydrate(<App />, rootElement)
 } else {
   ReactDOM.render(<App />, rootElement)

@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import adminReducer from './adminSlice'
 import snackbarReducer from './snackbarSlice'
+import perfReducer from './perfSlice'
 import { Api } from './api'
 
 export const store = configureStore({
   reducer: {
     admin: adminReducer,
     snackbar: snackbarReducer,
+    perf: perfReducer,
     [Api.reducerPath]: Api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
