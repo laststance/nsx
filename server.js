@@ -1,19 +1,16 @@
-import https from 'https'
-import fs from 'fs'
-import type { Request, Response } from 'express'
-import express from 'express'
-import compression from 'compression'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-import bcrypt from 'bcrypt'
-import type { Model } from 'sequelize'
-import db from './db/models'
-import type { Post as PostType } from './types'
-import path from 'path'
+const https = require('https')
+const fs = require('fs')
+const express = require('express')
+const compression = require('compression')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const bcrypt = require('bcrypt')
+const db = require('./db/models')
+const path = require('path')
 
-const env: string = process.env.NODE_ENV || 'development'
-const isDev: boolean = env === 'development'
-const isProd: boolean = env === 'production'
+const env = process.env.NODE_ENV || 'development'
+const isDev = env === 'development'
+const isProd = env === 'production'
 
 const router = express.Router()
 
@@ -22,17 +19,14 @@ const router = express.Router()
  * API Implementation
  * ==============================================
  */
-router.get('/posts', async (req: Request, res: Response<Model<PostType>[]>) => {
-  // @ts-ignore
-  const posts = await db.post.findAll<Model<PostType>>({
+router.get('/posts', async (req, res) => {
+  const posts = await db.post.findAll({
     order: [['id', 'DESC']],
   })
-
   res.json(posts)
 })
 
-router.get('/post/:id', async (req: Request, res: Response) => {
-  // @ts-ignore
+router.get('/post/:id', async (req, res) => {
   const post = await db.post.findOne({
     where: { id: req.params.id },
   })
@@ -40,9 +34,8 @@ router.get('/post/:id', async (req: Request, res: Response) => {
   res.json(post)
 })
 
-router.delete('/post/:id', async (req: Request, res: Response) => {
+router.delete('/post/:id', async (req, res) => {
   try {
-    // @ts-ignore
     await db.post.destroy({ where: { id: req.params.id } })
     res.send(200)
   } catch (error) {
@@ -50,7 +43,7 @@ router.delete('/post/:id', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/signup', async (req: Request, res: Response) => {
+router.post('/signup', async (req, res) => {
   const body = req.body
   if (!(body?.name && body?.password)) {
     return res.status(400).json({ error: 'Data not formatted properly' })
@@ -60,7 +53,6 @@ router.post('/signup', async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(body.password, salt)
 
   try {
-    // @ts-ignore
     const author = await db.author.create({
       name: body.name,
       password: hash,
@@ -72,14 +64,12 @@ router.post('/signup', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', async (req, res) => {
   const body = req.body
-  // @ts-ignore
   const author = await db.author.findOne({
     where: { name: body.name },
   })
   if (author) {
-    // @ts-ignore
     const validPassword = await bcrypt.compare(body.password, author.password)
 
     if (validPassword) {
@@ -92,10 +82,9 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/create', async (req: Request, res: Response) => {
+router.post('/create', async (req, res) => {
   const body = req.body
   try {
-    // @ts-ignore
     const newPost = await db.post.create({
       title: body.title,
       body: body.body,
@@ -109,10 +98,9 @@ router.post('/create', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/update', async (req: Request, res: Response) => {
+router.post('/update', async (req, res) => {
   const body = req.body
   try {
-    // @ts-ignore
     await db.update(
       { title: body.title, body: body.body },
       { where: { id: body.postId } }
@@ -130,7 +118,6 @@ router.post('/update', async (req: Request, res: Response) => {
  * ==============================================
  */
 const app = express()
-// @ts-ignore
 app.use(bodyParser.json())
 app.use(cors())
 app.use(compression())
@@ -154,8 +141,8 @@ if (isDev) {
  * ==============================================
  */
 if (isProd) {
-  app.use('', express.static(path.join(__dirname, '../build')))
-  app.use('/', express.static(path.join(__dirname, '../build')))
+  app.use('', express.static(path.join(__dirname, './build')))
+  app.use('/', express.static(path.join(__dirname, './build')))
 
   // Handle DirectLink
   app.get('*', (req, res) => {
