@@ -92,6 +92,7 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
             components={getCustomComponents(data)}
             /* @ts-ignore lib index.d.ts missmatch between "@types/node@16.4.12" and "rehype-raw@6.0.0" */
             rehypePlugins={[rehypeRaw]}
+            /* @ts-ignore lib index.d.ts missmatch @types/mdast/index.d.ts */
             remarkPlugins={[breaks, gfm]}
             className="prose prose-lg"
           >
