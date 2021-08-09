@@ -3,9 +3,9 @@
 LOCAL_ROOT=$(dirname $0)
 REMOTE_ROOT=/root/digital-strength/
 
-usage() { echo "Usage: $0 [-s] [-c]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-s] [-f]" 1>&2; exit 1; }
 
-while getopts ":sc" opt; do
+while getopts ":sf" opt; do
     case "${opt}" in
         s)
             rsync -avzhc $LOCAL_ROOT/server_build digitalstrength.dev:$REMOTE_ROOT
