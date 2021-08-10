@@ -30,7 +30,7 @@ const a: React.FC = (props) => (
 const code = lazy(
   // <code/> depends on heavy hintaxhilight library so we lazyload for purpose of reduce bundle chunk size
   () =>
-    // @ts-ignore @TODO react-syntax-highlighter issue
+    // @ts-ignore @TODO react-syntax-highlighter typedef issue
     import(/* webpackChunkName: "code" */ '../elements/code')
 )
 
