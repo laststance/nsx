@@ -100,3 +100,6 @@ login mysql with terminal.
 - `pm2 ps`
 
 check node server status.
+
+## Let's Encrypt
+- `certbot certonly` in `/root/letsencript` dir, renew certificate 3 month.
