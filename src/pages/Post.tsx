@@ -99,7 +99,6 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
             {data.body}
           </ReactMarkdown>
         </>
-        )
         {login && (
           <div className="mt-16">
             <Link to={`/dashboard/edit/${postId}`}>
