@@ -93,7 +93,6 @@
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch 'server.js' --ignore './src' --exec ts-node --project tsconfig.server.json server.js",
     "server:build": "tsc -p tsconfig.server.json && cp db/models/post.js server_build/db/models/post.js && cp db/models/author.js server_build/db/models/author.js && cp -r db/migrations server_build",
     "server:deploy": "bash deploy.sh -s",
-    "server:js-deploy": "bash server-js-deploy.sh",
     "test": "craco test",
     "eject": "react-scripts eject",
     "typecheck": "yarn front:typecheck && yarn server:typecheck",
