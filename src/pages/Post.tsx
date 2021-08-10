@@ -67,11 +67,11 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
         {/* Suspence for lazyload expesive <code /> component */}
         <>
           <Helmet>
-            <meta name="description" content={truncateString(data.body, 20)} />
+            <meta name="description" content={truncateString(data.body, 40)} />
             <meta property="og:title" content={data.title} />
             <meta
               property="og:description"
-              content={truncateString(data.body, 20)}
+              content={truncateString(data.body, 40)}
             />
             <meta property="og:type" content="article" />
             <meta property="og:url" content="https://digitalstrength.dev" />
