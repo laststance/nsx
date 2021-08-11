@@ -100,12 +100,9 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
           </ReactMarkdown>
         </>
         {login && (
-          <div className="mt-16">
+          <div className="pt-8 flex justify-end">
             <Link to={`/dashboard/edit/${postId}`}>
-              <Button
-                className="bg-green-500 active:bg-green-600 text-white"
-                data-cy="edit-btn"
-              >
+              <Button variant="primary" data-cy="edit-btn">
                 Edit
               </Button>
             </Link>

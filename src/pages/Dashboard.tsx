@@ -58,12 +58,9 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
               </Link>
               <div className="flex items-center space-x-2">
                 <Link to={`/dashboard/edit/${post.id}`}>
-                  <Button className="text-gray-500">Edit</Button>
+                  <Button variant="inverse">Edit</Button>
                 </Link>
-                <Button
-                  onClick={() => handleDelete(post.id)}
-                  className="bg-red-400 text-white"
-                >
+                <Button onClick={() => handleDelete(post.id)} variant="danger">
                   Delete
                 </Button>
               </div>
@@ -73,9 +70,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       </ul>
       <div className="flex gap-4 justify-end mt-8">
         <Link to="create">
-          <button className="shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
-            Create
-          </button>
+          <Button variant="primary">Create</Button>
         </Link>
       </div>
     </Layout>

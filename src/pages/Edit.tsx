@@ -6,6 +6,7 @@ import { useAppDispatch } from '../redux/hooks'
 import { useFetchPostQuery, useUpdatePostMutation } from '../redux/api'
 import type { Post } from '../../types'
 import { enque } from '../redux/snackbarSlice'
+import Button from '../elements/Button'
 
 interface RouterParam {
   postId: Post['id']
@@ -65,13 +66,10 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
         value={body}
         onChange={(e) => handleChange(e, setBody)}
       />
-      <div className="flex gap-4 justify-end">
-        <button
-          onClick={execEdit}
-          className="mt-3 shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-        >
+      <div className="flex justify-end pt-8">
+        <Button onClick={execEdit} variant="primary">
           Update
-        </button>
+        </Button>
       </div>
     </Layout>
   )

@@ -7,6 +7,7 @@ import type { Author } from '../../types'
 import { useLoginReqestMutation } from '../redux/api'
 import { enque } from '../redux/snackbarSlice'
 import { login } from '../redux/adminSlice'
+import Button from '../elements/Button'
 
 interface FormInputState {
   name: Author['name']
@@ -94,12 +95,9 @@ const Login: React.FC<RouteComponentProps> = () => {
         <div className="md:flex md:items-center">
           <div className="md:w-1/3"></div>
           <div className="md:w-2/3">
-            <button
-              className="shadow bg-blue-500 hover:bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              type="submit"
-            >
+            <Button type="submit" variant="secondary">
               Submit
-            </button>
+            </Button>
           </div>
         </div>
       </form>

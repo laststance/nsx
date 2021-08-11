@@ -5,6 +5,7 @@ import { useAppDispatch } from '../redux/hooks'
 import Layout from '../components/Layout'
 import { useCreatePostMutation } from '../redux/api'
 import { enque } from '../redux/snackbarSlice'
+import Button from '../elements/Button'
 
 const Create: React.FC<RouteComponentProps> = () => {
   const dispatch = useAppDispatch()
@@ -50,13 +51,10 @@ const Create: React.FC<RouteComponentProps> = () => {
         value={body}
         onChange={(e) => handleChange(e, setBody)}
       />
-      <div className="flex gap-4 justify-end">
-        <button
-          onClick={execCreate}
-          className="mt-3 shadow bg-green-400 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-        >
+      <div className="flex gap-4 justify-end pt-8">
+        <Button onClick={execCreate} variant="primary">
           Submit
-        </button>
+        </Button>
       </div>
     </Layout>
   )
