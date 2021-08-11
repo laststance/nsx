@@ -46,7 +46,9 @@ router.delete('/post/:id', async (req, res) => {
 router.post('/signup', async (req, res) => {
   const body = req.body
   if (!(body?.name && body?.password)) {
-    return res.status(400).json({ error: 'Data not formatted properly' })
+    return res
+      .status(400)
+      .json({ error: 'Empty Post Body. Might be data not formatted properly.' })
   }
 
   const salt = await bcrypt.genSalt(10)
