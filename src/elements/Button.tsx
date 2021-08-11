@@ -21,7 +21,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: keyof typeof sizes
 }
 
-const Button = memo<ButtonProps>(
+const Button: React.FC<ButtonProps> = memo(
   ({
     type = 'button',
     variant = 'primary',
@@ -41,8 +41,7 @@ const Button = memo<ButtonProps>(
         {children}
       </button>
     )
-  },
-  () => true
+  }
 )
 
 Button.displayName = 'Button'

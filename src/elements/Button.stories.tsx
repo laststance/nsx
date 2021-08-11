@@ -1,24 +1,26 @@
 import React from 'react'
-import type { Meta, Story } from '@storybook/react'
-import type { ButtonProps } from './Button'
+import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import Button from './Button'
 
-const meta: Meta = {
+const meta: ComponentMeta<typeof Button> = {
   title: 'components/elements/Button',
   component: Button,
-  parameters: {
-    controls: { expanded: true },
-  },
 }
 
 export default meta
 
-const Template: Story<ButtonProps> = (props) => <Button {...props} />
+const Template: ComponentStory<typeof Button> = (props) => <Button {...props} />
 
 export const Primary = Template.bind({})
 Primary.args = {
   children: 'Primary Button',
   variant: 'primary',
+}
+
+export const Secondary = Template.bind({})
+Secondary.args = {
+  children: 'Secondary Button',
+  variant: 'secondary',
 }
 
 export const Inverse = Template.bind({})
