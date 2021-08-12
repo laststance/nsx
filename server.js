@@ -1,8 +1,11 @@
+// require('dotenv').config()
 const https = require('https')
 const fs = require('fs')
 const express = require('express')
 const compression = require('compression')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 const cors = require('cors')
 const bcrypt = require('bcrypt')
 const db = require('./db/models')
@@ -59,7 +62,13 @@ router.post('/signup', async (req, res) => {
       name: body.name,
       password: hash,
     })
-
+    // @TODO set env value
+    const token = jwt.sign({ author }, /*process.env.JWT_SECRET*/ 'jwt')
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: isProd ? true : false,
+      maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
+    })
     res.status(201).json({ author })
   } catch (error) {
     res.send(500)
@@ -75,6 +84,13 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(body.password, author.password)
 
     if (validPassword) {
+      // @TODO set env val
+      const token = jwt.sign({ author }, /*process.env.JWT_SECRET*/ 'jwt')
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: isProd ? true : false,
+        maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
+      })
       res.status(200).json({ author })
     } else {
       res.status(400).json({ error: 'Invalid Password' })
@@ -114,6 +130,22 @@ router.post('/update', async (req, res) => {
   }
 })
 
+router.post('/is_login', (req, res) => {
+  const { token } = req.cookies
+  if (token) {
+    // @TODO set env val
+    const { author } = jwt.verify(token, /*process.env.JWT_SECRET*/ 'jtw')
+    if (
+      req.body.author.id == author.id &&
+      req.body.author.name == author.name
+    ) {
+      res.status(200).json({ login: true })
+    }
+  } else {
+    res.status(200).json({ login: false })
+  }
+})
+
 /**
  * ==============================================
  * Express Setup
@@ -121,6 +153,7 @@ router.post('/update', async (req, res) => {
  */
 const app = express()
 app.use(bodyParser.json())
+app.use(cookieParser())
 app.use(cors())
 app.use(compression())
 app.use('/api', router)

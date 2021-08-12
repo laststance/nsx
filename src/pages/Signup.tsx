@@ -30,19 +30,21 @@ const Signup: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      // @ts-ignore
-      const { data } = await signupRequest({
+      const data: Author = await signupRequest({
         name: formInput.name,
         password: formInput.password,
-      })
+      }).unwrap()
 
       dispatch(enque({ message: 'Success Signup!', color: 'green' }))
       dispatch(login(data))
+      // @TODO tidy up LocalStorage code
       window.localStorage.setItem('login', 'true')
+      window.localStorage.setItem('author', JSON.stringify(data))
       navigate('dashboard')
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
+      //@ TODO handle 400 error
     }
   }
 

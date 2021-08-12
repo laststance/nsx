@@ -1,17 +1,24 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { Author, Post, Posts } from '../../types'
 
-interface Credentials {
+interface LoginInfo {
   name: string
   password: string
 }
 
 // Define a service using a base URL and expected endpoints
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const requestInfo = Object.defineProperty({}, 'credentials', {
+  value: 'include',
+  writable: false,
+})
 
+// @ts-ignore
 export const Api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
+    fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
   endpoints: (builder) => ({
     fetchAllPosts: builder.query<Posts, void>({
@@ -38,19 +45,26 @@ export const Api = createApi({
       }),
     }),
 
-    loginReqest: builder.mutation<Author, Credentials>({
-      query: (credentials) => ({
+    loginReqest: builder.mutation<Author, LoginInfo>({
+      query: (loginInfo) => ({
         url: 'login',
         method: 'POST',
-        body: credentials,
+        body: loginInfo,
       }),
     }),
 
-    signupReqest: builder.mutation<Author, Credentials>({
-      query: (credentials) => ({
+    signupReqest: builder.mutation<Author, LoginInfo>({
+      query: (loginInfo) => ({
         url: 'signup',
         method: 'POST',
-        body: credentials,
+        body: loginInfo,
+      }),
+    }),
+    isLoginReqest: builder.mutation<{ login: boolean }, { author: Author }>({
+      query: (loginInfo) => ({
+        url: 'is_login',
+        method: 'POST',
+        body: loginInfo,
       }),
     }),
   }),

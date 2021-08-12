@@ -49,7 +49,7 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
-      dispatch(enque({ message: JSON.stringify(error), color: 'red' }))
+      dispatch(enque({ message: error.data.error, color: 'red' }))
     }
   }
 

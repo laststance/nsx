@@ -11,7 +11,13 @@ export interface AdminState {
 const initialState = {
   login: false,
   // @TODO author field will delte in the future
-  author: { id: 9999, name: 'guest', password: 'none' },
+  author: {
+    id: 9999,
+    name: 'guest',
+    password: 'none',
+    createdAt: 'none',
+    updatedAt: 'none',
+  },
 }
 
 export const adminSlice = createSlice({
@@ -24,7 +30,7 @@ export const adminSlice = createSlice({
     },
     logout: (state) => {
       state.login = true
-      state.author = { id: 9999, name: 'guest', password: 'none' }
+      state.author = initialState.author
     },
   },
 })

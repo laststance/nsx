@@ -7,6 +7,8 @@ export interface Author {
   id: number
   name: string
   password: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Post {

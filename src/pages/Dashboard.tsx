@@ -23,7 +23,7 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       // @TODO optimistic update
       refetch()
     } catch (error) {
-      if (error.code === 500)
+      if (error.status === 500)
         dispatch(
           enque({
             message: 'Delete Faild',

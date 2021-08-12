@@ -30,22 +30,24 @@ const Login: React.FC<RouteComponentProps> = () => {
     e.preventDefault()
 
     try {
-      const data = await loginReqest({
+      // @TODO add validation
+      const data: Author = await loginReqest({
         name: formInput.name,
         password: formInput.password,
       }).unwrap()
 
       dispatch(login(data))
+      // @TODO tidy up LocalStorage code
       window.localStorage.setItem('login', 'true')
       window.localStorage.setItem('author', JSON.stringify(data))
       dispatch(enque({ message: 'Login SuccessFul', color: 'green' }))
       navigate('dashboard')
     } catch (error) {
-      if (error.code === 400)
+      if (error.status === 400)
         dispatch(enque({ message: 'Invalid Password', color: 'red' }))
-      if (error.code === 401)
+      if (error.status === 401)
         dispatch(enque({ message: 'User does not exis', color: 'red' }))
-      else dispatch(enque({ message: error.message, color: 'red' }))
+      else dispatch(enque({ message: 'something error', color: 'red' }))
     }
   }
 
