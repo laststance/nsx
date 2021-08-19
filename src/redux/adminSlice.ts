@@ -10,7 +10,6 @@ export interface AdminState {
 
 const initialState = {
   login: false,
-  // @TODO author field will delte in the future
   author: {
     id: 9999,
     name: 'guest',
