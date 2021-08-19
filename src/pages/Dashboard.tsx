@@ -1,12 +1,13 @@
-import React from 'react'
 import type { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
-import { useAppDispatch } from '../redux/hooks'
-import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/api'
+import React from 'react'
+
+import type { Post } from '../../types'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
-import type { Post } from '../../types'
 import DateDisplay from '../elements/DateDisplay'
+import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/api'
+import { useAppDispatch } from '../redux/hooks'
 import { enque } from '../redux/snackbarSlice'
 
 const Dashboard: React.FC<RouteComponentProps> = () => {

@@ -1,6 +1,6 @@
+import clsx from 'clsx'
 import type { ButtonHTMLAttributes } from 'react'
 import React, { memo } from 'react'
-import clsx from 'clsx'
 
 const variants = {
   primary: 'bg-green-500 hover:bg-green-600 text-white',

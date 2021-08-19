@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-import { useAppDispatch } from '../redux/hooks'
+import React, { useState } from 'react'
+
 import Layout from '../components/Layout'
-import { useCreatePostMutation } from '../redux/api'
-import { enque } from '../redux/snackbarSlice'
 import Button from '../elements/Button'
+import { useCreatePostMutation } from '../redux/api'
+import { useAppDispatch } from '../redux/hooks'
+import { enque } from '../redux/snackbarSlice'
 
 const Create: React.FC<RouteComponentProps> = () => {
   const dispatch = useAppDispatch()

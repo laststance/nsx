@@ -1,10 +1,11 @@
-import type { ThunkAction, Action } from '@reduxjs/toolkit'
+import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
+
 import adminReducer from './adminSlice'
-import snackbarReducer from './snackbarSlice'
-import perfReducer from './perfSlice'
 import { Api } from './api'
+import perfReducer from './perfSlice'
+import snackbarReducer from './snackbarSlice'
 
 export const store = configureStore({
   reducer: {

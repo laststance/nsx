@@ -1,5 +1,6 @@
-import React, { memo } from 'react'
 import { Link } from '@reach/router'
+import React, { memo } from 'react'
+
 import GithubIcon from '../elements/GithubIcon'
 
 const Header = memo(

@@ -1,8 +1,10 @@
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import React, { memo } from 'react'
-import Header from './Header'
-import Footer from './Footer'
+
 import { concatSelecor } from '../utils'
+
+import Footer from './Footer'
+import Header from './Header'
 
 const Layout = memo<
   DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>

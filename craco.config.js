@@ -1,5 +1,3 @@
-const chalk = require('chalk')
-const log = console.log
 const {
   addAfterLoader,
   removeLoaders,
@@ -7,6 +5,8 @@ const {
   getLoaders,
   throwUnexpectedConfigError,
 } = require('@craco/craco')
+const chalk = require('chalk')
+const log = console.log
 const { ESBuildMinifyPlugin } = require('esbuild-loader')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+
 import type { SnackBarMessage } from '../../types'
-import { useAppSelector, useAppDispatch } from '../redux/hooks'
-import { selectMessageQueue, deque } from '../redux/snackbarSlice'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { deque, selectMessageQueue } from '../redux/snackbarSlice'
 
 const SnackBarSystem = React.memo(
   () => {

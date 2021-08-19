@@ -1,9 +1,10 @@
-import React, { Suspense, lazy, memo } from 'react'
 import { Router } from '@reach/router'
+import React, { Suspense, lazy, memo } from 'react'
+
+import Loading from '../elements/Loading'
+import About from '../pages/About'
 import Index from '../pages/index'
 import Post from '../pages/Post'
-import About from '../pages/About'
-import Loading from '../elements/Loading'
 
 const Login = lazy(
   () => import(/* webpackChunkName: "LoginPage" */ '../pages/Login')

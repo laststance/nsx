@@ -1,14 +1,15 @@
-import React from 'react'
 import type { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
+import React from 'react'
+
+import type { Post } from '../../types'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
-import type { Post } from '../../types'
 import DateDisplay from '../elements/DateDisplay'
-import { useAppSelector } from '../redux/hooks'
+import Loading from '../elements/Loading'
 import { selectLogin } from '../redux/adminSlice'
 import { Api } from '../redux/api'
-import Loading from '../elements/Loading'
+import { useAppSelector } from '../redux/hooks'
 
 const Index: React.FC<RouteComponentProps> = () => {
   const login = useAppSelector(selectLogin)

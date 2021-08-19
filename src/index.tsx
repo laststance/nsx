@@ -1,15 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider as ReduxProvider } from 'react-redux'
+
 import './index.css'
+import type { Author } from '../types'
+
+import { login } from './redux/adminSlice'
+import { Api } from './redux/api'
+import { detectPreRender } from './redux/perfSlice'
+import { store } from './redux/store'
+import ErrorBoundary from './systems/ErrorBoundary'
 import Routes from './systems/Routes'
 import SnackBarSystem from './systems/SnackBarSystem'
-import ErrorBoundary from './systems/ErrorBoundary'
-import type { Author } from '../types'
-import { store } from './redux/store'
-import { Api } from './redux/api'
-import { login } from './redux/adminSlice'
-import { detectPreRender } from './redux/perfSlice'
 
 /**
  * =====================================================

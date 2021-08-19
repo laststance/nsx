@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-import Layout from '../components/Layout'
-import { useAppDispatch } from '../redux/hooks'
-import { useFetchPostQuery, useUpdatePostMutation } from '../redux/api'
+import React, { useEffect, useState } from 'react'
+
 import type { Post } from '../../types'
-import { enque } from '../redux/snackbarSlice'
+import Layout from '../components/Layout'
 import Button from '../elements/Button'
+import { useFetchPostQuery, useUpdatePostMutation } from '../redux/api'
+import { useAppDispatch } from '../redux/hooks'
+import { enque } from '../redux/snackbarSlice'
 
 interface RouterParam {
   postId: Post['id']

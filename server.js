@@ -1,16 +1,18 @@
 require('dotenv').config()
-const https = require('https')
 const fs = require('fs')
-const express = require('express')
-const compression = require('compression')
+const https = require('https')
+const path = require('path')
+
+const bcrypt = require('bcrypt')
 const bodyParser = require('body-parser')
+const compression = require('compression')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const express = require('express')
 const jwt = require('jsonwebtoken')
 const morgan = require('morgan')
-const cors = require('cors')
-const bcrypt = require('bcrypt')
+
 const db = require('./db/models')
-const path = require('path')
 
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
