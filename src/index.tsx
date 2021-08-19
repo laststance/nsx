@@ -11,7 +11,11 @@ import { Api } from './redux/api'
 import { login } from './redux/adminSlice'
 import { detectPreRender } from './redux/perfSlice'
 
-/* Preparation Redux initial state before React runtime */
+/**
+ * =====================================================
+ * Preparation Redux initial state before React runtime
+ * =====================================================
+ */
 if (window.localStorage.getItem('login') === 'true') {
   const author = JSON.parse(
     window.localStorage.getItem('author') as string
@@ -32,6 +36,11 @@ if (window.localStorage.getItem('login') === 'true') {
 // @TODO fix Provider typing
 // @ts-expect-error
 ReduxProvider.displayName = 'ReduxProvider'
+/**
+ * ==============================================
+ * Redux preparation end
+ * ==============================================
+ */
 
 const App = () => (
   <React.StrictMode>

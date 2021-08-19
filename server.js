@@ -1,4 +1,4 @@
-// require('dotenv').config()
+require('dotenv').config()
 const https = require('https')
 const fs = require('fs')
 const express = require('express')
@@ -15,7 +15,6 @@ const path = require('path')
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
 const isProd = env === 'production'
-
 const router = express.Router()
 
 /**
@@ -64,7 +63,7 @@ router.post('/signup', async (req, res) => {
       password: hash,
     })
     // @TODO set env value
-    const token = jwt.sign(author.password, /*process.env.JWT_SECRET*/ 'jwt')
+    const token = jwt.sign(author.password, process.env.JWT_SECRET)
     res.cookie('token', token, {
       httpOnly: true,
       secure: isProd ? true : false,
@@ -86,7 +85,7 @@ router.post('/login', async (req, res) => {
 
     if (validPassword) {
       // @TODO set env val
-      const token = jwt.sign(author.password, /*process.env.JWT_SECRET*/ 'jwt')
+      const token = jwt.sign(author.password, process.env.JWT_SECRET)
       res.cookie('token', token, {
         httpOnly: true,
         secure: isProd ? true : false,
@@ -136,7 +135,7 @@ router.post('/is_login', (req, res) => {
   try {
     if (token && req.body.author) {
       // @TODO set env val
-      const password = jwt.verify(token, /*process.env.JWT_SECRET*/ 'jwt')
+      const password = jwt.verify(token, process.env.JWT_SECRET)
       if (req.body.author.password === password) {
         res.status(200).json({ login: true })
       }
