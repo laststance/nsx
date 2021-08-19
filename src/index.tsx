@@ -11,6 +11,7 @@ import { Api } from './redux/api'
 import { login } from './redux/adminSlice'
 import { detectPreRender } from './redux/perfSlice'
 
+/* Preparation Redux initial state before React runtime */
 if (window.localStorage.getItem('login') === 'true') {
   const author = JSON.parse(
     window.localStorage.getItem('author') as string
