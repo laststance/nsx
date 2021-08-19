@@ -62,7 +62,6 @@ router.post('/signup', async (req, res) => {
       name: body.name,
       password: hash,
     })
-    // @TODO set env value
     const token = jwt.sign(author.password, process.env.JWT_SECRET)
     res.cookie('token', token, {
       httpOnly: true,
@@ -84,7 +83,6 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(body.password, author.password)
 
     if (validPassword) {
-      // @TODO set env val
       const token = jwt.sign(author.password, process.env.JWT_SECRET)
       res.cookie('token', token, {
         httpOnly: true,
@@ -134,7 +132,6 @@ router.post('/is_login', (req, res) => {
   const { token } = req.cookies
   try {
     if (token && req.body.author) {
-      // @TODO set env val
       const password = jwt.verify(token, process.env.JWT_SECRET)
       if (req.body.author.password === password) {
         res.status(200).json({ login: true })
