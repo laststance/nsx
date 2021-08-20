@@ -29,7 +29,8 @@ const Create: React.FC<RouteComponentProps> = () => {
       const { data } = await createPost({
         title,
         body,
-      })
+      }).unwrap()
+
       dispatch(enque({ message: 'New Post Created!', color: 'green' }))
       navigate(`/post/${data.id}`)
     } catch (error) {
