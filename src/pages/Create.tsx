@@ -15,7 +15,7 @@ const Create: React.FC<RouteComponentProps> = () => {
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
 
-  function handleChange(
+  function handleInputChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     cb: React.Dispatch<React.SetStateAction<string | undefined>>
   ): void {
@@ -43,12 +43,12 @@ const Create: React.FC<RouteComponentProps> = () => {
         type="text"
         className="mt-3"
         value={title}
-        onChange={(e) => handleChange(e, setTitle)}
+        onChange={(e) => handleInputChange(e, setTitle)}
       />
       <textarea
         className="w-full h-60 mt-3"
         value={body}
-        onChange={(e) => handleChange(e, setBody)}
+        onChange={(e) => handleInputChange(e, setBody)}
       />
       <div className="flex gap-4 justify-end pt-8">
         <Button onClick={execCreate} variant="primary">
