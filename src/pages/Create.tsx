@@ -33,9 +33,7 @@ const Create: React.FC<RouteComponentProps> = () => {
       dispatch(enque({ message: 'New Post Created!', color: 'green' }))
       navigate(`/post/${data.id}`)
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-      dispatch(enque({ message: 'Something Error Occuring.', color: 'red' }))
+      dispatch(enque({ message: error.message, color: 'red' }))
     }
   }
 
