@@ -2,6 +2,8 @@ import clsx from 'clsx'
 import type { ButtonHTMLAttributes } from 'react'
 import React, { memo } from 'react'
 
+import { Spinner } from './Spinner'
+
 const variants = {
   primary: 'bg-green-500 hover:bg-green-600 text-white',
   secondary: 'bg-blue-500 hover:bg-blue-600 text-white',
@@ -19,6 +21,7 @@ const sizes = {
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: keyof typeof variants
   size?: keyof typeof sizes
+  isLoading?: boolean
 }
 
 const Button: React.FC<ButtonProps> = memo(
@@ -26,19 +29,22 @@ const Button: React.FC<ButtonProps> = memo(
     type = 'button',
     variant = 'primary',
     size = 'md',
+    isLoading = false,
     children,
+    className = '',
     ...rest
   }) => {
     const base =
-      'shadow focus:shadow-outline focus:outline-none font-semibold rounded'
+      'flex justify-center items-center shadow rounded disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none font-semibold'
 
     return (
       <button
         type={type}
-        className={clsx(base, variants[variant], sizes[size])}
+        className={clsx(base, className, variants[variant], sizes[size])}
         {...rest}
       >
-        {children}
+        {isLoading && <Spinner size="sm" className="text-current" />}
+        <span className="mx-2">{children}</span>
       </button>
     )
   }

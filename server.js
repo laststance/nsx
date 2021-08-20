@@ -44,7 +44,7 @@ router.delete('/post/:id', async (req, res) => {
     await db.post.destroy({ where: { id: req.params.id } })
     res.send(200)
   } catch (error) {
-    res.send(500)
+    res.status(500).json({ error: error.message })
   }
 })
 
