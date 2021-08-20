@@ -17,10 +17,10 @@ const Create: React.FC<RouteComponentProps> = () => {
 
   function handleInputChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    cb: React.Dispatch<React.SetStateAction<string | undefined>>
+    setState: React.Dispatch<React.SetStateAction<string | undefined>>
   ): void {
     e.preventDefault()
-    cb(e.target.value)
+    setState(e.target.value)
   }
 
   async function execCreate() {
