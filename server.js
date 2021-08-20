@@ -1,4 +1,3 @@
-require('dotenv').config()
 const fs = require('fs')
 const https = require('https')
 const path = require('path')
@@ -17,6 +16,7 @@ const db = require('./db/models')
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
 const isProd = env === 'production'
+require('dotenv').config(isProd ? path.join(__dirname, './../.env') : __dirname)
 const router = express.Router()
 
 /**
