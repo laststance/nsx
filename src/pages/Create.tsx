@@ -12,6 +12,7 @@ const Create: React.FC<RouteComponentProps> = () => {
   const dispatch = useAppDispatch()
   const [createPost] = useCreatePostMutation()
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
 
@@ -25,6 +26,7 @@ const Create: React.FC<RouteComponentProps> = () => {
 
   async function execCreate() {
     try {
+      setIsSubmitting(() => true)
       // @ts-ignore
       const { data } = await createPost({
         title,
@@ -35,6 +37,8 @@ const Create: React.FC<RouteComponentProps> = () => {
       navigate(`/post/${data.id}`)
     } catch (error) {
       dispatch(enque({ message: error.message, color: 'red' }))
+    } finally {
+      setIsSubmitting(() => false)
     }
   }
 
@@ -52,7 +56,7 @@ const Create: React.FC<RouteComponentProps> = () => {
         onChange={(e) => handleInputChange(e, setBody)}
       />
       <div className="flex gap-4 justify-end pt-8">
-        <Button onClick={execCreate} variant="primary">
+        <Button onClick={execCreate} variant="primary" isLoading={isSubmitting}>
           Submit
         </Button>
       </div>

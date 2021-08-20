@@ -1,4 +1,5 @@
 import type { Meta, Story } from '@storybook/react'
+import React from 'react'
 
 import type { SpinnerProps } from './Spinner'
 import { Spinner } from './Spinner'
