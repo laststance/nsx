@@ -10,15 +10,15 @@ context('Visiter Basic', () => {
 
   it('show latest article list', () => {
     cy.visit('http://localhost:3000/')
-    cy.get('[data-cy=topPage]').should('contain', 'pot of greed')
+    cy.get('[data-cy=topPage]').should('contain', 'close your eyes')
   })
 
-  it('move article page when clicked', () => {
+  it('show single post', () => {
     cy.visit('http://localhost:3000/')
     cy.get('[data-cy=postTitle-0]').click()
     cy.get('[data-cy=postPage]')
       .should('exist')
-      .should('contain', 'next time down')
+      .should('contain', 'CSS Weekly #464')
   })
 
   it('never shown every admin page link button without login', () => {
