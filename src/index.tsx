@@ -9,6 +9,7 @@ import { login } from './redux/adminSlice'
 import { Api } from './redux/api'
 import { detectPreRender } from './redux/perfSlice'
 import { store } from './redux/store'
+import reportWebVitals from './reportWebVitals'
 import ErrorBoundary from './systems/ErrorBoundary'
 import Routes from './systems/Routes'
 import SnackBarSystem from './systems/SnackBarSystem'
@@ -62,3 +63,9 @@ if (rootElement.hasChildNodes()) {
 } else {
   ReactDOM.render(<App />, rootElement)
 }
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// eslint-disable-next-line no-console
+reportWebVitals(console.info)
