@@ -44,15 +44,17 @@ export function truncateString(str: string, num: number): string {
 const NODE_ENV = process.env.NODE_ENV
 
 export const invariant = function (
-  condition: unknown,
+  /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+  condition: any,
   format: string,
-  a: unknown,
-  b: unknown,
-  c: unknown,
-  d: unknown,
-  e: unknown,
-  f: unknown
+  a: any,
+  b: any,
+  c: any,
+  d: any,
+  e: any,
+  f: any
 ): void {
+  /* eslint-enable @typescript-eslint/explicit-module-boundary-types */
   if (NODE_ENV !== 'production') {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument')
@@ -77,6 +79,7 @@ export const invariant = function (
       error.name = 'Invariant Violation'
     }
 
+    // @ts-ignore
     error.framesToPop = 1 // we don't care about invariant's own frame
     throw error
   }
