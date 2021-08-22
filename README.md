@@ -2,14 +2,12 @@
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/digital-strength?project_id=17741)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://digitalstrength.dev/ )
 
-
 # Digital Strength (Work in Progress 🚧 Not yet public release)
 
 Prod ➡️ https://digitalstrength.dev  
 Completely personal use for myself that small blog system for written what does I today learned.
 
 [![img](./image.png)](https://digitalstrength.dev)
-
 
 # Getting start local development
 
@@ -39,8 +37,8 @@ run deploy.sh
 # only server code
 yarn deploy -s
 
-# only client code
-yarn deploy -c
+# only frontend code
+yarn deploy -f
 ```
 
 ## `yarn workflow:deploy`
@@ -74,20 +72,35 @@ Build `backend/` dir Express server.
 generate password hash.
 
 ## CRA environment variables
+
 These are storing `.env` and evaluate at build time.
 
 ### REACT_APP_API_ENDPOINT
-- dev: http://localhost:4000/api
-- prod: https://digitalstrength.dev/api
 
+- dev: `http://localhost:4000/api`
+- prod: `https://digitalstrength.dev/api`
 
-### REACT_APP_ENABLE_SIGNUP
-### REACT_APP_ENABLE_LOGIN
+### REACT_APP_ENABLE_SIGNUP=false|true
+
+### REACT_APP_ENABLE_LOGIN=false|true
 
 Default false.  
-These only need initial setup at the production server. 
+Show each page link button at the `/` page.  
+These only need initial setup of production admin user.
 
-# Prod
+### REACT_APP_BUNDLE_ANALYZER=false|true
+
+Default false. Switch enable|disable bundle-analyzer.
+
+### REACT_APP_INTERACTIVE_ANALYZE=false|true
+
+Default false. When true bundle-analizer open and jump new browser tab where showing bundle size graph.
+
+### JWT_SECRET
+
+set unique and hidden string for jwt.
+
+# Production Operation
 
 ### `docker-compose exec db mysql -u root -p`
 
@@ -102,4 +115,5 @@ login mysql with terminal.
 check node server status.
 
 ## Let's Encrypt
+
 - `certbot certonly` in `/root/letsencript` dir, renew certificate 3 month.
