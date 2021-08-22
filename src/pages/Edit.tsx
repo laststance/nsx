@@ -43,14 +43,15 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
         title,
         body,
         postId,
-      })
+      }).unwrap()
+
       dispatch(enque({ message: 'Post Updated!', color: 'green' }))
+      // @TODO is it nesesary?
       refetch()
       navigate(`/post/${postId}`)
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-      dispatch(enque({ message: error.data.error, color: 'red' }))
+      if (error.status == 500)
+        dispatch(enque({ message: error.message, color: 'red' }))
     }
   }
 

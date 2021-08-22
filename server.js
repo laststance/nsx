@@ -109,15 +109,14 @@ router.post('/create', async (req, res) => {
       body: body.body,
     })
 
-    res.status(201).send(newPost)
+    res.status(201).json(newPost)
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error)
-    res.send(500)
+    res.status(500).json({ error: error.message })
   }
 })
 
 router.post('/update', async (req, res) => {
+  // @TODO verify the request from certainly admin accont
   const body = req.body
   try {
     await db.update(
@@ -125,9 +124,9 @@ router.post('/update', async (req, res) => {
       { where: { id: body.postId } }
     )
 
-    res.status(200).send('success')
+    res.sendStatus(200)
   } catch (error) {
-    res.send(500)
+    res.status(500).json({ error: error.message })
   }
 })
 
