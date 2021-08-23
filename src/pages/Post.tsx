@@ -8,9 +8,9 @@ import breaks from 'remark-breaks'
 import gfm from 'remark-gfm'
 
 import type { Post as PostType } from '../../types'
-import Layout from '../Components/Layout'
-import Button from '../Elements/Button'
-import Loading from '../Elements/Loading'
+import Layout from '../components/Layout'
+import Button from '../elements/Button'
+import Loading from '../elements/Loading'
 import { selectLogin } from '../redux/adminSlice'
 import { useFetchPostQuery } from '../redux/api'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
@@ -32,7 +32,7 @@ const code = lazy(
   // <code/> depends on heavy hintaxhilight library so we lazyload for purpose of reduce bundle chunk size
   () =>
     // @ts-ignore @TODO react-syntax-highlighter typedef issue
-    import(/* webpackChunkName: "code" */ '../Elements/code')
+    import(/* webpackChunkName: "code" */ '../elements/code')
 )
 
 // we only load <code/> if blog post containing Markdown for purpose of reduce bundle chunk size

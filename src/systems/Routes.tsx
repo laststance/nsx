@@ -1,7 +1,7 @@
 import { Router } from '@reach/router'
 import React, { Suspense, lazy, memo } from 'react'
 
-import Loading from '../Elements/Loading'
+import Loading from '../elements/Loading'
 import About from '../pages/About'
 import Index from '../pages/index'
 import Post from '../pages/Post'
