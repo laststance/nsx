@@ -115,34 +115,33 @@ router.post('/create', async (req, res) => {
   }
 })
 
-router.post('/update', async (req, res) => {
+router.post('/update', async (req, res, next) => {
   // @TODO verify the request from certainly admin accont
   const body = req.body
   try {
-    await db.update(
+    await db.post.update(
       { title: body.title, body: body.body },
       { where: { id: body.postId } }
     )
 
     res.sendStatus(200)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    next(error)
   }
 })
 
 router.post('/is_login', (req, res) => {
   const { token } = req.cookies
-  try {
-    if (token && req.body.author) {
-      const password = jwt.verify(token, process.env.JWT_SECRET)
-      if (req.body.author.password === password) {
-        res.status(200).json({ login: true })
-      }
-    } else {
-      res.status(200).json({ login: false })
+
+  if (token && req.body.author) {
+    const password = jwt.verify(token, process.env.JWT_SECRET)
+    if (req.body.author.password === password) {
+      // @TODO Set Cookie
+      res.status(200).json({ login: true })
     }
-  } catch (error) {
-    res.status(500).json(error.message)
+  } else {
+    // @TODO Set Cookie
+    res.status(200).json({ login: false })
   }
 })
 
