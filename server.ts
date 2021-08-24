@@ -1,25 +1,29 @@
-const fs = require('fs')
-const https = require('https')
-const path = require('path')
+import fs from 'fs'
+import https from 'https'
+import path from 'path'
 
-const bcrypt = require('bcrypt')
-const bodyParser = require('body-parser')
-const compression = require('compression')
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
-const express = require('express')
-const jwt = require('jsonwebtoken')
-const morgan = require('morgan')
+import bcrypt from 'bcrypt'
+import bodyParser from 'body-parser'
+import compression from 'compression'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express from 'express'
+import jwt from 'jsonwebtoken'
+import morgan from 'morgan'
 
-const db = require('./db/models')
+import db from './db/models'
 
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
 const isProd = env === 'production'
-require('dotenv').config(isProd ? path.join(__dirname, './../.env') : __dirname)
+// .env file placed different path between dev and production.
+// dev: projectRoot/.env production: projectRoot/server_build/.env
+require('dotenv').config(isProd ? path.join(__dirname, './../.env') : __dirname) // eslint-disable-line @typescript-eslint/no-var-requires
+
 const cookieOptions = {
   httpOnly: true,
   secure: true,
+  //@TODO shoud added sameSite: Lax;
   maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
 }
 
@@ -31,6 +35,7 @@ const router = express.Router()
  * ==============================================
  */
 router.get('/posts', async (req, res) => {
+  // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
   const posts = await db.post.findAll({
     order: [['id', 'DESC']],
   })
@@ -39,6 +44,7 @@ router.get('/posts', async (req, res) => {
 
 router.get('/post/:id', async (req, res) => {
   // @TODO verify the request from certainly admin accont
+  // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
   const post = await db.post.findOne({
     where: { id: req.params.id },
   })
@@ -48,6 +54,7 @@ router.get('/post/:id', async (req, res) => {
 
 router.delete('/post/:id', async (req, res) => {
   try {
+    // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
     await db.post.destroy({ where: { id: req.params.id } })
     res.send(200)
   } catch (error) {
@@ -67,11 +74,12 @@ router.post('/signup', async (req, res) => {
   const hash = await bcrypt.hash(body.password, salt)
 
   try {
+    // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
     const author = await db.author.create({
       name: body.name,
       password: hash,
     })
-    const token = jwt.sign(author.password, process.env.JWT_SECRET)
+    const token = jwt.sign(author.password, process.env.JWT_SECRET as string)
     res.cookie('token', token, cookieOptions)
     res.status(201).json(author)
   } catch (error) {
@@ -81,6 +89,7 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const body = req.body
+  // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
   const author = await db.author.findOne({
     where: { name: body.name },
   })
@@ -88,7 +97,7 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(body.password, author.password)
 
     if (validPassword) {
-      const token = jwt.sign(author.password, process.env.JWT_SECRET)
+      const token = jwt.sign(author.password, process.env.JWT_SECRET as string)
       res.cookie('token', token, cookieOptions)
       res.status(200).json(author)
     } else {
@@ -102,6 +111,7 @@ router.post('/login', async (req, res) => {
 router.post('/create', async (req, res) => {
   const body = req.body
   try {
+    // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
     const newPost = await db.post.create({
       title: body.title,
       body: body.body,
@@ -117,6 +127,7 @@ router.post('/update', async (req, res, next) => {
   // @TODO verify the request from certainly admin accont
   const body = req.body
   try {
+    // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
     await db.post.update(
       { title: body.title, body: body.body },
       { where: { id: body.postId } }
@@ -132,7 +143,7 @@ router.post('/is_login', (req, res) => {
   const { token } = req.cookies
 
   if (token && req.body.author) {
-    const password = jwt.verify(token, process.env.JWT_SECRET)
+    const password = jwt.verify(token, process.env.JWT_SECRET as string)
     if (req.body.author.password === password) {
       // @TODO Set Cookie
       res.status(200).json({ login: true })
