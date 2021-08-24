@@ -145,11 +145,11 @@ router.post('/is_login', (req, res) => {
   if (token && req.body.author) {
     const password = jwt.verify(token, process.env.JWT_SECRET as string)
     if (req.body.author.password === password) {
-      // @TODO Set Cookie
+      res.cookie('token', token, cookieOptions)
       res.status(200).json({ login: true })
     }
   } else {
-    // @TODO Set Cookie
+    // Visitor didn't loged in previos session
     res.status(200).json({ login: false })
   }
 })

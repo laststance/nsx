@@ -41,7 +41,7 @@ if (window.localStorage.getItem('login') === 'true') {
 ReduxProvider.displayName = 'ReduxProvider'
 /**
  * ==============================================
- * Redux preparation end
+ * Start React runtime
  * ==============================================
  */
 
