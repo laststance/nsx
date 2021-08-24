@@ -17,6 +17,12 @@ const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
 const isProd = env === 'production'
 require('dotenv').config(isProd ? path.join(__dirname, './../.env') : __dirname)
+const cookieOptions = {
+  httpOnly: true,
+  secure: true,
+  maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
+}
+
 const router = express.Router()
 
 /**
@@ -66,11 +72,7 @@ router.post('/signup', async (req, res) => {
       password: hash,
     })
     const token = jwt.sign(author.password, process.env.JWT_SECRET)
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: isProd ? true : false,
-      maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
-    })
+    res.cookie('token', token, cookieOptions)
     res.status(201).json(author)
   } catch (error) {
     res.send(500)
@@ -87,11 +89,7 @@ router.post('/login', async (req, res) => {
 
     if (validPassword) {
       const token = jwt.sign(author.password, process.env.JWT_SECRET)
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: isProd ? true : false,
-        maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
-      })
+      res.cookie('token', token, cookieOptions)
       res.status(200).json(author)
     } else {
       res.status(400).json({ error: 'Invalid Password' })
