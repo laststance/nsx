@@ -6,7 +6,7 @@ import type { Post } from '../../types'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { useFetchPostQuery, useUpdatePostMutation } from '../redux/api'
-import { useAppDispatch } from '../redux/hooks'
+import { useAppDispatch } from  '../redux/hooks'
 import { enque } from '../redux/snackbarSlice'
 
 interface RouterParam {
