@@ -133,7 +133,7 @@ router.post('/update', async (req, res, next) => {
       { where: { id: body.postId } }
     )
 
-    res.sendStatus(200)
+    res.status(200).json({ message: 'Post Updated!' })
   } catch (error) {
     next(error)
   }

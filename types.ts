@@ -12,6 +12,7 @@ export interface Author {
 }
 
 export interface Post {
+  message: string
   id: number
   title: string
   body: string

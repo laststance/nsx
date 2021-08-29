@@ -6,7 +6,7 @@ import type { Post } from '../../types'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { useFetchPostQuery, useUpdatePostMutation } from '../redux/api'
-import { useAppDispatch } from  '../redux/hooks'
+import { useAppDispatch } from '../redux/hooks'
 import { enque } from '../redux/snackbarSlice'
 
 interface RouterParam {
@@ -14,7 +14,7 @@ interface RouterParam {
 }
 
 const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
-  const { data, error, refetch } = useFetchPostQuery(postId as Post['id'])
+  const { data, error } = useFetchPostQuery(postId as Post['id'])
   const [updatePost] = useUpdatePostMutation()
   const [title, setTitle] = useState<string | undefined>('')
   const [body, setBody] = useState<string | undefined>('')
@@ -39,15 +39,14 @@ const Edit: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   async function execEdit() {
     try {
       // @ts-ignore
-      await updatePost({
+      const res = await updatePost({
         title,
         body,
         postId,
       }).unwrap()
+      // @ts-ignore
+      dispatch(enque({ message: res.message, color: 'green' }))
 
-      dispatch(enque({ message: 'Post Updated!', color: 'green' }))
-      // @TODO is it nesesary?
-      refetch()
       navigate(`/post/${postId}`)
     } catch (error) {
       if (error.status == 500)
