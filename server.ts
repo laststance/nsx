@@ -8,6 +8,7 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
+import type { CookieOptions } from 'express'
 import jwt from 'jsonwebtoken'
 import morgan from 'morgan'
 
@@ -20,10 +21,10 @@ const isProd = env === 'production'
 // dev: projectRoot/.env production: projectRoot/server_build/.env
 require('dotenv').config(isProd ? path.join(__dirname, './../.env') : __dirname) // eslint-disable-line @typescript-eslint/no-var-requires
 
-const cookieOptions = {
+const cookieOptions: CookieOptions = {
   httpOnly: true,
   secure: true,
-  //@TODO shoud added sameSite: Lax;
+  sameSite: 'lax',
   maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
 }
 
