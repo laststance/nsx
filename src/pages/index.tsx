@@ -44,7 +44,7 @@ const Index: React.FC<RouteComponentProps> = () => {
           <p>Error: {error.message}</p>
         </div>
       )}
-      <div className="flex items-center justify-around">
+      <div className="flex items-center justify-around py-10">
         {process.env.REACT_APP_ENABLE_LOGIN && (
           <Link to="/login">
             <Button variant="primary" data-cy="login-btn">
