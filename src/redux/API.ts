@@ -4,9 +4,11 @@ import type {
   Author,
   Post,
   Posts,
-  IsLoginRequest,
-  IsLoginResponse,
+  isLoginRequest,
+  isLoginResponse,
   LogoutResponse,
+  updatePostResponse,
+  updatePostRequest,
 } from '../../types'
 
 interface UserIdPassword {
@@ -44,7 +46,7 @@ export const API = createApi({
       query: (post) => ({ url: 'create', method: 'POST', body: post }),
     }),
 
-    updatePost: builder.mutation<Post, Post['title'] & Post['body']>({
+    updatePost: builder.mutation<updatePostResponse, updatePostRequest>({
       query: (post) => ({
         url: 'upate',
         method: 'POST',
@@ -68,7 +70,7 @@ export const API = createApi({
       }),
     }),
 
-    isLoginReqest: builder.mutation<IsLoginResponse, IsLoginRequest>({
+    isLoginReqest: builder.mutation<isLoginResponse, isLoginRequest>({
       query: (author) => ({
         url: 'is_login',
         method: 'POST',

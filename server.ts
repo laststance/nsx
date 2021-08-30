@@ -144,7 +144,7 @@ router.post('/update', async (req, res, next) => {
   try {
     await db.post.update(
       { title: body.title, body: body.body },
-      { where: { id: body.postId } }
+      { where: { id: body.id } }
     )
 
     res.status(200).json({ message: 'Post Updated!' })

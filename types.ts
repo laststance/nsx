@@ -26,13 +26,21 @@ export type Posts = Post[]
  * API Reqest/Response body types
  * =====================================
  */
-// eslint-disable-next-line @typescript-eslint/no-namespace
+// POST /update
+export interface updatePostRequest {
+  id: Post['id']
+  title: Post['title']
+  body: Post['body']
+}
+export interface updatePostResponse {
+  message: 'Post Updated!'
+}
 
 // POST /is_login
-export interface IsLoginRequest {
+export interface isLoginRequest {
   author: Author
 }
-export interface IsLoginResponse {
+export interface isLoginResponse {
   login: boolean
 }
 
