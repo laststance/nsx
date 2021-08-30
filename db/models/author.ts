@@ -6,6 +6,4 @@ class Author extends Model {
   public password!: string
 }
 
-export type AuthorModel = Author
-
 export default Author

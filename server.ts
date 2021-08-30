@@ -36,7 +36,6 @@ const router = express.Router()
  * ==============================================
  */
 router.get('/posts', async (req, res) => {
-  // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
   const posts = await db.post.findAll({
     order: [['id', 'DESC']],
   })
@@ -45,7 +44,6 @@ router.get('/posts', async (req, res) => {
 
 router.get('/post/:id', async (req, res) => {
   // @TODO verify the request from certainly admin accont
-  // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
   const post = await db.post.findOne({
     where: { id: req.params.id },
   })
@@ -55,7 +53,6 @@ router.get('/post/:id', async (req, res) => {
 
 router.delete('/post/:id', async (req, res) => {
   try {
-    // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
     await db.post.destroy({ where: { id: req.params.id } })
     res.send(200)
   } catch (error) {
@@ -75,7 +72,6 @@ router.post('/signup', async (req, res) => {
   const hash = await bcrypt.hash(body.password, salt)
 
   try {
-    // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
     const author = await db.author.create({
       name: body.name,
       password: hash,
@@ -90,7 +86,6 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const body = req.body
-  // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
   const author = await db.author.findOne({
     where: { name: body.name },
   })
@@ -112,7 +107,6 @@ router.post('/login', async (req, res) => {
 router.post('/create', async (req, res) => {
   const body = req.body
   try {
-    // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
     const newPost = await db.post.create({
       title: body.title,
       body: body.body,
@@ -125,10 +119,8 @@ router.post('/create', async (req, res) => {
 })
 
 router.post('/update', async (req, res, next) => {
-  // @TODO verify the request from certainly admin accont
   const body = req.body
   try {
-    // @ts-ignore @TODO sequelize TypeScript migration will get to work next season
     await db.post.update(
       { title: body.title, body: body.body },
       { where: { id: body.postId } }

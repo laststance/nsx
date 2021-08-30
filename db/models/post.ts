@@ -6,6 +6,4 @@ class Post extends Model {
   public body!: string
 }
 
-export type PostModel = Post
-
 export default Post

@@ -1,9 +1,7 @@
 import type { Config } from 'sequelize'
 import { DataTypes, Sequelize } from 'sequelize'
 
-import type { AuthorModel } from './author'
 import Author from './author'
-import type { PostModel } from './post'
 import Post from './post'
 const env = process.env.NODE_ENV || 'development'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -40,8 +38,8 @@ Post.init(
 )
 
 interface DB {
-  author: AuthorModel
-  post: PostModel
+  author: typeof Author
+  post: typeof Post
   sequelize: Sequelize
 }
 
