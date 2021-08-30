@@ -1,6 +1,6 @@
 /**
  * =====================================
- * From Database(fetch from MySQL by RestAPI)
+ * Domain Data
  * =====================================
  */
 export interface Author {
@@ -12,11 +12,10 @@ export interface Author {
 }
 
 export interface Post {
-  message: string
+  message: string // @TODO separete as a Respose layer type
   id: number
   title: string
   body: string
-  author: Author
   createdAt: string
   updatedAt: string
 }
