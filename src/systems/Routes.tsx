@@ -3,7 +3,7 @@ import React, { Suspense, lazy, memo } from 'react'
 
 import Loading from '../elements/Loading'
 import About from '../pages/About'
-import Index from '../pages/index'
+import Index from '../pages/Index'
 import Post from '../pages/Post'
 
 const Login = lazy(

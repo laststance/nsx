@@ -24,6 +24,29 @@ export type Posts = Post[]
 
 /**
  * =====================================
+ * API Reqest/Response body types
+ * =====================================
+ */
+// eslint-disable-next-line @typescript-eslint/no-namespace
+
+// POST /is_login
+export interface IsLoginRequest {
+  author: Author
+}
+export interface IsLoginResponse {
+  login: boolean
+}
+
+// POST /logout
+export interface LogoutRequest {
+  author: Author
+}
+export interface LogoutResponse {
+  message: string
+}
+
+/**
+ * =====================================
  * Frontend internal
  * =====================================
  */

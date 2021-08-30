@@ -1,6 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import type { Author, Post, Posts } from '../../types'
+import type {
+  Author,
+  Post,
+  Posts,
+  IsLoginRequest,
+  IsLoginResponse,
+  LogoutRequest,
+  LogoutResponse,
+} from '../../types'
 
 interface UserIdPassword {
   name: string
@@ -14,8 +22,7 @@ const requestInfo = Object.defineProperty({}, 'credentials', {
   writable: false,
 })
 
-// @ts-ignore
-export const Api = createApi({
+export const API = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
@@ -40,7 +47,7 @@ export const Api = createApi({
 
     updatePost: builder.mutation<Post, Post['title'] & Post['body']>({
       query: (post) => ({
-        url: 'update',
+        url: 'upate',
         method: 'POST',
         body: post,
       }),
@@ -62,11 +69,18 @@ export const Api = createApi({
       }),
     }),
 
-    isLoginReqest: builder.mutation<{ login: boolean }, { author: Author }>({
-      query: (loginInfo) => ({
+    isLoginReqest: builder.mutation<IsLoginResponse, IsLoginRequest>({
+      query: (author) => ({
         url: 'is_login',
         method: 'POST',
-        body: loginInfo,
+        body: author,
+      }),
+    }),
+    logoutRequest: builder.mutation<LogoutResponse, LogoutRequest>({
+      query: (author) => ({
+        url: 'logout',
+        method: 'POST',
+        body: author,
       }),
     }),
   }),
@@ -82,4 +96,4 @@ export const {
   useUpdatePostMutation,
   useLoginReqestMutation,
   useSignupReqestMutation,
-} = Api
+} = API

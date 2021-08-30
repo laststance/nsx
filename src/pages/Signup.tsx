@@ -6,7 +6,7 @@ import type { Author } from '../../types'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { login } from '../redux/adminSlice'
-import { useSignupReqestMutation } from '../redux/api'
+import { useSignupReqestMutation } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { enque } from '../redux/snackbarSlice'
 

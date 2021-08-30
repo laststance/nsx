@@ -6,7 +6,7 @@ import type { Post } from '../../types'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
-import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/api'
+import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { enque } from '../redux/snackbarSlice'
 

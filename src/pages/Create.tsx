@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
-import { useCreatePostMutation } from '../redux/api'
+import { useCreatePostMutation } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { enque } from '../redux/snackbarSlice'
 

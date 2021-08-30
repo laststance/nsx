@@ -6,7 +6,7 @@ import './index.css'
 import type { Author } from '../types'
 
 import { login } from './redux/adminSlice'
-import { Api } from './redux/api'
+import { API } from './redux/API'
 import { detectPreRender } from './redux/perfSlice'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
@@ -27,7 +27,7 @@ if (window.localStorage.getItem('login') === 'true') {
   async function verify() {
     // @ts-ignore
     const { data } = await store.dispatch(
-      Api.endpoints.isLoginReqest.initiate({ author })
+      API.endpoints.isLoginReqest.initiate({ author })
     )
     if (data?.login === true) {
       store.dispatch(login(author))
