@@ -27,6 +27,9 @@ const AdminControlPanel: React.FC<Props> = (props: { login: boolean }) => {
 
       dispatch(logout())
       dispatch(enque({ message: response.message, color: 'green' }))
+      // @TODO make TS friendly util
+      window.localStorage.removeItem('login')
+      window.localStorage.removeItem('author')
     } catch (error) {
       dispatch(enque({ message: error.status, color: 'red' }))
     } finally {

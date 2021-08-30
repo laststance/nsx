@@ -38,7 +38,7 @@ export interface IsLoginResponse {
 
 // POST /logout
 export interface LogoutResponse {
-  message: string
+  message: 'Logout Successful'
 }
 
 /**
