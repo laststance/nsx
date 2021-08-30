@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import type { Author, Post, Posts } from '../../types'
 
-interface LoginInfo {
+interface UserIdPassword {
   name: string
   password: string
 }
@@ -46,7 +46,7 @@ export const Api = createApi({
       }),
     }),
 
-    loginReqest: builder.mutation<Author, LoginInfo>({
+    loginReqest: builder.mutation<Author, UserIdPassword>({
       query: (loginInfo) => ({
         url: 'login',
         method: 'POST',
@@ -54,13 +54,14 @@ export const Api = createApi({
       }),
     }),
 
-    signupReqest: builder.mutation<Author, LoginInfo>({
+    signupReqest: builder.mutation<Author, UserIdPassword>({
       query: (loginInfo) => ({
         url: 'signup',
         method: 'POST',
         body: loginInfo,
       }),
     }),
+
     isLoginReqest: builder.mutation<{ login: boolean }, { author: Author }>({
       query: (loginInfo) => ({
         url: 'is_login',

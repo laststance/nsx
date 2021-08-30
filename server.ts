@@ -104,6 +104,26 @@ router.post('/login', async (req, res) => {
   }
 })
 
+router.post('/is_login', (req, res) => {
+  const { token } = req.cookies
+
+  if (token && req.body.author) {
+    const password = jwt.verify(token, process.env.JWT_SECRET as string)
+    if (req.body.author.password === password) {
+      res.cookie('token', token, cookieOptions)
+      res.status(200).json({ login: true })
+    }
+  } else {
+    // Visitor didn't loged in previos session
+    res.status(200).json({ login: false })
+  }
+})
+
+router.get('/logout', (req, res) => {
+  res.cookie('', '')
+  res.status(200).json({ message: 'Logout Successful' })
+})
+
 router.post('/create', async (req, res) => {
   const body = req.body
   try {
@@ -129,21 +149,6 @@ router.post('/update', async (req, res, next) => {
     res.status(200).json({ message: 'Post Updated!' })
   } catch (error) {
     next(error)
-  }
-})
-
-router.post('/is_login', (req, res) => {
-  const { token } = req.cookies
-
-  if (token && req.body.author) {
-    const password = jwt.verify(token, process.env.JWT_SECRET as string)
-    if (req.body.author.password === password) {
-      res.cookie('token', token, cookieOptions)
-      res.status(200).json({ login: true })
-    }
-  } else {
-    // Visitor didn't loged in previos session
-    res.status(200).json({ login: false })
   }
 })
 

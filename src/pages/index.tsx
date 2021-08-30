@@ -45,14 +45,14 @@ const Index: React.FC<RouteComponentProps> = () => {
         </div>
       )}
       <div className="flex items-center justify-around py-10">
-        {process.env.REACT_APP_ENABLE_LOGIN && (
+        {!login && process.env.REACT_APP_ENABLE_LOGIN && (
           <Link to="/login">
             <Button variant="primary" data-cy="login-btn">
               Login
             </Button>
           </Link>
         )}
-        {process.env.REACT_APP_ENABLE_SIGNUP && (
+        {!login && process.env.REACT_APP_ENABLE_SIGNUP && (
           <Link to="/signup">
             <Button variant="primary" data-cy="signup-btn">
               Sigunup
@@ -65,6 +65,15 @@ const Index: React.FC<RouteComponentProps> = () => {
               Dashboard
             </Button>
           </Link>
+        )}
+        {login && (
+          <Button
+            variant="inverse"
+            data-cy="logout-btn"
+            onClick={}
+          >
+            Logout
+          </Button>
         )}
       </div>
     </Layout>
