@@ -13,6 +13,7 @@ import jwt from 'jsonwebtoken'
 import morgan from 'morgan'
 
 import db from './db/models'
+import type { LogoutResponse } from './types'
 
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
@@ -120,8 +121,8 @@ router.post('/is_login', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-  res.cookie('', '')
-  res.status(200).json({ message: 'Logout Successful' })
+  res.cookie('token', { expires: Date.now() })
+  res.status(200).json({ message: 'Logout Successful' } as LogoutResponse)
 })
 
 router.post('/create', async (req, res) => {

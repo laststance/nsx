@@ -30,7 +30,7 @@ export const adminSlice = createSlice({
       state.author = action.payload
     },
     logout: (state) => {
-      state.login = true
+      state.login = false
       state.author = initialState.author
     },
   },

@@ -6,7 +6,6 @@ import type {
   Posts,
   IsLoginRequest,
   IsLoginResponse,
-  LogoutRequest,
   LogoutResponse,
 } from '../../types'
 
@@ -76,11 +75,10 @@ export const API = createApi({
         body: author,
       }),
     }),
-    logoutRequest: builder.mutation<LogoutResponse, LogoutRequest>({
-      query: (author) => ({
+    logoutRequest: builder.mutation<LogoutResponse, void>({
+      query: () => ({
         url: 'logout',
-        method: 'POST',
-        body: author,
+        method: 'GET',
       }),
     }),
   }),

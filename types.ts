@@ -12,7 +12,6 @@ export interface Author {
 }
 
 export interface Post {
-  message: string // @TODO separete as a Respose layer type
   id: number
   title: string
   body: string
@@ -38,9 +37,6 @@ export interface IsLoginResponse {
 }
 
 // POST /logout
-export interface LogoutRequest {
-  author: Author
-}
 export interface LogoutResponse {
   message: string
 }

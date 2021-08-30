@@ -1,3 +1,5 @@
+// import { FetchBaseQueryError } from '@reduxjs/toolkit/src/query/fetchBaseQuery'
+
 // pass one time class selector to base component
 export function concatSelecor(
   classNames1: string,
@@ -84,3 +86,5 @@ export const invariant = function (
     throw error
   }
 }
+
+// @TODO create FetchBaseQueryError handler
