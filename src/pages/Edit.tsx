@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+// this eslint disable is only for guard statment "if (postId === undefined) return <Loading />"
+// @TODO Can I Only Apply "React Hook "useFooBar" is called conditionally." error somehow?
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
@@ -6,6 +9,7 @@ import React, { useEffect, useState } from 'react'
 import type { Post } from '../../types'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
+import Loading from '../elements/Loading'
 import { useFetchPostQuery, useUpdatePostMutation } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { enque } from '../redux/snackbarSlice'
@@ -15,13 +19,16 @@ interface RouteParam {
 }
 
 const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
-  // @TODO is useful Partial remove undefined from libdef?
-  const id = postId as Post['id']
+  if (postId === undefined) return <Loading />
+  const id = postId
 
-  const { data, error } = useFetchPostQuery(id) as {
+  const { data, isLoading, error } = useFetchPostQuery(id) as {
     error: FetchBaseQueryError
+    isLoading: boolean
     data: Post
   }
+  if (isLoading) return <Loading />
+
   const [updatePost] = useUpdatePostMutation()
   const [title, setTitle] = useState<Post['title']>('')
   const [body, setBody] = useState<Post['body']>('')
@@ -31,8 +38,8 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
     if (error) {
       dispatch(enque({ message: JSON.stringify(error), color: 'red' }))
     } else {
-      setTitle(data.title)
-      setBody(data.body)
+      setTitle(data?.title)
+      setBody(data?.body)
     }
   }, [data, error, dispatch])
 
