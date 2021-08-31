@@ -4,6 +4,7 @@ import path from 'path'
 
 import bcrypt from 'bcrypt'
 import bodyParser from 'body-parser'
+import chalk from 'chalk'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -173,8 +174,10 @@ app.use('/api', router)
  */
 if (isDev) {
   app.listen(4000, () => {
-    // eslint-disable-next-line no-console
-    console.log(`DEV Api Server listening on port 4000!`)
+    /* eslint-disable no-console */
+    console.log()
+    console.log(chalk.green.bold(`DEV API Server listening on port 4000!`))
+    /* eslint-disable no-console */
   })
 }
 
@@ -211,7 +214,9 @@ if (isProd) {
   )
 
   ProdServer.listen(443, () => {
-    // eslint-disable-next-line no-console
-    console.log('ProdServer listening on port 443!')
+    /* eslint-disable no-console */
+    console.log()
+    console.log(chalk.green.bold('Production Server listening on port 443!'))
+    /* eslint-disable no-console */
   })
 }
