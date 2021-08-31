@@ -48,7 +48,7 @@ export const API = createApi({
 
     updatePost: builder.mutation<updatePostResponse, updatePostRequest>({
       query: (post) => ({
-        url: 'upate',
+        url: 'update',
         method: 'POST',
         body: post,
       }),
