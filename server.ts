@@ -54,6 +54,7 @@ router.get('/post/:id', async (req, res) => {
 })
 
 router.delete('/post/:id', async (req, res) => {
+  // @TODO verify the request from certainly admin accont
   try {
     await db.post.destroy({ where: { id: req.params.id } })
     res.send(200)
@@ -141,6 +142,7 @@ router.post('/create', async (req, res) => {
 })
 
 router.post('/update', async (req, res, next) => {
+  // @TODO verify the request from certainly admin accont
   const body = req.body
   try {
     await db.post.update(
