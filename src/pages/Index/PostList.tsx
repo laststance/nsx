@@ -11,7 +11,7 @@ interface Props {
 const PostList: React.FC<Props> = ({ posts }) => {
   return (
     <ul className="flex flex-col justify-start">
-      {posts.map((post: Post, i: number) => {
+      {posts?.map((post: Post, i: number) => {
         return (
           <li key={i} className="flex sm:flex-nowrap sm:space-x-2.5">
             <DateDisplay date={post.createdAt} />
