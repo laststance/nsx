@@ -162,6 +162,7 @@ router.post('/update', async (req, res, next) => {
  * ==============================================
  */
 const app = express()
+app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors())
