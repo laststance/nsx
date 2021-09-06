@@ -20,15 +20,29 @@ jobs:
       - run: yarn test
       - run: yarn lint
       - run: yarn typecheck
-  cypress-run:
+  cypress-visitor:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
         with:
           node-version: '14.16'
-      - run: mv .env.example .env
+      - run: mv .env.visitor .env
       - run: docker-compose up -d
       - uses: cypress-io/github-action@v2
         with:
+          spec: cypress/integration/visitor_basic.js
+          start: yarn server:start, yarn start
+  cypress-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14.16'
+      - run: mv .env.admin .env
+      - run: docker-compose up -d
+      - uses: cypress-io/github-action@v2
+        with:
+          spec: cypress/integration/admin_basic.js
           start: yarn server:start, yarn start

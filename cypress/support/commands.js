@@ -20,7 +20,7 @@ for (const command of [
   })
 }
 
-Cypress.Commands.add('login', (name = 'ryota', password = 'popcoon') => {
+Cypress.Commands.add('login', (name = 'John Doe', password = 'popcoon') => {
   return cy.request('POST', '/api/login', {
     name,
     password,
@@ -28,8 +28,7 @@ Cypress.Commands.add('login', (name = 'ryota', password = 'popcoon') => {
 })
 
 Cypress.Commands.add('logout', () => {
-  cy.clearCookies()
-  cy.clearLocalStorage()
+  cy.request('/api/logout')
   return cy.visit('http://localhost:3000')
 })
 
