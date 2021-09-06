@@ -19,7 +19,7 @@ export type SpinnerProps = {
   className?: string
 }
 
-export const Spinner: React.FC<SpinnerProps> = ({
+export const InnterSpiner: React.FC<SpinnerProps> = ({
   size = 'md',
   variant = 'primary',
   className = '',
