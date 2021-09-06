@@ -73,6 +73,7 @@ const Login: React.FC<RouteComponentProps> = () => {
               name="name"
               onChange={(e) => handleChange(e)}
               value={formInput.name}
+              data-cy="name-input"
             />
           </div>
         </div>
@@ -92,13 +93,14 @@ const Login: React.FC<RouteComponentProps> = () => {
               type="password"
               name="password"
               onChange={(e) => handleChange(e)}
+              data-cy="password-input"
             />
           </div>
         </div>
         <div className="md:flex md:items-center">
           <div className="md:w-1/3"></div>
           <div className="md:w-2/3">
-            <Button type="submit" variant="secondary">
+            <Button type="submit" variant="secondary" data-cy="submit-btn">
               Submit
             </Button>
           </div>

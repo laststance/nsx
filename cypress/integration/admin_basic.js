@@ -22,7 +22,21 @@ context('Admin Basic', () => {
       // pageTransition /dashboard
       cy.url().should('eq', 'http://localhost:3000/dashboard')
       cy.get('[data-cy=dashbordPage]').contains('Dashbord')
+      cy.logout()
     })
   })
-  context('With login', () => {})
+  context('With login', () => {
+    beforeEach(() => {
+      cy.visit('http://localhost:3000')
+      cy.get('[data-cy=login-btn]').click()
+      cy.get('[data-cy=name-input]').type('John Doe')
+      cy.get('[data-cy=password-input]').type('popcoon')
+      cy.get('[data-cy=submit-btn]').click()
+    })
+    it('should show dashbord/login button', () => {
+      cy.visit('http://localhost:3000')
+      cy.get('[data-cy=dashboard-btn]').should('exist')
+      cy.get('[data-cy=logout-btn]').should('exist')
+    })
+  })
 })
