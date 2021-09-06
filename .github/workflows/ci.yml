@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: '14.16'
-      - run: mv .env.example .env
+      - run: mv .env.visitor .env
       - run: yarn install
       - run: yarn build
       - run: yarn test
