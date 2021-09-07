@@ -27,12 +27,7 @@ context('Admin Basic', () => {
   })
   context('With login', () => {
     it('should show dashbord/login button', () => {
-      cy.visit('http://localhost:3000')
-      cy.$('login-btn').click()
-      cy.$('name-input').type('John Doe')
-      cy.$('password-input').type('popcoon')
-      cy.$('submit-btn').click()
-      cy.$('topPageLink').click()
+      cy.login()
       // @TODO remove when implemented pagenation
       cy.scrollTo('bottom')
       // should show dashbord/login button

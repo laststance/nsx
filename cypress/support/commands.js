@@ -22,6 +22,15 @@ for (const command of [
 
 Cypress.Commands.add('$', (selector) => cy.get('[data-cy=' + selector + ']'))
 
+Cypress.Commands.add('login', () => {
+  cy.visit('http://localhost:3000')
+  cy.$('login-btn').click()
+  cy.$('name-input').type('John Doe')
+  cy.$('password-input').type('popcoon')
+  cy.$('submit-btn').click()
+  cy.$('topPageLink').click()
+})
+
 Cypress.Commands.add('logout', () =>
   cy.request('http://localhost:3000/api/logout')
 )
