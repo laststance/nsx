@@ -32,7 +32,9 @@ context('Admin Basic', () => {
       cy.get('[data-cy=name-input]').type('John Doe')
       cy.get('[data-cy=password-input]').type('popcoon')
       cy.get('[data-cy=submit-btn]').click()
-      cy.visit('http://localhost:3000')
+      cy.get('[data-cy=topPageLink]').click()
+      // @TODO remove when implemented pagenation
+      cy.scrollTo('bottom')
       cy.get('[data-cy=dashboard-btn]').should('exist')
       cy.get('[data-cy=logout-btn]').should('exist')
     })
