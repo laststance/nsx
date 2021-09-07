@@ -1,4 +1,4 @@
-const COMMAND_DELAY = 500
+const COMMAND_DELAY = 550
 
 for (const command of [
   'visit',
@@ -20,14 +20,14 @@ for (const command of [
   })
 }
 
+Cypress.Commands.add('$', (selector) => cy.get('[data-cy=' + selector + ']'))
 
+Cypress.Commands.add('logout', () =>
+  cy.request('http://localhost:3000/api/logout')
+)
 
-Cypress.Commands.add('logout', () => {
-  return cy.request('http://localhost:3000/api/logout')
-})
-
-Cypress.Commands.add('resetDB', () => {
+Cypress.Commands.add('resetDB', () =>
   cy.exec(
     'yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed:all'
   )
-})
+)
