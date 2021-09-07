@@ -33,6 +33,7 @@ jobs:
         with:
           spec: cypress/integration/visitor_basic.js
           start: yarn server:start, yarn start
+          wait-on: 'http://localhost:3000'
   cypress-admin:
     runs-on: ubuntu-latest
     steps:
@@ -46,3 +47,4 @@ jobs:
         with:
           spec: cypress/integration/admin_basic.js
           start: yarn server:start, yarn start
+          wait-on: 'http://localhost:3000'
