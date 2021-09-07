@@ -1,4 +1,4 @@
-const COMMAND_DELAY = 0
+const COMMAND_DELAY = 500
 
 for (const command of [
   'visit',
