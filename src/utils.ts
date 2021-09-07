@@ -49,12 +49,12 @@ export const invariant = function (
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
   condition: any,
   format: string,
-  a: any,
-  b: any,
-  c: any,
-  d: any,
-  e: any,
-  f: any
+  a?: any,
+  b?: any,
+  c?: any,
+  d?: any,
+  e?: any,
+  f?: any
 ): void {
   /* eslint-enable @typescript-eslint/explicit-module-boundary-types */
   if (NODE_ENV !== 'production') {
