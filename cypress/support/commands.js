@@ -20,6 +20,8 @@ for (const command of [
   })
 }
 
+
+
 Cypress.Commands.add('logout', () => {
   return cy.request('http://localhost:3000/api/logout')
 })

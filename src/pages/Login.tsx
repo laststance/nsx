@@ -12,7 +12,7 @@ import { enque } from '../redux/snackbarSlice'
 
 interface FormInputState {
   name: Author['name']
-  password: string
+  password: Author['password']
 }
 
 const Login: React.FC<RouteComponentProps> = () => {
