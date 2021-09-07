@@ -35,6 +35,7 @@ context('Admin Basic', () => {
       cy.get('[data-cy=topPageLink]').click()
       // @TODO remove when implemented pagenation
       cy.scrollTo('bottom')
+      // should show dashbord/login button
       cy.get('[data-cy=dashboard-btn]').should('exist')
       cy.get('[data-cy=logout-btn]').should('exist')
     })
