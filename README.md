@@ -7,7 +7,7 @@
 Prod ➡️ https://digitalstrength.dev  
 Completely personal use for myself that small blog system for written what does I today learned.
 
-[![img](./image.png)](https://digitalstrength.dev)
+[![img](https://digital3.nyc3.cdn.digitaloceanspaces.com/Kapture%202021-09-07%20at%2021.45.51.gif)](https://digitalstrength.dev)
 
 # Getting start local development
 
