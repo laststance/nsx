@@ -26,7 +26,13 @@ export type Posts = Post[]
  * API Reqest/Response body types
  * =====================================
  */
-// POST /update
+// POST /api/create
+export interface createPostRequest {
+  title: Post['title']
+  body: Post['body']
+}
+
+// POST: /api/update
 export interface updatePostRequest {
   id: Post['id']
   title: Post['title']
@@ -36,7 +42,7 @@ export interface updatePostResponse {
   message: 'Post Updated!'
 }
 
-// POST /is_login
+// POST: /api/is_login
 export interface isLoginRequest {
   author: Author
 }
@@ -44,7 +50,7 @@ export interface isLoginResponse {
   login: boolean
 }
 
-// POST /logout
+// POST: /api/logout
 export interface LogoutResponse {
   message: 'Logout Successful'
 }

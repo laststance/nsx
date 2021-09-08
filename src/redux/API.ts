@@ -8,7 +8,7 @@ import type {
   isLoginResponse,
   LogoutResponse,
   updatePostResponse,
-  updatePostRequest,
+  updatePostRequest, createPostRequest
 } from '../../types'
 
 interface UserIdPassword {
@@ -42,7 +42,7 @@ export const API = createApi({
       query: (id) => ({ url: `post/${id}`, method: 'DELETE' }),
     }),
 
-    createPost: builder.mutation<Post, Post['title'] & Post['body']>({
+    createPost: builder.mutation<Post, createPostRequest>({
       query: (post) => ({ url: 'create', method: 'POST', body: post }),
     }),
 
@@ -92,7 +92,6 @@ export const {
   useFetchAllPostsQuery,
   useFetchPostQuery,
   useDeletePostMutation,
-  useCreatePostMutation,
   useUpdatePostMutation,
   useLoginReqestMutation,
   useSignupReqestMutation,

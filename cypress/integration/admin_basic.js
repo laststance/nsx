@@ -34,5 +34,25 @@ context('Admin Basic', () => {
       cy.$('dashboard-btn').should('exist')
       cy.$('logout-btn').should('exist')
     })
+    context('CRUD post operation', () => {
+      it('could publish new post', () => {
+        cy.login()
+        cy.$('dashboard-btn').click()
+        cy.url().should('eq', 'http://localhost:3000/dashboard')
+        cy.$('create-btn').click()
+        cy.url().should('eq', 'http://localhost:3000/dashboard/create')
+        cy.log('wrting blog post...')
+        cy.$('post-title-input').type('from cypress')
+        cy.$('post-body-input').type('testing now')
+
+        cy.log('click submit button')
+        cy.$('submit-btn').click()
+
+        cy.log('jump post page and should show input contents and edit button')
+        cy.$('postPage').contains('from cypress')
+        cy.$('postPage').contains('testing now')
+        cy.$('edit-btn').should('exist')
+      })
+    })
   })
 })

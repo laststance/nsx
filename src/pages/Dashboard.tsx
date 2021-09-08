@@ -71,7 +71,9 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       </ul>
       <div className="flex gap-4 justify-end mt-8">
         <Link to="create">
-          <Button variant="primary">Create</Button>
+          <Button data-cy="create-btn" variant="primary">
+            Create
+          </Button>
         </Link>
       </div>
     </Layout>

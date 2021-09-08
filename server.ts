@@ -14,6 +14,7 @@ import jwt from 'jsonwebtoken'
 import morgan from 'morgan'
 
 import db from './db/models'
+import type Post from './db/models/post'
 import type { LogoutResponse } from './types'
 
 const env = process.env.NODE_ENV || 'development'
@@ -128,14 +129,12 @@ router.get('/logout', (req, res) => {
 })
 
 router.post('/create', async (req, res) => {
-  const body = req.body
   try {
-    const newPost = await db.post.create({
-      title: body.title,
-      body: body.body,
+    const post = await db.post.create<Post>({
+      title: req.body.title,
+      body: req.body.body,
     })
-
-    res.status(201).json(newPost)
+    res.status(201).json(post.get())
   } catch (error) {
     res.status(500).json({ error: error.message })
   }

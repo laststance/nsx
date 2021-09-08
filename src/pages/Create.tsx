@@ -4,21 +4,21 @@ import React, { useState } from 'react'
 
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
-import { useCreatePostMutation } from '../redux/API'
+import { API } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { enque } from '../redux/snackbarSlice'
 
 const Create: React.FC<RouteComponentProps> = () => {
   const dispatch = useAppDispatch()
-  const [createPost] = useCreatePostMutation()
+  const [createPost] = API.endpoints.createPost.useMutation()
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-  const [title, setTitle] = useState<string | undefined>('')
-  const [body, setBody] = useState<string | undefined>('')
+  const [title, setTitle] = useState<string>('')
+  const [body, setBody] = useState<string>('')
 
   function handleInputChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    setState: React.Dispatch<React.SetStateAction<string | undefined>>
+    setState: React.Dispatch<React.SetStateAction<string>>
   ): void {
     e.preventDefault()
     setState(e.target.value)
@@ -27,14 +27,14 @@ const Create: React.FC<RouteComponentProps> = () => {
   async function execCreate() {
     try {
       setIsSubmitting(() => true)
-      // @ts-ignore
-      const { data } = await createPost({
+
+      const post = await createPost({
         title,
         body,
       }).unwrap()
 
       dispatch(enque({ message: 'New Post Created!', color: 'green' }))
-      navigate(`/post/${data.id}`)
+      navigate(`/post/${post.id}`)
     } catch (error) {
       dispatch(enque({ message: error.message, color: 'red' }))
     } finally {
@@ -49,14 +49,21 @@ const Create: React.FC<RouteComponentProps> = () => {
         className="mt-3"
         value={title}
         onChange={(e) => handleInputChange(e, setTitle)}
+        data-cy="post-title-input"
       />
       <textarea
         className="w-full h-60 mt-3"
         value={body}
         onChange={(e) => handleInputChange(e, setBody)}
+        data-cy="post-body-input"
       />
       <div className="flex gap-4 justify-end pt-8">
-        <Button onClick={execCreate} variant="primary" isLoading={isSubmitting}>
+        <Button
+          onClick={execCreate}
+          variant="primary"
+          isLoading={isSubmitting}
+          data-cy="submit-btn"
+        >
           Submit
         </Button>
       </div>
