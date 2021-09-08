@@ -22,3 +22,7 @@ import './commands'
 before(() => {
   cy.resetDB()
 })
+
+after(() => {
+  cy.resetDB()
+})
