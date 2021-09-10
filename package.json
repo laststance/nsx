@@ -109,14 +109,6 @@
     "lint": "eslint . --ext .ts,.tsx,.js",
     "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
     "cypress:open": "cypress open",
-    "cypress:run:admin": "cypress run --headed --spec cypress/integration/admin_basic.js",
-    "cypress:run:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
-    "cypress:run:headless:admin": "cypress run -b --spec cypress/integration/admin_basic.js",
-    "cypress:run:headless:visitor": "cypress run --spec cypress/integration/visitor_basic.js",
-    "cypress:run:admin:electron": "cypress run -b electron --headed --spec cypress/integration/admin_basic.js",
-    "cypress:run:visitor:electron": "cypress run -b electron --headed --spec cypress/integration/visitor_basic.js",
-    "cypress:run:headless:admin:electron": "cypress run -b electron --spec cypress/integration/admin_basic.js",
-    "cypress:run:headless:visitor:electron": "cypress run -b electron --spec cypress/integration/visitor_basic.js",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "db:hashgen": "node db/scripts/passhashgen.js",
@@ -126,6 +118,14 @@
     "db:seed": "sequelize db:seed",
     "db:seed:undo": "sequelize db:seed:undo",
     "db:seed:all": "sequelize db:seed:all",
-    "db:seed:undo:all": "sequelize db:seed:undo:all"
+    "db:seed:undo:all": "sequelize db:seed:undo:all",
+    "cypress:run:admin": "cypress run --headed --spec cypress/integration/admin_basic.js",
+    "cypress:run:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
+    "cypress:run:headless:admin": "cypress run -b --spec cypress/integration/admin_basic.js",
+    "cypress:run:headless:visitor": "cypress run --spec cypress/integration/visitor_basic.js",
+    "cypress:run:admin:electron": "cypress run -b electron --headed --spec cypress/integration/admin_basic.js",
+    "cypress:run:visitor:electron": "cypress run -b electron --headed --spec cypress/integration/visitor_basic.js",
+    "cypress:run:headless:admin:electron": "cypress run -b electron --spec cypress/integration/admin_basic.js",
+    "cypress:run:headless:visitor:electron": "cypress run -b electron --spec cypress/integration/visitor_basic.js"
   }
 }
