@@ -1,5 +1,7 @@
 import type { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React from 'react'
 
 import type { Post } from '../../types'
@@ -23,7 +25,8 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       dispatch(enque({ message: 'Delete Successful!', color: 'green' }))
       // @TODO optimistic update
       refetch()
-    } catch (error) {
+      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
+    } catch (error: FetchBaseQueryError) {
       if (error.status === 500)
         dispatch(
           enque({

@@ -1,5 +1,7 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState } from 'react'
 
 import Layout from '../components/Layout'
@@ -35,7 +37,8 @@ const Create: React.FC<RouteComponentProps> = () => {
 
       dispatch(enque({ message: 'New Post Created!', color: 'green' }))
       navigate(`/post/${post.id}`)
-    } catch (error) {
+      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
+    } catch (error: FetchBaseQueryError) {
       dispatch(enque({ message: error.message, color: 'red' }))
     } finally {
       setIsSubmitting(() => false)

@@ -1,5 +1,7 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState } from 'react'
 
 import type { Author } from '../../types'
@@ -43,7 +45,8 @@ const Login: React.FC<RouteComponentProps> = () => {
       window.localStorage.setItem('author', JSON.stringify(data))
       dispatch(enque({ message: 'Login SuccessFul', color: 'green' }))
       navigate('dashboard')
-    } catch (error) {
+      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
+    } catch (error: FetchBaseQueryError) {
       if (error.status === 400)
         dispatch(enque({ message: 'Invalid Password', color: 'red' }))
       if (error.status === 401)

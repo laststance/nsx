@@ -13,7 +13,9 @@ context('Visitor Basic', () => {
     cy.visit('http://localhost:3000/')
     cy.$('single-post-page-link[1]').click()
     // pageTrangition /:postId
-    cy.$('post-page-content-root').should('exist').should('contain', 'CSS Weekly #464')
+    cy.$('post-page-content-root')
+      .should('exist')
+      .should('contain', 'CSS Weekly #464')
   })
 
   it('never shown every admin page link button without login', () => {

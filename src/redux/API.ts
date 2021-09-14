@@ -8,7 +8,8 @@ import type {
   isLoginResponse,
   LogoutResponse,
   updatePostResponse,
-  updatePostRequest, createPostRequest
+  updatePostRequest,
+  createPostRequest,
 } from '../../types'
 
 interface UserIdPassword {

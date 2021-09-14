@@ -1,4 +1,6 @@
 import { Link } from '@reach/router'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState } from 'react'
 
 import type { LogoutResponse } from '../../../types'
@@ -30,7 +32,8 @@ const AdminControlPanel: React.FC<Props> = (props: { login: boolean }) => {
       // @TODO make TS friendly util
       window.localStorage.removeItem('login')
       window.localStorage.removeItem('author')
-    } catch (error) {
+      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
+    } catch (error: FetchBaseQueryError) {
       dispatch(enque({ message: error.status, color: 'red' }))
     } finally {
       setLoading(false)

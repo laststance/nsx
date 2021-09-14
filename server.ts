@@ -59,7 +59,8 @@ router.delete('/post/:id', async (req, res) => {
   try {
     await db.post.destroy({ where: { id: req.params.id } })
     res.send(200)
-  } catch (error) {
+    // @ts-ignore
+  } catch (error: Error) {
     res.status(500).json({ error: error.message })
   }
 })
@@ -135,7 +136,8 @@ router.post('/create', async (req, res) => {
       body: req.body.body,
     })
     res.status(201).json(post.get())
-  } catch (error) {
+    // @ts-ignore
+  } catch (error: Error) {
     res.status(500).json({ error: error.message })
   }
 })
