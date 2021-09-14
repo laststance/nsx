@@ -55,12 +55,22 @@ context('Admin Basic', () => {
       })
 
       it('could edit existing post', () => {
-        // @TODO this is not completed. retry after solve RTKQuery cache probrem
         cy.$('blog-title-top-page-link').click()
-        cy.$('single-post-page-link[1]').click()
+        cy.comment('Open post that creaed prev test.')
+        cy.$('single-post-page-link-1').click()
         cy.$('post-page-content-root').contains('from cypress')
         cy.$('post-page-content-root').contains('testing now')
+        cy.comment('Click Edit button and modify contents.')
         cy.$('edit-btn').click()
+        cy.$('edit-title-input').type('Edit Title!')
+        cy.$('edit-body-input').type('Edit Post Contents!')
+        cy.comment(
+          'Edit complete then click Update button, after page transition single post page.'
+        )
+        cy.$('update-btn').click()
+        cy.$('post-page-content-root').should('exist')
+        cy.$('post-page-content-root').contains('Edit Title!')
+        cy.$('post-page-content-root').contains('Edit Post Contents!')
       })
     })
   })

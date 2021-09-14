@@ -27,7 +27,6 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
     isLoading: boolean
     data: Post
   }
-  if (isLoading) return <Loading />
 
   const [updatePost] = useUpdatePostMutation()
   const [title, setTitle] = useState<Post['title']>('')
@@ -69,6 +68,8 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
     }
   }
 
+  if (isLoading) return <Loading />
+
   return (
     <Layout className="flex flex-col justify-start">
       <input
@@ -76,14 +77,16 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
         className="mt-3"
         value={title}
         onChange={(e) => handleChange(e, setTitle)}
+        data-cy="edit-title-input"
       />
       <textarea
         className="w-full h-60 mt-3"
         value={body}
         onChange={(e) => handleChange(e, setBody)}
+        data-cy="edit-body-input"
       />
       <div className="flex justify-end pt-8">
-        <Button onClick={handleEdit} variant="primary">
+        <Button onClick={handleEdit} variant="secondary" data-cy="update-btn">
           Update
         </Button>
       </div>

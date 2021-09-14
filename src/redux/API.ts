@@ -30,21 +30,26 @@ export const API = createApi({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
     fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
+  tagTypes: ['AllPosts', 'Post'],
   endpoints: (builder) => ({
     fetchAllPosts: builder.query<Posts, void>({
       query: () => 'posts',
+      providesTags: ['AllPosts'],
     }),
 
     fetchPost: builder.query<Post, Post['id']>({
       query: (id) => ({ url: `post/${id}`, method: 'GET' }),
+      providesTags: (result, error, id) => [{ type: 'Post', id }],
     }),
 
     deletePost: builder.mutation<number, Post['id']>({
       query: (id) => ({ url: `post/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['AllPosts'],
     }),
 
     createPost: builder.mutation<Post, createPostRequest>({
       query: (post) => ({ url: 'create', method: 'POST', body: post }),
+      invalidatesTags: ['AllPosts'],
     }),
 
     updatePost: builder.mutation<updatePostResponse, updatePostRequest>({
@@ -53,6 +58,7 @@ export const API = createApi({
         method: 'POST',
         body: post,
       }),
+      invalidatesTags: (result, error, { id }) => [{ type: 'Post', id }],
     }),
 
     loginReqest: builder.mutation<Author, UserIdPassword>({

@@ -1,5 +1,5 @@
 import { Link } from '@reach/router'
-import React from 'react'
+import React, { memo } from 'react'
 
 import type { Post, Posts } from '../../../types'
 import DateDisplay from '../../elements/DateDisplay'
@@ -8,7 +8,7 @@ interface Props {
   posts: Posts
 }
 
-const PostList: React.FC<Props> = ({ posts }) => {
+const PostList: React.FC<Props> = memo(({ posts }) => {
   return (
     <ul className="flex flex-col justify-start">
       {posts?.map((post: Post, i: number) => {
@@ -17,7 +17,7 @@ const PostList: React.FC<Props> = ({ posts }) => {
             <DateDisplay date={post.createdAt} />
             <div
               className="text-lg break-all w-64 sm:w-auto flex-initial"
-              data-cy={`single-post-page-link[${i + 1}]`}
+              data-cy={`single-post-page-link-${i + 1}`}
             >
               <Link className="hover:text-gray-400" to={`post/${post.id}`}>
                 {post.title}
@@ -28,6 +28,6 @@ const PostList: React.FC<Props> = ({ posts }) => {
       })}
     </ul>
   )
-}
+})
 
 export default PostList

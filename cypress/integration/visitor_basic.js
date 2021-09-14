@@ -11,7 +11,7 @@ context('Visitor Basic', () => {
 
   it('show single post', () => {
     cy.visit('http://localhost:3000/')
-    cy.$('single-post-page-link[1]').click()
+    cy.$('single-post-page-link-1').click()
     // pageTrangition /:postId
     cy.$('post-page-content-root')
       .should('exist')
@@ -27,7 +27,7 @@ context('Visitor Basic', () => {
 
     cy.visit('http://localhost:3000/')
     adminContorlBtnShouldNotVisible()
-    cy.$('single-post-page-link[2]').click()
+    cy.$('single-post-page-link-2').click()
     adminContorlBtnShouldNotVisible()
   })
 })
