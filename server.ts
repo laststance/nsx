@@ -113,7 +113,14 @@ router.post('/is_login', (req, res) => {
   const { token } = req.cookies
 
   if (token && req.body.author) {
-    const password = jwt.verify(token, process.env.JWT_SECRET as string)
+    let password
+    try {
+      password = jwt.verify(token, process.env.JWT_SECRET as string)
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error)
+      res.status(200).json({ login: false })
+    }
     if (req.body.author.password === password) {
       res.cookie('token', token, cookieOptions)
       res.status(200).json({ login: true })
