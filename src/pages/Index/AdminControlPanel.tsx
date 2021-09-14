@@ -1,7 +1,7 @@
 import { Link } from '@reach/router'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 
 import type { LogoutResponse } from '../../../types'
 import Button from '../../elements/Button'
@@ -15,7 +15,7 @@ interface Props {
   login: AdminState['login']
 }
 
-const AdminControlPanel: React.FC<Props> = (props: { login: boolean }) => {
+const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
   const [loging, setLoading] = useState(false)
   const [logoutRequest] = API.endpoints.logoutRequest.useMutation()
   const dispatch = useAppDispatch()
@@ -51,7 +51,7 @@ const AdminControlPanel: React.FC<Props> = (props: { login: boolean }) => {
       )}
       {!props.login && process.env.REACT_APP_ENABLE_SIGNUP && (
         <Link to="/signup">
-          <Button variant="primary" data-cy="signup-btn">
+          <Button variant="secondary" data-cy="signup-btn">
             Sigunup
           </Button>
         </Link>
@@ -75,6 +75,6 @@ const AdminControlPanel: React.FC<Props> = (props: { login: boolean }) => {
       )}
     </div>
   )
-}
+})
 
 export default AdminControlPanel
