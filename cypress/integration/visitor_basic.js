@@ -11,9 +11,9 @@ context('Visitor Basic', () => {
 
   it('show single post', () => {
     cy.visit('http://localhost:3000/')
-    cy.$('postTitle-0').click()
+    cy.$('single-post-page-link[1]').click()
     // pageTrangition /:postId
-    cy.$('postPage').should('exist').should('contain', 'CSS Weekly #464')
+    cy.$('post-page-content-root').should('exist').should('contain', 'CSS Weekly #464')
   })
 
   it('never shown every admin page link button without login', () => {
@@ -25,7 +25,7 @@ context('Visitor Basic', () => {
 
     cy.visit('http://localhost:3000/')
     adminContorlBtnShouldNotVisible()
-    cy.$('postTitle-1').click()
+    cy.$('single-post-page-link[2]').click()
     adminContorlBtnShouldNotVisible()
   })
 })

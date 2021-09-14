@@ -17,7 +17,7 @@ const PostList: React.FC<Props> = ({ posts }) => {
             <DateDisplay date={post.createdAt} />
             <div
               className="text-lg break-all w-64 sm:w-auto flex-initial"
-              data-cy={`postTitle-${i}`}
+              data-cy={`single-post-page-link[${i + 1}]`}
             >
               <Link className="hover:text-gray-400" to={`post/${post.id}`}>
                 {post.title}

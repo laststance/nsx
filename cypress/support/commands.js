@@ -28,7 +28,7 @@ Cypress.Commands.add('login', () => {
   cy.$('name-input').type('John Doe')
   cy.$('password-input').type('popcoon')
   cy.$('submit-btn').click()
-  cy.$('topPageLink').click()
+  cy.$('blog-title-top-page-link').click()
 })
 
 Cypress.Commands.add('logout', () =>

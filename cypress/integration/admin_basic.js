@@ -11,7 +11,7 @@ context('Admin Basic', () => {
       cy.$('signup-btn').click()
       // pageTransition /signup
       cy.url().should('eq', 'http://localhost:3000/signup')
-      cy.$('signupPage').contains('Signup')
+      cy.$('signup-page-content-root').contains('Signup')
 
       // input signup form
       cy.$('name-input').type('newTransitionBloger{enter}')
@@ -36,7 +36,7 @@ context('Admin Basic', () => {
     })
     context('CRUD post operation', () => {
       it('could publish new post', () => {
-        cy.login()
+        cy.$('blog-title-top-page-link').click()
         cy.$('dashboard-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.$('create-btn').click()
@@ -49,9 +49,18 @@ context('Admin Basic', () => {
         cy.$('submit-btn').click()
 
         cy.log('jump post page and should show input contents and edit button')
-        cy.$('postPage').contains('from cypress')
-        cy.$('postPage').contains('testing now')
+        cy.$('post-page-content-root').contains('from cypress')
+        cy.$('post-page-content-root').contains('testing now')
         cy.$('edit-btn').should('exist')
+      })
+
+      it('could edit existing post', () => {
+        // @TODO this is not completed. retry after solve RTKQuery cache probrem
+        cy.$('blog-title-top-page-link').click()
+        cy.$('single-post-page-link[1]').click()
+        cy.$('post-page-content-root').contains('from cypress')
+        cy.$('post-page-content-root').contains('testing now')
+        cy.$('edit-btn').click()
       })
     })
   })

@@ -50,7 +50,7 @@ const Signup: React.FC<RouteComponentProps> = () => {
   }
 
   return (
-    <Layout data-cy="signupPage">
+    <Layout data-cy="signup-page-content-root">
       <h1 className="text-3xl mb-3">Signup</h1>
       <form className="w-full max-w-sm" onSubmit={execSignup}>
         <div className="md:flex md:items-center mb-6">

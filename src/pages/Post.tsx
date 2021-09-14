@@ -56,14 +56,14 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
 
   if (isLoading || data === undefined) {
     return (
-      <Layout data-cy="postPage">
+      <Layout data-cy="post-page-content-root">
         <Loading />
       </Layout>
     )
   }
 
   return (
-    <Layout data-cy="postPage">
+    <Layout data-cy="post-page-content-root">
       <Suspense fallback={<Loading />}>
         {/* Suspence for lazyload expesive <code /> component */}
         <>
