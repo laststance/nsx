@@ -2,7 +2,7 @@ import type { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import React from 'react'
+import React, { memo } from 'react'
 
 import type { Post } from '../../types'
 import Layout from '../components/Layout'
@@ -12,7 +12,7 @@ import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { snackbarEnque } from '../redux/snackbarSlice'
 
-const Dashboard: React.FC<RouteComponentProps> = () => {
+const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   const dispatch = useAppDispatch()
   // for display network error message
   const { data, error, refetch } = useFetchAllPostsQuery()
@@ -23,7 +23,6 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       await deletePost(id).unwrap()
 
       dispatch(snackbarEnque({ message: 'Delete Successful!', color: 'green' }))
-      // @TODO optimistic update
       refetch()
       // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
     } catch (error: FetchBaseQueryError) {
@@ -81,6 +80,6 @@ const Dashboard: React.FC<RouteComponentProps> = () => {
       </div>
     </Layout>
   )
-}
+})
 
-export default React.memo(Dashboard)
+export default Dashboard

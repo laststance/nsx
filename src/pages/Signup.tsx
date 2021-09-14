@@ -1,6 +1,6 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 
 import type { Author } from '../../types'
 import Layout from '../components/Layout'
@@ -15,7 +15,7 @@ interface FormInputState {
   password: Author['password']
 }
 
-const Signup: React.FC<RouteComponentProps> = () => {
+const Signup: React.FC<RouteComponentProps> = memo(() => {
   const [signupRequest] = useSignupReqestMutation()
   const [formInput, setFormInput] = useState<FormInputState>({
     name: '',
@@ -105,6 +105,6 @@ const Signup: React.FC<RouteComponentProps> = () => {
       </form>
     </Layout>
   )
-}
+})
 
-export default React.memo(Signup, () => true)
+export default Signup
