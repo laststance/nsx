@@ -7,7 +7,6 @@ import type { Author } from '../types'
 
 import { login } from './redux/adminSlice'
 import { API } from './redux/API'
-import { detectPreRender } from './redux/perfSlice'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
 import ErrorBoundary from './systems/ErrorBoundary'
@@ -58,7 +57,6 @@ const App = () => (
 
 const rootElement = document.getElementById('root') as HTMLDivElement
 if (rootElement.hasChildNodes()) {
-  store.dispatch(detectPreRender())
   ReactDOM.hydrate(<App />, rootElement)
 } else {
   ReactDOM.render(<App />, rootElement)
