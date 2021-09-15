@@ -9,7 +9,7 @@ import type { AdminState } from '../../redux/adminSlice'
 import { logout } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
-import { snackbarEnque } from '../../redux/snackbarSlice'
+import { enqueSnackbar } from '../../redux/snackbarSlice'
 
 interface Props {
   login: AdminState['login']
@@ -28,13 +28,13 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
       const response: LogoutResponse = await logoutRequest().unwrap()
 
       dispatch(logout())
-      dispatch(snackbarEnque({ message: response.message, color: 'green' }))
+      dispatch(enqueSnackbar({ message: response.message, color: 'green' }))
       // @TODO make TS friendly util
       window.localStorage.removeItem('login')
       window.localStorage.removeItem('author')
       // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
     } catch (error: FetchBaseQueryError) {
-      dispatch(snackbarEnque({ message: error.status, color: 'red' }))
+      dispatch(enqueSnackbar({ message: error.status, color: 'red' }))
     } finally {
       setLoading(false)
     }

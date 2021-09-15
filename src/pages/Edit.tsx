@@ -12,7 +12,7 @@ import Button from '../elements/Button'
 import Loading from '../elements/Loading'
 import { useFetchPostQuery, useUpdatePostMutation } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
-import { snackbarEnque } from '../redux/snackbarSlice'
+import { enqueSnackbar } from '../redux/snackbarSlice'
 
 interface RouteParam {
   postId: Post['id']
@@ -35,7 +35,7 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
 
   useEffect(() => {
     if (error) {
-      dispatch(snackbarEnque({ message: JSON.stringify(error), color: 'red' }))
+      dispatch(enqueSnackbar({ message: JSON.stringify(error), color: 'red' }))
     } else {
       setTitle(data?.title)
       setBody(data?.body)
@@ -58,13 +58,13 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
         id,
       }).unwrap()
 
-      dispatch(snackbarEnque({ message: response.message, color: 'green' }))
+      dispatch(enqueSnackbar({ message: response.message, color: 'green' }))
 
       navigate(`/post/${postId}`)
 
       // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
     } catch (error: FetchBaseQueryError) {
-      dispatch(snackbarEnque({ message: error.status, color: 'red' }))
+      dispatch(enqueSnackbar({ message: error.status, color: 'red' }))
     }
   }
 

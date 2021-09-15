@@ -10,7 +10,7 @@ import Button from '../elements/Button'
 import { login } from '../redux/adminSlice'
 import { useLoginReqestMutation } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
-import { snackbarEnque } from '../redux/snackbarSlice'
+import { enqueSnackbar } from '../redux/snackbarSlice'
 
 interface FormInputState {
   name: Author['name']
@@ -43,15 +43,15 @@ const Login: React.FC<RouteComponentProps> = () => {
       // @TODO tidy up LocalStorage code
       window.localStorage.setItem('login', 'true')
       window.localStorage.setItem('author', JSON.stringify(data))
-      dispatch(snackbarEnque({ message: 'Login SuccessFul', color: 'green' }))
+      dispatch(enqueSnackbar({ message: 'Login SuccessFul', color: 'green' }))
       navigate('dashboard')
       // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
     } catch (error: FetchBaseQueryError) {
       if (error.status === 400)
-        dispatch(snackbarEnque({ message: 'Invalid Password', color: 'red' }))
+        dispatch(enqueSnackbar({ message: 'Invalid Password', color: 'red' }))
       if (error.status === 401)
-        dispatch(snackbarEnque({ message: 'User does not exis', color: 'red' }))
-      else dispatch(snackbarEnque({ message: 'something error', color: 'red' }))
+        dispatch(enqueSnackbar({ message: 'User does not exis', color: 'red' }))
+      else dispatch(enqueSnackbar({ message: 'something error', color: 'red' }))
     }
   }
 

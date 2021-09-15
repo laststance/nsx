@@ -8,7 +8,7 @@ import Button from '../elements/Button'
 import { login } from '../redux/adminSlice'
 import { useSignupReqestMutation } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
-import { snackbarEnque } from '../redux/snackbarSlice'
+import { enqueSnackbar } from '../redux/snackbarSlice'
 
 interface FormInputState {
   name: Author['name']
@@ -36,7 +36,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
         password: formInput.password,
       }).unwrap()
 
-      dispatch(snackbarEnque({ message: 'Success Signup!', color: 'green' }))
+      dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
       dispatch(login(data))
       // @TODO tidy up LocalStorage code
       window.localStorage.setItem('login', 'true')

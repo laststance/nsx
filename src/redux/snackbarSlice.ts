@@ -17,14 +17,14 @@ export const snackbarSlice = createSlice({
   name: 'snackbar',
   initialState,
   reducers: {
-    snackbarEnque: (state, action: PayloadAction<SnackBarMessage>) => {
+    enqueSnackbar: (state, action: PayloadAction<SnackBarMessage>) => {
       const message: SnackBarMessage['message'] = action.payload.message
       const color: SnackBarMessage['color'] = action.payload.color
       const newMessage: SnackBarMessage = { message, color }
       // @ts-ignore
       state.snackbarQueue.push(newMessage)
     },
-    snackbarDeque: (state) => {
+    dequeSnackbar: (state) => {
       state.snackbarQueue.pop()
     },
   },
@@ -33,6 +33,6 @@ export const snackbarSlice = createSlice({
 export const selectMessageQueue = (state: RootState): Array<SnackBarMessage> =>
   state.snackbar.snackbarQueue
 
-export const { snackbarEnque, snackbarDeque } = snackbarSlice.actions
+export const { enqueSnackbar, dequeSnackbar } = snackbarSlice.actions
 
 export default snackbarSlice.reducer

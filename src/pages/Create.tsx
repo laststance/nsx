@@ -8,7 +8,7 @@ import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { API } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
-import { snackbarEnque } from '../redux/snackbarSlice'
+import { enqueSnackbar } from '../redux/snackbarSlice'
 
 const Create: React.FC<RouteComponentProps> = () => {
   const dispatch = useAppDispatch()
@@ -35,11 +35,11 @@ const Create: React.FC<RouteComponentProps> = () => {
         body,
       }).unwrap()
 
-      dispatch(snackbarEnque({ message: 'New Post Created!', color: 'green' }))
+      dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))
       navigate(`/post/${post.id}`)
       // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
     } catch (error: FetchBaseQueryError) {
-      dispatch(snackbarEnque({ message: error.message, color: 'red' }))
+      dispatch(enqueSnackbar({ message: error.message, color: 'red' }))
     } finally {
       setIsSubmitting(() => false)
     }

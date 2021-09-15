@@ -14,7 +14,7 @@ import Loading from '../elements/Loading'
 import { selectLogin } from '../redux/adminSlice'
 import { useFetchPostQuery } from '../redux/API'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { snackbarEnque } from '../redux/snackbarSlice'
+import { enqueSnackbar } from '../redux/snackbarSlice'
 import { truncateString } from '../utils'
 
 interface RouterParam {
@@ -51,7 +51,7 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   } = useFetchPostQuery(postId as PostType['id'])
 
   useEffect(() => {
-    if (error) dispatch(snackbarEnque({ message: error.toString(), color: 'red' }))
+    if (error) dispatch(enqueSnackbar({ message: error.toString(), color: 'red' }))
   }, [dispatch, error])
 
   if (isLoading || data === undefined) {

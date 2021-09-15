@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import type { SnackBarMessage } from '../../types'
 import { useAppDispatch } from '../redux/hooks'
-import { snackbarDeque } from '../redux/snackbarSlice'
+import { dequeSnackbar } from '../redux/snackbarSlice'
 
 interface Props {
   message: SnackBarMessage['message']
@@ -27,7 +27,7 @@ export const SnackBar: React.FC<Props> = ({ message, color }) => {
 
     const timerId = setTimeout(() => {
       setOpacity('opacity-0')
-      dispatch(snackbarDeque())
+      dispatch(dequeSnackbar())
     }, 3000)
 
     return () => clearTimeout(timerId)

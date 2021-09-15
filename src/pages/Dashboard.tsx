@@ -10,7 +10,7 @@ import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
 import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
-import { snackbarEnque } from '../redux/snackbarSlice'
+import { enqueSnackbar } from '../redux/snackbarSlice'
 
 const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   const dispatch = useAppDispatch()
@@ -22,20 +22,20 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
     try {
       await deletePost(id).unwrap()
 
-      dispatch(snackbarEnque({ message: 'Delete Successful!', color: 'green' }))
+      dispatch(enqueSnackbar({ message: 'Delete Successful!', color: 'green' }))
       refetch()
       // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
     } catch (error: FetchBaseQueryError) {
       if (error.status === 500)
         dispatch(
-          snackbarEnque({
+          enqueSnackbar({
             message: 'Delete Faild',
             color: 'red',
           })
         )
       else
         dispatch(
-          snackbarEnque({
+          enqueSnackbar({
             message: `System Error. Delete Faild: ${error.message}`,
             color: 'red',
           })
