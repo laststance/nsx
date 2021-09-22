@@ -51,7 +51,8 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {
   } = useFetchPostQuery(postId as PostType['id'])
 
   useEffect(() => {
-    if (error) dispatch(enqueSnackbar({ message: error.toString(), color: 'red' }))
+    if (error)
+      dispatch(enqueSnackbar({ message: error.toString(), color: 'red' }))
   }, [dispatch, error])
 
   if (isLoading || data === undefined) {
