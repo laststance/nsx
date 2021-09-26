@@ -7,7 +7,17 @@ on:
     branches:
       - master
 jobs:
-  build-test-lint-typecheck:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '16.8'
+      - run: mv .env.visitor .env
+      - run: yarn install
+      - run: yarn typecheck
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,10 +27,27 @@ jobs:
       - run: mv .env.visitor .env
       - run: yarn install
       - run: yarn build
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '16.8'
+      - run: mv .env.visitor .env
+      - run: yarn install
       - run: yarn test
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '16.8'
+      - run: mv .env.visitor .env
+      - run: yarn install
       - run: yarn lint
-      - run: yarn typecheck
-  cypress-visitor:
+  cypress-e2e-visitor-side:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +61,7 @@ jobs:
           spec: cypress/integration/visitor_basic.js
           start: yarn server:start, yarn start
           wait-on: 'http://localhost:3000'
-  cypress-admin:
+  cypress-e2e-admin-side:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
