@@ -9,7 +9,7 @@ import type {
   LogoutResponse,
   updatePostResponse,
   updatePostRequest,
-  createPostRequest,
+  createPostRequest, deletePostResponse
 } from '../../types'
 
 interface UserIdPassword {
@@ -49,7 +49,7 @@ export const API = createApi({
       providesTags: (result, error, id) => [{ type: 'Post', id }],
     }),
 
-    deletePost: builder.mutation<number, Post['id']>({
+    deletePost: builder.mutation<deletePostResponse, Post['id']>({
       query: (id) => ({ url: `post/${id}`, method: 'DELETE' }),
       invalidatesTags: (result, error, id) => [{ type: 'Post', id }],
     }),

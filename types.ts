@@ -32,6 +32,11 @@ export interface createPostRequest {
   body: Post['body']
 }
 
+// Deletre /api/:id
+export interface deletePostResponse {
+  message: 'Delete Successful!'
+}
+
 // POST: /api/update
 export interface updatePostRequest {
   id: Post['id']

@@ -58,10 +58,11 @@ router.delete('/post/:id', async (req, res) => {
   // @TODO verify the request from certainly admin accont
   try {
     await db.post.destroy({ where: { id: req.params.id } })
-    res.send(200)
+    res.status(200).json({ message: 'Delete Successful!' })
+    // @ TODO try decent TypeScript manner catch handling
     // @ts-ignore
   } catch (error: Error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ message: error.message })
   }
 })
 
@@ -102,10 +103,10 @@ router.post('/login', async (req, res) => {
       res.cookie('token', token, cookieOptions)
       res.status(200).json(author)
     } else {
-      res.status(400).json({ error: 'Invalid Password' })
+      res.status(400).json({ error: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
     }
   } else {
-    res.status(401).json({ error: 'User does not exist' })
+    res.status(401).json({ error: 'User does not exist' }) // this also bad practice in real world product Same reason.
   }
 })
 

@@ -20,16 +20,16 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
 
   async function handleDelete(id: Post['id']) {
     try {
-      await deletePost(id).unwrap()
+      const res = await deletePost(id).unwrap()
 
-      dispatch(enqueSnackbar({ message: 'Delete Successful!', color: 'green' }))
+      dispatch(enqueSnackbar({ message: res.message, color: 'green' }))
       refetch()
       // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
     } catch (error: FetchBaseQueryError) {
       if (error.status === 500)
         dispatch(
           enqueSnackbar({
-            message: 'Delete Faild',
+            message: `Delete Faild: ${error.message}`,
             color: 'red',
           })
         )
