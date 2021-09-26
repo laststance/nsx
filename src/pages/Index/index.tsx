@@ -1,5 +1,5 @@
 import type { RouteComponentProps } from '@reach/router'
-import React from 'react'
+import React, { memo } from 'react'
 
 import type { Posts } from '../../../types'
 import Layout from '../../components/Layout'
@@ -11,12 +11,15 @@ import { useAppSelector } from '../../redux/hooks'
 import AdminControlPanel from './AdminControlPanel'
 import PostList from './PostList'
 
-const Index: React.FC<RouteComponentProps> = () => {
+const Index: React.FC<RouteComponentProps> = memo(() => {
   const login = useAppSelector(selectLogin)
   const { data, error, isLoading } = API.endpoints.fetchAllPosts.useQuery()
 
   return (
-    <Layout className="flex flex-col justify-between" data-cy="topPage">
+    <Layout
+      className="flex flex-col justify-between"
+      data-cy="top-page-content-root"
+    >
       {isLoading ? <Loading /> : <PostList posts={data as Posts} />}
       {error && (
         <div>
@@ -27,6 +30,6 @@ const Index: React.FC<RouteComponentProps> = () => {
       <AdminControlPanel login={login} />
     </Layout>
   )
-}
+})
 
-export default React.memo(Index)
+export default Index

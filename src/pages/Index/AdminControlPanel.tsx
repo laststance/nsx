@@ -58,7 +58,7 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
       )}
       {props.login && (
         <Link to="/dashboard">
-          <Button variant="primary" data-cy="dashboard-btn">
+          <Button variant="primary" data-cy="dashoard-page-transition-link-btn">
             Dashboard
           </Button>
         </Link>

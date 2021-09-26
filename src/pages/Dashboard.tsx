@@ -36,18 +36,28 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
       else
         dispatch(
           enqueSnackbar({
-            message: `System Error. Delete Faild: ${error.message}`,
+            message: `${error.status} System Error. Delete Faild: ${error.message}`,
             color: 'red',
           })
         )
     }
   }
 
-  if (error) return <div>error</div>
+  if (error) {
+    return (
+      <div>
+        {/* @ts-ignore */}
+        {/* @ts-ignore */}${error?.status}: ${error?.message}
+      </div>
+    )
+  }
 
   return (
-    <Layout className="flex flex-col justify-start" data-cy="dashbordPage">
-      <h1 className="text-3xl font-semibold mb-3">Dashbord</h1>
+    <Layout
+      className="flex flex-col justify-start"
+      data-cy="dashboard-page-content-root"
+    >
+      <h1 className="text-3xl font-semibold mb-3">Dashboard</h1>
       <ul className="flex flex-col justify-start">
         {data?.map((post: Post, i) => {
           return (
@@ -63,7 +73,11 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
                 <Link to={`/dashboard/edit/${post.id}`}>
                   <Button variant="inverse">Edit</Button>
                 </Link>
-                <Button onClick={() => handleDelete(post.id)} variant="danger">
+                <Button
+                  onClick={() => handleDelete(post.id)}
+                  variant="danger"
+                  data-cy={`delete-btn-${i + 1}`}
+                >
                   Delete
                 </Button>
               </div>

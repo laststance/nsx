@@ -17,10 +17,6 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { enqueSnackbar } from '../redux/snackbarSlice'
 import { truncateString } from '../utils'
 
-interface RouterParam {
-  postId: PostType['id']
-}
-
 // This is cumtom <a/> tag component for pass <ReactMarkdown compoment={{a}} /> props
 const a: React.FC = (props) => (
   // eslint-disable-next-line jsx-a11y/anchor-has-content
@@ -38,6 +34,10 @@ const code = lazy(
 // we only load <code/> if blog post containing Markdown for purpose of reduce bundle chunk size
 const getCustomComponents = (data: { body: string | string[] }) => {
   return data.body.includes('```') ? { a, code } : { a }
+}
+
+interface RouterParam {
+  postId: PostType['id']
 }
 
 const Post: React.FC<RouteComponentProps<RouterParam>> = ({ postId }) => {

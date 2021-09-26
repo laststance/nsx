@@ -21,7 +21,7 @@ context('Admin Basic', () => {
 
       // pageTransition /dashboard
       cy.url().should('eq', 'http://localhost:3000/dashboard')
-      cy.$('dashbordPage').contains('Dashbord')
+      cy.$('dashboard-page-content-root').contains('Dashboard')
       cy.logout()
     })
   })
@@ -31,13 +31,13 @@ context('Admin Basic', () => {
       // @TODO remove when implemented pagenation
       cy.scrollTo('bottom')
       // should show dashbord/login button
-      cy.$('dashboard-btn').should('exist')
+      cy.$('dashoard-page-transition-link-btn').should('exist')
       cy.$('logout-btn').should('exist')
     })
     context('CRUD post operation', () => {
       it('can publish new post', () => {
         cy.$('blog-title-top-page-link').click()
-        cy.$('dashboard-btn').click()
+        cy.$('dashoard-page-transition-link-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.$('create-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard/create')
@@ -71,6 +71,14 @@ context('Admin Basic', () => {
         cy.$('post-page-content-root').should('exist')
         cy.$('post-page-content-root').contains('Edit Title!')
         cy.$('post-page-content-root').contains('Edit Post Contents!')
+      })
+
+      it('can delete post', () => {
+        cy.$('blog-title-top-page-link').click()
+        cy.$('dashoard-page-transition-link-btn').click()
+        cy.$('dashboard-page-content-root').contains('Edit Title!')
+        cy.$('delete-btn-1').click()
+        cy.$('dashboard-page-content-root').should('not.contain', 'Edit Title!')
       })
     })
   })

@@ -6,7 +6,7 @@ context('Visitor Basic', () => {
 
   it('show lait article list', () => {
     cy.visit('http://localhost:3000/')
-    cy.$('topPage').should('contain', 'close your eyes')
+    cy.$('top-page-content-root').should('contain', 'close your eyes')
   })
 
   it('show single post', () => {
@@ -22,7 +22,7 @@ context('Visitor Basic', () => {
     cy.visit('http://localhost:3000/')
     const adminContorlBtnShouldNotVisible = () =>
       cy.$('signup-btn').should('not.exist')
-    cy.$('dashboard-btn').should('not.exist')
+    cy.$('dashoard-page-transition-link-btn').should('not.exist')
     cy.$('edit-btn').should('not.exist')
 
     cy.visit('http://localhost:3000/')
