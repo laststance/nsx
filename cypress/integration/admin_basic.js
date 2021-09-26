@@ -35,7 +35,7 @@ context('Admin Basic', () => {
       cy.$('logout-btn').should('exist')
     })
     context('CRUD post operation', () => {
-      it('could publish new post', () => {
+      it('can publish new post', () => {
         cy.$('blog-title-top-page-link').click()
         cy.$('dashboard-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard')
@@ -54,7 +54,7 @@ context('Admin Basic', () => {
         cy.$('edit-btn').should('exist')
       })
 
-      it('could edit existing post', () => {
+      it('can edit existing post', () => {
         cy.$('blog-title-top-page-link').click()
         cy.comment('Open post that creaed prev test.')
         cy.$('single-post-page-link-1').click()
