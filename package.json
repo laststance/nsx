@@ -63,6 +63,7 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/google.analytics": "^0.0.42",
     "@types/jest": "^27.0.2",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/morgan": "^1.9.3",
@@ -95,7 +96,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "craco build --profile",
     "deploy": "bash deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch 'server.ts' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
