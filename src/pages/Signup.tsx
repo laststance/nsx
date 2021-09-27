@@ -45,7 +45,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
-      //@ TODO handle 400 error
+      //@ TODO handle 400 error at the Error.tsx
     }
   }
 

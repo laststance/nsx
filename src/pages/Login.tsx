@@ -2,7 +2,7 @@ import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 
 import type { Author } from '../../types'
 import Layout from '../components/Layout'
@@ -17,7 +17,7 @@ interface FormInputState {
   password: Author['password']
 }
 
-const Login: React.FC<RouteComponentProps> = () => {
+const Login: React.FC<RouteComponentProps> = memo(() => {
   const [loginReqest] = useLoginReqestMutation()
   const [formInput, setFormInput] = useState<FormInputState>({
     name: '',
@@ -111,6 +111,6 @@ const Login: React.FC<RouteComponentProps> = () => {
       </form>
     </Layout>
   )
-}
+})
 
-export default React.memo(Login)
+export default Login

@@ -118,8 +118,6 @@ router.post('/is_login', (req, res) => {
     try {
       password = jwt.verify(token, process.env.JWT_SECRET as string)
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
       res.status(200).json({ login: false })
     }
     if (req.body.author.password === password) {
@@ -138,12 +136,13 @@ router.get('/logout', (req, res) => {
 })
 
 router.post('/create', async (req, res) => {
+  const { title, body } = req.body
   try {
     const post = await db.post.create<Post>({
-      title: req.body.title,
-      body: req.body.body,
+      title: title,
+      body: body,
     })
-    res.status(201).json(post.get())
+    res.status(201).json({ newValue: post.get() })
     // @ts-ignore
   } catch (error: Error) {
     res.status(500).json({ error: error.message })

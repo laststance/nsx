@@ -4,7 +4,7 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 
 import type { Post } from '../../types'
 import Layout from '../components/Layout'
@@ -18,7 +18,7 @@ interface RouteParam {
   postId: Post['id']
 }
 
-const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
+const Edit: React.FC<RouteComponentProps<RouteParam>> = memo(({ postId }) => {
   if (postId === undefined) return <Loading />
   const id = postId
 
@@ -29,6 +29,7 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
   }
 
   const [updatePost] = useUpdatePostMutation()
+  // @TODO Save Draft text in the Redux
   const [title, setTitle] = useState<Post['title']>('')
   const [body, setBody] = useState<Post['body']>('')
   const dispatch = useAppDispatch()
@@ -92,6 +93,6 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = ({ postId }) => {
       </div>
     </Layout>
   )
-}
+})
 
-export default React.memo(Edit)
+export default Edit

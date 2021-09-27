@@ -2,7 +2,7 @@ import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
@@ -10,10 +10,11 @@ import { API } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { enqueSnackbar } from '../redux/snackbarSlice'
 
-const Create: React.FC<RouteComponentProps> = () => {
+const Create: React.FC<RouteComponentProps> = memo(() => {
   const dispatch = useAppDispatch()
   const [createPost] = API.endpoints.createPost.useMutation()
 
+  // @TODO avoid complex implemantation with useStrate() spaming
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [title, setTitle] = useState<string>('')
   const [body, setBody] = useState<string>('')
@@ -37,7 +38,7 @@ const Create: React.FC<RouteComponentProps> = () => {
 
       dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))
       navigate(`/post/${post.id}`)
-      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
+      // @ts-ignore disabled TS1196: Catch clause variable type annotation must 'unknown' if specified.
     } catch (error: FetchBaseQueryError) {
       dispatch(enqueSnackbar({ message: error.message, color: 'red' }))
     } finally {
@@ -72,6 +73,6 @@ const Create: React.FC<RouteComponentProps> = () => {
       </div>
     </Layout>
   )
-}
+})
 
-export default React.memo(Create)
+export default Create
