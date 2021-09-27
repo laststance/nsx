@@ -31,9 +31,7 @@ module.exports = {
       const isProductionBuild = process.env.NODE_ENV === 'production'
 
       if (isProductionBuild && process.env.REACT_APP_BUNDLE_ANALYZER === true) {
-        const analyzerMode = process.env.REACT_APP_INTERACTIVE_ANALYZE
-          ? 'server'
-          : 'json'
+        const analyzerMode = 'server'
         webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode }))
       }
 
