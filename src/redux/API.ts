@@ -31,7 +31,7 @@ export const API = createApi({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
     fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
-  keepUnusedDataFor: 60 * 24,
+  keepUnusedDataFor: 180,
   tagTypes: ['Post'],
   endpoints: (builder) => ({
     fetchAllPosts: builder.query<Posts, void>({
