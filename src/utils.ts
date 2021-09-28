@@ -16,7 +16,8 @@ export function formatDate(dateString: string): string {
   })
 }
 
-export function truncateString(str: string, num: number): string {
+export function truncateString(str: string | undefined, num: number): string {
+  if (str === undefined) return ''
   // If the length of str is less than or equal to num
   // just return str--don't truncate it.
   if (str.length <= num) {
@@ -86,5 +87,8 @@ export const invariant = function (
     throw error
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function assertIsDefined<T>(x: T | undefined): asserts x is T {}
 
 // @TODO create FetchBaseQueryError handler

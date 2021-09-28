@@ -122,7 +122,7 @@
     "db:seed:undo:all": "sequelize db:seed:undo:all",
     "cypress:run:admin": "cypress run --headed --spec cypress/integration/admin_basic.js",
     "cypress:run:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
-    "cypress:run:headless:admin": "cypress run -b --spec cypress/integration/admin_basic.js",
+    "cypress:run:headless:admin": "cypress run --spec cypress/integration/admin_basic.js",
     "cypress:run:headless:visitor": "cypress run --spec cypress/integration/visitor_basic.js",
     "cypress:run:admin:electron": "cypress run -b electron --headed --spec cypress/integration/admin_basic.js",
     "cypress:run:visitor:electron": "cypress run -b electron --headed --spec cypress/integration/visitor_basic.js",

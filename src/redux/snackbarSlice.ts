@@ -21,7 +21,6 @@ export const snackbarSlice = createSlice({
       const message: SnackBarMessage['message'] = action.payload.message
       const color: SnackBarMessage['color'] = action.payload.color
       const newMessage: SnackBarMessage = { message, color }
-      // @ts-ignore
       state.snackbarQueue.push(newMessage)
     },
     dequeSnackbar: (state) => {

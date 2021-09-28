@@ -142,7 +142,7 @@ router.post('/create', async (req, res) => {
       title: title,
       body: body,
     })
-    res.status(201).json({ newValue: post.get() })
+    res.status(201).json(post.get())
     // @ts-ignore
   } catch (error: Error) {
     res.status(500).json({ error: error.message })
