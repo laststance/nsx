@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react'
 import React from 'react'
 import './button.css'
 
@@ -33,8 +34,8 @@ export const Button = ({
   backgroundColor,
   label,
   ...props
-}: ButtonProps) => {
-  const mode = primary
+}: ButtonProps): ReactElement => {
+  const  mode = primary
     ? 'storybook-button--primary'
     : 'storybook-button--secondary'
   return (

@@ -110,7 +110,7 @@
     "front:typecheck": "tsc --noEmit -p tsconfig.json",
     "server:typecheck": "tsc --noEmit -p tsconfig.server.json",
     "lint": "eslint . --ext .ts,.tsx,.js",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.css,.md,.mdx --fix",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
     "cypress:open": "cypress open",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
