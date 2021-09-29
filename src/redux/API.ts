@@ -32,32 +32,32 @@ export const API = createApi({
     fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
   keepUnusedDataFor: 180,
-  tagTypes: ['Post'],
+  tagTypes: ['Posts'],
   endpoints: (builder) => ({
     fetchAllPosts: builder.query<Posts, void>({
       query: () => 'posts',
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: 'Post' as const, id })),
-              { type: 'Post', id: 'LIST' },
+              ...result.map(({ id }) => ({ type: 'Posts' as const, id })),
+              { type: 'Posts', id: 'LIST' },
             ]
-          : [{ type: 'Post', id: 'LIST' }],
+          : [{ type: 'Posts', id: 'LIST' }],
     }),
 
     fetchPost: builder.query<Post, Post['id']>({
       query: (id) => ({ url: `post/${id}`, method: 'GET' }),
-      providesTags: (result, error, id) => [{ type: 'Post', id }],
+      providesTags: (result, error, id) => [{ type: 'Posts', id }],
     }),
 
     deletePost: builder.mutation<deletePostResponse, Post['id']>({
       query: (id) => ({ url: `post/${id}`, method: 'DELETE' }),
-      invalidatesTags: (result, error, id) => [{ type: 'Post', id }],
+      invalidatesTags: (result, error, id) => [{ type: 'Posts', id }],
     }),
 
     createPost: builder.mutation<Post, createPostRequest>({
       query: (post) => ({ url: 'create', method: 'POST', body: post }),
-      invalidatesTags: [{ type: 'Post', id: 'LIST' }],
+      invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
     }),
 
     updatePost: builder.mutation<updatePostResponse, updatePostRequest>({
@@ -66,7 +66,7 @@ export const API = createApi({
         method: 'POST',
         body: post,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Post', id }],
+      invalidatesTags: (result, error, { id }) => [{ type: 'Posts', id }],
     }),
 
     loginReqest: builder.mutation<Author, UserIdPassword>({
