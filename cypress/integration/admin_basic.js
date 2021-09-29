@@ -41,14 +41,16 @@ context('Admin Basic', () => {
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.$('create-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard/create')
-        cy.log('wrting blog post...')
+        cy.logger('wrting blog post...')
         cy.$('post-title-input').type('from cypress')
         cy.$('post-body-input').type('testing now')
 
-        cy.log('click submit button')
+        cy.logger('click submit button')
         cy.$('submit-btn').click()
 
-        cy.log('jump post page and should show input contents and edit button')
+        cy.logger(
+          'jump post page and should show input contents and edit button'
+        )
         cy.$('post-page-content-root').contains('from cypress')
         cy.$('post-page-content-root').contains('testing now')
         cy.$('edit-btn').should('exist')
@@ -56,15 +58,15 @@ context('Admin Basic', () => {
 
       it('can edit existing post', () => {
         cy.$('blog-title-top-page-link').click()
-        cy.comment('Open post that creaed prev test.')
+        cy.logger('Open post that creaed prev test.')
         cy.$('single-post-page-link-1').click()
         cy.$('post-page-content-root').contains('from cypress')
         cy.$('post-page-content-root').contains('testing now')
-        cy.comment('Click Edit button and modify contents.')
+        cy.logger('Click Edit button and modify contents.')
         cy.$('edit-btn').click()
         cy.$('edit-title-input').type('Edit Title!')
         cy.$('edit-body-input').type('Edit Post Contents!')
-        cy.comment(
+        cy.logger(
           'Edit complete then click Update button, after page transition single post page.'
         )
         cy.$('update-btn').click()

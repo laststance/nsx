@@ -32,8 +32,8 @@ Cypress.Commands.add('login', () => {
   cy.$('blog-title-top-page-link').click()
 })
 
-Cypress.Commands.add('comment', (message) => {
-  Cypress.log({ name: 'Comment', message: message })
+Cypress.Commands.add('logger', (message) => {
+  Cypress.log({ name: 'Logger', message: message })
 })
 
 Cypress.Commands.add('logout', () =>
