@@ -15,8 +15,6 @@ import ErrorBoundary from './systems/ErrorBoundary'
 import Routes from './systems/Routes'
 import SnackBarSystem from './systems/SnackBarSystem'
 
-ReactGA.initialize('G-YZ4NTV762Z')
-
 /**
  * =====================================================
  * Preparation Redux initial state before React runtime
@@ -66,18 +64,21 @@ if (rootElement.hasChildNodes()) {
   ReactDOM.render(<App />, rootElement)
 }
 
-function sendToAnalytics({ id, name, value }: Metric) {
-  ga('send', 'event', {
-    eventCategory: 'Web Vitals',
-    eventAction: name,
-    eventValue: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
-    eventLabel: id, // id unique to current page load
-    nonInteraction: true, // avoids affecting bounce rate
-  })
-}
+if (process.env.NODE_ENV === 'production') {
+  ReactGA.initialize('G-YZ4NTV762Z')
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// eslint-disable-next-line no-console
-reportWebVitals(sendToAnalytics)
+  function sendToAnalytics({ id, name, value }: Metric) {
+    ga('send', 'event', {
+      eventCategory: 'Web Vitals',
+      eventAction: name,
+      eventValue: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
+      eventLabel: id, // id unique to current page load
+      nonInteraction: true, // avoids affecting bounce rate
+    })
+  }
+  // If you want to start measuring performance in your app, pass a function
+  // to log results (for example: reportWebVitals(console.log))
+  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  // eslint-disable-next-line no-console
+  reportWebVitals(sendToAnalytics)
+}
