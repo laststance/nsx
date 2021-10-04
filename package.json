@@ -97,8 +97,8 @@
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build --profile",
+    "start": "scripts/set_dev_env.sh && craco start",
+    "build": "scripts/set_prod_env.sh && craco build --profile",
     "deploy": "bash scripts/deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch 'server.ts' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
