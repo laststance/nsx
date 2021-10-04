@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOCAL_ROOT=$(dirname $0)
+LOCAL_ROOT=$(cd $(dirname $0)/..; pwd)
 REMOTE_ROOT=/root/digital-strength/
 
 usage() { echo "Usage: $0 [-s] [-f]" 1>&2; exit 1; }
