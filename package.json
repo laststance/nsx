@@ -99,11 +99,11 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build --profile",
-    "deploy": "bash deploy.sh",
+    "deploy": "bash scripts/deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch 'server.ts' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
     "server:build": "tsc -p tsconfig.server.json && cp -r db/migrations server_build && cp db/config.json server_build/db/config.json",
-    "server:deploy": "bash deploy.sh -s",
+    "server:deploy": "bash scripts/deploy.sh -s",
     "test": "craco test",
     "eject": "react-scripts eject",
     "typecheck": "yarn front:typecheck && yarn server:typecheck",
