@@ -57,12 +57,9 @@ const App = () => (
   </React.StrictMode>
 )
 
-const rootElement = document.getElementById('root') as HTMLDivElement
-if (rootElement.hasChildNodes()) {
-  ReactDOM.hydrate(<App />, rootElement)
-} else {
-  ReactDOM.render(<App />, rootElement)
-}
+// @ts-ignore
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
 
 if (process.env.NODE_ENV === 'production') {
   ReactGA.initialize('G-YZ4NTV762Z')
