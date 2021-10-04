@@ -19,7 +19,6 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
   const [loging, setLoading] = useState(false)
   const [logoutRequest] = API.endpoints.logoutRequest.useMutation()
   const dispatch = useAppDispatch()
-
   async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
     try {
