@@ -61,6 +61,17 @@ jobs:
           spec: cypress/integration/visitor_basic.js
           start: yarn server:start, yarn start
           wait-on: 'http://localhost:3000'
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
   cypress-e2e-admin-side:
     runs-on: ubuntu-latest
     steps:
@@ -75,3 +86,14 @@ jobs:
           spec: cypress/integration/admin_basic.js
           start: yarn server:start, yarn start
           wait-on: 'http://localhost:3000'
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
