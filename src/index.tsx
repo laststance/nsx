@@ -58,8 +58,10 @@ const App = () => (
 )
 
 // @ts-ignore
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(<App />)
+// const root = ReactDOM.createRoot(document.getElementById('root'))
+// root.render(<App />)
+
+ReactDOM.render(<App />, document.getElementById('root'))
 
 if (process.env.NODE_ENV === 'production') {
   ReactGA.initialize('G-YZ4NTV762Z')
