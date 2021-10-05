@@ -1,13 +1,13 @@
 /**
  * These componets are used to react-markdown library.
- * Reffer https://github.com/remarkjs/react-markdown#appendix-b-components
+ * Refer https://github.com/remarkjs/react-markdown#appendix-b-components
  */
 import React from 'react'
-import type { CodeComponent } from 'react-markdown/src/ast-to-react'
+import type CodeComponent from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
-// @TODO React.Component<SyntaxHighlighterProps>
-const code: CodeComponent = ({ inline, className, children }) => {
+// @ts-ignore
+const code: typeof CodeComponent = ({ inline, className, children }) => {
   const match = /language-(\w+)/.exec(className || '')
   return !inline && match ? (
     <SyntaxHighlighter
