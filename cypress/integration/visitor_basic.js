@@ -20,14 +20,19 @@ context('Visitor Basic', () => {
 
   it('never shown every admin page link button without login', () => {
     cy.visit('http://localhost:3000/')
-    const adminContorlBtnShouldNotVisible = () =>
-      cy.$('signup-btn').should('not.exist')
+    cy.$('signup-btn').should('not.exist')
     cy.$('dashoard-page-transition-link-btn').should('not.exist')
-    cy.$('edit-btn').should('not.exist')
 
-    cy.visit('http://localhost:3000/')
-    adminContorlBtnShouldNotVisible()
     cy.$('single-post-page-link-2').click()
-    adminContorlBtnShouldNotVisible()
+    cy.$('edit-btn').should('not.exist')
+  })
+
+  it('show post that contains syntax hilight Markdown', () => {
+    cy.visit('http://localhost:3000/')
+    // 07/27/21 React Rush
+    cy.$('single-post-page-link-17').click()
+    cy.$('post-page-content-root')
+      .should('exist')
+      .should('contain', 'using __proto__')
   })
 })
