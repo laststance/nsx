@@ -1,12 +1,12 @@
 context('Admin Basic', () => {
-  context('Without login', () => {
+  context('Signup & login', () => {
     it('should show signup/login button', () => {
       cy.visit('http://localhost:3000/')
       cy.$('login-btn').should('exist')
       cy.$('signup-btn').should('exist')
     })
 
-    it('we can siginup new email and password finally showing Dashboard Page', () => {
+    it('can siginup new email and password finally showing Dashboard Page', () => {
       cy.visit('http://localhost:3000/')
       cy.$('signup-btn').click()
       // pageTransition /signup
