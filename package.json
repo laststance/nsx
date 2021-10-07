@@ -99,7 +99,7 @@
   },
   "scripts": {
     "start": "scripts/set_dev_env.sh && craco start",
-    "build": "scripts/set_prod_env.sh && craco build --profile",
+    "build": "scripts/set_prod_env.sh && craco build",
     "deploy": "bash scripts/deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "NODE_ENV=development nodemon --ext ts,js --watch 'server.ts' --ignore './src' --exec ts-node --project tsconfig.server.json server.ts",
