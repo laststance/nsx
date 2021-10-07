@@ -46,7 +46,6 @@ router.get('/posts', async (req, res) => {
 })
 
 router.get('/post/:id', async (req, res) => {
-  // @TODO verify the request from certainly admin accont
   const post = await db.post.findOne({
     where: { id: req.params.id },
   })
