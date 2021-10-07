@@ -64,7 +64,7 @@ const App = () => (
 ReactDOM.render(<App />, document.getElementById('root'))
 
 if (process.env.NODE_ENV === 'production') {
-  ReactGA.initialize('G-YZ4NTV762Z')
+  ReactGA.initialize('UA-68130749-5')
 
   function sendToAnalytics({ id, name, value }: Metric) {
     ga('send', 'event', {
