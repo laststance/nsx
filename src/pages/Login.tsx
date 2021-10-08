@@ -4,7 +4,7 @@ import { navigate } from '@reach/router'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState, memo } from 'react'
 
-import type { Author } from '../../types'
+import type { Author } from '../../@types/app'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { login } from '../redux/adminSlice'

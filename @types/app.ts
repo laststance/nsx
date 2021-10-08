@@ -49,7 +49,7 @@ export interface updatePostResponse {
 
 // POST: /api/is_login
 export interface isLoginRequest {
-  author: Author
+  author: IndexSignature<Author>
 }
 export interface isLoginResponse {
   login: boolean

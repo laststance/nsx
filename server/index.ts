@@ -9,13 +9,19 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
-import type { CookieOptions } from 'express'
+import type { CookieOptions, Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import morgan from 'morgan'
 
-import db from './db/models'
-import type Post from './db/models/post'
-import type { LogoutResponse } from './types'
+import type {
+  Author,
+  isLoginRequest,
+  isLoginResponse,
+  LogoutResponse,
+} from '../@types/app'
+import db from '../db/models'
+import type Post from '../db/models/post'
+import shallowEqualScalar, { assertIsDefined } from '../src/utils'
 
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
@@ -38,14 +44,14 @@ const router = express.Router()
  * API Implementation
  * ==============================================
  */
-router.get('/posts', async (req, res) => {
+router.get('/posts', async (req: Request, res: Response) => {
   const posts = await db.post.findAll({
     order: [['id', 'DESC']],
   })
   res.json(posts)
 })
 
-router.get('/post/:id', async (req, res) => {
+router.get('/post/:id', async (req: Request, res: Response) => {
   const post = await db.post.findOne({
     where: { id: req.params.id },
   })
@@ -53,7 +59,7 @@ router.get('/post/:id', async (req, res) => {
   res.json(post)
 })
 
-router.delete('/post/:id', async (req, res) => {
+router.delete('/post/:id', async (req: Request, res: Response) => {
   // @TODO verify the request from certainly admin accont
   try {
     await db.post.destroy({ where: { id: req.params.id } })
@@ -65,7 +71,7 @@ router.delete('/post/:id', async (req, res) => {
   }
 })
 
-router.post('/signup', async (req, res) => {
+router.post('/signup', async (req: Request, res: Response) => {
   const body = req.body
   if (!(body?.name && body?.password)) {
     return res
@@ -81,7 +87,7 @@ router.post('/signup', async (req, res) => {
       name: body.name,
       password: hash,
     })
-    const token = jwt.sign(author.password, process.env.JWT_SECRET as string)
+    const token = jwt.sign(author, process.env.JWT_SECRET as string)
     res.cookie('token', token, cookieOptions)
     res.status(201).json(author)
   } catch (error) {
@@ -89,7 +95,7 @@ router.post('/signup', async (req, res) => {
   }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req: Request, res: Response) => {
   const body = req.body
   const author = await db.author.findOne({
     where: { name: body.name },
@@ -98,7 +104,7 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(body.password, author.password)
 
     if (validPassword) {
-      const token = jwt.sign(author.password, process.env.JWT_SECRET as string)
+      const token = jwt.sign(author, process.env.JWT_SECRET as string)
       res.cookie('token', token, cookieOptions)
       res.status(200).json(author)
     } else {
@@ -109,29 +115,36 @@ router.post('/login', async (req, res) => {
   }
 })
 
-router.post('/is_login', (req, res) => {
-  const { token } = req.cookies
+router.post(
+  '/is_login',
+  (req: Request<_, _, isLoginRequest>, res: Response<isLoginResponse>) => {
+    const token = req.cookies.token as string
 
-  if (token && req.body.author) {
-    let password
-    try {
-      password = jwt.verify(token, process.env.JWT_SECRET as string)
-    } catch (error) {
+    if (token && req.body.author) {
+      let author
+      try {
+        author = jwt.verify(
+          token,
+          process.env.JWT_SECRET as string
+        ) as IndexSignature<Author>
+      } catch (error) {
+        res.status(200).json({ login: false })
+      }
+      assertIsDefined(author)
+      if (shallowEqualScalar(req.body.author, author)) {
+        res.cookie('token', token, cookieOptions)
+        res.status(200).json({ login: true })
+      }
+    } else {
+      // Visitor didn't loged in previos session
       res.status(200).json({ login: false })
     }
-    if (req.body.author.password === password) {
-      res.cookie('token', token, cookieOptions)
-      res.status(200).json({ login: true })
-    }
-  } else {
-    // Visitor didn't loged in previos session
-    res.status(200).json({ login: false })
   }
-})
+)
 
-router.get('/logout', (req, res) => {
+router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
   res.cookie('token', { expires: Date.now() })
-  res.status(200).json({ message: 'Logout Successful' } as LogoutResponse)
+  res.status(200).json({ message: 'Logout Successful' })
 })
 
 router.post('/create', async (req, res) => {
@@ -148,20 +161,23 @@ router.post('/create', async (req, res) => {
   }
 })
 
-router.post('/update', async (req, res, next) => {
-  // @TODO verify the request from certainly admin accont
-  const body = req.body
-  try {
-    await db.post.update(
-      { title: body.title, body: body.body },
-      { where: { id: body.id } }
-    )
+router.post(
+  '/update',
+  async (req: Request, res: Response, next: NextFunction) => {
+    // @TODO verify the request from certainly admin accont
+    const body = req.body
+    try {
+      await db.post.update(
+        { title: body.title, body: body.body },
+        { where: { id: body.id } }
+      )
 
-    res.status(200).json({ message: 'Post Updated!' })
-  } catch (error) {
-    next(error)
+      res.status(200).json({ message: 'Post Updated!' })
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 /**
  * ==============================================

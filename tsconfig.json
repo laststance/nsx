@@ -18,10 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "pretty": true,
     "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src"
+    "src",
+    "@types"
   ]
 }

@@ -1,6 +1,6 @@
 import { Model } from 'sequelize'
 
-import type { Author as AuthorDomainType } from '../../types'
+import type { Author as AuthorDomainType } from '../../@types/app'
 
 class Author extends Model {
   public id!: AuthorDomainType['id']

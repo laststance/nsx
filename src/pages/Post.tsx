@@ -7,7 +7,7 @@ import rehypeRaw from 'rehype-raw'
 import breaks from 'remark-breaks'
 import gfm from 'remark-gfm'
 
-import type { Post as PostType } from '../../types'
+import type { Post as PostType } from '../../@types/app'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import Loading from '../elements/Loading'
@@ -41,14 +41,11 @@ interface RouterParam {
 }
 
 const Post: React.FC<RouteComponentProps<RouterParam>> = memo(({ postId }) => {
+  assertIsDefined(postId)
   const dispatch = useAppDispatch()
   const login = useAppSelector(selectLogin)
 
-  const {
-    data,
-    isLoading,
-    error = null,
-  } = useFetchPostQuery(postId as PostType['id'])
+  const { data, isLoading, error = null } = useFetchPostQuery(postId)
 
   useEffect(() => {
     if (error)
@@ -62,20 +59,18 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = memo(({ postId }) => {
       </Layout>
     )
   }
-  assertIsDefined<PostType>(data)
 
-  // @ts-ignore
   return (
     <Layout data-cy="post-page-content-root">
       <Suspense fallback={<Loading />}>
         {/* Suspence for lazyload expesive <code /> component */}
         <>
           <Helmet>
-            <meta name="description" content={truncateString(data?.body, 40)} />
-            <meta property="og:title" content={data?.title} />
+            <meta name="description" content={truncateString(data.body, 40)} />
+            <meta property="og:title" content={data.title} />
             <meta
               property="og:description"
-              content={truncateString(data?.body, 40)}
+              content={truncateString(data.body, 40)}
             />
             <meta property="og:type" content="article" />
             <meta property="og:url" content="https://digitalstrength.dev" />
@@ -89,9 +84,9 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = memo(({ postId }) => {
               name="twitter:image"
               content="https://digitalstrength.dev/ogp.png"
             />
-            <title>{data?.title}</title>
+            <title>{data.title}</title>
           </Helmet>
-          <h1 className="text-2xl pt-4 pb-6 font-semibold">{data?.title}</h1>
+          <h1 className="text-2xl pt-4 pb-6 font-semibold">{data.title}</h1>
           <ReactMarkdown // @ts-ignore too complex
             components={getCustomComponents(data)}
             /* @ts-ignore lib index.d.ts missmatch between "@types/node@16.4.12" and "rehype-raw@6.0.0" */
@@ -100,7 +95,7 @@ const Post: React.FC<RouteComponentProps<RouterParam>> = memo(({ postId }) => {
             remarkPlugins={[breaks, gfm]}
             className="prose prose-lg"
           >
-            {data?.body}
+            {data.body}
           </ReactMarkdown>
         </>
         {login && (

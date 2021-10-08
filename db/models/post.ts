@@ -1,6 +1,6 @@
 import { Model } from 'sequelize'
 
-import type { Post as PostDomainType } from '../../types'
+import type { Post as PostDomainType } from '../../@types/app'
 
 class Post extends Model {
   public id!: PostDomainType['id']

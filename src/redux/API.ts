@@ -11,7 +11,7 @@ import type {
   updatePostRequest,
   createPostRequest,
   deletePostResponse,
-} from '../../types'
+} from '../../@types/app'
 
 interface UserIdPassword {
   name: string

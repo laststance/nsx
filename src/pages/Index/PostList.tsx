@@ -1,7 +1,7 @@
 import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
-import type { Post, Posts } from '../../../types'
+import type { Post, Posts } from '../../../@types/app'
 import DateDisplay from '../../elements/DateDisplay'
 
 interface Props {

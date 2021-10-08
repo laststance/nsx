@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import type { SnackBarMessage } from '../../types'
+import type { SnackBarMessage } from '../../@types/app'
 import { useAppDispatch } from '../redux/hooks'
 import { dequeSnackbar } from '../redux/snackbarSlice'
 

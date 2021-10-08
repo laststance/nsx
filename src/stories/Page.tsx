@@ -23,7 +23,6 @@ export const Page: React.FC<PageProps> = ({
       onLogout={onLogout}
       onCreateAccount={onCreateAccount}
     />
-
     <section>
       <h2>Pages in Storybook</h2>
       <p>

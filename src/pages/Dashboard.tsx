@@ -4,7 +4,7 @@ import { Link } from '@reach/router'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { memo } from 'react'
 
-import type { Post } from '../../types'
+import type { Post } from '../../@types/app'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
