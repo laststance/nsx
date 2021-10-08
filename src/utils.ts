@@ -1,5 +1,3 @@
-import { AssertionError } from 'assert'
-
 // pass one time class selector to base component
 export function concatSelecor(
   classNames1: string,
@@ -88,11 +86,15 @@ export const invariant = function (
   }
 }
 
+class AssertionError extends Error {
+  name = 'AssertionError'
+}
+
 export function assertIsDefined<T>(val: T): asserts val is NonNullable<T> {
   if (val === undefined || val === null) {
-    throw new AssertionError({
-      message: `Expected 'val' to be defined, but received ${val}`,
-    })
+    throw new AssertionError(
+      `Expected 'val' to be defined, but received ${val}`
+    )
   }
 }
 
