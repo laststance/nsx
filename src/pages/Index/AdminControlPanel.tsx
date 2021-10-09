@@ -3,7 +3,6 @@ import { Link } from '@reach/router'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState, memo } from 'react'
 
-import type { LogoutResponse } from '../../../@types/app'
 import Button from '../../elements/Button'
 import type { AdminState } from '../../redux/adminSlice'
 import { logout } from '../../redux/adminSlice'

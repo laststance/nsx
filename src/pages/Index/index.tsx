@@ -1,7 +1,6 @@
 import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
 
-import type { Posts } from '../../../@types/app'
 import Layout from '../../components/Layout'
 import Loading from '../../elements/Loading'
 import { selectLogin } from '../../redux/adminSlice'

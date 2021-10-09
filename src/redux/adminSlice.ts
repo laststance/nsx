@@ -1,8 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
-import type { Author } from '../../@types/app'
-
 import type { RootState } from './store'
 
 export interface AdminState {

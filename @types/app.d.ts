@@ -1,7 +1,7 @@
 /**
  * Domain Data
  */
-export interface Author {
+declare interface Author {
   id: number
   name: string
   password: string
@@ -9,7 +9,7 @@ export interface Author {
   updatedAt: string
 }
 
-export interface Post {
+declare interface Post {
   id: number
   title: string
   body: string
@@ -17,41 +17,41 @@ export interface Post {
   updatedAt: string
 }
 
-export type Posts = Post[]
+declare type Posts = Post[]
 
 /**
  * API Reqest/Response body types
  */
 // POST /api/create
-export interface createPostRequest {
+declare interface createPostRequest {
   title: Post['title']
   body: Post['body']
 }
 
 // Deletre /api/:id
-export interface deletePostResponse {
+declare interface deletePostResponse {
   message: 'Delete Successful!'
 }
 
 // POST: /api/update
-export interface updatePostRequest {
+declare interface updatePostRequest {
   id: Post['id']
   title: Post['title']
   body: Post['body']
 }
-export interface updatePostResponse {
+declare interface updatePostResponse {
   message: 'Post Updated!'
 }
 
 // POST: /api/is_login
-export interface isLoginRequest {
+declare interface isLoginRequest {
   author: IndexSignature<Author>
 }
-export interface isLoginResponse {
+interface isLoginResponse {
   login: boolean
 }
 
 // POST: /api/logout
-export interface LogoutResponse {
+declare interface LogoutResponse {
   message: 'Logout Successful'
 }

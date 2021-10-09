@@ -1,18 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import type {
-  Author,
-  Post,
-  Posts,
-  isLoginRequest,
-  isLoginResponse,
-  LogoutResponse,
-  updatePostResponse,
-  updatePostRequest,
-  createPostRequest,
-  deletePostResponse,
-} from '../../@types/app'
-
 interface UserIdPassword {
   name: string
   password: string

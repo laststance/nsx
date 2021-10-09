@@ -13,12 +13,6 @@ import type { CookieOptions, Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import morgan from 'morgan'
 
-import type {
-  Author,
-  isLoginRequest,
-  isLoginResponse,
-  LogoutResponse,
-} from '../@types/app'
 import db from '../db/models'
 import type AuthorModel from '../db/models/authorModel'
 import type PostModel from '../db/models/postModel'

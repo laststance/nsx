@@ -5,7 +5,6 @@ import { Provider as ReduxProvider } from 'react-redux'
 import type { Metric } from 'web-vitals'
 
 import './index.css'
-import type { Author } from '../@types/app'
 
 import { login } from './redux/adminSlice'
 import { API } from './redux/API'

@@ -4,7 +4,6 @@ import { Link } from '@reach/router'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { memo } from 'react'
 
-import type { Post } from '../../@types/app'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
@@ -59,7 +58,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
     >
       <h1 className="text-3xl font-semibold mb-3">Dashboard</h1>
       <ul className="flex flex-col justify-start">
-        {data?.map((post: Post, i) => {
+        {data?.map((post: Post, i: number) => {
           return (
             <li key={i} className="flex justify-between items-center space-y-2">
               <Link
