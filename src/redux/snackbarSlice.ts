@@ -1,9 +1,12 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
-import type { SnackBarMessage } from '../../@types/app'
-
 import type { RootState } from './store'
+
+export interface SnackBarMessage {
+  message: string
+  color: 'red' | 'green'
+}
 
 export interface SnackBarState {
   snackbarQueue: Array<SnackBarMessage>

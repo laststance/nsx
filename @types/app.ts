@@ -1,7 +1,5 @@
 /**
- * =====================================
  * Domain Data
- * =====================================
  */
 export interface Author {
   id: number
@@ -22,9 +20,7 @@ export interface Post {
 export type Posts = Post[]
 
 /**
- * =====================================
  * API Reqest/Response body types
- * =====================================
  */
 // POST /api/create
 export interface createPostRequest {
@@ -58,14 +54,4 @@ export interface isLoginResponse {
 // POST: /api/logout
 export interface LogoutResponse {
   message: 'Logout Successful'
-}
-
-/**
- * =====================================
- * Frontend internal
- * =====================================
- */
-export interface SnackBarMessage {
-  message: string
-  color: 'red' | 'green'
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import type { SnackBarMessage } from '../../@types/app'
 import { useAppDispatch } from '../redux/hooks'
+import type { SnackBarMessage } from '../redux/snackbarSlice'
 import { dequeSnackbar } from '../redux/snackbarSlice'
 
 interface Props {
