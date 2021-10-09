@@ -3,14 +3,14 @@ context('Admin Basic Mobile', () => {
     cy.viewport('iphone-se2')
   })
 
-  context('Without login', () => {
+  context('Signup & Login & Logout', () => {
     it('should show signup/login button', () => {
       cy.visit('http://localhost:3000/')
       cy.$('login-btn').should('exist')
       cy.$('signup-btn').should('exist')
     })
 
-    it('we can siginup new email and password finally showing Dashboard Page', () => {
+    it('can siginup new email and password finally showing Dashboard Page', () => {
       cy.visit('http://localhost:3000/')
       cy.$('signup-btn').click()
       // pageTransition /signup
@@ -26,7 +26,14 @@ context('Admin Basic Mobile', () => {
       // pageTransition /dashboard
       cy.url().should('eq', 'http://localhost:3000/dashboard')
       cy.$('dashboard-page-content-root').contains('Dashboard')
-      cy.logout()
+    })
+
+    it('Successful Logout', () => {
+      cy.$('blog-title-top-page-link').click()
+      cy.$('logout-btn').should('exist').click()
+      cy.url().should('eq', 'http://localhost:3000/')
+      cy.$('login-btn').should('exist')
+      cy.$('signup-btn').should('exist')
     })
   })
   context('With login', () => {

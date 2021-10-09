@@ -1,5 +1,5 @@
 context('Admin Basic', () => {
-  context('Signup & login', () => {
+  context('Signup & Login & Logout', () => {
     it('should show signup/login button', () => {
       cy.visit('http://localhost:3000/')
       cy.$('login-btn').should('exist')
@@ -22,10 +22,17 @@ context('Admin Basic', () => {
       // pageTransition /dashboard
       cy.url().should('eq', 'http://localhost:3000/dashboard')
       cy.$('dashboard-page-content-root').contains('Dashboard')
-      cy.logout()
+    })
+
+    it('Successful Logout', () => {
+      cy.$('blog-title-top-page-link').click()
+      cy.$('logout-btn').should('exist').click()
+      cy.url().should('eq', 'http://localhost:3000/')
+      cy.$('login-btn').should('exist')
+      cy.$('signup-btn').should('exist')
     })
   })
-  context('With login', () => {
+  context('Admin tasks within login', () => {
     it('should show dashbord/login button', () => {
       cy.login()
       // @TODO remove when implemented pagenation
