@@ -210,7 +210,7 @@ if (isDev) {
   app.listen(4000, () => {
     /* eslint-disable no-console */
     console.log()
-    console.log(chalk.green.bold(`DEV API Server listening on port 4000!`))
+    console.log(chalk.green.bold('DEV API Server listening on port 4000!'))
     /* eslint-disable no-console */
   })
 } else if (isProd) {
