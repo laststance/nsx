@@ -70,6 +70,7 @@ router.delete('/post/:id', async (req: Request, res: Response) => {
     // @ TODO try decent TypeScript manner catch handling
     // @ts-ignore
   } catch (error: Error) {
+    Logger.error(error)
     res.status(500).json({ message: error.message })
   }
 })
@@ -213,14 +214,12 @@ if (isDev) {
     console.log(chalk.green.bold(`DEV API Server listening on port 4000!`))
     /* eslint-disable no-console */
   })
-}
-
-/**
- * ==============================================
- * Prod Server
- * ==============================================
- */
-if (isProd) {
+} else if (isProd) {
+  /**
+   * ==============================================
+   * Prod Server
+   * ==============================================
+   */
   app.use('', express.static(path.join(__dirname, './../build')))
   app.use('/', express.static(path.join(__dirname, './../build')))
 
@@ -254,3 +253,5 @@ if (isProd) {
     /* eslint-disable no-console */
   })
 }
+
+Logger.error('process.env.NODE_ENV is not defined <development|production>')
