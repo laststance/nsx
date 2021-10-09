@@ -13,11 +13,11 @@ import type { CookieOptions, Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import morgan from 'morgan'
 
-import db from '../db/models'
-import type AuthorModel from '../db/models/authorModel'
-import type PostModel from '../db/models/postModel'
 import shallowEqualScalar, { assertIsDefined } from '../src/utils'
 
+import db from './db/models'
+import type AuthorModel from './db/models/authorModel'
+import type PostModel from './db/models/postModel'
 import Logger from './logger'
 
 const env = process.env.NODE_ENV || 'development'
@@ -251,6 +251,7 @@ if (isDev) {
     console.log(chalk.green.bold('Production Server listening on port 443!'))
     /* eslint-disable no-console */
   })
+} else {
+  Logger.error('process.env.NODE_ENV is not defined <development|production>')
+  process.exit(1)
 }
-
-Logger.error('process.env.NODE_ENV is not defined <development|production>')
