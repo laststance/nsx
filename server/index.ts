@@ -78,6 +78,7 @@ router.delete('/post/:id', async (req: Request, res: Response) => {
 router.post('/signup', async (req: Request, res: Response) => {
   const body = req.body
   if (!(body?.name && body?.password)) {
+    Logger.warn('Empty Post Body. Might be data not formatted properly.')
     return res
       .status(400)
       .json({ error: 'Empty Post Body. Might be data not formatted properly.' })
@@ -116,9 +117,11 @@ router.post('/login', async (req: Request, res: Response) => {
       res.cookie('token', token, cookieOptions)
       res.status(200).json(author)
     } else {
+      Logger.warn('Invalid Password')
       res.status(400).json({ error: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
     }
   } else {
+    Logger.warn('User does not exist')
     res.status(401).json({ error: 'User does not exist' }) // this also bad practice in real world product Same reason.
   }
 })
@@ -166,6 +169,7 @@ router.post('/create', async (req, res) => {
     res.status(201).json(post)
     // @ts-ignore
   } catch (error: Error) {
+    Logger.error(error)
     res.status(500).json({ error: error.message })
   }
 })
@@ -183,6 +187,7 @@ router.post(
 
       res.status(200).json({ message: 'Post Updated!' })
     } catch (error) {
+      Logger.error(error)
       next(error)
     }
   }
