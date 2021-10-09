@@ -103,11 +103,11 @@ router.post('/signup', async (req: Request, res: Response) => {
 
 router.post('/login', async (req: Request, res: Response) => {
   const body = req.body
-  const modelInstance = await db.author.findOne<AuthorModel>({
+  const authorModelInstance = await db.author.findOne<AuthorModel>({
     where: { name: body.name },
   })
-  if (modelInstance) {
-    const author = modelInstance.toJSON() as Author
+  if (authorModelInstance) {
+    const author = authorModelInstance.toJSON() as Author
     const isValidPassword = await bcrypt.compare(body.password, author.password)
 
     if (isValidPassword) {
@@ -157,11 +157,12 @@ router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
 router.post('/create', async (req, res) => {
   const { title, body } = req.body
   try {
-    const post = await db.post.create<PostModel>({
+    const postModelInstance = await db.post.create<PostModel>({
       title: title,
       body: body,
     })
-    res.status(201).json(post.get())
+    const post = postModelInstance.toJSON()
+    res.status(201).json(post)
     // @ts-ignore
   } catch (error: Error) {
     res.status(500).json({ error: error.message })
