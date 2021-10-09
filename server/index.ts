@@ -45,7 +45,7 @@ router.get('/posts', async (req: Request, res: Response) => {
   const posts = await db.post.findAll({
     order: [['id', 'DESC']],
   })
-  res.json(posts)
+  res.status(200).json(posts)
 })
 
 router.get('/post/:id', async (req: Request, res: Response) => {
@@ -53,7 +53,7 @@ router.get('/post/:id', async (req: Request, res: Response) => {
     where: { id: req.params.id },
   })
 
-  res.json(post)
+  res.status(200).json(post)
 })
 
 router.delete('/post/:id', async (req: Request, res: Response) => {
