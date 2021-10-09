@@ -29,6 +29,9 @@ export const API = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
+    prepareHeaders: (headers: Headers) => {
+      return headers
+    },
     fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
   keepUnusedDataFor: 180,

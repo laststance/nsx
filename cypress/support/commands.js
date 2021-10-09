@@ -40,8 +40,4 @@ Cypress.Commands.add('logout', () =>
   cy.request('http://localhost:3000/api/logout')
 )
 
-Cypress.Commands.add('resetDB', () =>
-  cy.exec(
-    'yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed:all'
-  )
-)
+Cypress.Commands.add('resetDB', () => cy.exec('yarn db:reset'))

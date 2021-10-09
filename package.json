@@ -117,6 +117,7 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "db:hashgen": "node db/scripts/passhashgen.js",
+    "db:reset": "yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed:all",
     "db:create": "sequelize db:create",
     "db:drop": "sequelize db:drop",
     "db:migrate": "sequelize db:migrate",

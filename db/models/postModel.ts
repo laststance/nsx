@@ -2,7 +2,7 @@ import { Model } from 'sequelize'
 
 import type { Post as PostDomainType } from '../../@types/app'
 
-class Post extends Model {
+class PostModel extends Model {
   public id!: PostDomainType['id']
   public title!: PostDomainType['title']
   public body!: PostDomainType['body']
@@ -10,4 +10,4 @@ class Post extends Model {
   public updateAt!: PostDomainType['updatedAt']
 }
 
-export default Post
+export default PostModel

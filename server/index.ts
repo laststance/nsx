@@ -20,8 +20,11 @@ import type {
   LogoutResponse,
 } from '../@types/app'
 import db from '../db/models'
-import type Post from '../db/models/post'
+import type AuthorModel from '../db/models/authorModel'
+import type PostModel from '../db/models/postModel'
 import shallowEqualScalar, { assertIsDefined } from '../src/utils'
+
+import Logger from './logger'
 
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
@@ -83,27 +86,31 @@ router.post('/signup', async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(body.password, salt)
 
   try {
-    const author = await db.author.create({
+    const modelInstance = await db.author.create<AuthorModel>({
       name: body.name,
       password: hash,
     })
+    const author = modelInstance.toJSON() as Author
+
     const token = jwt.sign(author, process.env.JWT_SECRET as string)
     res.cookie('token', token, cookieOptions)
     res.status(201).json(author)
   } catch (error) {
+    Logger.error(error)
     res.send(500)
   }
 })
 
 router.post('/login', async (req: Request, res: Response) => {
   const body = req.body
-  const author = await db.author.findOne({
+  const modelInstance = await db.author.findOne<AuthorModel>({
     where: { name: body.name },
   })
-  if (author) {
-    const validPassword = await bcrypt.compare(body.password, author.password)
+  if (modelInstance) {
+    const author = modelInstance.toJSON() as Author
+    const isValidPassword = await bcrypt.compare(body.password, author.password)
 
-    if (validPassword) {
+    if (isValidPassword) {
       const token = jwt.sign(author, process.env.JWT_SECRET as string)
       res.cookie('token', token, cookieOptions)
       res.status(200).json(author)
@@ -150,7 +157,7 @@ router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
 router.post('/create', async (req, res) => {
   const { title, body } = req.body
   try {
-    const post = await db.post.create<Post>({
+    const post = await db.post.create<PostModel>({
       title: title,
       body: body,
     })
