@@ -60,11 +60,16 @@ router.delete('/post/:id', async (req: Request, res: Response) => {
   try {
     await db.post.destroy({ where: { id: req.params.id } })
     res.status(200).json({ message: 'Delete Successful!' })
-    // @ TODO try decent TypeScript manner catch handling
-    // @ts-ignore
-  } catch (error: Error) {
-    Logger.error(error)
-    res.status(500).json({ message: error.message })
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(error)
+      res.status(500).json({ message: error.message })
+    } else {
+      Logger.error(error)
+      res
+        .status(500)
+        .json({ message: `someting wrong: ${JSON.stringify(error)}` })
+    }
   }
 })
 
@@ -160,10 +165,16 @@ router.post('/create', async (req, res) => {
     })
     const post = postModelInstance.toJSON()
     res.status(201).json(post)
-    // @ts-ignore
-  } catch (error: Error) {
-    Logger.error(error)
-    res.status(500).json({ error: error.message })
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(error)
+      res.status(500).json({ error: error.message })
+    } else {
+      Logger.error(error)
+      res
+        .status(500)
+        .json({ error: `something wrong: ${JSON.stringify(error)}` })
+    }
   }
 })
 

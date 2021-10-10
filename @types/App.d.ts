@@ -19,6 +19,8 @@ declare interface Post {
 
 declare type Posts = Post[]
 
+declare type JWTtoken = string
+
 /**
  * API Reqest/Response body types
  */
