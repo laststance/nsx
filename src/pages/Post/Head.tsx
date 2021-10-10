@@ -21,5 +21,6 @@ const Head: React.FC<Props> = memo(({ post }) => (
     <title>{post.title}</title>
   </Helmet>
 ))
+Head.displayName = 'Head'
 
 export default Head

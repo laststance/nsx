@@ -43,6 +43,8 @@ declare type IsAny<T, True, False = never> = true | false extends (
 
 declare type CastAny<T, CastTo> = IsAny<T, CastTo, T>
 
+declare type Cast<T, CastTo> = NoInfer<T> extends never ? CastTo : CastTo
+
 declare type AnyFunction = (...args: any[]) => any
 
 // skip unnecessary generics position

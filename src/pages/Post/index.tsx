@@ -1,79 +1,35 @@
 import type { RouteComponentProps } from '@reach/router'
-import { Link } from '@reach/router'
-import React, { memo, Suspense, useEffect } from 'react'
-import ReactMarkdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
-import breaks from 'remark-breaks'
-import gfm from 'remark-gfm'
+import React, { memo } from 'react'
 
-import Layout from '../../components/Layout'
-import Button from '../../elements/Button'
-import Loading from '../../elements/Loading'
 import { assertIsDefined } from '../../lib/assertIsDefined'
 import { selectLogin } from '../../redux/adminSlice'
-import { useFetchPostQuery } from '../../redux/API'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { enqueSnackbar } from '../../redux/snackbarSlice'
+import { API } from '../../redux/API'
+import { useAppSelector } from '../../redux/hooks'
 
-import Head from './Head'
-import { getCustomComponents } from './ReactMarkdownCostomComponents'
+import Body from './Body'
+import FetchSinglePost from './FetchSinglePost'
 
 interface RouterParam {
-  postId: Post['id']
+  // Get query paramerter must be string
+  postId: Cast<Post['id'], string>
 }
 
 const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
   ({ postId }) => {
     assertIsDefined(postId)
     const login = useAppSelector(selectLogin)
-    const dispatch = useAppDispatch()
 
-    const { data, isLoading, error = null } = useFetchPostQuery(postId)
-
-    useEffect(() => {
-      if (error)
-        dispatch(enqueSnackbar({ message: error.toString(), color: 'red' }))
-    }, [error])
-
-    if (isLoading || data === undefined) {
-      return (
-        <Layout>
-          <Loading />
-        </Layout>
-      )
+    const { data, isSuccess } = API.endpoints.fetchAllPosts.useQueryState()
+    if (data !== undefined && isSuccess) {
+      const post = data.find((post) => {
+        return post.id === parseInt(postId)
+      }) as Post
+      return <Body post={post} login={login} />
     }
 
-    return (
-      <Layout data-cy="post-page-content-root">
-        <Suspense fallback={<Loading />}>
-          {/* Suspence for lazyload expesive <code /> component */}
-          <>
-            <Head post={data} />
-            <h1 className="text-2xl pt-4 pb-6 font-semibold">{data.title}</h1>
-            <ReactMarkdown // @ts-ignore too complex
-              components={getCustomComponents(data)}
-              /* @ts-ignore lib index.d.ts missmatch between "@types/node@16.4.12" and "rehype-raw@6.0.0" */
-              rehypePlugins={[rehypeRaw]}
-              /* @ts-ignore lib index.d.ts missmatch @types/mdast/index.d.ts */
-              remarkPlugins={[breaks, gfm]}
-              className="prose prose-lg"
-            >
-              {data.body}
-            </ReactMarkdown>
-          </>
-          {login && (
-            <div className="pt-8 flex justify-end">
-              <Link to={`/dashboard/edit/${postId}`}>
-                <Button variant="primary" data-cy="edit-btn">
-                  Edit
-                </Button>
-              </Link>
-            </div>
-          )}
-        </Suspense>
-      </Layout>
-    )
+    return <FetchSinglePost postId={parseInt(postId)} login={login} />
   }
 )
+PostPage.displayName = 'Post'
 
 export default PostPage

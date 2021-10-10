@@ -13,6 +13,8 @@ const code = lazy(
     import(/* webpackChunkName: "code" */ '../../elements/code')
 )
 // we only load <code/> if blog post containing Markdown for purpose of reduce bundle chunk size
-export const getCustomComponents = (data?: { body: string | string[] }) => {
+export const getCustomComponents = (data?: {
+  body: string | string[]
+}): any => {
   return data?.body?.includes('```') ? { a, code } : { a }
 }
