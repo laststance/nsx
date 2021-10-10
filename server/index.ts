@@ -2,23 +2,15 @@ import fs from 'fs'
 import https from 'https'
 import path from 'path'
 
-import bcrypt from 'bcrypt'
 import bodyParser from 'body-parser'
 import chalk from 'chalk'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
-import type { CookieOptions, Request, Response, NextFunction } from 'express'
-import jwt from 'jsonwebtoken'
 import morgan from 'morgan'
 
-import { assertIsDefined } from '../src/lib/assertIsDefined'
-import shallowEqualScalar from '../src/lib/shallowEqualScalar'
-
-import db from './db/models'
-import type AuthorModel from './db/models/authorModel'
-import type PostModel from './db/models/postModel'
+import router from './api'
 import Logger from './lib/Logger'
 
 const env = process.env.NODE_ENV || 'development'
@@ -27,185 +19,6 @@ const isProd = env === 'production'
 // .env file path resolve different between dev and production.
 // dev: projectRoot/.env production: projectRoot/server_build/.env
 require('dotenv').config(isProd ? path.join(__dirname, './../.env') : __dirname) // eslint-disable-line @typescript-eslint/no-var-requires
-
-const cookieOptions: CookieOptions = {
-  httpOnly: true,
-  secure: true,
-  sameSite: 'lax',
-  maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
-}
-
-const router = express.Router()
-
-/**
- API Implementation
- */
-router.get('/posts', async (req: Request, res: Response) => {
-  const posts = await db.post.findAll({
-    order: [['id', 'DESC']],
-  })
-  res.status(200).json(posts)
-})
-
-router.get('/post/:id', async (req: Request, res: Response) => {
-  const post = await db.post.findOne({
-    where: { id: req.params.id },
-  })
-
-  res.status(200).json(post)
-})
-
-router.delete('/post/:id', async (req: Request, res: Response) => {
-  // @TODO verify the request from certainly admin accont
-  try {
-    await db.post.destroy({ where: { id: req.params.id } })
-    res.status(200).json({ message: 'Delete Successful!' })
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      Logger.error(error)
-      res.status(500).json({ message: error.message })
-    } else {
-      Logger.error(error)
-      res
-        .status(500)
-        .json({ message: `someting wrong: ${JSON.stringify(error)}` })
-    }
-  }
-})
-
-router.post(
-  '/signup',
-  async (req: Request<_, _, signUpRequest>, res: Response<signUpResponse>) => {
-    const body = req.body
-    if (!(body?.name && body?.password)) {
-      Logger.warn('Empty Post Body. Might be data not formatted properly.')
-      return res.status(400).json({
-        error: 'Empty Post Body. Might be data not formatted properly.',
-      })
-    }
-
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(body.password, salt)
-
-    try {
-      const modelInstance = await db.author.create<AuthorModel>({
-        name: body.name,
-        password: hash,
-      })
-      const author: JWTpayload = modelInstance.toJSON() as Author
-
-      const token: JWTtoken = jwt.sign(author, process.env.JWT_SECRET as string)
-      res.cookie('token', token, cookieOptions)
-      res.status(201).json(author)
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        Logger.error(error)
-        res.status(500).json({ error: error.message })
-      } else {
-        Logger.error(error)
-        res
-          .status(500)
-          .json({ error: `something wrong: ${JSON.stringify(error)}` })
-      }
-    }
-  }
-)
-
-router.post('/login', async (req: Request, res: Response) => {
-  const body = req.body
-  const authorModelInstance = await db.author.findOne<AuthorModel>({
-    where: { name: body.name },
-  })
-  if (authorModelInstance) {
-    const author = authorModelInstance.toJSON() as Author
-    const isValidPassword = await bcrypt.compare(body.password, author.password)
-
-    if (isValidPassword) {
-      const token = jwt.sign(author, process.env.JWT_SECRET as string)
-      res.cookie('token', token, cookieOptions)
-      res.status(200).json(author)
-    } else {
-      Logger.warn('Invalid Password')
-      res.status(400).json({ error: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
-    }
-  } else {
-    Logger.warn('User does not exist')
-    res.status(401).json({ error: 'User does not exist' }) // this also bad practice in real world product Same reason.
-  }
-})
-
-router.post(
-  '/is_login',
-  (req: Request<_, _, isLoginRequest>, res: Response<isLoginResponse>) => {
-    const token = req.cookies.token as JWTtoken
-    if (token && req.body.author) {
-      const requestBodyAuthor: IndexSignature<Author> = req.body.author
-      let decriptedAuthor
-      try {
-        decriptedAuthor = jwt.verify(
-          token,
-          process.env.JWT_SECRET as string
-        ) as IndexSignature<JWTpayload>
-      } catch (error) {
-        res.status(200).json({ login: false })
-      }
-      assertIsDefined(decriptedAuthor)
-      if (shallowEqualScalar(requestBodyAuthor, decriptedAuthor)) {
-        res.cookie('token', token, cookieOptions)
-        res.status(200).json({ login: true })
-      }
-    } else {
-      // Visitor didn't loged in previos session
-      res.status(200).json({ login: false })
-    }
-  }
-)
-
-router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
-  res.cookie('token', '', { expires: new Date() })
-  res.status(200).json({ message: 'Logout Successful' })
-})
-
-router.post('/create', async (req: Request, res: Response) => {
-  const { title, body } = req.body
-  try {
-    const postModelInstance = await db.post.create<PostModel>({
-      title: title,
-      body: body,
-    })
-    const post = postModelInstance.toJSON()
-    res.status(201).json(post)
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      Logger.error(error)
-      res.status(500).json({ error: error.message })
-    } else {
-      Logger.error(error)
-      res
-        .status(500)
-        .json({ error: `something wrong: ${JSON.stringify(error)}` })
-    }
-  }
-})
-
-router.post(
-  '/update',
-  async (req: Request, res: Response, next: NextFunction) => {
-    // @TODO verify the request from certainly admin accont
-    const body = req.body
-    try {
-      await db.post.update(
-        { title: body.title, body: body.body },
-        { where: { id: body.id } }
-      )
-
-      res.status(200).json({ message: 'Post Updated!' })
-    } catch (error) {
-      Logger.error(error)
-      next(error)
-    }
-  }
-)
 
 /**
  Express Setup
