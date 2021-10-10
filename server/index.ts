@@ -73,33 +73,43 @@ router.delete('/post/:id', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/signup', async (req: Request, res: Response) => {
-  const body = req.body
-  if (!(body?.name && body?.password)) {
-    Logger.warn('Empty Post Body. Might be data not formatted properly.')
-    return res
-      .status(400)
-      .json({ error: 'Empty Post Body. Might be data not formatted properly.' })
+router.post(
+  '/signup',
+  async (req: Request<_, _, signUpRequest>, res: Response<signUpResponse>) => {
+    const body = req.body
+    if (!(body?.name && body?.password)) {
+      Logger.warn('Empty Post Body. Might be data not formatted properly.')
+      return res.status(400).json({
+        error: 'Empty Post Body. Might be data not formatted properly.',
+      })
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(body.password, salt)
+
+    try {
+      const modelInstance = await db.author.create<AuthorModel>({
+        name: body.name,
+        password: hash,
+      })
+      const author: JWTpayload = modelInstance.toJSON() as Author
+
+      const token: JWTtoken = jwt.sign(author, process.env.JWT_SECRET as string)
+      res.cookie('token', token, cookieOptions)
+      res.status(201).json(author)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Logger.error(error)
+        res.status(500).json({ error: error.message })
+      } else {
+        Logger.error(error)
+        res
+          .status(500)
+          .json({ error: `something wrong: ${JSON.stringify(error)}` })
+      }
+    }
   }
-
-  const salt = await bcrypt.genSalt(10)
-  const hash = await bcrypt.hash(body.password, salt)
-
-  try {
-    const modelInstance = await db.author.create<AuthorModel>({
-      name: body.name,
-      password: hash,
-    })
-    const author = modelInstance.toJSON() as Author
-
-    const token = jwt.sign(author, process.env.JWT_SECRET as string)
-    res.cookie('token', token, cookieOptions)
-    res.status(201).json(author)
-  } catch (error) {
-    Logger.error(error)
-    res.send(500)
-  }
-})
+)
 
 router.post('/login', async (req: Request, res: Response) => {
   const body = req.body
@@ -127,7 +137,7 @@ router.post('/login', async (req: Request, res: Response) => {
 router.post(
   '/is_login',
   (req: Request<_, _, isLoginRequest>, res: Response<isLoginResponse>) => {
-    const token = req.cookies.token as string
+    const token = req.cookies.token as JWTtoken
 
     if (token && req.body.author) {
       let author

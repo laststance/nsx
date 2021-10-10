@@ -104,7 +104,7 @@
     "deploy": "bash scripts/deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "cross-env NODE_ENV=development nodemon --ext ts,js --watch 'server/index.ts' --ignore './src' --exec ts-node --files --project server/tsconfig.json server/index.ts",
-    "server:build": "tsc -p server/tsconfig.json && cp -r server/db/migrations server_build && cp db/config.json server_build/db/config.json",
+    "server:build": "tsc -p server/tsconfig.json && cp -r server/db/migrations server_build && cp server/db/config.json server_build/server/db/config.json",
     "server:deploy": "bash scripts/deploy.sh -s",
     "test": "craco test",
     "eject": "react-scripts eject",
