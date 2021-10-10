@@ -21,6 +21,8 @@ declare type Posts = Post[]
 
 declare type JWTtoken = string
 
+declare type JWTpayload = Author
+
 /**
  * API Reqest/Response body types
  */
