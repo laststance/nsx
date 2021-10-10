@@ -10,12 +10,12 @@ import gfm from 'remark-gfm'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import Loading from '../elements/Loading'
+import { assertIsDefined } from '../lib/assertIsDefined'
+import { truncateString } from '../lib/truncateString'
 import { selectLogin } from '../redux/adminSlice'
 import { useFetchPostQuery } from '../redux/API'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { enqueSnackbar } from '../redux/snackbarSlice'
-import { truncateString } from '../lib/truncateString'
-import { assertIsDefined } from '../lib/assertIsDefined'
 
 // This is cumtom <a/> tag component for pass <ReactMarkdown compoment={{a}} /> props
 const a: React.FC = (props) => (

@@ -19,7 +19,7 @@ import shallowEqualScalar from '../src/lib/shallowEqualScalar'
 import db from './db/models'
 import type AuthorModel from './db/models/authorModel'
 import type PostModel from './db/models/postModel'
-import Logger from './logger'
+import Logger from './lib/Logger'
 
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
