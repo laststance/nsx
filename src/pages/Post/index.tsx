@@ -25,15 +25,15 @@ interface RouterParam {
 const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
   ({ postId }) => {
     assertIsDefined(postId)
-    const dispatch = useAppDispatch()
     const login = useAppSelector(selectLogin)
+    const dispatch = useAppDispatch()
 
     const { data, isLoading, error = null } = useFetchPostQuery(postId)
 
     useEffect(() => {
       if (error)
         dispatch(enqueSnackbar({ message: error.toString(), color: 'red' }))
-    }, [dispatch, error])
+    }, [error])
 
     if (isLoading || data === undefined) {
       return (
