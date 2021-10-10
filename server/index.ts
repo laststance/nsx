@@ -152,7 +152,7 @@ router.post(
 )
 
 router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
-  res.cookie('token', { expires: Date.now() })
+  res.cookie('token', '', { expires: new Date() })
   res.status(200).json({ message: 'Logout Successful' })
 })
 
