@@ -2,8 +2,7 @@
   "root": true,
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:jsx-a11y/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
@@ -43,6 +42,7 @@
   "rules": {
     "no-alert": "error",
     "no-console": "error",
+    "react-hooks/rules-of-hooks": "error",
     "prettier/prettier": [
       "warn",
       {
