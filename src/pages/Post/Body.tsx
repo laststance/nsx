@@ -19,7 +19,7 @@ interface Props {
 }
 
 const Body: React.FC<Props> = memo(({ post, login }) => (
-  <Layout post-cy="post-page-content-root">
+  <Layout data-cy="post-page-content-root">
     <Suspense fallback={<Loading />}>
       {/* Suspence for lazyload expesive <code /> component */}
 
@@ -39,7 +39,7 @@ const Body: React.FC<Props> = memo(({ post, login }) => (
       {login && (
         <div className="pt-8 flex justify-end">
           <Link to={`/dashboard/edit/${post.id}`}>
-            <Button variant="primary" post-cy="edit-btn">
+            <Button variant="primary" data-cy="edit-btn">
               Edit
             </Button>
           </Link>
@@ -48,5 +48,6 @@ const Body: React.FC<Props> = memo(({ post, login }) => (
     </Suspense>
   </Layout>
 ))
+Body.displayName = 'Body'
 
 export default Body
