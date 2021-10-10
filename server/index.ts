@@ -145,7 +145,7 @@ router.post(
         author = jwt.verify(
           token,
           process.env.JWT_SECRET as string
-        ) as IndexSignature<Author>
+        ) as IndexSignature<JWTpayload>
       } catch (error) {
         res.status(200).json({ login: false })
       }
