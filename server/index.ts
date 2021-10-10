@@ -138,19 +138,19 @@ router.post(
   '/is_login',
   (req: Request<_, _, isLoginRequest>, res: Response<isLoginResponse>) => {
     const token = req.cookies.token as JWTtoken
-
     if (token && req.body.author) {
-      let author
+      const requestBodyAuthor: IndexSignature<Author> = req.body.author
+      let decriptedAuthor
       try {
-        author = jwt.verify(
+        decriptedAuthor = jwt.verify(
           token,
           process.env.JWT_SECRET as string
         ) as IndexSignature<JWTpayload>
       } catch (error) {
         res.status(200).json({ login: false })
       }
-      assertIsDefined(author)
-      if (shallowEqualScalar(req.body.author, author)) {
+      assertIsDefined(decriptedAuthor)
+      if (shallowEqualScalar(requestBodyAuthor, decriptedAuthor)) {
         res.cookie('token', token, cookieOptions)
         res.status(200).json({ login: true })
       }
@@ -166,7 +166,7 @@ router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
   res.status(200).json({ message: 'Logout Successful' })
 })
 
-router.post('/create', async (req, res) => {
+router.post('/create', async (req: Request, res: Response) => {
   const { title, body } = req.body
   try {
     const postModelInstance = await db.post.create<PostModel>({
