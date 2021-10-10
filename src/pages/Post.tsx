@@ -14,7 +14,8 @@ import { selectLogin } from '../redux/adminSlice'
 import { useFetchPostQuery } from '../redux/API'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { enqueSnackbar } from '../redux/snackbarSlice'
-import { assertIsDefined, truncateString } from '../utils'
+import { truncateString } from '../lib/truncateString'
+import { assertIsDefined } from '../lib/assertIsDefined'
 
 // This is cumtom <a/> tag component for pass <ReactMarkdown compoment={{a}} /> props
 const a: React.FC = (props) => (

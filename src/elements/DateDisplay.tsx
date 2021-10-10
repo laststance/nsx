@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import { formatDate } from '../utils'
+import { formatDate } from '../lib/formatDate'
 
 const DateDisplay = memo<{ date: string }>(
   ({ date }) => {

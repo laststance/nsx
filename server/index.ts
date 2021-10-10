@@ -13,7 +13,8 @@ import type { CookieOptions, Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import morgan from 'morgan'
 
-import shallowEqualScalar, { assertIsDefined } from '../src/utils'
+import { assertIsDefined } from '../src/lib/assertIsDefined'
+import shallowEqualScalar from '../src/lib/shallowEqualScalar'
 
 import db from './db/models'
 import type AuthorModel from './db/models/authorModel'
