@@ -1,7 +1,6 @@
 import type { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
-import React, { Suspense, lazy, useEffect, memo } from 'react'
-import { Helmet } from 'react-helmet'
+import React, { memo, Suspense, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import breaks from 'remark-breaks'
@@ -11,30 +10,13 @@ import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
 import Loading from '../../elements/Loading'
 import { assertIsDefined } from '../../lib/assertIsDefined'
-import { truncateString } from '../../lib/truncateString'
 import { selectLogin } from '../../redux/adminSlice'
 import { useFetchPostQuery } from '../../redux/API'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
-// This is cumtom <a/> tag component for pass <ReactMarkdown compoment={{a}} /> props
-const a: React.FC = (props) => (
-  // eslint-disable-next-line jsx-a11y/anchor-has-content
-  <a {...props} target="_blank" className="text-blue-700"></a>
-)
-
-// This is cumtom <code/> tag component for pass <ReactMarkdown compoment={{code}} /> props
-const code = lazy(
-  // <code/> depends on heavy hintaxhilight library so we lazyload for purpose of reduce bundle chunk size
-  () =>
-    // @ts-ignore @TODO react-syntax-highlighter typedef issue
-    import(/* webpackChunkName: "code" */ '../../elements/code')
-)
-
-// we only load <code/> if blog post containing Markdown for purpose of reduce bundle chunk size
-const getCustomComponents = (data?: { body: string | string[] }) => {
-  return data?.body?.includes('```') ? { a, code } : { a }
-}
+import Head from './Head'
+import { getCustomComponents } from './ReactMarkdownCostomComponents'
 
 interface RouterParam {
   postId: Post['id']
@@ -66,30 +48,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
         <Suspense fallback={<Loading />}>
           {/* Suspence for lazyload expesive <code /> component */}
           <>
-            <Helmet>
-              <meta
-                name="description"
-                content={truncateString(data.body, 40)}
-              />
-              <meta property="og:title" content={data.title} />
-              <meta
-                property="og:description"
-                content={truncateString(data.body, 40)}
-              />
-              <meta property="og:type" content="article" />
-              <meta property="og:url" content="https://digitalstrength.dev" />
-              <meta
-                name="og:image"
-                content="https://digitalstrength.dev/ogp.png"
-              />
-              <meta name="twitter:card" content="summary" />
-              <meta name="twitter:site" content="@malloc007" />
-              <meta
-                name="twitter:image"
-                content="https://digitalstrength.dev/ogp.png"
-              />
-              <title>{data.title}</title>
-            </Helmet>
+            <Head post={data} />
             <h1 className="text-2xl pt-4 pb-6 font-semibold">{data.title}</h1>
             <ReactMarkdown // @ts-ignore too complex
               components={getCustomComponents(data)}
