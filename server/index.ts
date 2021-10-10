@@ -38,9 +38,7 @@ const cookieOptions: CookieOptions = {
 const router = express.Router()
 
 /**
- * ==============================================
  * API Implementation
- * ==============================================
  */
 router.get('/posts', async (req: Request, res: Response) => {
   const posts = await db.post.findAll({
@@ -189,9 +187,7 @@ router.post(
 )
 
 /**
- * ==============================================
  * Express Setup
- * ==============================================
  */
 const app = express()
 app.disable('x-powered-by')
@@ -203,9 +199,7 @@ app.use(compression())
 app.use('/api', router)
 
 /**
- * ==============================================
  * DEV Server
- * ==============================================
  */
 if (isDev) {
   app.listen(4000, () => {
@@ -216,9 +210,7 @@ if (isDev) {
   })
 } else if (isProd) {
   /**
-   * ==============================================
    * Prod Server
-   * ==============================================
    */
   app.use('', express.static(path.join(__dirname, './../build')))
   app.use('/', express.static(path.join(__dirname, './../build')))
