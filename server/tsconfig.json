@@ -17,9 +17,12 @@
     "outDir": "../server_build"
   },
   "include": [
+    "db",
+    "lib",
     "index.ts",
     "api.ts",
-    "../@types"
+    "../@types",
+    "../src/lib"
   ],
   "exclude": []
 }

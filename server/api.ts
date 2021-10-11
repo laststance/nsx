@@ -136,9 +136,14 @@ router.post(
       if (shallowEqualScalar(requestBodyAuthor, decriptedAuthor)) {
         res.cookie('token', token, cookieOptions)
         res.status(200).json({ login: true })
+      } else {
+        Logger.warn('shallowEqualScalar faild.')
+        Logger.info(`decriptedAuthor: ${JSON.stringify(decriptedAuthor)}`)
+        Logger.info(`requestBodyAuthor: ${JSON.stringify(requestBodyAuthor)}`)
+        res.status(200).json({ login: false })
       }
     } else {
-      // Visitor didn't loged in previos session
+      Logger.info("Visitor didn't loged in previos session")
       res.status(200).json({ login: false })
     }
   }
