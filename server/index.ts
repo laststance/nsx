@@ -46,8 +46,8 @@ if (isDev) {
   /**
    Prod Server
    */
-  app.use('', express.static(path.join(__dirname, './../build')))
-  app.use('/', express.static(path.join(__dirname, './../build')))
+  app.use('', express.static(path.join(__dirname, './../../build')))
+  app.use('/', express.static(path.join(__dirname, './../../build')))
 
   // Handle DirectLink
   app.get('*', (req, res) => {
