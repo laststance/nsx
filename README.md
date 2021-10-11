@@ -9,15 +9,14 @@ Completely personal use for myself that small blog system for written what does 
 
 [![img](https://digital3.nyc3.cdn.digitaloceanspaces.com/Kapture%202021-09-07%20at%2021.45.51.gif)](https://digitalstrength.dev)
 
+
 # Getting start local development
 
 1. `yarn install`
 2. `docker-compose up -d`
-3. `yarn db:connection:test`
-4. `yarn db:sync`
-5. `yarn db:seed`
-6. `yarn start`
-7. `yarn server:start`
+3. `yarn db:reset`
+4. `yarn start`
+5. `yarn server:start`
 
 # NPM Scripts
 
