@@ -1,4 +1,9 @@
-[![CI](https://github.com/laststance/today-i-learned/actions/workflows/ci.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/ci.yml)
+[![Build](https://github.com/laststance/today-i-learned/actions/workflows/build.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/build.yml)
+[![Typecheck](https://github.com/laststance/today-i-learned/actions/workflows/typecheck.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/typecheck.yml)
+[![Test](https://github.com/laststance/today-i-learned/actions/workflows/test.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/test.yml)
+[![Lint](https://github.com/laststance/today-i-learned/actions/workflows/lint.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/lint.yml)
+[![Cypress E2E Admin Side](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-admin-side.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-admin-side.yml)
+[![Cypress-E2E Visitor Side](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-visitor-side.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-visitor-side.yml)
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/today-i-learned?project_id=17741)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://digitalstrength.dev/ )
 
