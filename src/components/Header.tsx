@@ -10,7 +10,7 @@ const Header = memo(
         <div className="h-16 container mx-auto flex sm:flex-row flex-col items-center sm:content-center flex-wrap gap-2 my-4">
           <Link to="/" className="col-auto" data-cy="blog-title-top-page-link">
             <h1 className="font-bold text-xl sm:text-2xl">
-              Digital Strength β
+              Today I Learned β
             </h1>
           </Link>
           <p className="text-base text-gray-700 justify-self-start sm:pt-2.5 sm:pl-1.5">
@@ -24,7 +24,7 @@ const Header = memo(
               <div className="hover:text-gray-300 text-lg">about</div>
             </Link>
             <a
-              href="https://github.com/laststance/digital-strength"
+              href="https://github.com/laststance/today-i-learned"
               target="_blank"
               rel="noreferrer"
             >

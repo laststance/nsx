@@ -5,7 +5,7 @@ context('Visitor Basic', () => {
 
   it('show blog title', () => {
     cy.visit('http://localhost:3000/')
-    cy.$('header').should('contain', 'Digital Strength')
+    cy.$('header').should('contain', 'Today I Learned')
   })
 
   it('show lait article list', () => {
