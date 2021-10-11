@@ -48,6 +48,6 @@ const Body: React.FC<Props> = memo(({ post, login }) => (
     </Suspense>
   </Layout>
 ))
-Body.displayName = 'Body'
+Body.displayName = 'PostBody'
 
 export default Body
