@@ -9,6 +9,7 @@ import shallowEqualScalar from '../src/lib/shallowEqualScalar'
 import db from './db/models'
 import type AuthorModel from './db/models/authorModel'
 import type PostModel from './db/models/postModel'
+import deleteJWTattribute from './lib/deleteJWTattribute'
 import Logger from './lib/Logger'
 
 const cookieOptions: CookieOptions = {
@@ -133,7 +134,12 @@ router.post(
         res.status(200).json({ login: false })
       }
       assertIsDefined(decriptedAuthor)
-      if (shallowEqualScalar(requestBodyAuthor, decriptedAuthor)) {
+      if (
+        shallowEqualScalar(
+          requestBodyAuthor,
+          deleteJWTattribute(decriptedAuthor) as IndexSignature<JWTpayload>
+        )
+      ) {
         res.cookie('token', token, cookieOptions)
         res.status(200).json({ login: true })
       } else {
