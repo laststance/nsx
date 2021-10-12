@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactGA, { ga } from 'react-ga'
-import { Provider as ReduxProvider } from 'react-redux'
+import { Provider as ReduxStoreProvider } from 'react-redux'
 import type { Metric } from 'web-vitals'
 
 import './index.css'
@@ -12,7 +12,7 @@ import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
 import ErrorBoundary from './systems/ErrorBoundary'
 import Routes from './systems/Routes'
-import SnackBarSystem from './systems/SnackBarSystem'
+import Redux from './systems/SnackBarSystem'
 
 /**
  * =====================================================
@@ -38,22 +38,18 @@ if (window.localStorage.getItem('login') === 'true') {
 
 // @TODO fix Provider typing
 // @ts-expect-error
-ReduxProvider.displayName = 'ReduxProvider'
+ReduxStoreProvider.displayName = 'ReduxStoreProvider'
 /**
- * ==============================================
  * Start React runtime
- * ==============================================
  */
 
 const App = () => (
-  <React.StrictMode>
-    <ErrorBoundary>
-      <ReduxProvider store={store}>
-        <SnackBarSystem />
-        <Routes />
-      </ReduxProvider>
-    </ErrorBoundary>
-  </React.StrictMode>
+  <ErrorBoundary>
+    <ReduxStoreProvider store={store}>
+      <Redux.SnackBarSystem />
+      <Routes />
+    </ReduxStoreProvider>
+  </ErrorBoundary>
 )
 
 // @ts-ignore

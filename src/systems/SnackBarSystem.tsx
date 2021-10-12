@@ -16,6 +16,8 @@ const SnackBarSystem = React.memo<AllHTMLAttributes<HTMLDivElement>>(
   () => true
 )
 
+const Redux: any = {}
 SnackBarSystem.displayName = 'SnackBarSystem'
+Redux.SnackBarSystem = SnackBarSystem
 
-export default SnackBarSystem
+export default Redux
