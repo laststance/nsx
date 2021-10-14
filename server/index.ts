@@ -3,7 +3,6 @@ import https from 'https'
 import path from 'path'
 
 import bodyParser from 'body-parser'
-import chalk from 'chalk'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -40,10 +39,8 @@ app.use('/api', router)
  */
 if (isDev) {
   app.listen(4000, () => {
-    /* eslint-disable no-console */
-    console.log()
-    console.log(chalk.green.bold('DEV API Server listening on port 4000!'))
-    /* eslint-disable no-console */
+    Logger.log()
+    Logger.info('DEV API Server listening on port 4000!')
   })
 } else if (isProd) {
   /**
@@ -76,10 +73,8 @@ if (isDev) {
   )
 
   ProdServer.listen(443, () => {
-    /* eslint-disable no-console */
-    console.log()
-    console.log(chalk.green.bold('Production Server listening on port 443!'))
-    /* eslint-disable no-console */
+    Logger.log()
+    Logger.info('Production Server listening on port 443!')
   })
 } else {
   Logger.error('process.env.NODE_ENV is not defined <development|production>')
