@@ -5,6 +5,8 @@ import DateDisplay from '../../elements/DateDisplay'
 import ArrowLeft from '../../elements/icons/ArrowLeft'
 import ArrowRight from '../../elements/icons/ArrowRight'
 
+import PageNumber from './PageNumber'
+
 interface Props {
   postList: Posts
   total: number
@@ -18,14 +20,11 @@ const PostList: React.FC<Props> = memo(
   ({ postList, total, page, per_page, prevPage, nextPage }) => {
     const total_page = Math.ceil(total / per_page)
     return (
-      <>
-        <ul className="flex flex-col justify-start">
+      <div className="flex flex-col justify-between">
+        <ul className="flex flex-col justify-start space-y-4">
           {postList?.map((post: Post, i: number) => {
             return (
-              <li
-                key={i}
-                className="flex sm:flex-nowrap sm:space-x-2.5 space-y-1"
-              >
+              <li key={i} className="flex sm:flex-nowrap sm:space-x-2.5">
                 <DateDisplay date={post.createdAt} />
                 <div className="text-lg break-all w-64 sm:w-auto flex-initial">
                   <Link
@@ -48,9 +47,7 @@ const PostList: React.FC<Props> = memo(
           >
             <ArrowLeft />
           </button>
-          <div>
-            {page}/{Math.ceil(total / per_page)}
-          </div>
+          <PageNumber page={page} total_page={total_page} />
           <button
             onClick={() => nextPage(page)}
             className="flex justify-center items-center w-14 h-10 border border-gray-500 rounded disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
@@ -59,7 +56,7 @@ const PostList: React.FC<Props> = memo(
             <ArrowRight />
           </button>
         </div>
-      </>
+      </div>
     )
   }
 )
