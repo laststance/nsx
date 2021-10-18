@@ -13,17 +13,17 @@ const variants = {
   primary: 'text-blue-200',
 }
 
-export type SpinnerProps = {
+export type ButtonSpinerProps = {
   size?: keyof typeof sizes
   variant?: keyof typeof variants
   className?: string
 }
 
-export const InnterSpiner: React.FC<SpinnerProps> = ({
+export const ButtonSpiner: React.FC<ButtonSpinerProps> = ({
   size = 'md',
   variant = 'primary',
   className = '',
-}: SpinnerProps) => {
+}: ButtonSpinerProps) => {
   return (
     <>
       <svg
