@@ -40,10 +40,11 @@ const PostList: React.FC<Props> = memo(
             )
           })}
         </ul>
-        <div className="flex justify-center space-x-3">
+        <div className="flex justify-center items-center space-x-4 p-10">
           <button
             onClick={() => prevPage(page)}
             disabled={page <= 1 ? true : false}
+            className="flex justify-center items-center w-14 h-10 border border-gray-500 rounded disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
           >
             <ArrowLeft />
           </button>
@@ -52,6 +53,7 @@ const PostList: React.FC<Props> = memo(
           </div>
           <button
             onClick={() => nextPage(page)}
+            className="flex justify-center items-center w-14 h-10 border border-gray-500 rounded disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
             disabled={page === total_page ? true : false}
           >
             <ArrowRight />
