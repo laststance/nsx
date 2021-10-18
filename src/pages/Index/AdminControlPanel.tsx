@@ -74,5 +74,6 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
     </div>
   )
 })
+AdminControlPanel.displayName = 'AdminControlPanel'
 
 export default AdminControlPanel

@@ -7,15 +7,28 @@ import React, { memo } from 'react'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
-import { useDeletePostMutation, useFetchAllPostsQuery } from '../redux/API'
-import { useAppDispatch } from '../redux/hooks'
+import Loading from '../elements/Loading'
+import { useDeletePostMutation, API } from '../redux/API'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { selectPage, updatePage } from '../redux/pageSlice'
 import { enqueSnackbar } from '../redux/snackbarSlice'
 
 const Dashboard: React.FC<RouteComponentProps> = memo(() => {
+  const { page, per_page } = useAppSelector(selectPage)
   const dispatch = useAppDispatch()
   // for display network error message
-  const { data, error, refetch } = useFetchAllPostsQuery()
+  const { data, error, refetch, isLoading } =
+    API.endpoints.fetchPostList.useQuery({
+      page,
+      per_page,
+    })
   const [deletePost] = useDeletePostMutation()
+  const prevPage = (page: number) => {
+    dispatch(updatePage({ page: page - 1 }))
+  }
+  const nextPage = (page: number) => {
+    dispatch(updatePage({ page: page + 1 }))
+  }
 
   async function handleDelete(id: Post['id']) {
     try {
@@ -51,6 +64,10 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
     )
   }
 
+  if (isLoading || data === undefined) {
+    return <Loading />
+  }
+
   return (
     <Layout
       className="flex flex-col justify-start"
@@ -58,7 +75,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
     >
       <h1 className="text-3xl font-semibold mb-3">Dashboard</h1>
       <ul className="flex flex-col justify-start">
-        {data?.map((post: Post, i: number) => {
+        {data.postList.map((post: Post, i: number) => {
           return (
             <li key={i} className="flex justify-between items-center space-y-2">
               <Link
@@ -84,6 +101,13 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
           )
         })}
       </ul>
+      <div className="flex justify-center">
+        <button onClick={() => prevPage(page)}>Prev</button>
+        <button onClick={() => nextPage(page)}>Next</button>
+        <div>
+          page: ${page}/${10 % data.total}
+        </div>
+      </div>
       <div className="flex gap-4 justify-end mt-8">
         <Link to="create">
           <Button data-cy="create-btn" variant="primary">

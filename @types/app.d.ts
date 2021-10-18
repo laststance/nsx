@@ -1,6 +1,7 @@
 /**
  * Domain Data
  */
+
 declare interface Author {
   id: number
   name: string
@@ -24,6 +25,19 @@ declare type Posts = Post[]
  */
 declare interface ErrorResponse {
   error: string
+}
+
+/**
+ * GET /api/post_list
+ */
+declare interface PostListRequestQuery {
+  page: number
+  per_page: number
+}
+
+declare interface PostListResponce {
+  total: number
+  postList: Post[]
 }
 
 /**

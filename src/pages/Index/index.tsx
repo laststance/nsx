@@ -5,21 +5,43 @@ import Layout from '../../components/Layout'
 import Loading from '../../elements/Loading'
 import { selectLogin } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { selectPage, updatePage } from '../../redux/pageSlice'
 
 import AdminControlPanel from './AdminControlPanel'
 import PostList from './PostList'
 
 const Index: React.FC<RouteComponentProps> = memo(() => {
   const login = useAppSelector(selectLogin)
-  const { data, error, isLoading } = API.endpoints.fetchAllPosts.useQuery()
+  const { page, per_page } = useAppSelector(selectPage)
+  const dispatch = useAppDispatch()
+  const { data, error, isLoading } = API.endpoints.fetchPostList.useQuery({
+    page,
+    per_page,
+  })
+  const prevPage = (page: number) => {
+    dispatch(updatePage({ page: page - 1 }))
+  }
+  const nextPage = (page: number) => {
+    dispatch(updatePage({ page: page + 1 }))
+  }
 
   return (
     <Layout
       className="flex flex-col justify-between"
       data-cy="top-page-content-root"
     >
-      {isLoading ? <Loading /> : <PostList posts={data as Posts} />}
+      {isLoading || data === undefined ? (
+        <Loading />
+      ) : (
+        <PostList
+          postList={data.postList}
+          total={data.total}
+          page={page}
+          prevPage={prevPage}
+          nextPage={nextPage}
+        />
+      )}
       {error && (
         <div>
           {/* @ts-ignore */}
@@ -30,5 +52,6 @@ const Index: React.FC<RouteComponentProps> = memo(() => {
     </Layout>
   )
 })
+Index.displayName = 'Index'
 
 export default Index

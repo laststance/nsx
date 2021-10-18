@@ -13,7 +13,7 @@ const requestInfo = Object.defineProperty({}, 'credentials', {
 })
 
 export const API = createApi({
-  reducerPath: 'api',
+  reducerPath: 'API',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
     prepareHeaders: (headers: Headers) => {
@@ -24,17 +24,20 @@ export const API = createApi({
   keepUnusedDataFor: 60 * 30,
   tagTypes: ['Posts'],
   endpoints: (builder) => ({
-    fetchAllPosts: builder.query<Posts, void>({
-      query: () => 'posts',
+    fetchPostList: builder.query<PostListResponce, PostListRequestQuery>({
+      query: ({ page, per_page }) =>
+        `post_list?page=${page}&per_page=${per_page}`,
       providesTags: (result) =>
-        result
+        result && result.postList
           ? [
-              ...result.map(({ id }) => ({ type: 'Posts' as const, id })),
+              ...result.postList.map(({ id }) => ({
+                type: 'Posts' as const,
+                id,
+              })),
               { type: 'Posts', id: 'LIST' },
             ]
           : [{ type: 'Posts', id: 'LIST' }],
     }),
-
     fetchPost: builder.query<Post, Post['id']>({
       query: (id) => ({ url: `post/${id}`, method: 'GET' }),
       providesTags: (result, error, id) => [{ type: 'Posts', id }],
@@ -94,7 +97,6 @@ export const API = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
-  useFetchAllPostsQuery,
   useFetchPostQuery,
   useDeletePostMutation,
   useUpdatePostMutation,

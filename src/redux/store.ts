@@ -4,11 +4,13 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 
 import adminReducer from './adminSlice'
 import { API } from './API'
+import pageReducer from './pageSlice'
 import snackbarReducer from './snackbarSlice'
 
 export const store = configureStore({
   reducer: {
     admin: adminReducer,
+    page: pageReducer,
     snackbar: snackbarReducer,
     [API.reducerPath]: API.reducer,
   },

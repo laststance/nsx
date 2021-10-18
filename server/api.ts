@@ -24,12 +24,39 @@ const router = express.Router()
 /**
  API Implementation
  */
-router.get('/posts', async (req: Request, res: Response) => {
-  const posts = await db.post.findAll({
-    order: [['id', 'DESC']],
-  })
-  res.status(200).json(posts)
-})
+router.get(
+  '/post_list',
+  async (
+    req: Request<_, _, _, PostListRequestQuery>,
+    res: Response<PostListResponce>
+  ) => {
+    // @ts-ignore
+    const page = parseInt(req.query.page)
+    // @ts-ignore
+    const per_page = parseInt(req.query.per_page)
+    const total = await db.post.count()
+
+    const offset = per_page * (page - 1)
+    let options
+    if (0 >= offset) {
+      options = {
+        limit: per_page,
+        order: [['id', 'DESC']],
+      }
+    } else {
+      options = {
+        limit: per_page,
+        offset: offset,
+        order: [['id', 'DESC']],
+      }
+    }
+
+    // @ts-ignore
+    const postList = await db.post.findAll(options)
+    // @ts-ignore
+    res.status(200).json({ total, postList })
+  }
+)
 
 router.get('/post/:id', async (req: Request, res: Response) => {
   const post = await db.post.findOne({
