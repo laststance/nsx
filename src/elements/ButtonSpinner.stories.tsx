@@ -2,7 +2,7 @@ import type { Meta, Story } from '@storybook/react'
 import React from 'react'
 
 import type { ButtonSpinerProps } from './ButtonSpiner'
-import { ButtonSpiner } from './ButtonSpiner'
+import ButtonSpiner from './ButtonSpiner'
 
 const meta: Meta = {
   title: 'Elements/ButtonSpinner',

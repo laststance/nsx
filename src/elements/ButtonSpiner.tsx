@@ -19,7 +19,7 @@ export type ButtonSpinerProps = {
   className?: string
 }
 
-export const ButtonSpiner: React.FC<ButtonSpinerProps> = ({
+const ButtonSpiner: React.FC<ButtonSpinerProps> = ({
   size = 'md',
   variant = 'primary',
   className = '',
@@ -56,3 +56,5 @@ export const ButtonSpiner: React.FC<ButtonSpinerProps> = ({
     </>
   )
 }
+
+export default ButtonSpiner
