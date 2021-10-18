@@ -38,6 +38,7 @@ const Index: React.FC<RouteComponentProps> = memo(() => {
           postList={data.postList}
           total={data.total}
           page={page}
+          per_page={per_page}
           prevPage={prevPage}
           nextPage={nextPage}
         />
