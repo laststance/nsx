@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-const GithubIcon = memo(
+const Github = memo(
   () => (
     <svg
       fill="currentColor"
@@ -18,6 +18,6 @@ const GithubIcon = memo(
   () => true
 )
 
-GithubIcon.displayName = 'GithubIcon'
+Github.displayName = 'GithubIcon'
 
-export default GithubIcon
+export default Github

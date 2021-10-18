@@ -1,7 +1,7 @@
 import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
-import GithubIcon from '../elements/GithubIcon'
+import Github from '../elements/icons/Github'
 
 const Header = memo(
   () => (
@@ -25,7 +25,7 @@ const Header = memo(
             target="_blank"
             rel="noreferrer"
           >
-            <GithubIcon />
+            <Github />
           </a>
         </div>
       </div>
