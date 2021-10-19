@@ -31,6 +31,12 @@ const Index: React.FC<RouteComponentProps> = memo(() => {
       className="flex flex-col justify-between"
       data-cy="top-page-content-root"
     >
+      {error && (
+        <div>
+          {/* @ts-ignore */}
+          <p>Error: {error.message}</p>
+        </div>
+      )}
       {isLoading || data === undefined ? (
         <Loading />
       ) : (
@@ -42,12 +48,6 @@ const Index: React.FC<RouteComponentProps> = memo(() => {
           prevPage={prevPage}
           nextPage={nextPage}
         />
-      )}
-      {error && (
-        <div>
-          {/* @ts-ignore */}
-          <p>Error: {error.message}</p>
-        </div>
       )}
       <AdminControlPanel login={login} />
     </Layout>
