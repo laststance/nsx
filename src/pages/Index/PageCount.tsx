@@ -5,11 +5,11 @@ interface Props {
   total_page: number
 }
 
-const PageNumber: React.FC<Props> = memo(({ page, total_page }) => (
+const PageCount: React.FC<Props> = memo(({ page, total_page }) => (
   <div>
     {page} / {total_page}
   </div>
 ))
-PageNumber.displayName = 'PageNumber'
+PageCount.displayName = 'PageNumber'
 
-export default PageNumber
+export default PageCount

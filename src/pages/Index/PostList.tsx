@@ -5,7 +5,7 @@ import DateDisplay from '../../elements/DateDisplay'
 import ArrowLeft from '../../elements/icons/ArrowLeft'
 import ArrowRight from '../../elements/icons/ArrowRight'
 
-import PageNumber from './PageNumber'
+import PageCount from './PageCount'
 
 interface Props {
   postList: Posts
@@ -47,7 +47,7 @@ const PostList: React.FC<Props> = memo(
           >
             <ArrowLeft />
           </button>
-          <PageNumber page={page} total_page={total_page} />
+          <PageCount page={page} total_page={total_page} />
           <button
             onClick={() => nextPage(page)}
             className="flex justify-center items-center w-14 h-10 border border-gray-500 rounded disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
