@@ -1,11 +1,9 @@
 import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
+import Pagenation from '../../components/Pagenation'
 import DateDisplay from '../../elements/DateDisplay'
-import ArrowLeft from '../../elements/icons/ArrowLeft'
-import ArrowRight from '../../elements/icons/ArrowRight'
-
-import PageCount from './PageCount'
+import { getTotalPage } from '../../lib/getTotalPage'
 
 interface Props {
   postList: Posts
@@ -18,9 +16,9 @@ interface Props {
 
 const PostList: React.FC<Props> = memo(
   ({ postList, total, page, per_page, prevPage, nextPage }) => {
-    const total_page = Math.ceil(total / per_page)
+    const total_page = getTotalPage(total, per_page)
     return (
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between h-full">
         <ul className="flex flex-col justify-start space-y-4">
           {postList?.map((post: Post, i: number) => {
             return (
@@ -39,23 +37,12 @@ const PostList: React.FC<Props> = memo(
             )
           })}
         </ul>
-        <div className="flex justify-center items-center space-x-4 p-10">
-          <button
-            onClick={() => prevPage(page)}
-            disabled={page <= 1 ? true : false}
-            className="flex justify-center items-center w-14 h-10 border border-gray-500 rounded disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
-          >
-            <ArrowLeft />
-          </button>
-          <PageCount page={page} total_page={total_page} />
-          <button
-            onClick={() => nextPage(page)}
-            className="flex justify-center items-center w-14 h-10 border border-gray-500 rounded disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
-            disabled={page === total_page ? true : false}
-          >
-            <ArrowRight />
-          </button>
-        </div>
+        <Pagenation
+          page={page}
+          total_page={total_page}
+          prevPage={prevPage}
+          nextPage={nextPage}
+        />
       </div>
     )
   }
