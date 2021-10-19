@@ -5,9 +5,11 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { memo } from 'react'
 
 import Layout from '../components/Layout'
+import Pagenation from '../components/Pagenation'
 import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
 import Loading from '../elements/Loading'
+import { getTotalPage } from '../lib/getTotalPage'
 import { useDeletePostMutation, API } from '../redux/API'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { selectPage, updatePage } from '../redux/pageSlice'
@@ -67,6 +69,8 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   if (isLoading || data === undefined) {
     return <Loading />
   }
+  const { postList, total } = data
+  const total_page = getTotalPage(total, per_page)
 
   return (
     <Layout
@@ -74,46 +78,43 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
       data-cy="dashboard-page-content-root"
     >
       <h1 className="text-3xl font-semibold mb-3">Dashboard</h1>
-      <ul className="flex flex-col justify-start">
-        {data.postList.map((post: Post, i: number) => {
-          return (
-            <li key={i} className="flex justify-between items-center space-y-2">
-              <Link
-                to={`/post/${post.id}`}
-                className="flex items-center space-x-2"
+      <div className="flex flex-col justify-between h-full">
+        <ul className="flex flex-col justify-start">
+          {postList.map((post: Post, i: number) => {
+            return (
+              <li
+                key={i}
+                className="flex justify-between items-center space-y-2"
               >
-                <DateDisplay date={post.createdAt} />
-                <div className="text-base">{post.title}</div>
-              </Link>
-              <div className="flex items-center space-x-2">
-                <Link to={`/dashboard/edit/${post.id}`}>
-                  <Button variant="inverse">Edit</Button>
-                </Link>
-                <Button
-                  onClick={() => handleDelete(post.id)}
-                  variant="danger"
-                  data-cy={`delete-btn-${i + 1}`}
+                <Link
+                  to={`/post/${post.id}`}
+                  className="flex items-center space-x-2"
                 >
-                  Delete
-                </Button>
-              </div>
-            </li>
-          )
-        })}
-      </ul>
-      <div className="flex justify-center">
-        <button onClick={() => prevPage(page)}>Prev</button>
-        <button onClick={() => nextPage(page)}>Next</button>
-        <div>
-          page: ${page}/${10 % data.total}
-        </div>
-      </div>
-      <div className="flex gap-4 justify-end mt-8">
-        <Link to="create">
-          <Button data-cy="create-btn" variant="primary">
-            Create
-          </Button>
-        </Link>
+                  <DateDisplay date={post.createdAt} />
+                  <div className="text-base">{post.title}</div>
+                </Link>
+                <div className="flex items-center space-x-2">
+                  <Link to={`/dashboard/edit/${post.id}`}>
+                    <Button variant="inverse">Edit</Button>
+                  </Link>
+                  <Button
+                    onClick={() => handleDelete(post.id)}
+                    variant="danger"
+                    data-cy={`delete-btn-${i + 1}`}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+        <Pagenation
+          page={page}
+          total_page={total_page}
+          prevPage={prevPage}
+          nextPage={nextPage}
+        />
       </div>
     </Layout>
   )
