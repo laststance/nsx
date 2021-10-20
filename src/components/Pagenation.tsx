@@ -17,12 +17,14 @@ const Pagenation: React.FC<Props> = memo(
         direction="left"
         onClick={() => prevPage(page)}
         disabled={page <= 1 ? true : false}
+        data-cy="prev-page-btn"
       />
-      <PageCount page={page} total_page={total_page} />
+      <PageCount page={page} total_page={total_page} data-cy="page-count" />
       <ArrowButton
         direction="right"
         onClick={() => nextPage(page)}
         disabled={page === total_page ? true : false}
+        data-cy="next-page-btn"
       />
     </div>
   )
