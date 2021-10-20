@@ -4,7 +4,7 @@ import { CircleLoader } from 'react-spinners'
 const Loading = memo(
   () => {
     return (
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="flex items-center justify-center w-full h-full">
         <CircleLoader size={250} color="#9CA3AF" />
       </div>
     )

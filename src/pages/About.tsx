@@ -6,15 +6,15 @@ import Layout from '../components/Layout'
 const About = memo<RouteComponentProps>(
   () => (
     <Layout>
-      <h1 className="text-3xl pt-4 pb-6">About</h1>
-      <section className="text-xl leading-8 space-y-4">
+      <h1 className="pt-4 pb-6 text-3xl">About</h1>
+      <section className="space-y-4 text-xl leading-8">
         <p>
           The Blog logging what todaly I learned everyday by{' '}
           <a
             href="https://ryota-murakami.github.io/"
             target="_blank"
             rel="noreferrer"
-            className="text-gray-600 hover:text-gray-400"
+            className="hover:text-gray-400 text-gray-600"
           >
             Ryota Murakami
           </a>
@@ -33,7 +33,7 @@ const About = memo<RouteComponentProps>(
             href="https://laststance.io/"
             target="_blank"
             rel="noreferrer"
-            className="text-gray-600 hover:text-gray-400"
+            className="hover:text-gray-400 text-gray-600"
           >
             Laststance.io
           </a>

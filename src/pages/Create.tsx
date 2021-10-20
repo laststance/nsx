@@ -56,12 +56,12 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
         data-cy="post-title-input"
       />
       <textarea
-        className="w-full h-60 mt-3"
+        className="h-60 w-full mt-3"
         value={body}
         onChange={(e) => handleInputChange(e, setBody)}
         data-cy="post-body-input"
       />
-      <div className="flex gap-4 justify-end pt-8">
+      <div className="flex justify-end gap-4 pt-8">
         <Button
           onClick={execCreate}
           variant="primary"

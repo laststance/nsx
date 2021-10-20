@@ -5,7 +5,7 @@ const Github = memo(
     <svg
       fill="currentColor"
       viewBox="0 0 24 24"
-      className="h-6 w-6 inline text-gray-500"
+      className="inline w-6 h-6 text-gray-500"
     >
       <title>Github</title>
       <path

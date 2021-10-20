@@ -50,12 +50,12 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
 
   return (
     <Layout data-cy="signup-page-content-root">
-      <h1 className="text-3xl mb-3">Signup</h1>
+      <h1 className="mb-3 text-3xl">Signup</h1>
       <form className="w-full max-w-sm" onSubmit={execSignup}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
-              className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+              className="md:text-right md:mb-0 block pr-4 mb-1 font-bold text-gray-500"
               htmlFor="name"
             >
               Name
@@ -63,7 +63,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
           </div>
           <div className="md:w-2/3">
             <input
-              className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+              className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
               id="name"
               type="text"
               name="name"
@@ -76,7 +76,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
-              className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+              className="md:text-right md:mb-0 block pr-4 mb-1 font-bold text-gray-500"
               htmlFor="password"
             >
               Password
@@ -84,7 +84,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
           </div>
           <div className="md:w-2/3">
             <input
-              className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+              className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
               id="password"
               type="password"
               name="password"

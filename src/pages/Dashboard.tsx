@@ -77,14 +77,14 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
       className="flex flex-col justify-start"
       data-cy="dashboard-page-content-root"
     >
-      <h1 className="text-3xl font-semibold mb-3">Dashboard</h1>
+      <h1 className="mb-3 text-3xl font-semibold">Dashboard</h1>
       <div className="flex flex-col justify-between h-full">
         <ul className="flex flex-col justify-start">
           {postList.map((post: Post, i: number) => {
             return (
               <li
                 key={i}
-                className="flex justify-between items-center space-y-2"
+                className="flex items-center justify-between space-y-2"
               >
                 <Link
                   to={`/post/${post.id}`}
@@ -109,7 +109,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
             )
           })}
         </ul>
-        <div className="flex gap-4 justify-end mt-8">
+        <div className="flex justify-end gap-4 mt-8">
           <Link to="create">
             <Button data-cy="create-btn" variant="primary">
               Create

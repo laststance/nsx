@@ -12,7 +12,7 @@ interface Props {
 
 const Pagenation: React.FC<Props> = memo(
   ({ page, total_page, prevPage, nextPage }) => (
-    <div className="flex justify-center items-center space-x-4 p-10">
+    <div className="flex items-center justify-center p-10 space-x-4">
       <ArrowButton
         direction="left"
         onClick={() => prevPage(page)}

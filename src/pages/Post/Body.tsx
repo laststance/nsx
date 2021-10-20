@@ -24,7 +24,7 @@ const Body: React.FC<Props> = memo(({ post, login }) => (
       {/* Suspence for lazyload expesive <code /> component */}
 
       <Head post={post} />
-      <h1 className="text-2xl pt-4 pb-6 font-semibold">{post.title}</h1>
+      <h1 className="pt-4 pb-6 text-2xl font-semibold">{post.title}</h1>
       <ReactMarkdown // @ts-ignore too complex
         components={getCustomComponents(post)}
         /* @ts-ignore lib index.d.ts missmatch between "@types/node@16.4.12" and "rehype-raw@6.0.0" */
@@ -37,7 +37,7 @@ const Body: React.FC<Props> = memo(({ post, login }) => (
       </ReactMarkdown>
 
       {login && (
-        <div className="pt-8 flex justify-end">
+        <div className="flex justify-end pt-8">
           <Link to={`/dashboard/edit/${post.id}`}>
             <Button variant="primary" data-cy="edit-btn">
               Edit

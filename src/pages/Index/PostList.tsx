@@ -24,7 +24,7 @@ const PostList: React.FC<Props> = memo(
             return (
               <li key={i} className="flex sm:flex-nowrap sm:space-x-2.5">
                 <DateDisplay date={post.createdAt} />
-                <div className="text-lg break-all w-64 sm:w-auto flex-initial">
+                <div className="sm:w-auto flex-initial w-64 text-lg break-all">
                   <Link
                     className="hover:text-gray-400"
                     to={`post/${post.id}`}

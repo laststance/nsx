@@ -39,7 +39,7 @@ export const SnackBar: React.FC<Props> = ({ message, color }) => {
         color
       )} z-10 py-2 px-4 absolute top-10 right-10 rounded-xl button transition-opacity ${opacity}`}
     >
-      <p className="text-white text-lg uppercase font-medium">{message}</p>
+      <p className="text-lg font-medium text-white uppercase">{message}</p>
     </div>
   )
 }

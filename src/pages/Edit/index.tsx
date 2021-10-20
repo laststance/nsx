@@ -36,7 +36,7 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = memo(
           data-cy="edit-title-input"
         />
         <textarea
-          className="w-full h-60 mt-3"
+          className="h-60 w-full mt-3"
           value={body}
           onChange={(e) => handleChange(e, 'body')}
           data-cy="edit-body-input"

@@ -25,6 +25,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
       page,
       per_page,
     })
+    // if available cache
     if (data !== undefined && isSuccess) {
       const post = data.postList.find((post) => {
         return post.id === parseInt(postId)

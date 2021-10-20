@@ -45,7 +45,7 @@ const MessageStyle: React.CSSProperties = {
 }
 
 const ErrorBoundaryFallbackComponent = () => (
-  <div style={LayoutStyle} className="h-full w-full">
+  <div style={LayoutStyle} className="w-full h-full">
     <div style={MessageStyle}>
       Something Error Ooccurring
       <span role="img" aria-label="face-emoji">

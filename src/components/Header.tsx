@@ -6,9 +6,9 @@ import Github from '../elements/icons/Github'
 const Header = memo(
   () => (
     <header data-cy="header" className="w-full border-b border-gray-200">
-      <div className="h-16 container mx-auto flex sm:flex-row flex-col items-center sm:content-center flex-wrap gap-2 my-4">
+      <div className="sm:flex-row sm:content-center container flex flex-col flex-wrap items-center h-16 gap-2 mx-auto my-4">
         <Link to="/" className="col-auto" data-cy="blog-title-top-page-link">
-          <h1 className="font-bold text-xl sm:text-2xl">Today I Learned β</h1>
+          <h1 className="sm:text-2xl text-xl font-bold">Today I Learned β</h1>
         </Link>
         <p className="text-base text-gray-700 justify-self-start sm:pt-2.5 sm:pl-1.5">
           What Today I Learned
@@ -16,7 +16,7 @@ const Header = memo(
             📝
           </span>
         </p>
-        <div className="sm:flex-grow flex space-x-2 sm:justify-end">
+        <div className="sm:flex-grow sm:justify-end flex space-x-2">
           <Link to="/about">
             <div className="hover:text-gray-300 text-lg">about</div>
           </Link>

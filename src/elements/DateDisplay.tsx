@@ -5,7 +5,7 @@ import { formatDate } from '../lib/formatDate'
 const DateDisplay = memo<{ date: string }>(
   ({ date }) => {
     return (
-      <div className="text-lg text-gray-500 w-24 text-center flex-initial">
+      <div className="flex-initial w-24 text-lg text-center text-gray-500">
         {formatDate(date)}
       </div>
     )
