@@ -18,6 +18,7 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
   const [loging, setLoading] = useState(false)
   const [logoutRequest] = API.endpoints.logoutRequest.useMutation()
   const dispatch = useAppDispatch()
+
   async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
     try {
@@ -38,30 +39,39 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
     }
   }
 
+  const LoginBtn: boolean = !props.login && !!process.env.REACT_APP_ENABLE_LOGIN
+  const SignupBtn: boolean =
+    !props.login && !!process.env.REACT_APP_ENABLE_SIGNUP
+  const DashboardBtn: AdminState['login'] = props.login
+
+  if (LoginBtn === false && SignupBtn === false && DashboardBtn === false) {
+    return null
+  }
+
   return (
     <div className="flex items-center justify-around py-10">
-      {!props.login && process.env.REACT_APP_ENABLE_LOGIN && (
+      {LoginBtn && (
         <Link to="/login">
           <Button variant="primary" data-cy="login-btn">
             Login
           </Button>
         </Link>
       )}
-      {!props.login && process.env.REACT_APP_ENABLE_SIGNUP && (
+      {SignupBtn && (
         <Link to="/signup">
           <Button variant="secondary" data-cy="signup-btn">
             Sigunup
           </Button>
         </Link>
       )}
-      {props.login && (
+      {DashboardBtn && (
         <Link to="/dashboard">
           <Button variant="primary" data-cy="dashoard-page-transition-link-btn">
             Dashboard
           </Button>
         </Link>
       )}
-      {props.login && (
+      {DashboardBtn && (
         <Button
           variant="secondary"
           data-cy="logout-btn"
