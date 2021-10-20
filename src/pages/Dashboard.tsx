@@ -109,6 +109,13 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
             )
           })}
         </ul>
+        <div className="flex gap-4 justify-end mt-8">
+          <Link to="create">
+            <Button data-cy="create-btn" variant="primary">
+              Create
+            </Button>
+          </Link>
+        </div>
         <Pagenation
           page={page}
           total_page={total_page}
