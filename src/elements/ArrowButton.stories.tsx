@@ -10,6 +10,16 @@ const meta: ComponentMeta<typeof ArrowButton> = {
 
 export default meta
 
-export const Template: ComponentStory<typeof ArrowButton> = (props) => (
+const Template: ComponentStory<typeof ArrowButton> = (props) => (
   <ArrowButton {...props} />
 )
+
+export const Primary = Template.bind({})
+Primary.args = {
+  direction: 'right',
+}
+
+export const Secondary = Template.bind({})
+Secondary.args = {
+  direction: 'left',
+}
