@@ -10,7 +10,6 @@ const AdminRoutes: React.FC<RouteComponentProps> = memo(({ children }) => {
 
   return login ? <>{children}</> : <Redirect to="/login" noThrow />
 })
-
 AdminRoutes.displayName = 'AdminRoutes'
 
 export default AdminRoutes
