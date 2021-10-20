@@ -5,7 +5,7 @@
 [![Cypress E2E Admin Side](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-admin-side.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-admin-side.yml)
 [![Cypress-E2E Visitor Side](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-visitor-side.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-visitor-side.yml)
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/today-i-learned?project_id=17741)
-[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://digitalstrength.dev/ )
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://<master>--61702216bfd60a003a8b4431.chromatic.com)
 
 # Today I Learned (Work in Progress 🚧 Not yet public release)
 
