@@ -30,7 +30,7 @@ context('Visitor Basic', () => {
   it('show post that contains syntax hilight Markdown', () => {
     cy.visit('http://localhost:3000/')
     // 07/27/21 React Rush
-    cy.$('single-post-page-link-17').click()
+    cy.$('single-post-page-link-15').contain('React Rush').click()
     cy.$('post-page-content-root')
       .should('exist')
       .should('contain', 'using __proto__')
