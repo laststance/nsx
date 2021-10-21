@@ -49,7 +49,7 @@ const Index: React.FC<RouteComponentProps> = memo(() => {
           nextPage={nextPage}
         />
       )}
-      <AdminControlPanel login={login} />
+      {/*<AdminControlPanel login={login} />*/}
     </Layout>
   )
 })
