@@ -35,22 +35,12 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
 
       dispatch(enqueSnackbar({ message: res.message, color: 'green' }))
       refetch()
-      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
-    } catch (error: FetchBaseQueryError) {
-      if (error.status === 500)
-        dispatch(
-          enqueSnackbar({
-            message: `Delete Faild: ${error.message}`,
-            color: 'red',
-          })
-        )
-      else
-        dispatch(
-          enqueSnackbar({
-            message: `${error.status} System Error. Delete Faild: ${error.message}`,
-            color: 'red',
-          })
-        )
+    } catch (error) {
+      const message =
+        error.status === 500
+          ? `Delete Faild: ${error.message}`
+          : `${error.status} System Error. Delete Faild: ${error.message}`
+      dispatch(enqueSnackbar({ message: message, color: 'red' }))
     }
   }
 
