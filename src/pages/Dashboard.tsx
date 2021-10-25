@@ -1,19 +1,29 @@
 import type { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { memo } from 'react'
 
-import Layout from '../components/Layout'
+import BaseLayout from '../components/Layout'
 import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
 import Loading from '../elements/Loading'
 import { getTotalPage } from '../lib/getTotalPage'
+import renderRTKQueryErrorMessages from '../lib/renderRTKQueryErrorMessages'
 import Pagenation from '../pagination/Pagenation'
 import usePagination from '../pagination/usePagination'
 import { useDeletePostMutation } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { enqueSnackbar } from '../redux/snackbarSlice'
+
+const Layout: React.FC = memo(({ children, ...rest }) => (
+  <BaseLayout
+    className="flex flex-col justify-start"
+    data-cy="dashboard-page-content-root"
+    {...rest}
+  >
+    {children}
+  </BaseLayout>
+))
+Layout.displayName = 'Layout'
 
 const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   const {
@@ -45,25 +55,21 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   }
 
   if (error) {
-    return (
-      <div>
-        {/* @ts-ignore */}
-        {/* @ts-ignore */}${error?.status}: ${error?.message}
-      </div>
-    )
+    return <Layout>{renderRTKQueryErrorMessages(error)}</Layout>
   }
 
   if (isLoading || data === undefined) {
-    return <Loading />
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    )
   }
   const { postList, total } = data
   const total_page = getTotalPage(total, per_page)
 
   return (
-    <Layout
-      className="flex flex-col justify-start"
-      data-cy="dashboard-page-content-root"
-    >
+    <Layout>
       <h1 className="mb-3 text-3xl font-semibold">Dashboard</h1>
       <div className="flex flex-col justify-between h-full">
         <ul className="flex flex-col justify-start">
