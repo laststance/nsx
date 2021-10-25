@@ -10,8 +10,8 @@ import { login } from './redux/adminSlice'
 import { API } from './redux/API'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
+import Routes from './Routes'
 import ErrorBoundary from './systems/ErrorBoundary'
-import Routes from './systems/Routes'
 import Redux from './systems/SnackBarSystem'
 
 /**
