@@ -9,28 +9,25 @@ import Pagenation from '../components/Pagenation'
 import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
 import Loading from '../elements/Loading'
+import usePagination from '../hooks/usePagination'
 import { getTotalPage } from '../lib/getTotalPage'
-import { useDeletePostMutation, API } from '../redux/API'
-import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { selectPage, updatePage } from '../redux/pageSlice'
+import { useDeletePostMutation } from '../redux/API'
+import { useAppDispatch } from '../redux/hooks'
 import { enqueSnackbar } from '../redux/snackbarSlice'
 
 const Dashboard: React.FC<RouteComponentProps> = memo(() => {
-  const { page, per_page } = useAppSelector(selectPage)
+  const {
+    page,
+    per_page,
+    data,
+    error,
+    isLoading,
+    refetch,
+    prevPage,
+    nextPage,
+  } = usePagination()
   const dispatch = useAppDispatch()
-  // for display network error message
-  const { data, error, refetch, isLoading } =
-    API.endpoints.fetchPostList.useQuery({
-      page,
-      per_page,
-    })
   const [deletePost] = useDeletePostMutation()
-  const prevPage = (page: number) => {
-    dispatch(updatePage({ page: page - 1 }))
-  }
-  const nextPage = (page: number) => {
-    dispatch(updatePage({ page: page + 1 }))
-  }
 
   async function handleDelete(id: Post['id']) {
     try {

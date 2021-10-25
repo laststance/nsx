@@ -1,8 +1,10 @@
 import type { HTMLAttributes } from 'react'
 import React, { memo } from 'react'
 
+import type { PageState } from '../../redux/pageSlice'
+
 interface Props {
-  page: number
+  page: PageState['page']
   total_page: number
 }
 

@@ -3,28 +3,17 @@ import React, { memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Loading from '../../elements/Loading'
+import usePagination from '../../hooks/usePagination'
 import { selectLogin } from '../../redux/adminSlice'
-import { API } from '../../redux/API'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { selectPage, updatePage } from '../../redux/pageSlice'
+import { useAppSelector } from '../../redux/hooks'
 
 import AdminControlPanel from './AdminControlPanel'
 import PostList from './PostList'
 
 const Index: React.FC<RouteComponentProps> = memo(() => {
   const login = useAppSelector(selectLogin)
-  const { page, per_page } = useAppSelector(selectPage)
-  const dispatch = useAppDispatch()
-  const { data, error, isLoading } = API.endpoints.fetchPostList.useQuery({
-    page,
-    per_page,
-  })
-  const prevPage = (page: number) => {
-    dispatch(updatePage({ page: page - 1 }))
-  }
-  const nextPage = (page: number) => {
-    dispatch(updatePage({ page: page + 1 }))
-  }
+  const { page, per_page, data, isLoading, error, nextPage, prevPage } =
+    usePagination()
 
   return (
     <Layout

@@ -48,6 +48,8 @@ declare type Cast<T, CastTo> = NoInfer<T> extends never ? CastTo : CastTo
 
 declare type AnyFunction = (...args: any[]) => any
 
+declare type DispatchFuction = AnyFunction
+
 // skip unnecessary generics position
 declare type _ = any
 
