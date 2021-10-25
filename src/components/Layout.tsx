@@ -9,7 +9,7 @@ import Header from './Header'
 const Layout = memo<
   DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 >(({ children, className, ...props }) => {
-  let baseStyle = 'container mx-auto flex-grow px-4 py-3'
+  let baseStyle = 'container mx-auto flex-grow px-4 py-4'
   if (className) {
     baseStyle = concatSelecor(baseStyle, className)
   }
