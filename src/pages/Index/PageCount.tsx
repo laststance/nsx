@@ -13,6 +13,6 @@ const PageCount: React.FC<Props & HTMLAttributes<HTMLDivElement>> = memo(
     </div>
   )
 )
-PageCount.displayName = 'PageNumber'
+PageCount.displayName = 'PageCounter'
 
 export default PageCount
