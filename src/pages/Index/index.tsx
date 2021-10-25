@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Loading from '../../elements/Loading'
-import usePagination from '../../hooks/usePagination'
+import usePagination from '../../pagination/usePagination'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 

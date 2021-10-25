@@ -1,9 +1,9 @@
 import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
-import Pagenation from '../../components/Pagenation'
 import DateDisplay from '../../elements/DateDisplay'
 import { getTotalPage } from '../../lib/getTotalPage'
+import Pagenation from '../../pagination/Pagenation'
 
 interface Props {
   postList: Posts
