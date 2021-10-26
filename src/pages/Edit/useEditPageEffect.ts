@@ -1,14 +1,11 @@
 import { navigate } from '@reach/router'
-import type {
-  FetchBaseQueryError,
-  // @ts-expect-error TS2305: Module '"@reduxjs/toolkit/query"' has no exported member 'SerializedError'.
-  SerializedError,
-} from '@reduxjs/toolkit/query'
+import type { SerializedError } from '@reduxjs/toolkit'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import type React from 'react'
 import { useEffect, useState } from 'react'
 
 import { assertIsFetchBaseQueryError } from '../../lib/assertIsFetchBaseQueryError'
-import { useUpdatePostMutation } from '../../redux/API'
+import { API } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
@@ -19,8 +16,8 @@ const useEditPageEffect = (
 ): {
   title: Post['title']
   body: Post['body']
-  handleChange: AnyFunction
-  handleEdit: AnyFunction
+  handleChange: StateUpdator
+  handleEdit: DispatchFuction & MutationFunction
 } => {
   useEffect(() => {
     if (error) {
@@ -28,7 +25,7 @@ const useEditPageEffect = (
     }
   }, [error])
 
-  const [updatePost] = useUpdatePostMutation()
+  const [updatePost] = API.endpoints.updatePost.useMutation()
   // @TODO Save Draft text in the Redux
   const [title, setTitle] = useState<Post['title']>(data?.title || 'Loading...')
   const [body, setBody] = useState<Post['body']>(data?.body || 'Loading...')

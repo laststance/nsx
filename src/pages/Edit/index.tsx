@@ -1,13 +1,19 @@
 import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
 
-import Layout from '../../components/Layout'
+import BaseLayout from '../../components/Layout'
 import Button from '../../elements/Button'
 import Loading from '../../elements/Loading'
 import { assertIsDefined } from '../../lib/assertIsDefined'
-import { useFetchPostQuery } from '../../redux/API'
+import renderRTKQueryErrorMessages from '../../lib/renderRTKQueryErrorMessages'
+import { API } from '../../redux/API'
 
 import useEditPageEffect from './useEditPageEffect'
+
+const Layout: React.FC = memo(({ children }) => (
+  <BaseLayout className="flex flex-col justify-start">{children}</BaseLayout>
+))
+Layout.displayName = 'Layout'
 
 interface RouteParam {
   postId: Post['id']
@@ -17,17 +23,27 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = memo(
   ({ postId: id }) => {
     assertIsDefined(id)
 
-    const { data, isLoading, error } = useFetchPostQuery(id)
+    const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(id)
     const { title, body, handleEdit, handleChange } = useEditPageEffect(
       id,
       data,
       error
     )
 
-    if (isLoading || data === undefined) return <Loading />
+    if (error) {
+      return <Layout>{renderRTKQueryErrorMessages(error)}</Layout>
+    }
+
+    if (isLoading || data === undefined) {
+      return (
+        <Layout>
+          <Loading />
+        </Layout>
+      )
+    }
 
     return (
-      <Layout className="flex flex-col justify-start">
+      <Layout>
         <input
           type="text"
           className="mt-3"

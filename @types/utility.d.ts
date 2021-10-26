@@ -1,5 +1,7 @@
 // from https://github.com/reduxjs/redux-toolkit/blob/4fbd29f0032f1ebb9e2e621ab48bbff5266e312c/packages/toolkit/src/query/tsHelpers.ts
 
+import Any = jasmine.Any
+
 declare type Id<T> = { [K in keyof T]: T[K] } & Record<string, unknown>
 
 declare type WithRequiredProp<T, K extends keyof T> = Omit<T, K> &
@@ -49,6 +51,12 @@ declare type Cast<T, CastTo> = NoInfer<T> extends never ? CastTo : CastTo
 declare type AnyFunction = (...args: any[]) => any
 
 declare type DispatchFuction = AnyFunction
+
+declare type StateUpdator = AnyFunction
+
+declare type QueryFunction = AnyFunction
+
+declare type MutationFunction = AnyFunction
 
 // skip unnecessary generics position
 declare type _ = any
