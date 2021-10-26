@@ -28,7 +28,7 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 
-  const execLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
@@ -57,7 +57,7 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
   return (
     <Layout>
       <h1 className="mb-3 text-3xl">Login</h1>
-      <form className="w-full max-w-sm" onSubmit={(e) => execLogin(e)}>
+      <form className="w-full max-w-sm" onSubmit={(e) => handleLogin(e)}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
