@@ -4,8 +4,8 @@ import React, { memo } from 'react'
 
 import BaseLayout from '../components/Layout'
 import Button from '../elements/Button'
-import DateDisplay from '../elements/DateDisplay'
 import Loading from '../elements/Loading'
+import PostDate from '../elements/PostDate'
 import { assertIsFetchBaseQueryError } from '../lib/assertIsFetchBaseQueryError'
 import { assertIsSerializedError } from '../lib/assertIsSerializedError'
 import { getTotalPage } from '../lib/getTotalPage'
@@ -87,7 +87,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
                   to={`/post/${post.id}`}
                   className="flex items-center space-x-2"
                 >
-                  <DateDisplay date={post.createdAt} />
+                  <PostDate date={post.createdAt} />
                   <div className="text-base">{post.title}</div>
                 </Link>
                 <div className="flex items-center space-x-2">

@@ -1,7 +1,7 @@
 import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
-import DateDisplay from '../../elements/DateDisplay'
+import PostDate from '../../elements/PostDate'
 import { getTotalPage } from '../../lib/getTotalPage'
 import Pagenation from '../../pagination/Pagenation'
 
@@ -23,7 +23,7 @@ const PostList: React.FC<Props> = memo(
           {postList?.map((post: Post, i: number) => {
             return (
               <li key={i} className="flex sm:flex-nowrap sm:space-x-2.5">
-                <DateDisplay date={post.createdAt} />
+                <PostDate date={post.createdAt} />
                 <div className="sm:w-auto flex-initial w-64 text-lg break-all">
                   <Link
                     className="hover:text-gray-400"

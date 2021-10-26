@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 
 import { formatDate } from '../lib/formatDate'
 
-const DateDisplay = memo<{ date: string }>(
+const PostDate = memo<{ date: string }>(
   ({ date }) => {
     return (
       <div className="flex-initial w-24 text-lg text-center text-gray-500">
@@ -13,6 +13,6 @@ const DateDisplay = memo<{ date: string }>(
   () => true
 )
 
-DateDisplay.displayName = 'DateDisplay'
+PostDate.displayName = 'PostDate'
 
-export default DateDisplay
+export default PostDate
