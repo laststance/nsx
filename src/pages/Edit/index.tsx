@@ -7,7 +7,7 @@ import Loading from '../../elements/Loading'
 import { assertIsDefined } from '../../lib/assertIsDefined'
 import { useFetchPostQuery } from '../../redux/API'
 
-import useEditEffect from './useEditEffect'
+import useEditPageEffect from './useEditPageEffect'
 
 interface RouteParam {
   postId: Post['id']
@@ -18,7 +18,7 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = memo(
     assertIsDefined(id)
 
     const { data, isLoading, error } = useFetchPostQuery(id)
-    const { title, body, handleEdit, handleChange } = useEditEffect(
+    const { title, body, handleEdit, handleChange } = useEditPageEffect(
       id,
       data,
       error

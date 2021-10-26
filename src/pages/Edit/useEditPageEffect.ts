@@ -12,7 +12,7 @@ import { useUpdatePostMutation } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
-const useEditEffect = (
+const useEditPageEffect = (
   id: Post['id'],
   data: { title: Post['title']; body: Post['body'] } | undefined,
   error: FetchBaseQueryError | SerializedError | undefined
@@ -80,4 +80,4 @@ const useEditEffect = (
   return { title, body, handleChange, handleEdit }
 }
 
-export default useEditEffect
+export default useEditPageEffect
