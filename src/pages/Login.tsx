@@ -7,7 +7,7 @@ import React, { useState, memo } from 'react'
 import Layout from '../components/Layout'
 import Button from '../elements/Button'
 import { login } from '../redux/adminSlice'
-import { useLoginReqestMutation } from '../redux/API'
+import { API } from '../redux/API'
 import { useAppDispatch } from '../redux/hooks'
 import { enqueSnackbar } from '../redux/snackbarSlice'
 
@@ -17,7 +17,7 @@ interface FormInputState {
 }
 
 const Login: React.FC<RouteComponentProps> = memo(() => {
-  const [loginReqest] = useLoginReqestMutation()
+  const [loginReqest] = API.endpoints.loginReqest.useMutation()
   const [formInput, setFormInput] = useState<FormInputState>({
     name: '',
     password: '',
