@@ -2,12 +2,13 @@ import React, { memo } from 'react'
 
 import ArrowButton from '../elements/ArrowButton'
 import PageCount from '../pages/Index/PageCount'
+import type { PageState } from '../redux/pageSlice'
 
 interface Props {
-  page: number
+  page: PageState['page']
   total_page: number
-  prevPage: AnyFunction
-  nextPage: AnyFunction
+  prevPage: DispatchFuction
+  nextPage: DispatchFuction
 }
 
 const Pagenation: React.FC<Props> = memo(

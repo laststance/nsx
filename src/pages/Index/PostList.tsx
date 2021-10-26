@@ -10,8 +10,8 @@ interface Props {
   total: number
   page: number
   per_page: number
-  prevPage: AnyFunction
-  nextPage: AnyFunction
+  prevPage: DispatchFuction
+  nextPage: DispatchFuction
 }
 
 const PostList: React.FC<Props> = memo(
