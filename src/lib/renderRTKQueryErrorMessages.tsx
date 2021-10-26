@@ -1,5 +1,6 @@
 import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import React from 'react'
 import type { ReactElement } from 'react'
 
 import { assertIsFetchBaseQueryError } from './assertIsFetchBaseQueryError'
@@ -16,7 +17,7 @@ function renderRTKQueryErrorMessages(
     assertIsSerializedError(error)
     message = `${error.name}: ${error.message}: ${error.stack}: ${error.code}`
   }
-  return <div>${message}</div>
+  return <div>{message}</div>
 }
 
 export default renderRTKQueryErrorMessages

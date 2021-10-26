@@ -1,11 +1,13 @@
-import type { RouteComponentProps } from '@reach/router'
 import { Link } from '@reach/router'
+import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
 
 import BaseLayout from '../components/Layout'
 import Button from '../elements/Button'
 import DateDisplay from '../elements/DateDisplay'
 import Loading from '../elements/Loading'
+import { assertIsFetchBaseQueryError } from '../lib/assertIsFetchBaseQueryError'
+import { assertIsSerializedError } from '../lib/assertIsSerializedError'
 import { getTotalPage } from '../lib/getTotalPage'
 import renderRTKQueryErrorMessages from '../lib/renderRTKQueryErrorMessages'
 import Pagenation from '../pagination/Pagenation'
@@ -46,6 +48,8 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
       dispatch(enqueSnackbar({ message: res.message, color: 'green' }))
       refetch()
     } catch (error) {
+      assertIsSerializedError(error)
+      assertIsFetchBaseQueryError(error)
       const message =
         error.status === 500
           ? `Delete Faild: ${error.message}`
