@@ -111,7 +111,7 @@
     "server:deploy": "bash scripts/deploy.sh -s",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "typecheck": "yarn front:typecheck && yarn server:typecheck",
+    "typecheck:all": "yarn front:typecheck && yarn server:typecheck",
     "front:typecheck": "tsc --noEmit -p tsconfig.json",
     "server:typecheck": "tsc --noEmit -p server/tsconfig.json",
     "lint": "eslint . --ext .ts,.tsx,.js",

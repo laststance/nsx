@@ -16,4 +16,4 @@ jobs:
           node-version: '16.8'
       - run: mv .env.visitor .env
       - run: yarn install
-      - run: yarn typecheck
+      - run: yarn typecheck:all
