@@ -132,9 +132,7 @@
     "cy:run:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
     "cy:run:headless:admin": "cypress run --spec cypress/integration/admin_basic.js",
     "cy:run:headless:visitor": "cypress run --spec cypress/integration/visitor_basic.js",
-    "cy:run:admin:electron": "cypress run -b electron --headed --spec cypress/integration/admin_basic.js",
-    "cy:run:visitor:electron": "cypress run -b electron --headed --spec cypress/integration/visitor_basic.js",
-    "cy:run:headless:admin:electron": "cypress run -b electron --spec cypress/integration/admin_basic.js",
-    "cy:run:headless:visitor:electron": "cypress run -b electron --spec cypress/integration/visitor_basic.js"
+    "cy:run:headless:admin:firefox": "cypress run -b firefox --spec cypress/integration/admin_basic.js",
+    "cy:run:headless:visitor:firefox": "cypress run -b firefox --spec cypress/integration/visitor_basic.js"
   }
 }
