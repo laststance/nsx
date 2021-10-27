@@ -69,8 +69,9 @@ const useEditEffect = (
       navigate(`/post/${id}`)
     } catch (error: unknown) {
       assertIsFetchBaseQueryError(error)
-      // @ts-ignore
-      dispatch(enqueSnackbar({ message: error.status, color: 'red' }))
+      dispatch(
+        enqueSnackbar({ message: error.status.toString(), color: 'red' })
+      )
     }
   }
 

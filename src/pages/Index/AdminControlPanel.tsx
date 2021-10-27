@@ -1,9 +1,8 @@
 import { Link } from '@reach/router'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState, memo } from 'react'
 
 import Button from '../../elements/Button'
+import { assertIsFetchBaseQueryError } from '../../lib/assertIsFetchBaseQueryError'
 import type { AdminState } from '../../redux/adminSlice'
 import { logout } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
@@ -31,9 +30,11 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
       // @TODO make TS friendly util
       window.localStorage.removeItem('login')
       window.localStorage.removeItem('author')
-      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
-    } catch (error: FetchBaseQueryError) {
-      dispatch(enqueSnackbar({ message: error.status, color: 'red' }))
+    } catch (error) {
+      assertIsFetchBaseQueryError(error)
+      dispatch(
+        enqueSnackbar({ message: error.status.toString(), color: 'red' })
+      )
     } finally {
       setLoading(false)
     }
