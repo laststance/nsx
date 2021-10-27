@@ -8,7 +8,7 @@ import { assertIsDefined } from '../../lib/assertIsDefined'
 import renderRTKQueryErrorMessages from '../../lib/renderRTKQueryErrorMessages'
 import { API } from '../../redux/API'
 
-import useEditPageEffect from './useEditPageEffect'
+import useEditEffect from './useEditEffect'
 
 const Layout: React.FC = memo(({ children }) => (
   <BaseLayout className="flex flex-col justify-start">{children}</BaseLayout>
@@ -24,7 +24,7 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = memo(
     assertIsDefined(id)
 
     const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(id)
-    const { title, body, handleEdit, handleChange } = useEditPageEffect(
+    const { title, body, handleEdit, handleChange } = useEditEffect(
       id,
       data,
       error
