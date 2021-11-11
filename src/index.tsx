@@ -25,11 +25,11 @@ if (window.localStorage.getItem('login') === 'true') {
   ) as Author
   // eslint-disable-next-line no-inner-declarations
   async function verify() {
-    // @ts-ignore
-    const { data } = await store.dispatch(
+    const { data } = (await store.dispatch(
       API.endpoints.isLoginReqest.initiate({ author })
-    )
-    if (data?.login === true) {
+    )) as { data: isLoginResponse }
+
+    if (data.login === true) {
       store.dispatch(login(author))
     }
   }
