@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 
 import BaseLayout from '../../components/Layout'
 import Loading from '../../elements/Loading'
-import renderRTKQueryErrorMessages from '../../lib/renderRTKQueryErrorMessages'
+import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
 import usePagination from '../../pagination/usePagination'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
@@ -23,11 +23,23 @@ Layout.displayName = 'Layout'
 
 const Index: React.FC<RouteComponentProps> = memo(() => {
   const login = useAppSelector(selectLogin)
-  const { page, per_page, data, isLoading, error, nextPage, prevPage } =
-    usePagination()
+  const {
+    page,
+    per_page,
+    data,
+    isLoading,
+    error,
+    dispatch,
+    nextPage,
+    prevPage,
+  } = usePagination()
 
   if (error) {
-    return <Layout>{renderRTKQueryErrorMessages(error)}</Layout>
+    return (
+      <Layout>
+        <RTKQueryErrorMessages error={error} />
+      </Layout>
+    )
   }
 
   if (isLoading || data === undefined) {
@@ -44,6 +56,7 @@ const Index: React.FC<RouteComponentProps> = memo(() => {
         postList={data.postList}
         total={data.total}
         page={page}
+        dispatch={dispatch}
         per_page={per_page}
         prevPage={prevPage}
         nextPage={nextPage}

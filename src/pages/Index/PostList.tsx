@@ -4,18 +4,20 @@ import React, { memo } from 'react'
 import PostDate from '../../elements/PostDate'
 import { getTotalPage } from '../../lib/getTotalPage'
 import Pagenation from '../../pagination/Pagenation'
+import type { usePagenationResult } from '../../pagination/usePagination'
 
 interface Props {
   postList: Posts
   total: number
-  page: number
-  per_page: number
-  prevPage: DispatchFuction
-  nextPage: DispatchFuction
+  page: usePagenationResult['page']
+  per_page: usePagenationResult['per_page']
+  dispatch: usePagenationResult['dispatch']
+  prevPage: usePagenationResult['prevPage']
+  nextPage: usePagenationResult['nextPage']
 }
 
 const PostList: React.FC<Props> = memo(
-  ({ postList, total, page, per_page, prevPage, nextPage }) => {
+  ({ postList, total, page, per_page, dispatch, prevPage, nextPage }) => {
     const total_page = getTotalPage(total, per_page)
     return (
       <div className="flex flex-col justify-between h-full">
@@ -40,6 +42,7 @@ const PostList: React.FC<Props> = memo(
         <Pagenation
           page={page}
           total_page={total_page}
+          dispatch={dispatch}
           prevPage={prevPage}
           nextPage={nextPage}
         />

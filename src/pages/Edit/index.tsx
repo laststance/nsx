@@ -4,8 +4,8 @@ import React, { memo } from 'react'
 import BaseLayout from '../../components/Layout'
 import Button from '../../elements/Button'
 import Loading from '../../elements/Loading'
+import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
 import { assertIsDefined } from '../../lib/assertIsDefined'
-import renderRTKQueryErrorMessages from '../../lib/renderRTKQueryErrorMessages'
 import { API } from '../../redux/API'
 
 import useEditEffect from './useEditEffect'
@@ -31,7 +31,11 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = memo(
     )
 
     if (error) {
-      return <Layout>{renderRTKQueryErrorMessages(error)}</Layout>
+      return (
+        <Layout>
+          <RTKQueryErrorMessages error={error} />
+        </Layout>
+      )
     }
 
     if (isLoading || data === undefined) {

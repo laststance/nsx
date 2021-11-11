@@ -17,7 +17,7 @@ const useEditEffect = (
   title: Post['title']
   body: Post['body']
   handleChange: StateUpdator
-  handleEdit: DispatchFuction & MutationFunction
+  handleEdit: MutationFunction
 } => {
   useEffect(() => {
     if (error) {

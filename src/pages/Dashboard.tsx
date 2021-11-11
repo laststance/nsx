@@ -6,14 +6,13 @@ import BaseLayout from '../components/Layout'
 import Button from '../elements/Button'
 import Loading from '../elements/Loading'
 import PostDate from '../elements/PostDate'
+import RTKQueryErrorMessages from '../elements/RTKQueryErrorMessages'
 import { assertIsFetchBaseQueryError } from '../lib/assertIsFetchBaseQueryError'
 import { assertIsSerializedError } from '../lib/assertIsSerializedError'
 import { getTotalPage } from '../lib/getTotalPage'
-import renderRTKQueryErrorMessages from '../lib/renderRTKQueryErrorMessages'
 import Pagenation from '../pagination/Pagenation'
 import usePagination from '../pagination/usePagination'
 import { useDeletePostMutation } from '../redux/API'
-import { useAppDispatch } from '../redux/hooks'
 import { enqueSnackbar } from '../redux/snackbarSlice'
 
 const Layout: React.FC = memo(({ children, ...rest }) => (
@@ -34,11 +33,11 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
     data,
     error,
     isLoading,
+    dispatch,
     refetch,
     prevPage,
     nextPage,
   } = usePagination()
-  const dispatch = useAppDispatch()
   const [deletePost] = useDeletePostMutation()
 
   async function handleDelete(id: Post['id']) {
@@ -59,7 +58,11 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   }
 
   if (error) {
-    return <Layout>{renderRTKQueryErrorMessages(error)}</Layout>
+    return (
+      <Layout>
+        <RTKQueryErrorMessages error={error} />
+      </Layout>
+    )
   }
 
   if (isLoading || data === undefined) {
@@ -116,6 +119,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
         <Pagenation
           page={page}
           total_page={total_page}
+          dispatch={dispatch}
           prevPage={prevPage}
           nextPage={nextPage}
         />

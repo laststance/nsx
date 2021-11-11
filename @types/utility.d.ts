@@ -48,8 +48,6 @@ declare type Cast<T, CastTo> = NoInfer<T> extends never ? CastTo : CastTo
 
 declare type AnyFunction = (...args: any[]) => any
 
-declare type DispatchFuction = AnyFunction
-
 declare type StateUpdator = AnyFunction
 
 declare type QueryFunction = AnyFunction

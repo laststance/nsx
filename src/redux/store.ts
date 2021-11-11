@@ -28,3 +28,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >
+export type DispatchFunction = (dispatch: AppDispatch) => void
