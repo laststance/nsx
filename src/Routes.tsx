@@ -7,7 +7,7 @@ import Index from './pages/Index'
 import Post from './pages/Post'
 
 const Login = lazy(
-  () => import(/* webpackChunkName: "LoginPage" */ './pages/Login/Login')
+  () => import(/* webpackChunkName: "LoginPage" */ './pages/Login')
 )
 const Signup = lazy(
   () => import(/* webpackChunkName: "SignupPage" */ './pages/Signup')
