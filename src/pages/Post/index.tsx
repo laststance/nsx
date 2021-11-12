@@ -23,9 +23,9 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
 
     const { data, isSuccess } = API.endpoints.fetchPostList.useQueryState({
       page,
-      perPage: perPage,
+      perPage,
     })
-    // if available cache
+    // return cache if it available
     if (data !== undefined && isSuccess) {
       const post = data.postList.find((post) => {
         return post.id === parseInt(postId)
