@@ -23,7 +23,6 @@ if (window.localStorage.getItem('login') === 'true') {
   const author = JSON.parse(
     window.localStorage.getItem('author') as string
   ) as Author
-  // eslint-disable-next-line no-inner-declarations
   async function verify() {
     const { data } = (await store.dispatch(
       API.endpoints.isLoginReqest.initiate({ author })

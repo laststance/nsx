@@ -1,11 +1,12 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
+import { assertIsFetchBaseQueryError } from '../../lib/assertIsFetchBaseQueryError'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
@@ -31,26 +32,34 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    try {
-      // @TODO add validation
-      const data: Author = await loginReqest({
-        name: formInput.name,
-        password: formInput.password,
-      }).unwrap()
+    const result = await loginReqest({
+      name: formInput.name,
+      password: formInput.password,
+    })
 
+    if ((result as { error: FetchBaseQueryError | SerializedError }).error) {
+      assertIsFetchBaseQueryError(
+        (result as { error: FetchBaseQueryError | SerializedError }).error
+      )
+      const error: FetchBaseQueryError = (
+        result as { error: FetchBaseQueryError }
+      ).error
+
+      if (error.status === 400) {
+        dispatch(enqueSnackbar({ message: 'Invalid Password', color: 'red' }))
+      } else if (error.status === 401) {
+        dispatch(enqueSnackbar({ message: 'User does not exis', color: 'red' }))
+      } else {
+        dispatch(enqueSnackbar({ message: 'something error', color: 'red' }))
+      }
+    } else {
+      const data = (result as { data: Author }).data
       dispatch(login(data))
       // @TODO tidy up LocalStorage code
       window.localStorage.setItem('login', 'true')
       window.localStorage.setItem('author', JSON.stringify(data))
       dispatch(enqueSnackbar({ message: 'Login SuccessFul', color: 'green' }))
       navigate('dashboard')
-      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
-    } catch (error: FetchBaseQueryError) {
-      if (error.status === 400)
-        dispatch(enqueSnackbar({ message: 'Invalid Password', color: 'red' }))
-      if (error.status === 401)
-        dispatch(enqueSnackbar({ message: 'User does not exis', color: 'red' }))
-      else dispatch(enqueSnackbar({ message: 'something error', color: 'red' }))
     }
   }
 

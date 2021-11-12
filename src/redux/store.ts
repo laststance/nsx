@@ -5,6 +5,7 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import adminReducer from './adminSlice'
 import { API } from './API'
 import pageReducer from './pageSlice'
+import { SerializedErrorHandlingMiddleware } from './SerializedErrorHandlingMiddleware'
 import snackbarReducer from './snackbarSlice'
 
 export const store = configureStore({
@@ -15,7 +16,10 @@ export const store = configureStore({
     [API.reducerPath]: API.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(API.middleware),
+    getDefaultMiddleware().concat(
+      API.middleware,
+      SerializedErrorHandlingMiddleware
+    ),
 })
 
 setupListeners(store.dispatch)
