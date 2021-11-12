@@ -1,11 +1,11 @@
 import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
-import { API } from '../redux/API'
-import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import type { PageState } from '../redux/pageSlice'
-import { selectPage, updatePage } from '../redux/pageSlice'
-import type { AppDispatch } from '../redux/store'
+import { API } from '../../redux/API'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import type { PageState } from '../../redux/pageSlice'
+import { selectPage, updatePage } from '../../redux/pageSlice'
+import type { AppDispatch } from '../../redux/store'
 
 export interface usePagenationResult {
   page: PageState['page']

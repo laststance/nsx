@@ -1,11 +1,11 @@
 import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
+import Pagenation from '../../components/pagination/Pagenation'
+import usePagination from '../../components/pagination/usePagination'
 import Loading from '../../elements/Loading'
 import PostDate from '../../elements/PostDate'
 import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
-import Pagenation from '../../pagination/Pagenation'
-import usePagination from '../../pagination/usePagination'
 
 const PostList: React.FC = memo(() => {
   const {
