@@ -2,9 +2,6 @@ import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
 
 import BaseLayout from '../../components/Layout'
-import Loading from '../../elements/Loading'
-import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
-import usePagination from '../../pagination/usePagination'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 
@@ -23,43 +20,10 @@ Layout.displayName = 'Layout'
 
 const Index: React.FC<RouteComponentProps> = memo(() => {
   const login = useAppSelector(selectLogin)
-  const {
-    page,
-    totalPage,
-    data,
-    isLoading,
-    error,
-    dispatch,
-    nextPage,
-    prevPage,
-  } = usePagination()
-
-  if (error) {
-    return (
-      <Layout>
-        <RTKQueryErrorMessages error={error} />
-      </Layout>
-    )
-  }
-
-  if (isLoading || data === undefined) {
-    return (
-      <Layout>
-        <Loading />
-      </Layout>
-    )
-  }
 
   return (
     <Layout>
-      <PostList
-        postList={data.postList}
-        page={page}
-        dispatch={dispatch}
-        totalPage={totalPage}
-        prevPage={prevPage}
-        nextPage={nextPage}
-      />
+      <PostList />
       <AdminControlPanel login={login} />
     </Layout>
   )
