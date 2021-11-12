@@ -20,7 +20,7 @@ export const pageSlice = createSlice({
   name: 'page',
   initialState,
   reducers: {
-    updatePage: (state, action: PayloadAction<{ page: number }>) => {
+    updatePage: (state, action: PayloadAction<{ page: PageState['page'] }>) => {
       state.page = action.payload.page
     },
   },
