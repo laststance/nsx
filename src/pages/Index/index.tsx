@@ -25,7 +25,7 @@ const Index: React.FC<RouteComponentProps> = memo(() => {
   const login = useAppSelector(selectLogin)
   const {
     page,
-    per_page,
+    totalPage,
     data,
     isLoading,
     error,
@@ -54,10 +54,9 @@ const Index: React.FC<RouteComponentProps> = memo(() => {
     <Layout>
       <PostList
         postList={data.postList}
-        total={data.total}
         page={page}
         dispatch={dispatch}
-        per_page={per_page}
+        totalPage={totalPage}
         prevPage={prevPage}
         nextPage={nextPage}
       />

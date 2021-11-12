@@ -27,7 +27,7 @@ const router = express.Router()
 router.get(
   '/post_list',
   async (
-    req: Request<_, _, _, PostListRequestQuery>,
+    req: Request<_, _, _, PostListRequestParam>,
     res: Response<PostListResponce>
   ) => {
     // @ts-ignore

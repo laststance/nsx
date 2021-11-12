@@ -30,7 +30,7 @@ declare interface ErrorResponse {
 /**
  * GET /api/post_list
  */
-declare interface PostListRequestQuery {
+declare interface PostListRequestParam {
   page: number
   per_page: number
 }

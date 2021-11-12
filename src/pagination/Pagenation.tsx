@@ -8,14 +8,14 @@ import type { usePagenationResult } from './usePagination'
 
 interface Props {
   page: PageState['page']
-  total_page: number
+  totalPage: usePagenationResult['totalPage']
   dispatch: usePagenationResult['dispatch']
   prevPage: usePagenationResult['nextPage']
   nextPage: usePagenationResult['nextPage']
 }
 
 const Pagenation: React.FC<Props> = memo(
-  ({ page, total_page, dispatch, prevPage, nextPage }) => (
+  ({ page, totalPage, dispatch, prevPage, nextPage }) => (
     <div className="flex items-center justify-center p-8 px-10 space-x-4">
       <ArrowButton
         direction="left"
@@ -23,11 +23,11 @@ const Pagenation: React.FC<Props> = memo(
         disabled={page <= 1 ? true : false}
         data-cy="prev-page-btn"
       />
-      <PageCount page={page} total_page={total_page} data-cy="page-count" />
+      <PageCount page={page} total_page={totalPage} data-cy="page-count" />
       <ArrowButton
         direction="right"
         onClick={() => nextPage(dispatch, page)}
-        disabled={page === total_page ? true : false}
+        disabled={page === totalPage ? true : false}
         data-cy="next-page-btn"
       />
     </div>

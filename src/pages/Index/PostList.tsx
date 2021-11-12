@@ -2,23 +2,20 @@ import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
 import PostDate from '../../elements/PostDate'
-import { getTotalPage } from '../../lib/getTotalPage'
 import Pagenation from '../../pagination/Pagenation'
 import type { usePagenationResult } from '../../pagination/usePagination'
 
 interface Props {
   postList: Posts
-  total: number
+  totalPage: usePagenationResult['totalPage']
   page: usePagenationResult['page']
-  per_page: usePagenationResult['per_page']
   dispatch: usePagenationResult['dispatch']
   prevPage: usePagenationResult['prevPage']
   nextPage: usePagenationResult['nextPage']
 }
 
 const PostList: React.FC<Props> = memo(
-  ({ postList, total, page, per_page, dispatch, prevPage, nextPage }) => {
-    const total_page = getTotalPage(total, per_page)
+  ({ postList, page, totalPage, dispatch, prevPage, nextPage }) => {
     return (
       <div className="flex flex-col justify-between h-full">
         <ul className="flex flex-col justify-start space-y-4">
@@ -41,7 +38,7 @@ const PostList: React.FC<Props> = memo(
         </ul>
         <Pagenation
           page={page}
-          total_page={total_page}
+          totalPage={totalPage}
           dispatch={dispatch}
           prevPage={prevPage}
           nextPage={nextPage}

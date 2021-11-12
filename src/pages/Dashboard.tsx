@@ -9,7 +9,6 @@ import PostDate from '../elements/PostDate'
 import RTKQueryErrorMessages from '../elements/RTKQueryErrorMessages'
 import { assertIsFetchBaseQueryError } from '../lib/assertIsFetchBaseQueryError'
 import { assertIsSerializedError } from '../lib/assertIsSerializedError'
-import { getTotalPage } from '../lib/getTotalPage'
 import Pagenation from '../pagination/Pagenation'
 import usePagination from '../pagination/usePagination'
 import { useDeletePostMutation } from '../redux/API'
@@ -29,7 +28,7 @@ Layout.displayName = 'Layout'
 const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   const {
     page,
-    per_page,
+    totalPage,
     data,
     error,
     isLoading,
@@ -72,8 +71,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
       </Layout>
     )
   }
-  const { postList, total } = data
-  const total_page = getTotalPage(total, per_page)
+  const { postList } = data
 
   return (
     <Layout>
@@ -118,7 +116,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
         </div>
         <Pagenation
           page={page}
-          total_page={total_page}
+          totalPage={totalPage}
           dispatch={dispatch}
           prevPage={prevPage}
           nextPage={nextPage}

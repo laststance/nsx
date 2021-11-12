@@ -9,7 +9,7 @@ import type { AppDispatch } from '../redux/store'
 
 export interface usePagenationResult {
   page: PageState['page']
-  per_page: PageState['per_page']
+  totalPage: PageState['totalPage']
   data: PostListResponce | undefined
   error: FetchBaseQueryError | SerializedError | undefined
   refetch: () => void
@@ -20,7 +20,7 @@ export interface usePagenationResult {
 }
 
 function usePagination(): usePagenationResult {
-  const { page, per_page } = useAppSelector(selectPage)
+  const { page, per_page, totalPage } = useAppSelector(selectPage)
   const dispatch = useAppDispatch()
   const { data, error, refetch, isLoading } =
     API.endpoints.fetchPostList.useQuery({
@@ -36,7 +36,7 @@ function usePagination(): usePagenationResult {
 
   return {
     page,
-    per_page,
+    totalPage,
     data,
     error,
     refetch,
