@@ -5,13 +5,13 @@ import type { PageState } from '../../redux/pageSlice'
 
 interface Props {
   page: PageState['page']
-  total_page: number
+  totalPage: PageState['totalPage']
 }
 
 const PageCount: React.FC<Props & HTMLAttributes<HTMLDivElement>> = memo(
-  ({ page, total_page, ...rest }) => (
+  ({ page, totalPage, ...rest }) => (
     <div {...rest}>
-      {page} / {total_page}
+      {page} / {totalPage}
     </div>
   )
 )

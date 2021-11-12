@@ -23,7 +23,7 @@ const Pagenation: React.FC<Props> = memo(
         disabled={page <= 1 ? true : false}
         data-cy="prev-page-btn"
       />
-      <PageCount page={page} total_page={totalPage} data-cy="page-count" />
+      <PageCount page={page} totalPage={totalPage} data-cy="page-count" />
       <ArrowButton
         direction="right"
         onClick={() => nextPage(dispatch, page)}
