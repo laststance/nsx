@@ -19,20 +19,21 @@ export interface usePagenationResult {
   nextPage: (dispatch: AppDispatch, page: PageState['page']) => void
 }
 
+const prevPage: usePagenationResult['prevPage'] = (dispatch, page) => {
+  dispatch(updatePage({ page: page - 1 }))
+}
+const nextPage: usePagenationResult['nextPage'] = (dispatch, page) => {
+  dispatch(updatePage({ page: page + 1 }))
+}
+
 function usePagination(): usePagenationResult {
   const { page, perPage, totalPage } = useAppSelector(selectPage)
   const dispatch = useAppDispatch()
   const { data, error, refetch, isLoading } =
     API.endpoints.fetchPostList.useQuery({
       page,
-      perPage: perPage,
+      perPage,
     })
-  const prevPage: usePagenationResult['prevPage'] = (dispatch, page) => {
-    dispatch(updatePage({ page: page - 1 }))
-  }
-  const nextPage: usePagenationResult['nextPage'] = (dispatch, page) => {
-    dispatch(updatePage({ page: page + 1 }))
-  }
 
   return {
     page,
