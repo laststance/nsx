@@ -4,11 +4,11 @@ import { navigate } from '@reach/router'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState, memo } from 'react'
 
-import Layout from '../components/Layout'
-import Button from '../elements/Button'
-import { API } from '../redux/API'
-import { useAppDispatch } from '../redux/hooks'
-import { enqueSnackbar } from '../redux/snackbarSlice'
+import Layout from '../../components/Layout'
+import Button from '../../elements/Button'
+import { API } from '../../redux/API'
+import { useAppDispatch } from '../../redux/hooks'
+import { enqueSnackbar } from '../../redux/snackbarSlice'
 
 const Create: React.FC<RouteComponentProps> = memo(() => {
   const dispatch = useAppDispatch()

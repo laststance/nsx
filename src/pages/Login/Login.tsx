@@ -1,21 +1,23 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState, memo } from 'react'
 
-import Layout from '../components/Layout'
-import Button from '../elements/Button'
-import { login } from '../redux/adminSlice'
-import { useSignupReqestMutation } from '../redux/API'
-import { useAppDispatch } from '../redux/hooks'
-import { enqueSnackbar } from '../redux/snackbarSlice'
+import Layout from '../../components/Layout'
+import Button from '../../elements/Button'
+import { login } from '../../redux/adminSlice'
+import { API } from '../../redux/API'
+import { useAppDispatch } from '../../redux/hooks'
+import { enqueSnackbar } from '../../redux/snackbarSlice'
 
 interface FormInputState {
   name: Author['name']
   password: Author['password']
 }
 
-const Signup: React.FC<RouteComponentProps> = memo(() => {
-  const [signupRequest] = useSignupReqestMutation()
+const Login: React.FC<RouteComponentProps> = memo(() => {
+  const [loginReqest] = API.endpoints.loginReqest.useMutation()
   const [formInput, setFormInput] = useState<FormInputState>({
     name: '',
     password: '',
@@ -26,32 +28,36 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 
-  const execSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
-      const data: Author = await signupRequest({
+      // @TODO add validation
+      const data: Author = await loginReqest({
         name: formInput.name,
         password: formInput.password,
       }).unwrap()
 
-      dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
       dispatch(login(data))
       // @TODO tidy up LocalStorage code
       window.localStorage.setItem('login', 'true')
       window.localStorage.setItem('author', JSON.stringify(data))
+      dispatch(enqueSnackbar({ message: 'Login SuccessFul', color: 'green' }))
       navigate('dashboard')
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-      //@ TODO handle 400 error at the Error.tsx
+      // @ts-ignore disabled TS1196: Catch clause variable type annotation must be 'any' or 'unknown' if specified.
+    } catch (error: FetchBaseQueryError) {
+      if (error.status === 400)
+        dispatch(enqueSnackbar({ message: 'Invalid Password', color: 'red' }))
+      if (error.status === 401)
+        dispatch(enqueSnackbar({ message: 'User does not exis', color: 'red' }))
+      else dispatch(enqueSnackbar({ message: 'something error', color: 'red' }))
     }
   }
 
   return (
-    <Layout data-cy="signup-page-content-root">
-      <h1 className="mb-3 text-3xl">Signup</h1>
-      <form className="w-full max-w-sm" onSubmit={execSignup}>
+    <Layout>
+      <h1 className="mb-3 text-3xl">Login</h1>
+      <form className="w-full max-w-sm" onSubmit={(e) => handleLogin(e)}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
@@ -106,4 +112,4 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
   )
 })
 
-export default Signup
+export default Login

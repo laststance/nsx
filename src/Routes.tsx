@@ -7,7 +7,7 @@ import Index from './pages/Index'
 import Post from './pages/Post'
 
 const Login = lazy(
-  () => import(/* webpackChunkName: "LoginPage" */ './pages/Login')
+  () => import(/* webpackChunkName: "LoginPage" */ './pages/Login/Login')
 )
 const Signup = lazy(
   () => import(/* webpackChunkName: "SignupPage" */ './pages/Signup')
@@ -45,7 +45,6 @@ const Routes = memo(() => (
     </Router>
   </Suspense>
 ))
-
 Routes.displayName = 'Routes'
 
 export default Routes
