@@ -32,7 +32,7 @@ declare interface ErrorResponse {
  */
 declare interface PostListRequestParam {
   page: number
-  per_page: number
+  perPage: number
 }
 
 declare interface PostListResponce {

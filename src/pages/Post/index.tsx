@@ -19,11 +19,11 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
   ({ postId }) => {
     assertIsDefined(postId)
     const login = useAppSelector(selectLogin)
-    const { page, per_page } = useAppSelector(selectPage)
+    const { page, perPage } = useAppSelector(selectPage)
 
     const { data, isSuccess } = API.endpoints.fetchPostList.useQueryState({
       page,
-      per_page,
+      perPage: perPage,
     })
     // if available cache
     if (data !== undefined && isSuccess) {

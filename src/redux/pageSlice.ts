@@ -6,13 +6,13 @@ import type { RootState } from './store'
 
 export interface PageState {
   page: number
-  per_page: number
+  perPage: number
   totalPage: number
 }
 
 const initialState: PageState = {
   page: 1,
-  per_page: 15,
+  perPage: 15,
   totalPage: 0,
 }
 
@@ -28,7 +28,7 @@ export const pageSlice = createSlice({
     builder.addMatcher(
       API.endpoints.fetchPostList.matchFulfilled,
       (state, { payload }) => {
-        state.totalPage = Math.ceil(payload.total / state.per_page)
+        state.totalPage = Math.ceil(payload.total / state.perPage)
       }
     )
   },

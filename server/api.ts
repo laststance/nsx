@@ -33,19 +33,19 @@ router.get(
     // @ts-ignore
     const page = parseInt(req.query.page)
     // @ts-ignore
-    const per_page = parseInt(req.query.per_page)
+    const perPage = parseInt(req.query.perPage)
     const total = await db.post.count()
 
-    const offset = per_page * (page - 1)
+    const offset = perPage * (page - 1)
     let options
     if (0 >= offset) {
       options = {
-        limit: per_page,
+        limit: perPage,
         order: [['id', 'DESC']],
       }
     } else {
       options = {
-        limit: per_page,
+        limit: perPage,
         offset: offset,
         order: [['id', 'DESC']],
       }
