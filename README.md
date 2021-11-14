@@ -7,17 +7,17 @@
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/today-i-learned?project_id=17741)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://<master>--61702216bfd60a003a8b4431.chromatic.com)
 
+# Project Status: Work in progress and before public release
+The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
+I'm developping essential feature while my spare time, currenty I planning publish v1 2023 early.  
+[Roadmap](https://github.com/laststance/today-i-learned/projects/1)
+
 # Today I Learned
 
 Prod ➡️ https://digitalstrength.dev  
 Currently doghooding this project as a Today I Learned mini blog.
 
 [![img](https://digital3.nyc3.cdn.digitaloceanspaces.com/Kapture%202021-09-07%20at%2021.45.51.gif)](https://digitalstrength.dev)
-
-# Project Status: Work in progress and before public release
-The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
-I'm developping essential feature while my spare time, currenty I planning publish v1 2023 early.  
-[Roadmap](https://github.com/laststance/today-i-learned/projects/1)
 
 # Getting start local development
 
