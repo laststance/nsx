@@ -4,6 +4,9 @@ import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
+import { assertCast } from '../../lib/assertCast'
+import { assertIsFetchBaseQueryError } from '../../lib/assertIsFetchBaseQueryError'
+import { assertIsSerializedError } from '../../lib/assertIsSerializedError'
 import { login } from '../../redux/adminSlice'
 import { useSignupReqestMutation } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
@@ -26,32 +29,28 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 
-  const execSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    try {
-      const data: Author = await signupRequest({
-        name: formInput.name,
-        password: formInput.password,
-      }).unwrap()
-
+    const res = await signupRequest({
+      name: formInput.name,
+      password: formInput.password,
+    })
+    assertIsSerializedError(res)
+    assertIsFetchBaseQueryError(res)
+    if (res.data) {
+      assertCast<Author>(res.data)
+      const author: Author = res.data
       dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
-      dispatch(login(data))
-      // @TODO tidy up LocalStorage code
-      window.localStorage.setItem('login', 'true')
-      window.localStorage.setItem('author', JSON.stringify(data))
+      dispatch(login(author))
       navigate('dashboard')
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-      //@ TODO handle 400 error at the Error.tsx
     }
   }
 
   return (
     <Layout data-cy="signup-page-content-root">
       <h1 className="mb-3 text-3xl">Signup</h1>
-      <form className="w-full max-w-sm" onSubmit={execSignup}>
+      <form className="w-full max-w-sm" onSubmit={handleSignup}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label

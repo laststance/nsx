@@ -27,9 +27,6 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
 
       dispatch(logout())
       dispatch(enqueSnackbar({ message: response.message, color: 'green' }))
-      // @TODO make TS friendly util
-      window.localStorage.removeItem('login')
-      window.localStorage.removeItem('author')
     } catch (error) {
       assertIsFetchBaseQueryError(error)
       dispatch(

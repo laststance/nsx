@@ -55,9 +55,6 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
     } else {
       const data = (result as { data: Author }).data
       dispatch(login(data))
-      // @TODO tidy up LocalStorage code
-      window.localStorage.setItem('login', 'true')
-      window.localStorage.setItem('author', JSON.stringify(data))
       dispatch(enqueSnackbar({ message: 'Login SuccessFul', color: 'green' }))
       navigate('dashboard')
     }

@@ -2,51 +2,30 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactGA, { ga } from 'react-ga'
 import { Provider as ReduxStoreProvider } from 'react-redux'
+import { persistStore } from 'redux-persist'
+import { PersistGate as ReduxPersistGate } from 'redux-persist/integration/react'
 import type { Metric } from 'web-vitals'
 
 import './index.css'
 
-import { login } from './redux/adminSlice'
-import { API } from './redux/API'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
 import Routes from './Routes'
 import ErrorBoundary from './systems/ErrorBoundary'
 import Redux from './systems/SnackBarSystem'
 
-/**
- * =====================================================
- * Preparation Redux initial state before React runtime
- * =====================================================
- */
-if (window.localStorage.getItem('login') === 'true') {
-  const author = JSON.parse(
-    window.localStorage.getItem('author') as string
-  ) as Author
-  async function verify() {
-    const { data } = (await store.dispatch(
-      API.endpoints.isLoginReqest.initiate({ author })
-    )) as { data: isLoginResponse }
-
-    if (data.login === true) {
-      store.dispatch(login(author))
-    }
-  }
-  verify()
-}
-
+const persistor = persistStore(store)
 // @TODO fix Provider typing
 // @ts-expect-error
 ReduxStoreProvider.displayName = 'ReduxStoreProvider'
-/**
- * Start React runtime
- */
 
 const App = () => (
   <ErrorBoundary>
     <ReduxStoreProvider store={store}>
-      <Redux.SnackBarSystem />
-      <Routes />
+      <ReduxPersistGate loading={null} persistor={persistor}>
+        <Redux.SnackBarSystem />
+        <Routes />
+      </ReduxPersistGate>
     </ReduxStoreProvider>
   </ErrorBoundary>
 )
