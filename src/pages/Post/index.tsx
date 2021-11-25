@@ -7,9 +7,9 @@ import { selectLogin } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { useAppSelector } from '../../redux/hooks'
 import { selectPage } from '../../redux/pageSlice'
-import NotFound from '../NotFound'
 
 import Content from './Content'
+import FetchSinglePost from './FetchSinglePost'
 
 interface RouterParam {
   // Get query paramerter must be string
@@ -35,7 +35,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
       return <Content post={post} login={login} />
     }
 
-    return <NotFound />
+    return <FetchSinglePost postId={parseInt(postId)} login={login} />
   }
 )
 PostPage.displayName = 'Post'
