@@ -35,8 +35,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
       password: formInput.password,
     })
 
-    mutationErrorHandler(res)
-    if ('data' in res) {
+    if (mutationErrorHandler(res) && 'data' in res) {
       dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
       dispatch(login(res.data))
       navigate('dashboard')

@@ -9,11 +9,11 @@ interface Response {
   error?: SerializedError | FetchBaseQueryError
 }
 
-const mutationErrorHandler = (res: Response): void => {
-  if ('error' in res === false) return
-  if ('data' in res && res.data) return
+const mutationErrorHandler = (res: Response): boolean => {
+  if ('error' in res === false) return true
+  if ('data' in res && res.data) return true
   if ('error' in res) {
-    if (res.error === undefined) return
+    if (res.error === undefined) return true
     const error = res.error
     // "status" fiels only exists in a FetchBaseQueryError
     if ('status' in error) {
@@ -24,14 +24,16 @@ const mutationErrorHandler = (res: Response): void => {
         message = error.status
       }
       store.dispatch(enqueSnackbar({ message: message, color: 'red' }))
-      return
+      return false
     } else {
       // SerializedError
       store.dispatch(
         enqueSnackbar({ message: JSON.stringify(error), color: 'red' })
       )
+      return false
     }
   }
+  return true
 }
 
 export default mutationErrorHandler
