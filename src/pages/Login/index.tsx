@@ -39,6 +39,7 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
       const data = res.data
       if ('faild' in data) {
         dispatch(enqueSnackbar({ message: data.faild, color: 'red' }))
+        return
       } else {
         dispatch(login(data))
       }
