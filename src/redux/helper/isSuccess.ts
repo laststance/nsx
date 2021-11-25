@@ -1,8 +1,8 @@
 import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
-import { enqueSnackbar } from '../redux/snackbarSlice'
-import { store } from '../redux/store'
+import { enqueSnackbar } from '../snackbarSlice'
+import { store } from '../store'
 
 interface Response {
   data?: unknown

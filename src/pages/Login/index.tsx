@@ -5,7 +5,7 @@ import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
-import isSuccess from '../../lib/isSuccess'
+import isSuccess from '../../redux/helper/isSuccess'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
