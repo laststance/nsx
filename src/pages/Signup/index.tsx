@@ -4,9 +4,7 @@ import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
-import { assertCast } from '../../lib/assertCast'
-import { assertIsFetchBaseQueryError } from '../../lib/assertIsFetchBaseQueryError'
-import { assertIsSerializedError } from '../../lib/assertIsSerializedError'
+import mutationErrorHandler from '../../lib/mutationErrorHandler'
 import { login } from '../../redux/adminSlice'
 import { useSignupReqestMutation } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
@@ -36,13 +34,11 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
       name: formInput.name,
       password: formInput.password,
     })
-    assertIsSerializedError(res)
-    assertIsFetchBaseQueryError(res)
-    if (res.data) {
-      assertCast<Author>(res.data)
-      const author: Author = res.data
+
+    mutationErrorHandler(res)
+    if ('data' in res) {
       dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
-      dispatch(login(author))
+      dispatch(login(res.data))
       navigate('dashboard')
     }
   }
