@@ -9,7 +9,11 @@ interface Response {
   error?: SerializedError | FetchBaseQueryError
 }
 
-const mutationErrorHandler = (res: Response): boolean => {
+/**
+ * RTKQuery mutation error handler
+ * @param res
+ */
+const isSuccess = (res: Response): boolean => {
   if ('error' in res === false) return true
   if ('data' in res && res.data) return true
   if ('error' in res) {
@@ -36,4 +40,4 @@ const mutationErrorHandler = (res: Response): boolean => {
   return true
 }
 
-export default mutationErrorHandler
+export default isSuccess

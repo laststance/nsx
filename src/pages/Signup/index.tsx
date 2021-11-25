@@ -4,7 +4,7 @@ import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
-import mutationErrorHandler from '../../lib/mutationErrorHandler'
+import isSuccess from '../../lib/isSuccess'
 import { login } from '../../redux/adminSlice'
 import { useSignupReqestMutation } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
@@ -35,7 +35,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
       password: formInput.password,
     })
 
-    if (mutationErrorHandler(res) && 'data' in res) {
+    if (isSuccess(res) && 'data' in res) {
       dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
       dispatch(login(res.data))
       navigate('dashboard')

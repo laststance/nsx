@@ -42,17 +42,17 @@ export const API = createApi({
       providesTags: (result, error, id) => [{ type: 'Posts', id }],
     }),
 
-    deletePost: builder.mutation<deletePostResponse, Post['id']>({
+    deletePost: builder.mutation<DeletePostResponse, Post['id']>({
       query: (id) => ({ url: `post/${id}`, method: 'DELETE' }),
       invalidatesTags: (result, error, id) => [{ type: 'Posts', id }],
     }),
 
-    createPost: builder.mutation<Post, createPostRequest>({
+    createPost: builder.mutation<Post, CreatePostRequest>({
       query: (post) => ({ url: 'create', method: 'POST', body: post }),
       invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
     }),
 
-    updatePost: builder.mutation<updatePostResponse, updatePostRequest>({
+    updatePost: builder.mutation<UpdatePostResponse, UpdatePostRequest>({
       query: (post) => ({
         url: 'update',
         method: 'POST',
@@ -61,7 +61,7 @@ export const API = createApi({
       invalidatesTags: (result, error, { id }) => [{ type: 'Posts', id }],
     }),
 
-    loginReqest: builder.mutation<Author, UserIdPassword>({
+    loginReqest: builder.mutation<LoginResponse, UserIdPassword>({
       query: (loginInfo) => ({
         url: 'login',
         method: 'POST',
@@ -74,14 +74,6 @@ export const API = createApi({
         url: 'signup',
         method: 'POST',
         body: loginInfo,
-      }),
-    }),
-
-    isLoginReqest: builder.mutation<isLoginResponse, isLoginRequest>({
-      query: (author) => ({
-        url: 'is_login',
-        method: 'POST',
-        body: author,
       }),
     }),
     logoutRequest: builder.mutation<LogoutResponse, void>({

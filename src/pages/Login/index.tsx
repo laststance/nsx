@@ -1,12 +1,10 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-import type { SerializedError } from '@reduxjs/toolkit'
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
-import { assertIsFetchBaseQueryError } from '../../lib/assertIsFetchBaseQueryError'
+import isSuccess from '../../lib/isSuccess'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { useAppDispatch } from '../../redux/hooks'
@@ -32,31 +30,23 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const result = await loginReqest({
+    const res = await loginReqest({
       name: formInput.name,
       password: formInput.password,
     })
 
-    if ((result as { error: FetchBaseQueryError | SerializedError }).error) {
-      assertIsFetchBaseQueryError(
-        (result as { error: FetchBaseQueryError | SerializedError }).error
-      )
-      const error: FetchBaseQueryError = (
-        result as { error: FetchBaseQueryError }
-      ).error
-
-      if (error.status === 400) {
-        dispatch(enqueSnackbar({ message: 'Invalid Password', color: 'red' }))
-      } else if (error.status === 401) {
-        dispatch(enqueSnackbar({ message: 'User does not exis', color: 'red' }))
+    if (isSuccess(res) && 'data' in res) {
+      const data = res.data
+      if ('faild' in data) {
+        dispatch(enqueSnackbar({ message: data.faild, color: 'red' }))
       } else {
-        dispatch(enqueSnackbar({ message: 'something error', color: 'red' }))
+        dispatch(login(data))
       }
-    } else {
-      const data = (result as { data: Author }).data
-      dispatch(login(data))
+
       dispatch(enqueSnackbar({ message: 'Login SuccessFul', color: 'green' }))
+
       navigate('dashboard')
+      return
     }
   }
 

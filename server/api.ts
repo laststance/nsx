@@ -86,7 +86,7 @@ router.delete('/post/:id', async (req: Request, res: Response) => {
 
 router.post(
   '/signup',
-  async (req: Request<_, _, signUpRequest>, res: Response<signUpResponse>) => {
+  async (req: Request<_, _, SignUpRequest>, res: Response<SignUpResponse>) => {
     const body = req.body
     if (!(body?.name && body?.password)) {
       Logger.warn('Empty Post Body. Might be data not formatted properly.')
@@ -137,17 +137,17 @@ router.post('/login', async (req: Request, res: Response) => {
       res.status(200).json(author)
     } else {
       Logger.warn('Invalid Password')
-      res.status(400).json({ error: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
+      res.status(200).json({ failed: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
     }
   } else {
     Logger.warn('User does not exist')
-    res.status(401).json({ error: 'User does not exist' }) // this also bad practice in real world product Same reason.
+    res.status(200).json({ failed: 'User does not exist' }) // this also bad practice in real world product Same reason.
   }
 })
 
 router.post(
   '/is_login',
-  (req: Request<_, _, isLoginRequest>, res: Response<isLoginResponse>) => {
+  (req: Request<_, _, IsLoginRequest>, res: Response<isLoginResponse>) => {
     const token = req.cookies.token as JWTtoken
     if (token && req.body.author) {
       const requestBodyAuthor: IndexSignature<Author> = req.body.author
