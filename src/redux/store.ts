@@ -8,7 +8,6 @@ import storage from 'redux-persist/lib/storage'
 import adminReducer from './adminSlice'
 import { API } from './API'
 import pageReducer from './pageSlice'
-import { SerializedErrorHandlingMiddleware } from './SerializedErrorHandlingMiddleware'
 import snackbarReducer from './snackbarSlice'
 
 const reducers = combineReducers({
@@ -27,12 +26,8 @@ const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = configureStore({
   reducer: persistedReducer,
-  devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      API.middleware,
-      SerializedErrorHandlingMiddleware
-    ),
+    getDefaultMiddleware().concat(API.middleware),
 })
 
 setupListeners(store.dispatch)

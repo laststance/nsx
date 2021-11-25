@@ -1,5 +1,6 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
+import type { ChangeEvent, FormEvent } from 'react'
 import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
@@ -23,11 +24,11 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
   })
   const dispatch = useAppDispatch()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value })
   }
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
 
     const res = await loginReqest({
@@ -39,12 +40,12 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
       const data = res.data
       if ('faild' in data) {
         dispatch(enqueSnackbar({ message: data.faild, color: 'red' }))
-        return
-      } else {
-        dispatch(login(data))
+        return // missing username or pass, onemore time!
       }
 
-      dispatch(enqueSnackbar({ message: 'Login SuccessFul', color: 'green' }))
+      // Login SuccessFul!
+      dispatch(login(data))
+      dispatch(enqueSnackbar({ message: 'Login SuccessFul!', color: 'green' }))
 
       navigate('dashboard')
       return
