@@ -21,7 +21,7 @@ export const API = createApi({
     },
     fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
-  keepUnusedDataFor: 10,
+  keepUnusedDataFor: 180,
   tagTypes: ['Posts'],
   endpoints: (builder) => ({
     fetchPostList: builder.query<PostListResponce, PostListRequestParam>({
