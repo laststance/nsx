@@ -27,7 +27,7 @@ const persistedReducer = persistReducer(persistConfig, reducers)
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(API.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(API.middleware),
 })
 
 setupListeners(store.dispatch)
