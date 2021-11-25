@@ -5,9 +5,9 @@ import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
-import isSuccess from '../../redux/helper/isSuccess'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
+import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
@@ -48,7 +48,6 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
       dispatch(enqueSnackbar({ message: 'Login SuccessFul!', color: 'green' }))
 
       navigate('dashboard')
-      return
     }
   }
 

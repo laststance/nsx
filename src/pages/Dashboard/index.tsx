@@ -9,9 +9,9 @@ import Button from '../../elements/Button'
 import Loading from '../../elements/Loading'
 import PostDate from '../../elements/PostDate'
 import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
+import { useDeletePostMutation } from '../../redux/API'
 import { assertIsFetchBaseQueryError } from '../../redux/helper/assertIsFetchBaseQueryError'
 import { assertIsSerializedError } from '../../redux/helper/assertIsSerializedError'
-import { useDeletePostMutation } from '../../redux/API'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
 const Layout: React.FC = memo(({ children, ...rest }) => (

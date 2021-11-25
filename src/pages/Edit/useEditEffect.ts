@@ -4,8 +4,8 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import type React from 'react'
 import { useEffect, useState } from 'react'
 
-import { assertIsFetchBaseQueryError } from '../../redux/helper/assertIsFetchBaseQueryError'
 import { API } from '../../redux/API'
+import { assertIsFetchBaseQueryError } from '../../redux/helper/assertIsFetchBaseQueryError'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
