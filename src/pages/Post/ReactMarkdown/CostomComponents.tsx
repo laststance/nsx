@@ -10,7 +10,7 @@ const code = lazy(
   // <code/> depends on heavy hintaxhilight library so we lazyload for purpose of reduce bundle chunk size
   () =>
     // @ts-ignore @TODO react-syntax-highlighter typedef issue
-    import(/* webpackChunkName: "code" */ '../../elements/code')
+    import(/* webpackChunkName: "code" */ '../../../elements/code')
 )
 // we only load <code/> if blog post containing Markdown for purpose of reduce bundle chunk size
 export const getCustomComponents = (data?: {

@@ -11,7 +11,7 @@ import Loading from '../../elements/Loading'
 import type { AdminState } from '../../redux/adminSlice'
 
 import Helment from './Helment'
-import { getCustomComponents } from './ReactMarkdownCostomComponents'
+import { getCustomComponents } from './ReactMarkdown/CostomComponents'
 
 interface Props {
   post: Post
