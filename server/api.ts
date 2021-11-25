@@ -89,9 +89,9 @@ router.post(
   async (req: Request<_, _, SignUpRequest>, res: Response<SignUpResponse>) => {
     const body = req.body
     if (!(body?.name && body?.password)) {
-      Logger.warn('Empty Post Body. Might be data not formatted properly.')
+      Logger.warn('Empty Post Content. Might be data not formatted properly.')
       return res.status(400).json({
-        error: 'Empty Post Body. Might be data not formatted properly.',
+        error: 'Empty Post Content. Might be data not formatted properly.',
       })
     }
 

@@ -21,7 +21,7 @@ export const API = createApi({
     },
     fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
-  keepUnusedDataFor: 60 * 30,
+  keepUnusedDataFor: 10,
   tagTypes: ['Posts'],
   endpoints: (builder) => ({
     fetchPostList: builder.query<PostListResponce, PostListRequestParam>({
@@ -33,9 +33,8 @@ export const API = createApi({
                 type: 'Posts' as const,
                 id,
               })),
-              { type: 'Posts', id: 'LIST' },
             ]
-          : [{ type: 'Posts', id: 'LIST' }],
+          : [{ type: 'Posts', id: 0 }],
     }),
     fetchPost: builder.query<Post, Post['id']>({
       query: (id) => ({ url: `post/${id}`, method: 'GET' }),
@@ -49,7 +48,7 @@ export const API = createApi({
 
     createPost: builder.mutation<Post, CreatePostRequest>({
       query: (post) => ({ url: 'create', method: 'POST', body: post }),
-      invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
+      invalidatesTags: [{ type: 'Posts' }],
     }),
 
     updatePost: builder.mutation<UpdatePostResponse, UpdatePostRequest>({

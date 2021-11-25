@@ -7,7 +7,7 @@ interface Props {
   post: Post
 }
 
-const Head: React.FC<Props> = memo(({ post }) => (
+const Helment: React.FC<Props> = memo(({ post }) => (
   <Helmet>
     <meta name="description" content={truncateString(post.body, 40)} />
     <meta property="og:title" content={post.title} />
@@ -21,6 +21,6 @@ const Head: React.FC<Props> = memo(({ post }) => (
     <title>{post.title}</title>
   </Helmet>
 ))
-Head.displayName = 'Head'
+Helment.displayName = 'Helment'
 
-export default Head
+export default Helment

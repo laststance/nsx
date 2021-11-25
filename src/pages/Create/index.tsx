@@ -1,12 +1,11 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
 import { API } from '../../redux/API'
+import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
@@ -27,22 +26,18 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
     setState(e.target.value)
   }
 
-  async function execCreate() {
-    try {
-      setIsSubmitting(() => true)
+  async function handleSubmit() {
+    setIsSubmitting(() => true)
 
-      const post = await createPost({
-        title,
-        body,
-      }).unwrap()
-
+    const post = await createPost({
+      title,
+      body,
+    })
+    if (isSuccess(post) && 'data' in post) {
       dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))
-      navigate(`/post/${post.id}`)
-      // @ts-ignore disabled TS1196: Catch clause variable type annotation must 'unknown' if specified.
-    } catch (error: FetchBaseQueryError) {
-      dispatch(enqueSnackbar({ message: error.message, color: 'red' }))
-    } finally {
       setIsSubmitting(() => false)
+
+      navigate(`/post/${post.data.id}`)
     }
   }
 
@@ -63,7 +58,7 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
       />
       <div className="flex justify-end gap-4 pt-8">
         <Button
-          onClick={execCreate}
+          onClick={handleSubmit}
           variant="primary"
           isLoading={isSubmitting}
           data-cy="submit-btn"

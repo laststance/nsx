@@ -10,7 +10,7 @@ import Button from '../../elements/Button'
 import Loading from '../../elements/Loading'
 import type { AdminState } from '../../redux/adminSlice'
 
-import Head from './Head'
+import Helment from './Helment'
 import { getCustomComponents } from './ReactMarkdownCostomComponents'
 
 interface Props {
@@ -18,12 +18,12 @@ interface Props {
   login: AdminState['login']
 }
 
-const Body: React.FC<Props> = memo(({ post, login }) => (
+const Content: React.FC<Props> = memo(({ post, login }) => (
   <Layout data-cy="post-page-content-root">
     <Suspense fallback={<Loading />}>
       {/* Suspence for lazyload expesive <code /> component */}
 
-      <Head post={post} />
+      <Helment post={post} />
       <h1 className="pt-4 pb-6 text-2xl font-semibold">{post.title}</h1>
       <ReactMarkdown // @ts-ignore too complex
         components={getCustomComponents(post)}
@@ -48,6 +48,6 @@ const Body: React.FC<Props> = memo(({ post, login }) => (
     </Suspense>
   </Layout>
 ))
-Body.displayName = 'PostBody'
+Content.displayName = 'Content'
 
-export default Body
+export default Content
