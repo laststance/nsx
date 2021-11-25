@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import ReactGA, { ga } from 'react-ga'
 import { Provider as ReduxStoreProvider } from 'react-redux'
@@ -8,6 +8,7 @@ import type { Metric } from 'web-vitals'
 
 import './index.css'
 
+import Loading from './elements/Loading'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
 import Routes from './Routes'
@@ -24,17 +25,17 @@ const App = () => (
     <ReduxStoreProvider store={store}>
       <ReduxPersistGate loading={null} persistor={persistor}>
         <Redux.SnackBarSystem />
-        <Routes />
+        <Suspense fallback={<Loading />}>
+          <Routes />
+        </Suspense>
       </ReduxPersistGate>
     </ReduxStoreProvider>
   </ErrorBoundary>
 )
 
-// @ts-ignore
-// const root = ReactDOM.createRoot(document.getElementById('root'))
-// root.render(<App />)
-
-ReactDOM.render(<App />, document.getElementById('root'))
+// @ts-ignore v18 @types coming not yet
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
 
 if (process.env.NODE_ENV === 'production') {
   ReactGA.initialize('UA-68130749-5')
