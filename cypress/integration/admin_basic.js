@@ -1,4 +1,7 @@
 context('Admin Basic', () => {
+  beforeEach(() => {
+    cy.clearLocalStorage()
+  })
   context('Signup & Login & Logout', () => {
     it('should show signup/login button', () => {
       cy.visit('http://localhost:3000/')

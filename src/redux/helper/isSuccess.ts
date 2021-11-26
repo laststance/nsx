@@ -21,15 +21,14 @@ const isSuccess = (res: Response): boolean => {
     const error = res.error
     // "status" fiels only exists in a FetchBaseQueryError
     if ('status' in error) {
-      let message: string
-      if (typeof error.status === 'number') {
-        message = error.status.toString()
-      } else {
-        message = error.status
-      }
-      store.dispatch(enqueSnackbar({ message: message, color: 'red' }))
+      // @TODO Sentry
+      // FetchBaseQueryError
+      store.dispatch(
+        enqueSnackbar({ message: JSON.stringify(error), color: 'red' })
+      )
       return false
     } else {
+      // @TODO Sentry
       // SerializedError
       store.dispatch(
         enqueSnackbar({ message: JSON.stringify(error), color: 'red' })

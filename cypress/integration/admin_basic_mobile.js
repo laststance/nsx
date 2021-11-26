@@ -1,6 +1,7 @@
 context('Admin Basic Mobile', () => {
   beforeEach(() => {
     cy.viewport('iphone-se2')
+    cy.clearLocalStorage()
   })
 
   context('Signup & Login & Logout', () => {
