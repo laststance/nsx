@@ -35,7 +35,7 @@ export const SnackBar: React.FC<Props> = ({ message, color }) => {
 
   return (
     <div
-      className={`flex justify-center items-center ${bgColor(
+      className={`max-w-xl flex justify-center items-center ${bgColor(
         color
       )} z-10 py-2 px-4 absolute top-10 right-10 rounded-xl button transition-opacity ${opacity}`}
     >
