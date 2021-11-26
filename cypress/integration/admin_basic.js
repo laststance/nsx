@@ -1,7 +1,4 @@
 context('Admin Basic', () => {
-  beforeEach(() => {
-    cy.clearLocalStorage()
-  })
   context('Signup & Login & Logout', () => {
     it('should show signup/login button', () => {
       cy.visit('http://localhost:3000/')
@@ -37,9 +34,8 @@ context('Admin Basic', () => {
   })
   context('Admin tasks within login', () => {
     it('should show dashbord/login button', () => {
+      cy.clearLocalStorage()
       cy.login()
-      // @TODO remove when implemented pagenation
-      cy.scrollTo('bottom')
       // should show dashbord/login button
       cy.$('dashoard-page-transition-link-btn').should('exist')
       cy.$('logout-btn').should('exist')
