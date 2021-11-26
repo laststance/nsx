@@ -36,14 +36,12 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
       return <Content post={post} login={login} />
     } else {
       // fetch single post without cache
-      const {
-        data: post,
-        isLoading,
-        error,
-      } = API.endpoints.fetchPost.useQuery(parseInt(postId))
+      const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(
+        parseInt(postId)
+      )
       if (error) <Error error={error} dispatch={dispatch} />
-      if (isLoading || post === undefined) return <Loading />
-      return <Content post={post} login={login} />
+      if (isLoading || data === undefined) return <Loading />
+      return <Content post={data} login={login} />
     }
   }
 )
