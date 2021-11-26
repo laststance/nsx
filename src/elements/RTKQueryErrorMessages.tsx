@@ -9,17 +9,20 @@ interface Props {
   error: FetchBaseQueryError | SerializedError
 }
 
-const RTKQueryErrorMessages: React.FC<Props> = memo((error) => {
-  let message: string
-  assertIsFetchBaseQueryError(error)
-  if (error.status) {
-    message = JSON.stringify(error)
-  } else {
-    assertIsSerializedError(error)
-    message = `${error.name}: ${error.message}: ${error.stack}: ${error.code}`
-  }
-  return <div>{message}</div>
-})
+const RTKQueryErrorMessages: React.FC<Props> = memo(
+  (error) => {
+    let message: string
+    assertIsFetchBaseQueryError(error)
+    if (error.status) {
+      message = JSON.stringify(error)
+    } else {
+      assertIsSerializedError(error)
+      message = `${error.name}: ${error.message}: ${error.stack}: ${error.code}`
+    }
+    return <div>{message}</div>
+  },
+  () => true
+)
 RTKQueryErrorMessages.displayName = 'RTKQueryErrorMessages'
 
 export default RTKQueryErrorMessages
