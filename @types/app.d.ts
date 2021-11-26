@@ -36,7 +36,6 @@ declare type FaildMessage = { faild: string }
 declare interface LoginRequest {
   error: string
 }
-
 declare type LoginResponse = Author | FaildMessage
 
 /**
