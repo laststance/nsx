@@ -27,7 +27,6 @@ context('Admin Basic', () => {
     it('Successful Logout', () => {
       cy.$('blog-title-top-page-link').click()
       cy.$('logout-btn').should('exist').click()
-      cy.wait(1000) // for stablity https://github.com/laststance/today-i-learned/actions/runs/1508541424
       cy.url().should('eq', 'http://localhost:3000/')
       cy.$('login-btn').should('exist')
       cy.$('signup-btn').should('exist')
@@ -35,7 +34,6 @@ context('Admin Basic', () => {
   })
   context('Admin tasks within login', () => {
     it('should show dashbord/login button', () => {
-      cy.clearLocalStorage()
       cy.login()
       // should show dashbord/login button
       cy.$('dashoard-page-transition-link-btn').should('exist')
