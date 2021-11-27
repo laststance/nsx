@@ -11,6 +11,7 @@ interface Props {
   error: FetchBaseQueryError | SerializedError | undefined
 }
 
+// @TODO replace to render error html rather than snackbar
 const Error: React.FC<Props> = memo(
   ({ dispatch, error }) => {
     useEffect(() => {

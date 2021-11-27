@@ -24,39 +24,39 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
     const { page, perPage } = useAppSelector(selectPage)
     const dispatch = useAppDispatch()
 
-    const { post } = API.endpoints.fetchPostList.useQueryState(
+    const { cache } = API.endpoints.fetchPostList.useQueryState(
       {
         page,
         perPage,
       },
       {
         selectFromResult: (state) => {
-          if (state.data === undefined) return { post: undefined }
+          if (state.data === undefined) return { cache: undefined }
 
-          const post = state.data.postList.find((post) => {
+          const cache = state.data.postList.find((post) => {
             return post.id === parseInt(postId)
           })
 
-          return { post }
+          return { cache }
         },
       }
     )
 
-    // return cache if it available
-    if (post !== undefined && post.id && post.title && post.body) {
-      return <Content post={post} login={login} />
+    // Render Cached Post
+    if (cache !== undefined && cache.id && cache.title && cache.body) {
+      return <Content post={cache} login={login} />
+    }
+
+    // No Cache then Real Fetch
+    const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(
+      parseInt(postId)
+    )
+    if (error) return <Error error={error} dispatch={dispatch} />
+    if (isLoading && data === undefined) return <Loading />
+    if (data) {
+      return <Content post={data} login={login} />
     } else {
-      // fetch single post without cache
-      const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(
-        parseInt(postId)
-      )
-      if (error) <Error error={error} dispatch={dispatch} />
-      if (isLoading && data === undefined) return <Loading />
-      if (data) {
-        return <Content post={data} login={login} />
-      } else {
-        return <NotFound />
-      }
+      return <NotFound />
     }
   }
 )
