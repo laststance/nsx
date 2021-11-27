@@ -53,11 +53,9 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
     )
     if (error) return <Error error={error} dispatch={dispatch} />
     if (isLoading && data === undefined) return <Loading />
-    if (data) {
-      return <Content post={data} login={login} />
-    } else {
-      return <NotFound />
-    }
+    if (data) return <Content post={data} login={login} />
+
+    return <NotFound />
   }
 )
 PostPage.displayName = 'Post'
