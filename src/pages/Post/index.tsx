@@ -37,7 +37,13 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
             return post.id === parseInt(postId)
           })
 
-          return { cache }
+          // eslint-disable-next-line prettier/prettier
+          const hitCache = (cache !== undefined && !!cache.id && !!cache.title && !!cache.body)
+          if (hitCache === true) {
+            return { cache }
+          } else {
+            return { cache: undefined }
+          }
         },
       }
     )
