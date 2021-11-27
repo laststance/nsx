@@ -1,6 +1,7 @@
 import { Router } from '@reach/router'
-import React, { lazy, memo } from 'react'
+import React, { lazy, memo, Suspense } from 'react'
 
+import Loading from './elements/Loading'
 import About from './pages/About'
 import Index from './pages/Index'
 import Post from './pages/Post'
@@ -28,19 +29,21 @@ const Edit = lazy(
 )
 
 const Routes = memo(() => (
-  <Router>
-    <Index path="/" />
-    <Post path="post/:postId" />
-    <About path="/about" />
-    {process.env.REACT_APP_ENABLE_SIGNUP && <Signup path="signup" />}
-    {process.env.REACT_APP_ENABLE_LOGIN && <Login path="login" />}
-    <AdminRoutes path="dashboard">
-      <Dashboard path="/" />
-      <Create path="create" />
-      <Edit path="edit/:postId" />
-    </AdminRoutes>
-    <NotFound default />
-  </Router>
+  <Suspense fallback={<Loading />}>
+    <Router>
+      <Index path="/" />
+      <Post path="post/:postId" />
+      <About path="/about" />
+      {process.env.REACT_APP_ENABLE_SIGNUP && <Signup path="signup" />}
+      {process.env.REACT_APP_ENABLE_LOGIN && <Login path="login" />}
+      <AdminRoutes path="dashboard">
+        <Dashboard path="/" />
+        <Create path="create" />
+        <Edit path="edit/:postId" />
+      </AdminRoutes>
+      <NotFound default />
+    </Router>
+  </Suspense>
 ))
 Routes.displayName = 'Routes'
 
