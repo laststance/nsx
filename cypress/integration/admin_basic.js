@@ -1,6 +1,7 @@
 context('Admin Basic', () => {
   context('Signup & Login & Logout', () => {
     it('should show signup/login button', () => {
+      cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
       cy.$('login-btn').should('exist')
       cy.$('signup-btn').should('exist')
@@ -34,6 +35,7 @@ context('Admin Basic', () => {
   })
   context('Admin tasks within login', () => {
     it('should show dashbord/login button', () => {
+      cy.clearLocalStorage()
       cy.login()
       // should show dashbord/login button
       cy.$('dashoard-page-transition-link-btn').should('exist')

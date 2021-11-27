@@ -7,6 +7,7 @@ import { selectLogin } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { selectPage } from '../../redux/pageSlice'
+import NotFound from '../NotFound'
 
 import Content from './Content'
 import Error from './Error'
@@ -23,16 +24,26 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
     const { page, perPage } = useAppSelector(selectPage)
     const dispatch = useAppDispatch()
 
-    const { data, isSuccess } = API.endpoints.fetchPostList.useQueryState({
-      page,
-      perPage,
-    })
+    const { post } = API.endpoints.fetchPostList.useQueryState(
+      {
+        page,
+        perPage,
+      },
+      {
+        selectFromResult: (state) => {
+          if (state.data === undefined) return { post: undefined }
+
+          const post = state.data.postList.find((post) => {
+            return post.id === parseInt(postId)
+          })
+
+          return { post }
+        },
+      }
+    )
+
     // return cache if it available
-    if (data !== undefined && isSuccess) {
-      const post = data.postList.find((post) => {
-        return post.id === parseInt(postId)
-      })
-      if (!post) return <Loading />
+    if (post !== undefined && post.id && post.title && post.body) {
       return <Content post={post} login={login} />
     } else {
       // fetch single post without cache
@@ -40,8 +51,12 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
         parseInt(postId)
       )
       if (error) <Error error={error} dispatch={dispatch} />
-      if (isLoading || data === undefined) return <Loading />
-      return <Content post={data} login={login} />
+      if (isLoading && data === undefined) return <Loading />
+      if (data) {
+        return <Content post={data} login={login} />
+      } else {
+        return <NotFound />
+      }
     }
   }
 )

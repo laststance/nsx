@@ -13,7 +13,7 @@ const requestInfo = Object.defineProperty({}, 'credentials', {
 })
 
 export const API = createApi({
-  reducerPath: 'API',
+  reducerPath: 'RTK_Query',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
     prepareHeaders: (headers: Headers) => {
@@ -21,7 +21,7 @@ export const API = createApi({
     },
     fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
-  keepUnusedDataFor: 180,
+  keepUnusedDataFor: 60,
   tagTypes: ['Posts'],
   endpoints: (builder) => ({
     fetchPostList: builder.query<PostListResponce, PostListRequestParam>({
@@ -49,7 +49,7 @@ export const API = createApi({
 
     createPost: builder.mutation<Post, CreatePostRequest>({
       query: (post) => ({ url: 'create', method: 'POST', body: post }),
-      invalidatesTags: [{ type: 'Posts', id: 'List' }],
+      invalidatesTags: () => [{ type: 'Posts' }],
     }),
 
     updatePost: builder.mutation<UpdatePostResponse, UpdatePostRequest>({
