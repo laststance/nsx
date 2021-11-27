@@ -1,25 +1,25 @@
 import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import type React from 'react'
-import { memo, useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 
+import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
-import type { AppDispatch } from '../../redux/store'
+import { ErrorBoundaryFallbackComponent } from '../../systems/ErrorBoundary'
 
 interface Props {
-  dispatch: AppDispatch
   error: FetchBaseQueryError | SerializedError | undefined
 }
 
 // @TODO replace to render error html rather than snackbar
 const Error: React.FC<Props> = memo(
-  ({ dispatch, error }) => {
+  ({ error }) => {
+    const dispatch = useAppDispatch()
     useEffect(() => {
       if (error)
         dispatch(enqueSnackbar({ message: error.toString(), color: 'red' }))
     }, [error])
 
-    return null
+    return <ErrorBoundaryFallbackComponent />
   },
   () => true
 )
