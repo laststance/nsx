@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import ReactDOM from 'react-dom'
 import ReactGA, { ga } from 'react-ga'
 import { Provider as ReduxStoreProvider } from 'react-redux'
@@ -19,15 +19,18 @@ const persistor = persistStore(store)
 // @ts-expect-error
 ReduxStoreProvider.displayName = 'ReduxStoreProvider'
 
-const App = () => (
-  <ErrorBoundary>
-    <ReduxStoreProvider store={store}>
-      <ReduxPersistGate persistor={persistor}>
-        <Redux.SnackBarSystem />
-        <Routes />
-      </ReduxPersistGate>
-    </ReduxStoreProvider>
-  </ErrorBoundary>
+const App = memo(
+  () => (
+    <ErrorBoundary>
+      <ReduxStoreProvider store={store}>
+        <ReduxPersistGate persistor={persistor}>
+          <Redux.SnackBarSystem />
+          <Routes />
+        </ReduxPersistGate>
+      </ReduxStoreProvider>
+    </ErrorBoundary>
+  ),
+  () => true
 )
 
 // @ts-ignore v18 @types coming not yet
