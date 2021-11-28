@@ -10,7 +10,7 @@ interface Props {
   page: PageState['page']
   totalPage: usePagenationResult['totalPage']
   dispatch: usePagenationResult['dispatch']
-  prevPage: usePagenationResult['nextPage']
+  prevPage: usePagenationResult['prevPage']
   nextPage: usePagenationResult['nextPage']
 }
 

@@ -1,13 +1,19 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-import React, { useState, memo } from 'react'
+import React, { useState, useRef, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
 import { API } from '../../redux/API'
+import { clearDraft, selectBody, selectTitle } from '../../redux/draftSlice'
 import isSuccess from '../../redux/helper/isSuccess'
-import { useAppDispatch } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
+
+import {
+  handleBodyChange,
+  handleTitleChange,
+} from './useCallbackMemoizedByV8JavaScriptEngine'
 
 const Create: React.FC<RouteComponentProps> = memo(() => {
   const dispatch = useAppDispatch()
@@ -15,16 +21,10 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
 
   // @TODO avoid complex implemantation with useStrate() spaming
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-  const [title, setTitle] = useState<string>('')
-  const [body, setBody] = useState<string>('')
-
-  function handleInputChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    setState: React.Dispatch<React.SetStateAction<string>>
-  ): void {
-    e.preventDefault()
-    setState(e.target.value)
-  }
+  const title = useAppSelector(selectTitle)
+  const body = useAppSelector(selectBody)
+  const titleTextInput = useRef<HTMLInputElement>()
+  const bodyTextArea = useRef<HTMLTextAreaElement>()
 
   async function handleSubmit() {
     setIsSubmitting(() => true)
@@ -35,6 +35,7 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
     })
     if (isSuccess(post) && 'data' in post) {
       dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))
+      dispatch(clearDraft())
       setIsSubmitting(() => false)
 
       navigate(`/post/${post.data.id}`)
@@ -47,13 +48,17 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
         type="text"
         className="mt-3"
         value={title}
-        onChange={(e) => handleInputChange(e, setTitle)}
+        // @ts-ignore
+        ref={titleTextInput}
+        onChange={(e) => handleTitleChange(e, dispatch)}
         data-cy="post-title-input"
       />
       <textarea
         className="h-60 w-full mt-3"
         value={body}
-        onChange={(e) => handleInputChange(e, setBody)}
+        // @ts-ignore
+        ref={bodyTextArea}
+        onChange={(e) => handleBodyChange(e, dispatch)}
         data-cy="post-body-input"
       />
       <div className="flex justify-end gap-4 pt-8">
@@ -69,5 +74,6 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
     </Layout>
   )
 })
+Create.displayName = 'Create'
 
 export default Create
