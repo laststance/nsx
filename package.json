@@ -114,6 +114,7 @@
     "eject": "react-scripts eject",
     "typecheck:all": "yarn front:typecheck && yarn server:typecheck",
     "front:typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "server:typecheck": "tsc --noEmit -p server/tsconfig.json",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",

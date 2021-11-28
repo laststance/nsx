@@ -6,17 +6,18 @@ import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 import { ErrorBoundaryFallbackComponent } from '../../systems/ErrorBoundary'
 
-interface Props {
-  error: FetchBaseQueryError | SerializedError | undefined
+interface Props<T extends Error> {
+  error?: T | FetchBaseQueryError | SerializedError | undefined
 }
 
 // @TODO replace to render error html rather than snackbar
-const Error: React.FC<Props> = memo(
+const Error: React.FC<Props<any>> = memo(
   ({ error }) => {
     const dispatch = useAppDispatch()
     useEffect(() => {
       if (error)
         dispatch(enqueSnackbar({ message: error.toString(), color: 'red' }))
+      // @TODO Sentry
     }, [error])
 
     return <ErrorBoundaryFallbackComponent />
