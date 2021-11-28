@@ -9,42 +9,41 @@ const About = memo<RouteComponentProps>(
       <h1 className="pt-4 pb-6 text-3xl">About</h1>
       <section className="space-y-4 text-xl leading-8">
         <p>
-          The Blog logging what todaly I learned everyday by{' '}
+          This is just a garbage blog written by{' '}
           <a
             href="https://ryota-murakami.github.io/"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-gray-400 text-gray-600"
+            className="hover:underline font-medium leading-6 no-underline"
           >
             Ryota Murakami
           </a>
           .
           <br />
-          Almost posts are just listing web page link that I read any web dev
-          resource that day.
+          Web Dev things only.
         </p>
         <p>
-          It's save me from depression and remind whatever I known me when I
-          feel like no grow up as a Web Engineer.
+          Although it's save me sometimes from depression(aka Impostor
+          syndrome). <br />
+          That even random and cursory notes, however sometimes that useful to
+          remember the Web Dev activities you've done.
         </p>
         <p>
-          Here is a part of{' '}
+          This is a part of{' '}
           <a
             href="https://laststance.io/"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-gray-400 text-gray-600"
+            className="hover:underline font-medium leading-6 no-underline"
           >
             Laststance.io
-          </a>
-          's activity.
+          </a>{' '}
+          projects.
         </p>
       </section>
     </Layout>
   ),
   () => true
 )
-
 About.displayName = 'About'
-
 export default About
