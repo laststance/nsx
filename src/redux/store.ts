@@ -34,6 +34,7 @@ export const store = configureStore({
 
 setupListeners(store.dispatch)
 
+export const dispatch = store.dispatch
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 export type RTK_QueryState = RootState['RTK_Query']

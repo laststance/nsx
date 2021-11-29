@@ -16,13 +16,13 @@ import {
 } from './useCallbackMemoizedByV8JavaScriptEngine'
 
 const Create: React.FC<RouteComponentProps> = memo(() => {
-  const dispatch = useAppDispatch()
   const [createPost] = API.endpoints.createPost.useMutation()
 
   // @TODO avoid complex implemantation with useStrate() spaming
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const title = useAppSelector(selectTitle)
   const body = useAppSelector(selectBody)
+  const dispatch = useAppDispatch()
 
   async function handleSubmit() {
     setIsSubmitting(() => true)
@@ -46,13 +46,13 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
         defaultValue={title}
         type="text"
         className="mt-3"
-        onChange={(e) => handleTitleChange(e, dispatch)}
+        onChange={handleTitleChange}
         data-cy="post-title-input"
       />
       <textarea
         className="h-60 w-full mt-3"
         defaultValue={body}
-        onChange={(e) => handleBodyChange(e, dispatch)}
+        onChange={handleBodyChange}
         data-cy="post-body-input"
       />
       <div className="flex justify-end gap-4 pt-8">
