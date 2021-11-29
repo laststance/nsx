@@ -90,5 +90,7 @@ context('Admin Basic', () => {
         cy.$('dashboard-page-content-root').should('not.contain', 'Edit Title!')
       })
     })
+
+    context.skip('draft', () => {})
   })
 })
