@@ -53,7 +53,7 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
         className="h-60 w-full mt-3"
         defaultValue={body}
         onChange={(e) => handleBodyChange(e, dispatch)}
-        data-cy="post-body- input"
+        data-cy="post-body-input"
       />
       <div className="flex justify-end gap-4 pt-8">
         <Button
