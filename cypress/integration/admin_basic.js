@@ -91,6 +91,27 @@ context('Admin Basic', () => {
       })
     })
 
-    context.skip('draft', () => {})
+    context('Draft auto saving', () => {
+      it('Still remaing draft post ', () => {
+        cy.clearLocalStorage()
+        cy.login()
+
+        cy.$('dashoard-page-transition-link-btn').click()
+        cy.$('create-btn').click()
+
+        cy.logger('wrting blog post...')
+        cy.$('post-title-input').type('from cypress')
+        cy.$('post-body-input').type('testing now')
+
+        cy.logger('leave page without submit')
+        cy.$('blog-title-top-page-link').click()
+        cy.$('dashoard-page-transition-link-btn').click()
+
+        cy.logger('re vist and check')
+        cy.$('create-btn').click()
+        cy.$('post-title-input').should('have.value', 'from cypress')
+        cy.$('post-body-input').should('have.value', 'testing now')
+      })
+    })
   })
 })
