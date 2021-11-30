@@ -10,10 +10,7 @@ import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
-import {
-  handleBodyChange,
-  handleTitleChange,
-} from './useCallbackMemoizedByV8JavaScriptEngine'
+import { handleBodyChange, handleTitleChange } from './handlers'
 
 const Create: React.FC<RouteComponentProps> = memo(() => {
   const [createPost] = API.endpoints.createPost.useMutation()
