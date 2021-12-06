@@ -47,8 +47,8 @@ declare interface PostListRequestParamClient {
 }
 
 declare interface PostListRequestParamServer {
-  page: Cast<number, string>
-  perPage: Cast<number, string>
+  page: Override<number, string>
+  perPage: Override<number, string>
 }
 
 declare interface PostListResponce {
