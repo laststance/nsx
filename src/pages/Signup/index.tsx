@@ -99,5 +99,6 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
     </Layout>
   )
 })
+Signup.displayName = 'Signup'
 
 export default Signup
