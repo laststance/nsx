@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { CircleLoader } from 'react-spinners'
 
-const Loading = memo(
+const Loading: React.FC = memo(
   () => {
     return (
       <div className="flex items-center justify-center w-full h-full">
@@ -11,7 +11,6 @@ const Loading = memo(
   },
   () => true
 )
-
 Loading.displayName = 'Loading'
 
 export default Loading
