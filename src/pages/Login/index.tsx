@@ -108,5 +108,6 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
     </Layout>
   )
 })
+Login.displayName = 'Login'
 
 export default Login
