@@ -17,7 +17,6 @@ const Github = memo(
   ),
   () => true
 )
-
 Github.displayName = 'GithubIcon'
 
 export default Github
