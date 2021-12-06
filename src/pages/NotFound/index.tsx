@@ -11,7 +11,6 @@ const NotFound = memo<RouteComponentProps>(
   ),
   () => true
 )
-
 NotFound.displayName = 'NotFound'
 
 export default NotFound
