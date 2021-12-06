@@ -96,5 +96,6 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
     </Layout>
   )
 })
+Dashboard.displayName = 'Dashborad'
 
 export default Dashboard
