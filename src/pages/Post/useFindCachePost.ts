@@ -6,7 +6,7 @@ import { selectPage } from '../../redux/pageSlice'
 /**
  * @OneOffHook src/pages/Post/index.tsx
  */
-const useCachePost = (postId: Cast<Post['id'], string>): Post | undefined => {
+const useFindCachePost = (postId: Cast<Post['id'], string>): Post | undefined => {
   assertIsDefined(postId)
   const { page, perPage } = useAppSelector(selectPage)
   const { cache } = API.endpoints.fetchPostList.useQueryState(
@@ -34,4 +34,4 @@ const useCachePost = (postId: Cast<Post['id'], string>): Post | undefined => {
   return cache
 }
 
-export default useCachePost
+export default useFindCachePost

@@ -8,7 +8,7 @@ import NotFound from '../NotFound'
 
 import Content from './Content'
 import Error from './Error'
-import useCachePost from './useCachePost'
+import useFindCachePost from './useFindCachePost'
 
 interface RouterParam {
   // Get query paramerter must be string
@@ -19,7 +19,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
   ({ postId }) => {
     assertIsDefined(postId)
 
-    const cache = useCachePost(postId)
+    const cache = useFindCachePost(postId)
 
     const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(
       parseInt(postId),
