@@ -1,8 +1,5 @@
 // from https://github.com/reduxjs/redux-toolkit/blob/4fbd29f0032f1ebb9e2e621ab48bbff5266e312c/packages/toolkit/src/query/tsHelpers.ts
 
-declare type WithRequiredProp<T, K extends keyof T> = Omit<T, K> &
-  Required<Pick<T, K>>
-
 declare type Override<T1, T2> = T2 extends any ? Omit<T1, keyof T2> & T2 : never
 
 /**
