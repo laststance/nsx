@@ -14,8 +14,8 @@ interface Response {
  * @param res
  */
 const isSuccess = (res: Response): boolean => {
-  if ('error' in res === false) return true
   if ('data' in res && res.data) return true
+  if ('error' in res === false) return true
   if ('error' in res) {
     if (res.error === undefined) return true
     const error = res.error
