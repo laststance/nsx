@@ -14,8 +14,6 @@ declare type OptionalIfAllPropsOptional<T> = HasRequiredProps<T, T, T | never>
 
 declare type NoInfer<T> = [T][T extends any ? 0 : never]
 
-declare type UnwrapPromise<T> = T extends PromiseLike<infer V> ? V : T
-
 declare type MaybePromise<T> = T | PromiseLike<T>
 
 declare type OmitFromUnion<T, K extends keyof T> = T extends any
