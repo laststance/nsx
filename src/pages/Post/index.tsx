@@ -26,7 +26,6 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
       /* No Cache then Real Fetch */ { skip: cache !== undefined }
     )
 
-    /* Render with Cache */
     if (cache) return <Content post={cache} />
     if (isLoading) return <Loading />
     if (error) return <Error error={error} />
