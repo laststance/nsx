@@ -4,7 +4,7 @@ import { useAppSelector } from '../../redux/hooks'
 import { selectPage } from '../../redux/pageSlice'
 
 /**
- * @OneOff src/pages/Post/index.tsx
+ * @OneOffHook src/pages/Post/index.tsx
  */
 const useCachePost = (postId: Cast<Post['id'], string>): Post | undefined => {
   assertIsDefined(postId)

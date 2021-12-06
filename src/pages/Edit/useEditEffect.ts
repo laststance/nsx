@@ -5,7 +5,7 @@ import type React from 'react'
 import { useEffect, useState } from 'react'
 
 import { API } from '../../redux/API'
-import { assertIsFetchBaseQueryError } from '../../redux/helper/assertIsFetchBaseQueryError'
+import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
@@ -58,21 +58,18 @@ const useEditEffect = (
   }
 
   async function handleEdit() {
-    try {
-      const response = await updatePost({
-        title,
-        body,
-        id,
-      }).unwrap()
+    const response = await updatePost({
+      title,
+      body,
+      id,
+    })
 
-      dispatch(enqueSnackbar({ message: response.message, color: 'green' }))
+    if (isSuccess(response) && 'data' in response) {
+      dispatch(
+        enqueSnackbar({ message: response.data.message, color: 'green' })
+      )
 
       navigate(`/post/${id}`)
-    } catch (error: unknown) {
-      assertIsFetchBaseQueryError(error)
-      dispatch(
-        enqueSnackbar({ message: error.status.toString(), color: 'red' })
-      )
     }
   }
 

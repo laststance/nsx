@@ -27,7 +27,7 @@ const router = express.Router()
 router.get(
   '/post_list',
   async (
-    req: Request<_, _, _, PostListRequestParam>,
+    req: Request<_, _, _, PostListRequestParamServer>,
     res: Response<PostListResponce>
   ) => {
     const page = parseInt(req.query.page)

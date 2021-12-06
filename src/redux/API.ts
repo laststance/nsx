@@ -24,7 +24,7 @@ export const API = createApi({
   keepUnusedDataFor: 60,
   tagTypes: ['Posts'],
   endpoints: (builder) => ({
-    fetchPostList: builder.query<PostListResponce, PostListRequestParam>({
+    fetchPostList: builder.query<PostListResponce, PostListRequestParamClient>({
       query: ({ page, perPage }) => `post_list?page=${page}&perPage=${perPage}`,
       providesTags: (result) =>
         result && result.postList
