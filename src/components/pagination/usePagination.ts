@@ -7,7 +7,7 @@ import type { PageState } from '../../redux/pageSlice'
 import { selectPage, updatePage } from '../../redux/pageSlice'
 import type { AppDispatch } from '../../redux/store'
 
-export interface usePagenationResult {
+export interface UsePagenationResult {
   page: PageState['page']
   totalPage: PageState['totalPage']
   data: PostListResponce | undefined
@@ -19,14 +19,14 @@ export interface usePagenationResult {
   nextPage: (dispatch: AppDispatch, page: PageState['page']) => void
 }
 
-const prevPage: usePagenationResult['prevPage'] = (dispatch, page) => {
+const prevPage: UsePagenationResult['prevPage'] = (dispatch, page) => {
   dispatch(updatePage({ page: page - 1 }))
 }
-const nextPage: usePagenationResult['nextPage'] = (dispatch, page) => {
+const nextPage: UsePagenationResult['nextPage'] = (dispatch, page) => {
   dispatch(updatePage({ page: page + 1 }))
 }
 
-function usePagination(): usePagenationResult {
+function usePagination(): UsePagenationResult {
   const { page, perPage, totalPage } = useAppSelector(selectPage)
   const dispatch = useAppDispatch()
   const { data, error, refetch, isLoading } =

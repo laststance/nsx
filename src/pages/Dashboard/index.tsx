@@ -9,9 +9,8 @@ import Button from '../../elements/Button'
 import Loading from '../../elements/Loading'
 import PostDate from '../../elements/PostDate'
 import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
-import { useDeletePostMutation } from '../../redux/API'
-import isSuccess from '../../redux/helper/isSuccess'
-import { enqueSnackbar } from '../../redux/snackbarSlice'
+
+import { handleDelete } from './handler'
 
 const Layout: React.FC = memo(({ children, ...rest }) => (
   <BaseLayout
@@ -25,27 +24,8 @@ const Layout: React.FC = memo(({ children, ...rest }) => (
 Layout.displayName = 'Layout'
 
 const Dashboard: React.FC<RouteComponentProps> = memo(() => {
-  const {
-    page,
-    totalPage,
-    data,
-    error,
-    isLoading,
-    dispatch,
-    refetch,
-    prevPage,
-    nextPage,
-  } = usePagination()
-  const [deletePost] = useDeletePostMutation()
-
-  async function handleDelete(id: Post['id']) {
-    const res = await deletePost(id)
-
-    if (isSuccess(res) && 'data' in res) {
-      dispatch(enqueSnackbar({ message: res.data.message, color: 'green' }))
-      refetch()
-    }
-  }
+  const { page, totalPage, data, error, isLoading, dispatch, refetch, prevPage, nextPage } /* eslint-disable-line prettier/prettier */
+    = usePagination()
 
   if (error) {
     return (
@@ -87,7 +67,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
                     <Button variant="inverse">Edit</Button>
                   </Link>
                   <Button
-                    onClick={() => handleDelete(post.id)}
+                    onClick={handleDelete(post.id, refetch)}
                     variant="danger"
                     data-cy={`delete-btn-${i + 1}`}
                   >
