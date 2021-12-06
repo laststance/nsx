@@ -19,7 +19,7 @@ export type ButtonSpinerProps = {
   className?: string
 }
 
-const ButtonSpiner: React.FC<ButtonSpinerProps> = memo(
+const ButtonSpinner: React.FC<ButtonSpinerProps> = memo(
   ({ size = 'md', variant = 'primary', className = '' }: ButtonSpinerProps) => {
     return (
       <>
@@ -55,6 +55,6 @@ const ButtonSpiner: React.FC<ButtonSpinerProps> = memo(
   },
   () => true
 )
-ButtonSpiner.displayName = 'ButtonSpiner'
+ButtonSpinner.displayName = 'ButtonSpinner'
 
-export default ButtonSpiner
+export default ButtonSpinner
