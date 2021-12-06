@@ -5,7 +5,7 @@ import Button from '../../elements/Button'
 import type { AdminState } from '../../redux/adminSlice'
 import { logout } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
-import { assertIsFetchBaseQueryError } from '../../redux/helper/assertIsFetchBaseQueryError'
+import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
@@ -20,21 +20,18 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
 
   async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
-    try {
-      setLoading(true)
 
-      const response: LogoutResponse = await logoutRequest().unwrap()
+    setLoading(true)
 
+    const response = await logoutRequest()
+
+    if (isSuccess(response) && 'data' in response) {
       dispatch(logout())
-      dispatch(enqueSnackbar({ message: response.message, color: 'green' }))
-    } catch (error) {
-      assertIsFetchBaseQueryError(error)
       dispatch(
-        enqueSnackbar({ message: error.status.toString(), color: 'red' })
+        enqueSnackbar({ message: response.data.message, color: 'green' })
       )
-    } finally {
-      setLoading(false)
     }
+    setLoading(false)
   }
 
   const LoginBtn: boolean = !props.login && !!process.env.REACT_APP_ENABLE_LOGIN
