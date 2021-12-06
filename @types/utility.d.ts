@@ -2,15 +2,6 @@
 
 declare type Override<T1, T2> = T2 extends any ? Omit<T1, keyof T2> & T2 : never
 
-/**
- * Convert a Union type `(A|B)` to an intersection type `(A&B)`
- */
-declare type UnionToIntersection<U> = (
-  U extends any ? (k: U) => void : never
-) extends (k: infer I) => void
-  ? I
-  : never
-
 declare type NonOptionalKeys<T> = {
   [K in keyof T]-?: undefined extends T[K] ? never : K
 }[keyof T]
