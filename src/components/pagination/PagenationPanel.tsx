@@ -33,6 +33,6 @@ const PagenationPanel: React.FC<Props> = memo(
     </div>
   )
 )
-PagenationPanel.displayName = 'Pagenation'
+PagenationPanel.displayName = 'PagenationPanel'
 
 export default PagenationPanel
