@@ -33,7 +33,6 @@ const Header = memo(
   ),
   () => true
 )
-
 Header.displayName = 'Header'
 
 export default Header

@@ -22,7 +22,6 @@ const Layout = memo<
     </div>
   )
 })
-
 Layout.displayName = 'Layout'
 
 export default Layout
