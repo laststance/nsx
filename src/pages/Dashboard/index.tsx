@@ -10,8 +10,7 @@ import Loading from '../../elements/Loading'
 import PostDate from '../../elements/PostDate'
 import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
 import { useDeletePostMutation } from '../../redux/API'
-import { assertIsFetchBaseQueryError } from '../../redux/helper/assertIsFetchBaseQueryError'
-import { assertIsSerializedError } from '../../redux/helper/assertIsSerializedError'
+import isSuccess from '../../redux/helper/isSuccess'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
 const Layout: React.FC = memo(({ children, ...rest }) => (
@@ -40,19 +39,11 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   const [deletePost] = useDeletePostMutation()
 
   async function handleDelete(id: Post['id']) {
-    try {
-      const res = await deletePost(id).unwrap()
+    const res = await deletePost(id)
 
-      dispatch(enqueSnackbar({ message: res.message, color: 'green' }))
+    if (isSuccess(res) && 'data' in res) {
+      dispatch(enqueSnackbar({ message: res.data.message, color: 'green' }))
       refetch()
-    } catch (error) {
-      assertIsSerializedError(error)
-      assertIsFetchBaseQueryError(error)
-      const message =
-        error.status === 500
-          ? `Delete Faild: ${error.message}`
-          : `${error.status} System Error. Delete Faild: ${error.message}`
-      dispatch(enqueSnackbar({ message: message, color: 'red' }))
     }
   }
 
