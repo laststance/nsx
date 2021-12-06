@@ -49,7 +49,6 @@ const Button: React.FC<ButtonProps> = memo(
     )
   }
 )
-
 Button.displayName = 'Button'
 
 export default Button
