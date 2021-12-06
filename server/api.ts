@@ -30,9 +30,7 @@ router.get(
     req: Request<_, _, _, PostListRequestParam>,
     res: Response<PostListResponce>
   ) => {
-    // @ts-ignore
     const page = parseInt(req.query.page)
-    // @ts-ignore
     const perPage = parseInt(req.query.perPage)
     const total = await db.post.count()
 

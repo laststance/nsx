@@ -42,8 +42,8 @@ declare type LoginResponse = Author | FaildMessage
  * GET /api/post_list
  */
 declare interface PostListRequestParam {
-  page: number
-  perPage: number
+  page: Cast<number, string>
+  perPage: Cast<number, string>
 }
 
 declare interface PostListResponce {
