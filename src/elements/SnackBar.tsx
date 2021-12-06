@@ -9,7 +9,7 @@ interface Props {
   color: SnackBarMessage['color']
 }
 
-export const SnackBar: React.FC<Props> = memo(
+const SnackBar: React.FC<Props> = memo(
   ({ message, color }) => {
     const dispatch = useAppDispatch()
     const [opacity, setOpacity] = useState('opacity-0')
@@ -46,3 +46,5 @@ export const SnackBar: React.FC<Props> = memo(
   () => true
 )
 SnackBar.displayName = 'SnackBar'
+
+export default SnackBar

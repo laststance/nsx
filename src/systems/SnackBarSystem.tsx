@@ -1,7 +1,7 @@
 import React from 'react'
 import type { AllHTMLAttributes } from 'react'
 
-import { SnackBar } from '../elements/SnackBar'
+import SnackBar from '../elements/SnackBar'
 import { useAppSelector } from '../redux/hooks'
 import { selectMessageQueue } from '../redux/snackbarSlice'
 
