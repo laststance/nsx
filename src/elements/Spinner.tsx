@@ -13,14 +13,14 @@ const variants = {
   primary: 'text-blue-200',
 }
 
-export type ButtonSpinerProps = {
+export type SpinnerProps = {
   size?: keyof typeof sizes
   variant?: keyof typeof variants
   className?: string
 }
 
-const ButtonSpinner: React.FC<ButtonSpinerProps> = memo(
-  ({ size = 'md', variant = 'primary', className = '' }: ButtonSpinerProps) => {
+const Spinner: React.FC<SpinnerProps> = memo(
+  ({ size = 'md', variant = 'primary', className = '' }: SpinnerProps) => {
     return (
       <>
         <svg
@@ -55,6 +55,6 @@ const ButtonSpinner: React.FC<ButtonSpinerProps> = memo(
   },
   () => true
 )
-ButtonSpinner.displayName = 'ButtonSpinner'
+Spinner.displayName = 'Spinner'
 
-export default ButtonSpinner
+export default Spinner
