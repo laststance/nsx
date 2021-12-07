@@ -1,18 +1,18 @@
-[![Build](https://github.com/laststance/today-i-learned/actions/workflows/build.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/build.yml)
-[![Typecheck](https://github.com/laststance/today-i-learned/actions/workflows/typecheck.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/typecheck.yml)
-[![Test](https://github.com/laststance/today-i-learned/actions/workflows/test.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/test.yml)
-[![Lint](https://github.com/laststance/today-i-learned/actions/workflows/lint.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/lint.yml)
-[![Cypress E2E Admin Side](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-admin-side.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-admin-side.yml)
-[![Cypress-E2E Visitor Side](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-visitor-side.yml/badge.svg)](https://github.com/laststance/today-i-learned/actions/workflows/cypress-e2e-visitor-side.yml)
-[![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/today-i-learned?project_id=17741)
+[![Build](https://github.com/laststance/crud/actions/workflows/build.yml/badge.svg)](https://github.com/laststance/crud/actions/workflows/build.yml)
+[![Typecheck](https://github.com/laststance/crud/actions/workflows/typecheck.yml/badge.svg)](https://github.com/laststance/crud/actions/workflows/typecheck.yml)
+[![Test](https://github.com/laststance/crud/actions/workflows/test.yml/badge.svg)](https://github.com/laststance/crud/actions/workflows/test.yml)
+[![Lint](https://github.com/laststance/crud/actions/workflows/lint.yml/badge.svg)](https://github.com/laststance/crud/actions/workflows/lint.yml)
+[![Cypress E2E Admin Side](https://github.com/laststance/crud/actions/workflows/cypress-e2e-admin-side.yml/badge.svg)](https://github.com/laststance/crud/actions/workflows/cypress-e2e-admin-side.yml)
+[![Cypress-E2E Visitor Side](https://github.com/laststance/crud/actions/workflows/cypress-e2e-visitor-side.yml/badge.svg)](https://github.com/laststance/crud/actions/workflows/cypress-e2e-visitor-side.yml)
+[![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/crud?project_id=17741)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://<master>--61702216bfd60a003a8b4431.chromatic.com)
 
 # Project Status: Work in progress and before public release
 The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
 I'm developping essential feature while my spare time, currenty I planning publish v1 2023 early.  
-[Roadmap](https://github.com/laststance/today-i-learned/projects/1)
+[Roadmap](https://github.com/laststance/crud/projects/1)
 
-# Today I Learned
+# CRUD
 
 Prod ➡️ https://digitalstrength.dev  
 Currently doghooding this project as a Today I Learned mini blog.

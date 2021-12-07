@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOCAL_ROOT=$(cd $(dirname $0)/..; pwd)
-REMOTE_ROOT=/root/today-i-learned/
+REMOTE_ROOT=/root/crud/
 
 usage() { echo "Usage: $0 [-s] [-f]" 1>&2; exit 1; }
 
