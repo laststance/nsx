@@ -4,7 +4,7 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { API } from '../../redux/API'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import type { PagenationState } from '../../redux/pagenationSlice'
-import { selectPage, updatePage } from '../../redux/pagenationSlice'
+import { selectPagenationState, updatePage } from '../../redux/pagenationSlice'
 import type { AppDispatch } from '../../redux/store'
 
 export interface UsePagenationResult {
@@ -27,7 +27,7 @@ const nextPage: UsePagenationResult['nextPage'] = (dispatch, page) => {
 }
 
 function usePagination(): UsePagenationResult {
-  const { page, perPage, totalPage } = useAppSelector(selectPage)
+  const { page, perPage, totalPage } = useAppSelector(selectPagenationState)
   const dispatch = useAppDispatch()
   const { data, error, refetch, isLoading } =
     API.endpoints.fetchPostList.useQuery({

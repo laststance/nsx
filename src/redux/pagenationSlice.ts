@@ -37,7 +37,8 @@ export const pagenationSlice = createSlice({
   },
 })
 
-export const selectPage = (state: RootState): PagenationState => state.page
+export const selectPagenationState = (state: RootState): PagenationState =>
+  state.pagenation
 
 export const { updatePage } = pagenationSlice.actions
 

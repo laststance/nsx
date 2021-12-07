@@ -1,7 +1,7 @@
 import { assertIsDefined } from '../../lib/assertIsDefined'
 import { API } from '../../redux/API'
 import { useAppSelector } from '../../redux/hooks'
-import { selectPage } from '../../redux/pagenationSlice'
+import { selectPagenationState } from '../../redux/pagenationSlice'
 
 /**
  * @OneOffHook src/pages/Post/index.tsx
@@ -10,7 +10,7 @@ const useFindCachePost = (
   postId: Cast<Post['id'], string>
 ): Post | undefined => {
   assertIsDefined(postId)
-  const { page, perPage } = useAppSelector(selectPage)
+  const { page, perPage } = useAppSelector(selectPagenationState)
   const { cache } = API.endpoints.fetchPostList.useQueryState(
     {
       page,
