@@ -23,7 +23,7 @@ const PostPage: React.FC<RouteComponentProps<RouterParam>> = memo(
 
     const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(
       parseInt(postId),
-      /* No Cache then Real Fetch */ { skip: cache !== undefined }
+      /* No Cache then Do Real Fetch */ { skip: cache !== undefined }
     )
 
     if (cache) return <Content post={cache} />
