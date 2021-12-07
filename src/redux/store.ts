@@ -9,12 +9,12 @@ import storage from 'redux-persist/lib/storage'
 import adminReducer from './adminSlice'
 import { API } from './API'
 import draftReducer from './draftSlice'
-import pageReducer from './pageSlice'
+import pagenationReducer from './pagenationSlice'
 import snackbarReducer from './snackbarSlice'
 
 const reducers = combineReducers({
   admin: adminReducer,
-  page: pageReducer,
+  pagenation: pagenationReducer,
   snackbar: snackbarReducer,
   draft: draftReducer,
   [API.reducerPath]: API.reducer,

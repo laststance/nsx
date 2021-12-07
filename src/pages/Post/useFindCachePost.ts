@@ -1,7 +1,7 @@
 import { assertIsDefined } from '../../lib/assertIsDefined'
 import { API } from '../../redux/API'
 import { useAppSelector } from '../../redux/hooks'
-import { selectPage } from '../../redux/pageSlice'
+import { selectPage } from '../../redux/pagenationSlice'
 
 /**
  * @OneOffHook src/pages/Post/index.tsx

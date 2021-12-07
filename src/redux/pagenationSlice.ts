@@ -4,23 +4,26 @@ import { createSlice } from '@reduxjs/toolkit'
 import { API } from './API'
 import type { RootState } from './store'
 
-export interface PageState {
+export interface PagenationState {
   page: number
   perPage: number
   totalPage: number
 }
 
-const initialState: PageState = {
+const initialState: PagenationState = {
   page: 1,
   perPage: 15,
   totalPage: 0,
 }
 
-export const pageSlice = createSlice({
-  name: 'page',
+export const pagenationSlice = createSlice({
+  name: 'pagenation',
   initialState,
   reducers: {
-    updatePage: (state, action: PayloadAction<{ page: PageState['page'] }>) => {
+    updatePage: (
+      state,
+      action: PayloadAction<{ page: PagenationState['page'] }>
+    ) => {
       state.page = action.payload.page
     },
   },
@@ -34,8 +37,8 @@ export const pageSlice = createSlice({
   },
 })
 
-export const selectPage = (state: RootState): PageState => state.page
+export const selectPage = (state: RootState): PagenationState => state.page
 
-export const { updatePage } = pageSlice.actions
+export const { updatePage } = pagenationSlice.actions
 
-export default pageSlice.reducer
+export default pagenationSlice.reducer

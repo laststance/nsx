@@ -2,12 +2,12 @@ import React, { memo } from 'react'
 
 import ArrowButton from '../../elements/ArrowButton'
 import PageCount from '../../pages/Index/PageCount'
-import type { PageState } from '../../redux/pageSlice'
+import type { PagenationState } from '../../redux/pagenationSlice'
 
 import type { UsePagenationResult } from './usePagination'
 
 interface Props {
-  page: PageState['page']
+  page: PagenationState['page']
   totalPage: UsePagenationResult['totalPage']
   dispatch: UsePagenationResult['dispatch']
   prevPage: UsePagenationResult['prevPage']
