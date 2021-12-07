@@ -7,7 +7,7 @@ import { selectPage } from '../../redux/pagenationSlice'
  * @OneOffHook src/pages/Post/index.tsx
  */
 const useFindCachePost = (
-  postId: Override<Post['id'], string>
+  postId: Cast<Post['id'], string>
 ): Post | undefined => {
   assertIsDefined(postId)
   const { page, perPage } = useAppSelector(selectPage)
