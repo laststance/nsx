@@ -10,6 +10,7 @@ module.exports = {
 
       md: '768px',
       // => @media (min-width: 768px) { ... }
+      lg: '980px'
     },
     extend: {
       fontFamily: {

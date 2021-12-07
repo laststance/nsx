@@ -6,12 +6,21 @@ import { concatSelecor } from '../lib/concatSelecor'
 import Footer from './Footer'
 import Header from './Header'
 
+interface LayoutProps {
+  disableBaseStyle?: boolean
+}
+
 const Layout = memo<
-  DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
->(({ children, className, ...props }) => {
+  DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> &
+    LayoutProps
+>(({ children, className, disableBaseStyle, ...props }) => {
   let baseStyle = 'container mx-auto flex-grow px-4 py-4'
-  if (className) {
+  if (className && !disableBaseStyle) {
     baseStyle = concatSelecor(baseStyle, className)
+  } else if (className && disableBaseStyle) {
+    baseStyle = className
+  } else if (!className && disableBaseStyle) {
+    baseStyle = ''
   }
 
   return (

@@ -14,7 +14,8 @@ import { handleDelete } from './handler'
 
 const Layout: React.FC = memo(({ children, ...rest }) => (
   <BaseLayout
-    className="flex flex-col justify-start"
+    disableBaseStyle
+    className="sm:w-full lg:container flex flex-col justify-start flex-grow px-4 py-4 mx-auto"
     data-cy="dashboard-page-content-root"
     {...rest}
   >
