@@ -12,7 +12,7 @@ import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
 import Routes from './Routes'
 import ErrorBoundary from './systems/ErrorBoundary'
-import Redux from './systems/SnackBarSystem'
+import SnackBarSystem from './systems/SnackBarSystem'
 
 const persistor = persistStore(store)
 // @TODO fix Provider typing
@@ -24,7 +24,7 @@ const App = memo(
     <ErrorBoundary>
       <ReduxStoreProvider store={store}>
         <ReduxPersistGate persistor={persistor}>
-          <Redux.SnackBarSystem />
+          <SnackBarSystem />
           <Routes />
         </ReduxPersistGate>
       </ReduxStoreProvider>

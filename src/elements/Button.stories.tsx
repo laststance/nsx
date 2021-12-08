@@ -14,24 +14,24 @@ const Template: ComponentStory<typeof Button> = (props) => <Button {...props} />
 
 export const Primary = Template.bind({})
 Primary.args = {
-  children: 'Primary Button',
+  children: 'Primary Color',
   variant: 'primary',
 }
 
 export const Secondary = Template.bind({})
 Secondary.args = {
-  children: 'Secondary Button',
+  children: 'Secondary Color',
   variant: 'secondary',
 }
 
 export const Inverse = Template.bind({})
 Inverse.args = {
-  children: 'Inverse Button',
+  children: 'Inverse Color',
   variant: 'inverse',
 }
 
 export const Danger = Template.bind({})
 Danger.args = {
-  children: 'Danger Button',
+  children: 'Danger Color',
   variant: 'danger',
 }

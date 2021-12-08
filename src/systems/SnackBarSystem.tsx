@@ -1,11 +1,10 @@
 import React from 'react'
-import type { AllHTMLAttributes } from 'react'
 
 import SnackBar from '../elements/SnackBar'
 import { useAppSelector } from '../redux/hooks'
 import { selectMessageQueue } from '../redux/snackbarSlice'
 
-const SnackBarSystem = React.memo<AllHTMLAttributes<HTMLDivElement>>(
+const SnackBarSystem = React.memo(
   () => {
     const messageQueue = useAppSelector(selectMessageQueue)
     if (messageQueue.length === 0) return null
@@ -15,9 +14,6 @@ const SnackBarSystem = React.memo<AllHTMLAttributes<HTMLDivElement>>(
   },
   () => true
 )
-
-const Redux: any = {}
 SnackBarSystem.displayName = 'SnackBarSystem'
-Redux.SnackBarSystem = SnackBarSystem
 
-export default Redux
+export default SnackBarSystem

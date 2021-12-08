@@ -1,6 +1,10 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-import React, { useState, memo } from 'react'
+import React, { memo } from 'react'
+import type { SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import type { FieldValues } from 'react-hook-form/dist/types'
+import Input from 'src/elements/Input'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
@@ -10,42 +14,37 @@ import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
-interface FormInputState {
+interface FormInputState extends FieldValues {
   name: Author['name']
   password: Author['password']
 }
 
 const Signup: React.FC<RouteComponentProps> = memo(() => {
   const [signupRequest] = useSignupReqestMutation()
-  const [formInput, setFormInput] = useState<FormInputState>({
-    name: '',
-    password: '',
-  })
+  const { register, handleSubmit, formState } = useForm<FormInputState>()
+  const onSubmit: SubmitHandler<FormInputState> = (data) => console.log(data)
+
   const dispatch = useAppDispatch()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormInput({ ...formInput, [e.target.name]: e.target.value })
-  }
-
-  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    const res = await signupRequest({
-      name: formInput.name,
-      password: formInput.password,
-    })
-
-    if (isSuccess(res) && 'data' in res) {
-      dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
-      dispatch(login(res.data))
-      navigate('dashboard')
-    }
-  }
+  // const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //
+  //   const res = await signupRequest({
+  //     name: formInput.name,
+  //     password: formInput.password,
+  //   })
+  //
+  //   if (isSuccess(res) && 'data' in res) {
+  //     dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
+  //     dispatch(login(res.data))
+  //     navigate('dashboard')
+  //   }
+  // }
 
   return (
     <Layout data-cy="signup-page-content-root">
       <h1 className="mb-3 text-3xl">Signup</h1>
-      <form className="w-full max-w-sm" onSubmit={handleSignup}>
+      <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
@@ -56,15 +55,13 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
             </label>
           </div>
           <div className="md:w-2/3">
-            <input
-              className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
-              id="name"
-              type="text"
-              name="name"
-              onChange={(e) => handleChange(e)}
-              value={formInput.name}
-              data-cy="name-input"
-            />
+            {/*<input*/}
+            {/*  className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"*/}
+            {/*  {...register('name', { required: 'this is requreid' })}*/}
+            {/*  data-cy="name-input"*/}
+            {/*/>*/}
+            {/* @ts-ignore */}
+            <Input register={register} name="kinki" formState={formState} />
           </div>
         </div>
         <div className="md:flex md:items-center mb-6">
@@ -79,10 +76,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
           <div className="md:w-2/3">
             <input
               className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
-              id="password"
-              type="password"
-              name="password"
-              onChange={(e) => handleChange(e)}
+              {...register('password', { required: true })}
               data-cy="password-input"
             />
           </div>
