@@ -14,12 +14,12 @@ const Template: ComponentStory<typeof ArrowButton> = (props) => (
   <ArrowButton {...props} />
 )
 
-export const Primary = Template.bind({})
-Primary.args = {
+export const Right = Template.bind({})
+Right.args = {
   direction: 'right',
 }
 
-export const Secondary = Template.bind({})
-Secondary.args = {
+export const Left = Template.bind({})
+Left.args = {
   direction: 'left',
 }
