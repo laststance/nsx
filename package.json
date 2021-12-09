@@ -145,6 +145,7 @@
     "cy:run:headless:admin": "cypress run --spec cypress/integration/admin_basic.js",
     "cy:run:headless:visitor": "cypress run --spec cypress/integration/visitor_basic.js",
     "cy:run:headless:admin:firefox": "cypress run -b firefox --spec cypress/integration/admin_basic.js",
-    "cy:run:headless:visitor:firefox": "cypress run -b firefox --spec cypress/integration/visitor_basic.js"
+    "cy:run:headless:visitor:firefox": "cypress run -b firefox --spec cypress/integration/visitor_basic.js",
+    "chromatic": "npx chromatic --project-token=52c6732a4057"
   }
 }
