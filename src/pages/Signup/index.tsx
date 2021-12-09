@@ -56,9 +56,9 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="text"
+              name="name"
               register={register}
               options={{ required: 'name is required' }}
-              name="name"
               errors={errors}
               data-cy="name-input"
             />
@@ -76,9 +76,9 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="password"
+              name="password"
               register={register}
               options={{ required: 'password is required' }}
-              name="name"
               errors={errors}
               data-cy="password-input"
             />
