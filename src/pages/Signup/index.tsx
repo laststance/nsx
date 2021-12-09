@@ -1,45 +1,44 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
 import React, { memo } from 'react'
-import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
-import type { FieldValues } from 'react-hook-form/dist/types'
-import Input from 'src/elements/Input'
+import type { SubmitHandler, FieldValues } from 'react-hook-form'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
+import Input from '../../elements/Input'
 import { login } from '../../redux/adminSlice'
 import { useSignupReqestMutation } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
-interface FormInputState extends FieldValues {
+interface FormInput extends FieldValues {
   name: Author['name']
   password: Author['password']
 }
 
 const Signup: React.FC<RouteComponentProps> = memo(() => {
-  const [signupRequest] = useSignupReqestMutation()
-  const { register, handleSubmit, formState } = useForm<FormInputState>()
-  const onSubmit: SubmitHandler<FormInputState> = (data) => console.log(data)
-
   const dispatch = useAppDispatch()
+  const [signupRequest] = useSignupReqestMutation()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInput>()
 
-  // const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //
-  //   const res = await signupRequest({
-  //     name: formInput.name,
-  //     password: formInput.password,
-  //   })
-  //
-  //   if (isSuccess(res) && 'data' in res) {
-  //     dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
-  //     dispatch(login(res.data))
-  //     navigate('dashboard')
-  //   }
-  // }
+  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+    const res = await signupRequest({
+      name: data.name,
+      password: data.password,
+    })
+
+    if (isSuccess(res) && 'data' in res) {
+      dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
+      dispatch(login(res.data))
+      navigate('dashboard')
+    }
+  }
 
   return (
     <Layout data-cy="signup-page-content-root">
@@ -55,13 +54,14 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
             </label>
           </div>
           <div className="md:w-2/3">
-            {/*<input*/}
-            {/*  className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"*/}
-            {/*  {...register('name', { required: 'this is requreid' })}*/}
-            {/*  data-cy="name-input"*/}
-            {/*/>*/}
-            {/* @ts-ignore */}
-            <Input register={register} name="kinki" formState={formState} />
+            <Input
+              type="text"
+              register={register}
+              options={{ required: 'name is required' }}
+              name="name"
+              errors={errors}
+              data-cy="name-input"
+            />
           </div>
         </div>
         <div className="md:flex md:items-center mb-6">
@@ -74,9 +74,12 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
             </label>
           </div>
           <div className="md:w-2/3">
-            <input
-              className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
-              {...register('password', { required: true })}
+            <Input
+              type="password"
+              register={register}
+              options={{ required: 'password is required' }}
+              name="name"
+              errors={errors}
               data-cy="password-input"
             />
           </div>

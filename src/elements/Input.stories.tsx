@@ -12,21 +12,32 @@ const meta: ComponentMeta<typeof Input> = {
 export default meta
 
 interface formInputValue {
-  text: string
+  firstName: string
+  lastName: string
+  email: string
 }
 
-const InputGroup = () => {
-  const { register, formState } = useForm<formInputValue>()
+const InputGroup: React.FC = (props) => {
+  const {
+    register,
+    formState: { errors },
+  } = useForm<formInputValue>()
 
   return (
-    // @ts-ignore
-    <Input register={register} name="text" formState={formState} />
+    <Input
+      type="text"
+      register={register}
+      options={{ required: 'firstName is required' }}
+      name="firstName"
+      errors={errors}
+      placeholder="Emily"
+      {...props}
+    />
   )
 }
 
-// @ts-ignore
 const Template: ComponentStory<typeof Input> = (props) => (
   <InputGroup {...props} />
 )
 
-export const Primary = Template.bind({})
+export const TextInput = Template.bind({})
