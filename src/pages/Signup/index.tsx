@@ -4,7 +4,6 @@ import { navigate } from '@reach/router'
 import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler, FieldValues } from 'react-hook-form'
-import { object } from 'superstruct'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
@@ -14,17 +13,12 @@ import { useSignupReqestMutation } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
-import * as Validator from '../../validator'
+import { signupFormVallidator } from '../../validator'
 
 interface FormInput extends FieldValues {
   name: Author['name']
   password: Author['password']
 }
-
-const vallidator = object({
-  name: Validator.name,
-  password: Validator.password,
-})
 
 const Signup: React.FC<RouteComponentProps> = memo(() => {
   const dispatch = useAppDispatch()
@@ -33,7 +27,9 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInput>({ resolver: superstructResolver(vallidator) })
+  } = useForm<FormInput>({
+    resolver: superstructResolver(signupFormVallidator),
+  })
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     const res = await signupRequest({

@@ -1,5 +1,5 @@
 import type { Result } from 'superstruct'
-import { define } from 'superstruct'
+import { define, object } from 'superstruct'
 
 import { assertCast } from '../lib/assertCast'
 
@@ -13,4 +13,9 @@ export const name = define('name', (value, context): Result => {
 export const password = define('password', (value, context): Result => {
   assertCast<string>(value)
   return value.length < 2 ? false : true
+})
+
+export const signupFormVallidator = object({
+  name: name,
+  password: password,
 })
