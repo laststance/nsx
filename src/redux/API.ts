@@ -42,21 +42,32 @@ export const API = createApi({
       providesTags: (result, error, id) => [{ type: 'Posts', id }],
     }),
 
-    deletePost: builder.mutation<DeletePostResponse, Post['id']>({
-      query: (id) => ({ url: `post/${id}`, method: 'DELETE' }),
-      invalidatesTags: (result, error, id) => [{ type: 'Posts', id }],
+    deletePost: builder.mutation<
+      DeletePostResponse,
+      { id: Post['id']; author: Author }
+    >({
+      query: ({ id, author }) => ({
+        url: `post/${id}/`,
+        method: 'DELETE',
+        body: author,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: 'Posts', id }],
     }),
 
     createPost: builder.mutation<Post, CreatePostRequest>({
-      query: (post) => ({ url: 'create', method: 'POST', body: post }),
+      query: ({ title, body, author }) => ({
+        url: 'create',
+        method: 'POST',
+        body: { title, body, author },
+      }),
       invalidatesTags: () => [{ type: 'Posts' }],
     }),
 
     updatePost: builder.mutation<UpdatePostResponse, UpdatePostRequest>({
-      query: (post) => ({
+      query: (param) => ({
         url: 'update',
         method: 'POST',
-        body: post,
+        body: param,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Posts', id }],
     }),

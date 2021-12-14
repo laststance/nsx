@@ -4,6 +4,7 @@ import React, { useState, memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
+import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { clearDraft, selectBody, selectTitle } from '../../redux/draftSlice'
 import isSuccess from '../../redux/helper/isSuccess'
@@ -19,14 +20,15 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const title = useAppSelector(selectTitle)
   const body = useAppSelector(selectBody)
+  const author = useAppSelector(selectAuthor)
   const dispatch = useAppDispatch()
 
   async function handleSubmit() {
     setIsSubmitting(() => true)
-
     const post = await createPost({
       title,
       body,
+      author,
     })
     if (isSuccess(post) && 'data' in post) {
       dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))

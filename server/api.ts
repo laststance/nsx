@@ -3,16 +3,13 @@ import express from 'express'
 import type { CookieOptions, NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
-import { assertIsDefined } from '../src/lib/assertIsDefined'
-import shallowEqualScalar from '../src/lib/shallowEqualScalar'
-
+import { verifyCertainAdmin } from './auth'
 import db from './db/models'
 import type AuthorModel from './db/models/authorModel'
 import type PostModel from './db/models/postModel'
-import deleteJWTattribute from './lib/deleteJWTattribute'
 import Logger from './lib/Logger'
 
-const cookieOptions: CookieOptions = {
+export const cookieOptions: CookieOptions = {
   httpOnly: true,
   secure: true,
   sameSite: 'lax',
@@ -65,7 +62,7 @@ router.get('/post/:id', async (req: Request, res: Response) => {
 })
 
 router.delete('/post/:id', async (req: Request, res: Response) => {
-  // @TODO verify the request from certainly admin accont
+  verifyCertainAdmin(req, res)
   try {
     await db.post.destroy({ where: { id: req.params.id } })
     res.status(200).json({ message: 'Delete Successful!' })
@@ -143,49 +140,13 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 })
 
-router.post(
-  '/is_login',
-  (req: Request<_, _, IsLoginRequest>, res: Response<isLoginResponse>) => {
-    const token = req.cookies.token as JWTtoken
-    if (token && req.body.author) {
-      const requestBodyAuthor: IndexSignature<Author> = req.body.author
-      let decriptedAuthor
-      try {
-        decriptedAuthor = jwt.verify(
-          token,
-          process.env.JWT_SECRET as string
-        ) as IndexSignature<JWTpayload>
-      } catch (error) {
-        res.status(200).json({ login: false })
-      }
-      assertIsDefined(decriptedAuthor)
-      if (
-        shallowEqualScalar(
-          requestBodyAuthor,
-          deleteJWTattribute(decriptedAuthor) as IndexSignature<JWTpayload>
-        )
-      ) {
-        res.cookie('token', token, cookieOptions)
-        res.status(200).json({ login: true })
-      } else {
-        Logger.warn('shallowEqualScalar faild.')
-        Logger.info(`decriptedAuthor: ${JSON.stringify(decriptedAuthor)}`)
-        Logger.info(`requestBodyAuthor: ${JSON.stringify(requestBodyAuthor)}`)
-        res.status(200).json({ login: false })
-      }
-    } else {
-      Logger.info("Visitor didn't loged in previos session")
-      res.status(200).json({ login: false })
-    }
-  }
-)
-
 router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
   res.cookie('token', '', { expires: new Date() })
   res.status(200).json({ message: 'Logout Successful' })
 })
 
 router.post('/create', async (req: Request, res: Response) => {
+  verifyCertainAdmin(req, res)
   const { title, body } = req.body
   try {
     const postModelInstance = await db.post.create<PostModel>({
@@ -210,7 +171,7 @@ router.post('/create', async (req: Request, res: Response) => {
 router.post(
   '/update',
   async (req: Request, res: Response, next: NextFunction) => {
-    // @TODO verify the request from certainly admin accont
+    verifyCertainAdmin(req, res)
     const body = req.body
     try {
       await db.post.update(

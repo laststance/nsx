@@ -62,6 +62,7 @@ declare interface PostListResponce {
 declare interface CreatePostRequest {
   title: Post['title']
   body: Post['body']
+  author: Author
 }
 
 /**
@@ -78,6 +79,7 @@ declare interface UpdatePostRequest {
   id: Post['id']
   title: Post['title']
   body: Post['body']
+  author: Author
 }
 declare interface UpdatePostResponse {
   message: 'Post Updated!'

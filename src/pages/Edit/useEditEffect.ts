@@ -4,9 +4,10 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import type React from 'react'
 import { useEffect, useState } from 'react'
 
+import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
-import { useAppDispatch } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 
 const useEditEffect = (
@@ -31,6 +32,7 @@ const useEditEffect = (
   const [title, setTitle] = useState<Post['title']>(data?.title || 'Loading...')
   const [body, setBody] = useState<Post['body']>(data?.body || 'Loading...')
   const dispatch = useAppDispatch()
+  const author = useAppSelector(selectAuthor)
 
   useEffect(() => {
     setTitle(data?.title || 'Loading...')
@@ -62,6 +64,7 @@ const useEditEffect = (
       title,
       body,
       id,
+      author,
     })
 
     if (isSuccess(response) && 'data' in response) {

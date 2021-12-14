@@ -1,13 +1,13 @@
 context('Admin Basic', () => {
   context('Signup & Login & Logout', () => {
-    it('should show signup/login button', () => {
+    it('show signup/login button', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
       cy.$('login-btn').should('exist')
       cy.$('signup-btn').should('exist')
     })
 
-    it('can siginup new email and password finally showing Dashboard Page', () => {
+    it('siginup new email and password finally showing Dashboard page', () => {
       cy.visit('http://localhost:3000/')
       cy.$('signup-btn').click()
       // pageTransition /signup
@@ -34,7 +34,7 @@ context('Admin Basic', () => {
     })
   })
   context('Admin tasks within login', () => {
-    it('should show dashbord/login button', () => {
+    it('show dashbord/login button', () => {
       cy.clearLocalStorage()
       cy.login()
       // should show dashbord/login button
@@ -42,7 +42,7 @@ context('Admin Basic', () => {
       cy.$('logout-btn').should('exist')
     })
     context('CRUD post operation', () => {
-      it('can publish new post', () => {
+      it('publish new post', () => {
         cy.$('blog-title-top-page-link').click()
         cy.$('dashoard-page-transition-link-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard')
@@ -63,7 +63,7 @@ context('Admin Basic', () => {
         cy.$('edit-btn').should('exist')
       })
 
-      it('can edit existing post', () => {
+      it('edit existing post', () => {
         cy.$('blog-title-top-page-link').click()
         cy.logger('Open post that creaed prev test.')
         cy.$('single-post-page-link-1').click()
@@ -82,7 +82,7 @@ context('Admin Basic', () => {
         cy.$('post-page-content-root').contains('Edit Post Contents!')
       })
 
-      it('can delete post', () => {
+      it('delete post', () => {
         cy.$('blog-title-top-page-link').click()
         cy.$('dashoard-page-transition-link-btn').click()
         cy.$('dashboard-page-content-root').contains('Edit Title!')
@@ -91,7 +91,7 @@ context('Admin Basic', () => {
       })
     })
 
-    context('Draft auto saving', () => {
+    context('auto saving draft ', () => {
       it('Still remaing draft post ', () => {
         cy.clearLocalStorage()
         cy.login()

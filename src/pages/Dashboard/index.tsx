@@ -9,6 +9,9 @@ import Button from '../../elements/Button'
 import Loading from '../../elements/Loading'
 import PostDate from '../../elements/PostDate'
 import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
+import { selectAuthor } from '../../redux/adminSlice'
+import { useAppSelector } from '../../redux/hooks'
+import { dispatch } from '../../redux/store'
 
 import { handleDelete } from './handler'
 
@@ -27,6 +30,7 @@ Layout.displayName = 'Layout'
 const Dashboard: React.FC<RouteComponentProps> = memo(() => {
   const { page, totalPage, data, error, isLoading, dispatch, refetch, prevPage, nextPage } /* eslint-disable-line prettier/prettier */
     = usePagination()
+  const author = useAppSelector(selectAuthor)
 
   if (error) {
     return (
@@ -68,7 +72,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
                     <Button variant="inverse">Edit</Button>
                   </Link>
                   <Button
-                    onClick={handleDelete(post.id, refetch)}
+                    onClick={handleDelete(post.id, author, refetch)}
                     variant="danger"
                     data-cy={`delete-btn-${i + 1}`}
                   >
