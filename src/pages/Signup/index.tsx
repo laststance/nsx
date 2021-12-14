@@ -1,8 +1,10 @@
+import { superstructResolver } from '@hookform/resolvers/superstruct'
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
 import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler, FieldValues } from 'react-hook-form'
+import { object } from 'superstruct'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
@@ -12,11 +14,17 @@ import { useSignupReqestMutation } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
+import * as Validator from '../../validator'
 
 interface FormInput extends FieldValues {
   name: Author['name']
   password: Author['password']
 }
+
+const vallidator = object({
+  name: Validator.name,
+  password: Validator.password,
+})
 
 const Signup: React.FC<RouteComponentProps> = memo(() => {
   const dispatch = useAppDispatch()
@@ -25,7 +33,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInput>()
+  } = useForm<FormInput>({ resolver: superstructResolver(vallidator) })
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     const res = await signupRequest({
@@ -58,7 +66,6 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
               type="text"
               name="name"
               register={register}
-              options={{ required: 'name is required' }}
               errors={errors}
               data-cy="name-input"
             />
@@ -78,7 +85,6 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
               type="password"
               name="password"
               register={register}
-              options={{ required: 'password is required' }}
               errors={errors}
               data-cy="password-input"
             />
