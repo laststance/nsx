@@ -50,9 +50,7 @@ const Input: React.FC<Props & InputHTMLAttributes<HTMLInputElement>> = memo(
           )}
         </div>
         {hasError && (
-          <p className="mt-2 text-sm text-red-600">
-            Your password must be less than 4 characters.
-          </p>
+          <p className="mt-2 text-sm text-red-600">{errors[name]?.message}</p>
         )}
       </div>
     )
