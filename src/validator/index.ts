@@ -3,16 +3,21 @@ import { define, object } from 'superstruct'
 
 import { assertCast } from '../lib/assertCast'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const name = define('name', (value, context): Result => {
+// @TODO add certain rules
+export const name = define('name', (value): Result => {
   assertCast<string>(value)
-  return value.length > 4 && value.length < 10 ? false : true
+  return value.trim().length > 1 && value.trim().length < 10
+    ? false
+    : 'name should be 2~9 characters'
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const password = define('password', (value, context): Result => {
+// @TODO add certain rules
+export const password = define('password', (value): Result => {
   assertCast<string>(value)
-  return value.length < 2 ? false : true
+  if (value.trim().length < 2)
+    return 'password must be at least 2 characters long'
+
+  return false
 })
 
 export const signupFormVallidator = object({
