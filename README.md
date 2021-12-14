@@ -7,15 +7,21 @@
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/crud?project_id=17741)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://61b275de4f005a003a58db7b-osuvffitgo.chromatic.com/)
 
-# Project Status: Work in progress and before public release
+# Project Status: currently under development and scheduled for release in 2023.
 The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
-I'm developping essential feature while my spare time, currenty I planning publish v1 2023 early.  
+I'm developping essential feature while my spare time, currenty I planning publish v1 2023.  
 [Roadmap](https://github.com/laststance/crud/projects/1)
 
 # CRUD
 
 Prod ➡️ https://digitalstrength.dev  
 Currently doghooding this project as a Today I Learned mini blog.
+
+But I if you have interest for the implementation code, local development environment is availavle for everyone.  
+
+# Prerequisites
+- node higher than v16
+- docker-compose (native linux or via docker-for-windows, docker-for-mac.
 
 # Getting start local development
 
@@ -30,26 +36,6 @@ Currently doghooding this project as a Today I Learned mini blog.
 ## `yarn start`
 
 Start local front-end dev server by create-react-app.
-
-## `yarn build`
-
-Make production front-end bundle.
-
-## `yarn deploy`
-
-run deploy.sh
-
-```bash
-# only server code
-yarn deploy -s
-
-# only frontend code
-yarn deploy -f
-```
-
-## `yarn workflow:deploy`
-
-all in one command for deploy
 
 ## `yarn test`
 
@@ -66,10 +52,6 @@ Run ESLint on create-react-app.
 ## `yarn lint:fix`
 
 Run ESlint with --fix option on create-react-app.
-
-## `yarn server:build`
-
-Build `backend/` dir Express server.
 
 ## `yarn server:start`
 
@@ -105,21 +87,3 @@ Default false. When true bundle-analizer open and jump new browser tab where sho
 ### JWT_SECRET
 
 set unique and hidden string for jwt.
-
-# Production Operation
-
-### `docker-compose exec db mysql -u root -p`
-
-login mysql with terminal.
-
-## pm2
-
-- `pm2 start eco.system.config.js`
-- `pm2 stop all`
-- `pm2 ps`
-
-check node server status.
-
-## Let's Encrypt
-
-- `certbot certonly` in `/root/letsencript` dir, renew certificate 3 month.
