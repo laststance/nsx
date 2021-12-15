@@ -3,7 +3,7 @@ import express from 'express'
 import type { CookieOptions, NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
-import { verifyCertainAdmin } from './auth'
+import { verifyAuthorized } from './auth'
 import db from './db/models'
 import type AuthorModel from './db/models/authorModel'
 import type PostModel from './db/models/postModel'
@@ -62,7 +62,7 @@ router.get('/post/:id', async (req: Request, res: Response) => {
 })
 
 router.delete('/post/:id', async (req: Request, res: Response) => {
-  verifyCertainAdmin(req, res)
+  verifyAuthorized(req, res)
   try {
     await db.post.destroy({ where: { id: req.params.id } })
     res.status(200).json({ message: 'Delete Successful!' })
@@ -146,7 +146,7 @@ router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
 })
 
 router.post('/create', async (req: Request, res: Response) => {
-  verifyCertainAdmin(req, res)
+  verifyAuthorized(req, res)
   const { title, body } = req.body
   try {
     const postModelInstance = await db.post.create<PostModel>({
@@ -171,7 +171,7 @@ router.post('/create', async (req: Request, res: Response) => {
 router.post(
   '/update',
   async (req: Request, res: Response, next: NextFunction) => {
-    verifyCertainAdmin(req, res)
+    verifyAuthorized(req, res)
     const body = req.body
     try {
       await db.post.update(

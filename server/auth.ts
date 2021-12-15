@@ -8,7 +8,7 @@ import { cookieOptions } from './api'
 import deleteJWTattribute from './lib/deleteJWTattribute'
 import Logger from './lib/Logger'
 
-export const verifyCertainAdmin = (
+export const verifyAuthorized = (
   req: Request,
   res: Response
 ): Response | void => {
