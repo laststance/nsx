@@ -12,7 +12,7 @@ import Logger from './lib/Logger'
 export const cookieOptions: CookieOptions = {
   httpOnly: true,
   secure: true,
-  sameSite: 'lax',
+  sameSite: 'none',
   maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
 }
 
@@ -62,7 +62,8 @@ router.get('/post/:id', async (req: Request, res: Response) => {
 })
 
 router.delete('/post/:id', async (req: Request, res: Response, next) => {
-  verifyAuthorized(req, res, next)
+  if (!verifyAuthorized(req, res, next))
+    res.status(403).json({ message: 'unauthorized' })
   try {
     await db.post.destroy({ where: { id: req.params.id } })
     res.status(200).json({ message: 'Delete Successful!' })

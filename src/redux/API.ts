@@ -50,25 +50,25 @@ export const API = createApi({
       query: ({ id, author }) => ({
         url: `post/${id}/`,
         method: 'DELETE',
-        body: author,
+        body: { author: author },
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Posts', id }],
     }),
 
     createPost: builder.mutation<Post, CreatePostRequest>({
-      query: ({ title, body, author }) => ({
+      query: (values) => ({
         url: 'create',
         method: 'POST',
-        body: { title, body, author },
+        body: values,
       }),
       invalidatesTags: () => [{ type: 'Posts' }],
     }),
 
     updatePost: builder.mutation<UpdatePostResponse, UpdatePostRequest>({
-      query: (param) => ({
+      query: (values) => ({
         url: 'update',
         method: 'POST',
-        body: param,
+        body: values,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Posts', id }],
     }),

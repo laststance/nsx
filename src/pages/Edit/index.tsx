@@ -70,5 +70,6 @@ const Edit: React.FC<RouteComponentProps<RouteParam>> = memo(
     )
   }
 )
+Edit.displayName = 'Edit'
 
 export default Edit

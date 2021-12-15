@@ -1,4 +1,7 @@
 context('Admin Basic', () => {
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('token')
+  })
   context('Signup & Login & Logout', () => {
     it('show signup/login button', () => {
       cy.clearLocalStorage()
