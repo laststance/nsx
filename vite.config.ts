@@ -9,6 +9,7 @@ export default defineConfig({
   },
   server: {
     open: true,
+    host: true,
     proxy: {
       '/api': {
         target: 'http://localhost:4000',
