@@ -3,7 +3,7 @@ import express from 'express'
 import type { CookieOptions, NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
-import { verifyAuthorized } from './auth'
+import { isAuthorized } from './auth'
 import db from './db/models'
 import type AuthorModel from './db/models/authorModel'
 import type PostModel from './db/models/postModel'
@@ -61,9 +61,10 @@ router.get('/post/:id', async (req: Request, res: Response) => {
   res.status(200).json(post)
 })
 
-router.delete('/post/:id', async (req: Request, res: Response, next) => {
-  if (!verifyAuthorized(req, res, next))
-    res.status(403).json({ message: 'unauthorized' })
+router.delete('/post/:id', async (req: Request, res: Response) => {
+  if (!isAuthorized(req, res))
+    return res.status(403).json({ message: 'unauthorized' })
+
   try {
     await db.post.destroy({ where: { id: req.params.id } })
     res.status(200).json({ message: 'Delete Successful!' })
@@ -110,16 +111,13 @@ router.post(
         res.status(500).json({ error: error.message })
       } else {
         Logger.error(error)
-        res
-          .status(500)
-          .json({ error: `something wrong: ${JSON.stringify(error)}` })
+        res.status(500).json({ error: `something wrong: ${JSON.stringify(error)}` }) /* eslint-disable-line prettier/prettier */
       }
     }
   }
 )
 
-router.post('/login', async (req: Request, res: Response) => {
-  const body = req.body
+router.post('/login', async ({ body }: Request, res: Response) => {
   const authorModelInstance = await db.author.findOne<AuthorModel>({
     where: { name: body.name },
   })
@@ -128,7 +126,7 @@ router.post('/login', async (req: Request, res: Response) => {
     const isValidPassword = await bcrypt.compare(body.password, author.password)
 
     if (isValidPassword) {
-      const token = jwt.sign(author, process.env.JWT_SECRET as string)
+      const token: JWTtoken = jwt.sign(author, process.env.JWT_SECRET as string)
       res.cookie('token', token, cookieOptions)
       res.status(200).json(author)
     } else {
@@ -146,36 +144,35 @@ router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
   res.status(200).json({ message: 'Logout Successful' })
 })
 
-router.post(
-  '/create',
-  async (req: Request, res: Response, next: NextFunction) => {
-    verifyAuthorized(req, res, next)
-    const { title, body } = req.body
-    try {
-      const postModelInstance = await db.post.create<PostModel>({
-        title: title,
-        body: body,
-      })
-      const post = postModelInstance.toJSON()
-      res.status(201).json(post)
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        Logger.error(error)
-        res.status(500).json({ error: error.message })
-      } else {
-        Logger.error(error)
-        res
-          .status(500)
-          .json({ error: `something wrong: ${JSON.stringify(error)}` })
-      }
+router.post('/create', async (req: Request, res: Response) => {
+  if (!isAuthorized(req, res))
+    return res.status(403).json({ message: 'unauthorized' })
+
+  const { title, body } = req.body
+  try {
+    const postModelInstance = await db.post.create<PostModel>({
+      title: title,
+      body: body,
+    })
+    const post = postModelInstance.toJSON()
+    res.status(201).json(post)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(error)
+      res.status(500).json({ error: error.message })
+    } else {
+      Logger.error(error)
+      res.status(500).json({ error: `something wrong: ${JSON.stringify(error)}` }) /* eslint-disable-line prettier/prettier */
     }
   }
-)
+})
 
 router.post(
   '/update',
   async (req: Request, res: Response, next: NextFunction) => {
-    verifyAuthorized(req, res, next)
+    if (!isAuthorized(req, res))
+      return res.status(403).json({ message: 'unauthorized' })
+
     const body = req.body
     try {
       await db.post.update(

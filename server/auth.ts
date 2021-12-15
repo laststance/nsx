@@ -7,41 +7,33 @@ import shallowEqualScalar from '../src/lib/shallowEqualScalar'
 import deleteJWTattribute from './lib/deleteJWTattribute'
 import Logger from './lib/Logger'
 
-export const verifyAuthorized = (
-  req: Request,
-  res: Response
-  // next: NextFunction
-): Response | boolean => {
+export const isAuthorized = (req: Request, res: Response): boolean => {
   const token = req.cookies.token as JWTtoken
   if (token && req.body.author) {
-    const requestBodyAuthor: IndexSignature<Author> = req.body.author
-    let decriptedAuthor
+    const author: IndexSignature<Author> = req.body.author
+    let decripted
 
     Logger.info('if (token && req.body.author) {')
     Logger.info('req.body.author: ' + JSON.stringify(req.body.author))
     Logger.info('req.cookies.token: ' + req.cookies.token)
 
     try {
-      decriptedAuthor = jwt.verify(
-        token,
-        process.env.JWT_SECRET as string
-      ) as IndexSignature<JWTpayload>
+      decripted = jwt.verify(token, process.env.JWT_SECRET as string) as IndexSignature<JWTpayload> /* eslint-disable-line prettier/prettier */
+
     } catch (error) {
+      Logger.error('faild jwt.verify()')
+      Logger.error('decripted ' + JSON.stringify(decripted))
+      Logger.error('token: ')
       Logger.error(error)
-      return res.status(200).json({ login: false })
     }
-    assertIsDefined(decriptedAuthor)
-    if (
-      shallowEqualScalar(
-        requestBodyAuthor,
-        deleteJWTattribute(decriptedAuthor) as IndexSignature<JWTpayload>
-      )
-    ) {
+    assertIsDefined(decripted)
+    if (shallowEqualScalar(author, deleteJWTattribute(decripted) as IndexSignature<JWTpayload>)) { /* eslint-disable-line prettier/prettier */
+      // Verified
       return true
     } else {
       Logger.warn('shallowEqualScalar faild.')
-      Logger.info(`decriptedAuthor: ${JSON.stringify(decriptedAuthor)}`)
-      Logger.info(`requestBodyAuthor: ${JSON.stringify(requestBodyAuthor)}`)
+      Logger.info(`decripted: ${JSON.stringify(decripted)}`)
+      Logger.info(`author: ${JSON.stringify(author)}`)
       res.status(403).json({ error: 'miss match token' })
       return false
     }
