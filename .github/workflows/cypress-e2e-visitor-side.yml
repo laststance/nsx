@@ -2,10 +2,10 @@ name: Cypress-E2E Visitor Side
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 jobs:
   cypress-e2e-visitor-side:
     runs-on: ubuntu-latest
