@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "baseUrl": "..",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "sourceMap": true,
+    "outDir": "../server_build"
+  },
+  "include": [
+    "db",
+    "lib",
+    "index.ts",
+    "api.ts",
+    "auth.ts",
+    "../@types",
+    "../src/lib"
+  ],
+  "exclude": []
+}
