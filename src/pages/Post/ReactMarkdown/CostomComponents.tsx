@@ -3,7 +3,7 @@ import React, { lazy } from 'react'
 
 const a: React.FC = (props) => (
   // eslint-disable-next-line jsx-a11y/anchor-has-content
-  <a {...props} target="_blank" className="text-blue-700"></a>
+  <a {...props} target="_blank"></a>
 )
 // This is cumtom <code/> tag component for pass <ReactMarkdown compoment={{code}} /> props
 const code = lazy(
