@@ -61,8 +61,8 @@ router.get('/post/:id', async (req: Request, res: Response) => {
   res.status(200).json(post)
 })
 
-router.delete('/post/:id', async (req: Request, res: Response) => {
-  verifyAuthorized(req, res)
+router.delete('/post/:id', async (req: Request, res: Response, next) => {
+  verifyAuthorized(req, res, next)
   try {
     await db.post.destroy({ where: { id: req.params.id } })
     res.status(200).json({ message: 'Delete Successful!' })
@@ -145,33 +145,36 @@ router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
   res.status(200).json({ message: 'Logout Successful' })
 })
 
-router.post('/create', async (req: Request, res: Response) => {
-  verifyAuthorized(req, res)
-  const { title, body } = req.body
-  try {
-    const postModelInstance = await db.post.create<PostModel>({
-      title: title,
-      body: body,
-    })
-    const post = postModelInstance.toJSON()
-    res.status(201).json(post)
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      Logger.error(error)
-      res.status(500).json({ error: error.message })
-    } else {
-      Logger.error(error)
-      res
-        .status(500)
-        .json({ error: `something wrong: ${JSON.stringify(error)}` })
+router.post(
+  '/create',
+  async (req: Request, res: Response, next: NextFunction) => {
+    verifyAuthorized(req, res, next)
+    const { title, body } = req.body
+    try {
+      const postModelInstance = await db.post.create<PostModel>({
+        title: title,
+        body: body,
+      })
+      const post = postModelInstance.toJSON()
+      res.status(201).json(post)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Logger.error(error)
+        res.status(500).json({ error: error.message })
+      } else {
+        Logger.error(error)
+        res
+          .status(500)
+          .json({ error: `something wrong: ${JSON.stringify(error)}` })
+      }
     }
   }
-})
+)
 
 router.post(
   '/update',
   async (req: Request, res: Response, next: NextFunction) => {
-    verifyAuthorized(req, res)
+    verifyAuthorized(req, res, next)
     const body = req.body
     try {
       await db.post.update(

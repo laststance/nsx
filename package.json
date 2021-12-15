@@ -120,7 +120,7 @@
   },
   "scripts": {
     "start": "scripts/set_dev_env.sh && vite",
-    "build": "scripts/set_prod_env.sh && tsc && vite build",
+    "build": "scripts/set_prod_env.sh && vite build",
     "serve": "vite preview",
     "test": "jest",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx",

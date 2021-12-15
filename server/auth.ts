@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
 import { assertIsDefined } from '../src/lib/assertIsDefined'
@@ -10,7 +10,8 @@ import Logger from './lib/Logger'
 
 export const verifyAuthorized = (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Response | void => {
   const token = req.cookies.token as JWTtoken
   if (token && req.body.author) {
@@ -38,10 +39,14 @@ export const verifyAuthorized = (
       Logger.warn('shallowEqualScalar faild.')
       Logger.info(`decriptedAuthor: ${JSON.stringify(decriptedAuthor)}`)
       Logger.info(`requestBodyAuthor: ${JSON.stringify(requestBodyAuthor)}`)
-      return res.status(403).json({ error: 'miss match token' })
+      res.status(403).json({ error: 'miss match token' })
+      next()
     }
   } else {
     Logger.info('Access from unexped route')
-    return res.status(403).json({ error: 'something wrong' })
+    Logger.info('token: ' + token)
+    Logger.info('req.cookies.token: ' + req.cookies.token)
+    return res.status(403).json({ error: 'false: token && req.body.author' })
+    next()
   }
 }
