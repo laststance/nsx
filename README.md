@@ -59,7 +59,8 @@ Run ESlint with --fix option on create-react-app.
 
 generate password hash.
 
-## CRA environment variables
+
+## Enviroment Variables
 
 These are storing `.env` and evaluate at build time.
 
@@ -75,14 +76,6 @@ These are storing `.env` and evaluate at build time.
 Default false.  
 Show each page link button at the `/` page.  
 These only need initial setup of production admin user.
-
-### VITE_BUNDLE_ANALYZER=false|true
-
-Default false. Switch enable|disable bundle-analyzer.
-
-### VITE_INTERACTIVE_ANALYZE=false|true
-
-Default false. When true bundle-analizer open and jump new browser tab where showing bundle size graph.
 
 ### JWT_SECRET
 
