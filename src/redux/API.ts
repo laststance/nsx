@@ -6,8 +6,6 @@ interface UserIdPassword {
   password: Author['password']
 }
 
-console.log(endpoint)
-
 // Define a service using a base URL and expected endpoints
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const requestInfo = Object.defineProperty({}, 'credentials', {
