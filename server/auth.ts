@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
 import { assertIsDefined } from '../src/lib/assertIsDefined'
@@ -9,8 +9,8 @@ import Logger from './lib/Logger'
 
 export const verifyAuthorized = (
   req: Request,
-  res: Response,
-  next: NextFunction
+  res: Response
+  // next: NextFunction
 ): Response | boolean => {
   const token = req.cookies.token as JWTtoken
   if (token && req.body.author) {

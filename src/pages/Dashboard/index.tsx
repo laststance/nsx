@@ -3,7 +3,7 @@ import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
 
 import BaseLayout from '../../components/Layout'
-import PagenationPanel from '../../components/pagination/PagenationPanel'
+import PagenationButtonGroup from '../../components/pagination/PagenationButtonGroup'
 import usePagination from '../../components/pagination/usePagination'
 import Button from '../../elements/Button'
 import Loading from '../../elements/Loading'
@@ -89,7 +89,7 @@ const Dashboard: React.FC<RouteComponentProps> = memo(() => {
             </Button>
           </Link>
         </div>
-        <PagenationPanel
+        <PagenationButtonGroup
           page={page}
           totalPage={totalPage}
           dispatch={dispatch}

@@ -14,7 +14,7 @@ interface Props {
   nextPage: UsePagenationResult['nextPage']
 }
 
-const PagenationPanel: React.FC<Props> = memo(
+const PagenationButtonGroup: React.FC<Props> = memo(
   ({ page, totalPage, dispatch, prevPage, nextPage }) => (
     <div className="flex items-center justify-center p-8 px-10 space-x-4">
       <ArrowButton
@@ -33,6 +33,6 @@ const PagenationPanel: React.FC<Props> = memo(
     </div>
   )
 )
-PagenationPanel.displayName = 'PagenationPanel'
+PagenationButtonGroup.displayName = 'PagenationButtonGroup'
 
-export default PagenationPanel
+export default PagenationButtonGroup

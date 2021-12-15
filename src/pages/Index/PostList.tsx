@@ -1,7 +1,7 @@
 import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
-import PagenationPanel from '../../components/pagination/PagenationPanel'
+import PagenationButtonGroup from '../../components/pagination/PagenationButtonGroup'
 import usePagination from '../../components/pagination/usePagination'
 import Loading from '../../elements/Loading'
 import PostDate from '../../elements/PostDate'
@@ -43,7 +43,7 @@ const PostList: React.FC = memo(() => {
           )
         })}
       </ul>
-      <PagenationPanel
+      <PagenationButtonGroup
         page={page}
         totalPage={totalPage}
         dispatch={dispatch}
