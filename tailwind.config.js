@@ -2,7 +2,6 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './src/index.html'],
-  darkMode: 'media', // or 'media' or 'class'
   theme: {
     screens: {
       sm: '640px',
@@ -16,12 +15,6 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
-    },
-  },
-  variants: {
-    extend: {
-      backgroundColor: ['active'],
-      opacity: ['disabled'],
     },
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
