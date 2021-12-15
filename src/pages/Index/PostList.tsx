@@ -1,8 +1,8 @@
 import { Link } from '@reach/router'
 import React, { memo } from 'react'
 
-import PagenationButtonGroup from '../../components/pagination/PagenationButtonGroup'
-import usePagination from '../../components/pagination/usePagination'
+import ButtonGroup from '../../components/Pagination/ButtonGroup'
+import usePagination from '../../components/Pagination/usePagination'
 import Loading from '../../elements/Loading'
 import PostDate from '../../elements/PostDate'
 import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
@@ -43,7 +43,7 @@ const PostList: React.FC = memo(() => {
           )
         })}
       </ul>
-      <PagenationButtonGroup
+      <ButtonGroup
         page={page}
         totalPage={totalPage}
         dispatch={dispatch}
