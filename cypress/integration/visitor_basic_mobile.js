@@ -35,6 +35,7 @@ context('Visitor Basic', () => {
     cy.visit('http://localhost:3000/')
     // 07/27/21 React Rush
     cy.$('single-post-page-link-15').should('exist').click()
+    cy.wait(3000)
     cy.$('post-page-content-root')
       .should('exist')
       .should('contain', 'using __proto__')
