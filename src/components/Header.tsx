@@ -21,7 +21,7 @@ const Header = memo(
             <div className="hover:text-gray-300 text-lg">about</div>
           </Link>
           <a
-            href="https://github.com/laststance/crud"
+            href="https://github.com/laststance/nsx"
             target="_blank"
             rel="noreferrer"
           >
