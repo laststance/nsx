@@ -7,10 +7,10 @@
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/nsx?project_id=17741)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://61b275de4f005a003a58db7b-osuvffitgo.chromatic.com/)
 
-# Project Status: currently under development and scheduled for release in 2023.
-The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
-I'm developping essential feature while my spare time, currenty I planning publish v1 2023.  
-[Roadmap](https://github.com/laststance/nsx/projects/1)
+> # Project Status: currently under development and scheduled for release in 2023.
+> The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
+> I'm developping essential feature while my spare time, currenty I planning publish v1 2023.  
+> [Roadmap](https://github.com/laststance/nsx/projects/1)
 
 # NSX
 
