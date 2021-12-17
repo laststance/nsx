@@ -1,5 +1,5 @@
-import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
+import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
@@ -32,6 +32,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(API.middleware),
+  devTools: process.env.NODE_ENV === 'development' ? true : false,
 })
 
 setupListeners(store.dispatch)
