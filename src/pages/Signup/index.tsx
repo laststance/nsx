@@ -5,6 +5,7 @@ import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler, FieldValues } from 'react-hook-form'
 
+import { signupFormVallidator } from '../../../validator'
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
 import Input from '../../elements/Input'
@@ -13,7 +14,6 @@ import { useSignupReqestMutation } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
-import { signupFormVallidator } from '../../validator'
 
 interface FormInput extends FieldValues {
   name: Author['name']
