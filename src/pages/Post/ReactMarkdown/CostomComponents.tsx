@@ -1,20 +1,21 @@
-// This is cumtom <a/> tag component for pass <ReactMarkdown compoment={{a}} /> props
-import React, { lazy } from 'react'
+import React from 'react'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
-const a: React.FC = (props) => (
+export const a: React.FC = (props) => (
   // eslint-disable-next-line jsx-a11y/anchor-has-content
   <a {...props} target="_blank"></a>
 )
-// This is cumtom <code/> tag component for pass <ReactMarkdown compoment={{code}} /> props
-const code = lazy(
-  // <code/> depends on heavy hintaxhilight library so we lazyload for purpose of reduce bundle chunk size
-  () =>
-    // @ts-ignore @TODO react-syntax-highlighter typedef issue
-    import(/* webpackChunkName: "code" */ '../../../elements/code')
-)
-// we only load <code/> if blog post containing Markdown for purpose of reduce bundle chunk size
-export const getCustomComponents = (data?: {
-  body: string | string[]
-}): any => {
-  return data?.body?.includes('```') ? { a, code } : { a }
+
+// @ts-ignore
+export const code: React.FC = ({ inline, className, children }) => {
+  const match = /language-(\w+)/.exec(className || '')
+  return !inline && match ? (
+    <SyntaxHighlighter
+      language={match[1]}
+      PreTag="div"
+      children={String(children).replace(/\n$/, '')}
+    />
+  ) : (
+    <code className={className}>{children}</code>
+  )
 }
