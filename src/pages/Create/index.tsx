@@ -31,9 +31,9 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
       author,
     })
     if (isSuccess(post) && 'data' in post) {
+      dispatch(loaded())
       dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))
       dispatch(clearDraft())
-      dispatch(loaded())
 
       navigate(`/post/${post.data.id}`)
     }
