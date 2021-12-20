@@ -1,5 +1,5 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react'
-import React from 'react'
+import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 
 import Input from './Input'
@@ -17,7 +17,7 @@ interface formInputValue {
   email: string
 }
 
-const InputGroup: React.FC = (props) => {
+const InputGroup: React.FC = memo((props) => {
   const {
     register,
     formState: { errors },
@@ -34,7 +34,7 @@ const InputGroup: React.FC = (props) => {
       {...props}
     />
   )
-}
+})
 
 const Template: ComponentStory<typeof Input> = (props) => (
   <InputGroup {...props} />
