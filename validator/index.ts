@@ -29,3 +29,20 @@ export const loginFormValidator = object({
   name: name,
   password: password,
 })
+
+export const title = define<Post['title']>('title', (value): Result => {
+  assertCast<string>(value)
+  return value.trim().length > 0 && value.trim().length < 100
+    ? true
+    : 'title should be 1~100 characters'
+})
+
+export const body = define<Post['body']>('body', (value): Result => {
+  assertCast<string>(value)
+  return value.trim().length > 0 ? true : 'post body is requred'
+})
+
+export const createPostFormValidator = object({
+  title: title,
+  body: body,
+})
