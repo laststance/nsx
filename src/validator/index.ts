@@ -12,10 +12,9 @@ export const name = define('name', (value): Result => {
 
 export const password = define('password', (value): Result => {
   assertCast<string>(value)
-  if (value.trim().length > 6 && value.trim().length < 100)
-    return 'password must be at least 6 characters long'
-
-  return true
+  return value.trim().length > 6 && value.trim().length < 100
+    ? true
+    : 'password must be at least 6 characters long'
 })
 
 export const signupFormVallidator = object({
