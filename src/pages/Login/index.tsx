@@ -1,39 +1,38 @@
+import { superstructResolver } from '@hookform/resolvers/superstruct'
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-import type { ChangeEvent, FormEvent } from 'react'
-import React, { useState, memo } from 'react'
+import React, { memo } from 'react'
+import { useForm } from 'react-hook-form'
+import type { SubmitHandler, FieldValues } from 'react-hook-form'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
+import Input from '../../elements/Input'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
+import { loginFormValidator } from '../../validator'
 
-interface FormInputState {
+interface FormInput extends FieldValues {
   name: Author['name']
   password: Author['password']
 }
 
 const Login: React.FC<RouteComponentProps> = memo(() => {
   const [loginReqest] = API.endpoints.loginReqest.useMutation()
-  const [formInput, setFormInput] = useState<FormInputState>({
-    name: '',
-    password: '',
-  })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInput>({ resolver: superstructResolver(loginFormValidator) })
   const dispatch = useAppDispatch()
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormInput({ ...formInput, [e.target.name]: e.target.value })
-  }
-
-  const handleLogin = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault()
-
+  const onSubmit: SubmitHandler<FormInput> = async (data) => {
     const res = await loginReqest({
-      name: formInput.name,
-      password: formInput.password,
+      name: data.name,
+      password: data.password,
     })
 
     if (isSuccess(res) && 'data' in res) {
@@ -54,7 +53,7 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
   return (
     <Layout>
       <h1 className="mb-3 text-3xl">Login</h1>
-      <form className="w-full max-w-sm" onSubmit={(e) => handleLogin(e)}>
+      <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
             <label
@@ -65,13 +64,11 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
             </label>
           </div>
           <div className="md:w-2/3">
-            <input
-              className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
-              id="name"
+            <Input
               type="text"
               name="name"
-              onChange={(e) => handleChange(e)}
-              value={formInput.name}
+              register={register}
+              errors={errors}
               data-cy="name-input"
             />
           </div>
@@ -86,12 +83,11 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
             </label>
           </div>
           <div className="md:w-2/3">
-            <input
-              className="focus:outline-none focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
-              id="password"
+            <Input
               type="password"
               name="password"
-              onChange={(e) => handleChange(e)}
+              register={register}
+              errors={errors}
               data-cy="password-input"
             />
           </div>

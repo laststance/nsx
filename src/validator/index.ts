@@ -21,3 +21,8 @@ export const signupFormVallidator = object({
   name: name,
   password: password,
 })
+
+export const loginFormValidator = object({
+  name: name,
+  password: password,
+})
