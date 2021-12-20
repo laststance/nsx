@@ -1,11 +1,12 @@
 import type { RouteComponentProps } from '@reach/router'
 import { navigate } from '@reach/router'
-import React, { useState, memo } from 'react'
+import React, { memo } from 'react'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
 import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
+import { loaded, loading, selectLoading } from '../../redux/applicationSlice'
 import { clearDraft, selectBody, selectTitle } from '../../redux/draftSlice'
 import isSuccess from '../../redux/helper/isSuccess'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
@@ -16,15 +17,14 @@ import { handleBodyChange, handleTitleChange } from './handlers'
 const Create: React.FC<RouteComponentProps> = memo(() => {
   const [createPost] = API.endpoints.createPost.useMutation()
 
-  // @TODO avoid complex implemantation with useStrate() spaming
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const isSubmitting = useAppSelector(selectLoading)
   const title = useAppSelector(selectTitle)
   const body = useAppSelector(selectBody)
   const author = useAppSelector(selectAuthor)
   const dispatch = useAppDispatch()
 
   async function handleSubmit() {
-    setIsSubmitting(() => true)
+    dispatch(loading())
     const post = await createPost({
       title,
       body,
@@ -33,7 +33,7 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
     if (isSuccess(post) && 'data' in post) {
       dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))
       dispatch(clearDraft())
-      setIsSubmitting(() => false)
+      dispatch(loaded())
 
       navigate(`/post/${post.data.id}`)
     }

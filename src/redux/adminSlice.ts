@@ -20,7 +20,7 @@ const initialState = {
 }
 
 export const adminSlice = createSlice({
-  name: 'login',
+  name: 'admin',
   initialState,
   reducers: {
     login: (state, action: PayloadAction<Author>) => {
