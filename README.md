@@ -33,32 +33,51 @@ But I if you have interest for the implementation code, local development enviro
 
 # NPM Scripts
 
-## `yarn start`
-
-Start local front-end dev server by create-react-app.
-
 ## `yarn test`
 
-Run create-react-app tests.
+Run jest.
 
 ## `yarn typecheck`
+## `yarn server:typecheck`
+## `yarn typeckeck:all`
 
-TypeScript type check in front-end.
+TypeScript type check.
 
 ## `yarn lint`
 
-Run ESLint on create-react-app.
+Run ESLint front & server
 
 ## `yarn lint:fix`
 
-Run ESlint with --fix option on create-react-app.
-
-## `yarn server:start`
+Run ESlint front & server with --fix option
 
 ## `yarn db:hashgen`
 
-generate password hash.
+cli password hash generator
 
+## `yarn storybook`
+## `yarn storybook-build`
+
+## `yarn open:cy`
+open [Cypress](https://www.cypress.io/)
+
+## `yarn e2e:admin`
+run [Cypress](https://www.cypress.io/)  
+Must be set this within `.env`
+
+```
+VITE_ENABLE_SIGNUP=true
+VITE_ENABLE_LOGIN=true
+```
+
+## `yarn e2e:visitor`
+run [Cypress](https://www.cypress.io/)  
+Must be set this within `.env`
+
+```
+VITE_ENABLE_SIGNUP=false
+VITE_ENABLE_LOGIN=false
+```
 
 ## Enviroment Variables
 
