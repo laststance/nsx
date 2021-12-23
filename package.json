@@ -129,14 +129,13 @@
     "typecheck": "tsc --noEmit",
     "all:typecheck": "yarn typecheck && yarn server:typecheck",
     "server:typecheck": "tsc --noEmit -p server/tsconfig.json",
-    "prettier": "prettier --write src/**/*.css .github/**/*.yml package.json .eslintrc index.html tsconfig.json README.md",
+    "format": "prettier --write src/**/*.css .github/**/*.yml package.json .eslintrc index.html tsconfig.json README.md",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "deploy": "bash scripts/deploy.sh",
-    "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "server:start": "cross-env NODE_ENV=development nodemon --ext ts,js --watch 'server/index.ts' --ignore './src' --exec ts-node --files --project server/tsconfig.json server/index.ts",
     "server:build": "tsc -p server/tsconfig.json && cp -r server/db/migrations server_build && cp server/db/config.json server_build/server/db/config.json",
-    "server:deploy": "bash scripts/deploy.sh -s",
+    "deploy": "bash scripts/deploy.sh",
+    "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "db:hashgen": "node server/db/scripts/passhashgen.js",
     "db:reset": "yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed:all",
     "db:create": "sequelize db:create",
@@ -149,7 +148,7 @@
     "cy:open": "cypress open",
     "e2e:admin": "cypress run --headed --spec cypress/integration/admin_basic.js",
     "e2e:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
-    "e2e:headless:admin:firefox": "cypress run -b firefox --spec cypress/integration/admin_basic.js",
-    "e2e:headless:visitor:firefox": "cypress run -b firefox --spec cypress/integration/visitor_basic.js"
+    "e2e:admin:firefox": "cypress run --headed -b firefox --spec cypress/integration/admin_basic.js",
+    "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/integration/visitor_basic.js"
   }
 }
