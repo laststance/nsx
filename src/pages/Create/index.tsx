@@ -37,6 +37,7 @@ const Create: React.FC<RouteComponentProps> = memo(() => {
 
       navigate(`/post/${post.data.id}`)
     }
+    dispatch(loaded())
   }
 
   return (
