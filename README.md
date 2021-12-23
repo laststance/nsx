@@ -28,35 +28,18 @@ But I if you have interest for the implementation code, local development enviro
 1. `yarn install`
 2. `docker-compose up -d`
 3. `yarn db:reset`
-4. `yarn start`
-5. `yarn server:start`
+4. `yarn all:typecheck`
+5. `yarn test`
+6. `yarn lint`
+7. `yarn build`
+8. `yarn server:build`
+9. `cp .env.admin .env`
+10. `yarn e2e:admin`
+11. `cp .env.visitor .env`
+12. `yarn e2e:visitor`
+13. `yarn server:start`
+14. `yarn start`
 
-# NPM Scripts
-
-## `yarn test`
-
-Run jest.
-
-## `yarn typecheck`
-## `yarn server:typecheck`
-## `yarn typeckeck:all`
-
-TypeScript type check.
-
-## `yarn lint`
-
-Run ESLint front & server
-
-## `yarn lint:fix`
-
-Run ESlint front & server with --fix option
-
-## `yarn db:hashgen`
-
-cli password hash generator
-
-## `yarn storybook`
-## `yarn storybook-build`
 
 ## `yarn open:cy`
 open [Cypress](https://www.cypress.io/)
