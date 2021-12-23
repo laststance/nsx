@@ -8,6 +8,7 @@
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://main--61c089c06b3b4d003adde63b.chromatic.com)
 
 > # Project Status: currently under development and scheduled for release in 2023.
+>
 > The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
 > I'm developping essential feature while my spare time, currenty I planning publish v1 2023.  
 > [Roadmap](https://github.com/laststance/nsx/projects/1)
@@ -17,9 +18,10 @@
 Prod ➡️ https://digitalstrength.dev  
 Currently doghooding this project as a Today I Learned mini blog.
 
-But I if you have interest for the implementation code, local development environment is availavle for everyone.  
+But I if you have interest for the implementation code, local development environment is availavle for everyone.
 
 # Prerequisites
+
 - node higher than v16
 - docker-compose (native linux or via docker-for-windows, docker-for-mac.
 
@@ -40,11 +42,12 @@ But I if you have interest for the implementation code, local development enviro
 13. `yarn server:start`
 14. `yarn start`
 
-
 ## `yarn open:cy`
+
 open [Cypress](https://www.cypress.io/)
 
 ## `yarn e2e:admin`
+
 run [Cypress](https://www.cypress.io/)  
 Must be set this within `.env`
 
@@ -54,6 +57,7 @@ VITE_ENABLE_LOGIN=true
 ```
 
 ## `yarn e2e:visitor`
+
 run [Cypress](https://www.cypress.io/)  
 Must be set this within `.env`
 

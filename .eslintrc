@@ -30,12 +30,7 @@
     },
     "import/resolver": {
       "node": {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       },
       "typescript": {}
     }
@@ -46,8 +41,7 @@
     "react-hooks/rules-of-hooks": "error",
     "prettier/prettier": [
       "warn",
-      {
-      },
+      {},
       {
         "properties": {
           "usePrettierrc": true
@@ -87,22 +81,14 @@
   },
   "overrides": [
     {
-      "files": [
-        "*.js"
-      ],
+      "files": ["*.js"],
       "rules": {
-        "@typescript-eslint/explicit-module-boundary-types": [
-          "off"
-        ],
-        "@typescript-eslint/no-var-requires": [
-          "off"
-        ]
+        "@typescript-eslint/explicit-module-boundary-types": ["off"],
+        "@typescript-eslint/no-var-requires": ["off"]
       }
     },
     {
-      "files": [
-        "**/*.stories.*"
-      ],
+      "files": ["**/*.stories.*"],
       "rules": {
         "import/no-anonymous-default-export": "off"
       }
