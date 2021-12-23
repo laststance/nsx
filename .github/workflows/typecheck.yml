@@ -15,4 +15,4 @@ jobs:
         with:
           node-version: '16.9'
       - run: yarn install
-      - run: yarn typecheck
+      - run: yarn all:typecheck
