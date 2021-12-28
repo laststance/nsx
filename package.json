@@ -136,6 +136,7 @@
     "server:build": "tsc -p server/tsconfig.json && cp -r server/db/migrations server_build && cp server/db/config.json server_build/server/db/config.json",
     "deploy": "bash scripts/deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
+    "validate": "./scripts/validate",
     "db:hashgen": "node server/db/scripts/passhashgen.js",
     "db:reset": "yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed:all",
     "db:create": "sequelize db:create",
