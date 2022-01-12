@@ -1,6 +1,7 @@
-// @ts-nocheck
 import React from 'react'
 import parse from 'style-to-object'
+
+import icon from './icon.svg'
 
 const SuccessCard = () => (
   <div
@@ -13,7 +14,9 @@ const SuccessCard = () => (
     <div
       className="flex px-0 py-2 mr-3 text-xl leading-8 text-green-600"
       style={parse('opacity: 0.9;')}
-    ></div>
+    >
+      <img src={icon} alt="icon" />
+    </div>
     <div className="px-0 py-2 leading-5">
       <div className="mx-0 mb-1 -mt-px text-sm font-bold leading-normal">
         Thanks! Check your email.
