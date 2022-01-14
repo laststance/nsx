@@ -1,28 +1,50 @@
-// @ts-nocheck
-import React from 'react'
-import parse from 'style-to-object'
+import type { RouteComponentProps } from '@reach/router'
+import React, { memo } from 'react'
 
-const SuccessCard = () => (
-  <div
-    className="bg-none flex px-4 py-1 mb-2 font-sans text-sm font-normal leading-normal tracking-normal text-green-200 bg-gray-800 shadow-none"
-    role="alert"
-    style={parse(
-      'transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; border-radius: 10px;'
-    )}
-  >
-    <div
-      className="flex px-0 py-2 mr-3 text-xl leading-8 text-green-600"
-      style={parse('opacity: 0.9;')}
-    ></div>
-    <div className="px-0 py-2 leading-5">
-      <div className="mx-0 mb-1 -mt-px text-sm font-bold leading-normal">
-        Thanks! Check your email.
-      </div>
-      You should get a <strong className="font-bold">confirmation email</strong>{' '}
-      soon. Open it up and confirm your email address so that we can keep you up
-      to date.
-    </div>
-  </div>
+import Layout from '../../components/Layout'
+
+const About = memo<RouteComponentProps>(
+  () => (
+    <Layout>
+      <h1 className="pt-4 pb-6 text-3xl">About</h1>
+      <section className="space-y-4 text-xl leading-8">
+        <p>
+          This is just a garbage blog written by{' '}
+          <a
+            href="https://ryota-murakami.github.io/"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:underline font-medium leading-6 no-underline"
+          >
+            Ryota Murakami
+          </a>
+          .
+          <br />
+          Web Dev things only.
+        </p>
+        <p>
+          Although it's save me sometimes from depression(aka Impostor
+          syndrome). <br />
+          That even random and cursory notes, however sometimes that useful to
+          remember the Web Dev activities you've done.
+        </p>
+        <p>
+          This is a part of{' '}
+          <a
+            href="https://laststance.io/"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:underline font-medium leading-6 no-underline"
+          >
+            Laststance.io
+          </a>{' '}
+          projects.
+        </p>
+      </section>
+    </Layout>
+  ),
+  () => true
 )
+About.displayName = 'About'
 
-export default SuccessCard
+export default About
