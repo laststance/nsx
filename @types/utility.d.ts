@@ -6,12 +6,6 @@ declare type NonOptionalKeys<T> = {
   [K in keyof T]-?: undefined extends T[K] ? never : K
 }[keyof T]
 
-declare type HasRequiredProps<T, True, False> = NonOptionalKeys<T> extends never
-  ? False
-  : True
-
-declare type OptionalIfAllPropsOptional<T> = HasRequiredProps<T, T, T | never>
-
 declare type NoInfer<T> = [T][T extends any ? 0 : never]
 
 declare type MaybePromise<T> = T | PromiseLike<T>
