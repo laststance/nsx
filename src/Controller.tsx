@@ -1,7 +1,6 @@
-import React, { lazy, memo, Suspense } from 'react'
+import React, { lazy, memo } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Loading from './elements/Loading'
 import About from './pages/About'
 import Index from './pages/Index'
 import Post from './pages/Post'
@@ -15,27 +14,25 @@ const Create = lazy(() => import('./pages/Create'))
 const Edit = lazy(() => import('./pages/Edit'))
 
 const Controller = memo(() => (
-  <Suspense fallback={<Loading />}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="post/:postId" element={<Post />} />
-        <Route path="about" element={<About />} />
-        {import.meta.env['VITE_ENABLE_SIGNUP'] === 'true' && (
-          <Route path="signup" element={<Signup />} />
-        )}
-        {import.meta.env['VITE_ENABLE_LOGIN'] === 'true' && (
-          <Route path="login" element={<Login />} />
-        )}
-        <Route path="dashboard" element={<Private />}>
-          <Route index element={<Dashboard />} />
-          <Route path="create" element={<Create />} />
-          <Route path="edit/:postId" element={<Edit />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  </Suspense>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="post/:postId" element={<Post />} />
+      <Route path="about" element={<About />} />
+      {import.meta.env['VITE_ENABLE_SIGNUP'] === 'true' && (
+        <Route path="signup" element={<Signup />} />
+      )}
+      {import.meta.env['VITE_ENABLE_LOGIN'] === 'true' && (
+        <Route path="login" element={<Login />} />
+      )}
+      <Route path="dashboard" element={<Private />}>
+        <Route index element={<Dashboard />} />
+        <Route path="create" element={<Create />} />
+        <Route path="edit/:postId" element={<Edit />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </BrowserRouter>
 ))
 Controller.displayName = 'Controller'
 
