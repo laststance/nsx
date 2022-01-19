@@ -1,9 +1,8 @@
-import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
 
 import Layout from '../../components/Layout'
 
-const About = memo<RouteComponentProps>(
+const About = memo(
   () => (
     <Layout>
       <h1 className="pt-4 pb-6 text-3xl">About</h1>

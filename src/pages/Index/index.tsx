@@ -1,4 +1,3 @@
-import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
 
 import BaseLayout from '../../components/Layout'
@@ -18,7 +17,7 @@ const Layout: React.FC = memo(({ children }) => (
 ))
 Layout.displayName = 'Layout'
 
-const Index: React.FC<RouteComponentProps> = memo(() => {
+const Index: React.FC = memo(() => {
   const login = useAppSelector(selectLogin)
 
   return (

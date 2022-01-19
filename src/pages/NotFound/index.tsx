@@ -1,9 +1,8 @@
-import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
 
 import Layout from '../../components/Layout'
 
-const NotFound = memo<RouteComponentProps>(
+const NotFound = memo(
   () => (
     <Layout className="flex items-center justify-center">
       <h1 className="text-6xl">404: Page Not Found</h1>

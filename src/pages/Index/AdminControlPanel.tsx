@@ -1,5 +1,5 @@
-import { Link } from '@reach/router'
 import React, { useState, memo } from 'react'
+import { Link } from 'react-router-dom'
 
 import Button from '../../elements/Button'
 import type { AdminState } from '../../redux/adminSlice'

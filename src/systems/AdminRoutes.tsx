@@ -1,14 +1,13 @@
-import type { RouteComponentProps } from '@reach/router'
-import { Redirect } from '@reach/router'
 import React, { memo } from 'react'
 
 import { selectLogin } from '../redux/adminSlice'
 import { useAppSelector } from '../redux/hooks'
+import Redirect from '../systems/Redirect'
 
-const AdminRoutes: React.FC<RouteComponentProps> = memo(({ children }) => {
+const AdminRoutes: React.FC = memo(({ children }) => {
   const login = useAppSelector(selectLogin)
 
-  return login ? <>{children}</> : <Redirect to="/login" noThrow />
+  return login ? <>{children}</> : <Redirect to="/login" />
 })
 AdminRoutes.displayName = 'AdminRoutes'
 

@@ -1,5 +1,5 @@
-import { Link } from '@reach/router'
 import React, { memo } from 'react'
+import { Link } from 'react-router-dom'
 
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'

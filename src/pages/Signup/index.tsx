@@ -1,9 +1,8 @@
 import { superstructResolver } from '@hookform/resolvers/superstruct'
-import type { RouteComponentProps } from '@reach/router'
-import { navigate } from '@reach/router'
 import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler, FieldValues } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { signupFormVallidator } from '../../../validator'
 import Layout from '../../components/Layout'
@@ -20,8 +19,9 @@ interface FormInput extends FieldValues {
   password: Author['password']
 }
 
-const Signup: React.FC<RouteComponentProps> = memo(() => {
+const Signup: React.FC = memo(() => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [signupRequest] = useSignupReqestMutation()
   const {
     register,
@@ -40,7 +40,7 @@ const Signup: React.FC<RouteComponentProps> = memo(() => {
     if (isSuccess(res) && 'data' in res) {
       dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
       dispatch(login(res.data))
-      navigate('dashboard')
+      navigate('/dashboard')
     }
   }
 

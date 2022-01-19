@@ -1,8 +1,8 @@
-import { navigate } from '@reach/router'
 import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import type React from 'react'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
@@ -27,6 +27,7 @@ const useEditEffect = (
   }, [error])
 
   const [updatePost] = API.endpoints.updatePost.useMutation()
+  const navigate = useNavigate()
   // @TODO Edit Cancel Feature
   // @TODO Save Draft text in the Redux
   const [title, setTitle] = useState<Post['title']>(data?.title || 'Loading...')

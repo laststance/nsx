@@ -1,6 +1,5 @@
-import type { RouteComponentProps } from '@reach/router'
-import { navigate } from '@reach/router'
 import React, { memo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
@@ -14,7 +13,8 @@ import { enqueSnackbar } from '../../redux/snackbarSlice'
 
 import { handleBodyChange, handleTitleChange } from './handlers'
 
-const Create: React.FC<RouteComponentProps> = memo(() => {
+const Create: React.FC = memo(() => {
+  const navigate = useNavigate()
   const [createPost] = API.endpoints.createPost.useMutation()
 
   const isSubmitting = useAppSelector(selectLoading)

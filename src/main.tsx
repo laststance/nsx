@@ -10,7 +10,7 @@ import './index.css'
 
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
-import Routes from './Routes'
+import Routing from './Routing'
 import ErrorBoundary from './systems/ErrorBoundary'
 import SnackBarSystem from './systems/SnackBarSystem'
 
@@ -24,7 +24,7 @@ const App = () => (
     <ReduxStoreProvider store={store}>
       <ReduxPersistGate persistor={persistor}>
         <SnackBarSystem />
-        <Routes />
+        <Routing />
       </ReduxPersistGate>
     </ReduxStoreProvider>
   </ErrorBoundary>

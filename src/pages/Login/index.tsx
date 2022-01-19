@@ -1,9 +1,8 @@
 import { superstructResolver } from '@hookform/resolvers/superstruct'
-import type { RouteComponentProps } from '@reach/router'
-import { navigate } from '@reach/router'
 import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler, FieldValues } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { loginFormValidator } from '../../../validator'
 import Layout from '../../components/Layout'
@@ -20,7 +19,8 @@ interface FormInput extends FieldValues {
   password: Author['password']
 }
 
-const Login: React.FC<RouteComponentProps> = memo(() => {
+const Login: React.FC = memo(() => {
+  const navigate = useNavigate()
   const [loginReqest] = API.endpoints.loginReqest.useMutation()
   const {
     register,
@@ -46,7 +46,7 @@ const Login: React.FC<RouteComponentProps> = memo(() => {
       dispatch(login(data))
       dispatch(enqueSnackbar({ message: 'Login SuccessFul!', color: 'green' }))
 
-      navigate('dashboard')
+      navigate('/dashboard')
     }
   }
 

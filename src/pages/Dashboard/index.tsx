@@ -1,6 +1,5 @@
-import { Link } from '@reach/router'
-import type { RouteComponentProps } from '@reach/router'
 import React, { memo } from 'react'
+import { Link } from 'react-router-dom'
 
 import BaseLayout from '../../components/Layout'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
@@ -26,7 +25,7 @@ const Layout: React.FC = memo(({ children, ...rest }) => (
 ))
 Layout.displayName = 'Layout'
 
-const Dashboard: React.FC<RouteComponentProps> = memo(() => {
+const Dashboard: React.FC = memo(() => {
   const { page, totalPage, data, error, isLoading, dispatch, refetch, prevPage, nextPage } /* eslint-disable-line prettier/prettier */
     = usePagination()
   const author = useAppSelector(selectAuthor)
