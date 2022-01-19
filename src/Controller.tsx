@@ -8,13 +8,13 @@ import Post from './pages/Post'
 
 const Login = lazy(() => import('./pages/Login'))
 const Signup = lazy(() => import('./pages/Signup'))
-const AdminRoutes = lazy(() => import('./systems/AdminRoutes'))
+const Private = lazy(() => import('./systems/Private'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Create = lazy(() => import('./pages/Create'))
 const Edit = lazy(() => import('./pages/Edit'))
 
-const Routing = memo(() => (
+const Controller = memo(() => (
   <Suspense fallback={<Loading />}>
     <BrowserRouter>
       <Routes>
@@ -27,7 +27,7 @@ const Routing = memo(() => (
         {import.meta.env['VITE_ENABLE_LOGIN'] === 'true' && (
           <Route path="login" element={<Login />} />
         )}
-        <Route path="dashboard" element={<AdminRoutes />}>
+        <Route path="dashboard" element={<Private />}>
           <Route index element={<Dashboard />} />
           <Route path="create" element={<Create />} />
           <Route path="edit/:postId" element={<Edit />} />
@@ -37,6 +37,6 @@ const Routing = memo(() => (
     </BrowserRouter>
   </Suspense>
 ))
-Routing.displayName = 'Routes'
+Controller.displayName = 'Controller'
 
-export default Routing
+export default Controller

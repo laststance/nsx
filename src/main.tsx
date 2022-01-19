@@ -8,9 +8,9 @@ import type { Metric } from 'web-vitals'
 
 import './index.css'
 
+import Controller from './Controller'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
-import Routing from './Routing'
 import ErrorBoundary from './systems/ErrorBoundary'
 import SnackBarSystem from './systems/SnackBarSystem'
 
@@ -24,7 +24,7 @@ const App = () => (
     <ReduxStoreProvider store={store}>
       <ReduxPersistGate persistor={persistor}>
         <SnackBarSystem />
-        <Routing />
+        <Controller />
       </ReduxPersistGate>
     </ReduxStoreProvider>
   </ErrorBoundary>
