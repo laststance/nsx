@@ -5,11 +5,10 @@ import Loading from './elements/Loading'
 import About from './pages/About'
 import Index from './pages/Index'
 import Post from './pages/Post'
-import AdminRoutes from './systems/AdminRoutes'
 
 const Login = lazy(() => import('./pages/Login'))
 const Signup = lazy(() => import('./pages/Signup'))
-// const AdminRoutes = lazy(() => import('./systems/AdminRoutes'))
+const AdminRoutes = lazy(() => import('./systems/AdminRoutes'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Create = lazy(() => import('./pages/Create'))
