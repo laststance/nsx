@@ -5,6 +5,7 @@ import Loading from './elements/Loading'
 import About from './pages/About'
 import Index from './pages/Index'
 import Post from './pages/Post'
+import AdminRoutes from './systems/AdminRoutes'
 
 const Login = lazy(() => import('./pages/Login'))
 const Signup = lazy(() => import('./pages/Signup'))
@@ -27,9 +28,11 @@ const Routing = memo(() => (
         {import.meta.env['VITE_ENABLE_LOGIN'] === 'true' && (
           <Route path="login" element={<Login />} />
         )}
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="dashboard/create" element={<Create />} />
-        <Route path="dashboard/edit/:postId" element={<Edit />} />
+        <Route path="dashboard" element={<AdminRoutes />}>
+          <Route index element={<Dashboard />} />
+          <Route path="create" element={<Create />} />
+          <Route path="edit/:postId" element={<Edit />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
