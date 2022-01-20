@@ -5,13 +5,11 @@ import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
 import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
-import { loaded, loading, selectLoading } from '../../redux/applicationSlice'
-import { clearDraft, selectBody, selectTitle } from '../../redux/draftSlice'
-import isSuccess from '../../redux/helper/isSuccess'
+import { selectLoading } from '../../redux/applicationSlice'
+import { selectBody, selectTitle } from '../../redux/draftSlice'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { enqueSnackbar } from '../../redux/snackbarSlice'
 
-import { handleBodyChange, handleTitleChange } from './handlers'
+import { handleBodyChange, handleTitleChange, handleSubmit } from './handlers'
 
 const Create: React.FC = memo(() => {
   const navigate = useNavigate()
@@ -22,23 +20,6 @@ const Create: React.FC = memo(() => {
   const body = useAppSelector(selectBody)
   const author = useAppSelector(selectAuthor)
   const dispatch = useAppDispatch()
-
-  async function handleSubmit() {
-    dispatch(loading())
-    const post = await createPost({
-      title,
-      body,
-      author,
-    })
-    if (isSuccess(post) && 'data' in post) {
-      dispatch(loaded())
-      dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))
-      dispatch(clearDraft())
-
-      navigate(`/post/${post.data.id}`)
-    }
-    dispatch(loaded())
-  }
 
   return (
     <Layout className="flex flex-col justify-start">
@@ -57,7 +38,9 @@ const Create: React.FC = memo(() => {
       />
       <div className="flex justify-end gap-4 pt-8">
         <Button
-          onClick={handleSubmit}
+          onClick={() =>
+            handleSubmit(createPost, title, body, author, dispatch, navigate)
+          }
           variant="primary"
           isLoading={isSubmitting}
           data-cy="submit-btn"
