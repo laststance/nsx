@@ -100,6 +100,7 @@ context('Admin Basic', () => {
         cy.login()
 
         cy.$('dashoard-page-transition-link-btn').click()
+        cy.scrollTo('bottom')
         cy.$('create-btn').click()
 
         cy.logger('wrting blog post...')
