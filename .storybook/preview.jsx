@@ -4,6 +4,9 @@ import { store } from '../src/redux/store'
 import { BrowserRouter } from 'react-router-dom'
 
 export const parameters = {
+  backgrounds: {
+    default: 'light'
+  },
   layout: 'centered',
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
