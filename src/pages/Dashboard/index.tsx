@@ -1,7 +1,6 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import BaseLayout from '../../components/Layout'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'
 import Button from '../../elements/Button'
@@ -12,18 +11,7 @@ import { selectAuthor } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 
 import { handleDelete } from './handler'
-
-const Layout: React.FC = memo(({ children, ...rest }) => (
-  <BaseLayout
-    disableBaseStyle
-    className="sm:w-full lg:container flex flex-col justify-start flex-grow px-4 py-4 mx-auto"
-    data-cy="dashboard-page-content-root"
-    {...rest}
-  >
-    {children}
-  </BaseLayout>
-))
-Layout.displayName = 'Layout'
+import Layout from './Layout'
 
 const Dashboard: React.FC = memo(() => {
   const { page, totalPage, data, error, isLoading, dispatch, refetch, prevPage, nextPage } /* eslint-disable-line prettier/prettier */
