@@ -56,5 +56,6 @@ const Input: React.FC<Props & InputHTMLAttributes<HTMLInputElement>> = memo(
     )
   }
 )
+Input.displayName = 'Input'
 
 export default Input

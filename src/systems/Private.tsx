@@ -10,6 +10,6 @@ const Private: React.FC = memo(() => {
 
   return login ? <Outlet /> : <Redirect to="/login" />
 })
-Private.displayName = 'AdminRoutes'
+Private.displayName = 'Private'
 
 export default Private

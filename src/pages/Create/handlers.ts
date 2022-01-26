@@ -34,7 +34,7 @@ export const handleBodyChange = (
   dispatch(updateBody({ body: e.target.value }))
 }
 
-export async function handleSubmit(
+export async function onSubmit(
   createPost: MutationTrigger<
     MutationDefinition<
       CreatePostRequest,
