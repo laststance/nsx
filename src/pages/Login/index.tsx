@@ -8,6 +8,7 @@ import { loginFormValidator } from '../../../validator'
 import Layout from '../../components/Layout'
 import Button from '../../elements/Button'
 import Input from '../../elements/Input'
+import { assertCast } from '../../lib/assertCast'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
@@ -34,11 +35,11 @@ const Login: React.FC = memo(() => {
       name: data.name,
       password: data.password,
     })
-
     if (isSuccess(res) && 'data' in res) {
       const data = res.data
-      if ('faild' in data) {
-        dispatch(enqueSnackbar({ message: data.faild, color: 'red' }))
+      if ('failed' in data) {
+        assertCast<failedMessage>(data)
+        dispatch(enqueSnackbar({ message: data.failed, color: 'red' }))
         return // missing username or pass, onemore time!
       }
 

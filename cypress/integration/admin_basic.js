@@ -10,6 +10,16 @@ context('Admin Basic', () => {
       cy.$('signup-btn').should('exist')
     })
 
+    it('Failed login with incorrect user/password', () => {
+      cy.clearLocalStorage()
+      cy.visit('http://localhost:3000/')
+      cy.$('login-btn').click()
+      cy.$('name-input').type('wefjweiofjwie')
+      cy.$('password-input').type('wfjweoifjio23r03')
+      cy.$('submit-btn').click()
+      cy.$('snackbar').should('exist').should('contain', 'User does not exist')
+    })
+
     it('siginup new email and password finally showing Dashboard page', () => {
       cy.visit('http://localhost:3000/')
       cy.$('signup-btn').click()

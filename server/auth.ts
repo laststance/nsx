@@ -21,7 +21,7 @@ export const isAuthorized = (req: Request, res: Response): boolean => {
       decripted = jwt.verify(token, process.env.JWT_SECRET as string) as IndexSignature<JWTpayload> /* eslint-disable-line prettier/prettier */
 
     } catch (error) {
-      Logger.error('faild jwt.verify()')
+      Logger.error('failed jwt.verify()')
       Logger.error('decripted ' + JSON.stringify(decripted))
       Logger.error('token: ')
       Logger.error(error)

@@ -35,6 +35,7 @@ const SnackBar: React.FC<Props> = memo(
 
     return (
       <div
+        data-cy="snackbar"
         className={`max-w-xl flex justify-center items-center ${bgColor(
           color
         )} z-10 py-2 px-4 absolute top-10 right-10 rounded-xl button transition-opacity ${opacity}`}

@@ -48,7 +48,7 @@ router.get(
 
     // @ts-ignore Argument of type '{ limit: number; order: string[][]; } | { limit: number; offset: number; order: string[][]; }' is not assignable to parameter of type 'FindOptions<any> | undefined'.
     const postList = await db.post.findAll(options)
-    // @ts-ignore Type 'PostModel[]' is not assignable to type 'Post[]'.   Type 'PostModel' is missing the following properties from type 'Post': createdAt, updatedAt
+    // @ts-ignore Type 'PostModel[]' is not assignable to type 'Post[]'. Type 'PostModel' is missing the following properties from type 'Post': createdAt, updatedAt
     res.status(200).json({ total, postList })
   }
 )

@@ -27,8 +27,8 @@ declare type ErrorResponse = {
   error: string
 }
 
-// Use to when user faild something within intended aplication behavior e.g. faild login by miss type password
-declare type FaildMessage = { faild: string }
+// Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
+declare type failedMessage = { failed: string }
 
 /**
  * POST /api/login
@@ -36,7 +36,7 @@ declare type FaildMessage = { faild: string }
 declare interface LoginRequest {
   error: string
 }
-declare type LoginResponse = Author | FaildMessage
+declare type LoginResponse = Author | failedMessage
 
 /**
  * GET /api/post_list
