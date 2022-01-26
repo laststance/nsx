@@ -13,4 +13,4 @@ const Template: ComponentStory<typeof PostDate> = (props) => (
 )
 
 export const Default = Template.bind({})
-Default.args = { date: new Date().toDateString() }
+Default.args = { date: 'Wed Jan 26 2022' }
