@@ -1,18 +1,16 @@
-import React, { lazy, memo } from 'react'
+import React, { memo } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import About from './pages/About'
 import Create from './pages/Create'
+import Dashboard from './pages/Dashboard'
+import Edit from './pages/Edit'
 import Index from './pages/Index'
+import Login from './pages/Login'
+import NotFound from './pages/NotFound'
 import Post from './pages/Post'
+import Signup from './pages/Signup'
 import Private from './systems/Private'
-
-const Login = lazy(() => import('./pages/Login'))
-const Signup = lazy(() => import('./pages/Signup'))
-const Dashboard = lazy(() => import('./pages/Dashboard'))
-const NotFound = lazy(() => import('./pages/NotFound'))
-
-const Edit = lazy(() => import('./pages/Edit'))
 
 const Controller = memo(() => (
   <BrowserRouter>
