@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-const endpoint = import.meta.env.VITE_API_ENDPOINT
+const endpoint =
+  import.meta.env?.VITE_API_ENDPOINT || 'http://localhost:3000/api/'
 
 interface UserIdPassword {
   name: Author['name']
