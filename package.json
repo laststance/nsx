@@ -130,6 +130,7 @@
     "build": "./scripts/switch_env prod vite build",
     "serve": "vite preview",
     "test": "./scripts/switch_env test && jest",
+    "env": "bash scripts/switch_env",
     "clean": "rimraf yarn.lock node_modules build",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx --fix",

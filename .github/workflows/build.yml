@@ -15,5 +15,4 @@ jobs:
         with:
           node-version: '16.9'
       - run: yarn install
-      - run: mv .env.admin .env
       - run: yarn build
