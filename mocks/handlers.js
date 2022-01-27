@@ -1,7 +1,7 @@
 import { rest } from 'msw'
 
 export const handlers = [
-  rest.get('http://localhost:3000/api/post_list', (req, res, ctx) => {
+  rest.get('/api/post_list', (req, res, ctx) => {
     return res(
       ctx.json({
         total: 60,

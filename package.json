@@ -101,6 +101,7 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "msw": "^0.36.7",
+    "msw-storybook-addon": "^1.6.0",
     "mysql2": "^2.3.3",
     "node-notifier": "^10.0.0",
     "nodemon": "^2.0.15",
@@ -120,8 +121,8 @@
     "whatwg-fetch": "^3.6.2"
   },
   "scripts": {
-    "start": "scripts/set_dev_env.sh && vite",
-    "build": "scripts/set_prod_env.sh && vite build",
+    "start": "vite",
+    "build": "vite build",
     "serve": "vite preview",
     "test": "jest",
     "clean": "rimraf yarn.lock node_modules build",
@@ -131,13 +132,16 @@
     "all:typecheck": "yarn typecheck && yarn server:typecheck",
     "server:typecheck": "tsc --noEmit -p server/tsconfig.json",
     "format": "prettier --write src/**/*.css .github/**/*.yml package.json .eslintrc index.html tsconfig.json README.md",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 6006 -s .",
+    "build-storybook": "build-storybook -s .",
     "server:start": "cross-env NODE_ENV=development nodemon --ext ts,js --watch 'server/index.ts' --ignore './src' --exec ts-node --files --project server/tsconfig.json server/index.ts",
     "server:build": "tsc -p server/tsconfig.json && cp -r server/db/migrations server_build && cp server/db/config.json server_build/server/db/config.json",
     "deploy": "bash scripts/deploy.sh",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "validate": "./scripts/validate",
+    "env:admin": "ln -sf .env.admin .env",
+    "env:visitor": "ln -sf .env.visitor .env",
+    "env:test": "ln -sf .env.test .env",
     "db:hashgen": "node server/db/scripts/passhashgen.js",
     "db:reset": "yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed:all",
     "db:create": "sequelize db:create",
@@ -152,5 +156,8 @@
     "e2e:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
     "e2e:admin:firefox": "cypress run --headed -b firefox --spec cypress/integration/admin_basic.js",
     "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/integration/visitor_basic.js"
+  },
+  "msw": {
+    "workerDirectory": ""
   }
 }

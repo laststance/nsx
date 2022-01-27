@@ -1,7 +1,21 @@
+import { initialize, mswDecorator } from 'msw-storybook-addon'
+
 import './tailwind.css'
 import { Provider as ReduxStoreProvider } from 'react-redux'
 import { store } from '../src/redux/store'
 import { BrowserRouter } from 'react-router-dom'
+import { handlers } from '../mocks/handlers'
+
+// Initialize MSW
+initialize()
+
+export const decorators = [mswDecorator, (Story) =>
+  <ReduxStoreProvider store={store}>
+    <BrowserRouter>
+      <Story/>
+    </BrowserRouter>
+  </ReduxStoreProvider>
+]
 
 const customViewports = {
   MacbookPro16: {
@@ -36,6 +50,7 @@ export const parameters = {
   backgrounds: {
     default: 'light'
   },
+  msw: { handlers: [...handlers] },
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
@@ -44,11 +59,3 @@ export const parameters = {
     }
   }
 }
-
-export const decorators = [(Story) =>
-  <ReduxStoreProvider store={store}>
-    <BrowserRouter>
-      <Story/>
-    </BrowserRouter>
-  </ReduxStoreProvider>
-]
