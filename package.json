@@ -4,6 +4,9 @@
   "license": "MIT",
   "author": "Ryota Murakami",
   "homepage": "https://github.com/laststance/nsx",
+  "msw": {
+    "workerDirectory": "src"
+  },
   "dependencies": {
     "@heroicons/react": "^1.0.5",
     "@hookform/resolvers": "^2.8.5",
@@ -158,8 +161,5 @@
     "e2e:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
     "e2e:admin:firefox": "cypress run --headed -b firefox --spec cypress/integration/admin_basic.js",
     "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/integration/visitor_basic.js"
-  },
-  "msw": {
-    "workerDirectory": "src"
   }
 }
