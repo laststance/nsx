@@ -142,7 +142,7 @@
     "build-storybook": "build-storybook -s src",
     "server:start": "cross-env NODE_ENV=development nodemon --ext ts,js --watch 'server/index.ts' --ignore './src' --exec ts-node --files --project server/tsconfig.json server/index.ts",
     "server:build": "tsc -p server/tsconfig.json && cp -r server/db/migrations server_build && cp server/db/config.json server_build/server/db/config.json",
-    "deploy": "bash scripts/deploy.sh",
+    "deploy": "bash scripts/deploy",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
     "validate": "./scripts/validate",
     "env:admin": "ln -sf .env.admin .env",
