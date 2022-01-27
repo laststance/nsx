@@ -121,7 +121,8 @@
     "whatwg-fetch": "^3.6.2"
   },
   "scripts": {
-    "start": "./scripts/switch_env admin && vite",
+    "start": "vite",
+    "start:admin": "./scripts/switch_env admin && vite",
     "start:visitor": "./scripts/switch_env visitor && vite",
     "build": "./scripts/switch_env prod vite build",
     "serve": "vite preview",
