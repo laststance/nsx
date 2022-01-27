@@ -121,10 +121,11 @@
     "whatwg-fetch": "^3.6.2"
   },
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
+    "start": "./scripts/switch_env admin && vite",
+    "start:visitor": "./scripts/switch_env visitor && vite",
+    "build": "./scripts/switch_env prod vite build",
     "serve": "vite preview",
-    "test": "jest",
+    "test": "./scripts/switch_env test && jest",
     "clean": "rimraf yarn.lock node_modules build",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx --fix",
@@ -132,8 +133,8 @@
     "all:typecheck": "yarn typecheck && yarn server:typecheck",
     "server:typecheck": "tsc --noEmit -p server/tsconfig.json",
     "format": "prettier --write src/**/*.css .github/**/*.yml package.json .eslintrc index.html tsconfig.json README.md",
-    "storybook": "start-storybook -p 6006 -s .",
-    "build-storybook": "build-storybook -s .",
+    "storybook": "./scripts/switch_env storybook && start-storybook -p 6006 -s src",
+    "build-storybook": "./scripts/switch_env storybook && build-storybook -s src",
     "server:start": "cross-env NODE_ENV=development nodemon --ext ts,js --watch 'server/index.ts' --ignore './src' --exec ts-node --files --project server/tsconfig.json server/index.ts",
     "server:build": "tsc -p server/tsconfig.json && cp -r server/db/migrations server_build && cp server/db/config.json server_build/server/db/config.json",
     "deploy": "bash scripts/deploy.sh",
@@ -158,6 +159,6 @@
     "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/integration/visitor_basic.js"
   },
   "msw": {
-    "workerDirectory": ""
+    "workerDirectory": "src"
   }
 }

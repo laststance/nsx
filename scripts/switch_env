@@ -1,0 +1,5 @@
+#!/bin/bash
+ROOT_DIR=$(cd $(dirname $0)/..; pwd)
+
+ln -sfv .env.$1 $ROOT_DIR/.env
+
