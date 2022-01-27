@@ -127,7 +127,7 @@
     "start": "vite",
     "start:admin": "./scripts/switch_env admin && vite",
     "start:visitor": "./scripts/switch_env visitor && vite",
-    "build": "./scripts/switch_env prod vite build",
+    "build": "bash scripts/switch_env prod vite build",
     "serve": "vite preview",
     "test": "./scripts/switch_env test && jest",
     "env": "bash scripts/switch_env",
