@@ -1,7 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-const endpoint =
-  // @ts-ignore TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node12', or 'nodenext'.
-  import.meta.env?.VITE_API_ENDPOINT || 'http://localhost:3000/api/'
+const endpoint = process.env.VITE_API_ENDPOINT || 'http://localhost:3000/api/'
 
 interface UserIdPassword {
   name: Author['name']

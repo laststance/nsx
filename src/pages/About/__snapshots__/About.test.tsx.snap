@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render Create 1`] = `
+exports[`should render About 1`] = `
 <div
   class="flex flex-col justify-between w-screen h-screen"
 >
@@ -70,42 +70,51 @@ exports[`should render Create 1`] = `
     </div>
   </header>
   <main
-    class="container mx-auto flex-grow px-4 py-4 flex flex-col justify-start"
+    class="container mx-auto flex-grow px-4 py-4"
   >
-    <form>
-      <div>
-        <div
-          class="relative mt-1 rounded-md shadow-sm"
+    <h1
+      class="pt-4 pb-6 text-3xl"
+    >
+      About
+    </h1>
+    <section
+      class="space-y-4 text-xl leading-8"
+    >
+      <p>
+        This is just a garbage blog written by
+         
+        <a
+          class="hover:underline font-medium leading-6 no-underline"
+          href="https://ryota-murakami.github.io/"
+          rel="noreferrer"
+          target="_blank"
         >
-          <input
-            class="focus:outline-none  focus:bg-white focus:border-purple-500 w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
-            data-cy="post-title-input"
-            name="title"
-            type="text"
-            value=""
-          />
-        </div>
-      </div>
-      <textarea
-        class="h-60 w-full mt-3"
-        data-cy="post-body-input"
-      />
-      <div
-        class="flex justify-end gap-4 pt-8"
-      >
-        <button
-          class="flex justify-center items-center shadow rounded disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none font-semibold bg-green-500 hover:bg-green-600 text-white py-2 px-6 text-md"
-          data-cy="submit-btn"
-          type="submit"
+          Ryota Murakami
+        </a>
+        .
+        <br />
+        Web Dev things only.
+      </p>
+      <p>
+        Although it's save me sometimes from depression(aka Impostor syndrome). 
+        <br />
+        That even random and cursory notes, however sometimes that useful to remember the Web Dev activities you've done.
+      </p>
+      <p>
+        This is a part of
+         
+        <a
+          class="hover:underline font-medium leading-6 no-underline"
+          href="https://laststance.io/"
+          rel="noreferrer"
+          target="_blank"
         >
-          <span
-            class="mx-2"
-          >
-            Submit
-          </span>
-        </button>
-      </div>
-    </form>
+          Laststance.io
+        </a>
+         
+        projects.
+      </p>
+    </section>
   </main>
   <footer
     class="w-full"

@@ -4,7 +4,7 @@ import TestRenderer from '../../lib/TestRenderer'
 
 import Create from './'
 
-test('should render About', () => {
+test('should render Create', () => {
   const {
     container: { firstChild },
   } = TestRenderer(<Create />)
