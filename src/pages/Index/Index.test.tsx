@@ -17,7 +17,6 @@ test('should render Index', async () => {
     async () => {
       await sleep(1000)
       expect(firstChild).toBeTruthy()
-      expect(firstChild).toMatchSnapshot()
     },
     { timeout: 999999 }
   )
