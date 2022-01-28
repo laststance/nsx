@@ -18,10 +18,10 @@ const Controller = memo(() => (
       <Route path="/" element={<Index />} />
       <Route path="post/:postId" element={<Post />} />
       <Route path="about" element={<About />} />
-      {import.meta.env['VITE_ENABLE_SIGNUP'] === 'true' && (
+      {process.env.VITE_ENABLE_SIGNUP === 'true' && (
         <Route path="signup" element={<Signup />} />
       )}
-      {import.meta.env['VITE_ENABLE_LOGIN'] === 'true' && (
+      {process.env.VITE_ENABLE_LOGIN === 'true' && (
         <Route path="login" element={<Login />} />
       )}
       <Route path="dashboard" element={<Private />}>
