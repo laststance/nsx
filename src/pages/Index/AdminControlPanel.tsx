@@ -34,8 +34,10 @@ const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
     setLoading(false)
   }
 
-  const LoginBtn: boolean = !props.login && !!process.env.VITE_ENABLE_LOGIN
-  const SignupBtn: boolean = !props.login && !!process.env.VITE_ENABLE_SIGNUP
+  const LoginBtn: boolean =
+    !props.login && process.env.VITE_ENABLE_LOGIN === 'true'
+  const SignupBtn: boolean =
+    !props.login && process.env.VITE_ENABLE_SIGNUP === 'true'
   const DashboardBtn: AdminState['login'] = props.login
 
   if (LoginBtn === false && SignupBtn === false && DashboardBtn === false) {
