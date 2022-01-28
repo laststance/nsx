@@ -1,4 +1,4 @@
-context('Visitor Basic', () => {
+context('visitor basic', () => {
   it('show blog title', () => {
     cy.visit('http://localhost:3000/')
     cy.$('header').should('contain', 'Today I Learned')
@@ -37,7 +37,7 @@ context('Visitor Basic', () => {
       .should('contain', 'using __proto__')
   })
 
-  context('Pagenation', () => {
+  context('pagenation', () => {
     it('showing current & total page number', () => {
       cy.visit('http://localhost:3000/')
       cy.$('single-post-page-link-1').should('contain.text', 'close your eyes')

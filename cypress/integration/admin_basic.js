@@ -1,8 +1,8 @@
-context('Admin Basic', () => {
+context('admin basic', () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('token')
   })
-  context('Signup & Login & Logout', () => {
+  context('signup & login & logout', () => {
     it('show signup/login button', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
@@ -10,7 +10,7 @@ context('Admin Basic', () => {
       cy.$('signup-btn').should('exist')
     })
 
-    it('Failed login with incorrect user/password', () => {
+    it('failed login with incorrect user/password', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
       cy.$('login-btn').click()
@@ -38,7 +38,7 @@ context('Admin Basic', () => {
       cy.$('dashboard-page-content-root').contains('Dashboard')
     })
 
-    it('Successful Logout', () => {
+    it('successful Logout', () => {
       cy.$('blog-title-top-page-link').click()
       cy.$('logout-btn').should('exist').click()
       cy.url().should('eq', 'http://localhost:3000/')
@@ -46,7 +46,8 @@ context('Admin Basic', () => {
       cy.$('signup-btn').should('exist')
     })
   })
-  context('Admin tasks within login', () => {
+
+  context('admin tasks while login', () => {
     it('show dashbord/login button', () => {
       cy.clearLocalStorage()
       cy.login()
@@ -54,6 +55,7 @@ context('Admin Basic', () => {
       cy.$('dashoard-page-transition-link-btn').should('exist')
       cy.$('logout-btn').should('exist')
     })
+
     context('CRUD post operation', () => {
       it('publish new post', () => {
         cy.$('blog-title-top-page-link').click()
@@ -105,7 +107,7 @@ context('Admin Basic', () => {
     })
 
     context('auto saving draft ', () => {
-      it('Still remaing draft post ', () => {
+      it('still remaing draft post ', () => {
         cy.clearLocalStorage()
         cy.login()
 
