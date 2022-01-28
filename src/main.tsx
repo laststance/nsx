@@ -33,7 +33,7 @@ const App = () => (
   </ErrorBoundary>
 )
 
-// @ts-ignore v18 @types coming not yet
+// @ts-ignore v18 @types not coming yet
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(<App />)
 
