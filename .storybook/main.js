@@ -1,4 +1,3 @@
-require('./setupEnv')
 const path = require('path')
 
 module.exports = {

@@ -5,7 +5,6 @@ const config = {
   notifyMode: 'success-change',
   resetMocks: true,
   testEnvironment: 'jsdom',
-  setupFiles: ['<rootDir>/.jest/setupEnv.js'],
   setupFilesAfterEnv: ['<rootDir>/.jest/setupTests.ts'],
   testMatch: [
     '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}',
