@@ -31,7 +31,6 @@ context('visitor basic', () => {
     cy.visit('http://localhost:3000/')
     // 07/27/21 React Rush
     cy.$('single-post-page-link-15').should('exist').click()
-    cy.wait(10000)
     cy.$('post-page-content-root')
       .should('exist')
       .should('contain', 'using __proto__')
@@ -70,6 +69,29 @@ context('visitor basic', () => {
       cy.$('page-count').should('contain.text', '4 / 4')
 
       cy.$('next-page-btn').should('be.disabled')
+    })
+  })
+
+  context('security', () => {
+    it('could never been to any private routes', () => {
+      cy.visit('http://localhost:3000/')
+      cy.visit('http://localhost:3000/login')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/signup')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/dashboard')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/dashboard/create')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/dashboard/edit')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/dashboard/delete')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
     })
   })
 })

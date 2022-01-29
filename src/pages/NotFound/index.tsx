@@ -4,7 +4,10 @@ import Layout from '../../components/Layout'
 
 const NotFound = memo(
   () => (
-    <Layout className="flex items-center justify-center">
+    <Layout
+      className="flex items-center justify-center"
+      data-cy="page-notfound"
+    >
       <h1 className="text-6xl">404: Page Not Found</h1>
     </Layout>
   ),

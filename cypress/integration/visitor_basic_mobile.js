@@ -76,4 +76,27 @@ context('visitor basic', () => {
       cy.$('next-page-btn').should('be.disabled')
     })
   })
+
+  context('security', () => {
+    it('could never been to any private routes', () => {
+      cy.visit('http://localhost:3000/')
+      cy.visit('http://localhost:3000/login')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/signup')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/dashboard')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/dashboard/create')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/dashboard/edit')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/dashboard/delete')
+      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+    })
+  })
 })
