@@ -7,5 +7,5 @@ npx concurrently \
   --prefix-colors "bgRed.bold.white,bgGreen.bold.white,bgBlue.bold.white,bgMagenta.bold.white" \
     "npm run test --silent -- --watch=false" \
     "npm run lint:fix --silent" \
-    "npm run typecheck --silent" \
+    "npm run all:typecheck --silent" \
     "npm run build --silent"
