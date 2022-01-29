@@ -14,5 +14,6 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: '16.9'
+      - run: mv .env.admin .env.prod
       - run: yarn install
       - run: yarn build
