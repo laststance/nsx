@@ -27,11 +27,20 @@
     "react": {
       "version": "detect"
     },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       },
-      "typescript": {}
+      "typescript": {
+        "alwaysTryTypes": true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+        "project": [
+          "tsconfig.json",
+          "server/tsconfig.json"
+        ]
+      }
     }
   },
   "rules": {
@@ -70,13 +79,14 @@
     "import/default": "error",
     "import/export": "error",
     "import/no-named-as-default": "warn",
+    "import/no-named-as-default-member": "off",
     "import/no-duplicates": "error",
+    "import/no-unresolved": "error",
     "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    "@import/no-named-as-default-member": "off"
+    "@typescript-eslint/no-empty-function": "off"
   },
   "overrides": [
     {
