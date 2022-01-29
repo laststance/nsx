@@ -4,23 +4,22 @@ import '@testing-library/jest-dom'
 import 'whatwg-fetch'
 import { server } from '../mocks/server'
 
-
 // eslint-disable-next-line no-console
 const originalError = console.error
-beforeAll(
-  () => {
-    server.listen()
+beforeAll(() => {
+  server.listen()
 
-// eslint-disable-next-line no-console
-    console.error = (...args) => {
-      // Suppress jest error msg
-      if (args[0].includes('ReactDOM.render is no longer supported in React 18.')) {
-        return
-      }
-      originalError.call(console, ...args)
+  // eslint-disable-next-line no-console
+  console.error = (...args) => {
+    // Suppress jest error msg
+    if (
+      args[0].includes('ReactDOM.render is no longer supported in React 18.')
+    ) {
+      return
     }
+    originalError.call(console, ...args)
   }
-)
+})
 
 beforeAll(() => {
   server.resetHandlers()
