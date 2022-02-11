@@ -8,8 +8,8 @@ import type { Metric } from 'web-vitals'
 
 import './index.css'
 
+import Loading from './components/Loading'
 import Controller from './Controller'
-import Loading from './elements/Loading'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
 import ErrorBoundary from './systems/ErrorBoundary'

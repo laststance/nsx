@@ -4,7 +4,7 @@ import React from 'react'
 import ArrowButton from './ArrowButton'
 
 const meta: ComponentMeta<typeof ArrowButton> = {
-  title: 'Elements/ArrowButton',
+  title: 'Components/ArrowButton',
   component: ArrowButton,
 }
 

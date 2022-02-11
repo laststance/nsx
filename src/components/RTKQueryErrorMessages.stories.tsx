@@ -4,7 +4,7 @@ import React from 'react'
 import RTKQueryErrorMessages from './RTKQueryErrorMessages'
 
 export default {
-  title: 'Elements/RTKQueryErrorMessages',
+  title: 'Components/RTKQueryErrorMessages',
   component: RTKQueryErrorMessages,
 }
 

@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 
-import ArrowButton from '../../elements/ArrowButton'
 import PageCount from '../../pages/Index/PageCount'
 import type { PagenationState } from '../../redux/pagenationSlice'
+import ArrowButton from '../ArrowButton'
 
 import type { UsePagenationResult } from './usePagination'
 

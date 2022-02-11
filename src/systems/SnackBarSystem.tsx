@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SnackBar from '../elements/SnackBar'
+import SnackBar from '../components/SnackBar'
 import { useAppSelector } from '../redux/hooks'
 import { selectMessageQueue } from '../redux/snackbarSlice'
 

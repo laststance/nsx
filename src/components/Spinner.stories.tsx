@@ -5,7 +5,7 @@ import type { SpinnerProps } from './Spinner'
 import Spinner from './Spinner'
 
 const meta: Meta = {
-  title: 'Elements/Spinner',
+  title: 'Components/Spinner',
   component: Spinner,
   parameters: {
     controls: { expanded: true },

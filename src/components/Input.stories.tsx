@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import Input from './Input'
 
 const meta: ComponentMeta<typeof Input> = {
-  title: 'Elements/Input',
+  title: 'Components/Input',
   component: Input,
 }
 

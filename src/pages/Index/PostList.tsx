@@ -1,11 +1,11 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
+import Loading from '../../components/Loading'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'
-import Loading from '../../elements/Loading'
-import PostDate from '../../elements/PostDate'
-import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
+import PostDate from '../../components/PostDate'
+import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages'
 
 const PostList: React.FC = memo(() => {
   const { page, totalPage, data, isLoading, error, dispatch, nextPage, prevPage } /* eslint-disable-line prettier/prettier */

@@ -4,7 +4,7 @@ import React from 'react'
 import Loading from './Loading'
 
 export default {
-  title: 'Elements/Loading',
+  title: 'Components/Loading',
   component: Loading,
 }
 

@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import Github from '../elements/icons/Github'
+import Github from './icons/Github'
 
 const Header = memo(
   () => (

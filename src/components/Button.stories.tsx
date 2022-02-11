@@ -4,7 +4,7 @@ import React from 'react'
 import Button from './Button'
 
 const meta: ComponentMeta<typeof Button> = {
-  title: 'Elements/Button',
+  title: 'Components/Button',
   component: Button,
 }
 

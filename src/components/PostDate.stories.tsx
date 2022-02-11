@@ -4,7 +4,7 @@ import React from 'react'
 import PostDate from './PostDate'
 
 export default {
-  title: 'Elements/PostDate',
+  title: 'Components/PostDate',
   component: PostDate,
 }
 

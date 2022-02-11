@@ -1,12 +1,12 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
+import Button from '../../components/Button'
+import Loading from '../../components/Loading'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'
-import Button from '../../elements/Button'
-import Loading from '../../elements/Loading'
-import PostDate from '../../elements/PostDate'
-import RTKQueryErrorMessages from '../../elements/RTKQueryErrorMessages'
+import PostDate from '../../components/PostDate'
+import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages'
 import { selectAuthor } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 
