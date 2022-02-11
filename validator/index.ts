@@ -44,5 +44,5 @@ export const body = define<Post['body']>('body', (value): Result => {
 
 export const createPostFormValidator = object({
   title: title,
-  // body: body, @TODO
+  body: body,
 })

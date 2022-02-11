@@ -86,10 +86,17 @@ exports[`should render Create 1`] = `
           />
         </div>
       </div>
-      <textarea
-        class="h-60 w-full mt-3"
-        data-cy="post-body-input"
-      />
+      <div>
+        <div
+          class="relative mt-1 rounded-md shadow-sm"
+        >
+          <textarea
+            class="focus:outline-none h-60 w-full mt-3 focus:bg-white focus:border-purple-500 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
+            data-cy="post-body-input"
+            name="body"
+          />
+        </div>
+      </div>
       <div
         class="flex justify-end gap-4 pt-8"
       >

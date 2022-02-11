@@ -7,6 +7,7 @@ import { createPostFormValidator } from '../../../validator/index'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import Layout from '../../components/Layout'
+import Textarea from '../../components/Textarea'
 import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { selectLoading } from '../../redux/applicationSlice'
@@ -18,6 +19,7 @@ import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
 
 interface FormInput {
   title: DraftState['title']
+  body: DraftState['body']
 }
 
 const Create: React.FC = memo(() => {
@@ -54,11 +56,12 @@ const Create: React.FC = memo(() => {
           onChange={handleTitleChange}
           data-cy="post-title-input"
         />
-        <textarea
-          className="h-60 w-full mt-3"
+        <Textarea
           defaultValue={body}
+          register={register}
+          name="body"
+          errors={errors}
           onChange={handleBodyChange}
-          data-cy="post-body-input"
         />
         <div className="flex justify-end gap-4 pt-8">
           <Button
