@@ -1,5 +1,7 @@
 import { superstructResolver } from '@hookform/resolvers/superstruct'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
+import { act } from 'react-dom/test-utils'
 import { useForm } from 'react-hook-form'
 import { object } from 'superstruct'
 
@@ -38,5 +40,13 @@ test('should render Input with react-fook-form', () => {
   const {
     container: { firstChild },
   } = TestRenderer(<Form />)
+
   expect(firstChild).toBeTruthy()
+})
+
+test('should be able to input any text', () => {
+  const { getByRole } = TestRenderer(<Form />)
+  const input = getByRole('textbox')
+  act(() => userEvent.type(input, 'Hello World!'))
+  expect(input).toHaveValue('Hello World!')
 })
