@@ -3,14 +3,18 @@ import { render } from '@testing-library/react'
 import type { ReactElement } from 'react'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import type { MemoryRouterProps } from 'react-router'
+import { MemoryRouter } from 'react-router-dom'
 
 import { store } from './../redux/store'
 
-const TestRenderer = (ui: ReactElement): RenderResult => {
+const TestRenderer = (
+  ui: ReactElement,
+  memoryRouterProps?: MemoryRouterProps
+): RenderResult => {
   const renderResult = render(
     <Provider store={store}>
-      <BrowserRouter>{ui}</BrowserRouter>
+      <MemoryRouter {...memoryRouterProps}>{ui}</MemoryRouter>
     </Provider>
   )
   return renderResult
