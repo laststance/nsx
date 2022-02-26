@@ -132,7 +132,7 @@
     "start:visitor": "dotenv -e .env.visitor vite",
     "build": "dotenv -e .env.prod vite build",
     "serve": "vite preview",
-    "test": "dotenv -e .env.test jest",
+    "test": "dotenv -e .env.test -- jest",
     "env": "bash scripts/switch_env",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx --fix",
