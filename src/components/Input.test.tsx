@@ -18,7 +18,7 @@ const formValidator = object({
   name: name,
 })
 
-const Form = () => {
+const Form = ({ handleSubmitMock = jest.fn() }) => {
   const {
     register,
     handleSubmit,
@@ -29,8 +29,9 @@ const Form = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(() => {})}>
+      <form onSubmit={handleSubmit(handleSubmitMock)}>
         <Input register={register} name="name" errors={errors} />
+        <button type="submit">submit</button>
       </form>
     </>
   )
@@ -44,9 +45,35 @@ test('should render Input with react-fook-form', () => {
   expect(firstChild).toBeTruthy()
 })
 
+test.todo('should apply default value props')
+
+test.todo('should apply placefolder props')
+
+test.todo('shold apply type props')
+
 test('should be able to input any text', () => {
   const { getByRole } = TestRenderer(<Form />)
   const input = getByRole('textbox')
   act(() => userEvent.type(input, 'Hello World!'))
   expect(input).toHaveValue('Hello World!')
 })
+
+test('should submit input text when onSubmit fired', async () => {
+  const handleSubmit = jest.fn((data) => {
+    return data
+  })
+
+  const { getByRole } = TestRenderer(<Form handleSubmitMock={handleSubmit} />)
+
+  const input = getByRole('textbox')
+  act(() => userEvent.type(input, 'Hello World!'))
+  const submitBtn = getByRole('button')
+  await act(() => {
+    userEvent.click(submitBtn)
+  })
+
+  expect(handleSubmit).toHaveBeenCalled()
+  expect(handleSubmit).toHaveReturnedWith({ name: 'Hello World!' })
+})
+
+test.todo('should show error message with invalid input')
