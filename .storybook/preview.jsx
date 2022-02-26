@@ -3,7 +3,6 @@ import { initialize, mswDecorator } from 'msw-storybook-addon'
 import './tailwind.css'
 import { Provider as ReduxStoreProvider } from 'react-redux'
 import { store } from '../src/redux/store'
-import { BrowserRouter } from 'react-router-dom'
 import { handlers } from '../mocks/handlers'
 
 // Initialize MSW
@@ -11,9 +10,7 @@ initialize()
 
 export const decorators = [mswDecorator, (Story) =>
   <ReduxStoreProvider store={store}>
-    <BrowserRouter>
       <Story/>
-    </BrowserRouter>
   </ReduxStoreProvider>
 ]
 
