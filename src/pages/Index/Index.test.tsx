@@ -1,23 +1,18 @@
 import { waitFor } from '@testing-library/dom'
 import React from 'react'
 
+import { sleep } from '../../../lib/sleep'
 import TestRenderer from '../../lib/TestRenderer'
 
 import Index from './'
-
-const sleep = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms))
 
 test('should render Index', async () => {
   const {
     container: { firstChild },
   } = TestRenderer(<Index />)
 
-  await waitFor(
-    async () => {
-      await sleep(1000)
-      expect(firstChild).toBeTruthy()
-    },
-    { timeout: 999999 }
-  )
+  await waitFor(async () => {
+    await sleep(500)
+    expect(firstChild).toBeTruthy()
+  })
 })

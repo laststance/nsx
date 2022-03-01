@@ -124,8 +124,16 @@ export const handlers = [
       )
     }
   ),
-  rest.get('/post/:id', (req, res, ctx) => {
-    return res(ctx.json([]))
+  rest.get('/api/post/:id', (req, res, ctx) => {
+    return res(
+      ctx.json({
+        id: 52,
+        title: 'superstruct',
+        body: "is masterpiece of validation library ever.\n\n```js\nimport { is, define, object, string } from 'superstruct'\nimport isUuid from 'is-uuid'\nimport isEmail from 'is-email'\n\nconst Email = define('Email', isEmail)\nconst Uuid = define('Uuid', isUuid.v4)\n\nconst User = object({\n  id: Uuid,\n  email: Email,\n  name: string(),\n})\n\nconst data = {\n  id: 'c8d63140-a1f7-45e0-bfc6-df72973fea86',\n  email: 'jane@example.com',\n  name: 'Jane',\n}\n\nif (is(data, User)) {\n  // Your data is guaranteed to be valid in this block.\n}\n\n```\n\n- [ianstormtaylor/superstruct: A simple and composable way to validate data in JavaScript (and TypeScript).](https://github.com/ianstormtaylor/superstruct)",
+        createdAt: '2021-12-06T23:19:43.000Z',
+        updatedAt: '2021-12-06T23:19:43.000Z',
+      })
+    )
   }),
   rest.delete('/post/:id', (req, res, ctx) => {
     return res(ctx.json([]))

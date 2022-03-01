@@ -72,28 +72,32 @@ exports[`should render Edit 1`] = `
   <main
     class="container mx-auto flex-grow px-4 py-4 flex flex-col justify-start"
   >
-    <div
-      class="flex items-center justify-center w-full h-full"
+    <input
+      class="mt-3"
+      data-cy="edit-title-input"
+      type="text"
+      value="Loading..."
+    />
+    <textarea
+      class="h-60 w-full mt-3"
+      data-cy="edit-body-input"
     >
-      <span
-        class="css-1wbsthe"
+      Loading...
+    </textarea>
+    <div
+      class="flex justify-end pt-8"
+    >
+      <button
+        class="flex justify-center items-center shadow rounded disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none font-semibold bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 text-md"
+        data-cy="update-btn"
+        type="button"
       >
         <span
-          class="css-1aiiaxy"
-        />
-        <span
-          class="css-33ayhp"
-        />
-        <span
-          class="css-1y02tv0"
-        />
-        <span
-          class="css-eoyz0"
-        />
-        <span
-          class="css-eoehp2"
-        />
-      </span>
+          class="mx-2"
+        >
+          Update
+        </span>
+      </button>
     </div>
   </main>
   <footer
