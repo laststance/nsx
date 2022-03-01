@@ -10,7 +10,7 @@ interface Props {
 }
 
 const RTKQueryErrorMessages: React.FC<Props> = memo(
-  (error) => {
+  ({ error }) => {
     let message: string
     assertIsFetchBaseQueryError(error)
     if (error.status) {
@@ -19,7 +19,7 @@ const RTKQueryErrorMessages: React.FC<Props> = memo(
       assertIsSerializedError(error)
       message = `${error.name}: ${error.message}: ${error.stack}: ${error.code}`
     }
-    return <div>{message}</div>
+    return <code>{message}</code>
   },
   () => true
 )
