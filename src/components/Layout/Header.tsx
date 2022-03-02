@@ -20,19 +20,25 @@ const Header = memo(
           </span>
         </p>
         <div className="sm:flex-grow sm:justify-end flex space-x-2">
-          <Link to="/about">
-            <div className="hover:text-gray-300 dark:hover:text-gray-500 text-secondary text-lg">
-              about
-            </div>
-          </Link>
-          <ThemeToggle />
-          <a
-            href="https://github.com/laststance/nsx"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Github />
-          </a>
+          <div className="flex-initial">
+            <Link to="/about">
+              <div className="hover:text-gray-300 dark:hover:text-gray-500 text-secondary text-lg">
+                about
+              </div>
+            </Link>
+          </div>
+          <div className="flex-initial pt-0.5">
+            <ThemeToggle />
+          </div>
+          <div className="flex-initial">
+            <a
+              href="https://github.com/laststance/nsx"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Github />
+            </a>
+          </div>
         </div>
       </div>
     </header>
