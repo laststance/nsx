@@ -21,7 +21,7 @@ const Header = memo(
         </p>
         <div className="sm:flex-grow sm:justify-end flex space-x-2">
           <Link to="/about">
-            <div className="hover:text-gray-300 text-secondary text-lg">
+            <div className="hover:text-gray-300 dark:hover:text-gray-500 text-secondary text-lg">
               about
             </div>
           </Link>
