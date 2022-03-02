@@ -1,6 +1,6 @@
 import { Listbox } from '@headlessui/react'
 import clsx from 'clsx'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect'
 
@@ -119,6 +119,23 @@ function PcIcon({ selected, ...props }) {
 }
 
 function useTheme() {
+  if (process?.env?.NODE_ENV === 'test') {
+    // https://jestjs.io/docs/manual-mocks
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(), // deprecated
+        removeListener: jest.fn(), // deprecated
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    })
+  }
+
   let [setting, setSetting] = useState('system')
   let initial = useRef(true)
 
@@ -144,7 +161,6 @@ function useTheme() {
 
   useEffect(() => {
     let mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-
     if (mediaQuery?.addEventListener) {
       mediaQuery.addEventListener('change', update)
     } else {
