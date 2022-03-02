@@ -16,7 +16,7 @@
 # NSX
 
 Prod ➡️ https://digitalstrength.dev  
-Currently doghooding this project as a Today I Learned mini blog.
+Currently doghooding this project as a Today I Read mini blog.
 
 But I if you have interest for the implementation code, local development environment is availavle for everyone.
 

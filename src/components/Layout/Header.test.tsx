@@ -6,5 +6,5 @@ import Header from './Header'
 
 test('should render Header', () => {
   const { container } = TestRenderer(<Header />)
-  expect(container).toHaveTextContent('Today I Learned')
+  expect(container).toHaveTextContent('Today I Read')
 })

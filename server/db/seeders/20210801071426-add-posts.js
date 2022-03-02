@@ -24,7 +24,7 @@ module.exports = {
       },
       {
         title: 'Express is pretty nice as a framework',
-        body: 'Today I learned how to working the Express.  \nSimply set up debugger and tracking program line by line.  \nFinally I thought Express handing everything manner before create Node.js webserver(`http.createServer()`).  \nThis is feels like ideal software as a library.  \nThis is because Express can raise the quality of the Entire webserver just by using it.  \nThat definitely contributing to making better Internet!',
+        body: 'Today I Read how to working the Express.  \nSimply set up debugger and tracking program line by line.  \nFinally I thought Express handing everything manner before create Node.js webserver(`http.createServer()`).  \nThis is feels like ideal software as a library.  \nThis is because Express can raise the quality of the Entire webserver just by using it.  \nThat definitely contributing to making better Internet!',
         createdAt: new Date('2021-08-04T17:29:16.000Z'),
         updatedAt: new Date('2021-08-04T17:29:16.000Z'),
       },
@@ -220,7 +220,7 @@ module.exports = {
       },
       {
         title: 'I explored React v18 features',
-        body: "Actually this article was written about React v18 new feature that I've seen on mainly [React v18 working group](https://github.com/reactwg/react-18/discussions) at the 22 Aug but original text is lost for bugs, I'm writing this announce as a fix blog system bug.  \n\n- [What happened to concurrent \"mode\"? #64](https://github.com/reactwg/react-18/discussions/64)\n\nI'll continue to taking note dump today I learned from now on.",
+        body: "Actually this article was written about React v18 new feature that I've seen on mainly [React v18 working group](https://github.com/reactwg/react-18/discussions) at the 22 Aug but original text is lost for bugs, I'm writing this announce as a fix blog system bug.  \n\n- [What happened to concurrent \"mode\"? #64](https://github.com/reactwg/react-18/discussions/64)\n\nI'll continue to taking note dump Today I Read from now on.",
         createdAt: new Date('2021-08-22T13:07:16.000Z'),
         updatedAt: new Date('2021-08-31T17:27:29.000Z'),
       },
@@ -232,7 +232,7 @@ module.exports = {
       },
       {
         title: 'Express is pretty nice as a framework',
-        body: 'Today I learned how to working the Express.  \nSimply set up debugger and tracking program line by line.  \nFinally I thought Express handing everything manner before create Node.js webserver(`http.createServer()`).  \nThis is feels like ideal software as a library.  \nThis is because Express can raise the quality of the Entire webserver just by using it.  \nThat definitely contributing to making better Internet!',
+        body: 'Today I Read how to working the Express.  \nSimply set up debugger and tracking program line by line.  \nFinally I thought Express handing everything manner before create Node.js webserver(`http.createServer()`).  \nThis is feels like ideal software as a library.  \nThis is because Express can raise the quality of the Entire webserver just by using it.  \nThat definitely contributing to making better Internet!',
         createdAt: new Date('2021-08-04T17:29:16.000Z'),
         updatedAt: new Date('2021-08-04T17:29:16.000Z'),
       },

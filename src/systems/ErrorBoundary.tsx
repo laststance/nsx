@@ -48,7 +48,7 @@ export const ErrorBoundaryFallbackComponent: React.FC = () => (
   <div style={LayoutStyle} className="w-full h-full">
     <div style={MessageStyle}>
       Something Error Ooccurring
-      <span role="img" aria-label="face-emoji">
+      <span style={{ paddingLeft: 3 }} role="img" aria-label="face-emoji">
         😞
       </span>
     </div>
