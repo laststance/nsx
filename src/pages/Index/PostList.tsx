@@ -32,7 +32,7 @@ const PostList: React.FC = memo(() => {
               <PostDate date={post.createdAt} />
               <div className="sm:w-auto flex-initial w-64 text-lg break-all">
                 <Link
-                  className="hover:text-gray-400"
+                  className="hover:text-gray-400 text-primary"
                   to={`post/${post.id}`}
                   data-cy={`single-post-page-link-${i + 1}`}
                 >

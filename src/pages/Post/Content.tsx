@@ -27,14 +27,16 @@ const Content: React.FC<Props> = memo(({ post }) => {
         {/* Suspence for lazyload expesive <code /> component */}
 
         <Helment post={post} />
-        <h1 className="pt-4 pb-6 text-2xl font-semibold">{post.title}</h1>
+        <h1 className="text-primary pt-4 pb-6 text-2xl font-semibold">
+          {post.title}
+        </h1>
         <ReactMarkdown // @ts-ignore too complex
           components={{ a, code }}
           /* @ts-ignore lib index.d.ts missmatch between "@types/node@16.4.12" and "rehype-raw@6.0.0" */
           rehypePlugins={[rehypeRaw]}
           /* @ts-ignore lib index.d.ts missmatch @types/mdast/index.d.ts */
           remarkPlugins={[breaks, gfm]}
-          className="prose prose-lg"
+          className="dark:prose-invert prose prose-lg"
         >
           {post.body}
         </ReactMarkdown>
