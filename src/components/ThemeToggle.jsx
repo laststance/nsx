@@ -123,7 +123,7 @@ function PcIcon({ selected, ...props }) {
 }
 
 function useTheme() {
-  if (process?.env?.NODE_ENV === 'test') {
+  if (!window.matchMedia && process?.env?.NODE_ENV === 'test') {
     // https://jestjs.io/docs/manual-mocks
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
