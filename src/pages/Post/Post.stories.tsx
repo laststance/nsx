@@ -2,17 +2,17 @@ import type { ComponentStory } from '@storybook/react'
 import React from 'react'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 
-import Edit from './'
+import Post from './'
 
 export default {
-  title: 'Pages/Edit',
-  component: Edit,
+  title: 'Pages/Post',
+  component: Post,
 }
 
-const Template: ComponentStory<typeof Edit> = () => (
-  <MemoryRouter initialEntries={['/edit/52']}>
+const Template: ComponentStory<typeof Post> = () => (
+  <MemoryRouter initialEntries={['/post/52']}>
     <Routes>
-      <Route path="/edit/:postId" element={<Edit />} />
+      <Route path="/post/:postId" element={<Post />} />
     </Routes>
   </MemoryRouter>
 )

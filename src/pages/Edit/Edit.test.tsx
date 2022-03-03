@@ -15,7 +15,7 @@ test('should render Edit', async () => {
       <Route path="/edit/:postId" element={<Edit />} />
     </Routes>,
     {
-      initialEntries: ['/edit/3'],
+      initialEntries: ['/edit/52'],
     }
   )
   await waitFor(async () => {
