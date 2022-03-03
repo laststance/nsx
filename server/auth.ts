@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
+import { assertIsDefined } from '../lib/assertIsDefined'
 import shallowEqualScalar from '../lib/shallowEqualScalar'
-import { assertIsDefined } from '../src/lib/assertIsDefined'
 
 import deleteJWTattribute from './lib/deleteJWTattribute'
 import Logger from './lib/Logger'

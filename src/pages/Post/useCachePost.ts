@@ -1,4 +1,4 @@
-import { assertIsDefined } from '../../lib/assertIsDefined'
+import { assertIsDefined } from '../../../lib/assertIsDefined'
 import { API } from '../../redux/API'
 import { useAppSelector } from '../../redux/hooks'
 import { selectPagenationState } from '../../redux/pagenationSlice'

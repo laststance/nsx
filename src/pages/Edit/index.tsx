@@ -1,11 +1,11 @@
 import React, { memo } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { assertIsDefined } from '../../../lib/assertIsDefined'
 import Button from '../../components/Button'
 import BaseLayout from '../../components/Layout'
 import Loading from '../../components/Loading'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages'
-import { assertIsDefined } from '../../lib/assertIsDefined'
 import { API } from '../../redux/API'
 
 import useEditEffect from './useEditEffect'
