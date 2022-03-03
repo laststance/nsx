@@ -1,4 +1,12 @@
+import type {
+  MutationDefinition,
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+} from '@reduxjs/toolkit/query'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
 const endpoint = process.env.VITE_API_ENDPOINT
 
 interface UserIdPassword {
@@ -100,3 +108,17 @@ export const API = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const { useLoginReqestMutation, useSignupReqestMutation } = API
+
+export type CreatePostMutationDefinition = MutationDefinition<
+  CreatePostRequest,
+  BaseQueryFn<
+    string | FetchArgs,
+    unknown,
+    FetchBaseQueryError,
+    {},
+    FetchBaseQueryMeta
+  >,
+  'Posts',
+  Post,
+  'RTK_Query'
+>

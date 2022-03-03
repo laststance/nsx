@@ -8,13 +8,11 @@ import storage from 'redux-persist/lib/storage'
 
 import adminReducer from './adminSlice'
 import { API } from './API'
-import applicationReducer from './applicationSlice'
 import draftReducer from './draftSlice'
 import pagenationReducer from './pagenationSlice'
 import snackbarReducer from './snackbarSlice'
 
 const reducers = combineReducers({
-  application: applicationReducer,
   admin: adminReducer,
   pagenation: pagenationReducer,
   snackbar: snackbarReducer,

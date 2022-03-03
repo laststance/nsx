@@ -10,10 +10,9 @@ import Layout from '../../components/Layout'
 import Textarea from '../../components/Textarea'
 import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
-import { selectLoading } from '../../redux/applicationSlice'
 import { selectBody, selectTitle } from '../../redux/draftSlice'
 import type { DraftState } from '../../redux/draftSlice'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { useAppSelector } from '../../redux/hooks'
 
 import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
 
@@ -24,13 +23,10 @@ interface FormInput {
 
 const Create: React.FC = memo(() => {
   const navigate = useNavigate()
-  const [createPost] = API.endpoints.createPost.useMutation()
-
-  const isSubmitting = useAppSelector(selectLoading)
+  const [createPost, { isLoading }] = API.endpoints.createPost.useMutation()
   const title = useAppSelector(selectTitle)
   const body = useAppSelector(selectBody)
   const author = useAppSelector(selectAuthor)
-  const dispatch = useAppDispatch()
 
   const {
     register,
@@ -44,7 +40,7 @@ const Create: React.FC = memo(() => {
     <Layout className="flex flex-col justify-start">
       <form
         onSubmit={handleSubmit(() =>
-          onSubmit(createPost, title, body, author, dispatch, navigate)
+          onSubmit(createPost, title, body, author, navigate)
         )}
       >
         <Input
@@ -67,7 +63,7 @@ const Create: React.FC = memo(() => {
           <Button
             type="submit"
             variant="primary"
-            isLoading={isSubmitting}
+            isLoading={isLoading}
             data-cy="submit-btn"
           >
             Submit
