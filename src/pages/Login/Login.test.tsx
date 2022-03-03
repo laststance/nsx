@@ -2,12 +2,12 @@ import React from 'react'
 
 import TestRenderer from '../../lib/TestRenderer'
 
-import Signup from './'
+import Login from './'
 
-test('should render Signup', () => {
+test('should render Login', () => {
   const {
     container: { firstChild },
-  } = TestRenderer(<Signup />)
+  } = TestRenderer(<Login />)
   expect(firstChild).toBeTruthy()
   expect(firstChild).toMatchSnapshot()
 })
