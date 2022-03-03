@@ -15,6 +15,8 @@
 
 # NSX
 
+<img src="https://digital3.nyc3.cdn.digitaloceanspaces.com/nsx.gif" />
+
 Prod ➡️ https://digitalstrength.dev  
 Currently doghooding this project as a Today I Read mini blog.
 
