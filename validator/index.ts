@@ -1,7 +1,7 @@
 import type { Result } from 'superstruct'
 import { define, object } from 'superstruct'
 
-import { assertCast } from '../src/lib/assertCast'
+import { assertCast } from '../lib/assertCast'
 
 export const name = define<Author['name']>('name', (value): Result => {
   assertCast<string>(value)
