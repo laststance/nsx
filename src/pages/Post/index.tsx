@@ -8,13 +8,13 @@ import NotFound from '../NotFound'
 
 import Content from './Content'
 import Error from './Error'
-import useFindCachePost from './useFindCachePost'
+import useCachePost from './useCachePost'
 
 const PostPage: React.FC = memo(() => {
   const { postId } = useParams()
   assertIsDefined(postId)
 
-  const cache = useFindCachePost(postId)
+  const cache = useCachePost(postId)
 
   const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(
     parseInt(postId),

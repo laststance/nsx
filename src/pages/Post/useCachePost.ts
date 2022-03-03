@@ -6,7 +6,7 @@ import { selectPagenationState } from '../../redux/pagenationSlice'
 /**
  * @OneOffHook src/pages/Post/index.tsx
  */
-const useFindCachePost = (
+const useCachePost = (
   postId: Cast<Post['id'], string>
 ): Post | undefined => {
   assertIsDefined(postId)
@@ -36,4 +36,4 @@ const useFindCachePost = (
   return cache
 }
 
-export default useFindCachePost
+export default useCachePost
