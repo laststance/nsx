@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { Helmet } from 'react-helmet'
 
-import { truncateString } from '../../lib/truncateString'
+import { truncateString } from '../../../lib/truncateString'
 
 interface Props {
   post: Post
