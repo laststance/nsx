@@ -124,6 +124,8 @@ function PcIcon({ selected, ...props }) {
 
 function useTheme() {
   if (!window.matchMedia && process?.env?.NODE_ENV === 'test') {
+    // @TODO jest code in a real code is terrible.
+    // I wanna find out other workaround soon, or at least change if statement condition to more safety one?
     // https://jestjs.io/docs/manual-mocks
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
