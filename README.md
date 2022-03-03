@@ -33,38 +33,17 @@ But I if you have interest for the implementation code, local development enviro
 4. `yarn all:typecheck`
 5. `yarn test`
 6. `yarn lint`
-7. `yarn build`
-8. `yarn server:build`
-9. `cp .env.admin .env`
-10. `yarn e2e:admin`
-11. `cp .env.visitor .env`
+7. `yarn server:start`
+8. `yarn start:admin`
+9. `yarn e2e:admin`
+10. `close terminal for "yarn start:admin" process`
+11. `yarn start:visitor`
 12. `yarn e2e:visitor`
-13. `yarn server:start`
-14. `yarn start`
+13. then, you confirmed local develop environment working fine. 
 
 ## `yarn open:cy`
 
 open [Cypress](https://www.cypress.io/)
-
-## `yarn e2e:admin`
-
-run [Cypress](https://www.cypress.io/)  
-Must be set this within `.env`
-
-```
-VITE_ENABLE_SIGNUP=true
-VITE_ENABLE_LOGIN=true
-```
-
-## `yarn e2e:visitor`
-
-run [Cypress](https://www.cypress.io/)  
-Must be set this within `.env`
-
-```
-VITE_ENABLE_SIGNUP=false
-VITE_ENABLE_LOGIN=false
-```
 
 ## Enviroment Variables
 
@@ -72,7 +51,9 @@ These are storing `.env` and evaluate at build time.
 
 ### VITE_API_ENDPOINT
 
-- dev: `http://localhost:4000/api`
+- dev: `http://localhost:3000/api`
+- test: `/api/`
+- storybook: `/api/`
 - prod: `https://digitalstrength.dev/api`
 
 ### VITE_ENABLE_SIGNUP=false|true
