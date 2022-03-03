@@ -6,9 +6,7 @@ import { selectPagenationState } from '../../redux/pagenationSlice'
 /**
  * @OneOffHook src/pages/Post/index.tsx
  */
-const useCachePost = (
-  postId: Cast<Post['id'], string>
-): Post | undefined => {
+const useCachePost = (postId: Cast<Post['id'], string>): Post | undefined => {
   assertIsDefined(postId)
   const { page, perPage } = useAppSelector(selectPagenationState)
   const { cache } = API.endpoints.fetchPostList.useQueryState(
