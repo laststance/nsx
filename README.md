@@ -11,13 +11,18 @@
 >
 > The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
 > I'm developping essential feature while my spare time, currenty I planning publish v1 2023.  
+> All core feature implemented completely, I'm planning distribute repo source directly as similar as [Beam](https://github.com/planetscale/beam).
 > [Roadmap](https://github.com/laststance/nsx/projects/1)
 
 # NSX
 
-<img src="https://digital3.nyc3.cdn.digitaloceanspaces.com/nsx.gif" />
+<a src="https://digitalstrength.dev" />
+  <img src="https://digital3.nyc3.cdn.digitaloceanspaces.com/nsx.gif" />
+</a>
 
-Prod ➡️ https://digitalstrength.dev  
+⚛️ [Production](https://digitalstrength.dev)
+✅ [Storybook](https://main--61c089c06b3b4d003adde63b.chromatic.com)
+
 Currently doghooding this project as a Today I Read mini blog.
 
 But I if you have interest for the implementation code, local development environment is availavle for everyone.
