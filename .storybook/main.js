@@ -1,17 +1,21 @@
 const path = require('path')
 
 module.exports = {
-  'stories': [
+  features: {
+    interactionsDebugger: true,
+  },
+  stories: [
     '../src/**/*.stories.mdx',
     '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
-  'addons': [
-    '@storybook/addon-essentials'
+  addons: [
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions'
   ],
-  'core': {
+  core: {
     'builder': 'webpack5'
   },
-  'webpackFinal': async (config) => {
+  webpackFinal: async (config) => {
     config.module.rules.push({
       test: /\.css$/,
       use: [

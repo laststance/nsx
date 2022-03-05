@@ -1,4 +1,6 @@
+import { expect } from '@storybook/jest'
 import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import { within } from '@storybook/testing-library'
 import React from 'react'
 
 import ArrowButton from './ArrowButton'
@@ -22,4 +24,13 @@ Right.args = {
 export const Left = Template.bind({})
 Left.args = {
   direction: 'left',
+}
+
+export const RightTesting = {
+  args: { direction: 'right' },
+  // @ts-ignore
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getByTestId('arrow-right')).toBeInTheDocument()
+  },
 }
