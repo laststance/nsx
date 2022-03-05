@@ -7,6 +7,9 @@ import React from 'react'
 //
 // import Post from './'
 
+// @TODO react-markdown is distributed by ESM, but Jest does not support ESM at the time.
+// I'll activate this test after Jest supported ESM by default.
+//  https://github.com/remarkjs/react-markdown/issues/635#issuecomment-900671613
 test.skip('should render Post', async () => {
   // const {
   //   container: { firstChild },
