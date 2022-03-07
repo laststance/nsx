@@ -2350,7 +2350,7 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/client-logger@6.4.19", "@storybook/client-logger@^6.4.0 || >=6.5.0-0":
+"@storybook/client-logger@6.4.19":
   version "6.4.19"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-6.4.19.tgz#b2011ad2fa446cce4a9afdb41974b2a576e9fad2"
   integrity sha512-zmg/2wyc9W3uZrvxaW4BfHcr40J0v7AGslqYXk9H+ERLVwIvrR4NhxQFaS6uITjBENyRDxwzfU3Va634WcmdDQ==
@@ -2358,7 +2358,7 @@
     core-js "^3.8.2"
     global "^4.4.0"
 
-"@storybook/client-logger@6.5.0-alpha.46":
+"@storybook/client-logger@6.5.0-alpha.46", "@storybook/client-logger@^6.4.0 || >=6.5.0-0":
   version "6.5.0-alpha.46"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-6.5.0-alpha.46.tgz#baf685565339f0182c74a700f19e898d9aa9eb0a"
   integrity sha512-75NsrDo3xXLMNKpnYI7SDkxX47GLi7sqlxzDwchRXqNsoxW7AscbYllcarx4IKNZAQ7PHcoNg1sMVYV33np0Zg==
@@ -2662,7 +2662,7 @@
   dependencies:
     "@types/jest" ">=26.0.0"
 
-"@storybook/instrumenter@6.5.0-alpha.46":
+"@storybook/instrumenter@6.5.0-alpha.46", "@storybook/instrumenter@^6.4.0 || >=6.5.0-0":
   version "6.5.0-alpha.46"
   resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-6.5.0-alpha.46.tgz#722868e3607b3f3eb6cd022f8e51c0ac9df7214c"
   integrity sha512-+U7uyalHHKSYr6kBb8lxMF0HQAbzhLDllAuRuDUZFZgkP4WTKhVfOLKsxFsxhSCEU+avpWVg/1JwQphhqVMyFQ==
@@ -2673,7 +2673,7 @@
     core-js "^3.8.2"
     global "^4.4.0"
 
-"@storybook/instrumenter@^6.4.0", "@storybook/instrumenter@^6.4.0 || >=6.5.0-0":
+"@storybook/instrumenter@^6.4.0":
   version "6.4.19"
   resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-6.4.19.tgz#1586624d0315713c20f3d7b4e2c7fc595730b934"
   integrity sha512-KwOJUW7tItZw1CLffUbaSfEzH1p1HdGmJs1Q42uWGJSbXbVHZ7i7bJWYb3Lf90+yHTlqQjTr1PKAymwDwHseTA==
@@ -15205,10 +15205,10 @@ ts-node-dev@^1.1.8:
     ts-node "^9.0.0"
     tsconfig "^7.0.0"
 
-ts-node@^10.5.0:
-  version "10.6.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.6.0.tgz#c3f4195d5173ce3affdc8f2fd2e9a7ac8de5376a"
-  integrity sha512-CJen6+dfOXolxudBQXnVjRVvYTmTWbyz7cn+xq2XTsvnaXbHqr4gXSCNbS2Jj8yTZMuGwUoBESLaOkLascVVvg==
+ts-node@^10.7.0:
+  version "10.7.0"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.7.0.tgz#35d503d0fab3e2baa672a0e94f4b40653c2463f5"
+  integrity sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==
   dependencies:
     "@cspotcode/source-map-support" "0.7.0"
     "@tsconfig/node10" "^1.0.7"
