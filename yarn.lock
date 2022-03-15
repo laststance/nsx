@@ -3483,7 +3483,7 @@
   resolved "https://registry.yarnpkg.com/@types/pretty-hrtime/-/pretty-hrtime-1.0.1.tgz#72a26101dc567b0d68fd956cf42314556e42d601"
   integrity sha512-VjID5MJb1eGKthz2qUerWT8+R4b9N+CHvGCzg9fn4kWZgaF9AhdYikQio3R7wV8YY1NsQKPaCwKz1Yff+aHNUQ==
 
-"@types/prop-types@*":
+"@types/prop-types@*", "@types/prop-types@^15.0.0":
   version "15.7.4"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
@@ -13253,12 +13253,13 @@ react-is@^18.0.0-rc.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.0.0-rc.1-next-f468816ef-20220225.tgz#f7555205633037cea56eedd8d0504bdd23772063"
   integrity sha512-m7xQ/nX6rFrpLn0Xji8ByYTxLMGOa6C+P5qRPYo9xZ3iuTpiSIehvJscFcrlv/Ig/cDHPmvQ+VUWyvKNPZAEQg==
 
-react-markdown@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-8.0.0.tgz#3243296a59ddb0f451d262cc2e11123674b416c2"
-  integrity sha512-qbrWpLny6Ef2xHqnYqtot948LXP+4FtC+MWIuaN1kvSnowM+r1qEeEHpSaU0TDBOisQuj+Qe6eFY15cNL3gLAw==
+react-markdown@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-8.0.1.tgz#683b5225fccbdd7eca76aa89b621894a317dd4d6"
+  integrity sha512-g78B0KtUk8oDRt59fX9SWhMikn3/qYcQW+aVMxdIulcjCNeecAZNOmR8uXy5p4bhbuPIS8gZly81bF4pAQWYXw==
   dependencies:
     "@types/hast" "^2.0.0"
+    "@types/prop-types" "^15.0.0"
     "@types/unist" "^2.0.0"
     comma-separated-tokens "^2.0.0"
     hast-util-whitespace "^2.0.0"
