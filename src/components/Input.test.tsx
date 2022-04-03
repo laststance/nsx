@@ -1,7 +1,6 @@
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { act } from 'react-dom/test-utils'
 import { useForm } from 'react-hook-form'
 import { object } from 'superstruct'
 
@@ -51,10 +50,10 @@ test.todo('should apply placefolder props')
 
 test.todo('shold apply type props')
 
-test('should be able to input any text', () => {
+test('should be able to input any text', async () => {
   const { getByRole } = TestRenderer(<Form />)
   const input = getByRole('textbox')
-  act(() => userEvent.type(input, 'Hello World!'))
+  await userEvent.type(input, 'Hello World!')
   expect(input).toHaveValue('Hello World!')
 })
 
@@ -66,11 +65,9 @@ test('should submit input text when onSubmit fired', async () => {
   const { getByRole } = TestRenderer(<Form handleSubmitMock={handleSubmit} />)
 
   const input = getByRole('textbox')
-  act(() => userEvent.type(input, 'Hello World!'))
+  await userEvent.type(input, 'Hello World!')
   const submitBtn = getByRole('button')
-  await act(() => {
-    userEvent.click(submitBtn)
-  })
+  await userEvent.click(submitBtn)
 
   expect(handleSubmit).toHaveBeenCalled()
   expect(handleSubmit).toHaveReturnedWith({ name: 'Hello World!' })

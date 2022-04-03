@@ -153,13 +153,41 @@ exports[`should render Edit 1`] = `
       class="mt-3"
       data-cy="edit-title-input"
       type="text"
-      value="Loading..."
+      value="superstruct"
     />
     <textarea
       class="h-60 w-full mt-3"
       data-cy="edit-body-input"
     >
-      Loading...
+      is masterpiece of validation library ever.
+
+\`\`\`js
+import { is, define, object, string } from 'superstruct'
+import isUuid from 'is-uuid'
+import isEmail from 'is-email'
+
+const Email = define('Email', isEmail)
+const Uuid = define('Uuid', isUuid.v4)
+
+const User = object({
+  id: Uuid,
+  email: Email,
+  name: string(),
+})
+
+const data = {
+  id: 'c8d63140-a1f7-45e0-bfc6-df72973fea86',
+  email: 'jane@example.com',
+  name: 'Jane',
+}
+
+if (is(data, User)) {
+  // Your data is guaranteed to be valid in this block.
+}
+
+\`\`\`
+
+- [ianstormtaylor/superstruct: A simple and composable way to validate data in JavaScript (and TypeScript).](https://github.com/ianstormtaylor/superstruct)
     </textarea>
     <div
       class="flex justify-end pt-8"
