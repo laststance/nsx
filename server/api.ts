@@ -13,7 +13,7 @@ export const cookieOptions: CookieOptions = {
   httpOnly: true,
   secure: true,
   sameSite: 'none',
-  maxAge: 1000 * 60 * 24 * 365, // 1 year cookie
+  maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year cookie
 }
 
 const router = express.Router()
