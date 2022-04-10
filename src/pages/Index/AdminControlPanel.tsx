@@ -13,73 +13,78 @@ interface Props {
   login: AdminState['login']
 }
 
-const AdminControlPanel: React.FC<Props> = memo((props: { login: boolean }) => {
-  const [loging, setLoading] = useState(false)
-  const [logoutRequest] = API.endpoints.logoutRequest.useMutation()
-  const dispatch = useAppDispatch()
+const AdminControlPanel: React.FC<React.PropsWithChildren<Props>> = memo(
+  (props: { login: boolean }) => {
+    const [loging, setLoading] = useState(false)
+    const [logoutRequest] = API.endpoints.logoutRequest.useMutation()
+    const dispatch = useAppDispatch()
 
-  async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
+    async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
+      e.preventDefault()
 
-    setLoading(true)
+      setLoading(true)
 
-    const response = await logoutRequest()
+      const response = await logoutRequest()
 
-    if (isSuccess(response) && 'data' in response) {
-      dispatch(logout())
-      dispatch(
-        enqueSnackbar({ message: response.data.message, color: 'green' })
-      )
+      if (isSuccess(response) && 'data' in response) {
+        dispatch(logout())
+        dispatch(
+          enqueSnackbar({ message: response.data.message, color: 'green' })
+        )
+      }
+      setLoading(false)
     }
-    setLoading(false)
+
+    const LoginBtn: boolean =
+      !props.login && process.env.VITE_ENABLE_LOGIN === 'true'
+    const SignupBtn: boolean =
+      !props.login && process.env.VITE_ENABLE_SIGNUP === 'true'
+    const DashboardBtn: AdminState['login'] = props.login
+
+    if (LoginBtn === false && SignupBtn === false && DashboardBtn === false) {
+      return null
+    }
+
+    return (
+      <div className="flex items-center justify-around py-10">
+        {LoginBtn && (
+          <Link to="/login">
+            <Button variant="primary" data-cy="login-btn">
+              Login
+            </Button>
+          </Link>
+        )}
+        {SignupBtn && (
+          <Link to="/signup">
+            <Button variant="secondary" data-cy="signup-btn">
+              Sigunup
+            </Button>
+          </Link>
+        )}
+        {DashboardBtn && (
+          <Link to="/dashboard">
+            <Button
+              variant="primary"
+              data-cy="dashoard-page-transition-link-btn"
+            >
+              Dashboard
+            </Button>
+          </Link>
+        )}
+        {DashboardBtn && (
+          <Button
+            variant="secondary"
+            data-cy="logout-btn"
+            onClick={handleLogout}
+            isLoading={loging}
+          >
+            Logout
+          </Button>
+        )}
+      </div>
+    )
   }
-
-  const LoginBtn: boolean =
-    !props.login && process.env.VITE_ENABLE_LOGIN === 'true'
-  const SignupBtn: boolean =
-    !props.login && process.env.VITE_ENABLE_SIGNUP === 'true'
-  const DashboardBtn: AdminState['login'] = props.login
-
-  if (LoginBtn === false && SignupBtn === false && DashboardBtn === false) {
-    return null
-  }
-
-  return (
-    <div className="flex items-center justify-around py-10">
-      {LoginBtn && (
-        <Link to="/login">
-          <Button variant="primary" data-cy="login-btn">
-            Login
-          </Button>
-        </Link>
-      )}
-      {SignupBtn && (
-        <Link to="/signup">
-          <Button variant="secondary" data-cy="signup-btn">
-            Sigunup
-          </Button>
-        </Link>
-      )}
-      {DashboardBtn && (
-        <Link to="/dashboard">
-          <Button variant="primary" data-cy="dashoard-page-transition-link-btn">
-            Dashboard
-          </Button>
-        </Link>
-      )}
-      {DashboardBtn && (
-        <Button
-          variant="secondary"
-          data-cy="logout-btn"
-          onClick={handleLogout}
-          isLoading={loging}
-        >
-          Logout
-        </Button>
-      )}
-    </div>
-  )
-})
+)
 AdminControlPanel.displayName = 'AdminControlPanel'
 
 export default AdminControlPanel

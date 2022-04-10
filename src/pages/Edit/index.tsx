@@ -10,12 +10,14 @@ import { API } from '../../redux/API'
 
 import useEditEffect from './useEditEffect'
 
-const Layout: React.FC = memo(({ children }) => (
-  <BaseLayout className="flex flex-col justify-start">{children}</BaseLayout>
-))
+const Layout: React.FC<React.PropsWithChildren<unknown>> = memo(
+  ({ children }) => (
+    <BaseLayout className="flex flex-col justify-start">{children}</BaseLayout>
+  )
+)
 Layout.displayName = 'Layout'
 
-const Edit: React.FC = memo(() => {
+const Edit: React.FC<React.PropsWithChildren<unknown>> = memo(() => {
   const { postId: id } = useParams() as unknown as { postId: number }
   assertIsDefined(id)
 

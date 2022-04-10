@@ -19,7 +19,7 @@ export type SpinnerProps = {
   className?: string
 }
 
-const Spinner: React.FC<SpinnerProps> = memo(
+const Spinner: React.FC<React.PropsWithChildren<SpinnerProps>> = memo(
   ({ size = 'md', variant = 'primary', className = '' }: SpinnerProps) => {
     return (
       <>

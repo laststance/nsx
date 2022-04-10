@@ -44,7 +44,9 @@ const MessageStyle: React.CSSProperties = {
   color: '#78909c',
 }
 
-export const ErrorBoundaryFallbackComponent: React.FC = () => (
+export const ErrorBoundaryFallbackComponent: React.FC<
+  React.PropsWithChildren<unknown>
+> = () => (
   <div style={LayoutStyle} className="w-full h-full">
     <div style={MessageStyle}>
       Something Error Ooccurring

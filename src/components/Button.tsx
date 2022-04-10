@@ -24,7 +24,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean
 }
 
-const Button: React.FC<ButtonProps> = memo(
+const Button: React.FC<React.PropsWithChildren<ButtonProps>> = memo(
   ({
     type = 'button',
     variant = 'primary',

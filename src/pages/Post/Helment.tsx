@@ -7,7 +7,7 @@ interface Props {
   post: Post
 }
 
-const Helment: React.FC<Props> = memo(({ post }) => (
+const Helment: React.FC<React.PropsWithChildren<Props>> = memo(({ post }) => (
   <Helmet>
     <meta name="description" content={truncateString(post.body, 40)} />
     <meta property="og:title" content={post.title} />

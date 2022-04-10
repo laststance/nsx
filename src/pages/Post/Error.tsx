@@ -11,7 +11,7 @@ interface Props<T extends Error> {
 }
 
 // @TODO replace to render error html rather than snackbar
-const Error: React.FC<Props<any>> = memo(
+const Error: React.FC<React.PropsWithChildren<Props<any>>> = memo(
   ({ error }) => {
     const dispatch = useAppDispatch()
     useEffect(() => {

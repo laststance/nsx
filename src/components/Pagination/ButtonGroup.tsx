@@ -14,7 +14,7 @@ interface Props {
   nextPage: UsePagenationResult['nextPage']
 }
 
-const ButtonGroup: React.FC<Props> = memo(
+const ButtonGroup: React.FC<React.PropsWithChildren<Props>> = memo(
   ({ page, totalPage, dispatch, prevPage, nextPage }) => (
     <div className="flex items-center justify-center p-8 px-10 space-x-4">
       <ArrowButton

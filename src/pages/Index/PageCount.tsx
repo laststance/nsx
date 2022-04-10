@@ -8,13 +8,13 @@ interface Props {
   totalPage: PagenationState['totalPage']
 }
 
-const PageCount: React.FC<Props & HTMLAttributes<HTMLDivElement>> = memo(
-  ({ page, totalPage, ...rest }) => (
-    <div {...rest}>
-      {page} / {totalPage}
-    </div>
-  )
-)
+const PageCount: React.FC<
+  React.PropsWithChildren<Props & HTMLAttributes<HTMLDivElement>>
+> = memo(({ page, totalPage, ...rest }) => (
+  <div {...rest}>
+    {page} / {totalPage}
+  </div>
+))
 PageCount.displayName = 'PageCounter'
 
 export default PageCount

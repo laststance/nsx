@@ -7,7 +7,7 @@ import usePagination from '../../components/Pagination/usePagination'
 import PostDate from '../../components/PostDate'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages'
 
-const PostList: React.FC = memo(() => {
+const PostList: React.FC<React.PropsWithChildren<unknown>> = memo(() => {
   const { page, totalPage, data, isLoading, error, dispatch, nextPage, prevPage } /* eslint-disable-line prettier/prettier */
     = usePagination()
 

@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-const ArrowRight: React.FC = memo(
+const ArrowRight: React.FC<React.PropsWithChildren<unknown>> = memo(
   () => (
     <svg
       data-testid="arrow-right"

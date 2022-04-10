@@ -21,7 +21,7 @@ interface FormInput {
   body: DraftState['body']
 }
 
-const Create: React.FC = memo(() => {
+const Create: React.FC<React.PropsWithChildren<unknown>> = memo(() => {
   const navigate = useNavigate()
   const [createPost, { isLoading }] = API.endpoints.createPost.useMutation()
   const title = useAppSelector(selectTitle)

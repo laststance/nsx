@@ -17,7 +17,7 @@ interface formInputValue {
   email: string
 }
 
-const InputGroup: React.FC = memo((props) => {
+const InputGroup: React.FC<React.PropsWithChildren<unknown>> = memo((props) => {
   const {
     register,
     formState: { errors },

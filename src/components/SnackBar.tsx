@@ -9,7 +9,7 @@ interface Props {
   color: SnackBarMessage['color']
 }
 
-const SnackBar: React.FC<Props> = memo(
+const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
   ({ message, color }) => {
     const dispatch = useAppDispatch()
     const [opacity, setOpacity] = useState('opacity-0')

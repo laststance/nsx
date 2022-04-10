@@ -9,7 +9,7 @@ interface Props {
   error: FetchBaseQueryError | SerializedError
 }
 
-const RTKQueryErrorMessages: React.FC<Props> = memo(
+const RTKQueryErrorMessages: React.FC<React.PropsWithChildren<Props>> = memo(
   ({ error }) => {
     let message: string
     assertIsFetchBaseQueryError(error)

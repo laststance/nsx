@@ -18,7 +18,7 @@ interface Props {
   post: Post
 }
 
-const Content: React.FC<Props> = memo(({ post }) => {
+const Content: React.FC<React.PropsWithChildren<Props>> = memo(({ post }) => {
   const login = useAppSelector(selectLogin)
 
   return (

@@ -13,7 +13,7 @@ import { useAppSelector } from '../../redux/hooks'
 import { handleDelete } from './handler'
 import Layout from './Layout'
 
-const Dashboard: React.FC = memo(() => {
+const Dashboard: React.FC<React.PropsWithChildren<unknown>> = memo(() => {
   const { page, totalPage, data, error, isLoading, dispatch, refetch, prevPage, nextPage } /* eslint-disable-line prettier/prettier */
     = usePagination()
   const author = useAppSelector(selectAuthor)
