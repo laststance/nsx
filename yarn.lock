@@ -2329,7 +2329,7 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/client-logger@6.4.21", "@storybook/client-logger@^6.4.0 || >=6.5.0-0":
+"@storybook/client-logger@6.4.21":
   version "6.4.21"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-6.4.21.tgz#7df21cec4d5426669e828af59232ec44ea19c81a"
   integrity sha512-XkVCQ5swyYDVh5U+87DGRBdC5utJBpVW7kU5P14TQKMnSc/yHbMcXWaA89K8WKDa/WGkGbc0bKi4WrUwHFg2FA==
@@ -2337,7 +2337,7 @@
     core-js "^3.8.2"
     global "^4.4.0"
 
-"@storybook/client-logger@6.5.0-alpha.60":
+"@storybook/client-logger@6.5.0-alpha.60", "@storybook/client-logger@^6.4.0 || >=6.5.0-0":
   version "6.5.0-alpha.60"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-6.5.0-alpha.60.tgz#8295329669146fe8d9a1eeed44dc9179ccde0e12"
   integrity sha512-F/dtlyvp6mtyO9oCS9Jj46IXC924R8nPJDu+5e3JAo7WxgiIhtBvsMQdYBpfFnZwK0ZE6eqqLsinvKgvs3wBPQ==
@@ -2661,7 +2661,7 @@
   dependencies:
     "@types/jest" ">=26.0.0"
 
-"@storybook/instrumenter@6.5.0-alpha.60":
+"@storybook/instrumenter@6.5.0-alpha.60", "@storybook/instrumenter@^6.4.0 || >=6.5.0-0":
   version "6.5.0-alpha.60"
   resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-6.5.0-alpha.60.tgz#e1a14c7ecedcd0c29a0b83e2768a64fd049d0638"
   integrity sha512-QFyxrMXrEYhJIzxd1WKmbWHtb7tip5+iISykC4wBNGnCSbCqoYmupGr4OuiPBFBvrKhVASH2Bj76Y/oYUeuLVA==
@@ -2672,7 +2672,7 @@
     core-js "^3.8.2"
     global "^4.4.0"
 
-"@storybook/instrumenter@^6.4.0", "@storybook/instrumenter@^6.4.0 || >=6.5.0-0":
+"@storybook/instrumenter@^6.4.0":
   version "6.4.21"
   resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-6.4.21.tgz#b8b5dc182321de5610f9b5fe0397a627175802d0"
   integrity sha512-9SVzjVWRzSWf3wudxjxIbhH5Yq6P2hGtlYSYQhLZrPLWQDLcH5RITRakDLWFtpWwjz/T8YJUuNf7pf6WGqQdkA==
@@ -3581,19 +3581,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@>=16.9.0":
+"@types/react@*", "@types/react@>=16.9.0", "@types/react@^18.0.0":
   version "18.0.1"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.1.tgz#1b2e02fb7613212518733946e49fb963dfc66e19"
   integrity sha512-VnWlrVgG0dYt+NqlfMI0yUYb8Rdl4XUROyH+c6gq/iFCiZ805Vi//26UW38DHnxQkbDhnrIWTBiy6oKZqL11cw==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@^17.0.43":
-  version "17.0.44"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.44.tgz#c3714bd34dd551ab20b8015d9d0dbec812a51ec7"
-  integrity sha512-Ye0nlw09GeMp2Suh8qoOv0odfgCoowfM/9MG6WeRD60Gq9wS90bdkdRtYbRkNhXOpG4H+YXGvj4wOWhAC0LJ1g==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
