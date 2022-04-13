@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import ReactGA, { ga } from 'react-ga'
 import { Provider as ReduxStoreProvider } from 'react-redux'
 import { persistStore } from 'redux-persist'
@@ -43,9 +43,12 @@ const App = () => (
   </ErrorBoundary>
 )
 
-// @ts-ignore v18 @types not coming yet
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(<App />)
+const root = createRoot(document.getElementById('root') as HTMLDivElement)
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
 
 if (process.env.NODE_ENV === 'production') {
   ReactGA.initialize('UA-68130749-5')
