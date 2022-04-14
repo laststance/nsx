@@ -74,3 +74,5 @@ These only need initial setup of production admin user.
 ### JWT_SECRET
 
 set unique and hidden string for jwt.
+
+## Why do you making classic style blog system today?
