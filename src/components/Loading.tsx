@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { CircleLoader } from 'react-spinners'
 
-const Loading: React.FC<React.PropsWithChildren<unknown>> = memo(
+const Loading: React.FC = memo(
   () => {
     return (
       <div className="flex items-center justify-center w-full h-full">

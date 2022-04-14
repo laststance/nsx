@@ -10,7 +10,7 @@ import Content from './Content'
 import Error from './Error'
 import useCachePost from './useCachePost'
 
-const PostPage: React.FC<React.PropsWithChildren<unknown>> = memo(() => {
+const PostPage: React.FC = memo(() => {
   const { postId } = useParams()
   assertIsDefined(postId)
 

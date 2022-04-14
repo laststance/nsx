@@ -19,7 +19,7 @@ interface FormInput extends FieldValues {
   password: Author['password']
 }
 
-const Signup: React.FC<React.PropsWithChildren<unknown>> = memo(() => {
+const Signup: React.FC = memo(() => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [signupRequest] = useSignupReqestMutation()

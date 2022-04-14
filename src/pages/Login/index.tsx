@@ -20,7 +20,7 @@ interface FormInput extends FieldValues {
   password: Author['password']
 }
 
-const Login: React.FC<React.PropsWithChildren<unknown>> = memo(() => {
+const Login: React.FC = memo(() => {
   const navigate = useNavigate()
   const [loginReqest] = API.endpoints.loginReqest.useMutation()
   const {

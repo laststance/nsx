@@ -1,7 +1,7 @@
 import React from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
-export const a: React.FC<React.PropsWithChildren<unknown>> = (props) => (
+export const a: React.FC = (props) => (
   // eslint-disable-next-line jsx-a11y/anchor-has-content
   <a {...props} target="_blank"></a>
 )

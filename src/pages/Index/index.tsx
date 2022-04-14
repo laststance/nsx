@@ -7,19 +7,17 @@ import { useAppSelector } from '../../redux/hooks'
 import AdminControlPanel from './AdminControlPanel'
 import PostList from './PostList'
 
-const Layout: React.FC<React.PropsWithChildren<unknown>> = memo(
-  ({ children }) => (
-    <BaseLayout
-      className="flex flex-col justify-between"
-      data-cy="top-page-content-root"
-    >
-      {children}
-    </BaseLayout>
-  )
-)
+const Layout: React.FC<React.PropsWithChildren<_>> = memo(({ children }) => (
+  <BaseLayout
+    className="flex flex-col justify-between"
+    data-cy="top-page-content-root"
+  >
+    {children}
+  </BaseLayout>
+))
 Layout.displayName = 'Layout'
 
-const Index: React.FC<React.PropsWithChildren<unknown>> = memo(() => {
+const Index: React.FC = memo(() => {
   const login = useAppSelector(selectLogin)
 
   return (

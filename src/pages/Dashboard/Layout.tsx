@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 
 import BaseLayout from '../../components/Layout'
 
-const Layout: React.FC<React.PropsWithChildren<unknown>> = memo(
+const Layout: React.FC<React.PropsWithChildren<_>> = memo(
   ({ children, ...rest }) => (
     <BaseLayout
       disableBaseStyle
