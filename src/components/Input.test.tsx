@@ -51,13 +51,15 @@ test.todo('should apply placefolder props')
 test.todo('shold apply type props')
 
 test('should be able to input any text', async () => {
+  const user = userEvent.setup()
   const { getByRole } = TestRenderer(<Form />)
   const input = getByRole('textbox')
-  await userEvent.type(input, 'Hello World!')
+  await user.type(input, 'Hello World!')
   expect(input).toHaveValue('Hello World!')
 })
 
 test('should submit input text when onSubmit fired', async () => {
+  const user = userEvent.setup()
   const handleSubmit = jest.fn((data) => {
     return data
   })
@@ -65,9 +67,9 @@ test('should submit input text when onSubmit fired', async () => {
   const { getByRole } = TestRenderer(<Form handleSubmitMock={handleSubmit} />)
 
   const input = getByRole('textbox')
-  await userEvent.type(input, 'Hello World!')
+  await user.type(input, 'Hello World!')
   const submitBtn = getByRole('button')
-  await userEvent.click(submitBtn)
+  await user.click(submitBtn)
 
   expect(handleSubmit).toHaveBeenCalled()
   expect(handleSubmit).toHaveReturnedWith({ name: 'Hello World!' })
