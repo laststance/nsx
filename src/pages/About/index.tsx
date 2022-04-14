@@ -13,7 +13,7 @@ const About = memo(
             href="https://ryota-murakami.github.io/"
             target="_blank"
             rel="noreferrer"
-            className="hover:underline font-medium leading-6 no-underline"
+            className="font-medium leading-6 no-underline hover:underline"
           >
             Ryota Murakami
           </a>
@@ -33,7 +33,7 @@ const About = memo(
             href="https://laststance.io/"
             target="_blank"
             rel="noreferrer"
-            className="hover:underline font-medium leading-6 no-underline"
+            className="font-medium leading-6 no-underline hover:underline"
           >
             Laststance.io
           </a>{' '}

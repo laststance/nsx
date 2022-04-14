@@ -52,7 +52,7 @@ const Edit: React.FC = memo(() => {
         data-cy="edit-title-input"
       />
       <textarea
-        className="h-60 w-full mt-3"
+        className="mt-3 h-60 w-full"
         value={body}
         onChange={(e) => handleChange(e, 'body')}
         data-cy="edit-body-input"

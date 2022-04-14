@@ -36,11 +36,11 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
     return (
       <div
         data-cy="snackbar"
-        className={`max-w-xl flex justify-center items-center ${bgColor(
+        className={`flex max-w-xl items-center justify-center ${bgColor(
           color
-        )} z-10 py-2 px-4 absolute top-10 right-10 rounded-xl button transition-opacity ${opacity}`}
+        )} button absolute top-10 right-10 z-10 rounded-xl py-2 px-4 transition-opacity ${opacity}`}
       >
-        <p className="text-lg font-medium text-white uppercase">{message}</p>
+        <p className="text-lg font-medium uppercase text-white">{message}</p>
       </div>
     )
   },

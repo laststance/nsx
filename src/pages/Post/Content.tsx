@@ -36,7 +36,7 @@ const Content: React.FC<React.PropsWithChildren<Props>> = memo(({ post }) => {
           rehypePlugins={[rehypeRaw]}
           /* @ts-ignore lib index.d.ts missmatch @types/mdast/index.d.ts */
           remarkPlugins={[breaks, gfm]}
-          className="dark:prose-invert prose prose-lg"
+          className="prose prose-lg dark:prose-invert"
         >
           {post.body}
         </ReactMarkdown>

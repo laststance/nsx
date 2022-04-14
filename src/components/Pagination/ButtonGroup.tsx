@@ -16,7 +16,7 @@ interface Props {
 
 const ButtonGroup: React.FC<React.PropsWithChildren<Props>> = memo(
   ({ page, totalPage, dispatch, prevPage, nextPage }) => (
-    <div className="flex items-center justify-center p-8 px-10 space-x-4">
+    <div className="flex items-center justify-center space-x-4 p-8 px-10">
       <ArrowButton
         direction="left"
         onClick={() => prevPage(dispatch, page)}

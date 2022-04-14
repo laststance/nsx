@@ -47,7 +47,7 @@ const MessageStyle: React.CSSProperties = {
 export const ErrorBoundaryFallbackComponent: React.FC<
   React.PropsWithChildren<unknown>
 > = () => (
-  <div style={LayoutStyle} className="w-full h-full">
+  <div style={LayoutStyle} className="h-full w-full">
     <div style={MessageStyle}>
       Something Error Ooccurring
       <span style={{ paddingLeft: 3 }} role="img" aria-label="face-emoji">

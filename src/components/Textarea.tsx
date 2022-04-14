@@ -35,7 +35,7 @@ const Textarea: React.FC<
         <textarea
           {...register(name, options)}
           className={
-            'focus:outline-none h-60 w-full mt-3' +
+            'mt-3 h-60 w-full focus:outline-none' +
             clsx(hasError && styles.error, !hasError && styles.basic)
           }
           onChange={handleBodyChange}
@@ -44,9 +44,9 @@ const Textarea: React.FC<
           {...rest}
         />
         {hasError && (
-          <div className="inset-y-2 absolute right-0 flex items-start pr-3 pointer-events-none">
+          <div className="pointer-events-none absolute inset-y-2 right-0 flex items-start pr-3">
             <ExclamationCircleIcon
-              className="w-5 h-5 text-red-500"
+              className="h-5 w-5 text-red-500"
               aria-hidden="true"
             />
           </div>

@@ -24,15 +24,15 @@ const PostList: React.FC = memo(() => {
   }
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className="flex h-full flex-col justify-between">
       <ul className="flex flex-col justify-start space-y-4">
         {data.postList?.map((post: Post, i: number) => {
           return (
             <li key={i} className="flex sm:flex-nowrap sm:space-x-2.5">
               <PostDate date={post.createdAt} />
-              <div className="sm:w-auto flex-initial w-64 text-lg break-all">
+              <div className="w-64 flex-initial break-all text-lg sm:w-auto">
                 <Link
-                  className="hover:text-gray-400 text-primary"
+                  className="text-primary hover:text-gray-400"
                   to={`post/${post.id}`}
                   data-cy={`single-post-page-link-${i + 1}`}
                 >

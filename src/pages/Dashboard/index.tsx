@@ -38,7 +38,7 @@ const Dashboard: React.FC = memo(() => {
   return (
     <Layout>
       <h1 className="mb-3 text-3xl font-semibold">Dashboard</h1>
-      <div className="flex flex-col justify-between h-full">
+      <div className="flex h-full flex-col justify-between">
         <ul className="flex flex-col justify-start">
           {postList.map((post: Post, i: number) => {
             return (
@@ -69,7 +69,7 @@ const Dashboard: React.FC = memo(() => {
             )
           })}
         </ul>
-        <div className="flex justify-end gap-4 mt-8">
+        <div className="mt-8 flex justify-end gap-4">
           <Link to="create">
             <Button data-cy="create-btn" variant="primary">
               Create

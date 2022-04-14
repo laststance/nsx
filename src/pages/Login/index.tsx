@@ -55,10 +55,10 @@ const Login: React.FC = memo(() => {
     <Layout>
       <h1 className="mb-3 text-3xl">Login</h1>
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
-        <div className="md:flex md:items-center mb-6">
+        <div className="mb-6 md:flex md:items-center">
           <div className="md:w-1/3">
             <label
-              className="md:text-right md:mb-0 block pr-4 mb-1 font-bold text-gray-500"
+              className="mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right"
               htmlFor="name"
             >
               Name
@@ -74,10 +74,10 @@ const Login: React.FC = memo(() => {
             />
           </div>
         </div>
-        <div className="md:flex md:items-center mb-6">
+        <div className="mb-6 md:flex md:items-center">
           <div className="md:w-1/3">
             <label
-              className="md:text-right md:mb-0 block pr-4 mb-1 font-bold text-gray-500"
+              className="mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right"
               htmlFor="password"
             >
               Password

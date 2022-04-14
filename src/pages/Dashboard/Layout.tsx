@@ -6,7 +6,7 @@ const Layout: React.FC<React.PropsWithChildren<_>> = memo(
   ({ children, ...rest }) => (
     <BaseLayout
       disableBaseStyle
-      className="sm:w-full lg:container flex flex-col justify-start flex-grow px-4 py-4 mx-auto"
+      className="mx-auto flex flex-grow flex-col justify-start px-4 py-4 sm:w-full lg:container"
       data-cy="dashboard-page-content-root"
       {...rest}
     >
