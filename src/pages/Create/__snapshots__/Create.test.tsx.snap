@@ -2,14 +2,14 @@
 
 exports[`should render Create 1`] = `
 <div
-  class="bg-primary flex flex-col justify-between w-screen h-screen"
+  class="bg-primary flex h-screen w-screen flex-col justify-between"
 >
   <header
     class="w-full border-b border-gray-200"
     data-cy="header"
   >
     <div
-      class="sm:flex-row sm:content-center container flex flex-col flex-wrap items-center h-16 gap-2 mx-auto my-4"
+      class="container mx-auto my-4 flex h-16 flex-col flex-wrap items-center gap-2 sm:flex-row sm:content-center"
     >
       <a
         class="col-auto"
@@ -17,13 +17,13 @@ exports[`should render Create 1`] = `
         href="/"
       >
         <h1
-          class="sm:text-2xl text-primary text-xl font-bold"
+          class="text-primary text-xl font-bold sm:text-2xl"
         >
           Today I Learned
         </h1>
       </a>
       <p
-        class="text-base text-secondary justify-self-start sm:pt-2.5 sm:pl-1.5"
+        class="text-secondary justify-self-start text-base sm:pt-2.5 sm:pl-1.5"
       >
         What Today I Learned
         <span
@@ -35,7 +35,7 @@ exports[`should render Create 1`] = `
         </span>
       </p>
       <div
-        class="sm:flex-grow sm:justify-end flex space-x-2"
+        class="flex space-x-2 sm:flex-grow sm:justify-end"
       >
         <div
           class="flex-initial"
@@ -44,7 +44,7 @@ exports[`should render Create 1`] = `
             href="/about"
           >
             <div
-              class="hover:text-gray-300 dark:hover:text-gray-500 text-secondary text-lg"
+              class="text-secondary text-lg hover:text-gray-300 dark:hover:text-gray-500"
             >
               about
             </div>
@@ -73,7 +73,7 @@ exports[`should render Create 1`] = `
                 class="dark:hidden"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="h-6 w-6"
                   fill="none"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -91,10 +91,10 @@ exports[`should render Create 1`] = `
                 </svg>
               </span>
               <span
-                class="dark:inline hidden"
+                class="hidden dark:inline"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                 >
@@ -128,7 +128,7 @@ exports[`should render Create 1`] = `
             target="_blank"
           >
             <svg
-              class="inline w-6 h-6 text-gray-500"
+              class="inline h-6 w-6 text-gray-500"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -168,7 +168,7 @@ exports[`should render Create 1`] = `
           class="relative mt-1 rounded-md shadow-sm"
         >
           <textarea
-            class="focus:outline-none h-60 w-full mt-3 focus:bg-white focus:border-purple-500 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
+            class="mt-3 h-60 w-full focus:outline-none focus:bg-white focus:border-purple-500 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none"
             data-cy="post-body-input"
             name="body"
           />
@@ -195,10 +195,10 @@ exports[`should render Create 1`] = `
     class="w-full"
   >
     <div
-      class="flex flex-col items-center w-full px-6 border-t border-gray-200"
+      class="flex w-full flex-col items-center border-t border-gray-200 px-6"
     >
       <div
-        class="sm:w-2/3 py-6 text-center"
+        class="py-6 text-center sm:w-2/3"
       >
         <p
           class="text-sm text-gray-600"
