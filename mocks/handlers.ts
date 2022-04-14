@@ -1,8 +1,6 @@
-/* eslint-disable */
 import { rest } from 'msw'
 import type { RestContext } from 'msw/lib/types/handlers/RestHandler'
 import type { ResponseComposition } from 'msw/lib/types/response'
-/* eslint-enable */
 
 export const handlers = [
   rest.get(
