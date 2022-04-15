@@ -11,15 +11,10 @@ import Textarea from '../../components/Textarea'
 import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import { selectBody, selectTitle } from '../../redux/draftSlice'
-import type { DraftState } from '../../redux/draftSlice'
+import type { FormInput } from '../../redux/draftSlice'
 import { useAppSelector } from '../../redux/hooks'
 
 import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
-
-interface FormInput {
-  title: DraftState['title']
-  body: DraftState['body']
-}
 
 const Create: React.FC = memo(() => {
   const navigate = useNavigate()
