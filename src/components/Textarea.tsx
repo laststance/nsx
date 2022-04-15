@@ -7,11 +7,12 @@ import type {
   InternalFieldName,
   FormState,
 } from 'react-hook-form'
+import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
 import { handleBodyChange } from '../pages/Create/handlers'
 
 interface Props {
-  register: AnyFunction
+  register: UseFormRegister<any>
   options?: RegisterOptions
   name: InternalFieldName
   errors: FormState<any>['errors']
