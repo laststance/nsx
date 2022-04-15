@@ -14,7 +14,7 @@
 > All core feature implemented completely, I'm planning distribute repo source directly as similar as [Beam](https://github.com/planetscale/beam).
 > [Roadmap](https://github.com/laststance/nsx/projects/1)
 
-# NSX
+# CodeName NSX
 
 <a src="https://digitalstrength.dev" />
   <img src="https://digital3.nyc3.cdn.digitaloceanspaces.com/nsx.gif" />
