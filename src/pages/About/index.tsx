@@ -5,8 +5,8 @@ import Layout from '../../components/Layout'
 const About = memo(
   () => (
     <Layout>
-      <h1 className="pt-4 pb-6 text-3xl">About</h1>
-      <section className="space-y-4 text-xl leading-8">
+      <h1 className="text-primary pt-4 pb-6 text-3xl">About</h1>
+      <section className="text-primary space-y-4 text-xl leading-8">
         <p>
           This is just a garbage blog written by{' '}
           <a
