@@ -7,10 +7,11 @@ import type {
   InternalFieldName,
   RegisterOptions,
 } from 'react-hook-form'
+import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
 interface Props {
   type?: HTMLInputTypeAttribute
-  register: AnyFunction
+  register: UseFormRegister<_>
   options?: RegisterOptions
   name: InternalFieldName
   errors: FormState<any>['errors']

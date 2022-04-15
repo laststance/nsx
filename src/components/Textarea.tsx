@@ -10,7 +10,7 @@ import type {
 import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
 interface Props {
-  register: UseFormRegister<any>
+  register: UseFormRegister<_>
   options?: RegisterOptions
   name: InternalFieldName
   errors: FormState<any>['errors']
