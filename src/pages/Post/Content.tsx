@@ -27,7 +27,7 @@ const Content: React.FC<React.PropsWithChildren<Props>> = memo(({ post }) => {
         {/* Suspence for lazyload expesive <code /> component */}
 
         <Helment post={post} />
-        <h1 className="text-primary pt-4 pb-6 text-2xl font-semibold">
+        <h1 className="text-color-primary pt-4 pb-6 text-2xl font-semibold">
           {post.title}
         </h1>
         <ReactMarkdown // @ts-ignore too complex

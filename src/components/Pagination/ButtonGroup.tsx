@@ -24,7 +24,7 @@ const ButtonGroup: React.FC<React.PropsWithChildren<Props>> = memo(
         data-cy="prev-page-btn"
       />
       <PageCount
-        className="text-primary"
+        className="text-color-primary"
         page={page}
         totalPage={totalPage}
         data-cy="page-count"
