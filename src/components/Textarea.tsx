@@ -9,8 +9,6 @@ import type {
 } from 'react-hook-form'
 import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
-import { handleBodyChange } from '../pages/Create/handlers'
-
 interface Props {
   register: UseFormRegister<any>
   options?: RegisterOptions
@@ -39,7 +37,6 @@ const Textarea: React.FC<
             'focus:outline-none' +
             clsx(hasError && styles.error, !hasError && styles.basic)
           }
-          onChange={handleBodyChange}
           placeholder={placeholder}
           data-cy="post-body-input"
           {...rest}
