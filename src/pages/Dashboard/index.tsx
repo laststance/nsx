@@ -37,7 +37,7 @@ const Dashboard: React.FC = memo(() => {
 
   return (
     <Layout>
-      <h1 className="mb-3 text-3xl font-semibold">Dashboard</h1>
+      <h1 className="text-primary mb-3 text-3xl font-semibold">Dashboard</h1>
       <div className="flex h-full flex-col justify-between">
         <ul className="flex flex-col justify-start">
           {postList.map((post: Post, i: number) => {
@@ -51,7 +51,7 @@ const Dashboard: React.FC = memo(() => {
                   className="flex items-center space-x-2"
                 >
                   <PostDate date={post.createdAt} />
-                  <div className="text-base">{post.title}</div>
+                  <div className="text-primary">{post.title}</div>
                 </Link>
                 <div className="flex items-center space-x-2">
                   <Link to={`/dashboard/edit/${post.id}`}>
