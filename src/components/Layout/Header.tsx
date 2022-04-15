@@ -13,7 +13,7 @@ const Header = memo(
             Today I Learned
           </h1>
         </Link>
-        <p className="text-secondary justify-self-start text-base sm:pt-2.5 sm:pl-1.5">
+        <p className="text-color-secondary justify-self-start text-base sm:pt-2.5 sm:pl-1.5">
           What Today I Learned
           <span className="pl-1" role="img" aria-label="note emoji">
             📝
@@ -22,7 +22,7 @@ const Header = memo(
         <div className="flex space-x-2 sm:flex-grow sm:justify-end">
           <div className="flex-initial">
             <Link to="/about">
-              <div className="text-secondary text-lg hover:text-gray-300 dark:hover:text-gray-500">
+              <div className="text-color-secondary text-lg hover:text-gray-300 dark:hover:text-gray-500">
                 about
               </div>
             </Link>
