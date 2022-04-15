@@ -35,7 +35,7 @@ const Textarea: React.FC<
         <textarea
           {...register(name, options)}
           className={
-            'mt-3 h-60 w-full focus:outline-none' +
+            'focus:outline-none' +
             clsx(hasError && styles.error, !hasError && styles.basic)
           }
           onChange={handleBodyChange}

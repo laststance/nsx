@@ -56,6 +56,7 @@ const Create: React.FC = memo(() => {
           defaultValue={body}
           register={register}
           name="body"
+          className="mt-3 h-96 w-full"
           errors={errors}
           onChange={handleBodyChange}
         />
