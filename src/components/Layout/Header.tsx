@@ -14,7 +14,7 @@ const Header = memo(
           </h1>
         </Link>
         <p className="text-color-secondary justify-self-start text-base sm:pt-2.5 sm:pl-1.5">
-          What Today I Learned
+          Daily log for programming things
           <span className="pl-1" role="img" aria-label="note emoji">
             📝
           </span>
