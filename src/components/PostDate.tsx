@@ -9,8 +9,7 @@ const PostDate: React.FC<React.PropsWithChildren<{ date: string }>> = memo(
         {formatDate(date)}
       </div>
     )
-  },
-  () => true
+  }
 )
 PostDate.displayName = 'PostDate'
 
