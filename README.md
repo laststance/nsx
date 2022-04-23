@@ -76,3 +76,5 @@ These only need initial setup of production admin user.
 set unique and hidden string for jwt.
 
 ## Why do you making classic style blog system today?
+
+Because I have interesting about full stack web application development.
