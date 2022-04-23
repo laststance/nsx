@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from 'react'
 import { useState, useRef, useEffect } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
@@ -39,7 +40,9 @@ export const settings = [
   },
 ]
 
-export function useTheme() {
+type Setting = 'light' | 'dark' | 'system'
+
+export function useTheme(): [Setting, Dispatch<SetStateAction<Setting>>] {
   if (!window.matchMedia && process?.env?.NODE_ENV === 'test') {
     // @TODO jest code in a real code is terrible.
     // I wanna find out other workaround soon, or at least change if statement condition to more safety one?
@@ -59,7 +62,7 @@ export function useTheme() {
     })
   }
 
-  const [setting, setSetting] = useState('system')
+  const [setting, setSetting] = useState<Setting>('system')
   const initial = useRef(true)
 
   useIsomorphicLayoutEffect(() => {

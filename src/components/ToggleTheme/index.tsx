@@ -10,8 +10,7 @@ export function ThemeToggle({ panelClassName = 'mt-4' }) {
   const [setting, setSetting] = useTheme()
 
   return (
-    // @ts-ignore onChange={setSetting}
-    <Listbox value={setting} onChange={setSetting}>
+    <Listbox value={setting} onChange={(v) => setSetting(v)}>
       <Listbox.Label className="sr-only">Theme</Listbox.Label>
       <div className="relative">
         <Listbox.Button type="button">
