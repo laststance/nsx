@@ -29,7 +29,7 @@ const Form = ({ handleSubmitMock = jest.fn() }) => {
   return (
     <>
       <form onSubmit={handleSubmit(handleSubmitMock)}>
-        <Input register={register} name="name" errors={errors} />
+        <Input reactHookFormPrams={{ register, errors, name: 'name' }} />
         <button type="submit">submit</button>
       </form>
     </>

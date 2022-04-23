@@ -26,11 +26,13 @@ const InputGroup: React.FC = memo((props) => {
   return (
     <Input
       type="text"
-      register={register}
-      options={{ required: 'firstName is required' }}
-      name="firstName"
-      errors={errors}
       placeholder="Emily"
+      reactHookFormPrams={{
+        register,
+        errors,
+        name: 'firstName',
+        options: { required: 'firstName is required' },
+      }}
       {...props}
     />
   )

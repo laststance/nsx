@@ -9,13 +9,17 @@ import type {
 } from 'react-hook-form'
 import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
-interface Props {
-  type?: HTMLInputTypeAttribute
+export interface ReactHookFormParams {
   register: UseFormRegister<_>
-  options?: RegisterOptions
   name: InternalFieldName
   errors: FormState<any>['errors']
+  options?: RegisterOptions
+}
+
+interface Props {
+  type?: HTMLInputTypeAttribute
   placeholder?: string
+  reactHookFormPrams: ReactHookFormParams
 }
 
 const styles = {
@@ -27,37 +31,44 @@ const styles = {
 
 const Input: React.FC<
   React.PropsWithChildren<Props & InputHTMLAttributes<HTMLInputElement>>
-> = memo(({ type, register, options, name, errors, placeholder, ...rest }) => {
-  const hasError: boolean = errors[name]
-  return (
-    <div>
-      <div className="relative mt-1 rounded-md shadow-sm">
-        <input
-          type={type ? type : 'text'}
-          {...register(name, options)}
-          className={
-            'focus:outline-none ' +
-            clsx(hasError && styles.error, !hasError && styles.basic)
-          }
-          placeholder={placeholder}
-          {...rest}
-        />
+> = memo(
+  ({
+    type,
+    placeholder,
+    reactHookFormPrams: { register, options, name, errors },
+    ...rest
+  }) => {
+    const hasError: boolean = errors[name]
+    return (
+      <div>
+        <div className="relative mt-1 rounded-md shadow-sm">
+          <input
+            type={type ? type : 'text'}
+            {...register(name, options)}
+            className={
+              'focus:outline-none ' +
+              clsx(hasError && styles.error, !hasError && styles.basic)
+            }
+            placeholder={placeholder}
+            {...rest}
+          />
 
+          {hasError && (
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <ExclamationCircleIcon
+                className="h-5 w-5 text-red-500"
+                aria-hidden="true"
+              />
+            </div>
+          )}
+        </div>
         {hasError && (
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <ExclamationCircleIcon
-              className="h-5 w-5 text-red-500"
-              aria-hidden="true"
-            />
-          </div>
+          <p className="mt-2 text-sm text-red-600">{errors[name]?.message}</p>
         )}
       </div>
-      {hasError && (
-        <p className="mt-2 text-sm text-red-600">{errors[name]?.message}</p>
-      )}
-    </div>
-  )
-})
+    )
+  }
+)
 Input.displayName = 'Input'
 
 export default Input
