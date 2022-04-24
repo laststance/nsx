@@ -11,19 +11,21 @@ import { API } from './API'
 import draftReducer from './draftSlice'
 import pagenationReducer from './pagenationSlice'
 import snackbarReducer from './snackbarSlice'
+import themeReducer from './themeSlice'
 
 const reducers = combineReducers({
   admin: adminReducer,
   pagenation: pagenationReducer,
   snackbar: snackbarReducer,
   draft: draftReducer,
+  theme: themeReducer,
   [API.reducerPath]: API.reducer,
 })
 
 const persistConfig: PersistConfig<_> = {
   key: 'root',
   storage,
-  whitelist: ['admin', 'draft'],
+  whitelist: ['admin', 'draft', 'theme'],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
