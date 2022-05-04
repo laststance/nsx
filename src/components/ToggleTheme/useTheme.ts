@@ -2,6 +2,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import { useState, useRef, useEffect } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
+import type { Theme } from '../../redux/themeSlice'
 
 import { MoonIcon } from './MoonIcon'
 import { PcIcon } from './PCIcon'
@@ -40,9 +41,7 @@ export const settings = [
   },
 ]
 
-type Setting = 'light' | 'dark' | 'system'
-
-export function useTheme(): [Setting, Dispatch<SetStateAction<Setting>>] {
+export function useTheme(): [Theme, Dispatch<SetStateAction<Theme>>] {
   if (!window.matchMedia && process?.env?.NODE_ENV === 'test') {
     // @TODO jest code in a real code is terrible.
     // I wanna find out other workaround soon, or at least change if statement condition to more safety one?
@@ -62,7 +61,7 @@ export function useTheme(): [Setting, Dispatch<SetStateAction<Setting>>] {
     })
   }
 
-  const [setting, setSetting] = useState<Setting>('system')
+  const [setting, setSetting] = useState<Theme>('system')
   const initial = useRef(true)
 
   useIsomorphicLayoutEffect(() => {
