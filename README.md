@@ -46,7 +46,7 @@ But I if you have interest for the implementation code, local development enviro
 10. `close terminal for "yarn start:admin" process`
 11. `yarn start:visitor`
 12. `yarn e2e:visitor`
-13. then, you confirmed local develop environment working fine. 
+13. then, you confirmed local develop environment working fine.
 
 ## `yarn open:cy`
 
