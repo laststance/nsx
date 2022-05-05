@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Github from '../icons/Github'
-import { ThemeToggle } from '../ToggleTheme'
+import ThemeToggle from '../ToggleTheme'
 
 const Header = memo(() => (
   <header data-cy="header" className="w-full border-b border-gray-200">
