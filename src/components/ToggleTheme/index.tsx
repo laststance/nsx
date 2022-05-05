@@ -7,18 +7,18 @@ import { SunIcon } from './SunIcon'
 import { useTheme, settings } from './useTheme'
 
 export function ThemeToggle({ panelClassName = 'mt-4' }) {
-  const [setting, setSetting] = useTheme()
+  const [theme, updateTheme] = useTheme()
 
   return (
-    <Listbox value={setting} onChange={(v) => setSetting(v)}>
+    <Listbox value={theme} onChange={(v) => updateTheme(v)}>
       <Listbox.Label className="sr-only">Theme</Listbox.Label>
       <div className="relative">
         <Listbox.Button type="button">
           <span className="dark:hidden">
-            <SunIcon className="h-6 w-6" selected={setting !== 'system'} />
+            <SunIcon className="h-6 w-6" selected={theme !== 'system'} />
           </span>
           <span className="hidden dark:inline">
-            <MoonIcon className="h-6 w-6" selected={setting !== 'system'} />
+            <MoonIcon className="h-6 w-6" selected={theme !== 'system'} />
           </span>
         </Listbox.Button>
         <Listbox.Options

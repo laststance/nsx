@@ -1,27 +1,13 @@
-import type { Dispatch, SetStateAction } from 'react'
-import { useState, useRef, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 import type { Theme } from '../../redux/themeSlice'
+import { selectTheme, updateTheme } from '../../redux/themeSlice'
 
 import { MoonIcon } from './MoonIcon'
 import { PcIcon } from './PCIcon'
 import { SunIcon } from './SunIcon'
-
-function update() {
-  if (
-    localStorage.theme === 'dark' ||
-    (!('theme' in localStorage) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    document.documentElement.classList.add('dark', 'changing-theme')
-  } else {
-    document.documentElement.classList.remove('dark', 'changing-theme')
-  }
-  window.setTimeout(() => {
-    document.documentElement.classList.remove('changing-theme')
-  })
-}
 
 export const settings = [
   {
@@ -41,7 +27,7 @@ export const settings = [
   },
 ]
 
-export function useTheme(): [Theme, Dispatch<SetStateAction<Theme>>] {
+export function useTheme(): [Theme, any] {
   if (!window.matchMedia && process?.env?.NODE_ENV === 'test') {
     // @TODO jest code in a real code is terrible.
     // I wanna find out other workaround soon, or at least change if statement condition to more safety one?
@@ -61,28 +47,28 @@ export function useTheme(): [Theme, Dispatch<SetStateAction<Theme>>] {
     })
   }
 
-  const [setting, setSetting] = useState<Theme>('system')
-  const initial = useRef(true)
+  const theme = useAppSelector(selectTheme)
+  const dispatch = useAppDispatch()
 
-  useIsomorphicLayoutEffect(() => {
-    const theme = localStorage.theme
-    if (theme === 'light' || theme === 'dark') {
-      setSetting(theme)
-    }
-  }, [])
-
-  useIsomorphicLayoutEffect(() => {
-    if (setting === 'system') {
-      localStorage.removeItem('theme')
-    } else if (setting === 'light' || setting === 'dark') {
-      localStorage.theme = setting
-    }
-    if (initial.current) {
-      initial.current = false
+  function update() {
+    if (
+      theme === 'dark' ||
+      (theme === 'system' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark', 'changing-theme')
     } else {
-      update()
+      document.documentElement.classList.remove('dark', 'changing-theme')
     }
-  }, [setting])
+    window.setTimeout(() => {
+      document.documentElement.classList.remove('changing-theme')
+    })
+  }
+
+  useIsomorphicLayoutEffect(() => {
+    dispatch(updateTheme(theme))
+    update()
+  }, [theme])
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
@@ -92,28 +78,14 @@ export function useTheme(): [Theme, Dispatch<SetStateAction<Theme>>] {
       mediaQuery.addListener(update)
     }
 
-    function onStorage() {
-      update()
-      const theme = localStorage.theme
-      if (theme === 'light' || theme === 'dark') {
-        setSetting(theme)
-      } else {
-        setSetting('system')
-      }
-    }
-
-    window.addEventListener('storage', onStorage)
-
     return () => {
       if (mediaQuery?.removeEventListener) {
         mediaQuery.removeEventListener('change', update)
       } else {
         mediaQuery.removeListener(update)
       }
-
-      window.removeEventListener('storage', onStorage)
     }
   }, [])
 
-  return [setting, setSetting]
+  return [theme, (theme: Theme) => dispatch(updateTheme(theme))]
 }

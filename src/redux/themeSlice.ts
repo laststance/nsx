@@ -17,13 +17,13 @@ export const themeSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
-    updateTheme: (state, action: PayloadAction<{ theme: Theme }>) => {
-      state.value = action.payload.theme
+    updateTheme: (state, action: PayloadAction<Theme>) => {
+      state.value = action.payload
     },
   },
 })
 
-export const selectTheme = (state: RootState): Theme => state.value
+export const selectTheme = (state: RootState): Theme => state.theme.value
 
 export const { updateTheme } = themeSlice.actions
 
