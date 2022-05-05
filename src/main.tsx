@@ -10,26 +10,13 @@ import './index.css'
 
 import Loading from './components/Loading'
 import Controller from './Controller'
-import type { RootState } from './redux/store'
 import { store } from './redux/store'
-import { selectTheme } from './redux/themeSlice'
 import reportWebVitals from './reportWebVitals'
 import ErrorBoundary from './systems/ErrorBoundary'
 import SnackBarSystem from './systems/SnackBarSystem'
 
 const persistor = persistStore(store)
-const rootState: RootState = store.getState()
-const theme = selectTheme(rootState)
 
-if (
-  theme === 'dark' ||
-  (theme === 'system' &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches)
-) {
-  document.documentElement.classList.add('dark')
-} else {
-  document.documentElement.classList.remove('dark')
-}
 // @TODO fix Provider typing
 // @ts-expect-error
 ReduxStoreProvider.displayName = 'ReduxStoreProvider'
