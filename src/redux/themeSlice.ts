@@ -6,11 +6,11 @@ import type { RootState } from './store'
 export type Theme = 'light' | 'dark' | 'system'
 
 export interface ThemeState {
-  theme: Theme
+  value: Theme
 }
 
 const initialState: ThemeState = {
-  theme: 'system',
+  value: 'system',
 }
 
 export const themeSlice = createSlice({
@@ -18,12 +18,12 @@ export const themeSlice = createSlice({
   initialState,
   reducers: {
     updateTheme: (state, action: PayloadAction<{ theme: Theme }>) => {
-      state.theme = action.payload.theme
+      state.value = action.payload.theme
     },
   },
 })
 
-export const selectTheme = (state: RootState): ThemeState => state.theme
+export const selectTheme = (state: RootState): Theme => state.value
 
 export const { updateTheme } = themeSlice.actions
 
