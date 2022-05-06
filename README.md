@@ -37,16 +37,12 @@ But I if you have interest for the implementation code, local development enviro
 1. `yarn install`
 2. `docker-compose up -d`
 3. `yarn db:reset`
-4. `yarn all:typecheck`
-5. `yarn test`
-6. `yarn lint`
-7. `yarn server:start`
-8. `yarn start:admin`
-9. `yarn e2e:admin`
-10. `close terminal for "yarn start:admin" process`
-11. `yarn start:visitor`
-12. `yarn e2e:visitor`
-13. then, you confirmed local develop environment working fine.
+4. `yarn validate`
+5. `yarn server:start`
+6. `yarn start:admin`
+7. `yarn e2e:admin`
+
+8. then, you confirmed local develop environment working fine.
 
 ## `yarn open:cy`
 
