@@ -35,11 +35,7 @@ const App = () => (
 )
 
 const root = createRoot(document.getElementById('root') as HTMLDivElement)
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+root.render(<App />)
 
 if (process.env.NODE_ENV === 'production') {
   ReactGA.initialize('UA-68130749-5')
