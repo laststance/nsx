@@ -5,28 +5,6 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 import type { Theme } from '../../redux/themeSlice'
 import { selectTheme, updateTheme } from '../../redux/themeSlice'
 
-import { MoonIcon } from './MoonIcon'
-import { PcIcon } from './PCIcon'
-import { SunIcon } from './SunIcon'
-
-export const settings = [
-  {
-    value: 'light',
-    label: 'Light',
-    icon: SunIcon,
-  },
-  {
-    value: 'dark',
-    label: 'Dark',
-    icon: MoonIcon,
-  },
-  {
-    value: 'system',
-    label: 'System',
-    icon: PcIcon,
-  },
-]
-
 export function useTheme(): [Theme, any] {
   if (!window.matchMedia && process?.env?.NODE_ENV === 'test') {
     // @TODO jest code in a real code is terrible.

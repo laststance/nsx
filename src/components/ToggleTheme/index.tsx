@@ -3,8 +3,27 @@ import clsx from 'clsx'
 import React, { Fragment, memo } from 'react'
 
 import { MoonIcon } from './MoonIcon'
+import { PcIcon } from './PCIcon'
 import { SunIcon } from './SunIcon'
-import { useTheme, settings } from './useTheme'
+import { useTheme } from './useTheme'
+
+const options = [
+  {
+    value: 'light',
+    label: 'Light',
+    icon: SunIcon,
+  },
+  {
+    value: 'dark',
+    label: 'Dark',
+    icon: MoonIcon,
+  },
+  {
+    value: 'system',
+    label: 'System',
+    icon: PcIcon,
+  },
+]
 
 const ThemeToggle = memo<{ panelClassName?: string }>(
   ({ panelClassName = 'mt-4' }) => {
@@ -28,7 +47,7 @@ const ThemeToggle = memo<{ panelClassName?: string }>(
               panelClassName
             )}
           >
-            {settings.map(({ value, label, icon: Icon }) => (
+            {options.map(({ value, label, icon: Icon }) => (
               <Listbox.Option key={value} value={value} as={Fragment}>
                 {({ active, selected }) => (
                   <li
