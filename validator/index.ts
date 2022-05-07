@@ -46,3 +46,8 @@ export const createPostFormValidator = object({
   title: title,
   body: body,
 })
+
+export const editPostFormValidator = object({
+  title: title,
+  body: body,
+})

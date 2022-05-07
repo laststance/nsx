@@ -29,7 +29,6 @@ const useEditEffect = (
   const [updatePost] = API.endpoints.updatePost.useMutation()
   const navigate = useNavigate()
 
-  // @TODO Save Draft text in the Redux
   const [title, setTitle] = useState<Post['title']>(data?.title || 'Loading...')
   const [body, setBody] = useState<Post['body']>(data?.body || 'Loading...')
   const dispatch = useAppDispatch()
