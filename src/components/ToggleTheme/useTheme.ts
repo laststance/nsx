@@ -43,13 +43,10 @@ export function useTheme(): [Theme, ReturnType<typeof useCallback>] {
   const theme = useAppSelector(selectTheme)
   const dispatch = useAppDispatch()
 
-  const HandleOnChange = useCallback(
-    (theme: Theme) => {
-      dispatch(updateTheme(theme))
-      DOMUpdate(theme)
-    },
-    [theme]
-  )
+  const HandleOnChange = useCallback((theme: Theme) => {
+    dispatch(updateTheme(theme))
+    DOMUpdate(theme)
+  }, [])
 
   useIsomorphicLayoutEffect(() => {
     DOMUpdate(theme)
