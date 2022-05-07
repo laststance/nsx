@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
@@ -20,7 +20,7 @@ function DOMUpdate(theme: Theme) {
   })
 }
 
-export function useTheme(): [Theme, any] {
+export function useTheme(): [Theme, ReturnType<typeof useCallback>] {
   if (!window.matchMedia && process?.env?.NODE_ENV === 'test') {
     // @TODO jest code in a real code is terrible.
     // I wanna find out other workaround soon, or at least change if statement condition to more safety one?
@@ -43,6 +43,14 @@ export function useTheme(): [Theme, any] {
   const theme = useAppSelector(selectTheme)
   const dispatch = useAppDispatch()
 
+  const HandleOnChange = useCallback(
+    (theme: Theme) => {
+      dispatch(updateTheme(theme))
+      DOMUpdate(theme)
+    },
+    [theme]
+  )
+
   useIsomorphicLayoutEffect(() => {
     DOMUpdate(theme)
   }, [])
@@ -64,11 +72,5 @@ export function useTheme(): [Theme, any] {
     }
   }, [theme])
 
-  return [
-    theme,
-    (theme: Theme) => {
-      dispatch(updateTheme(theme))
-      DOMUpdate(theme)
-    },
-  ]
+  return [theme, HandleOnChange]
 }
