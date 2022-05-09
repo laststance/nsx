@@ -53,10 +53,11 @@ if (process.env.NODE_ENV === 'production') {
 
   function sendToAnalytics({ id, name, value }: Metric) {
     ga('send', 'event', {
-      eventCategory: 'Web-Vitals',
       eventAction: name,
-      eventValue: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
-      eventLabel: id, // id unique to current page load
+      eventCategory: 'Web-Vitals',
+      // values must be integers
+      eventLabel: id,
+      eventValue: Math.round(name === 'CLS' ? value * 1000 : value), // id unique to current page load
       nonInteraction: true, // avoids affecting bounce rate
     })
   }

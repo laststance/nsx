@@ -21,19 +21,19 @@ AuthorModel.init(
     password: DataTypes.TEXT,
   },
   {
-    sequelize,
     modelName: 'author',
+    sequelize,
   }
 )
 
 PostModel.init(
   {
-    title: DataTypes.STRING,
     body: DataTypes.TEXT,
+    title: DataTypes.STRING,
   },
   {
-    sequelize,
     modelName: 'post',
+    sequelize,
   }
 )
 
@@ -44,6 +44,6 @@ interface DB {
 }
 
 // @ts-ignore sequelize design is not doing straightforward class instanciation with "new" so TS can't notice class member
-const db: DB = { sequelize, author: AuthorModel, post: PostModel }
+const db: DB = { author: AuthorModel, post: PostModel, sequelize }
 
 export default db

@@ -22,7 +22,7 @@ const useEditEffect = (
 } => {
   useEffect(() => {
     if (error) {
-      dispatch(enqueSnackbar({ message: JSON.stringify(error), color: 'red' }))
+      dispatch(enqueSnackbar({ color: 'red', message: JSON.stringify(error) }))
     }
   }, [error])
 
@@ -61,22 +61,22 @@ const useEditEffect = (
 
   async function handleEdit() {
     const response = await updatePost({
-      title,
+      author,
       body,
       id,
-      author,
+      title,
     })
 
     if (isSuccess(response) && 'data' in response) {
       dispatch(
-        enqueSnackbar({ message: response.data.message, color: 'green' })
+        enqueSnackbar({ color: 'green', message: response.data.message })
       )
 
       navigate(`/post/${id}`)
     }
   }
 
-  return { title, body, handleChange, handleEdit }
+  return { body, handleChange, handleEdit, title }
 }
 
 export default useEditEffect

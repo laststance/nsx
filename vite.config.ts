@@ -4,6 +4,10 @@ import EnvironmentPlugin from 'vite-plugin-environment'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    outDir: 'build',
+    sourcemap: true,
+  },
   plugins: [
     react(),
     EnvironmentPlugin([
@@ -12,17 +16,13 @@ export default defineConfig({
       'VITE_ENABLE_SIGNUP',
     ]),
   ],
-  build: {
-    sourcemap: true,
-    outDir: 'build',
-  },
   server: {
-    open: true,
     host: true,
+    open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:4000',
         changeOrigin: true,
+        target: 'http://localhost:4000',
       },
     },
   },

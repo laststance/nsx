@@ -68,7 +68,7 @@ if (isDev) {
   )
 
   const ProdServer = https.createServer(
-    { key: privateKey, cert: certificate, ca: ca },
+    { ca: ca, cert: certificate, key: privateKey },
     app
   )
 

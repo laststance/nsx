@@ -43,11 +43,11 @@ export const body = define<Post['body']>('body', (value): Result => {
 })
 
 export const createPostFormValidator = object({
-  title: title,
   body: body,
+  title: title,
 })
 
 export const editPostFormValidator = object({
-  title: title,
   body: body,
+  title: title,
 })

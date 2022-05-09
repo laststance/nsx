@@ -9,19 +9,17 @@ export interface DraftState {
 }
 
 const initialState: DraftState = {
-  title: '',
   body: '',
+  title: '',
 }
 
 export const draftSlice = createSlice({
-  name: 'draft',
   initialState,
+  name: 'draft',
   reducers: {
-    updateTitle: (
-      state,
-      action: PayloadAction<{ title: DraftState['title'] }>
-    ) => {
-      state.title = action.payload.title
+    clearDraft: (state) => {
+      state.title = ''
+      state.body = ''
     },
     updateBody: (
       state,
@@ -29,9 +27,11 @@ export const draftSlice = createSlice({
     ) => {
       state.body = action.payload.body
     },
-    clearDraft: (state) => {
-      state.title = ''
-      state.body = ''
+    updateTitle: (
+      state,
+      action: PayloadAction<{ title: DraftState['title'] }>
+    ) => {
+      state.title = action.payload.title
     },
   },
 })

@@ -38,7 +38,7 @@ const Signup: React.FC = memo(() => {
     })
 
     if (isSuccess(res) && 'data' in res) {
-      dispatch(enqueSnackbar({ message: 'Success Signup!', color: 'green' }))
+      dispatch(enqueSnackbar({ color: 'green', message: 'Success Signup!' }))
       dispatch(login(res.data))
       navigate('/dashboard')
     }
@@ -60,7 +60,7 @@ const Signup: React.FC = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="text"
-              reactHookFormPrams={{ register, errors, name: 'name' }}
+              reactHookFormPrams={{ errors, name: 'name', register }}
               data-cy="name-input"
             />
           </div>
@@ -77,7 +77,7 @@ const Signup: React.FC = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="password"
-              reactHookFormPrams={{ register, errors, name: 'password' }}
+              reactHookFormPrams={{ errors, name: 'password', register }}
               data-cy="password-input"
             />
           </div>

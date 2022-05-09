@@ -34,7 +34,7 @@ Cypress.Commands.add('login', () => {
 })
 
 Cypress.Commands.add('logger', (message) => {
-  Cypress.log({ name: 'Logger', message: message })
+  Cypress.log({ message: message, name: 'Logger' })
 })
 
 Cypress.Commands.add('logout', () =>

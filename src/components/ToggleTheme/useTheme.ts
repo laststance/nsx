@@ -26,17 +26,24 @@ export function useTheme(): [Theme, ReturnType<typeof useCallback>] {
     // I wanna find out other workaround soon, or at least change if statement condition to more safety one?
     // https://jestjs.io/docs/manual-mocks
     Object.defineProperty(window, 'matchMedia', {
-      writable: true,
       value: jest.fn().mockImplementation((query) => ({
+        // deprecated
+        addEventListener: jest.fn(),
+
+        addListener: jest.fn(),
+
+        dispatchEvent: jest.fn(),
+
         matches: false,
         media: query,
+
         onchange: null,
-        addListener: jest.fn(), // deprecated
-        removeListener: jest.fn(), // deprecated
-        addEventListener: jest.fn(),
+
         removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
+        // deprecated
+        removeListener: jest.fn(),
       })),
+      writable: true,
     })
   }
 

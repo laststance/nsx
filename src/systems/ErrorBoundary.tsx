@@ -31,17 +31,17 @@ class ErrorBoundary extends Component<Props, State> {
 export default ErrorBoundary
 
 const LayoutStyle: React.CSSProperties = {
+  alignItems: 'center',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
 }
 
 const MessageStyle: React.CSSProperties = {
-  padding: '40px',
   border: '2px #78909c solid',
   borderRadius: '5px',
-  fontSize: '24px',
   color: '#78909c',
+  fontSize: '24px',
+  padding: '40px',
 }
 
 export const ErrorBoundaryFallbackComponent: React.FC<

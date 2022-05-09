@@ -11,9 +11,9 @@ import Logger from './lib/Logger'
 
 export const cookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: true,
+  maxAge: 1000 * 60 * 60 * 24 * 365,
   sameSite: 'none',
-  maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year cookie
+  secure: true, // 1 year cookie
 }
 
 const router = express.Router()
@@ -49,7 +49,7 @@ router.get(
     // @ts-ignore Argument of type '{ limit: number; order: string[][]; } | { limit: number; offset: number; order: string[][]; }' is not assignable to parameter of type 'FindOptions<any> | undefined'.
     const postList = await db.post.findAll(options)
     // @ts-ignore Type 'PostModel[]' is not assignable to type 'Post[]'. Type 'PostModel' is missing the following properties from type 'Post': createdAt, updatedAt
-    res.status(200).json({ total, postList })
+    res.status(200).json({ postList, total })
   }
 )
 
@@ -151,8 +151,8 @@ router.post('/create', async (req: Request, res: Response) => {
   const { title, body } = req.body
   try {
     const postModelInstance = await db.post.create<PostModel>({
-      title: title,
       body: body,
+      title: title,
     })
     const post = postModelInstance.toJSON()
     res.status(201).json(post)
@@ -176,7 +176,7 @@ router.post(
     const body = req.body
     try {
       await db.post.update(
-        { title: body.title, body: body.body },
+        { body: body.body, title: body.title },
         { where: { id: body.id } }
       )
 

@@ -41,7 +41,7 @@ const Create: React.FC = memo(() => {
         <Input
           defaultValue={title}
           type="text"
-          reactHookFormPrams={{ register, errors, name: 'title' }}
+          reactHookFormPrams={{ errors, name: 'title', register }}
           onChange={handleTitleChange}
           data-cy="post-title-input"
         />

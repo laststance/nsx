@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import Index from './'
 
 export default {
-  title: 'Pages/Index',
   component: Index,
+  title: 'Pages/Index',
 }
 
 const Template: ComponentStory<typeof Index> = () => (

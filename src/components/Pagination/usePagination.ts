@@ -36,15 +36,15 @@ function usePagination(): UsePagenationResult {
     })
 
   return {
-    page,
-    totalPage,
     data,
-    error,
-    refetch,
-    isLoading,
     dispatch,
-    prevPage,
+    error,
+    isLoading,
     nextPage,
+    page,
+    prevPage,
+    refetch,
+    totalPage,
   }
 }
 

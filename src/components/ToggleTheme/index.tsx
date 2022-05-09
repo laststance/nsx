@@ -9,19 +9,19 @@ import { useTheme } from './useTheme'
 
 const options = [
   {
-    value: 'light',
-    label: 'Light',
     icon: SunIcon,
+    label: 'Light',
+    value: 'light',
   },
   {
-    value: 'dark',
-    label: 'Dark',
     icon: MoonIcon,
+    label: 'Dark',
+    value: 'dark',
   },
   {
-    value: 'system',
-    label: 'System',
     icon: PcIcon,
+    label: 'System',
+    value: 'system',
   },
 ]
 

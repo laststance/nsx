@@ -5,17 +5,17 @@ import React, { memo } from 'react'
 import Spinner from './Spinner'
 
 const variants = {
-  primary: 'bg-green-500 hover:bg-green-600 text-white',
-  secondary: 'bg-blue-500 hover:bg-blue-600 text-white',
+  danger: 'bg-red-500 text-white hover:bg-red-600',
   inverse:
     'bg-white text-green-400 border border-green-400 hover:bg-green-500 hover:text-white',
-  danger: 'bg-red-500 text-white hover:bg-red-600',
+  primary: 'bg-green-500 hover:bg-green-600 text-white',
+  secondary: 'bg-blue-500 hover:bg-blue-600 text-white',
 }
 
 const sizes = {
-  sm: 'py-2 px-4 text-sm',
-  md: 'py-2 px-6 text-md',
   lg: 'py-3 px-8 text-lg',
+  md: 'py-2 px-6 text-md',
+  sm: 'py-2 px-4 text-sm',
 }
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

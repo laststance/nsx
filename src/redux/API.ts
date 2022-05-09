@@ -22,87 +22,87 @@ const requestInfo = Object.defineProperty({}, 'credentials', {
 })
 
 export const API = createApi({
-  reducerPath: 'RTK_Query',
   baseQuery: fetchBaseQuery({
     baseUrl: endpoint,
+    fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
     prepareHeaders: (headers: Headers) => {
       return headers
     },
-    fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
   }),
-  keepUnusedDataFor: 180,
-  tagTypes: ['Posts'],
   endpoints: (builder) => ({
-    fetchPostList: builder.query<PostListResponce, PostListRequestParamClient>({
-      query: ({ page, perPage }) => `post_list?page=${page}&perPage=${perPage}`,
-      providesTags: (result) =>
-        result && result.postList
-          ? [
-              ...result.postList.map(({ id }) => ({
-                type: 'Posts' as const,
-                id,
-              })),
-              { type: 'Posts', id: 'LIST' },
-            ]
-          : [{ type: 'Posts', id: 'LIST' }],
+    createPost: builder.mutation<Post, CreatePostRequest>({
+      invalidatesTags: () => [{ type: 'Posts' }],
+      query: (values) => ({
+        body: values,
+        method: 'POST',
+        url: 'create',
+      }),
     }),
-    fetchPost: builder.query<Post, Post['id']>({
-      query: (id) => ({ url: `post/${id}`, method: 'GET' }),
-      providesTags: (result, error, id) => [{ type: 'Posts', id }],
-    }),
-
     deletePost: builder.mutation<
       DeletePostResponse,
       { id: Post['id']; author: Author }
     >({
+      invalidatesTags: (result, error, { id }) => [{ id, type: 'Posts' }],
       query: ({ id, author }) => ({
-        url: `post/${id}/`,
-        method: 'DELETE',
         body: { author: author },
+        method: 'DELETE',
+        url: `post/${id}/`,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Posts', id }],
     }),
 
-    createPost: builder.mutation<Post, CreatePostRequest>({
-      query: (values) => ({
-        url: 'create',
-        method: 'POST',
-        body: values,
-      }),
-      invalidatesTags: () => [{ type: 'Posts' }],
+    fetchPost: builder.query<Post, Post['id']>({
+      providesTags: (result, error, id) => [{ id, type: 'Posts' }],
+      query: (id) => ({ method: 'GET', url: `post/${id}` }),
     }),
 
-    updatePost: builder.mutation<UpdatePostResponse, UpdatePostRequest>({
-      query: (values) => ({
-        url: 'update',
-        method: 'POST',
-        body: values,
-      }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Posts', id }],
+    fetchPostList: builder.query<PostListResponce, PostListRequestParamClient>({
+      providesTags: (result) =>
+        result && result.postList
+          ? [
+              ...result.postList.map(({ id }) => ({
+                id,
+                type: 'Posts' as const,
+              })),
+              { id: 'LIST', type: 'Posts' },
+            ]
+          : [{ id: 'LIST', type: 'Posts' }],
+      query: ({ page, perPage }) => `post_list?page=${page}&perPage=${perPage}`,
     }),
 
     loginReqest: builder.mutation<LoginResponse, UserIdPassword>({
       query: (loginInfo) => ({
-        url: 'login',
-        method: 'POST',
         body: loginInfo,
+        method: 'POST',
+        url: 'login',
+      }),
+    }),
+
+    logoutRequest: builder.mutation<LogoutResponse, void>({
+      query: () => ({
+        method: 'GET',
+        url: 'logout',
       }),
     }),
 
     signupReqest: builder.mutation<Author, UserIdPassword>({
       query: (loginInfo) => ({
-        url: 'signup',
-        method: 'POST',
         body: loginInfo,
+        method: 'POST',
+        url: 'signup',
       }),
     }),
-    logoutRequest: builder.mutation<LogoutResponse, void>({
-      query: () => ({
-        url: 'logout',
-        method: 'GET',
+    updatePost: builder.mutation<UpdatePostResponse, UpdatePostRequest>({
+      invalidatesTags: (result, error, { id }) => [{ id, type: 'Posts' }],
+      query: (values) => ({
+        body: values,
+        method: 'POST',
+        url: 'update',
       }),
     }),
   }),
+  keepUnusedDataFor: 180,
+  reducerPath: 'RTK_Query',
+  tagTypes: ['Posts'],
 })
 
 // Export hooks for usage in functional components, which are

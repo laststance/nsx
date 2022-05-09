@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import Dashboard from './'
 
 export default {
-  title: 'Pages/Dashboard',
   component: Dashboard,
+  title: 'Pages/Dashboard',
 }
 
 const Template: ComponentStory<typeof Dashboard> = () => (

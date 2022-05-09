@@ -4,8 +4,8 @@ import React from 'react'
 import ArrowRight from './ArrowRight'
 
 export default {
-  title: 'Components/Icons/ArrowRight',
   component: ArrowRight,
+  title: 'Components/Icons/ArrowRight',
 }
 
 const Template: ComponentStory<typeof ArrowRight> = () => <ArrowRight />

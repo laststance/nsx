@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import About from './'
 
 export default {
-  title: 'Pages/About',
   component: About,
+  title: 'Pages/About',
 }
 
 const Template: ComponentStory<typeof About> = () => (

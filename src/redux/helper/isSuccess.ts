@@ -24,14 +24,14 @@ const isSuccess = (res: Response): boolean => {
       // @TODO Sentry
       // FetchBaseQueryError
       store.dispatch(
-        enqueSnackbar({ message: JSON.stringify(error), color: 'red' })
+        enqueSnackbar({ color: 'red', message: JSON.stringify(error) })
       )
       return false
     } else {
       // @TODO Sentry
       // SerializedError
       store.dispatch(
-        enqueSnackbar({ message: JSON.stringify(error), color: 'red' })
+        enqueSnackbar({ color: 'red', message: JSON.stringify(error) })
       )
       return false
     }

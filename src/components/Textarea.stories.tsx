@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 import Textarea from './Textarea'
 
 export default {
-  title: 'Components/Textarea',
   component: Textarea,
+  title: 'Components/Textarea',
 }
 
 interface FormInput {

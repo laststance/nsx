@@ -39,13 +39,13 @@ const Login: React.FC = memo(() => {
       const data = res.data
       if ('failed' in data) {
         assertCast<failedMessage>(data)
-        dispatch(enqueSnackbar({ message: data.failed, color: 'red' }))
+        dispatch(enqueSnackbar({ color: 'red', message: data.failed }))
         return // missing username or pass, onemore time!
       }
 
       // Login SuccessFul!
       dispatch(login(data))
-      dispatch(enqueSnackbar({ message: 'Login SuccessFul!', color: 'green' }))
+      dispatch(enqueSnackbar({ color: 'green', message: 'Login SuccessFul!' }))
 
       navigate('/dashboard')
     }
@@ -67,7 +67,7 @@ const Login: React.FC = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="text"
-              reactHookFormPrams={{ register, errors, name: 'name' }}
+              reactHookFormPrams={{ errors, name: 'name', register }}
               data-cy="name-input"
             />
           </div>
@@ -84,7 +84,7 @@ const Login: React.FC = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="password"
-              reactHookFormPrams={{ register, errors, name: 'password' }}
+              reactHookFormPrams={{ errors, name: 'password', register }}
               data-cy="password-input"
             />
           </div>

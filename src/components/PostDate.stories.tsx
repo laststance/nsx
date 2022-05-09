@@ -4,8 +4,8 @@ import React from 'react'
 import PostDate from './PostDate'
 
 export default {
-  title: 'Components/PostDate',
   component: PostDate,
+  title: 'Components/PostDate',
 }
 
 const Template: ComponentStory<typeof PostDate> = (props) => (

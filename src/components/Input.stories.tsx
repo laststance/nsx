@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 import Input from './Input'
 
 const meta: ComponentMeta<typeof Input> = {
-  title: 'Components/Input',
   component: Input,
+  title: 'Components/Input',
 }
 
 export default meta
@@ -28,10 +28,10 @@ const InputGroup: React.FC = memo((props) => {
       type="text"
       placeholder="Emily"
       reactHookFormPrams={{
-        register,
         errors,
         name: 'firstName',
         options: { required: 'firstName is required' },
+        register,
       }}
       {...props}
     />

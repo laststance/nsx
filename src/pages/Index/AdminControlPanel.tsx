@@ -29,7 +29,7 @@ const AdminControlPanel: React.FC<React.PropsWithChildren<Props>> = memo(
       if (isSuccess(response) && 'data' in response) {
         dispatch(logout())
         dispatch(
-          enqueSnackbar({ message: response.data.message, color: 'green' })
+          enqueSnackbar({ color: 'green', message: response.data.message })
         )
       }
       setLoading(false)

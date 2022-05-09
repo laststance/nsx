@@ -16,7 +16,7 @@ const Error: React.FC<React.PropsWithChildren<Props<any>>> = memo(
     const dispatch = useAppDispatch()
     useEffect(() => {
       if (error)
-        dispatch(enqueSnackbar({ message: error.toString(), color: 'red' }))
+        dispatch(enqueSnackbar({ color: 'red', message: error.toString() }))
       // @TODO Sentry
     }, [error])
 

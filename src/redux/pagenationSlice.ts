@@ -17,16 +17,6 @@ const initialState: PagenationState = {
 }
 
 export const pagenationSlice = createSlice({
-  name: 'pagenation',
-  initialState,
-  reducers: {
-    updatePage: (
-      state,
-      action: PayloadAction<{ page: PagenationState['page'] }>
-    ) => {
-      state.page = action.payload.page
-    },
-  },
   extraReducers: (builder) => {
     builder.addMatcher(
       API.endpoints.fetchPostList.matchFulfilled,
@@ -34,6 +24,16 @@ export const pagenationSlice = createSlice({
         state.totalPage = Math.ceil(payload.total / state.perPage)
       }
     )
+  },
+  initialState,
+  name: 'pagenation',
+  reducers: {
+    updatePage: (
+      state,
+      action: PayloadAction<{ page: PagenationState['page'] }>
+    ) => {
+      state.page = action.payload.page
+    },
   },
 })
 

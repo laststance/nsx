@@ -32,13 +32,13 @@ export async function onSubmit(
   navigate: NavigateFunction
 ) {
   const post = await createPost({
-    title,
-    body,
     author,
+    body,
+    title,
   })
   // @TODO Rewrite mutation error handling flow
   if (isSuccess(post) && 'data' in post) {
-    dispatch(enqueSnackbar({ message: 'New Post Created!', color: 'green' }))
+    dispatch(enqueSnackbar({ color: 'green', message: 'New Post Created!' }))
     dispatch(clearDraft())
 
     navigate(`/post/${post.data.id}`)

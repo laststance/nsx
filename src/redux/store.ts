@@ -15,9 +15,9 @@ import themeReducer from './themeSlice'
 
 const reducers = combineReducers({
   admin: adminReducer,
+  draft: draftReducer,
   pagenation: pagenationReducer,
   snackbar: snackbarReducer,
-  draft: draftReducer,
   theme: themeReducer,
   [API.reducerPath]: API.reducer,
 })
@@ -31,10 +31,10 @@ const persistConfig: PersistConfig<_> = {
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  devTools: process.env.NODE_ENV === 'development' ? true : false,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(API.middleware),
-  devTools: process.env.NODE_ENV === 'development' ? true : false,
+  reducer: persistedReducer,
 })
 
 setupListeners(store.dispatch)

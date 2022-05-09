@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import Layout from './'
 
 export default {
-  title: 'Components/Layout',
   component: Layout,
+  title: 'Components/Layout',
 }
 
 const Template: ComponentStory<typeof Layout> = () => (
@@ -14,11 +14,11 @@ const Template: ComponentStory<typeof Layout> = () => (
     <Layout>
       <div
         style={{
-          padding: 200,
-          fontSize: 24,
-          fontWeight: 'bold',
           border: 'solid 1px #000',
           borderRadius: 8,
+          fontSize: 24,
+          fontWeight: 'bold',
+          padding: 200,
           textAlign: 'center',
         }}
       >

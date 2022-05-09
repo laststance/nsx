@@ -9,19 +9,19 @@ export interface AdminState {
 }
 
 const initialState = {
-  login: false,
   author: {
+    createdAt: 'none',
     id: 9999,
     name: 'guest',
     password: 'none',
-    createdAt: 'none',
     updatedAt: 'none',
   },
+  login: false,
 }
 
 export const adminSlice = createSlice({
-  name: 'admin',
   initialState,
+  name: 'admin',
   reducers: {
     login: (state, action: PayloadAction<Author>) => {
       state.login = true

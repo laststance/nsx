@@ -24,9 +24,9 @@ var userList = []
 
 for (i = 0; i <= 20; i++) {
   userList.push({
-    name: faker.name.findName(),
-    email: faker.internet.email(),
     card: faker.helpers.createCard(),
+    email: faker.internet.email(),
+    name: faker.name.findName(),
   })
 }
 

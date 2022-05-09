@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import Header from './Header'
 
 export default {
-  title: 'Components/Layout/Header',
   component: Header,
+  title: 'Components/Layout/Header',
 }
 
 const Template: ComponentStory<typeof Header> = () => (

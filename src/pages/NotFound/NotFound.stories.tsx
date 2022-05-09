@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import NotFound from './'
 
 export default {
-  title: 'Pages/NotFound',
   component: NotFound,
+  title: 'Pages/NotFound',
 }
 
 const Template: ComponentStory<typeof NotFound> = () => (

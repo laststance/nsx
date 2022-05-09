@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import Login from './'
 
 export default {
-  title: 'Pages/Login',
   component: Login,
+  title: 'Pages/Login',
 }
 
 const Template: ComponentStory<typeof Login> = () => (
