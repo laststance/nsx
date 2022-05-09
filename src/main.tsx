@@ -9,10 +9,10 @@ import type { Metric } from 'web-vitals'
 import './index.css'
 
 import Loading from './components/Loading'
-import Controller from './Controller'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
 import ErrorBoundary from './systems/ErrorBoundary'
+import Router from './systems/Router'
 import SnackBarSystem from './systems/SnackBarSystem'
 
 const persistor = persistStore(store)
@@ -27,7 +27,7 @@ const App = () => (
       <ReduxStoreProvider store={store}>
         <ReduxPersistGate persistor={persistor}>
           <SnackBarSystem />
-          <Controller />
+          <Router />
         </ReduxPersistGate>
       </ReduxStoreProvider>
     </Suspense>
@@ -35,11 +35,7 @@ const App = () => (
 )
 
 const root = createRoot(document.getElementById('root') as HTMLDivElement)
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+root.render(<App />)
 
 if (process.env.NODE_ENV === 'production') {
   ReactGA.initialize('UA-68130749-5')

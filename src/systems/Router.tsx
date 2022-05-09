@@ -1,18 +1,19 @@
 import React, { memo } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import About from './pages/About'
-import Create from './pages/Create'
-import Dashboard from './pages/Dashboard'
-import Edit from './pages/Edit'
-import Index from './pages/Index'
-import Login from './pages/Login'
-import NotFound from './pages/NotFound'
-import Post from './pages/Post'
-import Signup from './pages/Signup'
-import Private from './systems/Private'
+import About from '../pages/About/index'
+import Create from '../pages/Create/index'
+import Dashboard from '../pages/Dashboard/index'
+import Edit from '../pages/Edit/index'
+import Index from '../pages/Index/index'
+import Login from '../pages/Login/index'
+import NotFound from '../pages/NotFound/index'
+import Post from '../pages/Post/index'
+import Signup from '../pages/Signup/index'
 
-const Controller = memo(() => (
+import Private from './Private'
+
+const Router = memo(() => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Index />} />
@@ -33,6 +34,6 @@ const Controller = memo(() => (
     </Routes>
   </BrowserRouter>
 ))
-Controller.displayName = 'Controller'
+Router.displayName = 'Router'
 
-export default Controller
+export default Router
