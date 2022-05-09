@@ -16,7 +16,7 @@
 
 # CodeName NSX
 
-<a src="https://digitalstrength.dev" />
+<a src="https://digitalstrength.dev">
   <img src="https://digital3.nyc3.cdn.digitaloceanspaces.com/nsx.gif" />
 </a>
 
