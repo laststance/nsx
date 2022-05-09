@@ -20,10 +20,13 @@ const TextareaForm = () => {
   } = useForm<FormInput>()
   return (
     <Textarea
-      register={register}
       name="message"
-      options={{ required: 'message is required' }}
-      errors={errors}
+      reactHookFormParams={{
+        errors,
+        name: 'message',
+        options: { required: 'message is required' },
+        register,
+      }}
       placeholder="Type any text"
     />
   )

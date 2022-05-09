@@ -2,19 +2,12 @@ import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 import React, { memo } from 'react'
 import type { TextareaHTMLAttributes } from 'react'
-import type {
-  RegisterOptions,
-  InternalFieldName,
-  FormState,
-} from 'react-hook-form'
-import type { UseFormRegister } from 'react-hook-form/dist/types/form'
+
+import type { ReactHookFormParams } from './Input'
 
 interface Props {
-  register: UseFormRegister<_>
-  options?: RegisterOptions
-  name: InternalFieldName
-  errors: FormState<any>['errors']
   placeholder?: string
+  reactHookFormParams: ReactHookFormParams
 }
 
 const styles = {
@@ -26,36 +19,42 @@ const styles = {
 
 const Textarea: React.FC<
   React.PropsWithChildren<Props & TextareaHTMLAttributes<HTMLTextAreaElement>>
-> = memo(({ register, options, name, errors, placeholder, ...rest }) => {
-  const hasError: boolean = errors[name]
-  return (
-    <div>
-      <div className="relative mt-1 rounded-md shadow-sm">
-        <textarea
-          {...register(name, options)}
-          className={
-            'focus:outline-none' +
-            clsx(hasError && styles.error, !hasError && styles.basic)
-          }
-          placeholder={placeholder}
-          data-cy="post-body-input"
-          {...rest}
-        />
-        {hasError && (
-          <div className="pointer-events-none absolute inset-y-2 right-0 flex items-start pr-3">
-            <ExclamationCircleIcon
-              className="h-5 w-5 text-red-500"
-              aria-hidden="true"
-            />
-          </div>
-        )}
-        {hasError && (
-          <p className="mt-2 text-sm text-red-600">{errors[name]?.message}</p>
-        )}
+> = memo(
+  ({
+    placeholder,
+    reactHookFormParams: { register, options, errors, name },
+    ...rest
+  }) => {
+    const hasError: boolean = errors[name]
+    return (
+      <div>
+        <div className="relative mt-1 rounded-md shadow-sm">
+          <textarea
+            {...register(name, options)}
+            className={
+              'focus:outline-none' +
+              clsx(hasError && styles.error, !hasError && styles.basic)
+            }
+            placeholder={placeholder}
+            data-cy="post-body-input"
+            {...rest}
+          />
+          {hasError && (
+            <div className="pointer-events-none absolute inset-y-2 right-0 flex items-start pr-3">
+              <ExclamationCircleIcon
+                className="h-5 w-5 text-red-500"
+                aria-hidden="true"
+              />
+            </div>
+          )}
+          {hasError && (
+            <p className="mt-2 text-sm text-red-600">{errors[name]?.message}</p>
+          )}
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
 Textarea.displayName = 'Textarea'
 
 export default Textarea

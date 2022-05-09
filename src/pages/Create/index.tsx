@@ -47,10 +47,8 @@ const Create: React.FC = memo(() => {
         />
         <Textarea
           defaultValue={body}
-          register={register}
-          name="body"
+          reactHookFormParams={{ errors, name: 'body', register }}
           className="mt-3 h-96 w-full"
-          errors={errors}
           onChange={handleBodyChange}
         />
         <div className="flex justify-end gap-4 pt-8">
