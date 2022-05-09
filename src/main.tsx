@@ -1,4 +1,3 @@
-import { ClickToComponent } from 'click-to-react-component'
 import React, { Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import ReactGA, { ga } from 'react-ga'
@@ -36,17 +35,7 @@ const App = () => (
 )
 
 const root = createRoot(document.getElementById('root') as HTMLDivElement)
-
-if (process.env.NODE_ENV === 'production') {
-  root.render(<App />)
-} else {
-  root.render(
-    <>
-      <ClickToComponent />
-      <App />
-    </>
-  )
-}
+root.render(<App />)
 
 if (process.env.NODE_ENV === 'production') {
   ReactGA.initialize('UA-68130749-5')
