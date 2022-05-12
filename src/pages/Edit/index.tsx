@@ -1,14 +1,22 @@
+import { superstructResolver } from '@hookform/resolvers/superstruct'
 import React, { memo } from 'react'
-import { useParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { assertIsDefined } from '../../../lib/assertIsDefined'
+import { editPostFormValidator } from '../../../validator/index'
 import Button from '../../components/Button'
+import Input from '../../components/Input'
 import BaseLayout from '../../components/Layout'
 import Loading from '../../components/Loading'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages'
+import Textarea from '../../components/Textarea'
+import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
+import type { FormInput } from '../../redux/draftSlice'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 
-import useEditEffect from './useEditEffect'
+import { onSubmit } from './handlers'
 
 const Layout: React.FC<React.PropsWithChildren<_>> = memo(({ children }) => (
   <BaseLayout className="flex flex-col justify-start">{children}</BaseLayout>
@@ -20,11 +28,18 @@ const Edit: React.FC = memo(() => {
   assertIsDefined(id)
 
   const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(id)
-  const { title, body, handleEdit, handleChange } = useEditEffect(
-    id,
-    data,
-    error
-  )
+  const [updatePost] = API.endpoints.updatePost.useMutation()
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const author = useAppSelector(selectAuthor)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<FormInput>({
+    resolver: superstructResolver(editPostFormValidator),
+  })
 
   if (error) {
     return (
@@ -44,24 +59,28 @@ const Edit: React.FC = memo(() => {
 
   return (
     <Layout>
-      <input
-        type="text"
-        className="mt-3"
-        value={title}
-        onChange={(e) => handleChange(e, 'title')}
-        data-cy="edit-title-input"
-      />
-      <textarea
-        className="mt-3 h-96 w-full"
-        value={body}
-        onChange={(e) => handleChange(e, 'body')}
-        data-cy="edit-body-input"
-      />
-      <div className="flex justify-end pt-8">
-        <Button onClick={handleEdit} variant="secondary" data-cy="update-btn">
-          Update
-        </Button>
-      </div>
+      <form
+        onSubmit={handleSubmit(() =>
+          onSubmit(updatePost, author, getValues, navigate, id, dispatch)
+        )}
+      >
+        <Input
+          defaultValue={data.title}
+          reactHookFormPrams={{ errors, name: 'title', register }}
+          data-cy="edit-title-input"
+        />
+        <Textarea
+          defaultValue={data.body}
+          reactHookFormParams={{ errors, name: 'body', register }}
+          className="mt-3 h-96 w-full"
+          data-cy="edit-body-input"
+        />
+        <div className="flex justify-end gap-4 pt-8">
+          <Button type="submit" variant="secondary" data-cy="update-btn">
+            Update
+          </Button>
+        </div>
+      </form>
     </Layout>
   )
 })
