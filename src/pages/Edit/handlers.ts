@@ -10,7 +10,7 @@ import type { AppDispatch } from '../../redux/store'
 
 export async function onSubmit(
   updatePost: UpdatePostMutationDefinition,
-  author: AdminState['author'],
+  author: AdminState['author'], // @TODO remove after remove author from updatePost mutation
   getValues: UseFormGetValues<FormInput>,
   navigate: NavigateFunction,
   id: Post['id'],
