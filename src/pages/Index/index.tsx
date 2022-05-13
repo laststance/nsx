@@ -1,32 +1,32 @@
 import React, { memo } from 'react'
 
-import BaseLayout from '../../components/Layout'
+import Layout from '../../components/Layout'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 
 import AdminControlPanel from './AdminControlPanel'
 import PostList from './PostList'
 
-const Layout: React.FC<React.PropsWithChildren<_>> = memo(({ children }) => (
-  <BaseLayout
-    className="flex flex-col justify-between"
-    data-cy="top-page-content-root"
-  >
-    {children}
-  </BaseLayout>
-))
-Layout.displayName = 'Layout'
-
 const Index: React.FC = memo(() => {
   const login = useAppSelector(selectLogin)
 
   return (
-    <Layout>
+    <>
       <PostList />
       <AdminControlPanel login={login} />
-    </Layout>
+    </>
   )
 })
 Index.displayName = 'Index'
 
-export default Index
+const IndexPage = memo(() => (
+  <Layout
+    className="flex flex-col justify-between"
+    data-cy="top-page-content-root"
+  >
+    <Index />
+  </Layout>
+))
+IndexPage.displayName = 'IndexPage'
+
+export default IndexPage
