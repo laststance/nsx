@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit'
 import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { combineReducers } from 'redux'
@@ -6,12 +6,14 @@ import { persistReducer } from 'redux-persist'
 import type { PersistConfig } from 'redux-persist/es/types'
 import storage from 'redux-persist/lib/storage'
 
+import { DOMUpdate } from '../components/ToggleTheme/useTheme'
+
 import adminReducer from './adminSlice'
 import { API } from './API'
 import draftReducer from './draftSlice'
 import pagenationReducer from './pagenationSlice'
 import snackbarReducer from './snackbarSlice'
-import themeReducer from './themeSlice'
+import themeReducer, { updateTheme } from './themeSlice'
 
 const reducers = combineReducers({
   admin: adminReducer,
@@ -30,10 +32,20 @@ const persistConfig: PersistConfig<_> = {
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 
+const listenerMiddleware = createListenerMiddleware()
+listenerMiddleware.startListening({
+  actionCreator: updateTheme,
+  effect: (action) => {
+    DOMUpdate(action.payload)
+  },
+})
+
 export const store = configureStore({
   devTools: process.env.NODE_ENV === 'development' ? true : false,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(API.middleware),
+    getDefaultMiddleware({ serializableCheck: false })
+      .prepend(listenerMiddleware.middleware)
+      .concat(API.middleware),
   reducer: persistedReducer,
 })
 

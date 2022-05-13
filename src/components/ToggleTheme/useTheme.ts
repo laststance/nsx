@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 import type { Theme } from '../../redux/themeSlice'
 import { selectTheme, updateTheme } from '../../redux/themeSlice'
 
-function DOMUpdate(theme: Theme) {
+export function DOMUpdate(theme: Theme) {
   if (
     theme === 'dark' ||
     (theme === 'system' &&
@@ -52,7 +52,6 @@ export function useTheme(): [Theme, ReturnType<typeof useCallback>] {
 
   const HandleOnChange = useCallback((theme: Theme) => {
     dispatch(updateTheme(theme))
-    DOMUpdate(theme)
   }, [])
 
   useIsomorphicLayoutEffect(() => {
