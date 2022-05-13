@@ -49,31 +49,32 @@ export function useTheme(): [Theme, ReturnType<typeof useCallback>] {
 
   const theme = useAppSelector(selectTheme)
   const dispatch = useAppDispatch()
+  const listener = () => dispatch(updateTheme(theme))
 
   const HandleOnChange = useCallback((theme: Theme) => {
     dispatch(updateTheme(theme))
   }, [])
 
   useIsomorphicLayoutEffect(() => {
-    DOMUpdate(theme)
+    dispatch(updateTheme(theme))
   }, [])
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     if (mediaQuery?.addEventListener) {
-      mediaQuery.addEventListener('change', () => DOMUpdate(theme))
+      mediaQuery.addEventListener('change', listener)
     } else {
-      mediaQuery.addListener(() => DOMUpdate(theme))
+      mediaQuery.addListener(listener)
     }
 
     return () => {
       if (mediaQuery?.removeEventListener) {
-        mediaQuery.removeEventListener('change', () => DOMUpdate(theme))
+        mediaQuery.removeEventListener('change', listener)
       } else {
-        mediaQuery.removeListener(() => DOMUpdate(theme))
+        mediaQuery.removeListener(listener)
       }
     }
-  }, [theme])
+  }, [])
 
   return [theme, HandleOnChange]
 }
