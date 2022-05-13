@@ -17,7 +17,15 @@ const formValidator = object({
   name: name,
 })
 
-const Form = ({ handleSubmitMock = jest.fn() }) => {
+interface Props {
+  handleSubmitMock?: AnyFunction
+  defaultValue?: string | number | readonly string[] | undefined
+}
+
+const Form: React.FC<Props> = ({
+  handleSubmitMock = jest.fn(),
+  defaultValue = undefined,
+}) => {
   const {
     register,
     handleSubmit,
@@ -29,7 +37,10 @@ const Form = ({ handleSubmitMock = jest.fn() }) => {
   return (
     <>
       <form onSubmit={handleSubmit(handleSubmitMock)}>
-        <Input reactHookFormPrams={{ errors, name: 'name', register }} />
+        <Input
+          defaultValue={defaultValue}
+          reactHookFormPrams={{ errors, name: 'name', register }}
+        />
         <button type="submit">submit</button>
       </form>
     </>
@@ -44,7 +55,11 @@ test('should render Input with react-fook-form', () => {
   expect(firstChild).toBeTruthy()
 })
 
-test.todo('should apply default value props')
+test('should apply default value props', () => {
+  const { getByRole } = TestRenderer(<Form defaultValue="MSC" />)
+  const input = getByRole('textbox')
+  expect(input).toHaveValue('MSC')
+})
 
 test.todo('should apply placefolder props')
 
