@@ -19,6 +19,7 @@ export interface ReactHookFormParams {
 
 interface Props {
   type?: HTMLInputTypeAttribute
+  defaultValue?: string | number | readonly string[] | undefined
   placeholder?: string
   reactHookFormPrams: ReactHookFormParams
 }
