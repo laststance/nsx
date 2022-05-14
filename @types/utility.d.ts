@@ -17,9 +17,6 @@ declare type MutationFunction = AnyFunction
 // skip unnecessary generics position
 declare type _ = any
 
-// from https://github.com/denoland/deno_std/issues/1126#issuecomment-900947143
-declare type Typify<T> = { [K in keyof T]: T[K] }
-
 declare type IndexSignature<O extends object> = {
   [P in keyof O]: O[P]
 }
