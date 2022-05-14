@@ -20,11 +20,13 @@ const formValidator = object({
 interface Props {
   handleSubmitMock?: AnyFunction
   defaultValue?: string | number | readonly string[] | undefined
+  placeholder?: string | undefined
 }
 
 const Form: React.FC<Props> = ({
   handleSubmitMock = jest.fn(),
   defaultValue = undefined,
+  placeholder = undefined,
 }) => {
   const {
     register,
@@ -38,6 +40,7 @@ const Form: React.FC<Props> = ({
     <>
       <form onSubmit={handleSubmit(handleSubmitMock)}>
         <Input
+          placeholder={placeholder}
           defaultValue={defaultValue}
           reactHookFormPrams={{ errors, name: 'name', register }}
         />
@@ -61,7 +64,13 @@ test('should apply default value props', () => {
   expect(input).toHaveValue('MSC')
 })
 
-test.todo('should apply placefolder props')
+test('should apply placefolder props', () => {
+  const { getByPlaceholderText } = TestRenderer(
+    <Form placeholder="let type something" defaultValue="long train" />
+  )
+  const input = getByPlaceholderText('let type something')
+  expect(input).toHaveValue('long train')
+})
 
 test.todo('shold apply type props')
 
