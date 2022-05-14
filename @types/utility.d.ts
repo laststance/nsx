@@ -4,14 +4,6 @@ declare type Override<T1, T2> = T2 extends any ? Omit<T1, keyof T2> & T2 : never
 
 declare type NoInfer<T> = [T][T extends any ? 0 : never]
 
-declare type IsAny<T, True, False = never> = true | false extends (
-  T extends never ? true : false
-)
-  ? True
-  : False
-
-declare type CastAny<T, CastTo> = IsAny<T, CastTo, T>
-
 declare type Cast<T, CastTo> = NoInfer<T> extends never ? CastTo : CastTo
 
 declare type AnyFunction = (...args: any[]) => any
