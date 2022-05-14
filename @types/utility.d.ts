@@ -4,10 +4,6 @@ declare type Override<T1, T2> = T2 extends any ? Omit<T1, keyof T2> & T2 : never
 
 declare type NoInfer<T> = [T][T extends any ? 0 : never]
 
-declare type OmitFromUnion<T, K extends keyof T> = T extends any
-  ? Omit<T, K>
-  : never
-
 declare type IsAny<T, True, False = never> = true | false extends (
   T extends never ? true : false
 )
