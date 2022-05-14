@@ -40,7 +40,7 @@ const Form: React.FC<Props> = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit(handleSubmitMock)}>
+      <form aria-label="Testing Form" onSubmit={handleSubmit(handleSubmitMock)}>
         <Input
           type={type}
           placeholder={placeholder}
@@ -75,10 +75,16 @@ test('should apply placefolder props', () => {
   expect(input).toHaveValue('long train')
 })
 
-test('shold apply type props', () => {
+test('should apply given type props', () => {
   const { getByRole } = TestRenderer(<Form type="email" />)
   const input = getByRole('textbox') as HTMLInputElement
   expect(input.type).toEqual('email')
+})
+
+test('should set type="text" if does not give type props', () => {
+  const { getByRole } = TestRenderer(<Form />)
+  const input = getByRole('textbox') as HTMLInputElement
+  expect(input.type).toEqual('text')
 })
 
 test('should be able to input any text', async () => {
@@ -106,4 +112,16 @@ test('should submit input text when onSubmit fired', async () => {
   expect(handleSubmit).toHaveReturnedWith({ name: 'Hello World!' })
 })
 
-test.todo('should show error message with invalid input')
+test('should show error message with invalid input', async () => {
+  const user = userEvent.setup()
+
+  const { getByRole } = TestRenderer(<Form />)
+  const input = getByRole('textbox')
+  await user.type(input, 'hi')
+  const submitBtn = getByRole('button')
+  await user.click(submitBtn)
+
+  expect(getByRole('form', { name: 'Testing Form' })).toHaveTextContent(
+    'name should be 3~100 characters'
+  )
+})
