@@ -6,13 +6,18 @@ import TestRenderer from '../../lib/TestRenderer'
 
 import Index from './'
 
-test('should render Index', async () => {
+test('should render IndexPage with latest 15 posts', async () => {
   const {
     container: { firstChild },
+    getAllByRole,
   } = TestRenderer(<Index />)
 
   await waitFor(async () => {
-    await sleep(500)
+    await sleep(500) // wait for loading
     expect(firstChild).toBeTruthy()
+    const posts = getAllByRole('listitem')
+    expect(posts.length).toEqual(15)
+    expect(posts[0]).toHaveTextContent('01/14/22')
+    expect(posts[0]).toHaveTextContent('What is matter my $500 for')
   })
 })
