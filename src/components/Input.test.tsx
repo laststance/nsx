@@ -21,12 +21,14 @@ interface Props {
   handleSubmitMock?: AnyFunction
   defaultValue?: string | number | readonly string[] | undefined
   placeholder?: string | undefined
+  type?: string | undefined
 }
 
 const Form: React.FC<Props> = ({
   handleSubmitMock = jest.fn(),
   defaultValue = undefined,
   placeholder = undefined,
+  type = undefined,
 }) => {
   const {
     register,
@@ -40,6 +42,7 @@ const Form: React.FC<Props> = ({
     <>
       <form onSubmit={handleSubmit(handleSubmitMock)}>
         <Input
+          type={type}
           placeholder={placeholder}
           defaultValue={defaultValue}
           reactHookFormPrams={{ errors, name: 'name', register }}
@@ -72,7 +75,11 @@ test('should apply placefolder props', () => {
   expect(input).toHaveValue('long train')
 })
 
-test.todo('shold apply type props')
+test('shold apply type props', () => {
+  const { getByRole } = TestRenderer(<Form type="email" />)
+  const input = getByRole('textbox') as HTMLInputElement
+  expect(input.type).toEqual('email')
+})
 
 test('should be able to input any text', async () => {
   const user = userEvent.setup()
