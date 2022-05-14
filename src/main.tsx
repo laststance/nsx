@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/react'
+import { BrowserTracing } from '@sentry/tracing'
 import React, { Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import ReactGA, { ga } from 'react-ga'
@@ -14,6 +16,16 @@ import reportWebVitals from './reportWebVitals'
 import ErrorBoundary from './systems/ErrorBoundary'
 import Router from './systems/Router'
 import SnackBarSystem from './systems/SnackBarSystem'
+
+Sentry.init({
+  dsn: 'https://f94c84c497ca4f67ad964ea99ea9f4d9@o1245861.ingest.sentry.io/6403835',
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+})
 
 const persistor = persistStore(store)
 

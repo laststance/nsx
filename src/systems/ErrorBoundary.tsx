@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react'
 import type { ErrorInfo, ReactNode } from 'react'
 import React, { Component } from 'react'
 
@@ -22,6 +23,7 @@ class ErrorBoundary extends Component<Props, State> {
   render(): ReactNode {
     const { error } = this.state
     if (error) {
+      Sentry.captureException(error)
       return <ErrorBoundaryFallbackComponent />
     }
     return this.props.children
