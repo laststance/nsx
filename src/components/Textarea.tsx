@@ -6,6 +6,7 @@ import type { TextareaHTMLAttributes } from 'react'
 import type { ReactHookFormParams } from './Input'
 
 interface Props {
+  defaultValue?: string | number | readonly string[] | undefined
   placeholder?: string
   reactHookFormParams: ReactHookFormParams
 }
