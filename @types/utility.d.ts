@@ -2,10 +2,6 @@
 
 declare type Override<T1, T2> = T2 extends any ? Omit<T1, keyof T2> & T2 : never
 
-declare type NonOptionalKeys<T> = {
-  [K in keyof T]-?: undefined extends T[K] ? never : K
-}[keyof T]
-
 declare type NoInfer<T> = [T][T extends any ? 0 : never]
 
 declare type MaybePromise<T> = T | PromiseLike<T>
