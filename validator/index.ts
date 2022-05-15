@@ -3,6 +3,9 @@ import { define, object } from 'superstruct'
 
 import { assertCast } from '../lib/assertCast'
 
+/**
+ * Login User Data
+ */
 export const name = define<Author['name']>('name', (value): Result => {
   assertCast<string>(value)
   return value.trim().length > 3 && value.trim().length < 100
@@ -30,6 +33,9 @@ export const loginFormValidator = object({
   password: password,
 })
 
+/**
+ * Post Data
+ */
 export const title = define<Post['title']>('title', (value): Result => {
   assertCast<string>(value)
   return value.trim().length > 0 && value.trim().length < 100

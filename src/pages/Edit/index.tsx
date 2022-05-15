@@ -28,7 +28,8 @@ const Edit: React.FC = memo(() => {
   assertIsDefined(id)
 
   const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(id)
-  const [updatePost] = API.endpoints.updatePost.useMutation()
+  const [updatePost, { isLoading: isUpdating }] =
+    API.endpoints.updatePost.useMutation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const author = useAppSelector(selectAuthor)
@@ -79,7 +80,12 @@ const Edit: React.FC = memo(() => {
           data-testid="edit-body-input"
         />
         <div className="flex justify-end gap-4 pt-8">
-          <Button type="submit" variant="secondary" data-cy="update-btn">
+          <Button
+            type="submit"
+            variant="secondary"
+            data-cy="update-btn"
+            isLoading={isUpdating}
+          >
             Update
           </Button>
         </div>

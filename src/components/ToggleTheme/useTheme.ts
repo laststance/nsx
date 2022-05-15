@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useCallback } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
@@ -49,7 +49,6 @@ export function useTheme(): [Theme, ReturnType<typeof useCallback>] {
 
   const theme = useAppSelector(selectTheme)
   const dispatch = useAppDispatch()
-  const listener = () => dispatch(updateTheme(theme))
 
   const HandleOnChange = useCallback((theme: Theme) => {
     dispatch(updateTheme(theme))
@@ -57,23 +56,6 @@ export function useTheme(): [Theme, ReturnType<typeof useCallback>] {
 
   useIsomorphicLayoutEffect(() => {
     dispatch(updateTheme(theme))
-  }, [])
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    if (mediaQuery?.addEventListener) {
-      mediaQuery.addEventListener('change', listener)
-    } else {
-      mediaQuery.addListener(listener)
-    }
-
-    return () => {
-      if (mediaQuery?.removeEventListener) {
-        mediaQuery.removeEventListener('change', listener)
-      } else {
-        mediaQuery.removeListener(listener)
-      }
-    }
   }, [])
 
   return [theme, HandleOnChange]

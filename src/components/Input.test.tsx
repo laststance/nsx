@@ -4,7 +4,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { object } from 'superstruct'
 
-import { name } from '../../validator/index'
+import { name } from '../../validator'
 import TestRenderer from '../lib/TestRenderer'
 
 import Input from './Input'
