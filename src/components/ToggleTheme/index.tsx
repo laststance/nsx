@@ -2,9 +2,9 @@ import { Listbox } from '@headlessui/react'
 import clsx from 'clsx'
 import React, { Fragment, memo } from 'react'
 
-import { MoonIcon } from './MoonIcon'
-import { PcIcon } from './PCIcon'
-import { SunIcon } from './SunIcon'
+import MoonIcon from './MoonIcon'
+import PcIcon from './PCIcon'
+import SunIcon from './SunIcon'
 import { useTheme } from './useTheme'
 
 const options = [
@@ -24,6 +24,12 @@ const options = [
     value: 'system',
   },
 ]
+
+Listbox.displayName = 'Listbox'
+Listbox.Label.displayName = 'Listbox.Label'
+Listbox.Button.displayName = 'Listbox.Button'
+Listbox.Options.displayName = 'Listbox.Options'
+Listbox.Option.displayName = 'Listbox.Option'
 
 const ThemeToggle = memo(() => {
   const [theme, updateTheme] = useTheme()

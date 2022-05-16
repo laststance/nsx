@@ -5,7 +5,7 @@ interface Props {
   selected: boolean
 }
 
-export const SunIcon = memo(
+const SunIcon = memo(
   ({ selected, ...props }: Props & ComponentProps<'svg'>) => {
     return (
       <svg
@@ -36,3 +36,6 @@ export const SunIcon = memo(
     )
   }
 )
+SunIcon.displayName = 'SunIcon'
+
+export default SunIcon

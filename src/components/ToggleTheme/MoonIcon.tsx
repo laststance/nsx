@@ -5,7 +5,7 @@ interface Props {
   selected: boolean
 }
 
-export const MoonIcon = memo(
+const MoonIcon = memo(
   ({ selected, ...props }: Props & ComponentProps<'svg'>) => {
     return (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
@@ -33,3 +33,6 @@ export const MoonIcon = memo(
     )
   }
 )
+MoonIcon.displayName = 'MoonIcon'
+
+export default MoonIcon
