@@ -18,11 +18,6 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 
 import { onSubmit } from './handlers'
 
-const Layout: React.FC<React.PropsWithChildren<_>> = memo(({ children }) => (
-  <BaseLayout className="flex flex-col justify-start">{children}</BaseLayout>
-))
-Layout.displayName = 'Layout'
-
 const Edit: React.FC = memo(() => {
   const { postId: id } = useParams() as unknown as { postId: number }
   assertIsDefined(id)
@@ -43,56 +38,57 @@ const Edit: React.FC = memo(() => {
   })
 
   if (error) {
-    return (
-      <Layout>
-        <RTKQueryErrorMessages error={error} />
-      </Layout>
-    )
+    return <RTKQueryErrorMessages error={error} />
   }
 
   if (isLoading || data === undefined) {
-    return (
-      <Layout>
-        <Loading />
-      </Layout>
-    )
+    return <Loading />
   }
 
   return (
-    <Layout>
-      <form
-        data-testid="edit-form"
-        onSubmit={handleSubmit(() =>
-          onSubmit(updatePost, author, getValues, navigate, id, dispatch)
-        )}
-      >
-        <Input
-          defaultValue={data.title}
-          reactHookFormPrams={{ errors, name: 'title', register }}
-          data-cy="edit-title-input"
-          data-testid="edit-title-input"
-        />
-        <Textarea
-          defaultValue={data.body}
-          reactHookFormParams={{ errors, name: 'body', register }}
-          className="mt-3 h-96 w-full"
-          data-cy="edit-body-input"
-          data-testid="edit-body-input"
-        />
-        <div className="flex justify-end gap-4 pt-8">
-          <Button
-            type="submit"
-            variant="secondary"
-            data-cy="update-btn"
-            isLoading={isUpdating}
-          >
-            Update
-          </Button>
-        </div>
-      </form>
-    </Layout>
+    <form
+      data-testid="edit-form"
+      onSubmit={handleSubmit(() =>
+        onSubmit(updatePost, author, getValues, navigate, id, dispatch)
+      )}
+    >
+      <Input
+        defaultValue={data.title}
+        reactHookFormPrams={{ errors, name: 'title', register }}
+        data-cy="edit-title-input"
+        data-testid="edit-title-input"
+      />
+      <Textarea
+        defaultValue={data.body}
+        reactHookFormParams={{ errors, name: 'body', register }}
+        className="mt-3 h-96 w-full"
+        data-cy="edit-body-input"
+        data-testid="edit-body-input"
+      />
+      <div className="flex justify-end gap-4 pt-8">
+        <Button
+          type="submit"
+          variant="secondary"
+          data-cy="update-btn"
+          isLoading={isUpdating}
+        >
+          Update
+        </Button>
+      </div>
+    </form>
   )
 })
 Edit.displayName = 'Edit'
 
-export default Edit
+const Layout: React.FC<React.PropsWithChildren<_>> = memo(({ children }) => (
+  <BaseLayout className="flex flex-col justify-start">{children}</BaseLayout>
+))
+Layout.displayName = 'Layout'
+
+const EditPage = memo(() => (
+  <Layout>
+    <Edit />
+  </Layout>
+))
+
+export default EditPage

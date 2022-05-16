@@ -9,7 +9,7 @@ import type {
 } from 'react-hook-form'
 import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
-// All form Component depends on library that https://github.com/react-hook-form/react-hook-form
+// All form element Components depends on library that https://github.com/react-hook-form/react-hook-form
 export interface ReactHookFormParams {
   register: UseFormRegister<_>
   name: InternalFieldName
