@@ -17,16 +17,6 @@ import ErrorBoundary from './systems/ErrorBoundary'
 import Router from './systems/Router'
 import SnackBarSystem from './systems/SnackBarSystem'
 
-Sentry.init({
-  dsn: 'https://f94c84c497ca4f67ad964ea99ea9f4d9@o1245861.ingest.sentry.io/6403835',
-  integrations: [new BrowserTracing()],
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-})
-
 const persistor = persistStore(store)
 
 // @TODO fix Provider typing
@@ -46,10 +36,17 @@ const App = () => (
   </ErrorBoundary>
 )
 
-const root = createRoot(document.getElementById('root') as HTMLDivElement)
-root.render(<App />)
-
 if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: 'https://f94c84c497ca4f67ad964ea99ea9f4d9@o1245861.ingest.sentry.io/6403835',
+    integrations: [new BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  })
+
   ReactGA.initialize('UA-68130749-5')
 
   function sendToAnalytics({ id, name, value }: Metric) {
@@ -67,3 +64,6 @@ if (process.env.NODE_ENV === 'production') {
   // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
   reportWebVitals(sendToAnalytics)
 }
+
+const root = createRoot(document.getElementById('root') as HTMLDivElement)
+root.render(<App />)
