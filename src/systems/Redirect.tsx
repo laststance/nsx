@@ -7,7 +7,7 @@ const Redirect: React.FC<React.PropsWithChildren<{ to: string }>> = ({
   const navigate = useNavigate()
   useEffect(() => {
     navigate(to)
-  })
+  }, [])
   return null
 }
 
