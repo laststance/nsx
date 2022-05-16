@@ -65,5 +65,5 @@ if (process.env.NODE_ENV === 'production') {
   reportWebVitals(sendToAnalytics)
 }
 
-const root = createRoot(document.getElementById('root') as HTMLDivElement)
+const root = createRoot(document.getElementById('root')!)
 root.render(<App />)
