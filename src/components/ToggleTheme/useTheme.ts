@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 import type { Theme } from '../../redux/themeSlice'
 import { selectTheme, updateTheme } from '../../redux/themeSlice'
 
-export function useTheme(): [Theme, ReturnType<typeof useCallback>] {
+export function useTheme(): [Theme, (theme: Theme) => void] {
   const theme = useAppSelector(selectTheme)
   const dispatch = useAppDispatch()
 

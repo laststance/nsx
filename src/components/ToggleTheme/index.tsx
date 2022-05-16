@@ -29,7 +29,7 @@ const ThemeToggle = memo(() => {
   const [theme, updateTheme] = useTheme()
 
   return (
-    <Listbox value={theme} onChange={(v) => updateTheme(v)}>
+    <Listbox value={theme} onChange={updateTheme}>
       <Listbox.Label className="sr-only">Theme</Listbox.Label>
       <div className="relative">
         <Listbox.Button type="button">
