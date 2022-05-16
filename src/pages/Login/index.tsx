@@ -52,7 +52,7 @@ const Login: React.FC = memo(() => {
   }
 
   return (
-    <Layout>
+    <>
       <h1 className="mb-3 text-3xl">Login</h1>
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-6 md:flex md:items-center">
@@ -98,9 +98,15 @@ const Login: React.FC = memo(() => {
           </div>
         </div>
       </form>
-    </Layout>
+    </>
   )
 })
 Login.displayName = 'Login'
 
-export default Login
+const LoginPage = memo(() => (
+  <Layout>
+    <Login />
+  </Layout>
+))
+
+export default LoginPage
