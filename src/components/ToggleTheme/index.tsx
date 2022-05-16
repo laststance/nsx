@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { Fragment, memo } from 'react'
 
-import { Listbox } from '../listbox/listbox'
+import { Listbox } from '../Listbox'
 
 import MoonIcon from './MoonIcon'
 import PcIcon from './PCIcon'
