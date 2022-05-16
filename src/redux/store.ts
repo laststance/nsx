@@ -6,11 +6,10 @@ import { persistReducer } from 'redux-persist'
 import type { PersistConfig } from 'redux-persist/es/types'
 import storage from 'redux-persist/lib/storage'
 
-import { DOMUpdate } from '../components/ToggleTheme/useTheme'
-
 import adminReducer from './adminSlice'
 import { API } from './API'
 import draftReducer from './draftSlice'
+import { SwitchTailwindCSSTheme } from './listener'
 import pagenationReducer from './pagenationSlice'
 import snackbarReducer from './snackbarSlice'
 import themeReducer, { updateTheme } from './themeSlice'
@@ -36,7 +35,7 @@ const listenerMiddleware = createListenerMiddleware()
 listenerMiddleware.startListening({
   actionCreator: updateTheme,
   effect: (action) => {
-    DOMUpdate(action.payload)
+    SwitchTailwindCSSTheme(action.payload)
   },
 })
 
