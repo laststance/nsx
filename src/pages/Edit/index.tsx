@@ -7,7 +7,7 @@ import { assertIsDefined } from '../../../lib/assertIsDefined'
 import { editPostFormValidator } from '../../../validator/index'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
-import BaseLayout from '../../components/Layout'
+import Layout from '../../components/Layout'
 import Loading from '../../components/Loading'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages'
 import Textarea from '../../components/Textarea'
@@ -80,13 +80,8 @@ const Edit: React.FC = memo(() => {
 })
 Edit.displayName = 'Edit'
 
-const Layout: React.FC<React.PropsWithChildren<_>> = memo(({ children }) => (
-  <BaseLayout className="flex flex-col justify-start">{children}</BaseLayout>
-))
-Layout.displayName = 'Layout'
-
 const EditPage = memo(() => (
-  <Layout>
+  <Layout className="flex flex-col justify-start">
     <Edit />
   </Layout>
 ))
