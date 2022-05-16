@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../components/Button'
+import Layout from '../../components/Layout/index'
 import Loading from '../../components/Loading'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'
@@ -11,7 +12,6 @@ import { selectAuthor } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 
 import { handleDelete } from './handler'
-import Layout from './Layout'
 
 const Dashboard: React.FC = memo(() => {
   const { page, totalPage, data, error, isLoading, dispatch, refetch, prevPage, nextPage } /* eslint-disable-line prettier/prettier */
@@ -19,24 +19,16 @@ const Dashboard: React.FC = memo(() => {
   const author = useAppSelector(selectAuthor)
 
   if (error) {
-    return (
-      <Layout>
-        <RTKQueryErrorMessages error={error} />
-      </Layout>
-    )
+    return <RTKQueryErrorMessages error={error} />
   }
 
   if (isLoading || data === undefined) {
-    return (
-      <Layout>
-        <Loading />
-      </Layout>
-    )
+    return <Loading />
   }
   const { postList } = data
 
   return (
-    <Layout>
+    <>
       <h1 className="text-color-primary mb-3 text-3xl font-semibold">
         Dashboard
       </h1>
@@ -86,9 +78,20 @@ const Dashboard: React.FC = memo(() => {
           nextPage={nextPage}
         />
       </div>
-    </Layout>
+    </>
   )
 })
 Dashboard.displayName = 'Dashborad'
 
-export default Dashboard
+const DashboardPage = memo(() => (
+  <Layout
+    disableBaseStyle
+    className="mx-auto flex flex-grow flex-col justify-start px-4 py-4 sm:w-full lg:container"
+    data-cy="dashboard-page-content-root"
+  >
+    <Dashboard />
+  </Layout>
+))
+DashboardPage.displayName = 'DashboardPage'
+
+export default DashboardPage

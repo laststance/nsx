@@ -45,7 +45,7 @@ const Signup: React.FC = memo(() => {
   }
 
   return (
-    <Layout data-cy="signup-page-content-root">
+    <>
       <h1 className="mb-3 text-3xl">Signup</h1>
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-6 md:flex md:items-center">
@@ -91,9 +91,16 @@ const Signup: React.FC = memo(() => {
           </div>
         </div>
       </form>
-    </Layout>
+    </>
   )
 })
 Signup.displayName = 'Signup'
 
-export default Signup
+const SignupPage = memo(() => (
+  <Layout data-cy="signup-page-content-root">
+    <Signup />
+  </Layout>
+))
+SignupPage.displayName = 'SignupPage'
+
+export default SignupPage

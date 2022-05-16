@@ -4,7 +4,7 @@ import Layout from '../../components/Layout'
 
 const About = memo(
   () => (
-    <Layout>
+    <>
       <h1 className="text-color-primary pt-4 pb-6 text-3xl">About</h1>
       <section className="text-color-primary space-y-4 text-xl leading-8">
         <p>
@@ -40,10 +40,17 @@ const About = memo(
           projects.
         </p>
       </section>
-    </Layout>
+    </>
   ),
   () => true
 )
 About.displayName = 'About'
 
-export default About
+const AboutPage = memo(() => (
+  <Layout>
+    <About />
+  </Layout>
+))
+AboutPage.displayName = 'AboutPage'
+
+export default AboutPage
