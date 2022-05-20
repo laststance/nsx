@@ -72,6 +72,24 @@ context('visitor basic', () => {
     })
   })
 
+  context('dark theme', () => {
+    it('working theme switching', () => {
+      cy.visit('http://localhost:3000/')
+
+      // Check Light Theme
+      cy.$('theme-menu-button').click()
+      cy.$('theme-select-option-light').click()
+      cy.$('root').should('not.have.class', 'dark')
+      cy.$('body').should('have.css', 'background-color', 'rgb(255, 255, 255)')
+
+      // Check Dark Theme
+      cy.$('theme-menu-button').click()
+      cy.$('theme-select-option-dark').click()
+      cy.$('root').should('have.class', 'dark')
+      cy.$('body').should('have.css', 'background-color', 'rgb(23, 23, 23)')
+    })
+  })
+
   context('security', () => {
     it('could never been to any private routes', () => {
       cy.visit('http://localhost:3000/')
