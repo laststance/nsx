@@ -7,7 +7,11 @@ import Create from './'
 test('should render Create', () => {
   const {
     container: { firstChild },
+    getAllByRole,
   } = TestRenderer(<Create />)
   expect(firstChild).toBeTruthy()
-  expect(firstChild).toMatchSnapshot()
+  const [input, textarea] = getAllByRole('textbox')
+  expect(input).toBeInTheDocument()
+  expect(textarea).toBeInTheDocument()
+  expect(getAllByRole('button')[1]).toHaveTextContent('Submit')
 })
