@@ -14,10 +14,10 @@ interface Props {
 }
 
 const prevPage = (page: PagenationState['page']) => {
-  dispatch(updatePage({ page: page - 1 }))
+  return () => dispatch(updatePage({ page: page - 1 }))
 }
 const nextPage = (page: PagenationState['page']) => {
-  dispatch(updatePage({ page: page + 1 }))
+  return () => dispatch(updatePage({ page: page + 1 }))
 }
 
 const ButtonGroup: React.FC<React.PropsWithChildren<Props>> = memo(
@@ -25,7 +25,7 @@ const ButtonGroup: React.FC<React.PropsWithChildren<Props>> = memo(
     <div className="flex items-center justify-center space-x-4 p-8 px-10">
       <ArrowButton
         direction="left"
-        onClick={() => prevPage(page)}
+        onClick={prevPage(page)}
         disabled={page <= 1 ? true : false}
         data-cy="prev-page-btn"
       />
@@ -37,7 +37,7 @@ const ButtonGroup: React.FC<React.PropsWithChildren<Props>> = memo(
       />
       <ArrowButton
         direction="right"
-        onClick={() => nextPage(page)}
+        onClick={nextPage(page)}
         disabled={page === totalPage ? true : false}
         data-cy="next-page-btn"
       />
