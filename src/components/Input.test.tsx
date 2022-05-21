@@ -1,9 +1,9 @@
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import userEvent from '@testing-library/user-event'
+import preview from 'jest-preview'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { object } from 'superstruct'
-import preview from 'jest-preview'
 
 import { name } from '../../validator'
 import TestRenderer from '../lib/TestRenderer'
