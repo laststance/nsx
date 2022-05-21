@@ -1,6 +1,5 @@
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import userEvent from '@testing-library/user-event'
-import preview from 'jest-preview'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { object } from 'superstruct'
@@ -66,7 +65,6 @@ test('should apply default value props', () => {
   const { getByRole } = TestRenderer(<Form defaultValue="MSC" />)
   const input = getByRole('textbox')
   expect(input).toHaveValue('MSC')
-  preview.debug()
 })
 
 test('should apply placefolder props', () => {
