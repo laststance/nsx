@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { object } from 'superstruct'
+import preview from 'jest-preview'
 
 import { name } from '../../validator'
 import TestRenderer from '../lib/TestRenderer'
@@ -65,6 +66,7 @@ test('should apply default value props', () => {
   const { getByRole } = TestRenderer(<Form defaultValue="MSC" />)
   const input = getByRole('textbox')
   expect(input).toHaveValue('MSC')
+  preview.debug()
 })
 
 test('should apply placefolder props', () => {

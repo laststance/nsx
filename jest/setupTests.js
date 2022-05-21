@@ -1,5 +1,12 @@
 import '@testing-library/jest-dom'
 import MatchMediaMock from 'jest-matchmedia-mock'
+import { jestPreviewConfigure } from 'jest-preview'
+
+jestPreviewConfigure({
+  autoPreview: true,
+  externalCss: ['src/index.css'],
+  publicFolder: './',
+})
 
 // Polyfill "window.fetch" used in the React component.
 import 'whatwg-fetch'
