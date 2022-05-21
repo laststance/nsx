@@ -61,3 +61,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >
 export type DispatchFunction = (dispatch: AppDispatch) => void
+export const getRootState = (): RootState => store.getState()

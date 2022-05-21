@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import PageCount from '../../pages/Index/PageCount'
 import type { PagenationState } from '../../redux/pagenationSlice'
 import { updatePage, selectPagenation } from '../../redux/pagenationSlice'
-import { dispatch, store } from '../../redux/store'
+import { dispatch, getRootState } from '../../redux/store'
 import ArrowButton from '../ArrowButton'
 
 import type { UsePagenationResult } from './usePagination'
@@ -14,11 +14,11 @@ interface Props {
 }
 
 const prevPage = () => {
-  const { page } = selectPagenation(store.getState())
+  const { page } = selectPagenation(getRootState())
   dispatch(updatePage({ page: page - 1 }))
 }
 const nextPage = () => {
-  const { page } = selectPagenation(store.getState())
+  const { page } = selectPagenation(getRootState())
   dispatch(updatePage({ page: page + 1 }))
 }
 
