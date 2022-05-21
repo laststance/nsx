@@ -8,8 +8,7 @@ import PostDate from '../../components/PostDate'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages'
 
 const PostList: React.FC = memo(() => {
-  const { page, totalPage, data, isLoading, error, dispatch, nextPage, prevPage } /* eslint-disable-line prettier/prettier */
-    = usePagination()
+  const { page, totalPage, data, isLoading, error } = usePagination()
 
   if (error) {
     return <RTKQueryErrorMessages error={error} />
@@ -43,13 +42,7 @@ const PostList: React.FC = memo(() => {
           )
         })}
       </ul>
-      <ButtonGroup
-        page={page}
-        totalPage={totalPage}
-        dispatch={dispatch}
-        prevPage={prevPage}
-        nextPage={nextPage}
-      />
+      <ButtonGroup page={page} totalPage={totalPage} />
     </div>
   )
 })

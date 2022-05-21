@@ -14,8 +14,7 @@ import { useAppSelector } from '../../redux/hooks'
 import { handleDelete } from './handler'
 
 const Dashboard: React.FC = memo(() => {
-  const { page, totalPage, data, error, isLoading, dispatch, refetch, prevPage, nextPage } /* eslint-disable-line prettier/prettier */
-    = usePagination()
+  const { page, totalPage, data, error, isLoading, refetch } = usePagination()
   const author = useAppSelector(selectAuthor)
 
   if (error) {
@@ -70,13 +69,7 @@ const Dashboard: React.FC = memo(() => {
             </Button>
           </Link>
         </div>
-        <ButtonGroup
-          page={page}
-          totalPage={totalPage}
-          dispatch={dispatch}
-          prevPage={prevPage}
-          nextPage={nextPage}
-        />
+        <ButtonGroup page={page} totalPage={totalPage} />
       </div>
     </>
   )
