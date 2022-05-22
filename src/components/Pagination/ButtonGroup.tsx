@@ -8,7 +8,7 @@ import ArrowButton from '../ArrowButton'
 
 import type { UsePagenationResult } from './usePagination'
 
-export interface Props {
+interface Props {
   page: PagenationState['page']
   totalPage: UsePagenationResult['totalPage']
 }
