@@ -7,7 +7,7 @@
 [![Depfu](https://badges.depfu.com/badges/21dd00bdaefaebe1957173b9bb2eba6f/overview.svg)](https://depfu.com/github/laststance/nsx?project_id=17741)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://main--61c089c06b3b4d003adde63b.chromatic.com)
 
-> # Project Status: currently under development and scheduled for release in release2024.
+> # Project Status: currently under development and scheduled for release in release 2024.
 >
 > The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
 > I'm developping essential feature while my spare time, currenty I planning release v1 2024.  
