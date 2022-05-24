@@ -5716,7 +5716,7 @@ commander@^8.3.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
   integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
 
-commander@^9.0.0:
+commander@^9.0.0, commander@^9.2.0:
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-9.2.0.tgz#6e21014b2ed90d8b7c9647230d8b7a94a4a419a9"
   integrity sha512-e2i4wANQiSXgnrBlIatyHtP1odfUp0BbV5Y5nEGbxtIrStkEOAAzCUirvLBNXHLr7kwLvJl6V+4V3XV9x7Wd9w==
@@ -9966,13 +9966,14 @@ jest-pnp-resolver@^1.2.2:
   resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.2.tgz#b704ac0ae028a89108a4d040b3f919dfddc8e33c"
   integrity sha512-olV41bKSMm8BdnuMsewT4jqlZ8+3TCARAXjZGT9jcoSnrfUnRCqnMoF9XEeoWjbzObpqF9dRhHQj0Xb9QdF6/w==
 
-jest-preview@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/jest-preview/-/jest-preview-0.2.0.tgz#b41181185ddc329700402643df30a4f21b559b32"
-  integrity sha512-x38dF5aiB6P0p4X06MS2YcUZUoxmxQHnlzsRQHD0a6S+1qoqrhgI+bPABU3RJJNbjoYpn3DSDlgwkACOIWt47w==
+jest-preview@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/jest-preview/-/jest-preview-0.2.1.tgz#e8f48addd41f17f92083adb0ac62ac1c5a539c95"
+  integrity sha512-DtiIp/p4+6sOEcjW6+91f3njbTPTOgrJ63pGnuXcRUiT2YBgvzNQc6sMgdCsRpAeVWtP23Qts3cMAF9Mwb9H2A==
   dependencies:
     camelcase "^6.3.0"
     chokidar "^3.5.3"
+    commander "^9.2.0"
     connect "^3.7.0"
     open "^8.4.0"
     postcss "^8.4.12"
