@@ -14,6 +14,8 @@ export default defineConfig({
       'VITE_API_ENDPOINT',
       'VITE_ENABLE_LOGIN',
       'VITE_ENABLE_SIGNUP',
+      'VITE_SENTRY_DNS',
+      'VITE_GA_TRACKING_CODE',
     ]),
   ],
   server: {

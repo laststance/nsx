@@ -38,7 +38,7 @@ const App = () => (
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
-    dsn: 'https://f94c84c497ca4f67ad964ea99ea9f4d9@o1245861.ingest.sentry.io/6403835',
+    dsn: process.env.VITE_SENTRY_DNS,
     integrations: [new BrowserTracing()],
 
     // Set tracesSampleRate to 1.0 to capture 100%
@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
     tracesSampleRate: 1.0,
   })
 
-  ReactGA.initialize('UA-68130749-5')
+  ReactGA.initialize(process.env.VITE_GA_TRACKING_CODE as string)
 
   function sendToAnalytics({ id, name, value }: Metric) {
     ga('send', 'event', {
