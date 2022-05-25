@@ -157,6 +157,7 @@
     "validate": "./scripts/validate",
     "db:hashgen": "node server/db/scripts/passhashgen.js",
     "db:reset": "yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed:all",
+    "db:clean": "yarn db:drop && yarn db:create && yarn db:migrate",
     "db:create": "sequelize db:create",
     "db:drop": "sequelize db:drop",
     "db:migrate": "sequelize db:migrate",

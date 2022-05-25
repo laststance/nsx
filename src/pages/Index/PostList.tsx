@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
+import Installation from '../../components/Installation'
 import Loading from '../../components/Loading'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'
@@ -19,7 +20,7 @@ const PostList: React.FC = memo(() => {
   }
 
   if (data.postList.length === 0) {
-    return <div>There is no post.</div>
+    return <Installation />
   }
 
   return (

@@ -22,6 +22,14 @@ const router = express.Router()
  API Implementation
  */
 router.get(
+  '/user_count',
+  async (req: Request, res: Response<GetUserCountResponse>) => {
+    const userCount = await db.author.count()
+    res.status(200).json({ userCount })
+  }
+)
+
+router.get(
   '/post_list',
   async (
     req: Request<_, _, _, PostListRequestParamServer>,

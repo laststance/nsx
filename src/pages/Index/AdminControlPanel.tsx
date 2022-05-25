@@ -1,89 +1,42 @@
-import React, { useState, memo } from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../components/Button'
 import type { AdminState } from '../../redux/adminSlice'
-import { logout } from '../../redux/adminSlice'
+import { logout, selectLogin } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
+import { useAppSelector } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
 
-interface Props {
-  login: AdminState['login']
+async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
+  e.preventDefault()
+  const response = await dispatch(API.endpoints.logoutRequest.initiate())
+
+  if (isSuccess(response) && 'data' in response) {
+    dispatch(logout())
+    dispatch(enqueSnackbar({ color: 'green', message: response.data.message }))
+  }
 }
 
-const AdminControlPanel: React.FC<React.PropsWithChildren<Props>> = memo(
-  (props: { login: boolean }) => {
-    const [loging, setLoading] = useState(false)
-    const [logoutRequest] = API.endpoints.logoutRequest.useMutation()
+const AdminControlPanel: React.FC = memo(() => {
+  const login: AdminState['login'] = useAppSelector(selectLogin)
+  if (login === false) return null
 
-    async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
-      e.preventDefault()
-
-      setLoading(true)
-
-      const response = await logoutRequest()
-
-      if (isSuccess(response) && 'data' in response) {
-        dispatch(logout())
-        dispatch(
-          enqueSnackbar({ color: 'green', message: response.data.message })
-        )
-      }
-      setLoading(false)
-    }
-
-    const LoginBtn: boolean =
-      !props.login && process.env.VITE_ENABLE_LOGIN === 'true'
-    const SignupBtn: boolean =
-      !props.login && process.env.VITE_ENABLE_SIGNUP === 'true'
-    const DashboardBtn: AdminState['login'] = props.login
-
-    if (LoginBtn === false && SignupBtn === false && DashboardBtn === false) {
-      return null
-    }
-
-    return (
-      <div className="flex items-center justify-around py-10">
-        {LoginBtn && (
-          <Link to="/login">
-            <Button variant="primary" data-cy="login-btn">
-              Login
-            </Button>
-          </Link>
-        )}
-        {SignupBtn && (
-          <Link to="/signup">
-            <Button variant="secondary" data-cy="signup-btn">
-              Sigunup
-            </Button>
-          </Link>
-        )}
-        {DashboardBtn && (
-          <Link to="/dashboard">
-            <Button
-              variant="primary"
-              data-cy="dashoard-page-transition-link-btn"
-            >
-              Dashboard
-            </Button>
-          </Link>
-        )}
-        {DashboardBtn && (
-          <Button
-            variant="secondary"
-            data-cy="logout-btn"
-            onClick={handleLogout}
-            isLoading={loging}
-          >
-            Logout
-          </Button>
-        )}
-      </div>
-    )
-  }
-)
+  return (
+    <div className="flex items-center justify-around py-10">
+      <Link to="/dashboard">
+        <Button variant="primary" data-cy="dashoard-page-transition-link-btn">
+          Dashboard
+        </Button>
+      </Link>
+      <Button variant="secondary" data-cy="logout-btn" onClick={handleLogout}>
+        Logout
+      </Button>
+    </div>
+  )
+})
 AdminControlPanel.displayName = 'AdminControlPanel'
 
 export default AdminControlPanel

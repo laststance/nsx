@@ -4,15 +4,14 @@ import { useForm } from 'react-hook-form'
 import type { SubmitHandler, FieldValues } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import { signupFormVallidator } from '../../../validator'
-import Button from '../../components/Button'
-import Input from '../../components/Input'
-import Layout from '../../components/Layout'
+import { signupFormVallidator } from '../../../validator/index'
 import { login } from '../../redux/adminSlice'
 import { useSignupReqestMutation } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
+import Button from '../Button'
+import Input from '../Input'
 
 interface FormInput extends FieldValues {
   name: Author['name']
@@ -45,8 +44,11 @@ const Signup: React.FC = memo(() => {
 
   return (
     <>
-      <h1 className="mb-3 text-3xl">Signup</h1>
-      <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="text-color-primary text-center text-3xl">Signup</h1>
+      <form
+        className="mx-auto w-full max-w-sm"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="mb-6 md:flex md:items-center">
           <div className="md:w-1/3">
             <label
@@ -95,11 +97,4 @@ const Signup: React.FC = memo(() => {
 })
 Signup.displayName = 'Signup'
 
-const SignupPage = memo(() => (
-  <Layout data-cy="signup-page-content-root">
-    <Signup />
-  </Layout>
-))
-SignupPage.displayName = 'SignupPage'
-
-export default SignupPage
+export default Signup

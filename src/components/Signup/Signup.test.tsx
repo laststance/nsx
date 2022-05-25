@@ -3,7 +3,7 @@ import React from 'react'
 
 import TestRenderer from '../../lib/TestRenderer'
 
-import Signup from './'
+import Signup from './index'
 
 test('should render Signup', () => {
   const { container } = TestRenderer(<Signup />)

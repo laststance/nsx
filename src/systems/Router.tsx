@@ -10,7 +10,7 @@ import Index from '../pages/Index/index'
 import Login from '../pages/Login/index'
 import NotFound from '../pages/NotFound/index'
 import Post from '../pages/Post/index'
-import Signup from '../pages/Signup/index'
+import Signup from '../components/Signup/index'
 import { useAppSelector } from '../redux/hooks'
 import { dispatch } from '../redux/store'
 import { updateTheme, selectTheme } from '../redux/themeSlice'
@@ -30,12 +30,7 @@ const Router = memo(() => {
         <Route path="/" element={<Index />} />
         <Route path="post/:postId" element={<Post />} />
         <Route path="about" element={<About />} />
-        {process.env.VITE_ENABLE_SIGNUP === 'true' && (
-          <Route path="signup" element={<Signup />} />
-        )}
-        {process.env.VITE_ENABLE_LOGIN === 'true' && (
-          <Route path="login" element={<Login />} />
-        )}
+        <Route path="login" element={<Login />} />
         <Route path="dashboard" element={<Private />}>
           <Route index element={<Dashboard />} />
           <Route path="create" element={<Create />} />

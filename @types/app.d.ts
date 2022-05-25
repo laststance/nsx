@@ -31,6 +31,13 @@ declare type ErrorResponse = {
 declare type failedMessage = { failed: string }
 
 /**
+ * GET /api/user_count
+ */
+declare interface GetUserCountResponse {
+  userCount: number
+}
+
+/**
  * POST /api/login
  */
 declare interface LoginRequest {
