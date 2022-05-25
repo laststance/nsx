@@ -14,7 +14,8 @@ import Textarea from '../../components/Textarea'
 import { selectAuthor } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import type { FormInput } from '../../redux/draftSlice'
-import { useAppSelector, useAppDispatch } from '../../redux/hooks'
+import { useAppSelector } from '../../redux/hooks'
+import { dispatch } from '../../redux/store'
 
 import { onSubmit } from './handlers'
 
@@ -26,7 +27,6 @@ const Edit: React.FC = memo(() => {
   const [updatePost, { isLoading: isUpdating }] =
     API.endpoints.updatePost.useMutation()
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
   const author = useAppSelector(selectAuthor)
   const {
     register,

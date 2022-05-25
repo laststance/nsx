@@ -11,8 +11,8 @@ import Layout from '../../components/Layout'
 import { login } from '../../redux/adminSlice'
 import { useSignupReqestMutation } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
-import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
+import { dispatch } from '../../redux/store'
 
 interface FormInput extends FieldValues {
   name: Author['name']
@@ -20,7 +20,6 @@ interface FormInput extends FieldValues {
 }
 
 const Signup: React.FC = memo(() => {
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [signupRequest] = useSignupReqestMutation()
   const {

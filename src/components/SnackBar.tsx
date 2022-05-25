@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useState } from 'react'
 
-import { useAppDispatch } from '../redux/hooks'
 import type { SnackBarMessage } from '../redux/snackbarSlice'
 import { dequeSnackbar } from '../redux/snackbarSlice'
+import { dispatch } from '../redux/store'
 
 interface Props {
   message: SnackBarMessage['message']
@@ -11,7 +11,6 @@ interface Props {
 
 const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
   ({ message, color }) => {
-    const dispatch = useAppDispatch()
     const [opacity, setOpacity] = useState('opacity-0')
     const bgColor = (color: string): string => {
       if (color === 'green') {

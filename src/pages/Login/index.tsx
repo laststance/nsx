@@ -12,8 +12,8 @@ import Layout from '../../components/Layout'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
-import { useAppDispatch } from '../../redux/hooks'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
+import { dispatch } from '../../redux/store'
 
 interface FormInput extends FieldValues {
   name: Author['name']
@@ -28,7 +28,6 @@ const Login: React.FC = memo(() => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>({ resolver: superstructResolver(loginFormValidator) })
-  const dispatch = useAppDispatch()
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     const res = await loginReqest({
