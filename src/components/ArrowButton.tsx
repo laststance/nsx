@@ -9,9 +9,7 @@ interface ArrowButtonProps {
 }
 
 const ArrowButton: React.FC<
-  React.PropsWithChildren<
-    ArrowButtonProps & ButtonHTMLAttributes<HTMLButtonElement>
-  >
+  ArrowButtonProps & ButtonHTMLAttributes<HTMLButtonElement>
 > = memo(({ direction, ...rest }) => (
   <button
     className="flex h-10 w-14 items-center justify-center rounded border border-gray-500 bg-white hover:border-gray-200 hover:bg-gray-100 hover:text-gray-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-30"
