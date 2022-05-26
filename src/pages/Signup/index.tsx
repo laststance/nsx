@@ -10,8 +10,8 @@ import { useSignupReqestMutation } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
-import Button from '../Button'
-import Input from '../Input'
+import Button from '../../components/Button'
+import Input from '../../components/Input'
 
 interface FormInput extends FieldValues {
   name: Author['name']

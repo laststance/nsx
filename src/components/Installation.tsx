@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
 
+import Signup from '../pages/Signup/index'
 import { useGetUserCountQuery } from '../redux/API'
 
 import Loading from './Loading'
-import Signup from './Signup/index'
 
 const Installation: React.FC = memo(() => {
   const { data, isLoading, error } = useGetUserCountQuery()
