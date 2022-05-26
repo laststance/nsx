@@ -20,7 +20,7 @@ async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
   }
 }
 
-const AdminControlPanel: React.FC = memo(() => {
+const DashButtonGroup: React.FC = memo(() => {
   const login: AdminState['login'] = useAppSelector(selectLogin)
   if (login === false) return null
 
@@ -37,6 +37,6 @@ const AdminControlPanel: React.FC = memo(() => {
     </div>
   )
 })
-AdminControlPanel.displayName = 'AdminControlPanel'
+DashButtonGroup.displayName = 'AdminControlPanel'
 
-export default AdminControlPanel
+export default DashButtonGroup
