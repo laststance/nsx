@@ -5,13 +5,13 @@ import type { SubmitHandler, FieldValues } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { signupFormVallidator } from '../../../validator/index'
+import Button from '../../components/Button'
+import Input from '../../components/Input'
 import { login } from '../../redux/adminSlice'
 import { useSignupReqestMutation } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
-import Button from '../../components/Button'
-import Input from '../../components/Input'
 
 interface FormInput extends FieldValues {
   name: Author['name']
