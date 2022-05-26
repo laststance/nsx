@@ -44,7 +44,12 @@ const Signup: React.FC = memo(() => {
 
   return (
     <>
-      <h1 className="text-color-primary text-center text-3xl">Signup</h1>
+      <h1
+        className="text-color-primary text-center text-3xl "
+        data-cy="signup-page"
+      >
+        Signup
+      </h1>
       <form
         className="mx-auto w-full max-w-sm"
         onSubmit={handleSubmit(onSubmit)}
@@ -62,7 +67,7 @@ const Signup: React.FC = memo(() => {
             <Input
               type="text"
               reactHookFormPrams={{ errors, name: 'name', register }}
-              data-cy="name-input"
+              data-cy="signup-name-input"
             />
           </div>
         </div>
@@ -79,14 +84,18 @@ const Signup: React.FC = memo(() => {
             <Input
               type="password"
               reactHookFormPrams={{ errors, name: 'password', register }}
-              data-cy="password-input"
+              data-cy="signup-password-input"
             />
           </div>
         </div>
         <div className="md:flex md:items-center">
           <div className="md:w-1/3"></div>
           <div className="md:w-2/3">
-            <Button type="submit" variant="secondary" data-cy="submit-btn">
+            <Button
+              type="submit"
+              variant="secondary"
+              data-cy="signup-submit-btn"
+            >
               Submit
             </Button>
           </div>

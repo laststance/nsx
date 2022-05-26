@@ -1,13 +1,16 @@
+before(() => {
+  cy.resetDB()
+})
+
 context('admin basic', () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('token')
   })
-  context('signup & login & logout', () => {
-    it('show signup/login button', () => {
+  context('login & logout', () => {
+    it('show login button', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
       cy.$('login-btn').should('exist')
-      cy.$('signup-btn').should('exist')
     })
 
     it('failed login with incorrect user/password', () => {
@@ -20,30 +23,11 @@ context('admin basic', () => {
       cy.$('snackbar').should('exist').should('contain', 'User does not exist')
     })
 
-    it('siginup new email and password finally showing Dashboard page', () => {
-      cy.visit('http://localhost:3000/')
-      cy.$('signup-btn').click()
-      // pageTransition /signup
-      cy.url().should('eq', 'http://localhost:3000/signup')
-      cy.$('signup-page-content-root').contains('Signup')
-
-      // input signup form
-      cy.$('name-input').type('newTransitionBloger{enter}')
-      cy.$('password-input').type('superstroingpassword')
-      // sbumit
-      cy.$('submit-btn').click()
-
-      // pageTransition /dashboard
-      cy.url().should('eq', 'http://localhost:3000/dashboard')
-      cy.$('dashboard-page-content-root').contains('Dashboard')
-    })
-
     it('successful Logout', () => {
       cy.$('blog-title-top-page-link').click()
       cy.$('logout-btn').should('exist').click()
       cy.url().should('eq', 'http://localhost:3000/')
       cy.$('login-btn').should('exist')
-      cy.$('signup-btn').should('exist')
     })
   })
 

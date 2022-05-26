@@ -42,3 +42,5 @@ Cypress.Commands.add('logout', () =>
 )
 
 Cypress.Commands.add('resetDB', () => cy.exec('yarn db:reset'))
+
+Cypress.Commands.add('cleanDB', () => cy.exec('yarn db:clean'))
