@@ -8,6 +8,8 @@ import { useAppSelector } from '../redux/hooks'
 const Private: React.FC = memo(() => {
   const login = useAppSelector(selectLogin)
 
+  // @TODO add JWT Token validation?
+
   return login ? <Outlet /> : <NotFound />
 })
 Private.displayName = 'Private'

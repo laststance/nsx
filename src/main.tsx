@@ -10,7 +10,7 @@ import type { Metric } from 'web-vitals'
 
 import './index.css'
 
-import Loading from './components/Loading'
+import Loading from './components/Loading/Loading'
 import { store } from './redux/store'
 import reportWebVitals from './reportWebVitals'
 import ErrorBoundary from './systems/ErrorBoundary'

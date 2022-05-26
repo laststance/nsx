@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import type { ButtonHTMLAttributes } from 'react'
 
-import ArrowLeft from './icons/ArrowLeft'
-import ArrowRight from './icons/ArrowRight'
+import ArrowLeft from '../icons/ArrowLeft'
+import ArrowRight from '../icons/ArrowRight'
 
 interface ArrowButtonProps {
   direction: 'left' | 'right'

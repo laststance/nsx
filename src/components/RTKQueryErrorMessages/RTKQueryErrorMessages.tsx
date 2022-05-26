@@ -2,8 +2,8 @@ import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { memo } from 'react'
 
-import { assertIsFetchBaseQueryError } from '../redux/helper/assertIsFetchBaseQueryError'
-import { assertIsSerializedError } from '../redux/helper/assertIsSerializedError'
+import { assertIsFetchBaseQueryError } from '../../redux/helper/assertIsFetchBaseQueryError'
+import { assertIsSerializedError } from '../../redux/helper/assertIsSerializedError'
 
 interface Props {
   error: FetchBaseQueryError | SerializedError

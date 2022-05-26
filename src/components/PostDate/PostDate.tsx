@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import { formatDate } from '../lib/formatDate'
+import { formatDate } from '../../lib/formatDate'
 
 const PostDate: React.FC<React.PropsWithChildren<{ date: string }>> = memo(
   ({ date }) => {

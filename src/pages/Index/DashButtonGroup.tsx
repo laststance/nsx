@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import Button from '../../components/Button'
+import Button from '../../components/Button/Button'
 import type { AdminState } from '../../redux/adminSlice'
 import { logout, selectLogin } from '../../redux/adminSlice'
 import { API } from '../../redux/API'

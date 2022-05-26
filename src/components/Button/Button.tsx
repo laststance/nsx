@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import type { ButtonHTMLAttributes } from 'react'
 import React, { memo } from 'react'
 
-import Spinner from './Spinner'
+import Spinner from '../Spinner/Spinner'
 
 const variants = {
   danger: 'bg-red-500 text-white hover:bg-red-600',

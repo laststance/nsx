@@ -1,7 +1,7 @@
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React from 'react'
 
-import TestRenderer from '../lib/TestRenderer'
+import TestRenderer from '../../lib/TestRenderer'
 
 import RTKQueryErrorMessages from './RTKQueryErrorMessages'
 

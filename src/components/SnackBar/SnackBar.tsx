@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useState } from 'react'
 
-import type { SnackBarMessage } from '../redux/snackbarSlice'
-import { dequeSnackbar } from '../redux/snackbarSlice'
-import { dispatch } from '../redux/store'
+import type { SnackBarMessage } from '../../redux/snackbarSlice'
+import { dequeSnackbar } from '../../redux/snackbarSlice'
+import { dispatch } from '../../redux/store'
 
 interface Props {
   message: SnackBarMessage['message']

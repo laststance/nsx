@@ -1,7 +1,7 @@
 import { waitFor } from '@testing-library/dom'
 import React, { useState, useLayoutEffect } from 'react'
 
-import TestRenderer from '../lib/TestRenderer'
+import TestRenderer from '../../lib/TestRenderer'
 
 import Button from './Button'
 

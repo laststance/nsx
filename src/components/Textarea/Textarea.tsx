@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import React, { memo } from 'react'
 import type { TextareaHTMLAttributes } from 'react'
 
-import type { ReactHookFormParams } from './Input'
+import type { ReactHookFormParams } from '../Input/Input'
 
 interface Props {
   defaultValue?: string | number | readonly string[] | undefined

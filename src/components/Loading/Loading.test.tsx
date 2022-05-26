@@ -1,6 +1,6 @@
 import React from 'react'
 
-import TestRenderer from '../lib/TestRenderer'
+import TestRenderer from '../../lib/TestRenderer'
 
 import Loading from './Loading'
 
