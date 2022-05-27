@@ -6,6 +6,8 @@ import { persistReducer } from 'redux-persist'
 import type { PersistConfig } from 'redux-persist/es/types'
 import storage from 'redux-persist/lib/storage'
 
+import sidebarReducer from '../offscreen/Sidebar/sidebarSlice'
+
 import adminReducer from './adminSlice'
 import { API } from './API'
 import draftReducer from './draftSlice'
@@ -18,6 +20,7 @@ const reducers = combineReducers({
   admin: adminReducer,
   draft: draftReducer,
   pagenation: pagenationReducer,
+  sidebar: sidebarReducer,
   snackbar: snackbarReducer,
   theme: themeReducer,
   [API.reducerPath]: API.reducer,

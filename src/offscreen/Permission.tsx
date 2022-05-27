@@ -1,17 +1,17 @@
 import React, { memo } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet as AuthorizedApp } from 'react-router-dom'
 
 import NotFound from '../pages/NotFound/index'
 import { selectLogin } from '../redux/adminSlice'
 import { useAppSelector } from '../redux/hooks'
 
-const Private: React.FC = memo(() => {
+const Permission: React.FC = memo(() => {
   const login = useAppSelector(selectLogin)
 
   // @TODO add JWT Token validation?
 
-  return login ? <Outlet /> : <NotFound />
+  return login ? <AuthorizedApp /> : <NotFound />
 })
-Private.displayName = 'Private'
+Permission.displayName = 'Offscreen.Permission'
 
-export default Private
+export default Permission

@@ -2,9 +2,9 @@ import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import React, { memo, useEffect } from 'react'
 
+import { ErrorBoundaryFallbackComponent } from '../../components/ErrorBoundary/ErrorBoundary'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
-import { ErrorBoundaryFallbackComponent } from '../../systems/ErrorBoundary'
 
 interface Props<T extends Error> {
   error?: T | FetchBaseQueryError | SerializedError | undefined

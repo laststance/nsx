@@ -4,7 +4,7 @@ import SnackBar from '../components/SnackBar/SnackBar'
 import { useAppSelector } from '../redux/hooks'
 import { selectMessageQueue } from '../redux/snackbarSlice'
 
-const SnackBarSystem = React.memo(
+const SnackBarDsipatcher = React.memo(
   () => {
     const messageQueue = useAppSelector(selectMessageQueue)
     if (messageQueue.length === 0) return null
@@ -14,6 +14,6 @@ const SnackBarSystem = React.memo(
   },
   () => true
 )
-SnackBarSystem.displayName = 'SnackBarSystem'
+SnackBarDsipatcher.displayName = 'Offscreen.SnackBarDispatcher'
 
-export default SnackBarSystem
+export default SnackBarDsipatcher
