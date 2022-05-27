@@ -1,40 +1,12 @@
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
-import React, { Suspense } from 'react'
+import React from 'react'
 import { createRoot } from 'react-dom/client'
 import ReactGA, { ga } from 'react-ga'
-import { Provider as ReduxStoreProvider } from 'react-redux'
-import { persistStore } from 'redux-persist'
-import { PersistGate as ReduxPersistGate } from 'redux-persist/integration/react'
 import type { Metric } from 'web-vitals'
 
-import './index.css'
-
-import Loading from './components/Loading'
-import { store } from './redux/store'
+import App from './App'
 import reportWebVitals from './reportWebVitals'
-import ErrorBoundary from './systems/ErrorBoundary'
-import Router from './systems/Router'
-import SnackBarSystem from './systems/SnackBarSystem'
-
-const persistor = persistStore(store)
-
-// @TODO fix Provider typing
-// @ts-expect-error
-ReduxStoreProvider.displayName = 'ReduxStoreProvider'
-
-const App = () => (
-  <ErrorBoundary>
-    <Suspense fallback={<Loading />}>
-      <ReduxStoreProvider store={store}>
-        <ReduxPersistGate persistor={persistor}>
-          <SnackBarSystem />
-          <Router />
-        </ReduxPersistGate>
-      </ReduxStoreProvider>
-    </Suspense>
-  </ErrorBoundary>
-)
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({

@@ -1,18 +1,23 @@
+before(() => {
+  cy.resetDB()
+})
+
 context('admin basic', () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('token')
   })
-  context('signup & login & logout', () => {
-    it('show signup/login button', () => {
+  context('login & logout', () => {
+    it('show login button', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
+      cy.toggleSidebar()
       cy.$('login-btn').should('exist')
-      cy.$('signup-btn').should('exist')
     })
 
     it('failed login with incorrect user/password', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
+      cy.toggleSidebar()
       cy.$('login-btn').click()
       cy.$('name-input').type('wefjweiofjwie')
       cy.$('password-input').type('wfjweoifjio23r03')
@@ -20,30 +25,14 @@ context('admin basic', () => {
       cy.$('snackbar').should('exist').should('contain', 'User does not exist')
     })
 
-    it('siginup new email and password finally showing Dashboard page', () => {
-      cy.visit('http://localhost:3000/')
-      cy.$('signup-btn').click()
-      // pageTransition /signup
-      cy.url().should('eq', 'http://localhost:3000/signup')
-      cy.$('signup-page-content-root').contains('Signup')
-
-      // input signup form
-      cy.$('name-input').type('newTransitionBloger{enter}')
-      cy.$('password-input').type('superstroingpassword')
-      // sbumit
-      cy.$('submit-btn').click()
-
-      // pageTransition /dashboard
-      cy.url().should('eq', 'http://localhost:3000/dashboard')
-      cy.$('dashboard-page-content-root').contains('Dashboard')
-    })
-
     it('successful Logout', () => {
       cy.$('blog-title-top-page-link').click()
+      cy.login()
       cy.$('logout-btn').should('exist').click()
       cy.url().should('eq', 'http://localhost:3000/')
+      cy.$('logout-btn').should('not.exist')
+      cy.toggleSidebar()
       cy.$('login-btn').should('exist')
-      cy.$('signup-btn').should('exist')
     })
   })
 
@@ -123,7 +112,7 @@ context('admin basic', () => {
         cy.$('blog-title-top-page-link').click()
         cy.$('dashoard-page-transition-link-btn').click()
 
-        cy.logger('re vist and check')
+        cy.logger('revist and check')
         cy.$('create-btn').click()
         cy.$('post-title-input').should('have.value', 'from cypress')
         cy.$('post-body-input').should('have.value', 'testing now')

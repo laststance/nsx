@@ -39,6 +39,7 @@ export const API = createApi({
         url: 'create',
       }),
     }),
+
     deletePost: builder.mutation<
       DeletePostResponse,
       { id: Post['id']; author: Author }
@@ -68,6 +69,13 @@ export const API = createApi({
             ]
           : [{ id: 'LIST', type: 'Posts' }],
       query: ({ page, perPage }) => `post_list?page=${page}&perPage=${perPage}`,
+    }),
+
+    getUserCount: builder.query<GetUserCountResponse, void>({
+      query: () => ({
+        method: 'GET',
+        url: 'user_count',
+      }),
     }),
 
     loginReqest: builder.mutation<LoginResponse, UserIdPassword>({
@@ -108,7 +116,7 @@ export const API = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useLoginReqestMutation, useSignupReqestMutation } = API
+export const { useGetUserCountQuery, useSignupReqestMutation } = API
 
 export type CreatePostMutationDefinition = MutationDefinition<
   CreatePostRequest,

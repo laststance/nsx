@@ -23,8 +23,13 @@ for (const command of [
 
 Cypress.Commands.add('$', (selector) => cy.get('[data-cy=' + selector + ']'))
 
+Cypress.Commands.add('toggleSidebar', () =>
+  cy.get('body').trigger('keyup', { key: 'x' })
+)
+
 Cypress.Commands.add('login', () => {
   cy.visit('http://localhost:3000')
+  cy.get('body').trigger('keyup', { key: 'x' })
   cy.$('login-btn').click()
   cy.$('name-input').type('John Doe')
   cy.$('password-input').type('popcoon')
@@ -42,3 +47,5 @@ Cypress.Commands.add('logout', () =>
 )
 
 Cypress.Commands.add('resetDB', () => cy.exec('yarn db:reset'))
+
+Cypress.Commands.add('cleanDB', () => cy.exec('yarn db:clean'))

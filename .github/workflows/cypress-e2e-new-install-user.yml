@@ -1,0 +1,34 @@
+name: Cypress-E2E New Install User
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  cypress-e2e-new-install-user:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '18.1.0'
+      - run: mv .env.admin .env
+      - run: docker-compose up -d
+      - uses: cypress-io/github-action@v2
+        with:
+          spec: cypress/integration/new_isntalled_user_flow.js
+          start: yarn server:start, yarn start
+          wait-on: 'http://localhost:3000'
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+#      - uses: actions/upload-artifact@v2
+#        if: always()
+#        with:
+#          name: cypress-videos
+#          path: cypress/videos

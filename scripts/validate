@@ -1,6 +1,6 @@
 #!/bin/bash
 
-npx concurrently \
+concurrently \
   --kill-others-on-fail \
   --prefix "[{name}]" \
   --names "test,lint:fix,typecheck,build" \

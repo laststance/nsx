@@ -1,3 +1,7 @@
+before(() => {
+  cy.resetDB()
+})
+
 context('visitor basic', () => {
   it('show blog title', () => {
     cy.visit('http://localhost:3000/')
@@ -20,7 +24,6 @@ context('visitor basic', () => {
 
   it('never shown every admin page link button without login', () => {
     cy.visit('http://localhost:3000/')
-    cy.$('signup-btn').should('not.exist')
     cy.$('dashoard-page-transition-link-btn').should('not.exist')
 
     cy.$('single-post-page-link-2').click()
@@ -93,8 +96,9 @@ context('visitor basic', () => {
   context('security', () => {
     it('could never been to any private routes', () => {
       cy.visit('http://localhost:3000/')
-      cy.visit('http://localhost:3000/login')
-      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+      // @TODO
+      // cy.visit('http://localhost:3000/login')
+      // cy.$('page-notfound').should('contain.text', '404: Page Not Found')
 
       cy.visit('http://localhost:3000/signup')
       cy.$('page-notfound').should('contain.text', '404: Page Not Found')

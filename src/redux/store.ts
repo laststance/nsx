@@ -11,6 +11,7 @@ import { API } from './API'
 import draftReducer from './draftSlice'
 import { SwitchTailwindCSSTheme } from './listener'
 import pagenationReducer from './pagenationSlice'
+import sidebarReducer from './sidebarSlice'
 import snackbarReducer from './snackbarSlice'
 import themeReducer, { updateTheme } from './themeSlice'
 
@@ -18,6 +19,7 @@ const reducers = combineReducers({
   admin: adminReducer,
   draft: draftReducer,
   pagenation: pagenationReducer,
+  sidebar: sidebarReducer,
   snackbar: snackbarReducer,
   theme: themeReducer,
   [API.reducerPath]: API.reducer,
