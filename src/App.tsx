@@ -8,27 +8,28 @@ import './index.css'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import Loading from './components/Loading/Loading'
 import OffScreen from './offscreen/index'
+import Router from './pages/Router'
 import { store } from './redux/store'
-import Router from './Router'
 
 const persistor = persistStore(store)
 
-// @TODO fix Provider typing
 // @ts-expect-error
 ReduxStoreProvider.displayName = 'ReduxStoreProvider'
 
-const App = () => (
-  <ErrorBoundary>
-    <Suspense fallback={<Loading />}>
-      <ReduxStoreProvider store={store}>
-        <ReduxPersistGate persistor={persistor}>
-          <OffScreen.Sidebar />
-          <OffScreen.SnackBarDispatcher />
-          <Router />
-        </ReduxPersistGate>
-      </ReduxStoreProvider>
-    </Suspense>
-  </ErrorBoundary>
-)
+const App = () => {
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<Loading />}>
+        <ReduxStoreProvider store={store}>
+          <ReduxPersistGate persistor={persistor}>
+            <OffScreen.Sidebar />
+            <OffScreen.SnackBarDispatcher />
+            <Router />
+          </ReduxPersistGate>
+        </ReduxStoreProvider>
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
 
 export default App

@@ -1,19 +1,20 @@
 import React, { memo } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import { useIsomorphicLayoutEffect } from './hooks/useIsomorphicLayoutEffect'
-import OffScreen from './offscreen/index'
-import About from './pages/About/index'
-import Create from './pages/Create/index'
-import Dashboard from './pages/Dashboard/index'
-import Edit from './pages/Edit/index'
-import Index from './pages/Index/index'
-import Login from './pages/Login/index'
-import NotFound from './pages/NotFound/index'
-import Post from './pages/Post/index'
-import { useAppSelector } from './redux/hooks'
-import { dispatch } from './redux/store'
-import { updateTheme, selectTheme } from './redux/themeSlice'
+import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect'
+import OffScreen from '../offscreen/index'
+import { useAppSelector } from '../redux/hooks'
+import { dispatch } from '../redux/store'
+import { updateTheme, selectTheme } from '../redux/themeSlice'
+
+import About from './About/index'
+import Create from './Create/index'
+import Dashboard from './Dashboard/index'
+import Edit from './Edit/index'
+import Index from './Index/index'
+import Login from './Login/index'
+import NotFound from './NotFound/index'
+import Post from './Post/index'
 
 const Router = memo(() => {
   // apply TailwindCSS theme onLoaded
