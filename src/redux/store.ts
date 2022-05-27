@@ -6,13 +6,12 @@ import { persistReducer } from 'redux-persist'
 import type { PersistConfig } from 'redux-persist/es/types'
 import storage from 'redux-persist/lib/storage'
 
-import sidebarReducer from '../offscreen/Sidebar/sidebarSlice'
-
 import adminReducer from './adminSlice'
 import { API } from './API'
 import draftReducer from './draftSlice'
 import { SwitchTailwindCSSTheme } from './listener'
 import pagenationReducer from './pagenationSlice'
+import sidebarReducer from './sidebarSlice'
 import snackbarReducer from './snackbarSlice'
 import themeReducer, { updateTheme } from './themeSlice'
 

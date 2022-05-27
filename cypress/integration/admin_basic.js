@@ -10,12 +10,14 @@ context('admin basic', () => {
     it('show login button', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
+      cy.toggleSidebar()
       cy.$('login-btn').should('exist')
     })
 
     it('failed login with incorrect user/password', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
+      cy.toggleSidebar()
       cy.$('login-btn').click()
       cy.$('name-input').type('wefjweiofjwie')
       cy.$('password-input').type('wfjweoifjio23r03')
@@ -25,8 +27,11 @@ context('admin basic', () => {
 
     it('successful Logout', () => {
       cy.$('blog-title-top-page-link').click()
+      cy.login()
       cy.$('logout-btn').should('exist').click()
       cy.url().should('eq', 'http://localhost:3000/')
+      cy.$('logout-btn').should('not.exist')
+      cy.toggleSidebar()
       cy.$('login-btn').should('exist')
     })
   })
@@ -107,7 +112,7 @@ context('admin basic', () => {
         cy.$('blog-title-top-page-link').click()
         cy.$('dashoard-page-transition-link-btn').click()
 
-        cy.logger('re vist and check')
+        cy.logger('revist and check')
         cy.$('create-btn').click()
         cy.$('post-title-input').should('have.value', 'from cypress')
         cy.$('post-body-input').should('have.value', 'testing now')

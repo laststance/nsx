@@ -11,9 +11,12 @@ import {
 import React, { Fragment, memo, useEffect } from 'react'
 
 import { useAppSelector } from '../../redux/hooks'
+import {
+  selectSidebarOpen,
+  closeSidebar,
+  toggleSidebar,
+} from '../../redux/sidebarSlice'
 import { dispatch } from '../../redux/store'
-
-import { selectSidebarOpen, closeSidebar, openSidebar } from './sidebarSlice'
 
 Dialog.displayName = 'Dialog'
 Dialog.Panel.displayName = 'Dialog.Panel'
@@ -21,15 +24,11 @@ Transition.Root.displayName = 'Transition.Root'
 Transition.Child.displayName = 'Transition.Child'
 
 const navigation = [
-  { current: true, href: '#', icon: HomeIcon, name: 'Dashboard' },
-  { current: false, href: '#', icon: UsersIcon, name: 'Team' },
-  { current: false, href: '#', icon: FolderIcon, name: 'Projects' },
-  { current: false, href: '#', icon: CalendarIcon, name: 'Calendar' },
-  { current: false, href: '#', icon: InboxIcon, name: 'Documents' },
-  { current: false, href: '#', icon: ChartBarIcon, name: 'Reports' },
+  { current: false, href: '/login', icon: CalendarIcon, name: 'Calendar' },
 ]
+
 const keypressListener = (e: KeyboardEvent) => {
-  if (e.key === 'x') dispatch(openSidebar())
+  if (e.key === 'x') dispatch(toggleSidebar())
 }
 
 function onCloseHander() {
@@ -105,6 +104,7 @@ const Sidebar: React.FC = memo(() => {
                       <a
                         key={item.name}
                         href={item.href}
+                        data-cy="login-btn"
                         className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
                       >
                         <item.icon className="'text-gray-300 flex-shrink-0' mr-4 h-6 w-6" />

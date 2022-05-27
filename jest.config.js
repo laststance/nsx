@@ -1,5 +1,4 @@
 const config = {
-  
   collectCoverageFrom: ['<rootDir>/src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
   moduleDirectories: ['node_modules'],
   moduleFileExtensions: ['js', 'mjs', 'jsx', 'ts', 'tsx', 'json'],
