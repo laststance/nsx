@@ -17,9 +17,9 @@ const config = {
   ],
   transform: {
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)':
-      'jest-preview/transforms/file',
-    '^.+\\.(css|scss|sass)$': 'jest-preview/transforms/css',
+      '<rootDir>/jest/fileTransform.js',
     '^.+\\.[jt]sx?$': 'esbuild-jest',
+    '^.+\\.css$': '<rootDir>/jest/cssTransform.js',
   },
   transformIgnorePatterns: [
     '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
