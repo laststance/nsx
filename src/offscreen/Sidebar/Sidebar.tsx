@@ -1,13 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import {
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
-  XIcon,
-} from '@heroicons/react/outline'
+import { HomeIcon, XIcon } from '@heroicons/react/outline'
 import React, { Fragment, memo, useEffect } from 'react'
 
 import { useAppSelector } from '../../redux/hooks'
@@ -24,7 +16,7 @@ Transition.Root.displayName = 'Transition.Root'
 Transition.Child.displayName = 'Transition.Child'
 
 const navigation = [
-  { current: false, href: '/login', icon: CalendarIcon, name: 'Calendar' },
+  { current: false, href: '/login', icon: HomeIcon, name: 'Login' },
 ]
 
 const keypressListener = (e: KeyboardEvent) => {
