@@ -46,6 +46,10 @@
   .text-color-inverse {
     @apply text-white dark:text-black;
   }
+  
+  .post-row-container {
+    @apply flex flex-col justify-start space-y-4;
+  }
 }
 
 html,

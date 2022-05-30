@@ -32,7 +32,7 @@ const Dashboard: React.FC = memo(() => {
         Dashboard
       </h1>
       <div className="flex h-full flex-col justify-between">
-        <ul className="flex flex-col justify-start">
+        <ul className="post-row-container">
           {postList.map((post: Post, i: number) => {
             return (
               <li

@@ -24,7 +24,7 @@ const PostList: React.FC = memo(() => {
 
   return (
     <div className="flex h-full flex-col justify-between">
-      <ul className="flex flex-col justify-start space-y-4">
+      <ul className="post-row-container">
         {data.postList?.map((post: Post, i: number) => {
           return <PostRow key={i} post={post} index={i} />
         })}
