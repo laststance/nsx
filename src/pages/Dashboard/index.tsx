@@ -2,16 +2,14 @@ import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../components/Button/Button'
+import DashboardPostRow from '../../components/DashboardPostRow'
 import Layout from '../../components/Layout/index'
 import Loading from '../../components/Loading/Loading'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'
-import PostDate from '../../components/PostDate/PostDate'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages/RTKQueryErrorMessages'
 import { selectAuthor } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
-
-import { handleDelete } from './handler'
 
 const Dashboard: React.FC = memo(() => {
   const { page, totalPage, data, error, isLoading, refetch } = usePagination()
@@ -35,30 +33,12 @@ const Dashboard: React.FC = memo(() => {
         <ul className="post-row-container">
           {postList.map((post: Post, i: number) => {
             return (
-              <li
-                key={i}
-                className="flex items-center justify-between space-y-2"
-              >
-                <Link
-                  to={`/post/${post.id}`}
-                  className="flex items-center space-x-2"
-                >
-                  <PostDate date={post.createdAt} />
-                  <div className="text-color-primary">{post.title}</div>
-                </Link>
-                <div className="flex items-center space-x-2">
-                  <Link to={`/dashboard/edit/${post.id}`}>
-                    <Button variant="inverse">Edit</Button>
-                  </Link>
-                  <Button
-                    onClick={handleDelete(post.id, author, refetch)}
-                    variant="danger"
-                    data-cy={`delete-btn-${i + 1}`}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </li>
+              <DashboardPostRow
+                post={post}
+                index={i}
+                author={author}
+                refetch={refetch}
+              />
             )
           })}
         </ul>
