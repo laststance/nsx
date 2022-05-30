@@ -2,7 +2,6 @@ import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../components/Button/Button'
-import DashboardPostRow from '../../components/DashboardPostRow'
 import Layout from '../../components/Layout/index'
 import Loading from '../../components/Loading/Loading'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
@@ -10,6 +9,8 @@ import usePagination from '../../components/Pagination/usePagination'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages/RTKQueryErrorMessages'
 import { selectAuthor } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
+
+import DashboardPostRow from './DashboardPostRow'
 
 const Dashboard: React.FC = memo(() => {
   const { page, totalPage, data, error, isLoading, refetch } = usePagination()

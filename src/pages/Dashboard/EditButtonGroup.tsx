@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { handleDelete } from '../pages/Dashboard/handler'
+import Button from '../../components/Button/Button'
 
-import Button from './Button/Button'
+import { handleDelete } from './handler'
 
 interface Props {
   post: Post

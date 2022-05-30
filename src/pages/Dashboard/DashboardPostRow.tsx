@@ -1,8 +1,9 @@
 import React, { memo } from 'react'
 
+import PostDate from '../../components/PostDate/PostDate'
+import PostLink from '../Index/PostLink'
+
 import EditButtonGroup from './EditButtonGroup'
-import PostDate from './PostDate/PostDate'
-import PostLink from './PostLink'
 
 interface Props {
   post: Post
