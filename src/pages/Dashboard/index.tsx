@@ -26,7 +26,7 @@ const Dashboard: React.FC = memo(() => {
 
   return (
     <>
-      <h1 className="text-color-primary mb-3 text-3xl font-semibold">
+      <h1 className="text-color-primary mb-3 text-center text-3xl font-semibold">
         Dashboard
       </h1>
       <div className="flex h-full flex-col justify-between">
@@ -34,6 +34,7 @@ const Dashboard: React.FC = memo(() => {
           {postList.map((post: Post, i: number) => {
             return (
               <DashboardPostRow
+                key={i}
                 post={post}
                 index={i}
                 author={author}

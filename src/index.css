@@ -50,6 +50,10 @@
   .post-row-container {
     @apply flex flex-col justify-start space-y-4;
   }
+  
+  .post-row {
+    @apply flex sm:flex-nowrap sm:space-x-2.5;
+  }
 }
 
 html,
