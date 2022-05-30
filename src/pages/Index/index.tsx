@@ -2,14 +2,14 @@ import React, { memo } from 'react'
 
 import Layout from '../../components/Layout'
 
-import DashButtonGroup from './DashButtonGroup'
+import DashboardButtonGroup from './DashboardButtonGroup'
 import PostList from './PostList'
 
 const Index: React.FC = memo(() => {
   return (
     <>
       <PostList />
-      <DashButtonGroup />
+      <DashboardButtonGroup />
     </>
   )
 })
