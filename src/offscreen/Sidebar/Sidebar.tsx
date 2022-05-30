@@ -2,6 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { HomeIcon, XIcon } from '@heroicons/react/outline'
 import React, { Fragment, memo, useEffect } from 'react'
 
+import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 import {
   selectSidebarOpen,
@@ -25,6 +26,8 @@ function onCloseHander() {
 
 const Sidebar: React.FC = memo(() => {
   const open = useAppSelector(selectSidebarOpen)
+  const login = useAppSelector(selectLogin)
+
   useEffect(() => {
     window.document.addEventListener('keyup', keypressListener)
   }, [])
@@ -89,12 +92,12 @@ const Sidebar: React.FC = memo(() => {
                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                   <nav className="space-y-1 px-2">
                     <a
-                      href="/login"
-                      data-cy="login-btn"
+                      href={login ? '/logout' : '/login'}
+                      data-cy={login ? 'logout-btn' : 'login-btn'}
                       className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
                     >
                       <HomeIcon className="'text-gray-300 flex-shrink-0' mr-4 h-6 w-6" />
-                      Login
+                      {login ? 'Logout' : 'Login'}
                     </a>
                   </nav>
                 </div>
