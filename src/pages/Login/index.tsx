@@ -52,7 +52,7 @@ const Login: React.FC = memo(() => {
 
   return (
     <>
-      <h1 className="mb-3 text-3xl">Login</h1>
+      <h1 className="text-color-primary mb-3 text-3xl">Login</h1>
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-6 md:flex md:items-center">
           <div className="md:w-1/3">

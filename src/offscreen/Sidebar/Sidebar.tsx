@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { HomeIcon, XIcon } from '@heroicons/react/outline'
+import { XIcon } from '@heroicons/react/outline'
 import React, { Fragment, memo, useEffect } from 'react'
 
 import { selectLogin } from '../../redux/adminSlice'
@@ -10,6 +10,9 @@ import {
   toggleSidebar,
 } from '../../redux/sidebarSlice'
 import { dispatch } from '../../redux/store'
+
+import LoginLink from './LoginLink'
+import LogoutLink from './LogoutLink'
 
 Dialog.displayName = 'Dialog'
 Dialog.Panel.displayName = 'Dialog.Panel'
@@ -91,14 +94,7 @@ const Sidebar: React.FC = memo(() => {
                 </div>
                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                   <nav className="space-y-1 px-2">
-                    <a
-                      href={login ? '/logout' : '/login'}
-                      data-cy={login ? 'logout-btn' : 'login-btn'}
-                      className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
-                    >
-                      <HomeIcon className="'text-gray-300 flex-shrink-0' mr-4 h-6 w-6" />
-                      {login ? 'Logout' : 'Login'}
-                    </a>
+                    {login ? <LogoutLink /> : <LoginLink />}
                   </nav>
                 </div>
               </Dialog.Panel>

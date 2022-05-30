@@ -2,23 +2,10 @@ import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../components/Button/Button'
+import { handleLogout } from '../../handler'
 import type { AdminState } from '../../redux/adminSlice'
-import { logout, selectLogin } from '../../redux/adminSlice'
-import { API } from '../../redux/API'
-import isSuccess from '../../redux/helper/isSuccess'
+import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
-import { enqueSnackbar } from '../../redux/snackbarSlice'
-import { dispatch } from '../../redux/store'
-
-async function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
-  e.preventDefault()
-  const response = await dispatch(API.endpoints.logoutRequest.initiate())
-
-  if (isSuccess(response) && 'data' in response) {
-    dispatch(logout())
-    dispatch(enqueSnackbar({ color: 'green', message: response.data.message }))
-  }
-}
 
 const DashboardButtonGroup: React.FC = memo(() => {
   const login: AdminState['login'] = useAppSelector(selectLogin)
