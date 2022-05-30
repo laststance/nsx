@@ -15,10 +15,6 @@ Dialog.Panel.displayName = 'Dialog.Panel'
 Transition.Root.displayName = 'Transition.Root'
 Transition.Child.displayName = 'Transition.Child'
 
-const navigation = [
-  { current: false, href: '/login', icon: HomeIcon, name: 'Login' },
-]
-
 const keypressListener = (e: KeyboardEvent) => {
   if (e.key === 'x') dispatch(toggleSidebar())
 }
@@ -92,17 +88,14 @@ const Sidebar: React.FC = memo(() => {
                 </div>
                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                   <nav className="space-y-1 px-2">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        data-cy="login-btn"
-                        className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
-                      >
-                        <item.icon className="'text-gray-300 flex-shrink-0' mr-4 h-6 w-6" />
-                        {item.name}
-                      </a>
-                    ))}
+                    <a
+                      href="/login"
+                      data-cy="login-btn"
+                      className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
+                    >
+                      <HomeIcon className="'text-gray-300 flex-shrink-0' mr-4 h-6 w-6" />
+                      Login
+                    </a>
                   </nav>
                 </div>
               </Dialog.Panel>
