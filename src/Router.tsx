@@ -17,6 +17,7 @@ import { updateTheme, selectTheme } from './redux/themeSlice'
 
 const Router = memo(() => {
   // apply TailwindCSS theme onLoaded
+  // bause Router component render phase defenitelly run once per app loding
   const theme = useAppSelector(selectTheme)
   useIsomorphicLayoutEffect(() => {
     dispatch(updateTheme(theme))
