@@ -23,7 +23,7 @@ const keypressListener = (e: KeyboardEvent) => {
   if (e.key === 'x') dispatch(toggleSidebar())
 }
 
-function onCloseHander() {
+export function onCloseHander() {
   dispatch(closeSidebar())
 }
 
