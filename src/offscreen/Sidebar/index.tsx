@@ -11,9 +11,9 @@ import {
 } from '../../redux/sidebarSlice'
 import { dispatch } from '../../redux/store'
 
-import ConfigLink from './ConfigLink'
 import LoginLink from './LoginLink'
 import LogoutLink from './LogoutLink'
+import SettingLink from './SettingLink'
 
 Dialog.displayName = 'Dialog'
 Dialog.Panel.displayName = 'Dialog.Panel'
@@ -96,7 +96,7 @@ const Sidebar: React.FC = memo(() => {
                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                   <nav className="space-y-1 px-2">
                     {login ? <LogoutLink /> : <LoginLink />}
-                    {login && <ConfigLink />}
+                    {login && <SettingLink />}
                   </nav>
                 </div>
               </Dialog.Panel>

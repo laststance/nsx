@@ -4,14 +4,14 @@ import { Routes, Route } from 'react-router-dom'
 import { useIsomorphicLayoutEffect } from './hooks/useIsomorphicLayoutEffect'
 import Permission from './offscreen/Permission'
 import About from './pages/About/index'
-import Config from './pages/Dashboard/Config/index'
-import Create from './pages/Dashboard/Create/index'
-import Edit from './pages/Dashboard/Edit/index'
-import Dashboard from './pages/Dashboard/index'
-import Index from './pages/Index/index'
-import Login from './pages/Login/index'
-import NotFound from './pages/NotFound/index'
-import Post from './pages/Post/index'
+import Dashboard from './pages/Dashboard'
+import Create from './pages/Dashboard/Create'
+import Edit from './pages/Dashboard/Edit'
+import Setting from './pages/Dashboard/Setting'
+import Index from './pages/Index'
+import Login from './pages/Login'
+import NotFound from './pages/NotFound'
+import Post from './pages/Post'
 import { useAppSelector } from './redux/hooks'
 import { dispatch } from './redux/store'
 import { updateTheme, selectTheme } from './redux/themeSlice'
@@ -34,7 +34,7 @@ const Router = memo(() => {
         <Route index element={<Dashboard />} />
         <Route path="create" element={<Create />} />
         <Route path="edit/:postId" element={<Edit />} />
-        <Route path="config" element={<Config />} />
+        <Route path="setting" element={<Setting />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
