@@ -11,14 +11,14 @@ context('admin basic', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
       cy.toggleSidebar()
-      cy.$('login-btn').should('exist')
+      cy.$('login-link').should('exist')
     })
 
     it('failed login with incorrect user/password', () => {
       cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
       cy.toggleSidebar()
-      cy.$('login-btn').click()
+      cy.$('login-link').click()
       cy.$('name-input').type('wefjweiofjwie')
       cy.$('password-input').type('wfjweoifjio23r03')
       cy.$('submit-btn').click()
@@ -32,7 +32,7 @@ context('admin basic', () => {
       cy.url().should('eq', 'http://localhost:3000/')
       cy.$('logout-btn').should('not.exist')
       cy.toggleSidebar()
-      cy.$('login-btn').should('exist')
+      cy.$('login-link').should('exist')
     })
   })
 

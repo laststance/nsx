@@ -30,7 +30,7 @@ Cypress.Commands.add('toggleSidebar', () =>
 Cypress.Commands.add('login', () => {
   cy.visit('http://localhost:3000')
   cy.get('body').trigger('keyup', { key: 'x' })
-  cy.$('login-btn').click()
+  cy.$('login-link').click()
   cy.$('name-input').type('John Doe')
   cy.$('password-input').type('popcoon')
   cy.$('submit-btn').click()
