@@ -9,8 +9,8 @@ import './index.css'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import Loading from './components/Loading/Loading'
 import OffScreen from './offscreen/index'
-import Router from './pages/Router'
 import { store } from './redux/store'
+import Router from './Router'
 
 const persistor = persistStore(store)
 
