@@ -1,8 +1,8 @@
 import React from 'react'
 
-import TestRenderer from '../../lib/TestRenderer'
+import TestRenderer from '../../../lib/TestRenderer'
 
-import Create from './'
+import Create from './index'
 
 test('should render Create', () => {
   const {

@@ -2,7 +2,7 @@ import type { ComponentStory } from '@storybook/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import Create from './'
+import Create from './index'
 
 export default {
   component: Create,

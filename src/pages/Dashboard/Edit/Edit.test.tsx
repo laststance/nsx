@@ -2,10 +2,10 @@ import { waitFor } from '@testing-library/dom'
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import { sleep } from '../../../lib/sleep'
-import TestRenderer from '../../lib/TestRenderer'
+import { sleep } from '../../../../lib/sleep'
+import TestRenderer from '../../../lib/TestRenderer'
 
-import Edit from './'
+import Edit from './index'
 
 test('should render Edit', async () => {
   const {

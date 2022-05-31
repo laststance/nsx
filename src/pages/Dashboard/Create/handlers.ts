@@ -2,13 +2,13 @@ import type { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHoo
 import type React from 'react'
 import type { NavigateFunction } from 'react-router-dom'
 
-import type { AdminState } from '../../redux/adminSlice'
-import type { CreatePostMutationDefinition } from '../../redux/API'
-import type { DraftState } from '../../redux/draftSlice'
-import { updateBody, updateTitle, clearDraft } from '../../redux/draftSlice'
-import isSuccess from '../../redux/helper/isSuccess'
-import { enqueSnackbar } from '../../redux/snackbarSlice'
-import { dispatch } from '../../redux/store'
+import type { AdminState } from '../../../redux/adminSlice'
+import type { CreatePostMutationDefinition } from '../../../redux/API'
+import type { DraftState } from '../../../redux/draftSlice'
+import { updateBody, updateTitle, clearDraft } from '../../../redux/draftSlice'
+import isSuccess from '../../../redux/helper/isSuccess'
+import { enqueSnackbar } from '../../../redux/snackbarSlice'
+import { dispatch } from '../../../redux/store'
 
 export const handleTitleChange = (
   e: React.ChangeEvent<HTMLInputElement>
