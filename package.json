@@ -166,6 +166,7 @@
     "db:seed:undo:all": "sequelize db:seed:undo:all",
     "cy:open": "cypress open",
     "e2e:admin": "cypress run --headed --spec cypress/integration/admin_basic.js",
+    "e2e:admin:headless": "cypress run --spec cypress/integration/admin_basic.js",
     "e2e:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
     "e2e:admin:firefox": "cypress run --headed -b firefox --spec cypress/integration/admin_basic.js",
     "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/integration/visitor_basic.js"

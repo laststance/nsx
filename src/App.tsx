@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import { Provider as ReduxStoreProvider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 import { persistStore } from 'redux-persist'
 import { PersistGate as ReduxPersistGate } from 'redux-persist/integration/react'
 
@@ -22,9 +23,11 @@ const App = () => {
       <Suspense fallback={<Loading />}>
         <ReduxStoreProvider store={store}>
           <ReduxPersistGate persistor={persistor}>
-            <OffScreen.Sidebar />
-            <OffScreen.SnackBarDispatcher />
-            <Router />
+            <BrowserRouter>
+              <OffScreen.Sidebar />
+              <OffScreen.SnackBarDispatcher />
+              <Router />
+            </BrowserRouter>
           </ReduxPersistGate>
         </ReduxStoreProvider>
       </Suspense>

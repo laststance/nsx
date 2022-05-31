@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect'
 import OffScreen from '../offscreen/index'
@@ -24,20 +24,18 @@ const Router = memo(() => {
   }, [])
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="post/:postId" element={<Post />} />
-        <Route path="about" element={<About />} />
-        <Route path="login" element={<Login />} />
-        <Route path="dashboard" element={<OffScreen.Permission />}>
-          <Route index element={<Dashboard />} />
-          <Route path="create" element={<Create />} />
-          <Route path="edit/:postId" element={<Edit />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="post/:postId" element={<Post />} />
+      <Route path="about" element={<About />} />
+      <Route path="login" element={<Login />} />
+      <Route path="dashboard" element={<OffScreen.Permission />}>
+        <Route index element={<Dashboard />} />
+        <Route path="create" element={<Create />} />
+        <Route path="edit/:postId" element={<Edit />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 })
 Router.displayName = 'Router'
