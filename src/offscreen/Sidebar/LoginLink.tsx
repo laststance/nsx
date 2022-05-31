@@ -2,7 +2,7 @@ import { LoginIcon } from '@heroicons/react/outline'
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { onCloseHander } from './Sidebar'
+import { onCloseHander } from './'
 
 const LoginLink: React.FC = memo(() => {
   return (

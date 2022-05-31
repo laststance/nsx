@@ -2,7 +2,7 @@ import { CogIcon } from '@heroicons/react/outline'
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { onCloseHander } from './Sidebar'
+import { onCloseHander } from './'
 
 const ConfigLink: React.FC = memo(() => {
   return (
