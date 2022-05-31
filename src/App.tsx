@@ -8,7 +8,8 @@ import './index.css'
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import Loading from './components/Loading/Loading'
-import OffScreen from './offscreen/index'
+import Sidebar from './offscreen/Sidebar/Sidebar'
+import SnackBarDsipatcher from './offscreen/SnackBarDsipatcher'
 import { store } from './redux/store'
 import Router from './Router'
 
@@ -24,8 +25,8 @@ const App = () => {
         <ReduxStoreProvider store={store}>
           <ReduxPersistGate persistor={persistor}>
             <BrowserRouter>
-              <OffScreen.Sidebar />
-              <OffScreen.SnackBarDispatcher />
+              <Sidebar />
+              <SnackBarDsipatcher />
               <Router />
             </BrowserRouter>
           </ReduxPersistGate>

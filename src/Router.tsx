@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 import { useIsomorphicLayoutEffect } from './hooks/useIsomorphicLayoutEffect'
-import OffScreen from './offscreen/index'
+import Permission from './offscreen/Permission'
 import About from './pages/About/index'
 import Config from './pages/Dashboard/Config/index'
 import Create from './pages/Dashboard/Create/index'
@@ -30,7 +30,7 @@ const Router = memo(() => {
       <Route path="post/:postId" element={<Post />} />
       <Route path="about" element={<About />} />
       <Route path="login" element={<Login />} />
-      <Route path="dashboard" element={<OffScreen.Permission />}>
+      <Route path="dashboard" element={<Permission />}>
         <Route index element={<Dashboard />} />
         <Route path="create" element={<Create />} />
         <Route path="edit/:postId" element={<Edit />} />
