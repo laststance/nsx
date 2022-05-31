@@ -44,6 +44,8 @@ But I if you have interest for the implementation code, local development enviro
 
 8. then, you confirmed local develop environment working fine.
 
+open sidebar press 'x' key 
+
 ## `yarn open:cy`
 
 open [Cypress](https://www.cypress.io/)
@@ -59,10 +61,6 @@ These are storing `.env` and evaluate at build time.
 - storybook: `/api/`
 - prod: `https://digitalstrength.dev/api`
 
-### VITE_ENABLE_SIGNUP=false|true
-
-### VITE_ENABLE_LOGIN=false|true
-
 Default false.  
 Show each page link button at the `/` page.  
 These only need initial setup of production admin user.
@@ -70,7 +68,3 @@ These only need initial setup of production admin user.
 ### JWT_SECRET
 
 set unique and hidden string for jwt.
-
-## Why do you making classic style blog system today?
-
-Because I have interesting about full stack web application development.
