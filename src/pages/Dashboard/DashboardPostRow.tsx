@@ -28,6 +28,6 @@ const DashboardPostRow: React.FC<Props> = memo(
     )
   }
 )
-DashboardPostRow.displayName = 'DashboardPostRowPostRow'
+DashboardPostRow.displayName = 'DashboardPostRow'
 
 export default DashboardPostRow
