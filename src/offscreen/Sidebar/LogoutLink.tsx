@@ -1,4 +1,4 @@
-import { HomeIcon } from '@heroicons/react/outline'
+import { LogoutIcon } from '@heroicons/react/outline'
 import React, { memo } from 'react'
 
 import { handleLogout } from '../../handler'
@@ -10,7 +10,7 @@ const LogoutLink: React.FC = memo(() => {
       data-cy="logout-btn"
       className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
     >
-      <HomeIcon className="'text-gray-300 flex-shrink-0' mr-4 h-6 w-6" />
+      <LogoutIcon className="mr-4 h-6 w-6 flex-shrink-0 text-gray-300" />
       Logout
     </button>
   )

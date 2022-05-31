@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import { useIsomorphicLayoutEffect } from './hooks/useIsomorphicLayoutEffect'
 import OffScreen from './offscreen/index'
 import About from './pages/About/index'
+import Config from './pages/Dashboard/Config/index'
 import Create from './pages/Dashboard/Create/index'
 import Edit from './pages/Dashboard/Edit/index'
 import Dashboard from './pages/Dashboard/index'
@@ -33,6 +34,7 @@ const Router = memo(() => {
         <Route index element={<Dashboard />} />
         <Route path="create" element={<Create />} />
         <Route path="edit/:postId" element={<Edit />} />
+        <Route path="config" element={<Config />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
