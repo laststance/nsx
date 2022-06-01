@@ -23,12 +23,7 @@ export const password = define<Author['password']>(
   }
 )
 
-export const signupFormVallidator = object({
-  name: name,
-  password: password,
-})
-
-export const loginFormValidator = object({
+export const userAccountValidator = object({
   name: name,
   password: password,
 })

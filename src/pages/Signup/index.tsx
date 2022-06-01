@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import type { SubmitHandler, FieldValues } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import { signupFormVallidator } from '../../../validator/index'
+import { userAccountValidator } from '../../../validator/index'
 import Button from '../../components/Button/Button'
 import Input from '../../components/Input/Input'
 import { login } from '../../redux/adminSlice'
@@ -26,7 +26,7 @@ const Signup: React.FC = memo(() => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>({
-    resolver: superstructResolver(signupFormVallidator),
+    resolver: superstructResolver(userAccountValidator),
   })
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {

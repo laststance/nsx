@@ -5,7 +5,7 @@ import type { SubmitHandler, FieldValues } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { assertCast } from '../../../lib/assertCast'
-import { loginFormValidator } from '../../../validator'
+import { userAccountValidator } from '../../../validator'
 import Button from '../../components/Button/Button'
 import Input from '../../components/Input/Input'
 import Layout from '../../components/Layout'
@@ -27,7 +27,9 @@ const Login: React.FC = memo(() => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInput>({ resolver: superstructResolver(loginFormValidator) })
+  } = useForm<FormInput>({
+    resolver: superstructResolver(userAccountValidator),
+  })
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     const res = await loginReqest({
