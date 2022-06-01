@@ -10,7 +10,7 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 
 if (process.env.NODE_ENV === 'production') {
-  H.init(process.env.VITE_SENTRY_DNS, {
+  H.init(process.env.VITE_HIGHLIGHT_PROJECT_ID, {
     enableStrictPrivacy: false,
     environment: 'production',
   })
