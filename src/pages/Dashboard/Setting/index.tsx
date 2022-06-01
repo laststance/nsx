@@ -4,6 +4,7 @@ import {
   UserIcon,
   UsersIcon,
 } from '@heroicons/react/solid'
+import clsx from 'clsx'
 import React, { memo } from 'react'
 import type { ComponentProps } from 'react'
 import { Link, Routes, Route, Outlet, useLocation } from 'react-router-dom'
@@ -17,10 +18,6 @@ const tabs = [
   { icon: CreditCardIcon, name: 'Billing', path: 'billing' },
 ]
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
 const Setting: React.FC = memo(() => {
   const currentPath = useLocation().pathname.split('/')[3]
   return (
@@ -30,20 +27,20 @@ const Setting: React.FC = memo(() => {
           <Link
             key={tab.name}
             to={tab.path}
-            className={classNames(
+            className={clsx(
+              'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium',
               tab.path === currentPath
                 ? 'border-indigo-500 text-indigo-600'
-                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-              'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium'
+                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
             )}
             aria-current={tab.path === currentPath ? 'page' : undefined}
           >
             <tab.icon
-              className={classNames(
+              className={clsx(
+                '-ml-0.5 mr-2 h-5 w-5',
                 tab.path === currentPath
                   ? 'text-indigo-500'
-                  : 'text-gray-400 group-hover:text-gray-500',
-                '-ml-0.5 mr-2 h-5 w-5'
+                  : 'text-gray-400 group-hover:text-gray-500'
               )}
               aria-hidden="true"
             />
