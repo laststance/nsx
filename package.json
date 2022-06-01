@@ -133,8 +133,6 @@
   },
   "scripts": {
     "start": "vite",
-    "start:admin": "dotenv -e .env.admin vite",
-    "start:visitor": "dotenv -e .env.visitor vite",
     "build": "dotenv -e .env.prod vite build",
     "serve": "vite preview",
     "test": "dotenv -e .env.test -- jest",

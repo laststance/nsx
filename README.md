@@ -39,7 +39,7 @@ But I if you have interest for the implementation code, local development enviro
 3. `yarn db:reset`
 4. `yarn validate`
 5. `yarn server:start`
-6. `yarn start:admin`
+6. `yarn start`
 7. `yarn e2e:admin`
 
 8. then, you confirmed local develop environment working fine.
