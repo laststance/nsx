@@ -34,7 +34,16 @@ const esModules = [
 ].join('|')
 
 const config = {
-  collectCoverageFrom: ['<rootDir>/src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/**/*.stories.*',
+    '!src/redux/**',
+    '!src/offscreen/Redirect.tsx',
+    '!src/main.tsx',
+    '!src/mockServiceWorker.js',
+    '!src/reportWebVitals.ts',
+  ],
   moduleDirectories: ['node_modules'],
   moduleFileExtensions: ['js', 'mjs', 'jsx', 'ts', 'tsx', 'json'],
   moduleNameMapper: {
