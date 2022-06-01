@@ -45,7 +45,7 @@ const Signup: React.FC = memo(() => {
   return (
     <>
       <h1
-        className="text-color-primary text-center text-3xl "
+        className="text-color-primary text-center text-3xl"
         data-cy="signup-page"
       >
         Signup
