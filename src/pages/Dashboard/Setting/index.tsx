@@ -22,7 +22,10 @@ const Setting: React.FC = memo(() => {
   const currentPath = useLocation().pathname.split('/')[3]
   return (
     <Container>
-      <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+      <nav
+        className="-mb-px flex space-x-8 border-b border-gray-200"
+        aria-label="Tabs"
+      >
         {tabs.map((tab) => (
           <Link
             key={tab.name}
@@ -72,10 +75,10 @@ SettingPage.displayName = 'SettingPage'
 export default SettingPage
 
 const Container: React.FC<ComponentProps<'section'>> = ({ children }) => (
-  <section className="border-b border-gray-200">
-    {children}
+  <>
+    <section className="">{children}</section>
     <Outlet />
-  </section>
+  </>
 )
 
 const MyAccount: React.FC = () => <div>MyAccount</div>
