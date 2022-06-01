@@ -1,4 +1,4 @@
-import { esModules } from 'jest/esModules'
+const esModules = require('./jest/esModules')
 
 const config = {
   collectCoverageFrom: [

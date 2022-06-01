@@ -1,5 +1,5 @@
 // see https://github.com/remarkjs/react-markdown/issues/635#issuecomment-1086867248
-export const esModules = [
+module.exports = [
   'react-markdown',
   'vfile',
   'unist-.+',
