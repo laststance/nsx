@@ -14,6 +14,6 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: '18.1.0'
-      - run: mv .env.admin .env.prod
+      - run: mv .env.sample .env.prod
       - run: yarn install
       - run: yarn build

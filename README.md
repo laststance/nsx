@@ -35,14 +35,15 @@ But I if you have interest for the implementation code, local development enviro
 # Getting start local development
 
 1. `yarn install`
-2. `docker-compose up -d`
-3. `yarn db:reset`
-4. `yarn validate`
-5. `yarn server:start`
-6. `yarn start`
-7. `yarn e2e:admin`
+2. `cp .env.sample .env`
+3. `docker-compose up -d`
+4. `yarn db:reset`
+5. `yarn validate`
+6. `yarn server:start`
+7. `yarn start`
+8. `yarn e2e:admin`
 
-8. then, you confirmed local develop environment working fine.
+9. then, you confirmed local develop environment working fine.
 
 open sidebar press 'x' key 
 

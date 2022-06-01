@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: '18.1.0'
-      - run: mv .env.visitor .env
+      - run: mv .env.sample .env
       - run: docker-compose up -d
       - uses: cypress-io/github-action@v2
         with:
