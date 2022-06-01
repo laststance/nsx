@@ -37,9 +37,9 @@ const Sidebar: React.FC = memo(() => {
   }, [])
 
   return (
-    <div>
+    <>
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-40" onClose={onCloseHander}>
+        <Dialog as="section" className="relative z-40" onClose={onCloseHander}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -104,7 +104,7 @@ const Sidebar: React.FC = memo(() => {
           </div>
         </Dialog>
       </Transition.Root>
-    </div>
+    </>
   )
 })
 Sidebar.displayName = 'Offscreen.Sidebar'

@@ -34,7 +34,7 @@ const Router = memo(() => {
         <Route index element={<Dashboard />} />
         <Route path="create" element={<Create />} />
         <Route path="edit/:postId" element={<Edit />} />
-        <Route path="setting" element={<Setting />} />
+        <Route path="setting/*" element={<Setting />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
