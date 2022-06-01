@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 'use strict'
+const path = require('path')
 
 // This is a custom Jest transformer turning style imports into empty objects.
 // http://facebook.github.io/jest/docs/en/webpack.html
@@ -14,7 +15,9 @@ module.exports = {
     // The output is always the same.
     return 'cssTransform'
   },
-  process() {
-    return 'module.exports = {};'
+  process(sourcePath) {
+    return {
+      code: `module.exports = ${JSON.stringify(path.basename(sourcePath))};`,
+    }
   },
 }
