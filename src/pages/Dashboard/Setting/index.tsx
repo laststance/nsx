@@ -11,6 +11,17 @@ import { Link, Routes, Route, Outlet, useLocation } from 'react-router-dom'
 
 import Layout from '../../../components/Layout'
 
+import { MyAccount } from './MyAccount'
+
+const TabRouterContainer: React.FC<ComponentProps<'section'>> = ({
+  children,
+}) => (
+  <>
+    <section>{children}</section>
+    <Outlet />
+  </>
+)
+
 const tabs = [
   { icon: UserIcon, name: 'My Account', path: 'my-account' },
   { icon: OfficeBuildingIcon, name: 'Company', path: 'company' },
@@ -21,7 +32,7 @@ const tabs = [
 const Setting: React.FC = memo(() => {
   const currentPath = useLocation().pathname.split('/')[3]
   return (
-    <Container>
+    <TabRouterContainer>
       <nav
         className="-mb-px flex space-x-8 border-b border-gray-200"
         aria-label="Tabs"
@@ -52,7 +63,7 @@ const Setting: React.FC = memo(() => {
         ))}
       </nav>
       <Routes>
-        <Route path="/" element={<Container />}>
+        <Route path="/" element={<TabRouterContainer />}>
           <Route index element={<MyAccount />} />
           <Route path="my-account" element={<MyAccount />} />
           <Route path="company" element={<h1>Company</h1>} />
@@ -60,7 +71,7 @@ const Setting: React.FC = memo(() => {
           <Route path="billing" element={<h1>Billing</h1>} />
         </Route>
       </Routes>
-    </Container>
+    </TabRouterContainer>
   )
 })
 Setting.displayName = 'Setting'
@@ -73,12 +84,3 @@ const SettingPage = memo(() => (
 SettingPage.displayName = 'SettingPage'
 
 export default SettingPage
-
-const Container: React.FC<ComponentProps<'section'>> = ({ children }) => (
-  <>
-    <section className="">{children}</section>
-    <Outlet />
-  </>
-)
-
-const MyAccount: React.FC = () => <div>MyAccount</div>
