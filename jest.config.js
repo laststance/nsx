@@ -48,7 +48,6 @@ const config = {
   moduleFileExtensions: ['js', 'mjs', 'jsx', 'ts', 'tsx', 'json'],
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
-    'react-markdown': '<rootDir>/__test__/mocks/react-markdown.jsx',
   },
   notify: true,
   notifyMode: 'success-change',
