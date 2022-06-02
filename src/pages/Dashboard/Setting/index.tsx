@@ -11,7 +11,7 @@ import { Link, Routes, Route, Outlet, useLocation } from 'react-router-dom'
 
 import Layout from '../../../components/Layout'
 
-import { MyAccount } from './MyAccount'
+import MyAccount from './MyAccount'
 
 const TabRouterContainer: React.FC<ComponentProps<'section'>> = ({
   children,
