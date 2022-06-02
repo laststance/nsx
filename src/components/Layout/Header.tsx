@@ -7,7 +7,7 @@ import ThemeToggle from '../ToggleTheme'
 const Header = memo(() => (
   <header data-cy="header" className="w-full border-b border-gray-200">
     <div className="container mx-auto my-4 flex h-16 flex-col flex-wrap items-center gap-2 sm:flex-row sm:content-center">
-      <Link to="/" className="col-auto" data-cy="blog-title-top-page-link">
+      <Link to="/" className="col-auto">
         <h1 className="text-color-primary text-xl font-bold sm:text-2xl">
           Today I Learned
         </h1>

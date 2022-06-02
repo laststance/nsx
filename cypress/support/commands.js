@@ -1,5 +1,5 @@
 // The COMMAND_DELAY purpose for prevent fail test by unrealistic super fast browser control before appaer target element
-const COMMAND_DELAY = 0
+const COMMAND_DELAY = 500
 
 for (const command of [
   'visit',
@@ -34,8 +34,6 @@ Cypress.Commands.add('login', () => {
   cy.$('name-input').type('John Doe')
   cy.$('password-input').type('popcoon')
   cy.$('submit-btn').click()
-  cy.request('http://localhost:3000')
-  cy.$('blog-title-top-page-link').click()
 })
 
 Cypress.Commands.add('logger', (message) => {

@@ -1,12 +1,14 @@
 import { LogoutIcon } from '@heroicons/react/outline'
 import React, { memo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { handleLogout } from '../../handler'
 
 const LogoutLink: React.FC = memo(() => {
+  const navigate = useNavigate()
   return (
     <button
-      onClick={handleLogout}
+      onClick={(e) => handleLogout(e, navigate)}
       data-cy="logout-link"
       className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
     >

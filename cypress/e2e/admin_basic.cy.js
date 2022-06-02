@@ -26,28 +26,28 @@ context('admin basic', () => {
     })
 
     it('successful Logout', () => {
-      cy.$('blog-title-top-page-link').click()
       cy.login()
-      cy.$('logout-btn').should('exist').click()
-      cy.url().should('eq', 'http://localhost:3000/')
-      cy.$('logout-btn').should('not.exist')
+      cy.url().should('eq', 'http://localhost:3000/dashboard')
+      cy.$('logout-link').should('not.exist')
       cy.toggleSidebar()
+      cy.$('logout-link').should('exist')
+      cy.$('logout-link').contains('Logout').click()
       cy.$('login-link').should('exist')
     })
   })
 
   context('admin tasks while login', () => {
-    it('show dashbord/login button', () => {
+    it('show dashboard after login', () => {
       cy.clearLocalStorage()
       cy.login()
-      // should show dashbord/login button
-      cy.$('dashoard-page-transition-link-btn').should('exist')
-      cy.$('logout-btn').should('exist')
+      cy.url().should('eq', 'http://localhost:3000/dashboard')
     })
 
     context('CRUD post operation', () => {
       it('publish new post', () => {
-        cy.$('blog-title-top-page-link').click()
+        cy.clearLocalStorage()
+        cy.login()
+        cy.visit('http://localhost:3000/')
         cy.$('dashoard-page-transition-link-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.$('create-btn').click()
@@ -68,7 +68,9 @@ context('admin basic', () => {
       })
 
       it('edit existing post', () => {
-        cy.$('blog-title-top-page-link').click()
+        cy.clearLocalStorage()
+        cy.login()
+        cy.visit('http://localhost:3000/')
         cy.logger('Open post that creaed prev test.')
         cy.$('single-post-page-link-1').click()
         cy.$('post-page-content-root').contains('from cypress')
@@ -87,7 +89,9 @@ context('admin basic', () => {
       })
 
       it('delete post', () => {
-        cy.$('blog-title-top-page-link').click()
+        cy.clearLocalStorage()
+        cy.login()
+        cy.visit('http://localhost:3000/')
         cy.$('dashoard-page-transition-link-btn').click()
         cy.$('dashboard-page-content-root').contains('Edit Title!')
         cy.$('delete-btn-1').click()
@@ -99,6 +103,7 @@ context('admin basic', () => {
       it('still remaing draft post ', () => {
         cy.clearLocalStorage()
         cy.login()
+        cy.visit('http://localhost:3000/')
 
         cy.$('dashoard-page-transition-link-btn').click()
         cy.scrollTo('bottom')
@@ -109,7 +114,7 @@ context('admin basic', () => {
         cy.$('post-body-input').type('testing now')
 
         cy.logger('leave page without submit')
-        cy.$('blog-title-top-page-link').click()
+        cy.visit('http://localhost:3000/')
         cy.$('dashoard-page-transition-link-btn').click()
 
         cy.logger('revist and check')
