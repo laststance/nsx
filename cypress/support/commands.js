@@ -1,5 +1,5 @@
 // The COMMAND_DELAY purpose for prevent fail test by unrealistic super fast browser control before appaer target element
-const COMMAND_DELAY = 500
+const COMMAND_DELAY = 0
 
 for (const command of [
   'visit',

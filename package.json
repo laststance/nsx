@@ -167,6 +167,7 @@
     "e2e:admin": "cypress run --headed --spec cypress/integration/admin_basic.js",
     "e2e:admin:headless": "cypress run --spec cypress/integration/admin_basic.js",
     "e2e:visitor": "cypress run --headed --spec cypress/integration/visitor_basic.js",
+    "e2e:new-install-user": "cypress run --headed --spec cypress/integration/new_isntalled_user_flow.js",
     "e2e:admin:firefox": "cypress run --headed -b firefox --spec cypress/integration/admin_basic.js",
     "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/integration/visitor_basic.js"
   }
