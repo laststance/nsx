@@ -14,7 +14,7 @@ const DashboardButtonGroup: React.FC = memo(() => {
   return (
     <div className="flex items-center justify-around py-10">
       <Link to="/dashboard">
-        <Button variant="primary" data-cy="dashoard-page-transition-link-btn">
+        <Button variant="primary" data-cy="dashboard-page-link">
           Dashboard
         </Button>
       </Link>
