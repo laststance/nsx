@@ -24,7 +24,7 @@ context('visitor basic', () => {
 
   it('never shown every admin page link button without login', () => {
     cy.visit('http://localhost:3000/')
-    cy.$('dashoard-page-transition-link-btn').should('not.exist')
+    cy.$('dashboard-page-link').should('not.exist')
 
     cy.$('single-post-page-link-2').click()
     cy.$('edit-btn').should('not.exist')

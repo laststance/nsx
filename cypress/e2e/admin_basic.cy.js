@@ -51,7 +51,7 @@ context('admin basic', () => {
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.get('header > div > a').contains('Today I Learned').click()
         cy.url().should('eq', 'http://localhost:3000/')
-        cy.$('dashoard-page-transition-link-btn').contains('Dashboard').click()
+        cy.$('dashboard-page-link').contains('Dashboard').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.$('create-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard/create')
@@ -100,7 +100,7 @@ context('admin basic', () => {
         cy.login()
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.visit('http://localhost:3000/')
-        cy.$('dashoard-page-transition-link-btn').click()
+        cy.$('dashboard-page-link').click()
         cy.wait(300)
         cy.$('dashboard-page-content-root').contains('Edit Title!')
         cy.$('delete-btn-1').click()
@@ -116,7 +116,7 @@ context('admin basic', () => {
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.visit('http://localhost:3000/')
 
-        cy.$('dashoard-page-transition-link-btn').click()
+        cy.$('dashboard-page-link').click()
         cy.wait(300)
         cy.scrollTo('bottom')
         cy.$('create-btn').click()
@@ -128,7 +128,7 @@ context('admin basic', () => {
 
         cy.logger('leave page without submit')
         cy.visit('http://localhost:3000/')
-        cy.$('dashoard-page-transition-link-btn').click()
+        cy.$('dashboard-page-link').click()
         cy.wait(300)
 
         cy.logger('revist and check')
