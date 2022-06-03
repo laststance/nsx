@@ -11,7 +11,6 @@ module.exports = {
   background: {
     service_worker: 'background.js',
   },
-  description,
   content_scripts: [
     {
       // css: ["styles.css"],
@@ -20,6 +19,7 @@ module.exports = {
       matches: ['<all_urls>'],
     },
   ],
+  description,
   host_permissions: ['<all_urls>'],
   icons: {
     128: 'assets/images/logo.png',

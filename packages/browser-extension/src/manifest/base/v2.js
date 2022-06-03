@@ -3,12 +3,12 @@ const permissions = require('../permissions')
 const { version } = require('../version.json')
 
 module.exports = {
+  background: {
+    scripts: ['background.js'],
+  },
   browser_action: {
     default_popup: 'assets/html/popup.html',
     default_title: short_name,
-  },
-  background: {
-    scripts: ['background.js'],
   },
   content_scripts: [
     {

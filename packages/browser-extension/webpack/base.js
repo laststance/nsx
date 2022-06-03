@@ -32,7 +32,6 @@ const config = {
   devtool: isProd ? 'none' : 'cheap-source-map',
   entry: {
     background: join(Background, 'index.ts'),
-    content: join(Content, 'index.tsx'),
     option: join(Option, 'index.tsx'),
     popup: join(Popup, 'index.tsx'),
   },
