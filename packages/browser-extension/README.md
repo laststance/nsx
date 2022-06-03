@@ -1,5 +1,6 @@
 # Browser Extension Template [![Generic badge](https://img.shields.io/twitter/follow/kdebdut?style=social)](https://twitter.com/KDebdut)
-## w/ React Preact Typescript 
+
+## w/ React Preact Typescript
 
 ![Generic badge](https://img.shields.io/badge/build-success-brightgreen.svg)
 
@@ -99,14 +100,14 @@ npm run prebuild
 npm run init:profile
 
 # Live Build for specific browser
-# browser_name: brave | chrome | firefox | safari 
+# browser_name: brave | chrome | firefox | safari
 npm run watch:<browser_name>
 
 # Live Build for chrome
 npm run watch:chrome
 
 # Live Build and Reload for specific browser
-# browser_name: brave | chrome | firefox | safari 
+# browser_name: brave | chrome | firefox | safari
 npm run start:<browser_name>
 
 # Live Build and Reload for chrome
@@ -116,7 +117,7 @@ npm run start:chrome
 npm run build
 
 # Build for specific browser
-# browser_name: chrome | firefox | safari 
+# browser_name: chrome | firefox | safari
 npm run build:<browser_name>
 
 # Build for chrome
@@ -134,6 +135,6 @@ npm run clean
 - [x] Chrome
 - [x] Firefox
 - [x] Opera (Chrome Build)
-- [x] Edge (Chrome  Build)
+- [x] Edge (Chrome Build)
 - [x] Brave
 - [x] Safari

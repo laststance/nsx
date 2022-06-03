@@ -12,6 +12,7 @@ const config = {
     '!src/reportWebVitals.ts',
     '!pakcages/**',
   ],
+  coverageReporters: ['json-summary', 'text', 'lcov'],
   moduleDirectories: ['node_modules'],
   moduleFileExtensions: ['js', 'mjs', 'jsx', 'ts', 'tsx', 'json'],
   moduleNameMapper: {
