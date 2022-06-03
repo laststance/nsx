@@ -47,8 +47,8 @@ context('admin basic', () => {
       it('publish new post', () => {
         cy.clearLocalStorage()
         cy.login()
-        cy.visit('http://localhost:3000/')
-        cy.$('dashoard-page-transition-link-btn').click()
+        cy.get('header > div > a').contains('Today I Learned').click()
+        cy.$('dashoard-page-transition-link-btn').contains('Dashboard').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.$('create-btn').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard/create')
