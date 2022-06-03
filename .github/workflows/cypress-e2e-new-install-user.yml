@@ -16,7 +16,7 @@ jobs:
           node-version: '18.1.0'
       - run: mv .env.sample .env
       - run: docker-compose up -d
-      - uses: cypress-io/github-action@v2
+      - uses: cypress-io/github-action@v4
         with:
           spec: cypress/e2e/new_isntalled_user_flow.cy.js
           start: yarn server:start, yarn start
