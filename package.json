@@ -129,7 +129,6 @@
     "serve": "vite preview",
     "test": "dotenv -e .env.test -- jest",
     "test-storybook": "test-storybook",
-    "env": "bash scripts/switch_env",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx --fix",
     "typecheck": "tsc --noEmit",
