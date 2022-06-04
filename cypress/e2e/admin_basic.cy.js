@@ -28,11 +28,11 @@ context('admin basic', () => {
 
     it('successful Logout', () => {
       cy.login()
-      cy.url().should('eq', 'http://localhost:3000/dashboard')
       cy.$('logout-link').should('not.exist')
       cy.toggleSidebar()
       cy.$('logout-link').should('exist')
       cy.$('logout-link').contains('Logout').click()
+      cy.url().should('eq', 'http://localhost:3000/')
       cy.$('login-link').should('exist')
     })
   })
@@ -41,14 +41,12 @@ context('admin basic', () => {
     it('show dashboard after login', () => {
       cy.clearLocalStorage()
       cy.login()
-      cy.url().should('eq', 'http://localhost:3000/dashboard')
     })
 
     context('CRUD post operation', () => {
       it('publish new post', () => {
         cy.clearLocalStorage()
         cy.login()
-        cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.get('header > div > a').contains('Today I Learned').click()
         cy.url().should('eq', 'http://localhost:3000/')
         cy.$('dashboard-page-link').contains('Dashboard').click()
@@ -73,7 +71,6 @@ context('admin basic', () => {
       it('edit existing post', () => {
         cy.clearLocalStorage()
         cy.login()
-        cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.visit('http://localhost:3000/')
         cy.logger('Open post that creaed prev test.')
         cy.$('single-post-page-link-1').click()
@@ -98,7 +95,6 @@ context('admin basic', () => {
       it('delete post', () => {
         cy.clearLocalStorage()
         cy.login()
-        cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.visit('http://localhost:3000/')
         cy.$('dashboard-page-link').click()
         cy.wait(300)
@@ -113,7 +109,6 @@ context('admin basic', () => {
       it('still remaing draft post ', () => {
         cy.clearLocalStorage()
         cy.login()
-        cy.url().should('eq', 'http://localhost:3000/dashboard')
         cy.visit('http://localhost:3000/')
 
         cy.$('dashboard-page-link').click()

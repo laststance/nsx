@@ -34,6 +34,7 @@ Cypress.Commands.add('login', () => {
   cy.$('name-input').type('John Doe')
   cy.$('password-input').type('popcoon')
   cy.$('submit-btn').click()
+  cy.url().should('eq', 'http://localhost:3000/dashboard')
 })
 
 Cypress.Commands.add('logger', (message) => {
