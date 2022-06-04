@@ -54,7 +54,10 @@ But I if you have interest for the implementation code, local development enviro
 
 9. then, you confirmed local develop environment working fine.
 
-open sidebar press 'x' key
+open sidebar press `x` key
+DB seeds initial user account is  
+name: `John Doe`  
+pass: `popcoon`
 
 ## `yarn open:cy`
 
