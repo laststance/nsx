@@ -1,3 +1,4 @@
+import { getByRole } from '@testing-library/dom'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -13,6 +14,9 @@ test('My React App is working', async () => {
 
   // Loading post list
   await sleep(300)
+
+  const header = container.querySelector('header')!
+  expect(getByRole(header, 'heading')).toHaveTextContent('Today I Learned')
 
   expect(container).toHaveTextContent('What is matter my $500 for')
 
