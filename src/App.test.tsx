@@ -11,6 +11,7 @@ test('My React App is working', async () => {
 
   root.render(<App />)
 
+  // Loading post list
   await sleep(300)
 
   expect(container).toHaveTextContent('What is matter my $500 for')
