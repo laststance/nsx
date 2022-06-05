@@ -17,10 +17,7 @@ Index.displayName = 'Index'
 
 const IndexPage = memo(
   () => (
-    <Layout
-      className="flex flex-col justify-between"
-      data-cy="top-page-content-root"
-    >
+    <Layout className="flex flex-col justify-between">
       <Index />
     </Layout>
   ),

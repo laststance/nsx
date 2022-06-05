@@ -63,8 +63,8 @@ context('admin basic', () => {
         cy.logger(
           'jump post page and should show input contents and edit button'
         )
-        cy.$('post-page-content-root').contains('from cypress')
-        cy.$('post-page-content-root').contains('testing now')
+        cy.get('main h1').contains('from cypress')
+        cy.get('main article').contains('testing now')
         cy.$('edit-btn').should('exist')
       })
 

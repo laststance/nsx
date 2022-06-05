@@ -56,7 +56,7 @@ Content.displayName = 'Content'
 
 const ContentPage: React.FC<React.PropsWithChildren<Props>> = memo(
   ({ post }) => (
-    <Layout data-cy="post-page-content-root">
+    <Layout>
       <Content post={post} />
     </Layout>
   )
