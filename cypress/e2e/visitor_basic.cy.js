@@ -10,16 +10,14 @@ context('visitor basic', () => {
 
   it('show lait article list', () => {
     cy.visit('http://localhost:3000/')
-    cy.$('top-page-content-root').should('contain', 'close your eyes')
+    cy.get('main').should('contain', 'close your eyes')
   })
 
   it('show single post', () => {
     cy.visit('http://localhost:3000/')
     cy.$('single-post-page-link-1').click()
     // pageTrangition /:postId
-    cy.$('post-page-content-root')
-      .should('exist')
-      .should('contain', 'CSS Weekly #464')
+    cy.get('main').should('exist').should('contain', 'CSS Weekly #464')
   })
 
   it('never shown every admin page link button without login', () => {
@@ -34,9 +32,7 @@ context('visitor basic', () => {
     cy.visit('http://localhost:3000/')
     // 07/27/21 React Rush
     cy.$('single-post-page-link-15').should('exist').click()
-    cy.$('post-page-content-root')
-      .should('exist')
-      .should('contain', 'using __proto__')
+    cy.get('main').should('exist').should('contain', 'using __proto__')
   })
 
   context('pagenation', () => {
@@ -98,22 +94,22 @@ context('visitor basic', () => {
       cy.visit('http://localhost:3000/')
       // @TODO
       // cy.visit('http://localhost:3000/login')
-      // cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+      // cy.get('main).should('contain.text', '404: Page Not Found')
 
       cy.visit('http://localhost:3000/signup')
-      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+      cy.get('main').should('contain.text', '404: Page Not Found')
 
       cy.visit('http://localhost:3000/dashboard')
-      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+      cy.get('main').should('contain.text', '404: Page Not Found')
 
       cy.visit('http://localhost:3000/dashboard/create')
-      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+      cy.get('main').should('contain.text', '404: Page Not Found')
 
       cy.visit('http://localhost:3000/dashboard/edit')
-      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+      cy.get('main').should('contain.text', '404: Page Not Found')
 
       cy.visit('http://localhost:3000/dashboard/delete')
-      cy.$('page-notfound').should('contain.text', '404: Page Not Found')
+      cy.get('main').should('contain.text', '404: Page Not Found')
     })
   })
 })
