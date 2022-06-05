@@ -3,6 +3,7 @@ import { DataTypes, Sequelize } from 'sequelize'
 
 import AuthorModel from './authorModel'
 import PostModel from './postModel'
+import StockModel from './stockModel'
 const env = process.env.NODE_ENV || 'development'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const config: Config = require(__dirname + './../config.json')[env] // @TODO migrate get from dotenv
@@ -37,13 +38,24 @@ PostModel.init(
   }
 )
 
+StockModel.init(
+  { pageTitle: DataTypes.TEXT, url: DataTypes.TEXT },
+  { modelName: 'stock', sequelize }
+)
+
 interface DB {
   author: typeof AuthorModel
   post: typeof PostModel
+  stock: typeof StockModel
   sequelize: Sequelize
 }
 
 // @ts-ignore sequelize design is not doing straightforward class instanciation with "new" so TS can't notice class member
-const db: DB = { author: AuthorModel, post: PostModel, sequelize }
+const db: DB = {
+  author: AuthorModel,
+  post: PostModel,
+  sequelize,
+  stock: StockModel,
+}
 
 export default db

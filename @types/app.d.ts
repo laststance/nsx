@@ -20,6 +20,16 @@ declare interface Post {
 
 declare type Posts = Post[]
 
+declare interface Stock {
+  id: number
+  pageTitle: string
+  url: string
+  createdAt: string
+  updatedAt: string
+}
+
+declare type StockList = Stock[]
+
 /**
  * API Reqest/Response body types
  */
