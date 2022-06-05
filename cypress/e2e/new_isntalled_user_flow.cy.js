@@ -15,6 +15,6 @@ context('new installed user flow', () => {
 
     // pageTransition /dashboard
     cy.url().should('eq', 'http://localhost:3000/dashboard')
-    cy.$('dashboard-page-content-root').contains('Dashboard')
+    cy.get('main h1').contains('Dashboard')
   })
 })
