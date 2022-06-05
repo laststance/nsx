@@ -196,4 +196,10 @@ router.post(
   }
 )
 
+// @TODO add recive chrome extension's request handler for page title and uril store in DB
+
+// @TODO add fetch stock handler
+
+// @TODO add delete stock handler
+
 export default router
