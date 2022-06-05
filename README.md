@@ -59,24 +59,13 @@ DB seeds initial user account is
 name: `John Doe`  
 pass: `popcoon`
 
-## `yarn open:cy`
+## `yarn cy:open`
 
 open [Cypress](https://www.cypress.io/)
 
 ## Enviroment Variables
 
 These are storing `.env` and evaluate at build time.
-
-### VITE_API_ENDPOINT
-
-- dev: `http://localhost:3000/api`
-- test: `/api/`
-- storybook: `/api/`
-- prod: `https://digitalstrength.dev/api`
-
-Default false.  
-Show each page link button at the `/` page.  
-These only need initial setup of production admin user.
 
 ### JWT_SECRET
 
