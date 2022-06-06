@@ -1,9 +1,15 @@
 #app-root {
-  width: 400px;
-  height: 75px;
-  padding: 2px;
+  max-width: 300px;
+  width: 100px;
+  height: 10px;
+  padding: 5px;
+  display: flex;
+  font-size: 16px;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  h1 {
-    text-align: center;
-  }
+#popup span {
+  font-size: 24px;
+  padding: 10px;
 }

@@ -11,4 +11,5 @@ document.body.appendChild(container)
 const root = createRoot(container)
 root.render(<App />)
 
+// eslint-disable-next-line no-console
 console.log('Content Script 👋')

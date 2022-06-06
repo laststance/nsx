@@ -60,7 +60,7 @@ module.exports = [
   // "system.storage",
   // "tabCapture",
   // "tabGroups",
-  // "tabs",
+  'tabs',
   // "topSites",
   // "tts",
   // "ttsEngine",

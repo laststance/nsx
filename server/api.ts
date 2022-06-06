@@ -197,14 +197,13 @@ router.post(
   }
 )
 
-// @TODO add recive chrome extension's request handler for page title and uril store in DB
 router.post(
   '/push_stock',
   async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body
     try {
       const stockModelInstance = await db.stock.create<StockModel>({
-        pageTitle: body.pageTitle,
+        title: body.title,
         url: body.url,
       })
       const stock = stockModelInstance.toJSON()
