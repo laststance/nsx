@@ -215,7 +215,10 @@ router.post(
   }
 )
 
-// @TODO add fetch stock handler
+router.get('/stocklist', async (req, res) => {
+  const stockList = await db.stock.findAll()
+  res.status(200).json(stockList)
+})
 
 // @TODO add delete stock handler
 

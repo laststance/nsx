@@ -71,6 +71,13 @@ export const API = createApi({
       query: ({ page, perPage }) => `post_list?page=${page}&perPage=${perPage}`,
     }),
 
+    getStockList: builder.query<any, any>({
+      query: () => ({
+        method: 'GET',
+        url: 'stocklist',
+      }),
+    }),
+
     getUserCount: builder.query<GetUserCountResponse, void>({
       query: () => ({
         method: 'GET',
@@ -116,7 +123,11 @@ export const API = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetUserCountQuery, useSignupReqestMutation } = API
+export const {
+  useGetUserCountQuery,
+  useSignupReqestMutation,
+  useGetStockListQuery,
+} = API
 
 export type CreatePostMutationDefinition = MutationDefinition<
   CreatePostRequest,

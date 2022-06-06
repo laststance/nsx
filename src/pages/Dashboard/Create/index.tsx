@@ -9,7 +9,7 @@ import Input from '../../../components/Input/Input'
 import Layout from '../../../components/Layout/index'
 import Textarea from '../../../components/Textarea/Textarea'
 import { selectAuthor } from '../../../redux/adminSlice'
-import { API } from '../../../redux/API'
+import { API, useGetStockListQuery } from '../../../redux/API'
 import { selectBody, selectTitle } from '../../../redux/draftSlice'
 import type { FormInput } from '../../../redux/draftSlice'
 import { useAppSelector } from '../../../redux/hooks'
@@ -17,6 +17,9 @@ import { useAppSelector } from '../../../redux/hooks'
 import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
 
 const Create: React.FC = memo(() => {
+  // @ts-ignore
+  const res = useGetStockListQuery()
+  console.log(res)
   const navigate = useNavigate()
   const [createPost, { isLoading }] = API.endpoints.createPost.useMutation()
   const title = useAppSelector(selectTitle)
