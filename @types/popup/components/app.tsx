@@ -24,7 +24,11 @@ function App() {
         })
         .then(() => {
           const span = document.createElement('span')
+          span.innerHTML = 'Success!'
           document.querySelector('#popup').appendChild(span)
+          setTimeout(() => {
+            span.remove()
+          }, 2000)
         })
         .catch()
     },
