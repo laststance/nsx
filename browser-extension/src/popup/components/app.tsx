@@ -9,12 +9,12 @@ async function getCurrentTab() {
 }
 
 function App() {
-  const [state, setState] = useState({ title: '', url: '' })
+  const [state, setState] = useState({ pageTitle: '', url: '' })
 
   useLayoutEffect(() => {
     getCurrentTab().then((tab) =>
       setState(() => {
-        return { title: tab.title, url: tab.url }
+        return { pageTitle: tab.title, url: tab.url }
       })
     )
   }, [])
@@ -24,7 +24,7 @@ function App() {
       if (!e.target.checked) return
       axios
         .post('http://localhost:4000/api/push_stock', {
-          title: state.title,
+          pageTitle: state.pageTitle,
           url: state.url,
         })
         .then(() => {
@@ -37,13 +37,13 @@ function App() {
         })
         .catch()
     },
-    [state.title, state.url]
+    [state.pageTitle, state.url]
   )
 
   return (
     <main id="app-root">
       <section>
-        <p>{state.title.length ? state.title : ''}</p>
+        <p>{state.pageTitle.length ? state.pageTitle : ''}</p>
       </section>
       <section>
         <input type="checkbox" onChange={onCheckedHandler} />

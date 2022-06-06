@@ -203,7 +203,7 @@ router.post(
     const body = req.body
     try {
       const stockModelInstance = await db.stock.create<StockModel>({
-        title: body.title,
+        pageTitle: body.pageTitle,
         url: body.url,
       })
       const stock = stockModelInstance.toJSON()
