@@ -10,7 +10,6 @@ const config = {
     '!src/main.tsx',
     '!src/mockServiceWorker.js',
     '!src/reportWebVitals.ts',
-    '!pakcages/**',
   ],
   coverageReporters: ['json-summary', 'text', 'lcov'],
   moduleDirectories: ['node_modules'],
