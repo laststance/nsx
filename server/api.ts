@@ -202,4 +202,6 @@ router.post(
 
 // @TODO add delete stock handler
 
+// @TODO add update author info handler
+
 export default router
