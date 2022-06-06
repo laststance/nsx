@@ -220,7 +220,25 @@ router.get('/stocklist', async (req, res) => {
   res.status(200).json(stockList)
 })
 
-// @TODO add delete stock handler
+router.delete('/stock/:id', async (req, res) => {
+  if (!isAuthorized(req, res))
+    return res.status(403).json({ message: 'unauthorized' })
+
+  try {
+    await db.stock.destroy({ where: { id: req.params.id } })
+    res.status(200).json({ message: 'Delete Successful!' })
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(error)
+      res.status(500).json({ message: error.message })
+    } else {
+      Logger.error(error)
+      res
+        .status(500)
+        .json({ message: `someting wrong: ${JSON.stringify(error)}` })
+    }
+  }
+})
 
 // @TODO add update author info handler
 

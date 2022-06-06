@@ -18,8 +18,7 @@ import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
 
 const Create: React.FC = memo(() => {
   // @ts-ignore
-  const res = useGetStockListQuery()
-  console.log(res)
+  const { data } = useGetStockListQuery()
   const navigate = useNavigate()
   const [createPost, { isLoading }] = API.endpoints.createPost.useMutation()
   const title = useAppSelector(selectTitle)
@@ -35,35 +34,53 @@ const Create: React.FC = memo(() => {
   })
 
   return (
-    <form
-      onSubmit={handleSubmit(() =>
-        onSubmit(createPost, title, body, author, navigate)
-      )}
-    >
-      <Input
-        defaultValue={title}
-        type="text"
-        reactHookFormPrams={{ errors, name: 'title', register }}
-        onChange={handleTitleChange}
-        data-cy="post-title-input"
-      />
-      <Textarea
-        defaultValue={body}
-        reactHookFormParams={{ errors, name: 'body', register }}
-        className="mt-3 h-96 w-full"
-        onChange={handleBodyChange}
-      />
-      <div className="flex justify-end gap-4 pt-8">
-        <Button
-          type="submit"
-          variant="primary"
-          isLoading={isLoading}
-          data-cy="submit-btn"
-        >
-          Submit
-        </Button>
-      </div>
-    </form>
+    <div className="flex w-full gap-4">
+      <form
+        className="flex-grow-1 w-[70%] flex-shrink-0"
+        onSubmit={handleSubmit(() =>
+          onSubmit(createPost, title, body, author, navigate)
+        )}
+      >
+        <Input
+          defaultValue={title}
+          type="text"
+          reactHookFormPrams={{ errors, name: 'title', register }}
+          onChange={handleTitleChange}
+          data-cy="post-title-input"
+        />
+        <Textarea
+          defaultValue={body}
+          reactHookFormParams={{ errors, name: 'body', register }}
+          className="mt-3 h-96 w-full"
+          onChange={handleBodyChange}
+        />
+        <div className="flex justify-end gap-4 pt-8">
+          <Button
+            type="submit"
+            variant="primary"
+            isLoading={isLoading}
+            data-cy="submit-btn"
+          >
+            Submit
+          </Button>
+        </div>
+      </form>
+      <section className="text-color-inverse flex-grow-1 w-[400px] flex-shrink-0">
+        <ul className="w-full">
+          {data &&
+            data.map((v: any, i: number) => {
+              return (
+                <li
+                  className="mb-4 flex h-[64px] items-center overflow-y-scroll rounded-xl bg-green-300 bg-opacity-70 p-4 shadow-2xl hover:bg-opacity-100"
+                  key={i}
+                >
+                  {v.pageTitle}
+                </li>
+              )
+            })}
+        </ul>
+      </section>
+    </div>
   )
 })
 Create.displayName = 'Create'
