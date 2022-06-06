@@ -7,6 +7,7 @@ import { isAuthorized } from './auth'
 import db from './db/models'
 import type AuthorModel from './db/models/authorModel'
 import type PostModel from './db/models/postModel'
+import type StockModel from './db/models/stockModel'
 import Logger from './lib/Logger'
 
 export const cookieOptions: CookieOptions = {
@@ -197,6 +198,23 @@ router.post(
 )
 
 // @TODO add recive chrome extension's request handler for page title and uril store in DB
+router.post(
+  '/push_stock',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const body = req.body
+    try {
+      const stockModelInstance = await db.stock.create<StockModel>({
+        pageTitle: body.pageTitle,
+        url: body.url,
+      })
+      const stock = stockModelInstance.toJSON()
+      res.status(201).json(stock)
+    } catch (error) {
+      Logger.error(error)
+      next(error)
+    }
+  }
+)
 
 // @TODO add fetch stock handler
 
