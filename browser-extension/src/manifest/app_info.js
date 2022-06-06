@@ -1,5 +1,5 @@
 module.exports = {
-  name: "Browser Extension",
-  short_name: "Ext",
-  description: "Browser Extension Boilerplate",
+  description: 'Browser Extension Boilerplate',
+  name: 'Browser Extension',
+  short_name: 'Ext',
 }

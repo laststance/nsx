@@ -1,5 +1,3 @@
-const {
-  buildConfig
-} = require("./base");
+const { buildConfig } = require('./base')
 
-module.exports = buildConfig("safari", "safari-prebuild");
+module.exports = buildConfig('safari', 'safari-prebuild')

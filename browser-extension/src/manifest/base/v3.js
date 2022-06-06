@@ -1,35 +1,38 @@
-const { version } = require('../version.json');
-const permissions = require('../permissions');
-const { name, short_name, description } = require('../app_info');
+const { name, short_name, description } = require('../app_info')
+const permissions = require('../permissions')
+const { version } = require('../version.json')
 
 module.exports = {
-  version,
-  manifest_version: 3,
-  name,
-  short_name,
-  description,
-  permissions,
-  host_permissions: ["<all_urls>"],
   action: {
+    default_icon: 'assets/images/logo.png',
+    default_popup: 'assets/html/popup.html',
     default_title: name,
-    default_popup: "assets/html/popup.html",
-    default_icon: "assets/images/logo.png"
+  },
+  background: {
+    service_worker: 'background.js',
   },
   content_scripts: [
     {
-      matches: ["<all_urls>"],
       // css: ["styles.css"],
-      js: ["content.js"]
-    }
+      js: ['content.js'],
+
+      matches: ['<all_urls>'],
+    },
   ],
+  description,
+  host_permissions: ['<all_urls>'],
   icons: {
-    "128": "assets/images/logo.png"
+    128: 'assets/images/logo.png',
   },
-  background: {
-    service_worker: "background.js"
-  },
-  web_accessible_resources: [{
-    resources: ["assets/**"],
-    matches: ["<all_urls>"]
-  }]
-};
+  manifest_version: 3,
+  name,
+  permissions,
+  short_name,
+  version,
+  web_accessible_resources: [
+    {
+      matches: ['<all_urls>'],
+      resources: ['assets/**'],
+    },
+  ],
+}

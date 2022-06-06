@@ -1,16 +1,14 @@
-import React from "react";
-import {
-  createRoot
-} from "react-dom/client";
+import React from 'react'
+import { createRoot } from 'react-dom/client'
 
-import App from "./components/app";
+import App from './components/app'
 
-import "./index.scss";
+import './index.scss'
 
-const container = document.createElement("popup");
-document.body.appendChild(container);
+const container = document.createElement('popup')
+document.body.appendChild(container)
 
-const root = createRoot(container);
-root.render(<App />);
+const root = createRoot(container)
+root.render(<App />)
 
-console.log("Option 👋");
+console.log('Option 👋')
