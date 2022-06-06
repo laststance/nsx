@@ -9,7 +9,6 @@ const config = {
     '!src/offscreen/Redirect.tsx',
     '!src/main.tsx',
     '!src/mockServiceWorker.js',
-    '!src/reportWebVitals.ts',
   ],
   coverageReporters: ['json-summary', 'text', 'lcov'],
   moduleDirectories: ['node_modules'],
