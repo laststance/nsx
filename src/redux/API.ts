@@ -52,6 +52,13 @@ export const API = createApi({
       }),
     }),
 
+    deleteStock: builder.mutation<any, any>({
+      query: ({ id }) => ({
+        method: 'DELETE',
+        url: `stock/${id}/`,
+      }),
+    }),
+
     fetchPost: builder.query<Post, Post['id']>({
       providesTags: (result, error, id) => [{ id, type: 'Posts' }],
       query: (id) => ({ method: 'GET', url: `post/${id}` }),
@@ -124,6 +131,7 @@ export const API = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
+  useDeleteStockMutation,
   useGetUserCountQuery,
   useSignupReqestMutation,
   useGetStockListQuery,

@@ -9,7 +9,11 @@ import Input from '../../../components/Input/Input'
 import Layout from '../../../components/Layout/index'
 import Textarea from '../../../components/Textarea/Textarea'
 import { selectAuthor } from '../../../redux/adminSlice'
-import { API, useGetStockListQuery } from '../../../redux/API'
+import {
+  API,
+  useGetStockListQuery,
+  useDeleteStockMutation,
+} from '../../../redux/API'
 import { selectBody, selectTitle } from '../../../redux/draftSlice'
 import type { FormInput } from '../../../redux/draftSlice'
 import { useAppSelector } from '../../../redux/hooks'
@@ -19,11 +23,24 @@ import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
 const Create: React.FC = memo(() => {
   // @ts-ignore
   const { data } = useGetStockListQuery()
+  const [deleteStock] = useDeleteStockMutation()
   const navigate = useNavigate()
   const [createPost, { isLoading }] = API.endpoints.createPost.useMutation()
   const title = useAppSelector(selectTitle)
   const body = useAppSelector(selectBody)
   const author = useAppSelector(selectAuthor)
+
+  const onClickHandler = async (
+    id: Stock['id'],
+    pageTitle: Stock['pageTitle'],
+    url: Stock['url']
+  ) => {
+    // @TODO insert as a link to markdown edit
+    const res = await deleteStock(id)
+    
+    // eslint-disable-next-line no-console
+    console.log(res)
+  }
 
   const {
     register,
@@ -68,9 +85,10 @@ const Create: React.FC = memo(() => {
       <section className="text-color-inverse flex-grow-1 w-[400px] flex-shrink-0">
         <ul className="w-full">
           {data &&
-            data.map((v: any, i: number) => {
+            data.map((v: Stock, i: number) => {
               return (
                 <li
+                  onClick={() => onClickHandler(v.id, v.pageTitle, v.url)}
                   className="mb-4 flex h-[64px] items-center overflow-y-scroll rounded-xl bg-green-300 bg-opacity-70 p-4 shadow-2xl hover:bg-opacity-100"
                   key={i}
                 >

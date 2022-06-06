@@ -216,6 +216,9 @@ router.post(
 )
 
 router.get('/stocklist', async (req, res) => {
+  if (!isAuthorized(req, res))
+    return res.status(403).json({ message: 'unauthorized' })
+
   const stockList = await db.stock.findAll()
   res.status(200).json(stockList)
 })
