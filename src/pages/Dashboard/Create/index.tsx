@@ -1,6 +1,7 @@
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import React, { memo } from 'react'
-import { useForm, UseFormSetValue } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import type { UseFormSetValue } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { createPostFormValidator } from '../../../../validator/index'
@@ -20,7 +21,7 @@ import { useAppSelector } from '../../../redux/hooks'
 
 import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
 
-const Create: React.FC = memo(() => {
+const Create: React.FC<any> = memo(() => {
   // @ts-ignore
   const { data } = useGetStockListQuery()
   const [deleteStock] = useDeleteStockMutation()
