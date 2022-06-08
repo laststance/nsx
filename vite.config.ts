@@ -14,7 +14,6 @@ export default defineConfig({
       'VITE_API_ENDPOINT',
       'VITE_SENTRY_DNS',
       'VITE_GA_TRACKING_CODE',
-      'VITE_HIGHLIGHT_PROJECT_ID',
     ]),
   ],
   server: {
