@@ -1,4 +1,5 @@
-import React, { memo, Suspense, ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
+import React, { memo, Suspense } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
 import rehypeRaw from 'rehype-raw'
