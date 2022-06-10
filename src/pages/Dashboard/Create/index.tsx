@@ -32,35 +32,39 @@ const Create: React.FC = memo(() => {
   })
 
   return (
-    <form
-      onSubmit={handleSubmit(() =>
-        onSubmit(createPost, title, body, author, navigate)
-      )}
-    >
-      <Input
-        defaultValue={title}
-        type="text"
-        reactHookFormPrams={{ errors, name: 'title', register }}
-        onChange={handleTitleChange}
-        data-cy="post-title-input"
-      />
-      <Textarea
-        defaultValue={body}
-        reactHookFormParams={{ errors, name: 'body', register }}
-        className="mt-3 h-96 w-full"
-        onChange={handleBodyChange}
-      />
-      <div className="flex justify-end gap-4 pt-8">
-        <Button
-          type="submit"
-          variant="primary"
-          isLoading={isLoading}
-          data-cy="submit-btn"
-        >
-          Submit
-        </Button>
-      </div>
-    </form>
+    <article className="flex w-full">
+      <form
+        className="w-[70%]"
+        onSubmit={handleSubmit(() =>
+          onSubmit(createPost, title, body, author, navigate)
+        )}
+      >
+        <Input
+          defaultValue={title}
+          type="text"
+          reactHookFormPrams={{ errors, name: 'title', register }}
+          onChange={handleTitleChange}
+          data-cy="post-title-input"
+        />
+        <Textarea
+          defaultValue={body}
+          reactHookFormParams={{ errors, name: 'body', register }}
+          className="mt-3 h-96 w-full"
+          onChange={handleBodyChange}
+        />
+        <div className="flex justify-end gap-4 pt-8">
+          <Button
+            type="submit"
+            variant="primary"
+            isLoading={isLoading}
+            data-cy="submit-btn"
+          >
+            Submit
+          </Button>
+        </div>
+      </form>
+      <section className="w-[30%] overflow-x-visible"></section>
+    </article>
   )
 })
 Create.displayName = 'Create'
