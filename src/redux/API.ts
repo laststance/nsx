@@ -130,12 +130,7 @@ export const API = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {
-  useDeleteStockMutation,
-  useGetUserCountQuery,
-  useSignupReqestMutation,
-  useGetStockListQuery,
-} = API
+export const { useGetUserCountQuery, useSignupReqestMutation } = API
 
 export type CreatePostMutationDefinition = MutationDefinition<
   CreatePostRequest,
