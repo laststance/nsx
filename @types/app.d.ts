@@ -32,6 +32,14 @@ declare type StockList = Stock[]
 // API Request Types
 declare namespace Req {
   /**
+   * POST: /api/signup
+   */
+  declare interface SignUp {
+    name: Author['name']
+    password: Author['password']
+  }
+
+  /**
    * POST /api/login
    */
   declare interface Login {
@@ -69,7 +77,16 @@ declare namespace Req {
 
 // API Response Types
 declare namespace Res {
-  declare type Login = Author | Res.failedMessage
+  /**
+   * POST /api/login
+   */
+  declare type Login = Author | Res.failedMessag
+
+  /**
+   * POST: /api/signup
+   */
+  declare type SignUp = Author | Res.Error
+
   /**
    * GET /api/user_count
    */
@@ -101,21 +118,13 @@ declare namespace Res {
   /**
    * API Reqest/Response body types
    */
-  declare type ErrorResponse = {
+  declare type Error = {
     error: string
   }
+
   // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
   declare type failedMessage = { failed: string }
 }
-
-/**
- * POST: /api/signup
- */
-declare interface SignUpRequest {
-  name: Author['name']
-  password: Author['password']
-}
-declare type SignUpResponse = Author | ErrorResponse
 
 /**
  * Authentication

@@ -100,7 +100,7 @@ router.delete('/post/:id', async (req: Request, res: Response) => {
 
 router.post(
   '/signup',
-  async (req: Request<_, _, SignUpRequest>, res: Response<SignUpResponse>) => {
+  async (req: Request<_, _, Req.SignUp>, res: Response<Res.SignUp>) => {
     const body = req.body
     if (!(body?.name && body?.password)) {
       Logger.warn('Empty Post Content. Might be data not formatted properly.')
