@@ -19,10 +19,10 @@ import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
 const Create: React.FC = memo(() => {
   const navigate = useNavigate()
   const [createPost, { isLoading }] = API.endpoints.createPost.useMutation()
+  // const { data: stockList } = API.endpoints.getStockList.useQuery()
   const title = useAppSelector(selectTitle)
   const body = useAppSelector(selectBody)
   const author = useAppSelector(selectAuthor)
-
   const {
     register,
     handleSubmit,
