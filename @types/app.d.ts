@@ -89,6 +89,11 @@ declare namespace Res {
     message: 'Delete Successful!'
   }
 
+  // POST: /api/logout
+  declare interface Logout {
+    message: 'Logout Successful'
+  }
+
   /**
    * API Reqest/Response body types
    */
@@ -121,11 +126,6 @@ declare interface SignUpRequest {
   password: Author['password']
 }
 declare type SignUpResponse = Author | ErrorResponse
-
-// POST: /api/logout
-declare interface LogoutResponse {
-  message: 'Logout Successful'
-}
 
 /**
  * Authentication

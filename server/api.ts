@@ -156,7 +156,7 @@ router.post('/login', async ({ body }: Request, res: Response) => {
   }
 })
 
-router.get('/logout', (req: Request, res: Response<LogoutResponse>) => {
+router.get('/logout', (req: Request, res: Response<Res.Logout>) => {
   res.cookie('token', '', { expires: new Date() })
   res.status(200).json({ message: 'Logout Successful' })
 })

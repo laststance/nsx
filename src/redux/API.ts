@@ -95,7 +95,7 @@ export const API = createApi({
       }),
     }),
 
-    logoutRequest: builder.mutation<LogoutResponse, void>({
+    logoutRequest: builder.mutation<Res.Logout, void>({
       query: () => ({
         method: 'GET',
         url: 'logout',
