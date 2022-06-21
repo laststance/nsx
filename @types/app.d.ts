@@ -55,6 +55,16 @@ declare namespace Req {
     body: Post['body']
     author: Author
   }
+
+  /**
+   * POST: /api/update
+   */
+  declare interface UpdatePost {
+    id: Post['id']
+    title: Post['title']
+    body: Post['body']
+    author: Author
+  }
 }
 
 // API Response Types
@@ -89,15 +99,6 @@ declare namespace Res {
   declare type failedMessage = { failed: string }
 }
 
-/**
- * POST: /api/update
- */
-declare interface UpdatePostRequest {
-  id: Post['id']
-  title: Post['title']
-  body: Post['body']
-  author: Author
-}
 declare interface UpdatePostResponse {
   message: 'Post Updated!'
 }
