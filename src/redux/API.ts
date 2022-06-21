@@ -87,7 +87,7 @@ export const API = createApi({
       }),
     }),
 
-    loginReqest: builder.mutation<LoginResponse, Req.Login>({
+    loginReqest: builder.mutation<Res.Login, Req.Login>({
       query: (loginInfo) => ({
         body: loginInfo,
         method: 'POST',

@@ -43,6 +43,7 @@ declare namespace Req {
 
 // API Response Types
 declare namespace Res {
+  declare type Login = Author | Res.failedMessage
   /**
    * GET /api/user_count
    */
@@ -59,8 +60,6 @@ declare namespace Res {
   // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
   declare type failedMessage = { failed: string }
 }
-
-declare type LoginResponse = Author | failedMessage
 
 /**
  * GET /api/post_list
