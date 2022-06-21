@@ -4,7 +4,7 @@ import { rest } from 'msw'
 export const handlers = [
   rest.get(
     '/api/post_list',
-    (req, res: ResponseComposition<PostListResponce>, ctx: RestContext) => {
+    (req, res: ResponseComposition<Res.PostList>, ctx: RestContext) => {
       return res(
         ctx.json({
           postList: [

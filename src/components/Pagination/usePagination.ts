@@ -9,7 +9,7 @@ import { selectPagenation } from '../../redux/pagenationSlice'
 export interface UsePagenationResult {
   page: PagenationState['page']
   totalPage: PagenationState['totalPage']
-  data: PostListResponce | undefined
+  data: Res.PostList | undefined
   error: FetchBaseQueryError | SerializedError | undefined
   refetch: () => void
   isLoading: boolean

@@ -59,7 +59,7 @@ export const API = createApi({
       query: (id) => ({ method: 'GET', url: `post/${id}` }),
     }),
 
-    fetchPostList: builder.query<PostListResponce, Req.PostList>({
+    fetchPostList: builder.query<Res.PostList, Req.PostList>({
       providesTags: (result) =>
         result && result.postList
           ? [

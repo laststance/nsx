@@ -42,7 +42,7 @@ router.get(
         perPage: Override<Req.PostList['perPage'], string>
       }
     >,
-    res: Response<PostListResponce>
+    res: Response<Res.PostList>
   ) => {
     const page = parseInt(req.query.page)
     const perPage = parseInt(req.query.perPage)

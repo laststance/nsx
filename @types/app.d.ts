@@ -58,6 +58,11 @@ declare namespace Res {
     userCount: number
   }
 
+  declare interface PostList {
+    total: number
+    postList: Post[]
+  }
+
   /**
    * API Reqest/Response body types
    */
@@ -66,11 +71,6 @@ declare namespace Res {
   }
   // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
   declare type failedMessage = { failed: string }
-}
-
-declare interface PostListResponce {
-  total: number
-  postList: Post[]
 }
 
 /**
