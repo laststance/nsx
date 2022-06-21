@@ -30,21 +30,23 @@ declare interface Stock {
 
 declare type StockList = Stock[]
 
-/**
- * API Reqest/Response body types
- */
-declare type ErrorResponse = {
-  error: string
-}
+// API Response Types
+declare namespace Res {
+  /**
+   * GET /api/user_count
+   */
+  declare interface GetUserCount {
+    userCount: number
+  }
 
-// Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
-declare type failedMessage = { failed: string }
-
-/**
- * GET /api/user_count
- */
-declare interface GetUserCountResponse {
-  userCount: number
+  /**
+   * API Reqest/Response body types
+   */
+  declare type ErrorResponse = {
+    error: string
+  }
+  // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
+  declare type failedMessage = { failed: string }
 }
 
 /**

@@ -39,7 +39,7 @@ const Login: React.FC = memo(() => {
     if (isSuccess(res) && 'data' in res) {
       const data = res.data
       if ('failed' in data) {
-        assertCast<failedMessage>(data)
+        assertCast<Res.failedMessage>(data)
         dispatch(enqueSnackbar({ color: 'red', message: data.failed }))
         return // missing username or pass, onemore time!
       }

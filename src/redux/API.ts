@@ -85,7 +85,7 @@ export const API = createApi({
       }),
     }),
 
-    getUserCount: builder.query<GetUserCountResponse, void>({
+    getUserCount: builder.query<Res.GetUserCount, void>({
       query: () => ({
         method: 'GET',
         url: 'user_count',

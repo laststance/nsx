@@ -24,7 +24,7 @@ const router = express.Router()
  */
 router.get(
   '/user_count',
-  async (req: Request, res: Response<GetUserCountResponse>) => {
+  async (req: Request, res: Response<Res.GetUserCount>) => {
     const userCount = await db.author.count()
     res.status(200).json({ userCount })
   }
