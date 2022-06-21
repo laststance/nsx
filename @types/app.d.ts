@@ -30,6 +30,17 @@ declare interface Stock {
 
 declare type StockList = Stock[]
 
+// API Request Types
+declare namespace Req {
+  /**
+   * POST /api/login
+   */
+  declare interface Login {
+    name: Author['name']
+    password: Author['password']
+  }
+}
+
 // API Response Types
 declare namespace Res {
   /**
@@ -49,12 +60,6 @@ declare namespace Res {
   declare type failedMessage = { failed: string }
 }
 
-/**
- * POST /api/login
- */
-declare interface LoginRequest {
-  error: string
-}
 declare type LoginResponse = Author | failedMessage
 
 /**

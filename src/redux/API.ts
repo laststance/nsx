@@ -10,11 +10,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const endpoint = process.env.VITE_API_ENDPOINT
 
-interface UserIdPassword {
-  name: Author['name']
-  password: Author['password']
-}
-
 // Define a service using a base URL and expected endpoints
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const requestInfo = Object.defineProperty({}, 'credentials', {
@@ -92,7 +87,7 @@ export const API = createApi({
       }),
     }),
 
-    loginReqest: builder.mutation<LoginResponse, UserIdPassword>({
+    loginReqest: builder.mutation<LoginResponse, Req.Login>({
       query: (loginInfo) => ({
         body: loginInfo,
         method: 'POST',
@@ -107,7 +102,7 @@ export const API = createApi({
       }),
     }),
 
-    signupReqest: builder.mutation<Author, UserIdPassword>({
+    signupReqest: builder.mutation<Author, Req.Login>({
       query: (loginInfo) => ({
         body: loginInfo,
         method: 'POST',
