@@ -82,6 +82,10 @@ declare namespace Res {
     postList: Post[]
   }
 
+  declare interface UpdatePost {
+    message: 'Post Updated!'
+  }
+
   /**
    * Deletre /api/:id
    */
@@ -102,10 +106,6 @@ declare namespace Res {
   }
   // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
   declare type failedMessage = { failed: string }
-}
-
-declare interface UpdatePostResponse {
-  message: 'Post Updated!'
 }
 
 /**

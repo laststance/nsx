@@ -109,7 +109,7 @@ export const API = createApi({
         url: 'signup',
       }),
     }),
-    updatePost: builder.mutation<UpdatePostResponse, Req.UpdatePost>({
+    updatePost: builder.mutation<Res.UpdatePost, Req.UpdatePost>({
       invalidatesTags: (result, error, { id }) => [{ id, type: 'Posts' }],
       query: (values) => ({
         body: values,
@@ -152,7 +152,7 @@ export type UpdatePostMutationDefinition = MutationTrigger<
       FetchBaseQueryMeta
     >,
     'Posts',
-    UpdatePostResponse,
+    Res.UpdatePost,
     'RTK_Query'
   >
 >
