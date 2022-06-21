@@ -1,7 +1,6 @@
 /**
  * Domain Data
  */
-
 declare interface Author {
   id: number
   name: string
@@ -39,6 +38,14 @@ declare namespace Req {
     name: Author['name']
     password: Author['password']
   }
+
+  /**
+   * GET /api/post_list
+   */
+  declare interface PostList {
+    page: number
+    perPage: number
+  }
 }
 
 // API Response Types
@@ -59,14 +66,6 @@ declare namespace Res {
   }
   // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
   declare type failedMessage = { failed: string }
-}
-
-/**
- * GET /api/post_list
- */
-declare interface PostListRequestParamClient {
-  page: number
-  perPage: number
 }
 
 declare interface PostListRequestParamServer {
