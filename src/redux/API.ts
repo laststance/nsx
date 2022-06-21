@@ -26,7 +26,7 @@ export const API = createApi({
     },
   }),
   endpoints: (builder) => ({
-    createPost: builder.mutation<Post, CreatePostRequest>({
+    createPost: builder.mutation<Post, Req.CreatePost>({
       invalidatesTags: () => [{ type: 'Posts' }],
       query: (values) => ({
         body: values,
@@ -128,7 +128,7 @@ export const API = createApi({
 export const { useGetUserCountQuery, useSignupReqestMutation } = API
 
 export type CreatePostMutationDefinition = MutationDefinition<
-  CreatePostRequest,
+  Req.CreatePost,
   BaseQueryFn<
     string | FetchArgs,
     unknown,

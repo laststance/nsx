@@ -46,6 +46,15 @@ declare namespace Req {
     page: number
     perPage: number
   }
+
+  /**
+   * POST /api/create
+   */
+  declare interface CreatePost {
+    title: Post['title']
+    body: Post['body']
+    author: Author
+  }
 }
 
 // API Response Types
@@ -71,15 +80,6 @@ declare namespace Res {
   }
   // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
   declare type failedMessage = { failed: string }
-}
-
-/**
- * POST /api/create
- */
-declare interface CreatePostRequest {
-  title: Post['title']
-  body: Post['body']
-  author: Author
 }
 
 /**
