@@ -73,6 +73,13 @@ declare namespace Res {
   }
 
   /**
+   * Deletre /api/:id
+   */
+  declare interface DeletePost {
+    message: 'Delete Successful!'
+  }
+
+  /**
    * API Reqest/Response body types
    */
   declare type ErrorResponse = {
@@ -80,13 +87,6 @@ declare namespace Res {
   }
   // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
   declare type failedMessage = { failed: string }
-}
-
-/**
- * Deletre /api/:id
- */
-declare interface DeletePostResponse {
-  message: 'Delete Successful!'
 }
 
 /**

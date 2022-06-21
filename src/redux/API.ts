@@ -36,7 +36,7 @@ export const API = createApi({
     }),
 
     deletePost: builder.mutation<
-      DeletePostResponse,
+      Res.DeletePost,
       { id: Post['id']; author: Author }
     >({
       invalidatesTags: (result, error, { id }) => [{ id, type: 'Posts' }],
