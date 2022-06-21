@@ -109,16 +109,6 @@ declare namespace Res {
 }
 
 /**
- * POST: /api/is_login
- */
-declare interface IsLoginRequest {
-  author: IndexSignature<Author>
-}
-declare interface isLoginResponse {
-  login: boolean
-}
-
-/**
  * POST: /api/signup
  */
 declare interface SignUpRequest {
