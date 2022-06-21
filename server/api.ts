@@ -33,7 +33,15 @@ router.get(
 router.get(
   '/post_list',
   async (
-    req: Request<_, _, _, PostListRequestParamServer>,
+    req: Request<
+      _,
+      _,
+      _,
+      {
+        page: Override<Req.PostList['page'], string>
+        perPage: Override<Req.PostList['perPage'], string>
+      }
+    >,
     res: Response<PostListResponce>
   ) => {
     const page = parseInt(req.query.page)

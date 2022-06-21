@@ -68,11 +68,6 @@ declare namespace Res {
   declare type failedMessage = { failed: string }
 }
 
-declare interface PostListRequestParamServer {
-  page: Override<number, string>
-  perPage: Override<number, string>
-}
-
 declare interface PostListResponce {
   total: number
   postList: Post[]
