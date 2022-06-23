@@ -3,11 +3,13 @@
 declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
-    $(selector: string): Chainable<any>
-    login(): Chainable<any>
-    toggleSidebar(): Chainable<any>
-    logger(): Chainable<any>
-    cleanDB(): Chainable<any>
-    resetDB(): Chainable<any>
+    $(
+      selector: string
+    ): Chainable<JQuery<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]>>
+    login(): Chainable<Response<any>>
+    toggleSidebar(): Chainable<JQuery<HTMLElementTagNameMap[string]>>
+    logger(): Log
+    cleanDB(): Chainable<Exec>
+    resetDB(): Chainable<Exec>
   }
 }
