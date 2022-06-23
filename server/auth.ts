@@ -7,7 +7,7 @@ import shallowEqualScalar from '../lib/shallowEqualScalar'
 import deleteJWTattribute from './lib/deleteJWTattribute'
 import Logger from './lib/Logger'
 
-export const isAuthorized = (req: Request, res: Response): boolean => {
+export const isAuthorized = (req: Request, res: Response): true | void => {
   const token = req.cookies.token as JWTtoken
   if (token && req.body.author) {
     const author: IndexSignature<Author> = req.body.author
@@ -35,13 +35,11 @@ export const isAuthorized = (req: Request, res: Response): boolean => {
       Logger.info(`decripted: ${JSON.stringify(decripted)}`)
       Logger.info(`author: ${JSON.stringify(author)}`)
       res.status(403).json({ error: 'miss match token' })
-      return false
     }
   } else {
     Logger.info('Access from unexped route')
     Logger.info('token: ' + token)
     Logger.info('req.cookies.token: ' + req.cookies.token)
     res.status(403).json({ error: 'false: token && req.body.author' })
-    return false
   }
 }
