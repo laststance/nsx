@@ -1,38 +1,28 @@
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   features: {
-    interactionsDebugger: true,
+    interactionsDebugger: true
   },
-  stories: [
-    '../src/**/*.stories.mdx',
-    '../src/**/*.stories.@(js|jsx|ts|tsx)'
-  ],
-  addons: [
-    '@storybook/addon-essentials'
-  ],
+  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-essentials'],
   core: {
     'builder': 'webpack5'
   },
-  webpackFinal: async (config) => {
+  webpackFinal: async config => {
     config.module.rules.push({
       test: /\.css$/,
-      use: [
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: [
-                require('tailwindcss'),
-                require('autoprefixer')
-              ]
-            }
+      use: [{
+        loader: 'postcss-loader',
+        options: {
+          postcssOptions: {
+            plugins: [require('tailwindcss'), require('autoprefixer')]
           }
         }
-      ],
+      }],
       include: path.resolve(__dirname, '../')
-    })
-    return config
-  }
-}
-
+    });
+    return config;
+  },
+  framework: '@storybook/react'
+};
