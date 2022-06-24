@@ -1,4 +1,3 @@
-
 {
   "name": "nsx",
   "private": "true",
@@ -6,7 +5,9 @@
   "license": "MIT",
   "author": "Ryota Murakami",
   "homepage": "https://github.com/laststance/nsx",
-  "workspaces": ["browser-extension"],
+  "workspaces": [
+    "browser-extension"
+  ],
   "msw": {
     "workerDirectory": "src"
   },
