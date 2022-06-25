@@ -1,9 +1,6 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
-  features: {
-    interactionsDebugger: true
-  },
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: ['@storybook/addon-essentials'],
   core: {
