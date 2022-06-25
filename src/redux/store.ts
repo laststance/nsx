@@ -1,5 +1,4 @@
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit'
-import type { Action, ThunkAction } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
@@ -56,11 +55,6 @@ export const dispatch = store.dispatch
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 export type RTK_QueryState = RootState['RTK_Query']
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->
+
 export type DispatchFunction = (dispatch: AppDispatch) => void
 export const getRootState = (): RootState => store.getState()
