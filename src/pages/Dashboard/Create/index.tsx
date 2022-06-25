@@ -42,13 +42,21 @@ const Create: React.FC = memo(() => {
         <Input
           defaultValue={title}
           type="text"
-          reactHookFormPrams={{ errors, name: 'title', register }}
+          reactHookFormPrams={{
+            fieldError: errors['title'],
+            name: 'title',
+            register,
+          }}
           onChange={handleTitleChange}
           data-cy="post-title-input"
         />
         <Textarea
           defaultValue={body}
-          reactHookFormParams={{ errors, name: 'body', register }}
+          reactHookFormParams={{
+            fieldError: errors['body'],
+            name: 'body',
+            register,
+          }}
           className="mt-3 h-96 w-full"
           onChange={handleBodyChange}
         />

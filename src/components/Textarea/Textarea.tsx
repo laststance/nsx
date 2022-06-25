@@ -23,10 +23,9 @@ const Textarea: React.FC<
 > = memo(
   ({
     placeholder,
-    reactHookFormParams: { register, options, errors, name },
+    reactHookFormParams: { register, options, fieldError, name },
     ...rest
   }) => {
-    const hasError: boolean = errors[name]
     return (
       <div>
         <div className="relative mt-1 rounded-md shadow-sm">
@@ -34,13 +33,13 @@ const Textarea: React.FC<
             {...register(name, options)}
             className={
               'focus:outline-none' +
-              clsx(hasError && styles.error, !hasError && styles.basic)
+              clsx(fieldError && styles.error, !fieldError && styles.basic)
             }
             placeholder={placeholder}
             data-cy="post-body-input"
             {...rest}
           />
-          {hasError && (
+          {fieldError && (
             <div className="pointer-events-none absolute inset-y-2 right-0 flex items-start pr-3">
               <ExclamationCircleIcon
                 className="h-5 w-5 text-red-500"
@@ -48,8 +47,8 @@ const Textarea: React.FC<
               />
             </div>
           )}
-          {hasError && (
-            <p className="mt-2 text-sm text-red-600">{errors[name]?.message}</p>
+          {fieldError && (
+            <p className="mt-2 text-sm text-red-600">{fieldError.message}</p>
           )}
         </div>
       </div>

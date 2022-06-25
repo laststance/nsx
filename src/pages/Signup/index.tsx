@@ -66,7 +66,11 @@ const Signup: React.FC = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="text"
-              reactHookFormPrams={{ errors, name: 'name', register }}
+              reactHookFormPrams={{
+                fieldError: errors['name'],
+                name: 'name',
+                register,
+              }}
               data-cy="signup-name-input"
             />
           </div>
@@ -83,7 +87,11 @@ const Signup: React.FC = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="password"
-              reactHookFormPrams={{ errors, name: 'password', register }}
+              reactHookFormPrams={{
+                fieldError: errors['password'],
+                name: 'password',
+                register,
+              }}
               data-cy="signup-password-input"
             />
           </div>

@@ -28,7 +28,7 @@ const InputGroup: React.FC = memo((props) => {
       type="text"
       placeholder="Emily"
       reactHookFormPrams={{
-        errors,
+        fieldError: errors['firstName'],
         name: 'firstName',
         options: { required: 'firstName is required' },
         register,

@@ -2,18 +2,15 @@ import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 import type { InputHTMLAttributes, HTMLInputTypeAttribute } from 'react'
 import React, { memo } from 'react'
-import type {
-  FormState,
-  InternalFieldName,
-  RegisterOptions,
-} from 'react-hook-form'
+import type { InternalFieldName, RegisterOptions } from 'react-hook-form'
+import type { FieldError } from 'react-hook-form/dist/types/errors'
 import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
 // All form element Components depends on library that https://github.com/react-hook-form/react-hook-form
 export interface ReactHookFormParams {
   register: UseFormRegister<_>
   name: InternalFieldName
-  errors: FormState<any>['errors']
+  fieldError: FieldError | undefined
   options?: RegisterOptions
 }
 
@@ -37,10 +34,9 @@ const Input: React.FC<
   ({
     type,
     placeholder,
-    reactHookFormPrams: { register, options, name, errors },
+    reactHookFormPrams: { register, options, name, fieldError },
     ...rest
   }) => {
-    const hasError: boolean = errors[name]
     return (
       <div>
         <div className="relative mt-1 rounded-md shadow-sm">
@@ -49,13 +45,13 @@ const Input: React.FC<
             {...register(name, options)}
             className={
               'focus:outline-none ' +
-              clsx(hasError && styles.error, !hasError && styles.basic)
+              clsx(fieldError && styles.error, !fieldError && styles.basic)
             }
             placeholder={placeholder}
             {...rest}
           />
 
-          {hasError && (
+          {fieldError && (
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               <ExclamationCircleIcon
                 className="h-5 w-5 text-red-500"
@@ -64,8 +60,8 @@ const Input: React.FC<
             </div>
           )}
         </div>
-        {hasError && (
-          <p className="mt-2 text-sm text-red-600">{errors[name]?.message}</p>
+        {fieldError && (
+          <p className="mt-2 text-sm text-red-600">{fieldError.message}</p>
         )}
       </div>
     )

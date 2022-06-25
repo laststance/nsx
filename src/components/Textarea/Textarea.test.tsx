@@ -44,7 +44,11 @@ const Form: React.FC<Props> = ({
       <Textarea
         defaultValue={defaultValue}
         placeholder={placeholder}
-        reactHookFormParams={{ errors, name: 'body', register }}
+        reactHookFormParams={{
+          fieldError: errors['body'],
+          name: 'body',
+          register,
+        }}
       />
       <button type="submit">testing submit button</button>
     </form>

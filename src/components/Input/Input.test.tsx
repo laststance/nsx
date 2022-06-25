@@ -45,7 +45,11 @@ const Form: React.FC<Props> = ({
           type={type}
           placeholder={placeholder}
           defaultValue={defaultValue}
-          reactHookFormPrams={{ errors, name: 'name', register }}
+          reactHookFormPrams={{
+            fieldError: errors['name'],
+            name: 'name',
+            register,
+          }}
         />
         <button type="submit">submit</button>
       </form>

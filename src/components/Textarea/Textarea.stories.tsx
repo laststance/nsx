@@ -22,7 +22,7 @@ const TextareaForm = () => {
     <Textarea
       name="message"
       reactHookFormParams={{
-        errors,
+        fieldError: errors['message'],
         name: 'message',
         options: { required: 'message is required' },
         register,

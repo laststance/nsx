@@ -54,13 +54,21 @@ const Edit: React.FC = memo(() => {
     >
       <Input
         defaultValue={data.title}
-        reactHookFormPrams={{ errors, name: 'title', register }}
+        reactHookFormPrams={{
+          fieldError: errors['title'],
+          name: 'title',
+          register,
+        }}
         data-cy="edit-title-input"
         data-testid="edit-title-input"
       />
       <Textarea
         defaultValue={data.body}
-        reactHookFormParams={{ errors, name: 'body', register }}
+        reactHookFormParams={{
+          fieldError: errors['body'],
+          name: 'body',
+          register,
+        }}
         className="mt-3 h-96 w-full"
         data-cy="edit-body-input"
         data-testid="edit-body-input"
