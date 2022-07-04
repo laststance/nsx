@@ -109,6 +109,7 @@ export const API = createApi({
         url: 'signup',
       }),
     }),
+
     updatePost: builder.mutation<Res.UpdatePost, Req.UpdatePost>({
       invalidatesTags: (result, error, { id }) => [{ id, type: 'Posts' }],
       query: (values) => ({

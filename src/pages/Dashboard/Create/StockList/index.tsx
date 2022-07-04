@@ -2,9 +2,12 @@ import React, { memo } from 'react'
 
 import { API } from '../../../../redux/API'
 
-function handleClick() {
-  // @TODO delete request
-  // @TODO insert url&page_name DraftState body
+function handleClick(id: Stock['id']) {
+  return () => {
+    API.endpoints
+    // @TODO delete request
+    // @TODO insert url&page_name DraftState body
+  }
 }
 
 const StockList: React.FC = memo(() => {
@@ -17,7 +20,7 @@ const StockList: React.FC = memo(() => {
         {data.length ? (
           data.map((stock: Stock) => (
             <button
-              onClick={handleClick}
+              onClick={handleClick(stock.id)}
               className="text-color-primary whitespace-nowrap text-left font-bold hover:text-cyan-300"
               key={stock.id}
             >
