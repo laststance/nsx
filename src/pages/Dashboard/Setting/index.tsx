@@ -4,6 +4,7 @@ import {
   UserIcon,
   UsersIcon,
 } from '@heroicons/react/solid'
+// eslint-disable-next-line import/no-named-as-default
 import clsx from 'clsx'
 import React, { memo } from 'react'
 import type { ComponentProps } from 'react'

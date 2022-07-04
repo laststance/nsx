@@ -1,4 +1,5 @@
 import { Listbox } from '@headlessui/react'
+// eslint-disable-next-line import/no-named-as-default
 import clsx from 'clsx'
 import React, { Fragment, memo } from 'react'
 
