@@ -1,4 +1,4 @@
-import { clsx } from 'clsx'
+import clsx from 'clsx'
 import type { ButtonHTMLAttributes } from 'react'
 import React, { memo } from 'react'
 

@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
-import { clsx } from 'clsx'
+import clsx from 'clsx'
 import type { InputHTMLAttributes, HTMLInputTypeAttribute } from 'react'
 import React, { memo } from 'react'
 import type { InternalFieldName, RegisterOptions } from 'react-hook-form'

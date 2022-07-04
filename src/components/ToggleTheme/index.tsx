@@ -1,5 +1,5 @@
 import { Listbox } from '@headlessui/react'
-import { clsx } from 'clsx'
+import clsx from 'clsx'
 import React, { Fragment, memo } from 'react'
 
 import MoonIcon from './MoonIcon'
