@@ -15,11 +15,11 @@ import type { FormInput } from '../../../redux/draftSlice'
 import { useAppSelector } from '../../../redux/hooks'
 
 import { handleBodyChange, handleTitleChange, onSubmit } from './handlers'
+import StockList from './StockList'
 
 const Create: React.FC = memo(() => {
   const navigate = useNavigate()
   const [createPost, { isLoading }] = API.endpoints.createPost.useMutation()
-  // const { data: stockList } = API.endpoints.getStockList.useQuery()
   const title = useAppSelector(selectTitle)
   const body = useAppSelector(selectBody)
   const author = useAppSelector(selectAuthor)
@@ -71,7 +71,7 @@ const Create: React.FC = memo(() => {
           </Button>
         </div>
       </form>
-      <section className="w-[30%] overflow-x-visible"></section>
+      <StockList />
     </article>
   )
 })

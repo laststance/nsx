@@ -73,7 +73,7 @@ export const API = createApi({
       query: ({ page, perPage }) => `post_list?page=${page}&perPage=${perPage}`,
     }),
 
-    getStockList: builder.query<{ stocklist: StockList }, void>({
+    getStockList: builder.query<StockList, void>({
       query: () => ({
         method: 'GET',
         url: 'stocklist',
