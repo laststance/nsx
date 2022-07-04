@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import React, { memo } from 'react'
 import type { TextareaHTMLAttributes } from 'react'
 

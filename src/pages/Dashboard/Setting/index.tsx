@@ -4,7 +4,7 @@ import {
   UserIcon,
   UsersIcon,
 } from '@heroicons/react/solid'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import React, { memo } from 'react'
 import type { ComponentProps } from 'react'
 import { Link, Routes, Route, Outlet, useLocation } from 'react-router-dom'
