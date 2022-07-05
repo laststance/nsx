@@ -16,7 +16,7 @@ function handleClick(
     // refetch stockList
     refetch()
     let body = selectBody(getRootState())
-    body += `\n[${stock.pageTitle}](${stock.url})`
+    body += `[${stock.pageTitle}](${stock.url})`
     dispatch(updateBody({ body }))
   }
 }
