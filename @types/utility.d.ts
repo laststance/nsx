@@ -1,5 +1,4 @@
 // from https://github.com/reduxjs/redux-toolkit/blob/4fbd29f0032f1ebb9e2e621ab48bbff5266e312c/packages/toolkit/src/query/tsHelpers.ts
-
 declare type Override<T1, T2> = T2 extends any ? Omit<T1, keyof T2> & T2 : never
 
 declare type NoInfer<T> = [T][T extends any ? 0 : never]
@@ -7,12 +6,6 @@ declare type NoInfer<T> = [T][T extends any ? 0 : never]
 declare type Cast<T, CastTo> = NoInfer<T> extends never ? CastTo : CastTo
 
 declare type AnyFunction = (...args: any[]) => any
-
-declare type StateUpdator = AnyFunction
-
-declare type QueryFunction = AnyFunction
-
-declare type MutationFunction = AnyFunction
 
 // skip unnecessary generics position
 declare type _ = any
