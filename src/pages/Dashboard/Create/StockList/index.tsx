@@ -6,6 +6,7 @@ import { API } from '../../../../redux/API'
 import { selectBody, updateBody } from '../../../../redux/draftSlice'
 import { getRootState, dispatch } from '../../../../redux/store'
 
+// Insert stock web page into the post body
 function handleClick(
   stock: Stock,
   refetch: QueryActionCreatorResult<_>['refetch']
