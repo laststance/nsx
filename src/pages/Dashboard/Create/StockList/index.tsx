@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 
 import { API } from '../../../../redux/API'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function handleClick(id: Stock['id']) {
   return () => {
     API.endpoints
