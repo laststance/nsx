@@ -3,18 +3,21 @@ import React, { memo } from 'react'
 
 import { selectAuthor } from '../../../../redux/adminSlice'
 import { API } from '../../../../redux/API'
+import { selectBody, updateBody } from '../../../../redux/draftSlice'
 import { getRootState, dispatch } from '../../../../redux/store'
 
 function handleClick(
-  id: Stock['id'],
+  stock: Stock,
   refetch: QueryActionCreatorResult<_>['refetch']
 ) {
   return async () => {
     const author = selectAuthor(getRootState())
-    await dispatch(API.endpoints.deleteStock.initiate({ author, id }))
+    await dispatch(API.endpoints.deleteStock.initiate({ author, id: stock.id }))
     // refetch stockList
     refetch()
-    // @TODO insert url&page_name DraftState body
+    let body = selectBody(getRootState())
+    body += `\n[${stock.pageTitle}](${stock.url})`
+    dispatch(updateBody({ body }))
   }
 }
 
@@ -28,7 +31,7 @@ const StockList: React.FC = memo(() => {
         {data.length ? (
           data.map((stock: Stock) => (
             <button
-              onClick={handleClick(stock.id, refetch)}
+              onClick={handleClick(stock, refetch)}
               className="text-color-primary whitespace-nowrap text-left font-bold hover:text-cyan-300"
               key={stock.id}
             >
