@@ -40,6 +40,10 @@ declare namespace Res {
     message: 'Logout Successful'
   }
 
+  // DELETE /api/stock/:id
+  declare interface DeleteStock {
+    message: 'Delete Successful!'
+  }
   /**
    * API Reqest/Response body types
    */

@@ -47,8 +47,12 @@ export const API = createApi({
       }),
     }),
 
-    deleteStock: builder.mutation<any, any>({
-      query: ({ id }) => ({
+    deleteStock: builder.mutation<
+      Res.DeleteStock,
+      { id: Stock['id']; author: Author }
+    >({
+      query: ({ id, author }) => ({
+        body: { author: author },
         method: 'DELETE',
         url: `stock/${id}/`,
       }),

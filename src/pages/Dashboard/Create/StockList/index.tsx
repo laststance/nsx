@@ -1,12 +1,14 @@
 import React, { memo } from 'react'
 
+import { selectAuthor } from '../../../../redux/adminSlice'
 import { API } from '../../../../redux/API'
+import { getRootState, dispatch } from '../../../../redux/store'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function handleClick(id: Stock['id']) {
-  return () => {
-    API.endpoints
-    // @TODO delete request
+  return async () => {
+    const author = selectAuthor(getRootState())
+    await dispatch(API.endpoints.deleteStock.initiate({ author, id }))
+    // @TODO refrect delete item for getStockList.useQuery
     // @TODO insert url&page_name DraftState body
   }
 }
