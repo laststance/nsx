@@ -1,5 +1,6 @@
 // see https://github.com/remarkjs/react-markdown/issues/635#issuecomment-1086867248
 module.exports = [
+  'trim-lines',
   'react-markdown',
   'vfile',
   'unist-.+',
