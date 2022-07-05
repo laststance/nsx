@@ -50,7 +50,7 @@ But I if you have interest for the implementation code, local development enviro
 4. `yarn db:reset`
 5. `yarn validate`
 6. `yarn server:start`
-7. `yarn start`
+7. in other terminal screen `yarn start`
 8. `yarn e2e:admin`
 
 9. then, you confirmed local develop environment working fine.
