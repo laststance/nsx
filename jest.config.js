@@ -27,6 +27,7 @@ const config = {
   testMatch: [
     '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}',
     '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/lib/**/*.{spec,test}.{js,jsx,ts,tsx}',
   ],
   transform: {
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)':
