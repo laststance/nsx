@@ -23,10 +23,16 @@ function App() {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!e.target.checked) return
       axios
-        .post('http://localhost:4000/api/push_stock', {
-          pageTitle: state.pageTitle,
-          url: state.url,
-        })
+        .post(
+          process.env.NODE_ENV === 'development'
+            ? // ? 'http://localhost:4000/api/push_stock'
+              'https://digitalstrength.dev/api/push_stock'
+            : 'https://digitalstrength.dev/api/push_stock',
+          {
+            pageTitle: state.pageTitle,
+            url: state.url,
+          }
+        )
         .then(() => {
           const span = document.createElement('span')
           span.innerHTML = 'Success!'
