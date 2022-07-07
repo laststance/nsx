@@ -1,3 +1,4 @@
+import type { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate'
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -8,7 +9,7 @@ import { handleDelete } from './handler'
 interface Props {
   post: Post
   author: Author
-  refetch: () => void
+  refetch: QueryActionCreatorResult<_>['refetch']
   index: number
 }
 
@@ -23,7 +24,7 @@ const EditButtonGroup: React.FC<Props> = memo(
           onClick={handleDelete(post.id, author, refetch)}
           variant="danger"
           data-cy={`delete-btn-${index + 1}`}
-          className="h-[42px] border"
+          className="h-[42px]"
         >
           Delete
         </Button>

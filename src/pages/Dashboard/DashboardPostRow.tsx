@@ -1,3 +1,4 @@
+import type { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate'
 import React, { memo } from 'react'
 
 import PostDate from '../../components/PostDate/PostDate'
@@ -9,7 +10,7 @@ interface Props {
   post: Post
   index: number
   author: Author
-  refetch: () => void
+  refetch: QueryActionCreatorResult<_>['refetch']
 }
 
 const DashboardPostRow: React.FC<Props> = memo(

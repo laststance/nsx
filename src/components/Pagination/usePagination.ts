@@ -1,4 +1,5 @@
 import type { SerializedError } from '@reduxjs/toolkit'
+import type { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 import { API } from '../../redux/API'
@@ -11,7 +12,7 @@ export interface UsePagenationResult {
   totalPage: PagenationState['totalPage']
   data: Res.PostList | undefined
   error: FetchBaseQueryError | SerializedError | undefined
-  refetch: () => void
+  refetch: QueryActionCreatorResult<_>['refetch']
   isLoading: boolean
 }
 
