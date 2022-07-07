@@ -8,13 +8,14 @@ import type { ReactHookFormParams } from '../Input/Input'
 
 interface Props {
   defaultValue?: string | number | readonly string[] | undefined
+  value?: string | number | readonly string[] | undefined
   placeholder?: string
   reactHookFormParams: ReactHookFormParams
 }
 
 const styles = {
   basic:
-    ' focus:bg-white focus:border-purple-500 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none',
+    'focus:bg-white focus:border-purple-500 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none',
   error:
     'focus:ring-red-500 focus:border-red-500 sm:text-sm block pr-10 text-red-900 placeholder-red-300 border-red-300 rounded-md',
 }
@@ -23,6 +24,8 @@ const Textarea: React.FC<
   React.PropsWithChildren<Props & TextareaHTMLAttributes<HTMLTextAreaElement>>
 > = memo(
   ({
+    value,
+    defaultValue,
     placeholder,
     reactHookFormParams: { register, options, fieldError, name },
     ...rest
@@ -31,6 +34,8 @@ const Textarea: React.FC<
       <div>
         <div className="relative mt-1 rounded-md shadow-sm">
           <textarea
+            value={value}
+            defaultValue={defaultValue}
             {...register(name, options)}
             className={
               'focus:outline-none' +

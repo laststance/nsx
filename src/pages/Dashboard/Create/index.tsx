@@ -51,7 +51,7 @@ const Create: React.FC = memo(() => {
           data-cy="post-title-input"
         />
         <Textarea
-          defaultValue={body}
+          value={body}
           reactHookFormParams={{
             fieldError: errors['body'],
             name: 'body',
