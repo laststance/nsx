@@ -34,12 +34,18 @@ export const pagenationSlice = createSlice({
     ) => {
       state.page = action.payload.page
     },
+    updatePerPage: (
+      state,
+      action: PayloadAction<{ perPage: PagenationState['perPage'] }>
+    ) => {
+      state.perPage = action.payload.perPage
+    },
   },
 })
 
 export const selectPagenation = (state: RootState): PagenationState =>
   state.pagenation
 
-export const { updatePage } = pagenationSlice.actions
+export const { updatePage, updatePerPage } = pagenationSlice.actions
 
 export default pagenationSlice.reducer
