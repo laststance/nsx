@@ -11,10 +11,7 @@ const prodPlugins = [],
   isProd = process.env.NODE_ENV === 'production'
 
 if (isProd) {
-  prodPlugins.push(
-    new optimize.AggressiveMergingPlugin(),
-    new optimize.OccurrenceOrderPlugin()
-  )
+  prodPlugins.push(new optimize.AggressiveMergingPlugin())
 }
 
 const Root = join(__dirname, '..')
@@ -29,7 +26,7 @@ const Lib = join(Source, 'lib')
 const Option = join(Source, 'option')
 
 const config = {
-  devtool: isProd ? 'none' : 'cheap-source-map',
+  devtool: isProd ? 'source-map' : 'cheap-source-map',
   entry: {
     background: join(Background, 'index.ts'),
     content: join(Content, 'index.tsx'),
