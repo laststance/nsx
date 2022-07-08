@@ -40,7 +40,14 @@ function App() {
             span.remove()
           }, 2000)
         })
-        .catch()
+        .catch(() => {
+          const span = document.createElement('span')
+          span.innerHTML = 'Faild!'
+          document.querySelector('#popup').appendChild(span)
+          setTimeout(() => {
+            span.remove()
+          }, 2000)
+        })
     },
     [state.pageTitle, state.url]
   )
