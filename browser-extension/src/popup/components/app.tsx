@@ -25,8 +25,7 @@ function App() {
       axios
         .post(
           process.env.NODE_ENV === 'development'
-            ? // ? 'http://localhost:4000/api/push_stock'
-              'https://digitalstrength.dev/api/push_stock'
+            ? 'http://localhost:4000/api/push_stock'
             : 'https://digitalstrength.dev/api/push_stock',
           {
             pageTitle: state.pageTitle,
