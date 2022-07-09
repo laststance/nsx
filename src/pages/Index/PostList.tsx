@@ -1,10 +1,10 @@
 import React, { memo } from 'react'
 
-import Installation from '../../components/Installation/Installation'
 import Loading from '../../components/Loading/Loading'
 import ButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages/RTKQueryErrorMessages'
+import Installation from '../../offscreen/Installation/Installation'
 
 import PostRow from './PostRow'
 
