@@ -55,7 +55,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
 })
 Content.displayName = 'Content'
 
-const ContentPage: React.FC<React.PropsWithChildren<Props>> = memo(
+const ContentPage: React.FC<Props & ComponentProps<any>> = memo(
   ({ post }) => (
     <Layout>
       <Content post={post} />
