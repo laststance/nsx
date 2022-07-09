@@ -43,7 +43,7 @@ const Signup: React.FC = memo(() => {
   }
 
   return (
-    <>
+    <section className="flex flex-col gap-[24px]">
       <h1
         className="text-color-primary text-center text-3xl"
         data-cy="signup-page"
@@ -109,7 +109,7 @@ const Signup: React.FC = memo(() => {
           </div>
         </div>
       </form>
-    </>
+    </section>
   )
 })
 Signup.displayName = 'Signup'
