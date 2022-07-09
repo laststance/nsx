@@ -10,7 +10,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: 'Asia/Tokyo'
       - uses: actions/checkout@v3
         with:
           node-version: '18.1.0'
