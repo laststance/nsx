@@ -9,7 +9,7 @@ import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages/RTKQue
 import PostRow from './PostRow'
 
 const PostList: React.FC = memo(() => {
-  const { page, totalPage, data, isLoading, error } = usePagination()
+  const { page, totalPage, data, isLoading, error } = usePagination(15)
 
   if (error) {
     return <RTKQueryErrorMessages error={error} />
