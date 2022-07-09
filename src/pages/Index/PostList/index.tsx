@@ -4,7 +4,7 @@ import Loading from '../../../components/Loading/Loading'
 import ButtonGroup from '../../../components/Pagination/ButtonGroup'
 import usePagination from '../../../components/Pagination/usePagination'
 import RTKQueryErrorMessages from '../../../components/RTKQueryErrorMessages/RTKQueryErrorMessages'
-import Installation from '../../../offscreen/Installation/Installation'
+import Installation from '../../../offscreen/Installation'
 
 import PostRow from './PostRow/index'
 
@@ -24,14 +24,14 @@ const PostList: React.FC = memo(() => {
   }
 
   return (
-    <div className="flex h-full flex-col justify-between">
+    <section className="flex h-full flex-col justify-between">
       <ul className="post-row-container">
         {data.postList?.map((post: Post, i: number) => {
           return <PostRow key={i} post={post} index={i} />
         })}
       </ul>
       <ButtonGroup page={page} totalPage={totalPage} />
-    </div>
+    </section>
   )
 })
 PostList.displayName = 'PostList'
