@@ -16,6 +16,7 @@ const Layout = memo<
 >(
   ({ children, className, disableBaseStyle, ...props }) => {
     let baseStyle = 'container mx-auto flex-grow px-4 py-4'
+
     if (className && !disableBaseStyle) {
       baseStyle = concatSelecor(baseStyle, className)
     } else if (className && disableBaseStyle) {
