@@ -8,7 +8,7 @@ interface Props {
 
 const PostLink: React.FC<Props> = memo(({ post, index }) => {
   return (
-    <div className="w-64 flex-initial flex-shrink-0 break-all text-lg sm:w-auto">
+    <div className="break-word w-64 flex-initial flex-shrink-0 text-lg sm:w-auto">
       <Link
         className="text-color-primary hover:text-gray-400"
         to={`/post/${post.id}`}
