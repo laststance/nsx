@@ -1336,10 +1336,10 @@
     "@types/node" "*"
     jest-mock "^28.1.3"
 
-"@jest/expect-utils@^28.1.1":
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/@jest/expect-utils/-/expect-utils-28.1.1.tgz#d84c346025b9f6f3886d02c48a6177e2b0360587"
-  integrity sha512-n/ghlvdhCdMI/hTcnn4qV57kQuV9OTsZzH1TTCVARANKhl6hXJqLKUkwX69ftMGpsbpt96SsDD8n8LD2d9+FRw==
+"@jest/expect-utils@^28.1.1", "@jest/expect-utils@^28.1.3":
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/@jest/expect-utils/-/expect-utils-28.1.3.tgz#58561ce5db7cd253a7edddbc051fb39dda50f525"
+  integrity sha512-wvbi9LUrHJLn3NlDW6wF2hvIMtd4JUl2QNVrjq+IBSHirgfrR3o9RnVtxzdEGO2n9JyIWwHnLfby5KzqBGg2YA==
   dependencies:
     jest-get-type "^28.0.2"
 
@@ -3036,12 +3036,12 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@*", "@types/jest@^28.1.6":
-  version "28.1.6"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-28.1.6.tgz#d6a9cdd38967d2d746861fb5be6b120e38284dd4"
-  integrity sha512-0RbGAFMfcBJKOmqRazM8L98uokwuwD5F8rHrv/ZMbrZBwVOWZUyPG6VFNscjYr/vjM3Vu4fRrCPbOs42AfemaQ==
+"@types/jest@*", "@types/jest@^28.1.7":
+  version "28.1.7"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-28.1.7.tgz#a680c5d05b69634c2d54a63cb106d7fb1adaba16"
+  integrity sha512-acDN4VHD40V24tgu0iC44jchXavRNVFXQ/E6Z5XNsswgoSO/4NgsXoEYmPUGookKldlZQyIpmrEXsHI9cA3ZTA==
   dependencies:
-    jest-matcher-utils "^28.0.0"
+    expect "^28.0.0"
     pretty-format "^28.0.0"
 
 "@types/js-levenshtein@^1.1.1":
@@ -7099,16 +7099,16 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-expect@^28.1.1:
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/expect/-/expect-28.1.1.tgz#ca6fff65f6517cf7220c2e805a49c19aea30b420"
-  integrity sha512-/AANEwGL0tWBwzLNOvO0yUdy2D52jVdNXppOqswC49sxMN2cPWsGCQdzuIf9tj6hHoBQzNvx75JUYuQAckPo3w==
+expect@^28.0.0, expect@^28.1.1:
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/expect/-/expect-28.1.3.tgz#90a7c1a124f1824133dd4533cce2d2bdcb6603ec"
+  integrity sha512-eEh0xn8HlsuOBxFgIss+2mX85VAS4Qy3OSkjV7rlBWljtA4oWH37glVGyOZSZvErDT/yBywZdPGwCXuTvSG85g==
   dependencies:
-    "@jest/expect-utils" "^28.1.1"
+    "@jest/expect-utils" "^28.1.3"
     jest-get-type "^28.0.2"
-    jest-matcher-utils "^28.1.1"
-    jest-message-util "^28.1.1"
-    jest-util "^28.1.1"
+    jest-matcher-utils "^28.1.3"
+    jest-message-util "^28.1.3"
+    jest-util "^28.1.3"
 
 express@^4.17.1, express@^4.18.1:
   version "4.18.1"
@@ -9256,15 +9256,15 @@ jest-coverage-badges@^1.1.2:
   dependencies:
     mkdirp "0.5.1"
 
-jest-diff@^28.1.1:
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-28.1.1.tgz#1a3eedfd81ae79810931c63a1d0f201b9120106c"
-  integrity sha512-/MUUxeR2fHbqHoMMiffe/Afm+U8U4olFRJ0hiVG2lZatPJcnGxx292ustVu7bULhjV65IYMxRdploAKLbcrsyg==
+jest-diff@^28.1.1, jest-diff@^28.1.3:
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-28.1.3.tgz#948a192d86f4e7a64c5264ad4da4877133d8792f"
+  integrity sha512-8RqP1B/OXzjjTWkqMX67iqgwBVJRgCyKD3L9nq+6ZqJMdvjE8RgHktqZ6jNrkdMT+dJuYNI3rhQpxaz7drJHfw==
   dependencies:
     chalk "^4.0.0"
     diff-sequences "^28.1.1"
     jest-get-type "^28.0.2"
-    pretty-format "^28.1.1"
+    pretty-format "^28.1.3"
 
 jest-docblock@^28.1.1:
   version "28.1.1"
@@ -9363,15 +9363,15 @@ jest-leak-detector@^28.1.1:
     jest-get-type "^28.0.2"
     pretty-format "^28.1.1"
 
-jest-matcher-utils@^28.0.0, jest-matcher-utils@^28.1.1:
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-28.1.1.tgz#a7c4653c2b782ec96796eb3088060720f1e29304"
-  integrity sha512-NPJPRWrbmR2nAJ+1nmnfcKKzSwgfaciCCrYZzVnNoxVoyusYWIjkBMNvu0RHJe7dNj4hH3uZOPZsQA+xAYWqsw==
+jest-matcher-utils@^28.1.1, jest-matcher-utils@^28.1.3:
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-28.1.3.tgz#5a77f1c129dd5ba3b4d7fc20728806c78893146e"
+  integrity sha512-kQeJ7qHemKfbzKoGjHHrRKH6atgxMk8Enkk2iPQ3XwO6oE/KYD8lMYOziCkeSB9G4adPM4nR1DE8Tf5JeWH6Bw==
   dependencies:
     chalk "^4.0.0"
-    jest-diff "^28.1.1"
+    jest-diff "^28.1.3"
     jest-get-type "^28.0.2"
-    pretty-format "^28.1.1"
+    pretty-format "^28.1.3"
 
 jest-matchmedia-mock@^1.1.0:
   version "1.1.0"
