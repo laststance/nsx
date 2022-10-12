@@ -39,21 +39,28 @@ But I if you have interest for the implementation code, local development enviro
 
 # Prerequisites
 
-- node higher than v16
-- docker-compose (native linux or via docker-for-windows, docker-for-mac.
+#### Install [Volta](https://volta.sh/)
+
+```shell
+curl https://get.volta.sh | bash
+```
+
+#### Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 # Getting start local development
 
+1. `git clone https://github.com/laststance/nsx.git`
+1. `cd nsx`
+1. `node`
 1. `yarn install`
-2. `cp .env.sample .env`
-3. `docker-compose up -d`
-4. `yarn db:reset`
-5. `yarn validate`
-6. `yarn server:start`
-7. in other terminal screen `yarn start`
-8. `yarn e2e:admin`
-
-9. then, you confirmed local develop environment working fine.
+1. `cp .env.sample .env`
+1. `docker-compose up -d`
+1. `yarn db:reset`
+1. `yarn validate`
+1. `yarn server:start`
+1. in other terminal screen `yarn start`
+1. `yarn e2e:admin`
+1. then, you confirmed local develop environment working fine.
 
 open sidebar press `x` key
 DB seeds initial user account is  
