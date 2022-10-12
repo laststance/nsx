@@ -24,6 +24,6 @@ const DashboardButtonGroup: React.FC = memo(() => {
     </div>
   )
 })
-DashboardButtonGroup.displayName = 'AdminControlPanel'
+DashboardButtonGroup.displayName = 'DashboardButtonGroup'
 
 export default DashboardButtonGroup
