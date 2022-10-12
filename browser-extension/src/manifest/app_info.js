@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Browser Extension Boilerplate',
-  name: 'Browser Extension',
+  description: 'import current web page into the draft',
+  name: 'Draft',
   short_name: 'Ext',
 }
