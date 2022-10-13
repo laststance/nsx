@@ -1,4 +1,4 @@
-import { CogIcon } from '@heroicons/react/outline'
+import { CogIcon } from '@heroicons/react/24/outline'
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 

@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { XIcon } from '@heroicons/react/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import React, { Fragment, memo, useEffect } from 'react'
 
 import { selectLogin } from '../../redux/adminSlice'
@@ -79,7 +79,7 @@ const Sidebar: React.FC = memo(() => {
                       onClick={onCloseHander}
                     >
                       <span className="sr-only">Close sidebar</span>
-                      <XIcon
+                      <XMarkIcon
                         className="h-6 w-6 text-white"
                         aria-hidden="true"
                       />

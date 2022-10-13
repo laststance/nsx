@@ -1,4 +1,4 @@
-import { LogoutIcon } from '@heroicons/react/outline'
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
 import React, { memo } from 'react'
 import type { NavigateFunction } from 'react-router'
 import { useNavigate } from 'react-router-dom'
@@ -32,7 +32,7 @@ const LogoutLink: React.FC = memo(
         data-cy="logout-link"
         className="group flex w-full items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
       >
-        <LogoutIcon className="mr-4 h-6 w-6 flex-shrink-0 text-gray-300" />
+        <ArrowRightOnRectangleIcon className="mr-4 h-6 w-6 flex-shrink-0 text-gray-300" />
         Logout
       </button>
     )

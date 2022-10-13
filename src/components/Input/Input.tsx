@@ -1,4 +1,4 @@
-import { ExclamationCircleIcon } from '@heroicons/react/solid'
+import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
 // eslint-disable-next-line import/no-named-as-default
 import clsx from 'clsx'
 import type { InputHTMLAttributes, HTMLInputTypeAttribute } from 'react'

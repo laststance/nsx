@@ -1,4 +1,4 @@
-import { SearchIcon } from '@heroicons/react/solid'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import React, { memo } from 'react'
 
 const Search = memo(() => {
@@ -9,7 +9,7 @@ const Search = memo(() => {
       </label>
       <div className="relative w-full text-gray-400 focus-within:text-gray-600">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-          <SearchIcon className="h-5 w-5" aria-hidden="true" />
+          <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
         </div>
         <input
           id="search-field"

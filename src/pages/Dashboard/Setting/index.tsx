@@ -1,9 +1,9 @@
 import {
   CreditCardIcon,
-  OfficeBuildingIcon,
+  BuildingOfficeIcon,
   UserIcon,
   UsersIcon,
-} from '@heroicons/react/solid'
+} from '@heroicons/react/24/solid'
 // eslint-disable-next-line import/no-named-as-default
 import clsx from 'clsx'
 import React, { memo } from 'react'
@@ -25,7 +25,7 @@ const TabRouterContainer: React.FC<ComponentProps<'section'>> = ({
 
 const tabs = [
   { icon: UserIcon, name: 'My Account', path: 'my-account' },
-  { icon: OfficeBuildingIcon, name: 'Company', path: 'company' },
+  { icon: BuildingOfficeIcon, name: 'Company', path: 'company' },
   { icon: UsersIcon, name: 'Team Members', path: 'team-member' },
   { icon: CreditCardIcon, name: 'Billing', path: 'billing' },
 ]
