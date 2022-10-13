@@ -35,7 +35,7 @@ function App() {
         .then(() => {
           const span = document.createElement('span')
           span.innerHTML = 'Success!'
-          document.querySelector('#popup').appendChild(span)
+          document.querySelector('#result').appendChild(span)
           setTimeout(() => {
             span.remove()
           }, 2000)
@@ -43,7 +43,7 @@ function App() {
         .catch(() => {
           const span = document.createElement('span')
           span.innerHTML = 'Faild!'
-          document.querySelector('#popup').appendChild(span)
+          document.querySelector('#result').appendChild(span)
           setTimeout(() => {
             span.remove()
           }, 2000)
@@ -54,12 +54,14 @@ function App() {
 
   return (
     <main id="app-root">
-      <section>
-        <p>{state.pageTitle.length ? state.pageTitle : ''}</p>
-      </section>
-      <section>
+      <div>
+        <div>{state.pageTitle.length ? state.pageTitle : ''}</div>
+      </div>
+      <section id="result"></section>
+      <div>
         <input type="checkbox" onChange={onCheckedHandler} />
-      </section>
+      </div>
+        
     </main>
   )
 }
