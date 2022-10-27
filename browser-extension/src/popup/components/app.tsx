@@ -40,10 +40,14 @@ function App() {
             span.remove()
           }, 2000)
         })
-        .catch(() => {
+        .catch((e) => {
           const span = document.createElement('span')
           span.innerHTML = 'Faild!'
           document.querySelector('#result').appendChild(span)
+          const div = document.createElement('div')
+          div.id = '#error-msg'
+          div.innerHTML = e
+          document.querySelector('#error-msg').appendChild(div)
           setTimeout(() => {
             span.remove()
           }, 2000)

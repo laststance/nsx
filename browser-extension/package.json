@@ -12,7 +12,7 @@
     "prebuild": "npm run clean",
     "init:profile": "mkdir -p tmp/profile/chrome tmp/profile/brave tmp/profile/firefox",
     "build": "NODE_ENV=production webpack",
-    "build:chrome": "NODE_ENV=development webpack --config ./webpack/chrome.js",
+    "build:chrome": "NODE_ENV=production webpack --config ./webpack/chrome.js",
     "build:firefox": "NODE_ENV=development webpack --config ./webpack/firefox.js",
     "build:safari": "NODE_ENV=development webpack --config ./webpack/safari.js && xcrun safari-web-extension-converter dist/safari-prebuild --project-location dist/safari --force --no-open && rm -rf safari-prebuild",
     "watch": "NODE_ENV=development webpack -w",
