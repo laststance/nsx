@@ -1,10 +1,10 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
-// eslint-disable-next-line import/no-named-as-default
 import clsx from 'clsx'
 import React, { memo } from 'react'
 import type { TextareaHTMLAttributes } from 'react'
 
 import type { ReactHookFormParams } from '../Input/Input'
+import { stopPropagation } from '../Input/Input'
 
 interface Props {
   defaultValue?: string | number | readonly string[] | undefined
@@ -43,6 +43,7 @@ const Textarea: React.FC<
             }
             placeholder={placeholder}
             data-cy="post-body-input"
+            onKeyUp={stopPropagation}
             {...rest}
           />
           {fieldError && (

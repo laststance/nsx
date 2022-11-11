@@ -20,7 +20,7 @@ Dialog.Panel.displayName = 'Dialog.Panel'
 Transition.Root.displayName = 'Transition.Root'
 Transition.Child.displayName = 'Transition.Child'
 
-const keypressListener = (e: KeyboardEvent) => {
+export const keypressListener = (e: KeyboardEvent) => {
   // @TODO add (if not while typing in a text input
   if (e.key === 'x') dispatch(toggleSidebar())
 }
