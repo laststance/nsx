@@ -28,6 +28,10 @@ const styles = {
     'focus:ring-red-500 focus:border-red-500 sm:text-sm block w-full pr-10 text-red-900 placeholder-red-300 border-red-300 rounded-md',
 }
 
+// prevent propagate keyboard event to global shortcut key eventListener
+const stopPropagation = (e: React.KeyboardEvent<HTMLInputElement>) =>
+  e.stopPropagation()
+
 const Input: React.FC<
   React.PropsWithChildren<Props & InputHTMLAttributes<HTMLInputElement>>
 > = memo(
@@ -48,6 +52,7 @@ const Input: React.FC<
               clsx(fieldError && styles.error, !fieldError && styles.basic)
             }
             placeholder={placeholder}
+            onKeyUp={stopPropagation}
             {...rest}
           />
 
