@@ -35,7 +35,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
           components={{ a, code }}
           rehypePlugins={[rehypeRaw]}
           remarkPlugins={[breaks, gfm]}
-          className="prose-lg prose dark:prose-invert"
+          className="prose prose-lg dark:prose-invert"
         >
           {post.body}
         </ReactMarkdown>
