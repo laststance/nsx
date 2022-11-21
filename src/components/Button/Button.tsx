@@ -43,7 +43,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = memo(
         className={clsx(base, className, variants[variant], sizes[size])}
         {...rest}
       >
-        {isLoading && <Spinner size="sm" className="text-current" />}
+        {isLoading ? <Spinner size="sm" className="text-current" /> : null}
         <span className="mx-2">{children}</span>
       </button>
     )
