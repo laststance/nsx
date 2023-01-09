@@ -3,9 +3,6 @@ import { API } from '../../redux/API'
 import { useAppSelector } from '../../redux/hooks'
 import { selectPagenationParams } from '../../redux/pagenationSlice'
 
-/**
- * @OneOffHook src/pages/Post/index.tsx
- */
 const useCachePost = (postId: Cast<Post['id'], string>): Post | undefined => {
   assertIsDefined(postId)
   const { page, perPage } = useAppSelector(selectPagenationParams)
