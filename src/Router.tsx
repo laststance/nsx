@@ -28,7 +28,7 @@ const Router = memo(
     return (
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="post/:postId" element={<Post />} />
+        <Route path="post/:postId_querystring" element={<Post />} />
         <Route path="about" element={<About />} />
         <Route path="login" element={<Login />} />
         <Route path="dashboard" element={<Permission />}>

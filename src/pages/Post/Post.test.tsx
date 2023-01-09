@@ -10,7 +10,7 @@ import Post from './'
 test('should render Post', async () => {
   const { container, getByRole } = TestRenderer(
     <Routes>
-      <Route path="/post/:postId" element={<Post />} />
+      <Route path="/post/:postId_querystring" element={<Post />} />
     </Routes>,
     {
       initialEntries: ['/post/2'],
