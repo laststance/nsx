@@ -6,13 +6,16 @@ import { assertCast } from '../../../lib/assertCast'
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
 import { API } from '../../redux/API'
 import { useAppSelector } from '../../redux/hooks'
-import type { PagenationState } from '../../redux/pagenationSlice'
-import { selectPagenation, updatePerPage } from '../../redux/pagenationSlice'
+import type { PagenationParamsState } from '../../redux/pagenationSlice'
+import {
+  selectPagenationParams,
+  updatePerPage,
+} from '../../redux/pagenationSlice'
 import { dispatch } from '../../redux/store'
 
 export interface UsePagenationResult {
-  page: PagenationState['page']
-  totalPage: PagenationState['totalPage']
+  page: PagenationParamsState['page']
+  totalPage: PagenationParamsState['totalPage']
   data: Res.PostList | undefined
   error: FetchBaseQueryError | SerializedError | undefined
   refetch: QueryActionCreatorResult<_>['refetch']
@@ -20,7 +23,7 @@ export interface UsePagenationResult {
 }
 
 function usePagination(
-  customPerPage?: PagenationState['perPage']
+  customPerPage?: PagenationParamsState['perPage']
 ): UsePagenationResult {
   useIsomorphicLayoutEffect(() => {
     if (Number.isSafeInteger(customPerPage)) {
@@ -28,7 +31,7 @@ function usePagination(
       dispatch(updatePerPage({ perPage: customPerPage }))
     }
   }, [])
-  const { page, perPage, totalPage } = useAppSelector(selectPagenation)
+  const { page, perPage, totalPage } = useAppSelector(selectPagenationParams)
 
   const { data, error, refetch, isLoading } =
     API.endpoints.fetchPostList.useQuery({
