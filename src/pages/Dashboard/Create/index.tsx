@@ -32,7 +32,7 @@ const Create: React.FC = memo(() => {
   })
 
   return (
-    <article className="flex w-full">
+    <div className="flex w-full">
       <section className="w-[70%]">
         <form
           onSubmit={handleSubmit(() =>
@@ -75,7 +75,7 @@ const Create: React.FC = memo(() => {
       <section className="ml-4 w-[30%] overflow-x-visible">
         <StockList />
       </section>
-    </article>
+    </div>
   )
 })
 Create.displayName = 'Create'
