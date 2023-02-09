@@ -5,7 +5,7 @@ import AuthorModel from './authorModel'
 import PostModel from './postModel'
 import StockModel from './stockModel'
 const env = process.env.NODE_ENV || 'development'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+
 const config: Config = require(__dirname + './../config.json')[env] // @TODO migrate get from dotenv
 
 const sequelize = new Sequelize(
