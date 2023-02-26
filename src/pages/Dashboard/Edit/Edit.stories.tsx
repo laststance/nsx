@@ -2,7 +2,7 @@ import type { ComponentStory } from '@storybook/react'
 import React from 'react'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 
-import Edit from './index'
+import Edit from '.'
 
 export default {
   component: Edit,

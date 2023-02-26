@@ -2,7 +2,7 @@ import type { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/
 import React, { memo } from 'react'
 
 import PostDate from '../../components/PostDate/PostDate'
-import PostLink from '../Index/PostList/PostRow/PostLink/index'
+import PostLink from '../Index/PostList/PostRow/PostLink'
 
 import EditButtonGroup from './EditButtonGroup'
 

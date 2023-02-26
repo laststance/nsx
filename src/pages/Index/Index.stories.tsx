@@ -6,7 +6,7 @@ import Index from './'
 
 export default {
   component: Index,
-  title: 'Pages/Index',
+  title: 'Pages',
 }
 
 const Template: ComponentStory<typeof Index> = () => (

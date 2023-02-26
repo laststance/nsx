@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 
 import PostDate from '../../../../components/PostDate/PostDate'
 
-import PostLink from './PostLink/index'
+import PostLink from './PostLink'
 
 interface Props {
   post: Post

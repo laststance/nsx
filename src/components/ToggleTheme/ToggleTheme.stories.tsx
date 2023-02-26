@@ -1,7 +1,7 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import ToggleTheme from './index'
+import ToggleTheme from '.'
 
 const meta: ComponentMeta<typeof ToggleTheme> = {
   component: ToggleTheme,

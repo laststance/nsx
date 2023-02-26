@@ -2,7 +2,7 @@ import React from 'react'
 
 import TestRenderer from '../../../lib/TestRenderer'
 
-import Create from './index'
+import Create from '.'
 
 test('should render Create Page', () => {
   const { container, getAllByRole } = TestRenderer(<Create />)

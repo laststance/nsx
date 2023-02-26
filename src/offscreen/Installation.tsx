@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 
 import Loading from '../components/Loading/Loading'
-import Signup from '../pages/Signup/index'
+import Signup from '../pages/Signup'
 import { useGetUserCountQuery } from '../redux/API'
 
 const Installation: React.FC = memo(() => {

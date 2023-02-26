@@ -6,7 +6,7 @@ import usePagination from '../../../components/Pagination/usePagination'
 import RTKQueryErrorMessages from '../../../components/RTKQueryErrorMessages/RTKQueryErrorMessages'
 import Installation from '../../../offscreen/Installation'
 
-import PostRow from './PostRow/index'
+import PostRow from './PostRow'
 
 const PostList: React.FC = memo(() => {
   const { page, totalPage, data, isLoading, error } = usePagination(15)

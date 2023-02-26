@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import { useIsomorphicLayoutEffect } from './hooks/useIsomorphicLayoutEffect'
 import Permission from './offscreen/Permission'
-import About from './pages/About/index'
+import About from './pages/About'
 import Dashboard from './pages/Dashboard'
 import Create from './pages/Dashboard/Create'
 import Edit from './pages/Dashboard/Edit'

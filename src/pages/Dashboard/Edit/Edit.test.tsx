@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import { sleep } from '../../../../lib/sleep'
 import TestRenderer from '../../../lib/TestRenderer'
 
-import Edit from './index'
+import Edit from '.'
 
 test('should render Edit', async () => {
   const {
