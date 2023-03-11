@@ -8,7 +8,7 @@ import EditButtonGroup from './EditButtonGroup'
 
 interface Props {
   post: Post
-  index: number
+  index: ArrayMapIndex
   author: Author
   refetch: QueryActionCreatorResult<_>['refetch']
 }
