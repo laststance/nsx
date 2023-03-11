@@ -8,6 +8,6 @@ test('should render Github', () => {
   const {
     container: { firstChild },
   } = TestRenderer(<Github />)
-  expect(firstChild).toBeTruthy()
+  expect(firstChild).toBeInTheDocument()
   expect(firstChild).toMatchSnapshot()
 })

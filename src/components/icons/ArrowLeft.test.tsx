@@ -8,6 +8,6 @@ test('should render ArrowLeft', () => {
   const {
     container: { firstChild },
   } = TestRenderer(<ArrowLeft />)
-  expect(firstChild).toBeTruthy()
+  expect(firstChild).toBeInTheDocument()
   expect(firstChild).toMatchSnapshot()
 })
