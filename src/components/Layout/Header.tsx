@@ -9,11 +9,11 @@ const Header = memo(() => (
     <div className="container mx-auto my-4 flex h-16 flex-col flex-wrap items-center gap-2 sm:flex-row sm:content-center">
       <Link to="/" className="col-auto">
         <h1 className="text-color-primary text-xl font-bold sm:text-2xl">
-          Today I Learned
+          {process.env.VITE_APP_TITLE}
         </h1>
       </Link>
       <p className="text-color-secondary justify-self-start text-base sm:pt-2.5 sm:pl-1.5">
-        Daily log for programming things
+        {process.env.VITE_APP_DESCRIPTION}
         <span className="pl-1" role="img" aria-label="note emoji">
           📝
         </span>

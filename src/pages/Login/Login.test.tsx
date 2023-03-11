@@ -9,6 +9,6 @@ test('should render Login', () => {
 
   const h1 = getAllByRole('heading')
   expect(container).toBeInTheDocument()
-  expect(h1[0]).toHaveTextContent('Today I Learned')
+  expect(h1[0]).toHaveTextContent('Reading List')
   expect(h1[1]).toHaveTextContent('Login')
 })

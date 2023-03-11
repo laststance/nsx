@@ -47,7 +47,7 @@ context('admin basic', () => {
       it('publish new post', () => {
         cy.clearLocalStorage()
         cy.login()
-        cy.get('header > div > a').contains('Today I Learned').click()
+        cy.get('header > div > a').contains('Reading List').click()
         cy.url().should('eq', 'http://localhost:3000/')
         cy.$('dashboard-page-link').contains('Dashboard').click()
         cy.url().should('eq', 'http://localhost:3000/dashboard')

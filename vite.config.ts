@@ -11,6 +11,8 @@ export default defineConfig({
   plugins: [
     react(),
     EnvironmentPlugin([
+      'VITE_APP_TITLE',
+      'VITE_APP_DESCRIPTION',
       'VITE_API_ENDPOINT',
       'VITE_SENTRY_DNS',
       'VITE_GA_TRACKING_CODE',

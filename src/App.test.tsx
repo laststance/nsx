@@ -16,7 +16,7 @@ test('My React App is working', async () => {
   await sleep(300)
 
   const header = container.querySelector('header')!
-  expect(getByRole(header, 'heading')).toHaveTextContent('Today I Learned')
+  expect(getByRole(header, 'heading')).toHaveTextContent('Reading List')
   const main = container.querySelector('main')!
 
   expect(main).toHaveTextContent('01/14/22')
