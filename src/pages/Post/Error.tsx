@@ -11,7 +11,6 @@ interface Props<T extends Error> {
   error?: T | FetchBaseQueryError | SerializedError | undefined
 }
 
-// @TODO replace to render error html rather than snackbar
 const Error: React.FC<React.PropsWithChildren<Props<any>>> = memo(
   ({ error }) => {
     useIsomorphicLayoutEffect(() => {
