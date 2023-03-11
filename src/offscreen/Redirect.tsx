@@ -1,10 +1,12 @@
-import { useEffect, memo } from 'react'
+import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect'
 
 const Redirect: React.FC<React.PropsWithChildren<{ to: string }>> = memo(
   ({ to }) => {
     const navigate = useNavigate()
-    useEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       navigate(to)
     }, [])
     return null
