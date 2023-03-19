@@ -2,6 +2,9 @@ const path = require('path')
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  typescript: {
+    reactDocgen: 'react-docgen-typescript-plugin' // workaround for typescript v5 @see https://github.com/hipstersmoothie/react-docgen-typescript-plugin/issues/78#issuecomment-1409224863
+  },
   addons: ['@storybook/addon-essentials'],
   core: {
     'builder': 'webpack5'
