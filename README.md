@@ -67,10 +67,6 @@ DB seeds initial user account is
 name: `John Doe`  
 pass: `popcoon`
 
-## `yarn cy:open`
-
-open [Cypress](https://www.cypress.io/)
-
 ## Enviroment Variables
 
 These are storing `.env` and evaluate at build time.
