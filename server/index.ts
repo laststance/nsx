@@ -10,6 +10,7 @@ import express from 'express'
 import morgan from 'morgan'
 
 import router from './api'
+import { Cron } from './cron'
 import Logger from './lib/Logger'
 
 const env = process.env.NODE_ENV || 'development'
@@ -21,6 +22,8 @@ const isProd = env === 'production'
 require('dotenv').config(
   isProd ? path.join(__dirname, './../../.env') : __dirname
 )
+
+Cron.readingList.start()
 
 /**
  Express Setup
