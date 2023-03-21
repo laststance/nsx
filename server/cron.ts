@@ -8,7 +8,7 @@ interface CronInterface {
 
 export const Cron: CronInterface = {
   readingList: new CronJob(
-    '* 0 * * * *',
+    '0 0 * * * *',
     postReadingList,
     null,
     true,
