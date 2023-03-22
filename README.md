@@ -74,3 +74,14 @@ These are storing `.env` and evaluate at build time.
 ### JWT_SECRET
 
 set unique and hidden string for jwt.
+
+## Production Server
+
+```
+
+pm2 start ecosystem.config.js    // Start Server with production mode
+pm2 restart ecosystem.config.js  // Restart Server with production mode
+pm2 stop 0                       // Stop server
+pm2 ps -a                        // Show all processes
+
+```
