@@ -46,13 +46,13 @@ const ThemeToggle = memo(() => {
             <MoonIcon className="h-6 w-6" selected={theme !== 'system'} />
           </span>
         </Listbox.Button>
-        <Listbox.Options className="dark:highlight-white/5 absolute top-5 -right-16 z-50 mt-4 w-36 overflow-hidden rounded-lg bg-white py-1 text-sm font-semibold text-slate-700 shadow-lg ring-1 ring-slate-900/10 dark:bg-neutral-700 dark:text-slate-300 dark:ring-0">
+        <Listbox.Options className="dark:highlight-white/5 absolute -right-16 top-5 z-50 mt-4 w-36 overflow-hidden rounded-lg bg-white py-1 text-sm font-semibold text-slate-700 shadow-lg ring-1 ring-slate-900/10 dark:bg-neutral-700 dark:text-slate-300 dark:ring-0">
           {options.map(({ value, label, icon: Icon }) => (
             <Listbox.Option key={value} value={value} as={Fragment}>
               {({ active, selected }) => (
                 <li
                   className={clsx(
-                    'flex cursor-pointer items-center py-1 px-2',
+                    'flex cursor-pointer items-center px-2 py-1',
                     selected && 'text-green-400',
                     active && 'bg-slate-50 dark:bg-slate-600/30'
                   )}

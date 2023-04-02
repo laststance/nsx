@@ -44,8 +44,8 @@ router.get(
     >,
     res: Response<Res.PostList>
   ) => {
-    const page = parseInt(req.query.page)
-    const perPage = parseInt(req.query.perPage)
+    const page = parseInt(req.query.page, 10)
+    const perPage = parseInt(req.query.perPage, 10)
     const total = await db.post.count()
 
     const offset = perPage * (page - 1)

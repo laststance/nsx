@@ -14,7 +14,7 @@ const PostPage: React.FC = memo(() => {
   // @TODO extract as a useQueryStringToNumber
   const { postId_querystring } = useParams()
   assertIsDefined(postId_querystring)
-  const postId: Post['id'] = parseInt(postId_querystring)
+  const postId: Post['id'] = parseInt(postId_querystring, 10)
 
   const cache = useCachePost(postId)
 

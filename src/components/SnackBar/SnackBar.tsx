@@ -38,7 +38,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
         data-cy="snackbar"
         className={`flex max-w-xl items-center justify-center ${bgColor(
           color
-        )} button absolute top-10 right-10 z-10 rounded-xl py-2 px-4 transition-opacity ${opacity}`}
+        )} button absolute right-10 top-10 z-10 rounded-xl px-4 py-2 transition-opacity ${opacity}`}
       >
         <p className="text-lg font-medium uppercase text-white">{message}</p>
       </div>
