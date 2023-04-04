@@ -6,9 +6,10 @@ module.exports = {
   globals: {
     JSX: 'readonly',
   },
-  plugins: ['cypress', 'jsx-a11y', 'react-hooks'],
+  plugins: ['cypress', 'jsx-a11y', 'react-hooks', 'react'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
+    'react/display-name': 'warn',
   },
   settings: {
     react: {

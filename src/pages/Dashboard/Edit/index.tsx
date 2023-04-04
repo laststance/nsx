@@ -93,5 +93,6 @@ const EditPage = memo(() => (
     <Edit />
   </Layout>
 ))
+EditPage.displayName = 'EditPage'
 
 export default EditPage

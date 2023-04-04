@@ -117,5 +117,6 @@ const LoginPage = memo(() => (
     <Login />
   </Layout>
 ))
+LoginPage.displayName = 'LoginPage'
 
 export default LoginPage
