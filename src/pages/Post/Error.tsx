@@ -14,8 +14,7 @@ interface Props<T extends Error> {
 const Error: React.FC<React.PropsWithChildren<Props<any>>> = memo(
   ({ error }) => {
     useIsomorphicLayoutEffect(() => {
-      if (error)
-        dispatch(enqueSnackbar({ color: 'red', message: error.toString() }))
+      if (error) dispatch(enqueSnackbar({ color: 'red', message: error.toString() }))
       // @TODO Sentry
     }, [error])
 

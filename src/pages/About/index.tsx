@@ -22,10 +22,9 @@ const About = memo(
           Web Dev things only.
         </p>
         <p>
-          Although it's save me sometimes from depression(aka Impostor
-          syndrome). <br />
-          That even random and cursory notes, however sometimes that useful to
-          remember the Web Dev activities you've done.
+          Although it's save me sometimes from depression(aka Impostor syndrome). <br />
+          That even random and cursory notes, however sometimes that useful to remember the Web Dev
+          activities you've done.
         </p>
         <p>
           This is a part of{' '}

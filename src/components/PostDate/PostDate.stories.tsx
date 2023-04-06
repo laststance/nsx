@@ -8,9 +8,7 @@ export default {
   title: 'Components/PostDate',
 }
 
-const Template: ComponentStory<typeof PostDate> = (props) => (
-  <PostDate {...props} />
-)
+const Template: ComponentStory<typeof PostDate> = (props) => <PostDate {...props} />
 
 export const Default = Template.bind({})
 Default.args = { date: 'Wed Jan 26 2022' }

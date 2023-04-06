@@ -35,10 +35,7 @@ export const API = createApi({
       }),
     }),
 
-    deletePost: builder.mutation<
-      Res.DeletePost,
-      { id: Post['id']; author: Author }
-    >({
+    deletePost: builder.mutation<Res.DeletePost, { id: Post['id']; author: Author }>({
       invalidatesTags: (result, error, { id }) => [{ id, type: 'Posts' }],
       query: ({ id, author }) => ({
         body: { author: author },
@@ -47,10 +44,7 @@ export const API = createApi({
       }),
     }),
 
-    deleteStock: builder.mutation<
-      Res.DeleteStock,
-      { id: Stock['id']; author: Author }
-    >({
+    deleteStock: builder.mutation<Res.DeleteStock, { id: Stock['id']; author: Author }>({
       query: ({ id, author }) => ({
         body: { author: author },
         method: 'DELETE',
@@ -134,13 +128,7 @@ export const { useGetUserCountQuery, useSignupReqestMutation } = API
 
 export type CreatePostMutationDefinition = MutationDefinition<
   Req.CreatePost,
-  BaseQueryFn<
-    string | FetchArgs,
-    unknown,
-    FetchBaseQueryError,
-    {},
-    FetchBaseQueryMeta
-  >,
+  BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
   'Posts',
   Post,
   'RTK_Query'
@@ -149,13 +137,7 @@ export type CreatePostMutationDefinition = MutationDefinition<
 export type UpdatePostMutationDefinition = MutationTrigger<
   MutationDefinition<
     Req.UpdatePost,
-    BaseQueryFn<
-      string | FetchArgs,
-      unknown,
-      FetchBaseQueryError,
-      {},
-      FetchBaseQueryMeta
-    >,
+    BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
     'Posts',
     Res.UpdatePost,
     'RTK_Query'

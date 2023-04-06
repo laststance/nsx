@@ -5,11 +5,7 @@ import React, { Fragment, memo } from 'react'
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
-import {
-  selectSidebarOpen,
-  closeSidebar,
-  toggleSidebar,
-} from '../../redux/sidebarSlice'
+import { selectSidebarOpen, closeSidebar, toggleSidebar } from '../../redux/sidebarSlice'
 import { dispatch } from '../../redux/store'
 
 import LoginLink from './LoginLink'
@@ -81,10 +77,7 @@ const Sidebar: React.FC = memo(() => {
                       onClick={onCloseHander}
                     >
                       <span className="sr-only">Close sidebar</span>
-                      <XMarkIcon
-                        className="h-6 w-6 text-white"
-                        aria-hidden="true"
-                      />
+                      <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
                     </button>
                   </div>
                 </Transition.Child>

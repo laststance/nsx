@@ -6,10 +6,7 @@ import { API } from '../../../../redux/API'
 import { selectBody, updateBody } from '../../../../redux/draftSlice'
 import { dispatch, getRootState } from '../../../../redux/store'
 
-export function handleClick(
-  stock: Stock,
-  refetch: QueryActionCreatorResult<_>['refetch']
-) {
+export function handleClick(stock: Stock, refetch: QueryActionCreatorResult<_>['refetch']) {
   return async () => {
     const author = selectAuthor(getRootState())
     await dispatch(API.endpoints.deleteStock.initiate({ author, id: stock.id }))

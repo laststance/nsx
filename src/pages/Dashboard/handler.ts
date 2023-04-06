@@ -11,9 +11,7 @@ export function handleDelete(
   refetch: UsePagenationResult['refetch']
 ) {
   return async function (): Promise<void> {
-    const res = await dispatch(
-      API.endpoints.deletePost.initiate({ author, id })
-    )
+    const res = await dispatch(API.endpoints.deletePost.initiate({ author, id }))
 
     if (isSuccess(res) && 'data' in res) {
       dispatch(enqueSnackbar({ color: 'green', message: res.data.message }))

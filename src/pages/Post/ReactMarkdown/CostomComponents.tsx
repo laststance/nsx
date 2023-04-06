@@ -6,9 +6,11 @@ export const a: React.FC = (props) => (
   <a {...props} target="_blank"></a>
 )
 
-export const code: React.FC<
-  React.PropsWithChildren<{ inline: boolean; className: string }>
-> = ({ inline, className, children }) => {
+export const code: React.FC<React.PropsWithChildren<{ inline: boolean; className: string }>> = ({
+  inline,
+  className,
+  children,
+}) => {
   const match = /language-(\w+)/.exec(className || '')
   return !inline && match ? (
     <SyntaxHighlighter

@@ -38,8 +38,7 @@ const Textarea: React.FC<
             defaultValue={defaultValue}
             {...register(name, options)}
             className={
-              'focus:outline-none' +
-              clsx(fieldError && styles.error, !fieldError && styles.basic)
+              'focus:outline-none' + clsx(fieldError && styles.error, !fieldError && styles.basic)
             }
             placeholder={placeholder}
             data-cy="post-body-input"
@@ -48,15 +47,10 @@ const Textarea: React.FC<
           />
           {fieldError && (
             <div className="pointer-events-none absolute inset-y-2 right-0 flex items-start pr-3">
-              <ExclamationCircleIcon
-                className="h-5 w-5 text-red-500"
-                aria-hidden="true"
-              />
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
             </div>
           )}
-          {fieldError && (
-            <p className="mt-2 text-sm text-red-600">{fieldError.message}</p>
-          )}
+          {fieldError && <p className="mt-2 text-sm text-red-600">{fieldError.message}</p>}
         </div>
       </div>
     )

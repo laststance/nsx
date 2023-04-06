@@ -19,9 +19,7 @@ const isProd = env === 'production'
 // .env file path resolve different between dev and production.
 // dev: projectRoot/.env production: projectRoot/server_build/.env
 
-require('dotenv').config(
-  isProd ? path.join(__dirname, './../../.env') : __dirname
-)
+require('dotenv').config(isProd ? path.join(__dirname, './../../.env') : __dirname)
 
 Cron.readingList.start()
 
@@ -61,19 +59,10 @@ if (isDev) {
     '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
     'utf-8'
   )
-  const certificate = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/cert.pem',
-    'utf-8'
-  )
-  const ca = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/chain.pem',
-    'utf-8'
-  )
+  const certificate = fs.readFileSync('/etc/letsencrypt/live/digitalstrength.dev/cert.pem', 'utf-8')
+  const ca = fs.readFileSync('/etc/letsencrypt/live/digitalstrength.dev/chain.pem', 'utf-8')
 
-  const ProdServer = https.createServer(
-    { ca: ca, cert: certificate, key: privateKey },
-    app
-  )
+  const ProdServer = https.createServer({ ca: ca, cert: certificate, key: privateKey }, app)
 
   ProdServer.listen(443, () => {
     Logger.log()

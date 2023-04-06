@@ -22,13 +22,10 @@ const router = express.Router()
 /**
  API Implementation
  */
-router.get(
-  '/user_count',
-  async (req: Request, res: Response<Res.GetUserCount>) => {
-    const userCount = await db.author.count()
-    res.status(200).json({ userCount })
-  }
-)
+router.get('/user_count', async (req: Request, res: Response<Res.GetUserCount>) => {
+  const userCount = await db.author.count()
+  res.status(200).json({ userCount })
+})
 
 router.get(
   '/post_list',
@@ -79,8 +76,7 @@ router.get('/post/:id', async (req: Request, res: Response) => {
 })
 
 router.delete('/post/:id', async (req: Request, res: Response) => {
-  if (!isAuthorized(req, res))
-    return res.status(403).json({ message: 'unauthorized' })
+  if (!isAuthorized(req, res)) return res.status(403).json({ message: 'unauthorized' })
 
   try {
     await db.post.destroy({ where: { id: req.params.id } })
@@ -91,48 +87,43 @@ router.delete('/post/:id', async (req: Request, res: Response) => {
       res.status(500).json({ message: error.message })
     } else {
       Logger.error(error)
-      res
-        .status(500)
-        .json({ message: `someting wrong: ${JSON.stringify(error)}` })
+      res.status(500).json({ message: `someting wrong: ${JSON.stringify(error)}` })
     }
   }
 })
 
-router.post(
-  '/signup',
-  async (req: Request<_, _, Req.SignUp>, res: Response<Res.SignUp>) => {
-    const body = req.body
-    if (!(body?.name && body?.password)) {
-      Logger.warn('Empty Post Content. Might be data not formatted properly.')
-      return res.status(400).json({
-        error: 'Empty Post Content. Might be data not formatted properly.',
-      })
-    }
+router.post('/signup', async (req: Request<_, _, Req.SignUp>, res: Response<Res.SignUp>) => {
+  const body = req.body
+  if (!(body?.name && body?.password)) {
+    Logger.warn('Empty Post Content. Might be data not formatted properly.')
+    return res.status(400).json({
+      error: 'Empty Post Content. Might be data not formatted properly.',
+    })
+  }
 
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(body.password, salt)
+  const salt = await bcrypt.genSalt(10)
+  const hash = await bcrypt.hash(body.password, salt)
 
-    try {
-      const modelInstance = await db.author.create<AuthorModel>({
-        name: body.name,
-        password: hash,
-      })
-      const author: JWTpayload = modelInstance.toJSON() as Author
+  try {
+    const modelInstance = await db.author.create<AuthorModel>({
+      name: body.name,
+      password: hash,
+    })
+    const author: JWTpayload = modelInstance.toJSON() as Author
 
-      const token: JWTtoken = jwt.sign(author, process.env.JWT_SECRET as string)
-      res.cookie('token', token, cookieOptions)
-      res.status(201).json(author)
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        Logger.error(error)
-        res.status(500).json({ error: error.message })
-      } else {
-        Logger.error(error)
+    const token: JWTtoken = jwt.sign(author, process.env.JWT_SECRET as string)
+    res.cookie('token', token, cookieOptions)
+    res.status(201).json(author)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(error)
+      res.status(500).json({ error: error.message })
+    } else {
+      Logger.error(error)
         res.status(500).json({ error: `something wrong: ${JSON.stringify(error)}` }) /* eslint-disable-line prettier/prettier */
-      }
     }
   }
-)
+})
 
 router.post('/login', async ({ body }: Request, res: Response) => {
   const authorModelInstance = await db.author.findOne<AuthorModel>({
@@ -162,8 +153,7 @@ router.get('/logout', (req: Request, res: Response<Res.Logout>) => {
 })
 
 router.post('/create', async (req: Request, res: Response) => {
-  if (!isAuthorized(req, res))
-    return res.status(403).json({ message: 'unauthorized' })
+  if (!isAuthorized(req, res)) return res.status(403).json({ message: 'unauthorized' })
 
   const { title, body } = req.body
   try {
@@ -184,44 +174,34 @@ router.post('/create', async (req: Request, res: Response) => {
   }
 })
 
-router.post(
-  '/update',
-  async (req: Request, res: Response, next: NextFunction) => {
-    if (!isAuthorized(req, res))
-      return res.status(403).json({ message: 'unauthorized' })
+router.post('/update', async (req: Request, res: Response, next: NextFunction) => {
+  if (!isAuthorized(req, res)) return res.status(403).json({ message: 'unauthorized' })
 
-    const body = req.body
-    try {
-      await db.post.update(
-        { body: body.body, title: body.title },
-        { where: { id: body.id } }
-      )
+  const body = req.body
+  try {
+    await db.post.update({ body: body.body, title: body.title }, { where: { id: body.id } })
 
-      res.status(200).json({ message: 'Post Updated!' })
-    } catch (error) {
-      Logger.error(error)
-      next(error)
-    }
+    res.status(200).json({ message: 'Post Updated!' })
+  } catch (error) {
+    Logger.error(error)
+    next(error)
   }
-)
+})
 
-router.post(
-  '/push_stock',
-  async (req: Request, res: Response, next: NextFunction) => {
-    const body = req.body
-    try {
-      const stockModelInstance = await db.stock.create<StockModel>({
-        pageTitle: body.pageTitle,
-        url: body.url,
-      })
-      const stock = stockModelInstance.toJSON()
-      res.status(201).json(stock)
-    } catch (error) {
-      Logger.error(error)
-      next(error)
-    }
+router.post('/push_stock', async (req: Request, res: Response, next: NextFunction) => {
+  const body = req.body
+  try {
+    const stockModelInstance = await db.stock.create<StockModel>({
+      pageTitle: body.pageTitle,
+      url: body.url,
+    })
+    const stock = stockModelInstance.toJSON()
+    res.status(201).json(stock)
+  } catch (error) {
+    Logger.error(error)
+    next(error)
   }
-)
+})
 
 router.get('/stocklist', async (req, res) => {
   const stockList = await db.stock.findAll()
@@ -229,8 +209,7 @@ router.get('/stocklist', async (req, res) => {
 })
 
 router.delete('/stock/:id', async (req, res) => {
-  if (!isAuthorized(req, res))
-    return res.status(403).json({ message: 'unauthorized' })
+  if (!isAuthorized(req, res)) return res.status(403).json({ message: 'unauthorized' })
 
   try {
     await db.stock.destroy({ where: { id: req.params.id } })
@@ -241,9 +220,7 @@ router.delete('/stock/:id', async (req, res) => {
       res.status(500).json({ message: error.message })
     } else {
       Logger.error(error)
-      res
-        .status(500)
-        .json({ message: `someting wrong: ${JSON.stringify(error)}` })
+      res.status(500).json({ message: `someting wrong: ${JSON.stringify(error)}` })
     }
   }
 })

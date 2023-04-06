@@ -23,11 +23,7 @@ const PcIcon = memo(({ selected, ...props }: Props & ComponentProps<'svg'>) => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={
-          selected
-            ? 'stroke-neutral-400'
-            : 'stroke-slate-400 dark:stroke-slate-500'
-        }
+        className={selected ? 'stroke-neutral-400' : 'stroke-slate-400 dark:stroke-slate-500'}
       />
     </svg>
   )

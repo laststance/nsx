@@ -2,11 +2,7 @@ import React, { memo } from 'react'
 
 const Github = memo(
   () => (
-    <svg
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      className="inline h-6 w-6 text-gray-500"
-    >
+    <svg fill="currentColor" viewBox="0 0 24 24" className="inline h-6 w-6 text-gray-500">
       <title>Github</title>
       <path
         fillRule="evenodd"

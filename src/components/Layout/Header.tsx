@@ -30,11 +30,7 @@ const Header = memo(() => (
           <ThemeToggle />
         </div>
         <div className="flex-initial">
-          <a
-            href="https://github.com/laststance/nsx"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href="https://github.com/laststance/nsx" target="_blank" rel="noreferrer">
             <Github />
           </a>
         </div>

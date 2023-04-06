@@ -30,8 +30,7 @@ const config = {
     '<rootDir>/lib/**/*.{spec,test}.{js,jsx,ts,tsx}',
   ],
   transform: {
-    '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)':
-      '<rootDir>/jest/fileTransform.js',
+    '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/jest/fileTransform.js',
     '^.+\\.[jt]sx?$': 'esbuild-jest',
     '^.+\\.css$': '<rootDir>/jest/cssTransform.js',
   },
@@ -40,10 +39,7 @@ const config = {
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   verbose: true,
-  watchPlugins: [
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname',
-  ],
+  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
 }
 
 module.exports = config

@@ -34,10 +34,8 @@ export const adminSlice = createSlice({
   },
 })
 
-export const selectLogin = (state: RootState): AdminState['login'] =>
-  state.admin.login
-export const selectAuthor = (state: RootState): AdminState['author'] =>
-  state.admin.author
+export const selectLogin = (state: RootState): AdminState['login'] => state.admin.login
+export const selectAuthor = (state: RootState): AdminState['author'] => state.admin.author
 
 export const { login, logout } = adminSlice.actions
 

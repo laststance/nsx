@@ -37,10 +37,7 @@ const Form: React.FC<Props> = ({
   })
 
   return (
-    <form
-      area-label="Textarea Testing Form"
-      onSubmit={handleSubmit(handleSubmitMock)}
-    >
+    <form area-label="Textarea Testing Form" onSubmit={handleSubmit(handleSubmitMock)}>
       <Textarea
         defaultValue={defaultValue}
         placeholder={placeholder}

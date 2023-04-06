@@ -44,16 +44,10 @@ const Signup: React.FC = memo(() => {
 
   return (
     <section className="flex flex-col gap-[24px]">
-      <h1
-        className="text-color-primary text-center text-3xl"
-        data-cy="signup-page"
-      >
+      <h1 className="text-color-primary text-center text-3xl" data-cy="signup-page">
         Signup
       </h1>
-      <form
-        className="mx-auto w-full max-w-sm"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="mx-auto w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-6 md:flex md:items-center">
           <div className="md:w-1/3">
             <label
@@ -99,11 +93,7 @@ const Signup: React.FC = memo(() => {
         <div className="md:flex md:items-center">
           <div className="md:w-1/3"></div>
           <div className="md:w-2/3">
-            <Button
-              type="submit"
-              variant="secondary"
-              data-cy="signup-submit-btn"
-            >
+            <Button type="submit" variant="secondary" data-cy="signup-submit-btn">
               Submit
             </Button>
           </div>

@@ -60,9 +60,7 @@ context('admin basic', () => {
         cy.logger('click submit button')
         cy.$('submit-btn').click()
 
-        cy.logger(
-          'jump post page and should show input contents and edit button'
-        )
+        cy.logger('jump post page and should show input contents and edit button')
         cy.get('main h1').contains('from cypress')
         cy.get('main article').contains('testing now')
         cy.$('edit-btn').should('exist')
@@ -81,9 +79,7 @@ context('admin basic', () => {
         cy.$('edit-btn').contains('Edit').click()
         cy.$('edit-title-input').type('Edit Title!')
         cy.$('edit-body-input').type('Edit Post Contents!')
-        cy.logger(
-          'Edit complete then click Update button, after page transition single post page.'
-        )
+        cy.logger('Edit complete then click Update button, after page transition single post page.')
         cy.$('update-btn').contains('Update').click()
         cy.url().should('eq', 'http://localhost:3000/post/71')
         cy.get('main h1').contains('Edit Title!')

@@ -8,10 +8,7 @@ import { MemoryRouter } from 'react-router-dom'
 
 import { store } from './../redux/store'
 
-const TestRenderer = (
-  ui: ReactElement,
-  memoryRouterProps?: MemoryRouterProps
-): RenderResult => {
+const TestRenderer = (ui: ReactElement, memoryRouterProps?: MemoryRouterProps): RenderResult => {
   const renderResult = render(
     <Provider store={store}>
       <MemoryRouter {...memoryRouterProps}>{ui}</MemoryRouter>

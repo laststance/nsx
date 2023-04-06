@@ -25,16 +25,10 @@ const MyAccount: React.FC = memo(() => {
 
   return (
     <>
-      <h1
-        className="text-color-primary text-center text-3xl"
-        data-cy="my-account-setting"
-      >
+      <h1 className="text-color-primary text-center text-3xl" data-cy="my-account-setting">
         My Account
       </h1>
-      <form
-        className="mx-auto w-full max-w-sm"
-        onSubmit={handleSubmit(mockOnSubmit)}
-      >
+      <form className="mx-auto w-full max-w-sm" onSubmit={handleSubmit(mockOnSubmit)}>
         <div className="mb-6 md:flex md:items-center">
           <div className="md:w-1/3">
             <label

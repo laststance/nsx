@@ -29,50 +29,43 @@ const styles = {
 }
 
 // prevent propagate keyboard event to global shortcut key eventListener
-export const stopPropagation = (
-  e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
-) => e.stopPropagation()
+export const stopPropagation = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+  e.stopPropagation()
 
-const Input: React.FC<
-  React.PropsWithChildren<Props & InputHTMLAttributes<HTMLInputElement>>
-> = memo(
-  ({
-    type,
-    placeholder,
-    reactHookFormPrams: { register, options, name, fieldError },
-    ...rest
-  }) => {
-    return (
-      <div>
-        <div className="relative mt-1 rounded-md shadow-sm">
-          <input
-            type={type ? type : 'text'}
-            {...register(name, options)}
-            className={
-              'focus:outline-none ' +
-              clsx(fieldError && styles.error, !fieldError && styles.basic)
-            }
-            placeholder={placeholder}
-            onKeyUp={stopPropagation}
-            {...rest}
-          />
+const Input: React.FC<React.PropsWithChildren<Props & InputHTMLAttributes<HTMLInputElement>>> =
+  memo(
+    ({
+      type,
+      placeholder,
+      reactHookFormPrams: { register, options, name, fieldError },
+      ...rest
+    }) => {
+      return (
+        <div>
+          <div className="relative mt-1 rounded-md shadow-sm">
+            <input
+              type={type ? type : 'text'}
+              {...register(name, options)}
+              className={
+                'focus:outline-none ' +
+                clsx(fieldError && styles.error, !fieldError && styles.basic)
+              }
+              placeholder={placeholder}
+              onKeyUp={stopPropagation}
+              {...rest}
+            />
 
-          {fieldError && (
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-              <ExclamationCircleIcon
-                className="h-5 w-5 text-red-500"
-                aria-hidden="true"
-              />
-            </div>
-          )}
+            {fieldError && (
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+              </div>
+            )}
+          </div>
+          {fieldError && <p className="mt-2 text-sm text-red-600">{fieldError.message}</p>}
         </div>
-        {fieldError && (
-          <p className="mt-2 text-sm text-red-600">{fieldError.message}</p>
-        )}
-      </div>
-    )
-  }
-)
+      )
+    }
+  )
 Input.displayName = 'Input'
 
 export default Input

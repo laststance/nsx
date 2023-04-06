@@ -14,16 +14,11 @@ describe('shallowEqualScalar', () => {
   })
 
   it('should return true if arguments fields are equal', () => {
-    expect(
-      shallowEqualScalar(
-        { a: 1, b: 2, c: undefined },
-        { a: 1, b: 2, c: undefined }
-      )
-    ).toBe(true)
-
-    expect(shallowEqualScalar({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 })).toBe(
+    expect(shallowEqualScalar({ a: 1, b: 2, c: undefined }, { a: 1, b: 2, c: undefined })).toBe(
       true
     )
+
+    expect(shallowEqualScalar({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 })).toBe(true)
   })
 
   it('should return false if first argument has too many keys', () => {
@@ -41,17 +36,12 @@ describe('shallowEqualScalar', () => {
   it('should return false if arguments have field that are objects', () => {
     const o = {}
     // @ts-expect-error TS2322: Type '{}' is not assignable to type 'Primitive'. Type '{}' is not assignable to type 'symbol'.
-    expect(shallowEqualScalar({ a: 1, b: 2, c: o }, { a: 1, b: 2, c: o })).toBe(
-      false
-    )
+    expect(shallowEqualScalar({ a: 1, b: 2, c: o }, { a: 1, b: 2, c: o })).toBe(false)
   })
 
   it('should return false if arguments have different keys', () => {
-    expect(
-      shallowEqualScalar(
-        { a: 1, b: 2, c: undefined },
-        { a: 1, bb: 2, c: undefined }
-      )
-    ).toBe(false)
+    expect(shallowEqualScalar({ a: 1, b: 2, c: undefined }, { a: 1, bb: 2, c: undefined })).toBe(
+      false
+    )
   })
 })

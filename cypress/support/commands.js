@@ -1,15 +1,7 @@
 // The COMMAND_DELAY purpose for prevent fail test by unrealistic super fast browser control before appaer target element
 const COMMAND_DELAY = 0
 
-for (const command of [
-  'visit',
-  'click',
-  'trigger',
-  'type',
-  'clear',
-  'reload',
-  'contains',
-]) {
+for (const command of ['visit', 'click', 'trigger', 'type', 'clear', 'reload', 'contains']) {
   Cypress.Commands.overwrite(command, (originalFn, ...args) => {
     const origVal = originalFn(...args)
 
@@ -23,9 +15,7 @@ for (const command of [
 
 Cypress.Commands.add('$', (selector) => cy.get('[data-cy=' + selector + ']'))
 
-Cypress.Commands.add('toggleSidebar', () =>
-  cy.get('body').trigger('keyup', { key: 'x' })
-)
+Cypress.Commands.add('toggleSidebar', () => cy.get('body').trigger('keyup', { key: 'x' }))
 
 Cypress.Commands.add('login', () => {
   cy.visit('http://localhost:3000')
@@ -41,9 +31,7 @@ Cypress.Commands.add('logger', (message) => {
   Cypress.log({ message: message, name: 'Logger' })
 })
 
-Cypress.Commands.add('logout', () =>
-  cy.request('http://localhost:3000/api/logout')
-)
+Cypress.Commands.add('logout', () => cy.request('http://localhost:3000/api/logout'))
 
 Cypress.Commands.add('resetDB', () => cy.exec('yarn db:reset'))
 

@@ -27,9 +27,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
       {/* Suspence for lazyload expesive <code /> component */}
 
       <Helment post={post} />
-      <h1 className="text-color-primary pb-10 pt-4 text-2xl font-semibold">
-        {post.title}
-      </h1>
+      <h1 className="text-color-primary pb-10 pt-4 text-2xl font-semibold">{post.title}</h1>
       <article>
         <ReactMarkdown // @ts-ignore too complex
           components={{ a, code }}
