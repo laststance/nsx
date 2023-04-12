@@ -1,5 +1,4 @@
-const path = require('path')
-
+const path = require('path');
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   typescript: {
@@ -24,5 +23,8 @@ module.exports = {
     });
     return config;
   },
-  framework: '@storybook/react'
+  framework: '@storybook/react',
+  docs: {
+    autodocs: true
+  }
 };
