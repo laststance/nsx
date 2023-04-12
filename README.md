@@ -8,7 +8,7 @@
 [![Cypress-E2E Visitor Side](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-visitor-side.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-visitor-side.yml)
 [![Cypress-E2E New Install User](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-new-install-user.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-new-install-user.yml)
 
-> # Project Status: currently under development and scheduled for release in release 2024.
+> # Project Status: currently under development and scheduled for release in release 2026.
 >
 > The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
 > I'm developping essential feature while my spare time, currenty I planning release v1 2024.  
