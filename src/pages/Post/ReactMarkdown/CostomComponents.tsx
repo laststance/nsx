@@ -1,4 +1,5 @@
 import React from 'react'
+import type { CodeProps } from 'react-markdown/lib/ast-to-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
 export const a: React.FC = (props) => (
@@ -6,11 +7,7 @@ export const a: React.FC = (props) => (
   <a {...props} target="_blank"></a>
 )
 
-export const code: React.FC<React.PropsWithChildren<{ inline: boolean; className: string }>> = ({
-  inline,
-  className,
-  children,
-}) => {
+export const code: React.FC<CodeProps> = ({ inline, className, children }) => {
   const match = /language-(\w+)/.exec(className || '')
   return !inline && match ? (
     <SyntaxHighlighter
