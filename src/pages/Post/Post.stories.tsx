@@ -12,7 +12,7 @@ export default {
 const Template: ComponentStory<typeof Post> = () => (
   <MemoryRouter initialEntries={['/post/52']}>
     <Routes>
-      <Route path="/post/:postId" element={<Post />} />
+      <Route path="/post/:postId_querystring" element={<Post />} />
     </Routes>
   </MemoryRouter>
 )
