@@ -8,7 +8,7 @@ const config = {
     '!src/redux/**',
     '!src/offscreen/Redirect.tsx',
     '!src/main.tsx',
-    '!src/mockServiceWorker.js',
+    '!public/mockServiceWorker.js',
   ],
   coverageReporters: ['json-summary', 'text', 'lcov'],
   moduleDirectories: ['node_modules'],

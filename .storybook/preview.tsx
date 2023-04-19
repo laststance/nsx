@@ -12,6 +12,7 @@ initialize()
 
 const preview: Preview = {
   parameters: {
+    msw: { handlers: [...handlers] },
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
