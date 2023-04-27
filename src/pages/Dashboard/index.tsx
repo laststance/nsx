@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import Layout from '../../components/Layout'
 import Loading from '../../components/Loading/Loading'
-import ButtonGroup from '../../components/Pagination/ButtonGroup'
+import PaginationButtonGroup from '../../components/Pagination/ButtonGroup'
 import usePagination from '../../components/Pagination/usePagination'
 import RTKQueryErrorMessages from '../../components/RTKQueryErrorMessages/RTKQueryErrorMessages'
 import { selectAuthor } from '../../redux/adminSlice'
@@ -43,7 +43,7 @@ const Dashboard: React.FC = memo(() => {
             </Button>
           </Link>
         </div>
-        <ButtonGroup page={page} totalPage={totalPage} />
+        <PaginationButtonGroup page={page} totalPage={totalPage} />
       </div>
     </>
   )
