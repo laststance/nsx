@@ -8,6 +8,7 @@ import './index.css'
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import Loading from './components/Loading/Loading'
+import GrobalHooks from './offscreen/GrobalHooks'
 import Sidebar from './offscreen/Sidebar'
 import SnackBarDsipatcher from './offscreen/SnackBarDsipatcher'
 import { store } from './redux/store'
@@ -25,6 +26,7 @@ const App = () => {
         <ReduxStoreProvider store={store}>
           <ReduxPersistGate persistor={persistor}>
             <BrowserRouter>
+              <GrobalHooks />
               <Sidebar />
               <SnackBarDsipatcher />
               <Router />
