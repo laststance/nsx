@@ -3,20 +3,18 @@ before(() => {
 })
 
 context('admin basic', () => {
-  beforeEach(() => {
-    Cypress.Cookies.preserveOnce('token')
-  })
   context('login & logout', () => {
     it('show login button', () => {
-      cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
+      cy.wait(500)
       cy.toggleSidebar()
+      cy.wait(500)
       cy.$('login-link').should('exist')
     })
 
     it('failed login with incorrect user/password', () => {
-      cy.clearLocalStorage()
       cy.visit('http://localhost:3000/')
+      cy.wait(500)
       cy.toggleSidebar()
       cy.$('login-link').click()
       cy.$('name-input').type('wefjweiofjwie')
@@ -39,13 +37,11 @@ context('admin basic', () => {
 
   context('admin tasks while login', () => {
     it('show dashboard after login', () => {
-      cy.clearLocalStorage()
       cy.login()
     })
 
     context('CRUD post operation', () => {
       it('publish new post', () => {
-        cy.clearLocalStorage()
         cy.login()
         cy.get('header > div > a').contains('Reading List').click()
         cy.url().should('eq', 'http://localhost:3000/')
@@ -67,7 +63,6 @@ context('admin basic', () => {
       })
 
       it('edit existing post', () => {
-        cy.clearLocalStorage()
         cy.login()
         cy.visit('http://localhost:3000/')
         cy.logger('Open post that creaed prev test.')
@@ -87,7 +82,6 @@ context('admin basic', () => {
       })
 
       it('delete post', () => {
-        cy.clearLocalStorage()
         cy.login()
         cy.visit('http://localhost:3000/')
         cy.$('dashboard-page-link').contains('Dashboard').click()
@@ -101,7 +95,6 @@ context('admin basic', () => {
 
     context('auto saving draft ', () => {
       it('still remaing draft post ', () => {
-        cy.clearLocalStorage()
         cy.login()
         cy.visit('http://localhost:3000/')
 
