@@ -1,18 +1,3 @@
-// The COMMAND_DELAY purpose for prevent fail test by unrealistic super fast browser control before appaer target element
-const COMMAND_DELAY = 0
-
-for (const command of ['visit', 'click', 'trigger', 'type', 'clear', 'reload', 'contains']) {
-  Cypress.Commands.overwrite(command, (originalFn, ...args) => {
-    const origVal = originalFn(...args)
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(origVal)
-      }, COMMAND_DELAY)
-    })
-  })
-}
-
 Cypress.Commands.add('$', (selector) => cy.get('[data-cy=' + selector + ']'))
 
 Cypress.Commands.add('toggleSidebar', () => cy.get('body').trigger('keyup', { key: 'x' }))

@@ -36,28 +36,29 @@ context('visitor basic', () => {
   })
 
   context('pagenation', () => {
-    it('showing current & total page number', () => {
+    // showing current & total page number
+    it('pagenation', () => {
       cy.visit('http://localhost:3000/')
       cy.$('single-post-page-link-1').should('contain.text', 'close your eyes')
       cy.$('page-count').should('contain.text', '1 / 4')
-    })
-    it('working next button', () => {
+
+      // Next Page Button
       cy.$('next-page-btn').click()
       cy.$('single-post-page-link-1')
         .should('exist')
         .should('contain.text', 'Researching production docker-compose setting')
       cy.$('page-count').should('contain.text', '2 / 4')
-    })
-    it('working prev button', () => {
+
+      // working prev button
       cy.$('prev-page-btn').click()
       cy.$('single-post-page-link-1').should('contain.text', 'close your eyes')
       cy.$('page-count').should('contain.text', '1 / 4')
-    })
-    it('disabled prev button at 1st page', () => {
+
+      // disabled prev button at 1st page'
       cy.$('page-count').should('contain.text', '1 / 4')
       cy.$('prev-page-btn').should('be.disabled')
-    })
-    it('disabled next page at last page', () => {
+
+      // disabled next page at last page
       cy.$('next-page-btn').click()
       cy.$('page-count').should('contain.text', '2 / 4')
 
@@ -69,25 +70,24 @@ context('visitor basic', () => {
 
       cy.$('next-page-btn').should('be.disabled')
     })
-  })
+  }),
+    context('dark theme', () => {
+      it('working theme switching', () => {
+        cy.visit('http://localhost:3000/')
 
-  context('dark theme', () => {
-    it('working theme switching', () => {
-      cy.visit('http://localhost:3000/')
+        // Check Light Theme
+        cy.$('theme-menu-button').click()
+        cy.$('theme-select-option-light').click()
+        cy.$('root').should('not.have.class', 'dark')
+        cy.$('body').should('have.css', 'background-color', 'rgb(255, 255, 255)')
 
-      // Check Light Theme
-      cy.$('theme-menu-button').click()
-      cy.$('theme-select-option-light').click()
-      cy.$('root').should('not.have.class', 'dark')
-      cy.$('body').should('have.css', 'background-color', 'rgb(255, 255, 255)')
-
-      // Check Dark Theme
-      cy.$('theme-menu-button').click()
-      cy.$('theme-select-option-dark').click()
-      cy.$('root').should('have.class', 'dark')
-      cy.$('body').should('have.css', 'background-color', 'rgb(23, 23, 23)')
+        // Check Dark Theme
+        cy.$('theme-menu-button').click()
+        cy.$('theme-select-option-dark').click()
+        cy.$('root').should('have.class', 'dark')
+        cy.$('body').should('have.css', 'background-color', 'rgb(23, 23, 23)')
+      })
     })
-  })
 
   context('security', () => {
     it('could never been to any private routes', () => {
