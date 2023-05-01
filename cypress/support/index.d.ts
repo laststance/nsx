@@ -5,8 +5,9 @@ declare namespace Cypress {
   interface Chainable<Subject> {
     $(selector: string): Chainable<JQuery<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]>>
     login(): Chainable<Response<any>>
-    toggleSidebar(): Chainable<JQuery<HTMLElementTagNameMap[string]>>
-    logger(): Log
+    logout(): Chainable<Response<any>>
+    toggleSidebar(): Chainable<JQuery<HTMLBodyElement>>
+    logger(message: string): void
     cleanDB(): Chainable<Exec>
     resetDB(): Chainable<Exec>
   }
