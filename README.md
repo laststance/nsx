@@ -71,9 +71,6 @@ pass: `popcoon`
 
 These are storing `.env` and evaluate at build time.
 
-### JWT_SECRET
-
-set unique and hidden string for jwt.
 
 | Variable Name         | Role        | other |
 |-----------------------|-------------|-------|
