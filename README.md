@@ -85,3 +85,13 @@ pm2 stop 0                       // Stop server
 pm2 ps -a                        // Show all processes
 
 ```
+
+## Setup Procution Server
+1. Setup Ubuntu server on [Digital Ocean](https://www.digitalocean.com/) or [Fly.io](https://fly.io/)
+1. Update ubuntu with `apt upgrade`
+1. `cd ~ && git clone https://github.com/laststance/nsx.git`
+1. `cd nsx` and install [volta](https://volta.sh/)
+1. `source ~/.bashrc` && `volta install node`
+1. `yarn` 
+1. instalo docker on Ubuntu https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository
+
