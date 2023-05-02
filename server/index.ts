@@ -55,12 +55,9 @@ if (isDev) {
     res.sendFile(path.join(__dirname, './../../build/index.html'))
   })
 
-  const privateKey = fs.readFileSync(
-    '/etc/letsencrypt/live/digitalstrength.dev/privkey.pem',
-    'utf-8'
-  )
-  const certificate = fs.readFileSync('/etc/letsencrypt/live/digitalstrength.dev/cert.pem', 'utf-8')
-  const ca = fs.readFileSync('/etc/letsencrypt/live/digitalstrength.dev/chain.pem', 'utf-8')
+  const privateKey = fs.readFileSync('/etc/letsencrypt/live/nsx.malloc.tokyo/privkey.pem', 'utf-8')
+  const certificate = fs.readFileSync('/etc/letsencrypt/live/nsx.malloc.tokyo/cert.pem', 'utf-8')
+  const ca = fs.readFileSync('/etc/letsencrypt/live/nsx.malloc.tokyo/chain.pem', 'utf-8')
 
   const ProdServer = https.createServer({ ca: ca, cert: certificate, key: privateKey }, app)
 
