@@ -75,7 +75,17 @@ These are storing `.env` and evaluate at build time.
 
 set unique and hidden string for jwt.
 
+| Variable Name         | Role        | other |
+|-----------------------|-------------|-------|
+| VITE_APP_TITLE        | title       |       |
+| VITE_APP_DESCRIPTION  | desc        |       |
+| VITE_API_ENDPOINT     | end         |       |
+| VITE_SENTRY_DNS       | sentry      |       |
+| VITE_GA_TRACKING_CODE | ga          |       |
+| JWT_SECRET            | server auth |       |
+
 ## Production Server
+- commands
 
 ```
 
