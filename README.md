@@ -71,9 +71,8 @@ pass: `popcoon`
 
 These are storing `.env` and evaluate at build time.
 
-
 | Variable Name         | Role        | other |
-|-----------------------|-------------|-------|
+| --------------------- | ----------- | ----- |
 | VITE_APP_TITLE        | title       |       |
 | VITE_APP_DESCRIPTION  | desc        |       |
 | VITE_API_ENDPOINT     | end         |       |
@@ -82,6 +81,7 @@ These are storing `.env` and evaluate at build time.
 | JWT_SECRET            | server auth |       |
 
 ## Production Server
+
 - commands
 
 ```
@@ -94,12 +94,12 @@ pm2 ps -a                        // Show all processes
 ```
 
 ## Setup Procution Server
+
 1. Setup Ubuntu server on [Digital Ocean](https://www.digitalocean.com/) or [Fly.io](https://fly.io/)
 1. Update ubuntu with `apt upgrade`
 1. see https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04
 1. `cd ~ && git clone https://github.com/laststance/nsx.git`
 1. `cd nsx` and install [volta](https://volta.sh/)
 1. `source ~/.bashrc` && `volta install node`
-1. `yarn` 
+1. `yarn`
 1. instalo docker on Ubuntu https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository
-
