@@ -72,7 +72,7 @@ pass: `popcoon`
 These are storing `.env` and evaluate at build time.
 
 | Variable Name         | Role        | other |
-| --------------------- | ----------- | ----- |
+|-----------------------|-------------|-------|
 | VITE_APP_TITLE        | title       |       |
 | VITE_APP_DESCRIPTION  | desc        |       |
 | VITE_API_ENDPOINT     | end         |       |
