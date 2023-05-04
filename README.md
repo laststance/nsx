@@ -102,4 +102,11 @@ pm2 ps -a                        // Show all processes
 1. `cd nsx` and install [volta](https://volta.sh/)
 1. `source ~/.bashrc` && `volta install node`
 1. `yarn`
-1. instalo docker on Ubuntu https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository
+1. install docker on Ubuntu https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository
+1. docker-compose up -d
+1. yarn db:migrate
+1. touch .env.prod
+1. npm i -g pm2
+1. `touch .env.prod && echo "JWT_SECRET=$(openssl rand -base64 60 | tr -d '\n' | cut -c1-60)" >> .env.prod`
+1. `pm2 start ecosystem.config.js`
+2. Access from browser
