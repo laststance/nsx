@@ -1,7 +1,7 @@
 var fs = require('fs')
 var os = require('os')
 
-var faker = require('faker')
+const { faker } = require('@faker-js/faker')
 
 function writeJson(fileName, object) {
   if (Array.isArray(object)) {
@@ -24,7 +24,7 @@ var userList = []
 
 for (i = 0; i <= 20; i++) {
   userList.push({
-    card: faker.helpers.createCard(),
+    card: faker.finance.creditCardIssuer(),
     email: faker.internet.email(),
     name: faker.name.findName(),
   })
