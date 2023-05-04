@@ -26,7 +26,7 @@ for (i = 0; i <= 20; i++) {
   userList.push({
     card: faker.finance.creditCardIssuer(),
     email: faker.internet.email(),
-    name: faker.name.findName(),
+    name: faker.person.fullName(),
   })
 }
 
