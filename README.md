@@ -107,6 +107,6 @@ pm2 ps -a                        // Show all processes
 1. yarn db:migrate
 1. touch .env.prod
 1. npm i -g pm2
-1. `touch .env.prod && echo "JWT_SECRET=$(openssl rand -base64 60 | tr -d '\n' | cut -c1-60)" >> .env.prod`
+1. `touch .env && echo "JWT_SECRET=$(openssl rand -base64 60 | tr -d '\n' | cut -c1-60)" >> .env`
 1. `pm2 start ecosystem.config.js`
 2. Access from browser
