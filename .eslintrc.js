@@ -2,7 +2,7 @@ module.exports = {
   env: {
     'cypress/globals': true,
   },
-  extends: ['ts-prefixer', 'plugin:jsx-a11y/recommended'],
+  extends: ['ts-prefixer', 'plugin:jsx-a11y/recommended', 'plugin:storybook/recommended'],
   globals: {
     JSX: 'readonly',
   },

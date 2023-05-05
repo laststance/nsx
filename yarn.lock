@@ -1969,7 +1969,7 @@
     remark-slug "^6.0.0"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-essentials@^7.0.7":
+"@storybook/addon-essentials@^7.0.9":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@storybook/addon-essentials/-/addon-essentials-7.0.9.tgz#0388351071e9cc814296b729c4121e1c923263a4"
   integrity sha512-XNZpFA1K2PLV4NdS99tpD6+L4yeLYMFeBuxI7u7dJo1kT0z5fDF+nZltEcnghDlZiWPsI2XvGaHsdS7AjLswcA==
@@ -1998,7 +1998,7 @@
     "@storybook/global" "^5.0.0"
     "@storybook/preview-api" "7.0.9"
 
-"@storybook/addon-interactions@^7.0.8":
+"@storybook/addon-interactions@^7.0.9":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@storybook/addon-interactions/-/addon-interactions-7.0.9.tgz#77ff0b92323ec7e552060e2210c0d16ae7146258"
   integrity sha512-LM4qMt+PwRnip8uXxoNvBDI4X8ykFlWHxN5RW836ysMhwGXx4l00LAdGy6l6HswIwCdHlo7+u4hgdNiEh55oxg==
@@ -2017,7 +2017,7 @@
     polished "^4.2.2"
     ts-dedent "^2.2.0"
 
-"@storybook/addon-links@^7.0.7":
+"@storybook/addon-links@^7.0.9":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-7.0.9.tgz#7769d156bc922c6854e62319fde7322ed23bf429"
   integrity sha512-boWXtXgGJSDnnTARA2CHyb8dyGGLl8M8NBUvTC9DVJp5haIjfROF3zc9Pxar/SiTaZV3crHu3vnhJ7FyihS0cA==
@@ -2086,7 +2086,7 @@
     memoizerific "^1.11.3"
     prop-types "^15.7.2"
 
-"@storybook/blocks@7.0.9", "@storybook/blocks@^7.0.8":
+"@storybook/blocks@7.0.9", "@storybook/blocks@^7.0.9":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-7.0.9.tgz#00167a8a68a62bcfc0d8780e5c649719e62a3b95"
   integrity sha512-Mk0sMYvpKy0S+nmxl3QUzf7uqYTrYv9y06D+Ii4Se1Czmwo2+a7ABjmLIzAKQbdBx7ZqUCxW48Ip+X9vQHL/Iw==
@@ -2382,6 +2382,13 @@
     recast "^0.23.1"
     ts-dedent "^2.0.0"
 
+"@storybook/csf@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@storybook/csf/-/csf-0.0.1.tgz#95901507dc02f0bc6f9ac8ee1983e2fc5bb98ce6"
+  integrity sha512-USTLkZze5gkel8MYCujSRBVIrUQ3YPBrLOx7GNk/0wttvVtlzWXAq9eLbQ4p/NicGxP+3T7KPEMVV//g+yubpw==
+  dependencies:
+    lodash "^4.17.15"
+
 "@storybook/csf@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@storybook/csf/-/csf-0.1.0.tgz#62315bf9704f3aa4e0d4d909b9033833774ddfbe"
@@ -2500,7 +2507,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-7.0.9.tgz#5f6d05f3556fcddec89d3d44d6575462d491f0a3"
   integrity sha512-3S+zJtC0L7yBwLItF3GHn3dZ3T3/9chuzpKU36K+h+oNde/JEBMi8xNh00qXjr/wyl4kJgMhktczCLFgS23dOQ==
 
-"@storybook/react-vite@^7.0.8":
+"@storybook/react-vite@^7.0.9":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@storybook/react-vite/-/react-vite-7.0.9.tgz#e2d227c3b7080e930fc79ab25b7b4b84d5efb29d"
   integrity sha512-l8Dp/uNa7Vw+JNM5gLD8YnpqH8MGTNuucz7eGylLeu35HMdhn20nWGvRI8yU3z8eBGTxe5v1bHREmAux2sLntg==
@@ -2514,7 +2521,7 @@
     magic-string "^0.27.0"
     react-docgen "6.0.0-alpha.3"
 
-"@storybook/react@7.0.9", "@storybook/react@^7.0.7":
+"@storybook/react@7.0.9", "@storybook/react@^7.0.9":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@storybook/react/-/react-7.0.9.tgz#aa6fc37db38c2f835c643c284f18ffea488ed91a"
   integrity sha512-wYrtyk6qVqgqODgBh/vWO31SrjzFER0NfnrZy6FvwR4AAHhM0u2qMs8ZXCJFXFIgwjkgGwpD9/EwjRuYHUqDTQ==
@@ -3418,7 +3425,7 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/utils@5.59.2":
+"@typescript-eslint/utils@5.59.2", "@typescript-eslint/utils@^5.45.0":
   version "5.59.2"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.59.2.tgz#0c45178124d10cc986115885688db6abc37939f4"
   integrity sha512-kSuF6/77TZzyGPhGO4uVp+f0SBoYxCDf+lW3GKhtKru/L8k/Hd7NFQxyWUeY7Z/KGB2C6Fe3yf2vVi4V9TsCSQ==
@@ -5966,6 +5973,16 @@ eslint-plugin-sort-keys-fix@^1.1.2:
     esutils "^2.0.2"
     natural-compare "^1.4.0"
     requireindex "~1.2.0"
+
+eslint-plugin-storybook@^0.6.12:
+  version "0.6.12"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-storybook/-/eslint-plugin-storybook-0.6.12.tgz#7bdb3392bb03bebde40ed19accfd61246e9d6301"
+  integrity sha512-XbIvrq6hNVG6rpdBr+eBw63QhOMLpZneQVSooEDow8aQCWGCk/5vqtap1yxpVydNfSxi3S/3mBBRLQqKUqQRww==
+  dependencies:
+    "@storybook/csf" "^0.0.1"
+    "@typescript-eslint/utils" "^5.45.0"
+    requireindex "^1.1.0"
+    ts-dedent "^2.2.0"
 
 eslint-scope@^5.1.1:
   version "5.1.1"
@@ -11374,7 +11391,7 @@ require-main-filename@^2.0.0:
   resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
 
-requireindex@~1.2.0:
+requireindex@^1.1.0, requireindex@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/requireindex/-/requireindex-1.2.0.tgz#3463cdb22ee151902635aa6c9535d4de9c2ef1ef"
   integrity sha512-L9jEkOi3ASd9PYit2cwRfyppc9NoABujTP8/5gFcbERmo5jUoAKovIC3fsF17pkTnGsrByysqX+Kxd2OTNI1ww==
@@ -12084,7 +12101,7 @@ store2@^2.14.2:
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.14.2.tgz#56138d200f9fe5f582ad63bc2704dbc0e4a45068"
   integrity sha512-siT1RiqlfQnGqgT/YzXVUNsom9S0H1OX+dpdGN1xkyYATo4I6sep5NmsRD/40s3IIOvlCq6akxkqG82urIZW1w==
 
-storybook@^7.0.7:
+storybook@^7.0.9:
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/storybook/-/storybook-7.0.9.tgz#7f778d64d91c282f6747064854ce7fd89f457712"
   integrity sha512-kUgeS22kjqmAN/BZwCLjgP/IhtVb9/cU0UAjGp/1q6FfU7hy+N2NS/lWJESgnZFNArbB0qNuLLi2QbZd6OvXzA==
