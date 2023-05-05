@@ -102,6 +102,6 @@ const Sidebar: React.FC = memo(() => {
     </>
   )
 })
-Sidebar.displayName = 'Offscreen.Sidebar'
+Sidebar.displayName = 'Headless.Sidebar'
 
 export default Sidebar

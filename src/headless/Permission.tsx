@@ -12,6 +12,6 @@ const Permission: React.FC = memo(() => {
 
   return login ? <AuthorizedApp /> : <NotFound />
 })
-Permission.displayName = 'Offscreen.Permission'
+Permission.displayName = 'Headless.Permission'
 
 export default Permission

@@ -16,6 +16,6 @@ const GrobalHooks: React.FC = memo(() => {
 
   return null
 })
-GrobalHooks.displayName = 'GrobalHooks'
+GrobalHooks.displayName = 'Headless.GrobalHooks'
 
 export default GrobalHooks

@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../components/Button/Button'
-import { handleLogout } from '../../offscreen/Sidebar/LogoutLink'
+import { handleLogout } from '../../headless/Sidebar/LogoutLink'
 import type { AdminState } from '../../redux/adminSlice'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'

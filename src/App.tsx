@@ -8,9 +8,9 @@ import './index.css'
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import Loading from './components/Loading/Loading'
-import GrobalHooks from './offscreen/GrobalHooks'
-import Sidebar from './offscreen/Sidebar'
-import SnackBarDsipatcher from './offscreen/SnackBarDsipatcher'
+import GrobalHooks from './headless/GrobalHooks'
+import Sidebar from './headless/Sidebar'
+import SnackBarDsipatcher from './headless/SnackBarDsipatcher'
 import { store } from './redux/store'
 import Router from './Router'
 

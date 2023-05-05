@@ -13,6 +13,6 @@ const Redirect: React.FC<React.PropsWithChildren<{ to: string }>> = memo(
   },
   () => true
 )
-Redirect.displayName = 'Offscreen.Redirect'
+Redirect.displayName = 'Headless.Redirect'
 
 export default Redirect

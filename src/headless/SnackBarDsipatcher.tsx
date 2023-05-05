@@ -14,6 +14,6 @@ const SnackBarDsipatcher = React.memo(
   },
   () => true
 )
-SnackBarDsipatcher.displayName = 'Offscreen.SnackBarDispatcher'
+SnackBarDsipatcher.displayName = 'Headless.SnackBarDispatcher'
 
 export default SnackBarDsipatcher

@@ -6,7 +6,7 @@ const config = {
     '!src/**/*.d.ts',
     '!src/**/*.stories.*',
     '!src/redux/**',
-    '!src/offscreen/Redirect.tsx',
+    '!src/headless/Redirect.tsx',
     '!src/main.tsx',
     '!public/mockServiceWorker.js',
   ],
