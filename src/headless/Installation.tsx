@@ -4,6 +4,7 @@ import Loading from '../components/Loading/Loading'
 import Signup from '../pages/Signup'
 import { useGetUserCountQuery } from '../redux/API'
 
+// @TODO refactor into a Sidebar
 const Installation: React.FC = memo(() => {
   const { data, isLoading, error } = useGetUserCountQuery()
 
