@@ -25,7 +25,7 @@ const Layout = memo<
     }
 
     return (
-      <div className="bg-primary flex h-screen w-screen flex-col justify-between" {...props}>
+      <div className="bg-primary flex h-screen w-full flex-col justify-between" {...props}>
         <Header />
         <main className={baseStyle}>{children}</main>
         <Footer />
