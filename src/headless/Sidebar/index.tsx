@@ -8,6 +8,7 @@ import { useAppSelector } from '../../redux/hooks'
 import { selectSidebarOpen, closeSidebar, toggleSidebar } from '../../redux/sidebarSlice'
 import { dispatch } from '../../redux/store'
 
+import DashboardLink from './DashboardLink'
 import LoginLink from './LoginLink'
 import LogoutLink from './LogoutLink'
 import SettingLink from './SettingLink'
@@ -17,7 +18,7 @@ Dialog.Panel.displayName = 'Dialog.Panel'
 Transition.Root.displayName = 'Transition.Root'
 Transition.Child.displayName = 'Transition.Child'
 
-export const keypressListener = (e: KeyboardEvent) => {
+const keypressListener = (e: KeyboardEvent) => {
   // @TODO add (if not while typing in a text input
   if (e.key === 'x') dispatch(toggleSidebar())
 }
@@ -92,6 +93,7 @@ const Sidebar: React.FC = memo(() => {
                   <nav className="space-y-1 px-2">
                     {login ? <LogoutLink /> : <LoginLink />}
                     {login && <SettingLink />}
+                    {login && <DashboardLink />}
                   </nav>
                 </div>
               </Dialog.Panel>
