@@ -1,8 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import React, { Fragment, memo } from 'react'
+import React, { Fragment } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
+import { html } from '../../lib/html'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 import { selectSidebarOpen, closeSidebar, toggleSidebar } from '../../redux/sidebarSlice'
@@ -28,7 +29,7 @@ export function onCloseHander() {
   dispatch(closeSidebar())
 }
 
-const Sidebar: React.FC = memo(() => {
+const Sidebar: React.FC = html(() => {
   const open = useAppSelector(selectSidebarOpen)
   const login = useAppSelector(selectLogin)
 
@@ -93,9 +94,13 @@ const Sidebar: React.FC = memo(() => {
                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                   <nav className="space-y-1 px-2">
                     {login ? <LogoutLink /> : <LoginLink />}
-                    {login && <SettingLink />}
-                    {login && <DashboardLink />}
-                    {login && <CreateLink />}
+                    {login && (
+                      <>
+                        <SettingLink />
+                        <DashboardLink />
+                        <CreateLink />
+                      </>
+                    )}
                   </nav>
                 </div>
               </Dialog.Panel>
