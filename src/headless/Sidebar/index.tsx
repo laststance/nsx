@@ -8,6 +8,7 @@ import { useAppSelector } from '../../redux/hooks'
 import { selectSidebarOpen, closeSidebar, toggleSidebar } from '../../redux/sidebarSlice'
 import { dispatch } from '../../redux/store'
 
+import CreateLink from './CreateLink'
 import DashboardLink from './DashboardLink'
 import LoginLink from './LoginLink'
 import LogoutLink from './LogoutLink'
@@ -94,6 +95,7 @@ const Sidebar: React.FC = memo(() => {
                     {login ? <LogoutLink /> : <LoginLink />}
                     {login && <SettingLink />}
                     {login && <DashboardLink />}
+                    {login && <CreateLink />}
                   </nav>
                 </div>
               </Dialog.Panel>
