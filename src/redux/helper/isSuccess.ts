@@ -18,21 +18,19 @@ const isSuccess = (res: Response): boolean => {
   if ('error' in res === false) return true
   if ('error' in res) {
     if (res.error === undefined) return true
+    if (res.error === null) return true
+    if (JSON.stringify(res.error) === '{}') return true
     const error = res.error
-    // "status" fiels only exists in a FetchBaseQueryError
-    if ('status' in error) {
+    if (error) {
       // @TODO Sentry
-      // FetchBaseQueryError
-      store.dispatch(enqueSnackbar({ color: 'red', message: JSON.stringify(error) }))
-      return false
-    } else {
-      // @TODO Sentry
-      // SerializedError
+      // @TODO Error Modal with Json Indent
       store.dispatch(enqueSnackbar({ color: 'red', message: JSON.stringify(error) }))
       return false
     }
+    return true
+  } else {
+    return false
   }
-  return true
 }
 
 export default isSuccess

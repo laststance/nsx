@@ -2,11 +2,11 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { html } from '../../lib/memo'
+import Memo from '../../lib/memo'
 
 import { onCloseHander } from './'
 
-const CreateLink: React.FC = html(() => {
+const CreateLink: React.FC = Memo.html(() => {
   return (
     <Link
       onClick={onCloseHander}

@@ -3,7 +3,7 @@ import React from 'react'
 import type { NavigateFunction } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 
-import { html } from '../../lib/memo'
+import Memo from '../../lib/memo'
 import { logout } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
@@ -24,7 +24,7 @@ export async function handleLogout(
   }
 }
 
-const LogoutLink: React.FC = html(() => {
+const LogoutLink: React.FC = Memo.html(() => {
   const navigate = useNavigate()
   return (
     <button

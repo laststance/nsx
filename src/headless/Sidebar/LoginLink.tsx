@@ -1,12 +1,12 @@
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
-import React, { memo } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { html } from '../../lib/memo'
+import Memo from '../../lib/memo'
 
 import { onCloseHander } from './'
 
-const LoginLink: React.FC = html(() => {
+const LoginLink: React.FC = Memo.html(() => {
   return (
     <Link
       onClick={onCloseHander}

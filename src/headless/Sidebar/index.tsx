@@ -3,7 +3,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import React, { Fragment } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
-import { html } from '../../lib/memo'
+import Memo from '../../lib/memo'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 import { selectSidebarOpen, closeSidebar, toggleSidebar } from '../../redux/sidebarSlice'
@@ -29,7 +29,7 @@ export function onCloseHander() {
   dispatch(closeSidebar())
 }
 
-const Sidebar: React.FC = html(() => {
+const Sidebar: React.FC = Memo.hooksContext(() => {
   const open = useAppSelector(selectSidebarOpen)
   const login = useAppSelector(selectLogin)
 
