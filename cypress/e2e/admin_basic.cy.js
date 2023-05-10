@@ -35,13 +35,34 @@ context('admin basic', () => {
   })
 
   context('CRUD post operation', () => {
-    it('publish new post', () => {
+    it('create new post via Dashboard', () => {
       cy.login()
       cy.get('header > div > a').contains('Reading List').click()
       cy.url().should('eq', 'http://localhost:3000/')
-      cy.$('dashboard-page-link').contains('Dashboard').click()
+      cy.toggleSidebar()
+      cy.$('dashboard-link').contains('Dashboard').click()
       cy.url().should('eq', 'http://localhost:3000/dashboard')
       cy.$('create-btn').click()
+      cy.url().should('eq', 'http://localhost:3000/dashboard/create')
+      cy.logger('wrting blog post...')
+      cy.$('post-title-input').type('from cypress')
+      cy.$('post-body-input').type('testing now')
+
+      cy.logger('click submit button')
+      cy.$('submit-btn').click()
+
+      cy.logger('jump post page and should show input contents and edit button')
+      cy.get('main h1').contains('from cypress')
+      cy.get('main article').contains('testing now')
+      cy.$('edit-btn').should('exist')
+    })
+
+    it('create new post via Sidebar', () => {
+      cy.login()
+      cy.get('header > div > a').contains('Reading List').click()
+      cy.url().should('eq', 'http://localhost:3000/')
+      cy.toggleSidebar()
+      cy.$('create-link').contains('Create').click()
       cy.url().should('eq', 'http://localhost:3000/dashboard/create')
       cy.logger('wrting blog post...')
       cy.$('post-title-input').type('from cypress')
@@ -61,7 +82,7 @@ context('admin basic', () => {
       cy.visit('http://localhost:3000/')
       cy.logger('Open post that creaed prev test.')
       cy.$('single-post-page-link-1').contains('from cypress').click()
-      cy.url().should('eq', 'http://localhost:3000/post/71')
+      cy.url().should('eq', 'http://localhost:3000/post/72')
       cy.get('main h1').contains('from cypress')
       cy.get('main article').contains('testing now')
       cy.logger('Click Edit button and modify contents.')
@@ -70,7 +91,7 @@ context('admin basic', () => {
       cy.$('edit-body-input').type('Edit Post Contents!')
       cy.logger('Edit complete then click Update button, after page transition single post page.')
       cy.$('update-btn').contains('Update').click()
-      cy.url().should('eq', 'http://localhost:3000/post/71')
+      cy.url().should('eq', 'http://localhost:3000/post/72')
       cy.get('main h1').contains('Edit Title!')
       cy.get('main article').contains('Edit Post Contents!')
     })
@@ -78,7 +99,8 @@ context('admin basic', () => {
     it('delete post', () => {
       cy.login()
       cy.visit('http://localhost:3000/')
-      cy.$('dashboard-page-link').contains('Dashboard').click()
+      cy.toggleSidebar()
+      cy.$('dashboard-link').contains('Dashboard').click()
       cy.url().should('eq', 'http://localhost:3000/dashboard')
       cy.get('main').contains('Edit Title!')
       cy.$('delete-btn-1').contains('Delete').click()
@@ -91,8 +113,8 @@ context('admin basic', () => {
     it('still remaing draft post ', () => {
       cy.login()
       cy.visit('http://localhost:3000/')
-
-      cy.$('dashboard-page-link').contains('Dashboard').click()
+      cy.toggleSidebar()
+      cy.$('dashboard-link').contains('Dashboard').click()
       cy.url().should('eq', 'http://localhost:3000/dashboard')
       cy.scrollTo('bottom')
       cy.$('create-btn').contains('Create').click()
@@ -104,7 +126,8 @@ context('admin basic', () => {
 
       cy.logger('leave page without submit')
       cy.visit('http://localhost:3000/')
-      cy.$('dashboard-page-link').contains('Dashboard').click()
+      cy.toggleSidebar()
+      cy.$('dashboard-link').contains('Dashboard').click()
       cy.url().should('eq', 'http://localhost:3000/dashboard')
 
       cy.logger('revist and check')

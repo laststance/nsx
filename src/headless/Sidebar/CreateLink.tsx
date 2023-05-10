@@ -11,7 +11,7 @@ const CreateLink: React.FC = html(() => {
     <Link
       onClick={onCloseHander}
       to="/dashboard/create"
-      data-cy="dashboard-link"
+      data-cy="create-link"
       className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
     >
       <PlusIcon className="mr-4 h-6 w-6 flex-shrink-0 text-gray-300" />
