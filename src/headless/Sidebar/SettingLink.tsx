@@ -2,7 +2,7 @@ import { CogIcon } from '@heroicons/react/24/outline'
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { html } from '../../lib/html'
+import { html } from '../../lib/memo'
 
 import { onCloseHander } from './'
 

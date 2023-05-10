@@ -3,7 +3,7 @@ import React from 'react'
 import type { NavigateFunction } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 
-import { html } from '../../lib/html'
+import { html } from '../../lib/memo'
 import { logout } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
