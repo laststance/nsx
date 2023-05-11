@@ -5,7 +5,7 @@ import type { RootState } from './store'
 
 export interface SnackBarMessage {
   message: string
-  color: 'red' | 'green'
+  color: 'red' | 'blue'
 }
 
 export interface SnackBarState {
