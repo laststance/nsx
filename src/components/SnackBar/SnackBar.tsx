@@ -28,7 +28,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(({ message, colo
     const timerId = setTimeout(() => {
       setOpacity('opacity-0')
       dispatch(dequeSnackbar())
-    }, 3000000)
+    }, 3000)
 
     return () => clearTimeout(timerId)
   }, [dispatch])
@@ -38,7 +38,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(({ message, colo
       data-cy="snackbar"
       className={`z-60 fixed right-0 top-0 m-2 flex items-center justify-between rounded-lg p-4 shadow-lg sm:m-4 ${getBGColor(
         color
-      )} transition-opacity ${opacity}`}
+      )} ${opacity} transition-opacity`}
     >
       <div className="inline-flex items-center text-teal-50">
         <p className="text-lg font-medium uppercase text-white">{message}</p>
