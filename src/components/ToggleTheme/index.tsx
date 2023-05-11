@@ -25,6 +25,7 @@ const options = [
   },
 ]
 
+// @TODO Extract from leadless UI
 Listbox.displayName = 'Listbox'
 Listbox.Label.displayName = 'Listbox.Label'
 Listbox.Button.displayName = 'Listbox.Button'
