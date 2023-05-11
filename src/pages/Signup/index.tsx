@@ -36,7 +36,7 @@ const Signup: React.FC = memo(() => {
     })
 
     if (isSuccess(res) && 'data' in res) {
-      dispatch(enqueSnackbar({ color: 'green', message: 'Success Signup!' }))
+      dispatch(enqueSnackbar({ color: 'blue', message: 'Success Signup!' }))
       dispatch(login(res.data))
       navigate('/dashboard')
     }

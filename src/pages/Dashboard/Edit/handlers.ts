@@ -24,7 +24,7 @@ export async function onSubmit(
   })
 
   if (isSuccess(response) && 'data' in response) {
-    dispatch(enqueSnackbar({ color: 'green', message: response.data.message }))
+    dispatch(enqueSnackbar({ color: 'blue', message: response.data.message }))
 
     navigate(`/post/${id}`)
   }

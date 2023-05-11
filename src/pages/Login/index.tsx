@@ -46,7 +46,7 @@ const Login: React.FC = memo(() => {
 
       // Login SuccessFul!
       dispatch(login(data))
-      dispatch(enqueSnackbar({ color: 'green', message: 'Login SuccessFul!' }))
+      dispatch(enqueSnackbar({ color: 'blue', message: 'Login SuccessFul!' }))
 
       navigate('/dashboard')
     }
@@ -81,14 +81,14 @@ const Login: React.FC = memo(() => {
           <div className="md:w-1/3">
             <label
               className="mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right"
-              htmlFor="password"
+              htmlFor="current-password"
             >
               Password
             </label>
           </div>
           <div className="md:w-2/3">
             <Input
-              type="password"
+              type="current-password"
               reactHookFormPrams={{
                 fieldError: errors['password'],
                 name: 'password',
