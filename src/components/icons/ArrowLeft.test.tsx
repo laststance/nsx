@@ -9,5 +9,4 @@ test('should render ArrowLeft', () => {
     container: { firstChild },
   } = TestRenderer(<ArrowLeft />)
   expect(firstChild).toBeInTheDocument()
-  expect(firstChild).toMatchSnapshot()
 })

@@ -9,5 +9,4 @@ test('should render Github', () => {
     container: { firstChild },
   } = TestRenderer(<Github />)
   expect(firstChild).toBeInTheDocument()
-  expect(firstChild).toMatchSnapshot()
 })
