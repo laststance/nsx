@@ -1,3 +1,6 @@
+// import { slowCypressDown } from 'cypress-slow-down'
+// slowCypressDown(500) // slows down each command by 500ms
+
 before(() => {
   cy.resetDB()
 })
