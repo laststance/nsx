@@ -25,20 +25,25 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(({ message, colo
   useIsomorphicLayoutEffect(() => {
     setOpacity('opacity-100')
 
-    const timerId = setTimeout(() => {
+    const timer1Id = setTimeout(() => {
       setOpacity('opacity-0')
+    }, 1000)
+    const timer2Id = setTimeout(() => {
       dispatch(dequeSnackbar())
-    }, 3000)
+    }, 4000)
 
-    return () => clearTimeout(timerId)
-  }, [dispatch])
+    return () => {
+      clearTimeout(timer2Id)
+      clearTimeout(timer1Id)
+    }
+  }, [])
 
   return (
     <div
       data-cy="snackbar"
       className={`z-60 fixed right-0 top-0 m-2 flex items-center justify-between rounded-lg p-4 shadow-lg sm:m-4 ${getBGColor(
         color
-      )} ${opacity} transition-opacity`}
+      )} ${opacity} transition-opacity duration-1000 ease-out`}
     >
       <div className="inline-flex items-center text-teal-50">
         <p className="text-lg font-medium uppercase text-white">{message}</p>
