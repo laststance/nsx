@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, memo } from 'react'
 import { Provider as ReduxStoreProvider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { persistStore } from 'redux-persist'
@@ -19,23 +19,27 @@ const persistor = persistStore(store)
 // @ts-expect-error
 ReduxStoreProvider.displayName = 'ReduxStoreProvider'
 
-const App = () => {
-  return (
-    <ErrorBoundary>
-      <Suspense fallback={<Loading />}>
-        <ReduxStoreProvider store={store}>
-          <ReduxPersistGate persistor={persistor}>
-            <BrowserRouter>
-              <GrobalHooks />
-              <Sidebar />
-              <SnackBarDsipatcher />
-              <Router />
-            </BrowserRouter>
-          </ReduxPersistGate>
-        </ReduxStoreProvider>
-      </Suspense>
-    </ErrorBoundary>
-  )
-}
+const App = memo(
+  () => {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<Loading />}>
+          <ReduxStoreProvider store={store}>
+            <ReduxPersistGate persistor={persistor}>
+              <BrowserRouter>
+                <GrobalHooks />
+                <Sidebar />
+                <SnackBarDsipatcher />
+                <Router />
+              </BrowserRouter>
+            </ReduxPersistGate>
+          </ReduxStoreProvider>
+        </Suspense>
+      </ErrorBoundary>
+    )
+  },
+  () => true
+)
+App.displayName = 'App'
 
 export default App
