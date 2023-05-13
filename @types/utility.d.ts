@@ -8,7 +8,7 @@ declare type Cast<T, CastTo> = NoInfer<T> extends never ? CastTo : CastTo
 declare type AnyFunction = (...args: any[]) => any
 
 // skip unnecessary generics position
-declare type _ = any
+declare type __ = any
 
 declare type IndexSignature<O extends object> = {
   [P in keyof O]: O[P]

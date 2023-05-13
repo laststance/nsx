@@ -9,7 +9,7 @@ import { handleDelete } from './handler'
 interface Props {
   post: Post
   author: Author
-  refetch: QueryActionCreatorResult<_>['refetch']
+  refetch: QueryActionCreatorResult<__>['refetch']
   index: number
 }
 

@@ -8,7 +8,7 @@ import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
 // All form element Components depends on library that https://github.com/react-hook-form/react-hook-form
 export interface ReactHookFormParams {
-  register: UseFormRegister<_>
+  register: UseFormRegister<__>
   name: InternalFieldName
   fieldError: FieldError | undefined
   options?: RegisterOptions

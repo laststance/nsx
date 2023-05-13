@@ -10,7 +10,7 @@ interface Props {
   post: Post
   index: ArrayMapIndex
   author: Author
-  refetch: QueryActionCreatorResult<_>['refetch']
+  refetch: QueryActionCreatorResult<__>['refetch']
 }
 
 const DashboardPostRow: React.FC<Props> = memo(({ post, author, refetch, index }) => {
