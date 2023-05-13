@@ -1,9 +1,14 @@
 import { memo } from 'react'
+import type { To } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
 import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect'
 
-const Redirect: React.FC<React.PropsWithChildren<{ to: string }>> = memo(
+interface Props {
+  to: To
+}
+
+const Redirect: React.FC<Props> = memo(
   ({ to }) => {
     const navigate = useNavigate()
     useIsomorphicLayoutEffect(() => {
