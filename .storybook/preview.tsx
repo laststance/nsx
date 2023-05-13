@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Preview } from '@storybook/react'
 
 import { initialize, mswDecorator } from 'msw-storybook-addon'
