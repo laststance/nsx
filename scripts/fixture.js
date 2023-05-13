@@ -1,5 +1,5 @@
-var fs = require('fs')
-var os = require('os')
+var fs = require('node:fs')
+var os = require('node:os')
 
 const { faker } = require('@faker-js/faker')
 
