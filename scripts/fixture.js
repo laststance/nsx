@@ -2,6 +2,7 @@ var fs = require('node:fs')
 var os = require('node:os')
 
 const { faker } = require('@faker-js/faker')
+RegExp.prototype.toJSON = RegExp.prototype.toString
 
 function writeJson(fileName, object) {
   if (Array.isArray(object)) {
@@ -12,8 +13,6 @@ function writeJson(fileName, object) {
     )
     return
   }
-
-  RegExp.prototype.toJSON = RegExp.prototype.toString
   fs.writeFileSync(
     fileName + '.json',
     JSON.stringify(object, null, 2).replace(/\n/g, os.EOL) + os.EOL
