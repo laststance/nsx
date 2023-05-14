@@ -24,7 +24,7 @@ const reducers = combineReducers({
   [API.reducerPath]: API.reducer,
 })
 
-const persistConfig: PersistConfig<__> = {
+const persistConfig: PersistConfig<_> = {
   key: 'root',
   storage,
   whitelist: ['admin', 'draft', 'theme'],

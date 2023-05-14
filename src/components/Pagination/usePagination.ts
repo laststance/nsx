@@ -15,7 +15,7 @@ export interface UsePagenationResult {
   totalPage: PagenationParamsState['totalPage']
   data: Res.PostList | undefined
   error: FetchBaseQueryError | SerializedError | undefined
-  refetch: QueryActionCreatorResult<__>['refetch']
+  refetch: QueryActionCreatorResult<_>['refetch']
   isLoading: boolean
 }
 
