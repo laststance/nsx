@@ -1,4 +1,4 @@
-// API Request Types
+// API Request Prameters
 declare namespace Req {
   /**
    * POST: /api/signup

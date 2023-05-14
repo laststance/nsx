@@ -1,4 +1,4 @@
-// API Response Types
+// API Response Parameters
 declare namespace Res {
   // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
   declare type failedMessage = { failed: string }
