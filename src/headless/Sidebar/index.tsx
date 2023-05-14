@@ -6,13 +6,14 @@ import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect
 import Memo from '../../lib/memo'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
-import { selectSidebarOpen, closeSidebar, toggleSidebar } from '../../redux/sidebarSlice'
+import { selectSidebarOpen, toggleSidebar } from '../../redux/sidebarSlice'
 import { dispatch } from '../../redux/store'
 
 import CreateLink from './CreateLink'
 import DashboardLink from './DashboardLink'
 import LoginLink from './LoginLink'
 import LogoutLink from './LogoutLink'
+import { onCloseHander } from './onCloseHander'
 import SettingLink from './SettingLink'
 
 Dialog.displayName = 'Dialog'
@@ -23,10 +24,6 @@ Transition.Child.displayName = 'Transition.Child'
 const keypressListener = (e: KeyboardEvent) => {
   // @TODO add (if not while typing in a text input
   if (e.key === 'x') dispatch(toggleSidebar())
-}
-
-export function onCloseHander() {
-  dispatch(closeSidebar())
 }
 
 const Sidebar: React.FC = Memo.hooksContext(() => {

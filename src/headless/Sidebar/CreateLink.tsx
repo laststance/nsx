@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Memo from '../../lib/memo'
 
-import { onCloseHander } from './'
+import { onCloseHander } from './onCloseHander'
 
 const CreateLink: React.FC = Memo.html(() => {
   return (
