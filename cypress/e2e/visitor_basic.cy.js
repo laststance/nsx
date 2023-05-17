@@ -93,9 +93,9 @@ context('visitor basic', () => {
   context('security', () => {
     it('could never been to any private routes', () => {
       cy.visit('http://localhost:3000/')
-      // @TODO
-      // cy.visit('http://localhost:3000/login')
-      // cy.get('main).should('contain.text', '404: Page Not Found')
+
+      cy.visit('http://localhost:3000/login')
+      cy.get('main').should('contain.text', 'Login')
 
       cy.visit('http://localhost:3000/signup')
       cy.get('main').should('contain.text', '404: Page Not Found')
