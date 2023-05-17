@@ -35,6 +35,7 @@ context('visitor basic', () => {
     cy.get('main').should('exist').should('contain', 'using __proto__')
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   context('pagenation', () => {
     // showing current & total page number
     it('pagenation', () => {
