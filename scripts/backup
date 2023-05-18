@@ -1,0 +1,16 @@
+#!/bin/bash
+
+USER="root"
+HOST="nsx.malloc.tokyo"
+REMOTE_DIR="/root/nsx/"
+DOCKER_CONTAINER_NAME="nsx_db_1"
+MYSQL_DATABASE_NAME="digital"
+BACKUP_FILE_NAME="backup_$(date +%Y%m%d).sql"
+
+# SSH into the remote server and execute the docker command to create a MySQL backup
+ssh ${USER}@${HOST} "docker exec ${DOCKER_CONTAINER_NAME} /usr/bin/mysqldump -u root -prootpass ${MYSQL_DATABASE_NAME} > ${REMOTE_DIR}/${BACKUP_FILE_NAME}"
+
+# SCP the backup file to your local machine
+scp ${USER}@${HOST}:${REMOTE_DIR}/${BACKUP_FILE_NAME} .
+
+echo "MySQL backup has been created and downloaded to the current directory."
