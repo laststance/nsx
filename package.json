@@ -133,8 +133,10 @@
   },
   "scripts": {
     "start": "vite",
+    "dev": "vite",
     "build": "dotenv -e .env.prod vite build",
-    "serve": "vite preview",
+    "preview": "vite preview",
+    "serve":"serve build",
     "test": "dotenv -e .env.test -- jest",
     "test:coverage": "npm test -- --coverage && jest-coverage-badges && cp coverage/badge-*.svg jest/",
     "test-storybook": "test-storybook",
