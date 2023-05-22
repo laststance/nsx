@@ -1,4 +1,3 @@
-/** @type { import('@storybook/react-vite').StorybookConfig } */
 import type { StorybookConfig } from '@storybook/react-vite'
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -7,7 +6,6 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
   ],
-  staticDirs: ['../public'],
   framework: {
     name: '@storybook/react-vite',
     options: {},

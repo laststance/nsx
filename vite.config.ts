@@ -18,6 +18,7 @@ export default defineConfig({
       'VITE_GA_TRACKING_CODE',
     ]),
   ],
+  publicDir: 'public',
   server: {
     host: true,
     port: 3000,
