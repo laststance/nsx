@@ -1,5 +1,6 @@
 import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import * as Sentry from '@sentry/react'
 import React, { memo } from 'react'
 
 import { ErrorBoundaryFallbackComponent } from '../../components/ErrorBoundary/ErrorBoundary'
@@ -14,8 +15,10 @@ interface Props<T extends Error> {
 const Error: React.FC<React.PropsWithChildren<Props<any>>> = memo(
   ({ error }) => {
     useIsomorphicLayoutEffect(() => {
-      if (error) dispatch(enqueSnackbar({ color: 'red', message: error.toString() }))
-      // @TODO Sentry
+      if (error) {
+        Sentry.captureException(error)
+        dispatch(enqueSnackbar({ color: 'red', message: error.toString() }))
+      }
     }, [error])
 
     return <ErrorBoundaryFallbackComponent />
