@@ -34,7 +34,7 @@ export async function onSubmit(
   })
   // @TODO Rewrite mutation error handling flow
   if (isSuccess(post) && 'data' in post) {
-    dispatch(enqueSnackbar({ color: 'blue', message: 'New Post Created!' }))
+    dispatch(enqueSnackbar({ color: 'green', message: 'New Post Created!' }))
     dispatch(clearDraft())
 
     navigate(`/post/${post.data.id}`)

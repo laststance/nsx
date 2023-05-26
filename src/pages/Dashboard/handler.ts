@@ -14,7 +14,7 @@ export function handleDelete(
     const res = await dispatch(API.endpoints.deletePost.initiate({ author, id }))
 
     if (isSuccess(res) && 'data' in res) {
-      dispatch(enqueSnackbar({ color: 'blue', message: res.data.message }))
+      dispatch(enqueSnackbar({ color: 'green', message: res.data.message }))
       refetch()
     }
   }

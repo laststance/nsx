@@ -46,7 +46,7 @@ const Login: React.FC = memo(() => {
 
       // Login SuccessFul!
       dispatch(login(data))
-      dispatch(enqueSnackbar({ color: 'blue', message: 'Login SuccessFul!' }))
+      dispatch(enqueSnackbar({ color: 'green', message: 'Login SuccessFul!' }))
 
       navigate('/dashboard')
     }

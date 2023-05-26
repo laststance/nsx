@@ -11,7 +11,7 @@ interface Props {
 }
 
 const getBGColor = (color: SnackBarMessage['color']): string => {
-  if (color === 'blue') {
+  if (color === 'green') {
     return 'bg-blue-700'
   } else if (color === 'red') {
     return 'bg-rose-700'
