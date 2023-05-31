@@ -108,6 +108,6 @@ const Sidebar: React.FC = Memo.hooksContext(() => {
     </>
   )
 })
-Sidebar.displayName = 'Headless.Sidebar'
+Sidebar.displayName = 'HeadlessEffect.Sidebar'
 
 export default Sidebar

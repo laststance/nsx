@@ -4,7 +4,7 @@ import SnackBar from '../components/SnackBar/SnackBar'
 import { useAppSelector } from '../redux/hooks'
 import { selectMessageQueue } from '../redux/snackbarSlice'
 
-const SnackBarDsipatcher = React.memo(
+const SnackBarDsipatcher: React.WidgetManageComponent = React.memo(
   () => {
     const messageQueue = useAppSelector(selectMessageQueue)
     if (messageQueue.length === 0) return null
@@ -14,6 +14,6 @@ const SnackBarDsipatcher = React.memo(
   },
   () => true
 )
-SnackBarDsipatcher.displayName = 'Headless.SnackBarDispatcher'
+SnackBarDsipatcher.displayName = 'HeadlessEffect.SnackBarDispatcher'
 
 export default SnackBarDsipatcher

@@ -12,6 +12,6 @@ const Permission: React.FC = memo(() => {
 
   return login ? <AuthorizedApp /> : <NotFound />
 })
-Permission.displayName = 'Headless.Permission'
+Permission.displayName = 'HeadlessEffect.Permission'
 
 export default Permission

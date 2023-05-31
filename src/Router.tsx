@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import Permission from './headless/Permission'
+import Permission from './headlessEffectComponents/Permission'
 import About from './pages/About'
 import Dashboard from './pages/Dashboard'
 import Create from './pages/Dashboard/Create'

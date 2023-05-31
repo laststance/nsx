@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { HeadlessEffectComponent } from 'react'
 import { memo } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect'
@@ -6,7 +6,7 @@ import { useAppSelector } from '../redux/hooks'
 import { dispatch } from '../redux/store'
 import { selectTheme, updateTheme } from '../redux/themeSlice'
 
-const GrobalHooks: React.FC = memo(() => {
+const GrobalHooks: HeadlessEffectComponent = memo(() => {
   // apply TailwindCSS theme onLoaded
   // bause Router component render phase defenitelly run once per app loding
   const theme = useAppSelector(selectTheme)
@@ -16,6 +16,6 @@ const GrobalHooks: React.FC = memo(() => {
 
   return null
 })
-GrobalHooks.displayName = 'Headless.GrobalHooks'
+GrobalHooks.displayName = 'HeadlessEffect.GrobalHooks'
 
 export default GrobalHooks

@@ -1,3 +1,4 @@
+import type { HeadlessEffectComponent } from 'react'
 import { memo } from 'react'
 import type { To } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -8,7 +9,7 @@ interface Props {
   to: To
 }
 
-const Redirect: React.FC<Props> = memo(
+const Redirect: HeadlessEffectComponent<Props> = memo<Props>(
   ({ to }) => {
     const navigate = useNavigate()
     useIsomorphicLayoutEffect(() => {
@@ -18,6 +19,6 @@ const Redirect: React.FC<Props> = memo(
   },
   () => true
 )
-Redirect.displayName = 'Headless.Redirect'
+Redirect.displayName = 'HeadlessEffect.Redirect'
 
 export default Redirect
