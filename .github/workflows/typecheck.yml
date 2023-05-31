@@ -14,4 +14,4 @@ jobs:
         with:
           node-version: '18.16.0'
       - run: yarn install
-      - run: yarn all:typecheck
+      - run: yarn typecheck
