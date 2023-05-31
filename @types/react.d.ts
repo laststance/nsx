@@ -6,7 +6,7 @@ import type {
   ReactElement,
 } from 'react'
 
-module 'React' {
+declare module 'React' {
   export type SetState<in S> = Dispatch<SetStateAction<S>>
 
   /**

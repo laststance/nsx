@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import ReactGA, { ga } from 'react-ga'
+import ReactGA from 'react-ga4'
 import type { Metric } from 'web-vitals'
 
 import App from './App'
@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
   ReactGA.initialize(process.env.VITE_GA_TRACKING_CODE as string)
 
   function sendToAnalytics({ id, name, value }: Metric) {
-    ga('send', 'event', {
+    ReactGA.ga('send', 'event', {
       eventAction: name,
       eventCategory: 'Web-Vitals',
       // values must be integers
