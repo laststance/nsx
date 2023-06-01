@@ -6,20 +6,20 @@ import { assertCast } from '../../../lib/assertCast'
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
 import { API } from '../../redux/API'
 import { useAppSelector } from '../../redux/hooks'
-import type { PagenationParamsState } from '../../redux/pagenationSlice'
+import type { PagenationState } from '../../redux/pagenationSlice'
 import { selectPagenationParams, updatePerPage } from '../../redux/pagenationSlice'
 import { dispatch } from '../../redux/store'
 
 export interface UsePagenationResult {
-  page: PagenationParamsState['page']
-  totalPage: PagenationParamsState['totalPage']
+  page: PagenationState['page']
+  totalPage: PagenationState['totalPage']
   data: Res.PostList | undefined
   error: FetchBaseQueryError | SerializedError | undefined
   refetch: QueryActionCreatorResult<_>['refetch']
   isLoading: boolean
 }
 
-function usePagination(customPerPage?: PagenationParamsState['perPage']): UsePagenationResult {
+function usePagination(customPerPage?: PagenationState['perPage']): UsePagenationResult {
   useIsomorphicLayoutEffect(() => {
     if (Number.isSafeInteger(customPerPage)) {
       assertCast<number>(customPerPage) // TypeScript can't detect result of Number.isSafeInteger()

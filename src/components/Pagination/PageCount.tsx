@@ -1,11 +1,11 @@
 import type { ComponentProps } from 'react'
 import React, { memo } from 'react'
 
-import type { PagenationParamsState } from '../../redux/pagenationSlice'
+import type { PagenationState } from '../../redux/pagenationSlice'
 
 interface Props {
-  page: PagenationParamsState['page']
-  totalPage: PagenationParamsState['totalPage']
+  page: PagenationState['page']
+  totalPage: PagenationState['totalPage']
 }
 
 const PageCount: React.FC<ComponentProps<'div'> & Props> = memo(({ page, totalPage, ...rest }) => (

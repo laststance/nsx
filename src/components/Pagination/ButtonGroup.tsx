@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import type { PagenationParamsState } from '../../redux/pagenationSlice'
+import type { PagenationState } from '../../redux/pagenationSlice'
 import { updatePage } from '../../redux/pagenationSlice'
 import { dispatch } from '../../redux/store'
 import ArrowButton from '../ArrowButton/ArrowButton'
@@ -9,7 +9,7 @@ import PageCount from './PageCount'
 import type { UsePagenationResult } from './usePagination'
 
 interface Props {
-  page: PagenationParamsState['page']
+  page: PagenationState['page']
   totalPage: UsePagenationResult['totalPage']
 }
 
