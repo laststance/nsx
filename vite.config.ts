@@ -15,7 +15,7 @@ export default defineConfig({
       'VITE_APP_DESCRIPTION',
       'VITE_API_ENDPOINT',
       'VITE_SENTRY_DNS',
-      'VITE_GA_TRACKING_CODE',
+      'VITE_GA_MEASUREMENT_ID',
     ]),
   ],
   publicDir: 'public',
