@@ -16,6 +16,7 @@ export const Default = Template.bind({})
 
 Default.args = {
   error: {
+    //@ts-ignore
     endpointName: 'getMissingFirebaseUser',
 
     // @ts-ignore
