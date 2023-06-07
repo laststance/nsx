@@ -1,3 +1,4 @@
+import { DevTool } from '@hookform/devtools'
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
@@ -27,6 +28,7 @@ const Create: React.FC = memo(() => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<FormInput>({
     resolver: superstructResolver(createPostFormValidator),
   })
@@ -62,6 +64,7 @@ const Create: React.FC = memo(() => {
             </Button>
           </div>
         </form>
+        {process.env.NODE_ENV !== 'production' && <DevTool control={control} />}
       </section>
       <section className="ml-4 w-[30%] overflow-x-visible">
         <StockList />
