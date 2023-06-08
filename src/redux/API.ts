@@ -1,4 +1,3 @@
-import type { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
 import type {
   MutationDefinition,
   BaseQueryFn,
@@ -125,14 +124,4 @@ export type CreatePostMutationDefinition = MutationDefinition<
   'Posts',
   Post,
   'RTK_Query'
->
-
-export type UpdatePostMutationDefinition = MutationTrigger<
-  MutationDefinition<
-    Req.UpdatePost,
-    BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
-    'Posts',
-    Res.UpdatePost,
-    'RTK_Query'
-  >
 >

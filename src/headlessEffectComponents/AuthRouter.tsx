@@ -5,13 +5,13 @@ import NotFound from '../pages/NotFound'
 import { selectLogin } from '../redux/adminSlice'
 import { useAppSelector } from '../redux/hooks'
 
-const Permission: React.FC = memo(() => {
+const AuthRouter: React.FC = memo(() => {
   const login = useAppSelector(selectLogin)
 
   // @TODO add JWT Token validation?
 
   return login ? <AuthorizedApp /> : <NotFound />
 })
-Permission.displayName = 'HeadlessEffect.Permission'
+AuthRouter.displayName = 'HeadlessEffect.AuthRouter'
 
-export default Permission
+export default AuthRouter

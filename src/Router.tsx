@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import Permission from './headlessEffectComponents/Permission'
+import AuthRouter from './headlessEffectComponents/AuthRouter'
 import About from './pages/About'
 import Dashboard from './pages/Dashboard'
 import Create from './pages/Dashboard/Create'
@@ -20,7 +20,7 @@ const Router = memo(
         <Route path="post/:postId_querystring" element={<Post />} />
         <Route path="about" element={<About />} />
         <Route path="login" element={<Login />} />
-        <Route path="dashboard" element={<Permission />}>
+        <Route path="dashboard" element={<AuthRouter />}>
           <Route index element={<Dashboard />} />
           <Route path="create" element={<Create />} />
           <Route path="edit/:postId" element={<Edit />} />
