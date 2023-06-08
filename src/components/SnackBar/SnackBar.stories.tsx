@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import NewSnackBar from './NewSnackBar'
+import SnackBar from './SnackBar'
 
-const meta: Meta<typeof NewSnackBar> = {
-  component: NewSnackBar,
+const meta: Meta<typeof SnackBar> = {
+  component: SnackBar,
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'NewSnackBar',
+  title: 'Components/SnackBar',
 }
 
 export default meta
-type Story = StoryObj<typeof NewSnackBar>
+type Story = StoryObj<typeof SnackBar>
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
@@ -20,5 +20,7 @@ type Story = StoryObj<typeof NewSnackBar>
  * to learn how to use render functions.
  */
 export const Primary: Story = {
-  render: () => <NewSnackBar />,
+  render: ({ color = 'green', message = 'Complete!' }) => (
+    <SnackBar color={color} message={message} />
+  ),
 }
