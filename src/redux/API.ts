@@ -10,13 +10,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const endpoint = process.env.VITE_API_ENDPOINT
 
-// Define a service using a base URL and expected endpoints
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const requestInfo = Object.defineProperty({}, 'credentials', {
-  value: 'include',
-  writable: false,
-})
-
 export const API = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: endpoint,
