@@ -36,6 +36,8 @@ const LayoutStyle: React.CSSProperties = {
   alignItems: 'center',
   display: 'flex',
   justifyContent: 'center',
+  minHeight: '100vh',
+  minWidth: '100%',
 }
 
 const MessageStyle: React.CSSProperties = {
@@ -47,12 +49,12 @@ const MessageStyle: React.CSSProperties = {
 }
 
 export const ErrorBoundaryFallbackComponent: React.FC<React.PropsWithChildren<unknown>> = () => (
-  <div style={LayoutStyle} className="h-full w-full">
-    <div style={MessageStyle}>
+  <main style={LayoutStyle}>
+    <section style={MessageStyle}>
       Something Error Ooccurring
       <span style={{ paddingLeft: 3 }} role="img" aria-label="face-emoji">
         😞
       </span>
-    </div>
-  </div>
+    </section>
+  </main>
 )

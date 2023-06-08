@@ -12,7 +12,7 @@ import HookLoaderComponent from './headlessEffectComponents/GrobalHooks'
 import Sidebar from './headlessEffectComponents/Sidebar'
 import SnackBarDsipatcher from './headlessEffectComponents/SnackBarDsipatcher'
 import { store } from './redux/store'
-import Router from './Router'
+import Router from './router/Router'
 
 const persistor = persistStore(store)
 

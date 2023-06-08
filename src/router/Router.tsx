@@ -1,16 +1,17 @@
 import React, { memo } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import AuthRouter from './headlessEffectComponents/AuthRouter'
-import About from './pages/About'
-import Dashboard from './pages/Dashboard'
-import Create from './pages/Dashboard/Create'
-import Edit from './pages/Dashboard/Edit'
-import Setting from './pages/Dashboard/Setting'
-import Index from './pages/Index'
-import Login from './pages/Login'
-import NotFound from './pages/NotFound'
-import Post from './pages/Post'
+import About from '../pages/About'
+import Dashboard from '../pages/Dashboard'
+import Create from '../pages/Dashboard/Create'
+import Edit from '../pages/Dashboard/Edit'
+import Setting from '../pages/Dashboard/Setting'
+import Index from '../pages/Index'
+import Login from '../pages/Login'
+import NotFound from '../pages/NotFound'
+import Post from '../pages/Post'
+
+import AuthRouter from './AuthRouter'
 
 const Router = memo(
   () => {
