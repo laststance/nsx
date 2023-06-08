@@ -8,7 +8,7 @@ import './index.css'
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import Loading from './components/Loading/Loading'
-import GrobalHooks from './headlessEffectComponents/GrobalHooks'
+import HookLoaderComponent from './headlessEffectComponents/GrobalHooks'
 import Sidebar from './headlessEffectComponents/Sidebar'
 import SnackBarDsipatcher from './headlessEffectComponents/SnackBarDsipatcher'
 import { store } from './redux/store'
@@ -27,7 +27,7 @@ const App = memo(
           <ReduxStoreProvider store={store}>
             <ReduxPersistGate persistor={persistor}>
               <BrowserRouter>
-                <GrobalHooks />
+                <HookLoaderComponent />
                 <Sidebar />
                 <SnackBarDsipatcher />
                 <Router />
