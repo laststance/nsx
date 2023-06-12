@@ -1,15 +1,15 @@
-import type { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate'
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../components/Button/Button'
+import type { UsePagenationResult } from '../../components/Pagination/usePagination'
 
 import { handleDelete } from './handler'
 
 interface Props {
   post: Post
   author: Author
-  refetch: QueryActionCreatorResult<_>['refetch']
+  refetch: UsePagenationResult['refetch']
   index: number
 }
 

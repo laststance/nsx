@@ -1,6 +1,6 @@
-import type { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate'
 import React, { memo } from 'react'
 
+import type { UsePagenationResult } from '../../components/Pagination/usePagination'
 import PostDate from '../../components/PostDate/PostDate'
 import PostLink from '../Index/PostList/PostRow/PostLink'
 
@@ -10,7 +10,7 @@ interface Props {
   post: Post
   index: ArrayMapIndex
   author: Author
-  refetch: QueryActionCreatorResult<_>['refetch']
+  refetch: UsePagenationResult['refetch']
 }
 
 const DashboardPostRow: React.FC<Props> = memo(({ post, author, refetch, index }) => {
