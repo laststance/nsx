@@ -38,6 +38,10 @@ const About = memo(
           </a>{' '}
           projects.
         </p>
+        <p>
+          I want to create fullstack modern web application without frameworks like Next.js, Remix,
+          RedwoodJS, Blitz.js, at the project.
+        </p>
       </section>
     </>
   ),
