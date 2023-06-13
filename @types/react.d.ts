@@ -1,5 +1,10 @@
 import type { Dispatch, SetStateAction, WeakValidationMap, ValidationMap, ReactNode } from 'react'
 
+declare module '*.svg' {
+  const content: React.FC<React.SVGProps<SVGElement>>
+  export default content
+}
+
 declare module 'react' {
   export type SetState<in S> = Dispatch<SetStateAction<S>>
 
