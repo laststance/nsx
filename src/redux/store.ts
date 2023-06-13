@@ -2,7 +2,6 @@ import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
-import type { PersistConfig } from 'redux-persist/es/types'
 import storage from 'redux-persist/lib/storage'
 
 import adminReducer from './adminSlice'
@@ -24,7 +23,7 @@ const reducers = combineReducers({
   [API.reducerPath]: API.reducer,
 })
 
-const persistConfig: PersistConfig<_> = {
+const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['admin', 'draft', 'theme'],
