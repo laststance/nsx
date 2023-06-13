@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
     replaysSessionSampleRate: 0.1,
   })
 
-  ReactGA.initialize(process.env.VITE_GA_TRACKING_CODE as string)
+  ReactGA.initialize(process.env.VITE_GA_MEASUREMENT_ID as string)
 
   function sendToAnalytics({ id, name, value }: Metric) {
     ReactGA.ga('send', 'event', {
