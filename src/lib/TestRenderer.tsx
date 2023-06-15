@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import type { MemoryRouterProps } from 'react-router'
 import { MemoryRouter } from 'react-router-dom'
 
-import { store } from './../redux/store'
+import { store } from '../redux/store'
 
 const TestRenderer = (ui: ReactElement, memoryRouterProps?: MemoryRouterProps): RenderResult => {
   const renderResult = render(

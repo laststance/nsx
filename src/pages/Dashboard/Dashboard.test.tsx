@@ -4,7 +4,7 @@ import React from 'react'
 import { sleep } from '../../../lib/sleep'
 import TestRenderer from '../../lib/TestRenderer'
 
-import Dashboard from './'
+import Dashboard from '.'
 
 test('should render Dashboard', async () => {
   const { container } = TestRenderer(<Dashboard />)

@@ -2,7 +2,7 @@ import type { ComponentStory } from '@storybook/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import NotFound from './'
+import NotFound from '.'
 
 export default {
   component: NotFound,

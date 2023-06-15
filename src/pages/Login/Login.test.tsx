@@ -2,7 +2,7 @@ import React from 'react'
 
 import TestRenderer from '../../lib/TestRenderer'
 
-import Login from './'
+import Login from '.'
 
 test('should render Login', () => {
   const { container, getAllByRole } = TestRenderer(<Login />)

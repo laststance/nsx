@@ -4,7 +4,7 @@ import React from 'react'
 import { sleep } from '../../../lib/sleep'
 import TestRenderer from '../../lib/TestRenderer'
 
-import Index from './'
+import Index from '.'
 
 test('should render IndexPage with latest 15 posts', async () => {
   const { container, getAllByRole } = TestRenderer(<Index />)

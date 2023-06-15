@@ -2,7 +2,7 @@ import React from 'react'
 
 import TestRenderer from '../../lib/TestRenderer'
 
-import Layout from './'
+import Layout from '.'
 
 test('should render Layout', () => {
   const {

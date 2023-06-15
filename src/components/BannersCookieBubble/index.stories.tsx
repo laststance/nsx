@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import BannarsCookieBubble from './'
+import BannarsCookieBubble from '.'
 
 const meta: Meta<typeof BannarsCookieBubble> = {
   component: BannarsCookieBubble,
