@@ -2505,21 +2505,21 @@
     process "^0.11.10"
     util "^0.12.4"
 
-"@storybook/builder-vite@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/builder-vite/-/builder-vite-7.0.20.tgz#25a19cad4c0c6ae980cc817200550b75670e1393"
-  integrity sha512-+SQMdvrqpuuYE1KGNfvGfxt0sjeshMEEXCfxvh2/iCPPIMYTEQ5WfVeEuAla+PRyXrE4JLwCZEowcZoxel1uTA==
+"@storybook/builder-vite@7.0.21":
+  version "7.0.21"
+  resolved "https://registry.yarnpkg.com/@storybook/builder-vite/-/builder-vite-7.0.21.tgz#17a7214200e938257f41246bce642d61c640f797"
+  integrity sha512-Zves9giQs6oxsQeGKdmwlaywQaz9ZZqArgOzgYb8WytoDSlVrK81BzZN+gsm6cdxPOzdjOma2KhWi5YTz/d/Zg==
   dependencies:
-    "@storybook/channel-postmessage" "7.0.20"
-    "@storybook/channel-websocket" "7.0.20"
-    "@storybook/client-logger" "7.0.20"
-    "@storybook/core-common" "7.0.20"
-    "@storybook/csf-plugin" "7.0.20"
+    "@storybook/channel-postmessage" "7.0.21"
+    "@storybook/channel-websocket" "7.0.21"
+    "@storybook/client-logger" "7.0.21"
+    "@storybook/core-common" "7.0.21"
+    "@storybook/csf-plugin" "7.0.21"
     "@storybook/mdx2-csf" "^1.0.0"
-    "@storybook/node-logger" "7.0.20"
-    "@storybook/preview" "7.0.20"
-    "@storybook/preview-api" "7.0.20"
-    "@storybook/types" "7.0.20"
+    "@storybook/node-logger" "7.0.21"
+    "@storybook/preview" "7.0.21"
+    "@storybook/preview-api" "7.0.21"
+    "@storybook/types" "7.0.21"
     browser-assert "^1.2.1"
     es-module-lexer "^0.9.3"
     express "^4.17.3"
@@ -2555,13 +2555,13 @@
     qs "^6.10.0"
     telejson "^7.0.3"
 
-"@storybook/channel-websocket@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/channel-websocket/-/channel-websocket-7.0.20.tgz#7b0922fbffa33cf7b3be3faef11bac1f6a77f5e5"
-  integrity sha512-nzpnvUAdOgEn1FhUlaTl/ImSoiRJQs1UmLPxDtqAOGo01W+GIlj17Y+0TYCaG3EJoRVv59XPIrqywut2o6j40Q==
+"@storybook/channel-websocket@7.0.21":
+  version "7.0.21"
+  resolved "https://registry.yarnpkg.com/@storybook/channel-websocket/-/channel-websocket-7.0.21.tgz#6d678b460859a628d36c42d6438646f2ac6a1447"
+  integrity sha512-YX0h1CAHFNh4i0CsbIwEAMQsHxHhZXgN5SD5I0QGgqttErN4an90k4aah9MNnkyLO8Af9nFp2wL8Nj/yPmJ5bA==
   dependencies:
-    "@storybook/channels" "7.0.20"
-    "@storybook/client-logger" "7.0.20"
+    "@storybook/channels" "7.0.21"
+    "@storybook/client-logger" "7.0.21"
     "@storybook/global" "^5.0.0"
     telejson "^7.0.3"
 
@@ -2681,14 +2681,6 @@
     use-resize-observer "^9.1.0"
     util-deprecate "^1.0.2"
 
-"@storybook/core-client@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/core-client/-/core-client-7.0.20.tgz#53d5d7ee4c84282a4e0d84ed0c389c6e997c99f2"
-  integrity sha512-POKAxwwbX+nDiqpVDjrV0H+GFmEg1IcmUWnmiE69n9GibX6zwGh3plJDKb+y0nK8eR4SRgLe8PovMEO/+W/xsw==
-  dependencies:
-    "@storybook/client-logger" "7.0.20"
-    "@storybook/preview-api" "7.0.20"
-
 "@storybook/core-client@7.0.21":
   version "7.0.21"
   resolved "https://registry.yarnpkg.com/@storybook/core-client/-/core-client-7.0.21.tgz#ae491244f4c7f813521f30b3f748bdad8aa72b4b"
@@ -2805,14 +2797,6 @@
     watchpack "^2.2.0"
     ws "^8.2.3"
 
-"@storybook/csf-plugin@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/csf-plugin/-/csf-plugin-7.0.20.tgz#3d8600bbc75769760dd850d2ea51c8827b50eca5"
-  integrity sha512-jxEZN2Hf4qpALzDXX3gKy7c0nUM4BfDiAnUqTeJIks6nFUOF00qoU1qNqJzYScH1AXI9J7LwXJ6n8b0DSW/H3Q==
-  dependencies:
-    "@storybook/csf-tools" "7.0.20"
-    unplugin "^0.10.2"
-
 "@storybook/csf-plugin@7.0.21":
   version "7.0.21"
   resolved "https://registry.yarnpkg.com/@storybook/csf-plugin/-/csf-plugin-7.0.21.tgz#5d40fa7f18a997e9dbb0dd4c587c244cc37c1a95"
@@ -2820,21 +2804,6 @@
   dependencies:
     "@storybook/csf-tools" "7.0.21"
     unplugin "^0.10.2"
-
-"@storybook/csf-tools@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/csf-tools/-/csf-tools-7.0.20.tgz#33947eaaf4fead1aa634d0674bdd43e55115aa49"
-  integrity sha512-m68wLgN5G7XIChQrjeILBYu+4TVHfllIrIJXMZ3Gi+iplOCHsQLfA6Oa0VtTB09Ol5K2StdMHjBCoR6HfHzsXA==
-  dependencies:
-    "@babel/generator" "~7.21.1"
-    "@babel/parser" "~7.21.2"
-    "@babel/traverse" "~7.21.2"
-    "@babel/types" "~7.21.2"
-    "@storybook/csf" "^0.1.0"
-    "@storybook/types" "7.0.20"
-    fs-extra "^11.1.0"
-    recast "^0.23.1"
-    ts-dedent "^2.0.0"
 
 "@storybook/csf-tools@7.0.21":
   version "7.0.21"
@@ -2869,19 +2838,6 @@
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@storybook/docs-mdx/-/docs-mdx-0.1.0.tgz#33ba0e39d1461caf048b57db354b2cc410705316"
   integrity sha512-JDaBR9lwVY4eSH5W8EGHrhODjygPd6QImRbwjAuJNEnY0Vw4ie3bPkeGfnacB3OBW6u/agqPv2aRlR46JcAQLg==
-
-"@storybook/docs-tools@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/docs-tools/-/docs-tools-7.0.20.tgz#f1288695c5650c68b03dfdf251e931db364b3c48"
-  integrity sha512-9MfQaIseC6fzU5McyBOYiVNHa4wiyVyNMG+rOgdDI4Q+JZDRm9wgf+mtB5Uc8bZZZJRUTxSKJwqeFlxn9zTJgA==
-  dependencies:
-    "@babel/core" "^7.12.10"
-    "@storybook/core-common" "7.0.20"
-    "@storybook/preview-api" "7.0.20"
-    "@storybook/types" "7.0.20"
-    "@types/doctrine" "^0.0.3"
-    doctrine "^3.0.0"
-    lodash "^4.17.21"
 
 "@storybook/docs-tools@7.0.21":
   version "7.0.21"
@@ -3031,63 +2987,31 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/preview@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/preview/-/preview-7.0.20.tgz#13340503a7997977417bc65d339d30e02fb5dbfa"
-  integrity sha512-ayC7Aud0WM91ki+UM/CInd3GbGPmkUaeT6fqs9zvH8H4QQGznr9E8sI9IUQN0dbpGWayZn0m7Ma89EHwpWOwiw==
-
-"@storybook/react-dom-shim@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-7.0.20.tgz#d35d3ed21bbe7a67287a95ac08614be41d4e069d"
-  integrity sha512-/TpK3WZFQ/wV3Z1sCYf5PN+u2XdncozE+wHdoXO0FYr3BY3w0BOeMLg6DauX9Nlbs8nh0RiIvck/sm/eBZH+qA==
+"@storybook/preview@7.0.21":
+  version "7.0.21"
+  resolved "https://registry.yarnpkg.com/@storybook/preview/-/preview-7.0.21.tgz#aa85c09b0374fde5293c10a6ab127de29c1fa99d"
+  integrity sha512-WHAD0dlwlJGGTEJ2Lv2rbO9KGBbs4P9uy0oofCuVT+W/eKy26Y6cglnBZpT/lSvK3lNJWONtGRWwBqgdb2E9OQ==
 
 "@storybook/react-dom-shim@7.0.21":
   version "7.0.21"
   resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-7.0.21.tgz#0be325cb82a9ec5189f0a55f2aac7a14ad62ae3b"
   integrity sha512-hccpaFWZjZjD5F/hBXU59RdaF2pnN3hvygIAY7P8cIRu9lfhMZWpZyuEJBjHUqHSX+6CoNLzpSQHeVv+6Vo0rg==
 
-"@storybook/react-vite@^7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/react-vite/-/react-vite-7.0.20.tgz#5f850d3e258fd384c1d6b515c092198b93245a71"
-  integrity sha512-BUIhMD6bxIJ+LTocRyiqfg9Y8HraQDyhSWTIonBjRoIxjCkVhJ3QHQkEy6P+0cerWsntTD2/Gwmq1o1Vzl/6Sw==
+"@storybook/react-vite@^7.0.21":
+  version "7.0.21"
+  resolved "https://registry.yarnpkg.com/@storybook/react-vite/-/react-vite-7.0.21.tgz#6a488e7c78b7b3047ee7e45ef95ed43f7053617c"
+  integrity sha512-n9fTdQkpeQrz4E4Odp3IHXUrlBmo6v4bQ9qV8Awz/y3B06uhvNtL9BQgRTySVKTehuFmoAk0KDD2O7QvFxbRuw==
   dependencies:
     "@joshwooding/vite-plugin-react-docgen-typescript" "0.2.1"
     "@rollup/pluginutils" "^4.2.0"
-    "@storybook/builder-vite" "7.0.20"
-    "@storybook/react" "7.0.20"
+    "@storybook/builder-vite" "7.0.21"
+    "@storybook/react" "7.0.21"
     "@vitejs/plugin-react" "^3.0.1"
     ast-types "^0.14.2"
     magic-string "^0.27.0"
     react-docgen "6.0.0-alpha.3"
 
-"@storybook/react@7.0.20":
-  version "7.0.20"
-  resolved "https://registry.yarnpkg.com/@storybook/react/-/react-7.0.20.tgz#7d75cc6faabb8239383fce840ef70430cb3d1857"
-  integrity sha512-5F7ENxlAgUMzYu8W4OThn01P5zMPg/4Th/ekeSGJvAzR8OwwNNzHG9tKmu29cz8unmQqCSxkwaC63N1nm4YaBQ==
-  dependencies:
-    "@storybook/client-logger" "7.0.20"
-    "@storybook/core-client" "7.0.20"
-    "@storybook/docs-tools" "7.0.20"
-    "@storybook/global" "^5.0.0"
-    "@storybook/preview-api" "7.0.20"
-    "@storybook/react-dom-shim" "7.0.20"
-    "@storybook/types" "7.0.20"
-    "@types/escodegen" "^0.0.6"
-    "@types/estree" "^0.0.51"
-    "@types/node" "^16.0.0"
-    acorn "^7.4.1"
-    acorn-jsx "^5.3.1"
-    acorn-walk "^7.2.0"
-    escodegen "^2.0.0"
-    html-tags "^3.1.0"
-    lodash "^4.17.21"
-    prop-types "^15.7.2"
-    react-element-to-jsx-string "^15.0.0"
-    ts-dedent "^2.0.0"
-    type-fest "^2.19.0"
-    util-deprecate "^1.0.2"
-
-"@storybook/react@^7.0.21":
+"@storybook/react@7.0.21", "@storybook/react@^7.0.21":
   version "7.0.21"
   resolved "https://registry.yarnpkg.com/@storybook/react/-/react-7.0.21.tgz#35a4fdb31e5fdf916da31e41e6a5ccb88c45512e"
   integrity sha512-yXh/KoMPaaC0pntHxfahsz0lLAW9yN7EIP7puvbBQv0WL4y7Ohi0ggPrWTLxPrGwddaNMJLM1PQlqnh7TXDGyQ==
