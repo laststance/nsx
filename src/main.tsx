@@ -2,10 +2,10 @@ import * as Sentry from '@sentry/react'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import ReactGA from 'react-ga4'
+import { onCLS, onFID, onLCP } from 'web-vitals'
 import type { Metric } from 'web-vitals'
 
 import App from './App'
-import reportWebVitals from './reportWebVitals'
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
@@ -24,20 +24,33 @@ if (process.env.NODE_ENV === 'production') {
 
   ReactGA.initialize(process.env.VITE_GA_MEASUREMENT_ID as string)
 
-  function sendToAnalytics({ id, name, value }: Metric) {
-    ReactGA.ga('send', 'event', {
-      eventAction: name,
-      eventCategory: 'Web-Vitals',
-      // values must be integers
-      eventLabel: id,
-      eventValue: Math.round(name === 'CLS' ? value * 1000 : value), // id unique to current page load
-      nonInteraction: true, // avoids affecting bounce rate
+  function sendToGoogleAnalytics({ id, delta, name, value }: Metric) {
+    // Assumes the global `gtag()` function exists, see:
+    // https://developers.google.com/analytics/devguides/collection/ga4
+    ReactGA.gtag('event', name, {
+      // Optional.
+      metric_delta: delta,
+
+      // Use `delta` so the value can be summed.
+      // Custom params:
+      metric_id: id,
+
+      // Needed to aggregate events.
+      metric_value: value,
+
+      // Built-in params:
+      value: delta, // Optional.
+
+      // OPTIONAL: any additional params or debug info here.
+      // See: https://web.dev/debug-performance-in-the-field/
+      // metric_rating: 'good' | 'needs-improvement' | 'poor',
+      // debug_info: '...',
+      // ...
     })
   }
-  // If you want to start measuring performance in your app, pass a function
-  // to log results (for example: reportWebVitals(console.log))
-  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-  reportWebVitals(sendToAnalytics)
+  onCLS(sendToGoogleAnalytics)
+  onFID(sendToGoogleAnalytics)
+  onLCP(sendToGoogleAnalytics)
 }
 
 const root = createRoot(document.getElementById('root')!)
