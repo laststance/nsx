@@ -11,13 +11,13 @@ module.exports = {
 
       md: '768px',
       // => @media (min-width: 768px) { ... }
-      lg: '980px'
+      lg: '980px',
     },
     extend: {
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans]
-      }
-    }
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')]
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 }

@@ -19,7 +19,8 @@ const useCachePost = (postId: Post['id']): Post | undefined => {
           return post.id === postId
         })
         // eslint-disable-next-line prettier/prettier
-        const hitCache = (cache !== undefined && !!cache.id && !!cache.title && !!cache.body)
+        const hitCache =
+          cache !== undefined && !!cache.id && !!cache.title && !!cache.body
         if (hitCache === true) {
           return { cache }
         } else {

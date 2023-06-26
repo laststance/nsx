@@ -18,8 +18,10 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
     Logger.info('req.cookies.token: ' + req.cookies.token)
 
     try {
-      decripted = jwt.verify(token, process.env.JWT_SECRET as string) as IndexSignature<JWTpayload> /* eslint-disable-line prettier/prettier */
-
+      decripted = jwt.verify(
+        token,
+        process.env.JWT_SECRET as string
+      ) as IndexSignature<JWTpayload> /* eslint-disable-line prettier/prettier */
     } catch (error) {
       Logger.error('failed jwt.verify()')
       Logger.error('decripted ' + JSON.stringify(decripted))
@@ -27,7 +29,13 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
       Logger.error(error)
     }
     assertIsDefined(decripted)
-    if (shallowEqualScalar(author, deleteJWTattribute(decripted) as IndexSignature<JWTpayload>)) { /* eslint-disable-line prettier/prettier */
+    if (
+      shallowEqualScalar(
+        author,
+        deleteJWTattribute(decripted) as IndexSignature<JWTpayload>
+      )
+    ) {
+      /* eslint-disable-line prettier/prettier */
       // Verified
       return true
     } else {

@@ -73,7 +73,7 @@ pass: `popcoon`
 These are storing `.env` and evaluate at build time.
 
 | Variable Name         | Role        | other |
-|-----------------------|-------------|-------|
+| --------------------- | ----------- | ----- |
 | VITE_APP_TITLE        | title       |       |
 | VITE_APP_DESCRIPTION  | desc        |       |
 | VITE_API_ENDPOINT     | end         |       |
@@ -110,4 +110,4 @@ pm2 ps -a                        // Show all processes
 1. npm i -g pm2
 1. `touch .env && echo "JWT_SECRET=$(openssl rand -base64 60 | tr -d '\n' | cut -c1-60)" >> .env`
 1. `pm2 start ecosystem.config.js`
-2. Access from browser
+1. Access from browser
