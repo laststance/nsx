@@ -26,7 +26,8 @@ export const sidebarSlice = createSlice({
   },
 })
 
-export const selectSidebarOpen = (state: RootState): SidebarState['open'] => state.sidebar.open
+export const selectSidebarOpen = (state: RootState): SidebarState['open'] =>
+  state.sidebar.open
 
 export const { openSidebar, closeSidebar, toggleSidebar } = sidebarSlice.actions
 

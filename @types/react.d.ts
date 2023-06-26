@@ -1,4 +1,10 @@
-import type { Dispatch, SetStateAction, WeakValidationMap, ValidationMap, ReactNode } from 'react'
+import type {
+  Dispatch,
+  SetStateAction,
+  WeakValidationMap,
+  ValidationMap,
+  ReactNode,
+} from 'react'
 
 declare module '*.svg' {
   const content: React.FC<React.SVGProps<SVGElement>>

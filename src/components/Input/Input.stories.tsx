@@ -38,6 +38,8 @@ const InputGroup: React.FC = (props) => {
   )
 }
 
-const Template: ComponentStory<typeof Input> = (props) => <InputGroup {...props} />
+const Template: ComponentStory<typeof Input> = (props) => (
+  <InputGroup {...props} />
+)
 
 export const TextInput = Template.bind({})

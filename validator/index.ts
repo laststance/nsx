@@ -13,12 +13,15 @@ export const name = define<Author['name']>('name', (value): Result => {
     : 'name should be 3~100 characters'
 })
 
-export const password = define<Author['password']>('password', (value): Result => {
-  assertCast<string>(value)
-  return value.trim().length > 6 && value.trim().length < 100
-    ? true
-    : 'password must be at least 6 characters long'
-})
+export const password = define<Author['password']>(
+  'password',
+  (value): Result => {
+    assertCast<string>(value)
+    return value.trim().length > 6 && value.trim().length < 100
+      ? true
+      : 'password must be at least 6 characters long'
+  }
+)
 
 export const userAccountValidator = object({
   name: name,

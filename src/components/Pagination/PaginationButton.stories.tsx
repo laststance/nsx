@@ -10,6 +10,7 @@ const meta: ComponentMeta<typeof ButtonGroup> = {
 
 export default meta
 
-export const Default: ComponentStory<typeof ButtonGroup> = ({ page, totalPage }) => (
-  <ButtonGroup page={page} totalPage={totalPage} />
-)
+export const Default: ComponentStory<typeof ButtonGroup> = ({
+  page,
+  totalPage,
+}) => <ButtonGroup page={page} totalPage={totalPage} />

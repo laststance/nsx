@@ -35,13 +35,17 @@ test('should apply type props', () => {
 test('should apply primary color by default', () => {
   const { getByRole } = TestRenderer(<Button />)
   const button = getByRole('button')
-  expect(button.className).toContain('bg-green-500 hover:bg-green-600 text-white')
+  expect(button.className).toContain(
+    'bg-green-500 hover:bg-green-600 text-white'
+  )
 })
 
 test('should apply primary variant', () => {
   const { getByRole } = TestRenderer(<Button variant="primary" />)
   const button = getByRole('button')
-  expect(button.className).toContain('bg-green-500 hover:bg-green-600 text-white')
+  expect(button.className).toContain(
+    'bg-green-500 hover:bg-green-600 text-white'
+  )
 })
 
 test('should apply secondary variant', () => {

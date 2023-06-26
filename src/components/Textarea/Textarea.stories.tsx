@@ -32,6 +32,8 @@ const TextareaForm = () => {
   )
 }
 
-const Template: ComponentStory<typeof Textarea> = (props) => <TextareaForm {...props} />
+const Template: ComponentStory<typeof Textarea> = (props) => (
+  <TextareaForm {...props} />
+)
 
 export const Default = Template.bind({})

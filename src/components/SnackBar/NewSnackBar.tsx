@@ -34,7 +34,8 @@ const NewSnackBar: React.FC = memo(() => {
         </h1>
       </div>
       <p className="my-0 ml-6 mr-0 box-border pl-2 text-sm text-teal-800">
-        You'll no longer receive our opt-in messages, but you can change your decision at any time.
+        You'll no longer receive our opt-in messages, but you can change your
+        decision at any time.
       </p>
     </div>
   )

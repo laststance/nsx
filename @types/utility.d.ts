@@ -17,7 +17,14 @@ declare type IndexSignature<O extends object> = {
 /**
  Matches any [primitive value](https://developer.mozilla.org/en-US/docs/Glossary/Primitive).
  */
-declare type Primitive = null | undefined | string | number | boolean | symbol | bigint
+declare type Primitive =
+  | null
+  | undefined
+  | string
+  | number
+  | boolean
+  | symbol
+  | bigint
 
 /**
  Matches a JSON array.

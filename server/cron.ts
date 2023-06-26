@@ -7,7 +7,13 @@ interface CronInterface {
 }
 
 export const Cron: CronInterface = {
-  readingList: new CronJob('0 0 * * *', postReadingList, null, true, 'Asia/Tokyo'),
+  readingList: new CronJob(
+    '0 0 * * *',
+    postReadingList,
+    null,
+    true,
+    'Asia/Tokyo'
+  ),
 }
 
 async function postReadingList() {

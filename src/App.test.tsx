@@ -22,7 +22,9 @@ test('My React App is working', async () => {
   expect(main).toHaveTextContent('01/14/22')
   expect(main).toHaveTextContent('What is matter my $500 for')
   expect(main).toHaveTextContent('12/29/21')
-  expect(main).toHaveTextContent('Please MUI Components all argTypes Json generator')
+  expect(main).toHaveTextContent(
+    'Please MUI Components all argTypes Json generator'
+  )
 
   root.unmount()
 

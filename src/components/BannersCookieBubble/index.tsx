@@ -7,7 +7,8 @@ const BannersCookiesBubble = Memo.html(() => {
         <div>
           <h4 className="mb-1 font-semibold text-white">We use cookies</h4>
           <p className="text-sm font-medium leading-relaxed text-gray-400">
-            This website uses cookies to personalise content, ads and to analyse our traffic.
+            This website uses cookies to personalise content, ads and to analyse
+            our traffic.
           </p>
         </div>
         <div className="flex w-full items-center justify-start space-x-2 sm:w-auto sm:justify-end">

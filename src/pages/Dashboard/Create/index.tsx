@@ -36,7 +36,11 @@ const Create: React.FC = memo(() => {
   return (
     <div className="flex w-full">
       <section className="w-[70%]">
-        <form onSubmit={handleSubmit(() => onSubmit(createPost, title, body, author, navigate))}>
+        <form
+          onSubmit={handleSubmit(() =>
+            onSubmit(createPost, title, body, author, navigate)
+          )}
+        >
           <Input
             defaultValue={title}
             type="text"
@@ -59,7 +63,12 @@ const Create: React.FC = memo(() => {
             onChange={handleBodyChange}
           />
           <div className="flex justify-end gap-4 pt-8">
-            <Button type="submit" variant="primary" isLoading={isLoading} data-cy="submit-btn">
+            <Button
+              type="submit"
+              variant="primary"
+              isLoading={isLoading}
+              data-cy="submit-btn"
+            >
               Submit
             </Button>
           </div>

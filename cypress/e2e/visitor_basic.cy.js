@@ -80,7 +80,11 @@ context('visitor basic', () => {
         cy.$('theme-menu-button').click()
         cy.$('theme-select-option-light').click()
         cy.$('root').should('not.have.class', 'dark')
-        cy.$('body').should('have.css', 'background-color', 'rgb(255, 255, 255)')
+        cy.$('body').should(
+          'have.css',
+          'background-color',
+          'rgb(255, 255, 255)'
+        )
 
         // Check Dark Theme
         cy.$('theme-menu-button').click()

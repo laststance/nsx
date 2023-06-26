@@ -18,7 +18,10 @@ const Helment: React.FC<React.PropsWithChildren<Props>> = memo(
       <meta name="og:image" content="https://digitalstrength.dev/ogp.png" />
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@malloc007" />
-      <meta name="twitter:image" content="https://digitalstrength.dev/ogp.png" />
+      <meta
+        name="twitter:image"
+        content="https://digitalstrength.dev/ogp.png"
+      />
       <title>{post.title}</title>
     </Helmet>
   ),

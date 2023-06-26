@@ -1,4 +1,9 @@
-import { CreditCardIcon, BuildingOfficeIcon, UserIcon, UsersIcon } from '@heroicons/react/24/solid'
+import {
+  CreditCardIcon,
+  BuildingOfficeIcon,
+  UserIcon,
+  UsersIcon,
+} from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import React, { memo } from 'react'
 import type { ComponentProps } from 'react'
@@ -8,7 +13,9 @@ import Layout from '../../../components/Layout'
 
 import MyAccount from './MyAccount'
 
-const TabRouterContainer: React.FC<ComponentProps<'section'>> = ({ children }) => (
+const TabRouterContainer: React.FC<ComponentProps<'section'>> = ({
+  children,
+}) => (
   <>
     <section>{children}</section>
     <Outlet />
@@ -26,7 +33,10 @@ const Setting: React.FC = memo(() => {
   const currentPath = useLocation().pathname.split('/')[3]
   return (
     <TabRouterContainer>
-      <nav className="-mb-px flex space-x-8 border-b border-gray-200" aria-label="Tabs">
+      <nav
+        className="-mb-px flex space-x-8 border-b border-gray-200"
+        aria-label="Tabs"
+      >
         {tabs.map((tab) => (
           <Link
             key={tab.name}

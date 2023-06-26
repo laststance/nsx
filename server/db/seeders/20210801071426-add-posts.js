@@ -42,13 +42,15 @@ module.exports = {
       {
         body: "This Sunday I've been working consider around create-react-app version up strategy and wrote comment on the issue.  \nIf create-react-app support `esbuild-loader` officially, dev-server speed improve drastically.  \n\n- [Comment on We need regualr CRA maintainer #11180](https://github.com/facebook/create-react-app/issues/11180#issuecomment-890454128)\n\nAnd I had many activity really wide.  \nHowever, I don't have enough time to research and implement everything I'm interested in.  \nAnyway that's enough achievement I could make `sequelize-cli` based setup DB backend of [today-i-learned](https://github.com/laststance/today-i-learned/blob/afd5b17b66881e84aebc79014911cc086f6db265/package.json#L104-L111).\n\nI'd like to mounted DB organizer command kind of `db:migrate`, `db:seed:all` on create-react-app project.  \nIt's looks like Ruby on Rails! Sounds like a FullStack Framework totally!\n\n----------------------------------------------------------\n### Articles\n\n- [Keyboard shortcuts](https://docs.github.com/en/get-started/using-github/keyboard-shortcuts)\n- [visionmedia/debug](https://github.com/visionmedia/debug#usage)\n- [Improved dark mode default styling with the color-scheme CSS property and the corresponding meta tag](https://web.dev/color-scheme/)\n- [prefers-color-scheme: Hello darkness, my old friend](https://web.dev/prefers-color-scheme/)\n- [Analyze your Create React App bundle size - without ejecting](https://tjaddison.com/blog/2020/12/analyze-your-create-react-app-bundle-size-without-ejecting/)",
         createdAt: new Date('2021-08-01T18:31:58.000Z'),
-        title: 'Create React App + Express + Sequelize CLI == FullStack Framework',
+        title:
+          'Create React App + Express + Sequelize CLI == FullStack Framework',
         updatedAt: new Date('2021-08-01T18:46:56.000Z'),
       },
       {
         body: 'In the docs there are 2 command `sequelize` and `sequelize-cli`.  \nIn the beginning I thought those command has different feature but both are exact same executable command finally I got it.\n\n- [Profiler API](https://reactjs.org/docs/profiler.html)\n- [sequelize/cli](https://github.com/sequelize/cli)\n- [How to Generate Fake Data in Node.js Using Faker.js](https://www.section.io/engineering-education/how-to-generate-fake-data-in-node-using-faker.js/)\n- [webpack or esbuild: Why not both?](https://blog.logrocket.com/webpack-or-esbuild-why-not-both/)\n- [Yarn 3.0](https://dev.to/arcanis/yarn-3-0-performances-esbuild-better-patches-e07)',
         createdAt: new Date('2021-07-31T08:52:37.000Z'),
-        title: "I didn't understand difference between sequelize and sequelize/cli",
+        title:
+          "I didn't understand difference between sequelize and sequelize/cli",
         updatedAt: new Date('2021-07-31T13:39:42.000Z'),
       },
       {
@@ -157,7 +159,8 @@ module.exports = {
       {
         body: "- [Why Redux is strongly recommending to use hooks API? · Discussion #1796 · reduxjs/react-redux](https://github.com/reduxjs/react-redux/discussions/1796)\n\nIt's interesting for me because `connect()` is well performance rather than `useSelector()` I thought unconsciously.  \nThinking a few time I easily understood actually only difference is `HOC` or `Hooks` where React-Redux must be done the extract value tasks.  \n\nFinally I'm curious about how prevent rerender where the no update value components dispite using React Context.\n\n\n- [When a JavaScript WeakMap() Actually Came in Handy // Alex MacArthur](https://macarthur.me/posts/when-a-weakmap-came-in-handy)\n- [JSON Web Token Introduction - jwt.io](https://jwt.io/introduction)",
         createdAt: new Date('2021-10-11T14:08:08.000Z'),
-        title: 'Currently Rreact-Redux recommended useSelector() over the connect()',
+        title:
+          'Currently Rreact-Redux recommended useSelector() over the connect()',
         updatedAt: new Date('2021-10-11T14:08:08.000Z'),
       },
       {
@@ -247,13 +250,15 @@ module.exports = {
       {
         body: "This Sunday I've been working consider around create-react-app version up strategy and wrote comment on the issue.  \nIf create-react-app support `esbuild-loader` officially, dev-server speed improve drastically.  \n\n- [Comment on We need regualr CRA maintainer #11180](https://github.com/facebook/create-react-app/issues/11180#issuecomment-890454128)\n\nAnd I had many activity really wide.  \nHowever, I don't have enough time to research and implement everything I'm interested in.  \nAnyway that's enough achievement I could make `sequelize-cli` based setup DB backend of [digital-strength](https://github.com/laststance/digital-strength/blob/afd5b17b66881e84aebc79014911cc086f6db265/package.json#L104-L111).\n\nI'd like to mounted DB organizer command kind of `db:migrate`, `db:seed:all` on create-react-app project.  \nIt's looks like Ruby on Rails! Sounds like a FullStack Framework totally!\n\n----------------------------------------------------------\n### Articles\n\n- [Keyboard shortcuts](https://docs.github.com/en/get-started/using-github/keyboard-shortcuts)\n- [visionmedia/debug](https://github.com/visionmedia/debug#usage)\n- [Improved dark mode default styling with the color-scheme CSS property and the corresponding meta tag](https://web.dev/color-scheme/)\n- [prefers-color-scheme: Hello darkness, my old friend](https://web.dev/prefers-color-scheme/)\n- [Analyze your Create React App bundle size - without ejecting](https://tjaddison.com/blog/2020/12/analyze-your-create-react-app-bundle-size-without-ejecting/)",
         createdAt: new Date('2021-08-01T18:31:58.000Z'),
-        title: 'Create React App + Express + Sequelize CLI == FullStack Framework',
+        title:
+          'Create React App + Express + Sequelize CLI == FullStack Framework',
         updatedAt: new Date('2021-08-01T18:46:56.000Z'),
       },
       {
         body: 'In the docs there are 2 command `sequelize` and `sequelize-cli`.  \nIn the beginning I thought those command has different feature but both are exact same executable command finally I got it.\n\n- [Profiler API](https://reactjs.org/docs/profiler.html)\n- [sequelize/cli](https://github.com/sequelize/cli)\n- [How to Generate Fake Data in Node.js Using Faker.js](https://www.section.io/engineering-education/how-to-generate-fake-data-in-node-using-faker.js/)\n- [webpack or esbuild: Why not both?](https://blog.logrocket.com/webpack-or-esbuild-why-not-both/)\n- [Yarn 3.0](https://dev.to/arcanis/yarn-3-0-performances-esbuild-better-patches-e07)',
         createdAt: new Date('2021-07-31T08:52:37.000Z'),
-        title: "I didn't understand difference between sequelize and sequelize/cli",
+        title:
+          "I didn't understand difference between sequelize and sequelize/cli",
         updatedAt: new Date('2021-07-31T13:39:42.000Z'),
       },
       {

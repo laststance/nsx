@@ -48,7 +48,9 @@ const MessageStyle: React.CSSProperties = {
   padding: '40px',
 }
 
-export const ErrorBoundaryFallbackComponent: React.FC<React.PropsWithChildren<unknown>> = () => (
+export const ErrorBoundaryFallbackComponent: React.FC<
+  React.PropsWithChildren<unknown>
+> = () => (
   <main style={LayoutStyle}>
     <section style={MessageStyle}>
       Something Error Ooccurring
