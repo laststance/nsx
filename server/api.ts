@@ -128,10 +128,8 @@ router.post(
         res.status(500).json({ error: error.message })
       } else {
         Logger.error(error)
-        res
-          .status(500)
-          .json({
-            error: `something wrong: ${JSON.stringify(error)}`,
+        res.status(500).json({
+          error: `something wrong: ${JSON.stringify(error)}`,
           }) /* eslint-disable-line prettier/prettier */
       }
     }
@@ -183,10 +181,8 @@ router.post('/create', async (req: Request, res: Response) => {
       res.status(500).json({ error: error.message })
     } else {
       Logger.error(error)
-      res
-        .status(500)
-        .json({
-          error: `something wrong: ${JSON.stringify(error)}`,
+      res.status(500).json({
+        error: `something wrong: ${JSON.stringify(error)}`,
         }) /* eslint-disable-line prettier/prettier */
     }
   }

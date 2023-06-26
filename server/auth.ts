@@ -21,7 +21,7 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
       decripted = jwt.verify(
         token,
         process.env.JWT_SECRET as string
-      ) as IndexSignature<JWTpayload> /* eslint-disable-line prettier/prettier */
+      ) as IndexSignature<JWTpayload>
     } catch (error) {
       Logger.error('failed jwt.verify()')
       Logger.error('decripted ' + JSON.stringify(decripted))
@@ -35,7 +35,6 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
         deleteJWTattribute(decripted) as IndexSignature<JWTpayload>
       )
     ) {
-      /* eslint-disable-line prettier/prettier */
       // Verified
       return true
     } else {

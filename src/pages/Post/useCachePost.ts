@@ -18,7 +18,7 @@ const useCachePost = (postId: Post['id']): Post | undefined => {
         const cache = state.data.postList.find((post) => {
           return post.id === postId
         })
-        // eslint-disable-next-line prettier/prettier
+
         const hitCache =
           cache !== undefined && !!cache.id && !!cache.title && !!cache.body
         if (hitCache === true) {
