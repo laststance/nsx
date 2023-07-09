@@ -13,7 +13,7 @@ import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 
 import Helment from './Helment'
-import { a, code } from './ReactMarkdown/CostomComponents'
+import { a } from './ReactMarkdown/CostomComponents'
 
 interface Props {
   post: Post
@@ -32,7 +32,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
       </h1>
       <article>
         <ReactMarkdown
-          components={{ a, code }}
+          components={{ a }}
           rehypePlugins={[rehypeRaw]}
           remarkPlugins={[breaks, gfm]}
           className="prose prose-lg dark:prose-invert"
