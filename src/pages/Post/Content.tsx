@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react'
-import React, { memo, Suspense } from 'react'
+import React, { memo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
 import rehypeRaw from 'rehype-raw'
@@ -8,7 +8,6 @@ import gfm from 'remark-gfm'
 
 import Button from '../../components/Button/Button'
 import Layout from '../../components/Layout'
-import Loading from '../../components/Loading/Loading'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 
@@ -23,7 +22,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
   const login = useAppSelector(selectLogin)
 
   return (
-    <Suspense fallback={<Loading />}>
+    <>
       <Helment post={post} />
       <h1 className="text-color-primary pb-10 pt-4 text-2xl font-semibold">
         {post.title}
@@ -48,7 +47,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
           </Link>
         </div>
       )}
-    </Suspense>
+    </>
   )
 })
 Content.displayName = 'Content'
