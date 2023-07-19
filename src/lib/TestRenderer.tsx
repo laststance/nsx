@@ -10,12 +10,12 @@ import { store } from '../redux/store'
 
 const TestRenderer = (
   ui: ReactElement,
-  memoryRouterProps?: MemoryRouterProps
+  memoryRouterProps?: MemoryRouterProps,
 ): RenderResult => {
   const renderResult = render(
     <Provider store={store}>
       <MemoryRouter {...memoryRouterProps}>{ui}</MemoryRouter>
-    </Provider>
+    </Provider>,
   )
   return renderResult
 }

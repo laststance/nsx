@@ -27,7 +27,7 @@ const DashboardPostRow: React.FC<Props> = memo(
         />
       </li>
     )
-  }
+  },
 )
 DashboardPostRow.displayName = 'DashboardPostRow'
 

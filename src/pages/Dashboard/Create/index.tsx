@@ -38,7 +38,7 @@ const Create: React.FC = memo(() => {
       <section className="w-[70%]">
         <form
           onSubmit={handleSubmit(() =>
-            onSubmit(createPost, title, body, author, navigate)
+            onSubmit(createPost, title, body, author, navigate),
           )}
         >
           <Input

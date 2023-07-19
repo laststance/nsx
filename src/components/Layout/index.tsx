@@ -36,7 +36,7 @@ const Layout = memo<
       </div>
     )
   },
-  () => true
+  () => true,
 )
 Layout.displayName = 'Layout'
 

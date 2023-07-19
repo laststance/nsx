@@ -21,7 +21,7 @@ const RTKQueryErrorMessages: React.FC<React.PropsWithChildren<Props>> = memo(
     }
     return <code>{message}</code>
   },
-  () => true
+  () => true,
 )
 RTKQueryErrorMessages.displayName = 'RTKQueryErrorMessages'
 

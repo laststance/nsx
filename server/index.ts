@@ -20,7 +20,7 @@ const isProd = env === 'production'
 // dev: projectRoot/.env production: projectRoot/server_build/.env
 
 require('dotenv').config(
-  isProd ? path.join(__dirname, './../../.env') : __dirname
+  isProd ? path.join(__dirname, './../../.env') : __dirname,
 )
 
 Cron.readingList.start()
@@ -59,20 +59,20 @@ if (isDev) {
 
   const privateKey = fs.readFileSync(
     '/etc/letsencrypt/live/nsx.malloc.tokyo/privkey.pem',
-    'utf-8'
+    'utf-8',
   )
   const certificate = fs.readFileSync(
     '/etc/letsencrypt/live/nsx.malloc.tokyo/cert.pem',
-    'utf-8'
+    'utf-8',
   )
   const ca = fs.readFileSync(
     '/etc/letsencrypt/live/nsx.malloc.tokyo/chain.pem',
-    'utf-8'
+    'utf-8',
   )
 
   const ProdServer = https.createServer(
     { ca: ca, cert: certificate, key: privateKey },
-    app
+    app,
   )
 
   ProdServer.listen(443, () => {

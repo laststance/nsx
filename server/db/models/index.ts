@@ -13,7 +13,7 @@ const sequelize = new Sequelize(
   config.username,
   // @ts-ignore @TODO appierd with migrate
   config.password,
-  config
+  config,
 )
 
 AuthorModel.init(
@@ -24,7 +24,7 @@ AuthorModel.init(
   {
     modelName: 'author',
     sequelize,
-  }
+  },
 )
 
 PostModel.init(
@@ -35,12 +35,12 @@ PostModel.init(
   {
     modelName: 'post',
     sequelize,
-  }
+  },
 )
 
 StockModel.init(
   { pageTitle: DataTypes.TEXT, url: DataTypes.TEXT },
-  { modelName: 'stock', sequelize }
+  { modelName: 'stock', sequelize },
 )
 
 interface DB {

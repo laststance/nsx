@@ -28,7 +28,7 @@ const Spinner: React.FC<React.PropsWithChildren<SpinnerProps>> = memo(
             'animate-spin',
             sizes[size],
             variants[variant],
-            className
+            className,
           )}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -53,7 +53,7 @@ const Spinner: React.FC<React.PropsWithChildren<SpinnerProps>> = memo(
       </>
     )
   },
-  () => true
+  () => true,
 )
 Spinner.displayName = 'Spinner'
 

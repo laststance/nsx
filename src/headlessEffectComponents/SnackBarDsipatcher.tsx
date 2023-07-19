@@ -12,7 +12,7 @@ const SnackBarDsipatcher: React.WidgetManageComponent = React.memo(
     const que = messageQueue[0]
     return <SnackBar message={que.message} color={que.color} />
   },
-  () => true
+  () => true,
 )
 SnackBarDsipatcher.displayName = 'HeadlessEffect.SnackBarDispatcher'
 

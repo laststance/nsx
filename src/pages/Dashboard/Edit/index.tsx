@@ -49,7 +49,7 @@ const Edit: React.FC = memo(() => {
     <form
       data-testid="edit-form"
       onSubmit={handleSubmit(() =>
-        onSubmit(updatePost, author, getValues, navigate, id, dispatch)
+        onSubmit(updatePost, author, getValues, navigate, id, dispatch),
       )}
     >
       <Input

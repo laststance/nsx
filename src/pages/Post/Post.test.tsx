@@ -14,7 +14,7 @@ test('should render Post', async () => {
     </Routes>,
     {
       initialEntries: ['/post/2'],
-    }
+    },
   )
 
   await waitFor(async () => {

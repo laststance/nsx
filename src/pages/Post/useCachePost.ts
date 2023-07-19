@@ -27,7 +27,7 @@ const useCachePost = (postId: Post['id']): Post | undefined => {
           return { cache: undefined }
         }
       },
-    }
+    },
   )
   return cache
 }

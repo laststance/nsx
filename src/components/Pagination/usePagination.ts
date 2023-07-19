@@ -22,7 +22,7 @@ export interface UsePagenationResult {
 }
 
 function usePagination(
-  customPerPage?: PagenationState['perPage']
+  customPerPage?: PagenationState['perPage'],
 ): UsePagenationResult {
   useIsomorphicLayoutEffect(() => {
     if (Number.isSafeInteger(customPerPage)) {

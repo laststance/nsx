@@ -117,9 +117,9 @@ export const handlers = [
             },
           ],
           total: 60,
-        })
+        }),
       )
-    }
+    },
   ),
   rest.get('/api/post/:id', (req, res, ctx) => {
     return res(
@@ -129,7 +129,7 @@ export const handlers = [
         id: 52,
         title: 'superstruct',
         updatedAt: '2021-12-06T23:19:43.000Z',
-      })
+      }),
     )
   }),
   rest.delete('/post/:id', (req, res, ctx) => {

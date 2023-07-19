@@ -1,7 +1,7 @@
 // from https://github.com/reduxjs/react-redux/blob/7a3e2fd11c9898e28700cad963757b523e215ab4/src/utils/shallowEqualScalar.js
 export default function shallowEqualScalar(
   objA: Record<string, Primitive>,
-  objB: Record<string, Primitive>
+  objB: Record<string, Primitive>,
 ): boolean {
   if (objA === objB) {
     return true

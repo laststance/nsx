@@ -43,7 +43,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
       <div
         data-cy="snackbar"
         className={`z-60 fixed right-0 top-0 m-2 flex items-center justify-between rounded-lg p-4 shadow-lg sm:m-4 ${getBGColor(
-          color
+          color,
         )} ${opacity} transition-opacity duration-1000 ease-out`}
       >
         <div className="inline-flex items-center text-teal-50">
@@ -70,7 +70,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
         </div>
       </div>
     )
-  }
+  },
 )
 SnackBar.displayName = 'SnackBar'
 

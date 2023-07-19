@@ -18,7 +18,7 @@ const ArrowRight: React.FC = memo(
       />
     </svg>
   ),
-  () => true
+  () => true,
 )
 ArrowRight.displayName = 'ArrowRight'
 

@@ -10,7 +10,7 @@ const IndexPage = memo(
       <PostList />
     </Layout>
   ),
-  () => true
+  () => true,
 )
 IndexPage.displayName = 'IndexPage'
 

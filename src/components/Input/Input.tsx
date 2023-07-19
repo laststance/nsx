@@ -30,7 +30,7 @@ const styles = {
 
 // prevent propagate keyboard event to global shortcut key eventListener
 export const stopPropagation = (
-  e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
 ) => e.stopPropagation()
 
 const Input: React.FC<
@@ -71,7 +71,7 @@ const Input: React.FC<
         )}
       </div>
     )
-  }
+  },
 )
 Input.displayName = 'Input'
 

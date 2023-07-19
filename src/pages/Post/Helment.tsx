@@ -25,7 +25,7 @@ const Helment: React.FC<React.PropsWithChildren<Props>> = memo(
       <title>{post.title}</title>
     </Helmet>
   ),
-  () => true
+  () => true,
 )
 Helment.displayName = 'Helment'
 

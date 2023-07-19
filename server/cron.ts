@@ -12,7 +12,7 @@ export const Cron: CronInterface = {
     postReadingList,
     null,
     true,
-    'Asia/Tokyo'
+    'Asia/Tokyo',
   ),
 }
 

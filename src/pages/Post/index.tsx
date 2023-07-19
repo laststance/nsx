@@ -20,7 +20,7 @@ const PostPage: React.FC = memo(() => {
 
   const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(
     postId,
-    /* No Cache then Do Real Fetch */ { skip: cache !== undefined }
+    /* No Cache then Do Real Fetch */ { skip: cache !== undefined },
   )
 
   // show post without fetch request

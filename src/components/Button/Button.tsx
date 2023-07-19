@@ -47,7 +47,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = memo(
         <span className="mx-2">{children}</span>
       </button>
     )
-  }
+  },
 )
 Button.displayName = 'Button'
 

@@ -55,7 +55,7 @@ const ThemeToggle = memo(() => {
                   className={clsx(
                     'flex cursor-pointer items-center px-2 py-1',
                     selected && 'text-green-400',
-                    active && 'bg-slate-50 dark:bg-slate-600/30'
+                    active && 'bg-slate-50 dark:bg-slate-600/30',
                   )}
                   data-cy={`theme-select-option-${value}`}
                 >

@@ -31,7 +31,7 @@ const Router = memo(
       </Routes>
     )
   },
-  () => true
+  () => true,
 )
 Router.displayName = 'Router'
 

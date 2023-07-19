@@ -27,7 +27,7 @@ router.get(
   async (req: Request, res: Response<Res.GetUserCount>) => {
     const userCount = await db.author.count()
     res.status(200).json({ userCount })
-  }
+  },
 )
 
 router.get(
@@ -42,7 +42,7 @@ router.get(
         perPage: Override<Req.PostList['perPage'], string>
       }
     >,
-    res: Response<Res.PostList>
+    res: Response<Res.PostList>,
   ) => {
     const page = parseInt(req.query.page, 10)
     const perPage = parseInt(req.query.perPage, 10)
@@ -67,7 +67,7 @@ router.get(
     const postList = await db.post.findAll(options)
     // @ts-ignore Type 'PostModel[]' is not assignable to type 'Post[]'. Type 'PostModel' is missing the following properties from type 'Post': createdAt, updatedAt
     res.status(200).json({ postList, total })
-  }
+  },
 )
 
 router.get('/post/:id', async (req: Request, res: Response) => {
@@ -133,7 +133,7 @@ router.post(
           }) /* eslint-disable-line prettier/prettier */
       }
     }
-  }
+  },
 )
 
 router.post('/login', async ({ body }: Request, res: Response) => {
@@ -198,7 +198,7 @@ router.post(
     try {
       await db.post.update(
         { body: body.body, title: body.title },
-        { where: { id: body.id } }
+        { where: { id: body.id } },
       )
 
       res.status(200).json({ message: 'Post Updated!' })
@@ -206,7 +206,7 @@ router.post(
       Logger.error(error)
       next(error)
     }
-  }
+  },
 )
 
 router.post(
@@ -224,7 +224,7 @@ router.post(
       Logger.error(error)
       next(error)
     }
-  }
+  },
 )
 
 router.get('/stocklist', async (req, res) => {

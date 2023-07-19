@@ -17,7 +17,7 @@ test('should render Edit', async () => {
     </Routes>,
     {
       initialEntries: ['/edit/52'],
-    }
+    },
   )
   await waitFor(async () => {
     // @TODO investigate why the loading screen was rendered even though tried taking so much sleep() time over 3000ms.
@@ -26,7 +26,7 @@ test('should render Edit', async () => {
     expect(getByTestId('edit-form')).toBeInTheDocument()
     expect(getByTestId('edit-title-input')).toHaveValue('superstruct')
     expect(getByTestId('edit-body-input')).toHaveTextContent(
-      'is masterpiece of validation library ever.'
+      'is masterpiece of validation library ever.',
     )
   })
 })

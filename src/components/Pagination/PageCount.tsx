@@ -13,7 +13,7 @@ const PageCount: React.FC<ComponentProps<'div'> & Props> = memo(
     <div {...rest}>
       {page} / {totalPage}
     </div>
-  )
+  ),
 )
 PageCount.displayName = 'PageCounter'
 

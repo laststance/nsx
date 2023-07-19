@@ -13,7 +13,7 @@ export async function onSubmit(
   getValues: UseFormGetValues<FormInput>,
   navigate: NavigateFunction,
   id: Post['id'],
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
 ) {
   const response = await updatePost({
     author: author,

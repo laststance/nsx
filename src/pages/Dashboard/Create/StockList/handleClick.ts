@@ -5,7 +5,7 @@ import { dispatch, getRootState } from '../../../../redux/store'
 
 export function handleClick(
   stock: Stock,
-  refetch: ReturnType<typeof API.endpoints.getStockList.useQuery>['refetch']
+  refetch: ReturnType<typeof API.endpoints.getStockList.useQuery>['refetch'],
 ) {
   return async () => {
     const author = selectAuthor(getRootState())

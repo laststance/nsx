@@ -36,7 +36,7 @@ test('should apply primary color by default', () => {
   const { getByRole } = TestRenderer(<Button />)
   const button = getByRole('button')
   expect(button.className).toContain(
-    'bg-green-500 hover:bg-green-600 text-white'
+    'bg-green-500 hover:bg-green-600 text-white',
   )
 })
 
@@ -44,7 +44,7 @@ test('should apply primary variant', () => {
   const { getByRole } = TestRenderer(<Button variant="primary" />)
   const button = getByRole('button')
   expect(button.className).toContain(
-    'bg-green-500 hover:bg-green-600 text-white'
+    'bg-green-500 hover:bg-green-600 text-white',
   )
 })
 
@@ -58,7 +58,7 @@ test('shold apply inverse variant', () => {
   const { getByRole } = TestRenderer(<Button variant="inverse" />)
   const button = getByRole('button')
   expect(button.className).toContain(
-    'bg-white text-green-400 border border-green-400 hover:bg-green-500 hover:text-white'
+    'bg-white text-green-400 border border-green-400 hover:bg-green-500 hover:text-white',
   )
 })
 
@@ -96,7 +96,7 @@ test('should apply child text', () => {
   const { getByRole } = TestRenderer(
     <Button size="lg" variant="secondary">
       Fire
-    </Button>
+    </Button>,
   )
   const button = getByRole('button')
   expect(button).toHaveTextContent('Fire')

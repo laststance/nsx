@@ -23,7 +23,7 @@ const Error: React.FC<React.PropsWithChildren<Props<any>>> = memo(
 
     return <ErrorBoundaryFallbackComponent />
   },
-  () => true
+  () => true,
 )
 Error.displayName = 'Error'
 

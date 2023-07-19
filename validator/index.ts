@@ -20,7 +20,7 @@ export const password = define<Author['password']>(
     return value.trim().length > 6 && value.trim().length < 100
       ? true
       : 'password must be at least 6 characters long'
-  }
+  },
 )
 
 export const userAccountValidator = object({

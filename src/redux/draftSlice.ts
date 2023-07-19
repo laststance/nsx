@@ -23,13 +23,13 @@ export const draftSlice = createSlice({
     },
     updateBody: (
       state,
-      action: PayloadAction<{ body: DraftState['body'] }>
+      action: PayloadAction<{ body: DraftState['body'] }>,
     ) => {
       state.body = action.payload.body
     },
     updateTitle: (
       state,
-      action: PayloadAction<{ title: DraftState['title'] }>
+      action: PayloadAction<{ title: DraftState['title'] }>,
     ) => {
       state.title = action.payload.title
     },

@@ -38,7 +38,7 @@ const App = memo(
       </ErrorBoundary>
     )
   },
-  () => true
+  () => true,
 )
 App.displayName = 'App'
 

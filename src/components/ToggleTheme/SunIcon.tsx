@@ -34,7 +34,7 @@ const SunIcon = memo(
         />
       </svg>
     )
-  }
+  },
 )
 SunIcon.displayName = 'SunIcon'
 

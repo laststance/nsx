@@ -58,7 +58,7 @@ const ContentPage: React.FC<Props & ComponentProps<any>> = memo(
       <Content post={post} />
     </Layout>
   ),
-  () => true
+  () => true,
 )
 ContentPage.displayName = 'ContentPage'
 

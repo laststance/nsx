@@ -73,7 +73,7 @@ test('should apply default value props', () => {
 
 test('should apply placefolder props', () => {
   const { getByPlaceholderText } = TestRenderer(
-    <Form placeholder="let type something" defaultValue="long train" />
+    <Form placeholder="let type something" defaultValue="long train" />,
   )
   const input = getByPlaceholderText('let type something')
   expect(input).toHaveValue('long train')
@@ -126,6 +126,6 @@ test('should show error message with invalid input', async () => {
   await user.click(submitBtn)
 
   expect(getByRole('form', { name: 'Testing Form' })).toHaveTextContent(
-    'name should be 3~100 characters'
+    'name should be 3~100 characters',
   )
 })

@@ -25,7 +25,7 @@ const isSuccess = (res: Response): boolean => {
       // @TODO Sentry
       // @TODO Error Modal with Json Indent
       store.dispatch(
-        enqueSnackbar({ color: 'red', message: JSON.stringify(error) })
+        enqueSnackbar({ color: 'red', message: JSON.stringify(error) }),
       )
       return false
     }

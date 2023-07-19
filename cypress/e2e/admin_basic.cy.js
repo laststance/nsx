@@ -93,7 +93,7 @@ context('admin basic', () => {
       cy.$('edit-title-input').type('Edit Title!')
       cy.$('edit-body-input').type('Edit Post Contents!')
       cy.logger(
-        'Edit complete then click Update button, after page transition single post page.'
+        'Edit complete then click Update button, after page transition single post page.',
       )
       cy.$('update-btn').contains('Update').click()
       cy.url().should('eq', 'http://localhost:3000/post/72')

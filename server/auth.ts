@@ -20,7 +20,7 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
     try {
       decripted = jwt.verify(
         token,
-        process.env.JWT_SECRET as string
+        process.env.JWT_SECRET as string,
       ) as IndexSignature<JWTpayload>
     } catch (error) {
       Logger.error('failed jwt.verify()')
@@ -32,7 +32,7 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
     if (
       shallowEqualScalar(
         author,
-        deleteJWTattribute(decripted) as IndexSignature<JWTpayload>
+        deleteJWTattribute(decripted) as IndexSignature<JWTpayload>,
       )
     ) {
       // Verified

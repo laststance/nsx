@@ -10,7 +10,7 @@ const Footer = memo(
       </div>
     </footer>
   ),
-  () => true
+  () => true,
 )
 Footer.displayName = 'Footer'
 

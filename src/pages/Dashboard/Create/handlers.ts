@@ -25,7 +25,7 @@ export async function onSubmit(
   title: DraftState['title'],
   body: DraftState['body'],
   author: AdminState['author'],
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
 ) {
   const post = await createPost({
     author,

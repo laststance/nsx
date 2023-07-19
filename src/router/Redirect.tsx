@@ -17,7 +17,7 @@ const Redirect: HeadlessEffectComponent<Props> = memo<Props>(
     }, [])
     return null
   },
-  () => true
+  () => true,
 )
 Redirect.displayName = 'HeadlessEffect.Redirect'
 

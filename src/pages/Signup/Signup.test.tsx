@@ -14,10 +14,10 @@ test('should show Signup Form', () => {
 
   expect(getByRole('heading')).toHaveTextContent('Signup')
   expect(
-    container.querySelector('[data-cy="signup-name-input"]')
+    container.querySelector('[data-cy="signup-name-input"]'),
   ).toBeInTheDocument()
   expect(
-    container.querySelector('[data-cy="signup-password-input"]')
+    container.querySelector('[data-cy="signup-password-input"]'),
   ).toBeInTheDocument()
   expect(getByRole('button')).toHaveTextContent('Submit')
 })

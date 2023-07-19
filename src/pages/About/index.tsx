@@ -46,7 +46,7 @@ const About = memo(
       </section>
     </>
   ),
-  () => true
+  () => true,
 )
 About.displayName = 'About'
 

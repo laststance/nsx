@@ -60,7 +60,7 @@ const Textarea: React.FC<
         </div>
       </div>
     )
-  }
+  },
 )
 Textarea.displayName = 'Textarea'
 

@@ -30,7 +30,7 @@ const EditButtonGroup: React.FC<Props> = memo(
         </Button>
       </div>
     )
-  }
+  },
 )
 EditButtonGroup.displayName = 'EditButtonGroup'
 

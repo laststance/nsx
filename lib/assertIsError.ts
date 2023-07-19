@@ -3,11 +3,11 @@ class AssertionError extends Error {
 }
 
 export function assertIsError<T extends Error>(
-  error: unknown
+  error: unknown,
 ): asserts error is T {
   if (error instanceof Error === false) {
     throw new AssertionError(
-      `Expected 'val' to be Error, but received ${error}`
+      `Expected 'val' to be Error, but received ${error}`,
     )
   }
 }

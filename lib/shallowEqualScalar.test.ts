@@ -17,12 +17,12 @@ describe('shallowEqualScalar', () => {
     expect(
       shallowEqualScalar(
         { a: 1, b: 2, c: undefined },
-        { a: 1, b: 2, c: undefined }
-      )
+        { a: 1, b: 2, c: undefined },
+      ),
     ).toBe(true)
 
     expect(shallowEqualScalar({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 })).toBe(
-      true
+      true,
     )
   })
 
@@ -42,7 +42,7 @@ describe('shallowEqualScalar', () => {
     const o = {}
     // @ts-expect-error TS2322: Type '{}' is not assignable to type 'Primitive'. Type '{}' is not assignable to type 'symbol'.
     expect(shallowEqualScalar({ a: 1, b: 2, c: o }, { a: 1, b: 2, c: o })).toBe(
-      false
+      false,
     )
   })
 
@@ -50,8 +50,8 @@ describe('shallowEqualScalar', () => {
     expect(
       shallowEqualScalar(
         { a: 1, b: 2, c: undefined },
-        { a: 1, bb: 2, c: undefined }
-      )
+        { a: 1, bb: 2, c: undefined },
+      ),
     ).toBe(false)
   })
 })

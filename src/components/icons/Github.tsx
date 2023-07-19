@@ -15,7 +15,7 @@ const Github = memo(
       ></path>
     </svg>
   ),
-  () => true
+  () => true,
 )
 Github.displayName = 'GithubIcon'
 

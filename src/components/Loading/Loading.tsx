@@ -9,7 +9,7 @@ const Loading: React.FC = memo(
       </div>
     )
   },
-  () => true
+  () => true,
 )
 Loading.displayName = 'Loading'
 

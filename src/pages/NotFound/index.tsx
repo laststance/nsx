@@ -11,7 +11,7 @@ const NotFound = memo(
       <h1 className="text-color-primary text-6xl">404: Page Not Found</h1>
     </Layout>
   ),
-  () => true
+  () => true,
 )
 NotFound.displayName = 'NotFound'
 
