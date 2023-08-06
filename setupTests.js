@@ -1,5 +1,5 @@
 import matchers from '@testing-library/jest-dom/matchers'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import MatchMediaMock from 'vitest-matchmedia-mock'
 
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)

@@ -3,7 +3,7 @@ import { rest } from 'msw'
 
 export const handlers = [
   rest.get(
-    '/api/post_list',
+    'http://localhost:3000/api/post_list',
     (req, res: ResponseComposition<Res.PostList>, ctx: RestContext) => {
       return res(
         ctx.json({
@@ -148,6 +148,9 @@ export const handlers = [
     return res(ctx.json([]))
   }),
   rest.post('/update', (req, res, ctx) => {
+    return res(ctx.json([]))
+  }),
+  rest.get('http://localhost:3000/api/stock_list', (req, res, ctx) => {
     return res(ctx.json([]))
   }),
 ]

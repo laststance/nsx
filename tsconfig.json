@@ -19,6 +19,6 @@
     "target": "ES2020",
     "types": ["vitest/globals", "testing-library__jest-dom"]
   },
-  "include": ["src", "validator", "@types", "mocks", "lib", ".storybook"],
+  "include": ["src", "validator", "server", "@types", "mocks", "lib", ".storybook"],
   "exclude": ["server_build", "storybook-static"]
 }
