@@ -8,6 +8,7 @@ on:
       - main
 jobs:
   cypress-e2e-visitor-side:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
