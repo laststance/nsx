@@ -14,15 +14,6 @@
 > All core feature implemented completely, I'm planning distribute repo source directly as similar as [Beam](https://github.com/planetscale/beam).
 > [Roadmap](https://github.com/laststance/nsx/projects/1)
 
-##### Jest Coverage
-
-<p align="left">
-<img src="./jest/badge-branches.svg" />
-<img src="./jest/badge-functions.svg" />
-<img src="./jest/badge-lines.svg" />
-<img src="./jest/badge-statements.svg" />
-</p>
-
 # NSX
 
 <a src="https://nsx.malloc.tokyo/">
