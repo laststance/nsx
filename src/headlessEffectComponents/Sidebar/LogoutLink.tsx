@@ -1,6 +1,6 @@
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
 import React from 'react'
-import type { NavigateFunction } from 'react-router'
+import type { NavigateFunction } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
 import Memo from '../../lib/memo'

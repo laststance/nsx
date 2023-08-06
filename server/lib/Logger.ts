@@ -1,6 +1,5 @@
 // from https://github.com/Lucaslah/inklog.js/blob/906ebbaadcfe2d2230860183d2472f4c831a3710/src/index.ts
 /* eslint-disable no-console  */
-import type { black, white, green, yellow, red, cyan } from 'chalk'
 import chalk from 'chalk'
 
 /**
@@ -9,13 +8,13 @@ import chalk from 'chalk'
  */
 class Logger {
   public noColor: boolean
-  private base: typeof black
-  private logNoColor: typeof white
+  private base: typeof chalk.black
+  private logNoColor: typeof chalk.white
   public noPrefix: boolean
-  private green: typeof green
-  private yellow: typeof yellow
-  private red: typeof red
-  private cyan: typeof cyan
+  private green: typeof chalk.green
+  private yellow: typeof chalk.yellow
+  private red: typeof chalk.red
+  private cyan: typeof chalk.cyan
   constructor() {
     this.noColor = false
     this.base = chalk.black
