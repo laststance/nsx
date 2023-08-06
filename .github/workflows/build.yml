@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        run: mv .env.sample .env
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -39,5 +40,5 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-      - name: Build
+      - name: Buil
         run: pnpm build
