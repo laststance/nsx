@@ -1,9 +1,11 @@
-import '@testing-library/jest-dom'
+import matchers from '@testing-library/jest-dom/matchers'
 import MatchMediaMock from 'jest-matchmedia-mock'
 
+// extends Vitest's expect method with methods from react-testing-library
+expect.extend(matchers)
 // Polyfill "window.fetch" used in the React component.
-import 'whatwg-fetch'
-import { server } from '../mocks/server'
+import 'node-fetch'
+import { server } from './mocks/server'
 
 let matchMedia
 

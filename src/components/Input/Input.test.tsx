@@ -25,7 +25,7 @@ interface Props {
 }
 
 const Form: React.FC<Props> = ({
-  handleSubmitMock = jest.fn(),
+  handleSubmitMock = vi.fn(),
   defaultValue = undefined,
   placeholder = undefined,
   type = undefined,
@@ -101,7 +101,7 @@ test('should be able to input any text', async () => {
 
 test('should submit input text when onSubmit fired', async () => {
   const user = userEvent.setup()
-  const handleSubmit = jest.fn((data) => {
+  const handleSubmit = vi.fn((data) => {
     return data
   })
 

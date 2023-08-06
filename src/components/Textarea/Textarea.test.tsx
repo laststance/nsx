@@ -24,7 +24,7 @@ interface Props {
 }
 
 const Form: React.FC<Props> = ({
-  handleSubmitMock = jest.fn(),
+  handleSubmitMock = vi.fn(),
   defaultValue = undefined,
   placeholder = undefined,
 }) => {
@@ -65,7 +65,7 @@ test('should render Textarea with react-fook-form', () => {
 
 test('should be able to input any text', async () => {
   const user = userEvent.setup()
-  const handleSubmit = jest.fn((data) => {
+  const handleSubmit = vi.fn((data) => {
     return data
   })
 
