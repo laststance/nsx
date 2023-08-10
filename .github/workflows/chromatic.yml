@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - run: mv .env.storybook .env
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         with:
