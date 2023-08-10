@@ -21,7 +21,7 @@ jobs:
         with:
           version: 8
           run_install: false
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v1
       - name: Install dependencies
         # 👇 Install dependencies with the same package manager used in the project (replace it as needed), e.g. yarn, npm, pnpm
         run: pnpm install
