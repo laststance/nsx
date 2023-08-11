@@ -14,23 +14,22 @@ import Post from '../pages/Post'
 import AuthRouter from './AuthRouter'
 
 const Router = memo(
-  () => {
-    return (
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="post/:postId_querystring" element={<Post />} />
-        <Route path="about" element={<About />} />
-        <Route path="login" element={<Login />} />
-        <Route path="dashboard" element={<AuthRouter />}>
-          <Route index element={<Dashboard />} />
-          <Route path="create" element={<Create />} />
-          <Route path="edit/:postId" element={<Edit />} />
-          <Route path="setting/*" element={<Setting />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    )
-  },
+  () => (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="post/:postId_querystring" element={<Post />} />
+      <Route path="about" element={<About />} />
+      <Route path="login" element={<Login />} />
+      <Route path="dashboard" element={<AuthRouter />}>
+        <Route index element={<Dashboard />} />
+        <Route path="create" element={<Create />} />
+        <Route path="edit/:postId" element={<Edit />} />
+        <Route path="setting/*" element={<Setting />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  ),
+
   () => true,
 )
 Router.displayName = 'Router'
