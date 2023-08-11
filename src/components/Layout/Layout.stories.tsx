@@ -1,6 +1,8 @@
 import type { ComponentStory } from '@storybook/react'
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { HistoryRouter } from 'redux-first-history/rr6'
+
+import { history } from '../../redux/store'
 
 import Layout from '.'
 
@@ -10,7 +12,7 @@ export default {
 }
 
 const Template: ComponentStory<typeof Layout> = () => (
-  <BrowserRouter>
+  <HistoryRouter history={history}>
     <Layout>
       <div
         style={{
@@ -25,7 +27,7 @@ const Template: ComponentStory<typeof Layout> = () => (
         Layout Component
       </div>
     </Layout>
-  </BrowserRouter>
+  </HistoryRouter>
 )
 
 export const Default = Template.bind({})

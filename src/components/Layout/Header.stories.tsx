@@ -1,6 +1,8 @@
 import type { ComponentStory } from '@storybook/react'
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { HistoryRouter } from 'redux-first-history/rr6'
+
+import { history } from '../../redux/store'
 
 import Header from './Header'
 
@@ -10,9 +12,9 @@ export default {
 }
 
 const Template: ComponentStory<typeof Header> = () => (
-  <BrowserRouter>
+  <HistoryRouter history={history}>
     <Header />
-  </BrowserRouter>
+  </HistoryRouter>
 )
 
 export const Default = Template.bind({})
