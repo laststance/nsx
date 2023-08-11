@@ -22,7 +22,7 @@
 
 ⚛️ [Production](https://nsx.malloc.tokyo/)
 
-[//]: # (✅ [Storybook]&#40;https://main--61c089c06b3b4d003adde63b.chromatic.com&#41;)
+✅ [Storybook](https://main--61c089c06b3b4d003adde63b.chromatic.com)
 
 Currently doghooding this project as a Reading List blog.
 
