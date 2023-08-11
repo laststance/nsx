@@ -33,11 +33,14 @@ Cron.readingList.start()
  Express Setup
  */
 const app = express()
-expressOasGenerator.handleResponses(app, {
-  alwaysServeDocs: true,
-  specOutputFileBehavior: SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
-  swaggerDocumentOptions: SwaggerUiOptions,
-})
+if (isDev) {
+  // OpenAPI Spec Generator
+  expressOasGenerator.handleResponses(app, {
+    alwaysServeDocs: false,
+    specOutputFileBehavior: SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
+    swaggerDocumentOptions: SwaggerUiOptions,
+  })
+}
 app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -45,11 +48,11 @@ app.use(cors())
 app.use(morgan('combined'))
 app.use(compression())
 app.use('/api', router)
-expressOasGenerator.handleRequests()
 /**
  DEV Server
  */
 if (isDev) {
+  expressOasGenerator.handleRequests()
   app.listen(4000, () => {
     Logger.log()
     Logger.info('DEV API Server listening on port 4000!')
