@@ -1,6 +1,6 @@
-import fs from 'fs'
-import https from 'https'
-import path from 'path'
+import fs from 'node:fs'
+import https from 'node:https'
+import path from 'node:path'
 
 import bodyParser from 'body-parser'
 import compression from 'compression'
@@ -22,7 +22,6 @@ const isDev = env === 'development'
 const isProd = env === 'production'
 // .env file path resolve different between dev and production.
 // dev: projectRoot/.env production: projectRoot/server_build/.env
-
 require('dotenv').config(
   isProd ? path.join(__dirname, './../../.env') : __dirname,
 )
