@@ -7,6 +7,10 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
+import expressOasGenerator, {
+  SPEC_OUTPUT_FILE_BEHAVIOR,
+  SwaggerUiOptions,
+} from 'express-oas-generator'
 import morgan from 'morgan'
 
 import router from './api'
@@ -29,6 +33,11 @@ Cron.readingList.start()
  Express Setup
  */
 const app = express()
+expressOasGenerator.handleResponses(app, {
+  alwaysServeDocs: true,
+  specOutputFileBehavior: SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
+  swaggerDocumentOptions: SwaggerUiOptions,
+})
 app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -36,7 +45,7 @@ app.use(cors())
 app.use(morgan('combined'))
 app.use(compression())
 app.use('/api', router)
-
+expressOasGenerator.handleRequests()
 /**
  DEV Server
  */
@@ -53,7 +62,7 @@ if (isDev) {
   app.use('/', express.static(path.join(__dirname, './../../build')))
 
   // Handle DirectLink
-  app.get('*', (req, res) => {
+  app.get('*', (_req, res) => {
     res.sendFile(path.join(__dirname, './../../build/index.html'))
   })
 

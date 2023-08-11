@@ -1,0 +1,355 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "nsx",
+    "version": "0.0.1",
+    "license": {
+      "name": "MIT"
+    },
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."
+  },
+  "paths": {
+    "/api/user_count": {
+      "get": {
+        "summary": "/api/user_count",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userCount": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/post_list": {
+      "get": {
+        "summary": "/api/post_list",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "postList": {
+                      "type": "array",
+                      "items": {},
+                      "example": [
+                        null
+                      ]
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/post/{id}": {
+      "get": {
+        "summary": "/api/post/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 71
+                    },
+                    "body": {
+                      "type": "string",
+                      "example": "testing now"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "from cypress"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-08-10T21:39:25.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2023-08-10T21:39:25.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": []
+      },
+      "delete": {
+        "summary": "/api/post/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Delete Successful!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/signup": {
+      "post": {
+        "summary": "/api/signup",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "newTransitionBloger"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "******"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2023-08-10T21:42:14.050Z"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-08-10T21:42:14.050Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/login": {
+      "post": {
+        "summary": "/api/login",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "failed": {
+                      "type": "string",
+                      "example": "User does not exist"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/logout": {
+      "get": {
+        "summary": "/api/logout",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Logout Successful"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/create": {
+      "post": {
+        "summary": "/api/create",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 71
+                    },
+                    "body": {
+                      "type": "string",
+                      "example": "testing now"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "from cypress"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2023-08-10T21:39:25.876Z"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-08-10T21:39:25.876Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/update": {
+      "post": {
+        "summary": "/api/update",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Post Updated!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/push_stock": {
+      "post": {
+        "summary": "/api/push_stock",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/stocklist": {
+      "get": {
+        "summary": "/api/stocklist",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          },
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/stock/{id}": {
+      "delete": {
+        "summary": "/api/stock/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    }
+  },
+  "tags": []
+}
