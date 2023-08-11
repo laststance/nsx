@@ -40,8 +40,17 @@ const About = memo(
           projects.
         </p>
         <p>
-          I want to create fullstack modern web application without frameworks
-          like Next.js, Remix, RedwoodJS, Blitz.js, at the project.
+          I implement feature based on my want(.e.g{' '}
+          <a
+            target="_blank"
+            href="https://github.com/laststance/nsx-browser-extension"
+          >
+            nsx browser extension
+          </a>
+          ) and expeliment/learn new library feelfree.
+          <br />
+          Therefore, it is a free-form project that also space as a technical
+          sandbox.
         </p>
       </section>
     </>
