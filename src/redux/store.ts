@@ -48,7 +48,6 @@ listenerMiddleware.startListening({
 })
 export const store = configureStore({
   devTools: process.env.NODE_ENV === 'development' ? true : false,
-  // @ts-expect-error because routerMiddleware type is not compatible with getDefaultMiddleware
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false })
       .prepend(listenerMiddleware.middleware)
