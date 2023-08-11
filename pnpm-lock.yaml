@@ -85,7 +85,7 @@ dependencies:
     version: 8.0.7(@types/react@18.2.20)(react@18.2.0)
   react-redux:
     specifier: ^8.1.2
-    version: 8.1.2(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-alpha.6)
+    version: 8.1.2(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
   react-router-dom:
     specifier: ^6.15.0
     version: 6.15.0(react-dom@18.2.0)(react@18.2.0)
@@ -93,14 +93,14 @@ dependencies:
     specifier: ^0.13.8
     version: 0.13.8(react-dom@18.2.0)(react@18.2.0)
   redux:
-    specifier: 5.0.0-alpha.6
-    version: 5.0.0-alpha.6
+    specifier: 5.0.0-beta.0
+    version: 5.0.0-beta.0
   redux-first-history:
     specifier: ^5.1.1
-    version: 5.1.1(history@5.3.0)(redux@5.0.0-alpha.6)
+    version: 5.1.1(history@5.3.0)(redux@5.0.0-beta.0)
   redux-persist:
     specifier: ^6.0.0
-    version: 6.0.0(react@18.2.0)(redux@5.0.0-alpha.6)
+    version: 6.0.0(react@18.2.0)(redux@5.0.0-beta.0)
   rehype-raw:
     specifier: ^6.1.1
     version: 6.1.1
@@ -3527,7 +3527,7 @@ packages:
     dependencies:
       immer: 10.0.2
       react: 18.2.0
-      react-redux: 8.1.2(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-alpha.6)
+      react-redux: 8.1.2(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
       redux: 5.0.0-alpha.6
       redux-thunk: 3.0.0-alpha.3(redux@5.0.0-alpha.6)
       reselect: 5.0.0-alpha.2
@@ -12699,7 +12699,7 @@ packages:
       - supports-color
     dev: false
 
-  /react-redux@8.1.2(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-alpha.6):
+  /react-redux@8.1.2(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0):
     resolution: {integrity: sha512-xJKYI189VwfsFc4CJvHqHlDrzyFTY/3vZACbE+rr/zQ34Xx1wQfB4OTOSeOSNrF6BDVe8OOdxIrAnMGXA3ggfw==}
     peerDependencies:
       '@types/react': ^16.8 || ^17.0 || ^18.0
@@ -12729,7 +12729,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-is: 18.2.0
-      redux: 5.0.0-alpha.6
+      redux: 5.0.0-beta.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
@@ -12987,17 +12987,17 @@ packages:
       - webpack
     dev: true
 
-  /redux-first-history@5.1.1(history@5.3.0)(redux@5.0.0-alpha.6):
+  /redux-first-history@5.1.1(history@5.3.0)(redux@5.0.0-beta.0):
     resolution: {integrity: sha512-ujVHv+y9wC2rqavS5tLiSu6zkw+VYrEea+/ggwVTRuutadEtwxSRlaK19ry/PTLSQtFuUF1Xu+plL5erD4roVw==}
     peerDependencies:
       history: ^4.7.2 || ^5.0
       redux: ^3.6.0 || ^4.0.0
     dependencies:
       history: 5.3.0
-      redux: 5.0.0-alpha.6
+      redux: 5.0.0-beta.0
     dev: false
 
-  /redux-persist@6.0.0(react@18.2.0)(redux@5.0.0-alpha.6):
+  /redux-persist@6.0.0(react@18.2.0)(redux@5.0.0-beta.0):
     resolution: {integrity: sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==}
     peerDependencies:
       react: '>=16'
@@ -13007,7 +13007,7 @@ packages:
         optional: true
     dependencies:
       react: 18.2.0
-      redux: 5.0.0-alpha.6
+      redux: 5.0.0-beta.0
     dev: false
 
   /redux-thunk@3.0.0-alpha.3(redux@5.0.0-alpha.6):
@@ -13020,6 +13020,10 @@ packages:
 
   /redux@5.0.0-alpha.6:
     resolution: {integrity: sha512-ALwfRz1WAqQb1N2IrAopQNNTjQ8UlEn0u8x7REC5p9rQw8j+17rKfKtJs+UGBweLwDk0RGK0lVz+vZpkRtRUiw==}
+    dev: false
+
+  /redux@5.0.0-beta.0:
+    resolution: {integrity: sha512-RHSGHIiJ+1nkuve0daeveubiEdloy+DkYkP63uHk2FHpP18kb5umytsPU8TY8Lw8sLjL1eFg0DD5yf99ry/JhA==}
     dev: false
 
   /reftools@1.1.9:
