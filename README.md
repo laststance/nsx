@@ -6,6 +6,7 @@
 [![Cypress E2E Admin Side](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-admin-side.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-admin-side.yml)
 [![Cypress-E2E Visitor Side](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-visitor-side.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-visitor-side.yml)
 [![Cypress-E2E New Install User](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-new-install-user.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/cypress-e2e-new-install-user.yml)
+[![Chromatic](https://github.com/laststance/nsx/actions/workflows/chromatic.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/chromatic.yml)
 
 > # Project Status: currently under development and scheduled for release in release 2026.
 >
@@ -20,9 +21,7 @@
   <img src="https://digital3.nyc3.cdn.digitaloceanspaces.com/nsx.gif" />
 </a>
 
-⚛️ [Production](https://nsx.malloc.tokyo/)
-
-✅ [Storybook](https://main--61c089c06b3b4d003adde63b.chromatic.com)
+⚛️ [Production](https://nsx.malloc.tokyo/) ✅ [Storybook](https://main--61c089c06b3b4d003adde63b.chromatic.com)
 
 Currently doghooding this project as a Reading List blog.
 
