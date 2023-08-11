@@ -15,8 +15,8 @@ dependencies:
     specifier: ^3.2.0
     version: 3.2.0(react-hook-form@7.45.4)
   '@reduxjs/toolkit':
-    specifier: 2.0.0-alpha.6
-    version: 2.0.0-alpha.6(react-redux@8.1.2)(react@18.2.0)
+    specifier: 2.0.0-beta.0
+    version: 2.0.0-beta.0(react-redux@8.1.2)(react@18.2.0)
   '@sentry/react':
     specifier: ^7.63.0
     version: 7.63.0(react@18.2.0)
@@ -3514,8 +3514,8 @@ packages:
       - encoding
     dev: true
 
-  /@reduxjs/toolkit@2.0.0-alpha.6(react-redux@8.1.2)(react@18.2.0):
-    resolution: {integrity: sha512-kWz5PAqPVlqgVXZlIVuYwEJryQWVEROjkmrmip0cX+kg1izjTdTuKac2rJix09ZpzWbJ8tBt+MgUdr1Fr4vWLw==}
+  /@reduxjs/toolkit@2.0.0-beta.0(react-redux@8.1.2)(react@18.2.0):
+    resolution: {integrity: sha512-CdtzVdSpnVVmXKITF78mlc2sFbhjxc57yMlfmaE/1EBF7yKXlKOxGP2CY8uwXccU7QPp4j4/pgWiDniDiqquYA==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
       react-redux: ^7.2.1 || ^8.0.2
@@ -3528,8 +3528,8 @@ packages:
       immer: 10.0.2
       react: 18.2.0
       react-redux: 8.1.2(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
-      redux: 5.0.0-alpha.6
-      redux-thunk: 3.0.0-alpha.3(redux@5.0.0-alpha.6)
+      redux: 5.0.0-beta.0
+      redux-thunk: 3.0.0-alpha.3(redux@5.0.0-beta.0)
       reselect: 5.0.0-alpha.2
     dev: false
 
@@ -13010,16 +13010,12 @@ packages:
       redux: 5.0.0-beta.0
     dev: false
 
-  /redux-thunk@3.0.0-alpha.3(redux@5.0.0-alpha.6):
+  /redux-thunk@3.0.0-alpha.3(redux@5.0.0-beta.0):
     resolution: {integrity: sha512-tRoYt//uXllaNHsdla4sFbCPf0/50BYf6NDRNtg66IZXZcLXiQNTH5LKcIISd0+7BZqFq204JgJcxtih4QLTXQ==}
     peerDependencies:
       redux: ^4
     dependencies:
-      redux: 5.0.0-alpha.6
-    dev: false
-
-  /redux@5.0.0-alpha.6:
-    resolution: {integrity: sha512-ALwfRz1WAqQb1N2IrAopQNNTjQ8UlEn0u8x7REC5p9rQw8j+17rKfKtJs+UGBweLwDk0RGK0lVz+vZpkRtRUiw==}
+      redux: 5.0.0-beta.0
     dev: false
 
   /redux@5.0.0-beta.0:
