@@ -9,6 +9,6 @@ export default defineConfig({
       'lib/**/*.{spec,test}.{js,jsx,ts,tsx}',
       'scripts/**/*.{spec,test}.{js,jsx,ts,tsx}',
     ],
-    setupFiles: ['setupTests.js'],
+    setupFiles: ['setupTests.ts'],
   },
 })

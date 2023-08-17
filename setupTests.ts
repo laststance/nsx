@@ -7,7 +7,7 @@ expect.extend(matchers)
 import 'node-fetch'
 import { server } from './mocks/server'
 
-let matchMedia
+let matchMedia: InstanceType<typeof MatchMediaMock>
 
 beforeAll(() => {
   server.listen()
