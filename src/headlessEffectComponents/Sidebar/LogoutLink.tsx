@@ -28,7 +28,7 @@ const LogoutLink: React.FC = Memo.html(() => {
   const navigate = useNavigate()
   return (
     <button
-      onClick={(e) => handleLogout(e, navigate)}
+      onClick={async (e) => handleLogout(e, navigate)}
       data-cy="logout-link"
       className="group flex w-full items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
     >

@@ -7,7 +7,11 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "es2020",
     "moduleResolution": "node",
     "noEmit": true,
@@ -17,8 +21,32 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2020",
-    "types": ["vitest/globals", "testing-library__jest-dom"]
+    "types": [
+      "vitest/globals",
+      "testing-library__jest-dom"
+    ]
   },
-  "include": ["src", "validator", "server", "@types", "mocks", "lib", ".storybook"],
-  "exclude": ["server_build", "storybook-static"]
+  "include": [
+    "src",
+    "validator",
+    "server",
+    "@types",
+    "mocks",
+    "lib",
+    "cypress",
+    ".storybook",
+    ".eslintrc.js",
+    "cypress.config.js",
+    "prettier.config.js",
+    "ecosystem.config.js",
+    "setupTests.js",
+    "postcss.config.js",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": [
+    "public/mockServiceWorker.js",
+    "server_build",
+    "storybook-static"
+  ]
 }

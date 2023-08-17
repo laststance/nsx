@@ -37,7 +37,7 @@ const Create: React.FC = memo(() => {
     <div className="flex w-full">
       <section className="w-[70%]">
         <form
-          onSubmit={handleSubmit(() =>
+          onSubmit={handleSubmit(async () =>
             onSubmit(createPost, title, body, author, navigate),
           )}
         >

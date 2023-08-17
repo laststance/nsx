@@ -48,7 +48,7 @@ const Edit: React.FC = memo(() => {
   return (
     <form
       data-testid="edit-form"
-      onSubmit={handleSubmit(() =>
+      onSubmit={handleSubmit(async () =>
         onSubmit(updatePost, author, getValues, navigate, id, dispatch),
       )}
     >

@@ -12,7 +12,8 @@ const endpoint = process.env.VITE_API_ENDPOINT
 export const API = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: endpoint,
-    fetchFn: (requestInfo: RequestInfo, ...rest) => fetch(requestInfo, ...rest),
+    fetchFn: async (requestInfo: RequestInfo, ...rest) =>
+      fetch(requestInfo, ...rest),
     prepareHeaders: (headers: Headers) => {
       return headers
     },

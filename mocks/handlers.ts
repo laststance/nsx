@@ -4,7 +4,7 @@ import { rest } from 'msw'
 export const handlers = [
   rest.get(
     'http://localhost:3000/api/post_list',
-    (req, res: ResponseComposition<Res.PostList>, ctx: RestContext) => {
+    async (req, res: ResponseComposition<Res.PostList>, ctx: RestContext) => {
       return res(
         ctx.json({
           postList: [
@@ -121,7 +121,7 @@ export const handlers = [
       )
     },
   ),
-  rest.get('/api/post/:id', (req, res, ctx) => {
+  rest.get('/api/post/:id', async (req, res, ctx) => {
     return res(
       ctx.json({
         body: "is masterpiece of validation library ever.\n\n```js\nimport { is, define, object, string } from 'superstruct'\nimport isUuid from 'is-uuid'\nimport isEmail from 'is-email'\n\nconst Email = define('Email', isEmail)\nconst Uuid = define('Uuid', isUuid.v4)\n\nconst User = object({\n  id: Uuid,\n  email: Email,\n  name: string(),\n})\n\nconst data = {\n  id: 'c8d63140-a1f7-45e0-bfc6-df72973fea86',\n  email: 'jane@example.com',\n  name: 'Jane',\n}\n\nif (is(data, User)) {\n  // Your data is guaranteed to be valid in this block.\n}\n\n```\n\n- [ianstormtaylor/superstruct: A simple and composable way to validate data in JavaScript (and TypeScript).](https://github.com/ianstormtaylor/superstruct)",
@@ -132,25 +132,25 @@ export const handlers = [
       }),
     )
   }),
-  rest.delete('/post/:id', (req, res, ctx) => {
+  rest.delete('/post/:id', async (req, res, ctx) => {
     return res(ctx.json([]))
   }),
-  rest.post('/signup', (req, res, ctx) => {
+  rest.post('/signup', async (req, res, ctx) => {
     return res(ctx.json([]))
   }),
-  rest.post('/login', (req, res, ctx) => {
+  rest.post('/login', async (req, res, ctx) => {
     return res(ctx.json([]))
   }),
-  rest.get('/logout', (req, res, ctx) => {
+  rest.get('/logout', async (req, res, ctx) => {
     return res(ctx.json([]))
   }),
-  rest.post('/create', (req, res, ctx) => {
+  rest.post('/create', async (req, res, ctx) => {
     return res(ctx.json([]))
   }),
-  rest.post('/update', (req, res, ctx) => {
+  rest.post('/update', async (req, res, ctx) => {
     return res(ctx.json([]))
   }),
-  rest.get('http://localhost:3000/api/stock_list', (req, res, ctx) => {
+  rest.get('http://localhost:3000/api/stock_list', async (req, res, ctx) => {
     return res(ctx.json([]))
   }),
 ]
