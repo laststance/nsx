@@ -1,6 +1,12 @@
 import bcrypt from 'bcrypt'
 import express from 'express'
-import type { CookieOptions, NextFunction, Request, Response } from 'express'
+import type {
+  Router,
+  CookieOptions,
+  NextFunction,
+  Request,
+  Response,
+} from 'express'
 import jwt from 'jsonwebtoken'
 
 import { isAuthorized } from './auth'
@@ -17,7 +23,7 @@ export const cookieOptions: CookieOptions = {
   secure: true, // 1 year cookie
 }
 
-const router = express.Router()
+const router: Router = express.Router()
 
 /**
  API Implementation
