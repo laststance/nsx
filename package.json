@@ -141,7 +141,7 @@
     "lint": "eslint . --ext .ts,.tsx,.js,jsx --report-unused-disable-directives",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx --fix --report-unused-disable-directives",
     "typecheck": "tsc --noEmit",
-    "clean": "rimraf yarn.lock node_modules build server_build storybook-static",
+    "clean": "rimraf pnpm-lock.yaml node_modules build server_build storybook-static",
     "prettier": "prettier --write \"**/*.+(js|ts|tsx|json|yml|css|md|mdx)\"",
     "storybook": "dotenv -e .env.storybook -- storybook dev -p 6006",
     "build-storybook": "dotenv -e .env.storybook -- storybook build",
