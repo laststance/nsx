@@ -1,13 +1,27 @@
 {
-  "extends": ["config:base"],
-  "schedule": ["before 4am"],
+  "extends": [
+    "config:base"
+  ],
+  "schedule": [
+    "before 4am"
+  ],
   "timezone": "Asia/Tokyo",
   "separateMajorMinor": false,
   "packageRules": [
     {
-      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "matchDatasources": [
+        "pnpm"
+      ],
+      "updateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "groupName": null
     }
   ],
-  "ignoreDeps": ["chalk"]
+  "ignoreDeps": [
+    "chalk"
+  ]
 }
