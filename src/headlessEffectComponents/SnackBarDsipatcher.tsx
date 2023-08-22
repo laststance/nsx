@@ -14,6 +14,6 @@ const SnackBarDsipatcher: React.WidgetManageComponent = React.memo(
   },
   () => true,
 )
-SnackBarDsipatcher.displayName = 'HeadlessEffect.SnackBarDispatcher'
+SnackBarDsipatcher.displayName = 'WidgetManageComponent.SnackBarDispatcher'
 
 export default SnackBarDsipatcher
