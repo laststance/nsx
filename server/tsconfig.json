@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "baseUrl": "..",
-    "target": "ES2022",
+    "target": "ES2020",
     "module": "CommonJS",
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -15,10 +15,6 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "sourceMap": true,
-    "types": [
-      "vitest/globals",
-      "@testing-library/jest-dom"
-    ],
     "outDir": "../server_build"
   },
   "include": [
