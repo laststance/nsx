@@ -25,4 +25,10 @@ declare module 'react' {
     defaultProps?: Partial<P> | undefined
     displayName?: string | undefined
   }
+
+  /**
+   * Usually mount as a HeadlessEffectComponeneat first render.
+   * But sometime render time e t modal, toast, ntackbar
+   */
+  export type WidgetManageComponent<in P = any> = React.FC<P>
 }
