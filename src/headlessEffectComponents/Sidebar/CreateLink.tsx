@@ -1,24 +1,25 @@
 import { PlusIcon } from '@heroicons/react/24/outline'
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
-
-import Memo from '../../lib/memo'
 
 import { onCloseHander } from './onCloseHander'
 
-const CreateLink: React.FC = Memo.html(() => {
-  return (
-    <Link
-      onClick={onCloseHander}
-      to="/dashboard/create"
-      data-cy="create-link"
-      className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
-    >
-      <PlusIcon className="mr-4 h-6 w-6 flex-shrink-0 text-gray-300" />
-      Create
-    </Link>
-  )
-})
+const CreateLink: React.FC = memo(
+  () => {
+    return (
+      <Link
+        onClick={onCloseHander}
+        to="/dashboard/create"
+        data-cy="create-link"
+        className="group flex items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
+      >
+        <PlusIcon className="mr-4 h-6 w-6 flex-shrink-0 text-gray-300" />
+        Create
+      </Link>
+    )
+  },
+  () => true,
+)
 CreateLink.displayName = 'CreateLink'
 
 export default CreateLink

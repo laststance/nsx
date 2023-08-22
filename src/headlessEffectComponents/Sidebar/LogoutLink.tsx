@@ -1,9 +1,8 @@
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
-import React from 'react'
+import React, { memo } from 'react'
 import type { NavigateFunction } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-import Memo from '../../lib/memo'
 import { logout } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'
@@ -24,7 +23,7 @@ export async function handleLogout(
   }
 }
 
-const LogoutLink: React.FC = Memo.html(() => {
+const LogoutLink: React.FC = memo(() => {
   const navigate = useNavigate()
   return (
     <button

@@ -1,9 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import React, { Fragment } from 'react'
+import React, { memo, Fragment } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
-import Memo from '../../lib/memo'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 import { selectSidebarOpen, toggleSidebar } from '../../redux/sidebarSlice'
@@ -26,7 +25,7 @@ const keypressListener = (e: KeyboardEvent) => {
   if (e.key === 'x') dispatch(toggleSidebar())
 }
 
-const Sidebar: React.FC = Memo.hooksContext(() => {
+const Sidebar: React.FC = memo(() => {
   const open = useAppSelector(selectSidebarOpen)
   const login = useAppSelector(selectLogin)
 
