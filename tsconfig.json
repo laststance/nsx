@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
@@ -21,7 +25,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2022",
+    "target": "ES2022"
+  },
   "include": [
     "src",
     "validator",
