@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "baseUrl": "..",
-    "target": "ES2020",
+    "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -15,6 +15,10 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "sourceMap": true,
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
     "outDir": "../server_build"
   },
   "include": [
@@ -28,5 +32,7 @@
     "../lib",
     "../src/vite-env.d.ts"
   ],
-  "exclude": ["src"]
+  "exclude": [
+    "src"
+  ]
 }
