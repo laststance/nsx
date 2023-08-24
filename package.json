@@ -136,7 +136,7 @@
     "preview": "vite preview",
     "serve": "serve build",
     "test": "dotenv -e .env.test -- vitest",
-    "lint": "eslint . --ext .ts,.tsx,.js,jsx",
+    "lint": "eslint . --ext .ts,.tsx,.js,jsx,cjs,mjs",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx,cjs,mjs --fix",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf pnpm-lock.yaml node_modules build server_build storybook-static",
