@@ -137,7 +137,7 @@
     "serve": "serve build",
     "test": "dotenv -e .env.test -- vitest",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx --fix",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx,cjs,mjs --fix",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf pnpm-lock.yaml node_modules build server_build storybook-static",
     "prettier": "prettier --write \"**/*.+(js|ts|tsx|json|yml|css|md|mdx)\"",
