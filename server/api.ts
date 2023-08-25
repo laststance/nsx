@@ -136,7 +136,7 @@ router.post(
         Logger.error(error)
         res.status(500).json({
           error: `something wrong: ${JSON.stringify(error)}`,
-          }) /* eslint-disable-line prettier/prettier */
+        }) /* eslint-disable-line prettier/prettier */
       }
     }
   },
@@ -189,7 +189,7 @@ router.post('/create', async (req: Request, res: Response) => {
       Logger.error(error)
       res.status(500).json({
         error: `something wrong: ${JSON.stringify(error)}`,
-        }) /* eslint-disable-line prettier/prettier */
+      }) /* eslint-disable-line prettier/prettier */
     }
   }
 })

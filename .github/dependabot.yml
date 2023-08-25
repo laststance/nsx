@@ -1,9 +1,9 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     ignore:
-      - dependency-name: "chalk"
-        versions: ["5.x"]
+      - dependency-name: 'chalk'
+        versions: ['5.x']
