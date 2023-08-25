@@ -140,7 +140,7 @@
     "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx,cjs,mjs --fix",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf pnpm-lock.yaml node_modules build server_build storybook-static",
-    "prettier": "prettier --write \"**/*.+(js|ts|tsx|json|yml|css|md|mdx)\"",
+    "prettier": "prettier --write --ignore-unknown .",
     "storybook": "dotenv -e .env.storybook -- storybook dev -p 6006",
     "build-storybook": "dotenv -e .env.storybook -- storybook build",
     "serve:storybook": "serve storybook-static",
