@@ -10,7 +10,7 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import Loading from './components/Loading/Loading'
 import HookLoaderComponent from './headlessEffectComponents/GrobalHooks'
 import Sidebar from './headlessEffectComponents/Sidebar'
-import SnackBarDsipatcher from './headlessEffectComponents/SnackBarDsipatcher'
+import SnackBarRenderer from './headlessEffectComponents/SnackBarRenderer'
 import { store, history } from './redux/store'
 import Router from './router/Router'
 
@@ -29,7 +29,7 @@ const App = memo(
               <ReduxPersistGate persistor={persistor}>
                 <HookLoaderComponent />
                 <Sidebar />
-                <SnackBarDsipatcher />
+                <SnackBarRenderer />
                 <Router />
               </ReduxPersistGate>
             </HistoryRouter>
