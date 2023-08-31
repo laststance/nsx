@@ -10,6 +10,8 @@ declare type AnyFunction = (...args: any[]) => any
 // skip unnecessary generics position
 declare type _ = any
 
+declare type VoidFunciton = (...args: any[]) => void
+
 declare type IndexSignature<O extends object> = {
   [P in keyof O]: O[P]
 }
@@ -57,6 +59,11 @@ declare type JsonValue = JsonPrimitive | JsonObject | JsonArray
  @category Basic
  */
 declare type JsonObject = { [Key in string]?: JsonValue }
+
+// https://www.youtube.com/shorts/2lCCKiWGlC0
+declare type Pretty<T> = {
+  [K in keyof T]: T[K]
+} & {}
 
 declare type ArrayMapCallback = Parameters<Array<any>['map']>[0]
 declare type ArrayMapIndex = Parameters<ArrayMapCallback>[1]
