@@ -1,5 +1,5 @@
 // from https://github.com/Lucaslah/inklog.js/blob/906ebbaadcfe2d2230860183d2472f4c831a3710/src/index.ts
-/* eslint-disable no-console  */
+
 import chalk from 'chalk'
 
 /**

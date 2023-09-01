@@ -7,7 +7,6 @@ import { userAccountValidator } from '../../../../validator'
 import Button from '../../../components/Button/Button'
 import Input from '../../../components/Input/Input'
 
-// eslint-disable-next-line no-console
 const mockOnSubmit = (v: any) => console.log(v)
 interface FormInput extends FieldValues {
   name: Author['name']

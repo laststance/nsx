@@ -4,7 +4,7 @@ import Loading from '../../../components/Loading/Loading'
 import ButtonGroup from '../../../components/Pagination/ButtonGroup'
 import usePagination from '../../../components/Pagination/usePagination'
 import RTKQueryErrorMessages from '../../../components/RTKQueryErrorMessages/RTKQueryErrorMessages'
-import Installation from '../../../headlessEffectComponents/Installation'
+import Installation from '../../../HeadlessComponents/Installation'
 
 import PostRow from './PostRow'
 
