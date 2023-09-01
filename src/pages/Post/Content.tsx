@@ -30,6 +30,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
       <article>
         <ReactMarkdown
           components={{ a }}
+          // @ts-expect-error from rehypeRaw@v7.0.0
           rehypePlugins={[rehypeRaw]}
           remarkPlugins={[breaks, gfm]}
           className="prose prose-lg dark:prose-invert"
