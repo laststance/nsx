@@ -1,9 +1,13 @@
 import * as Sentry from '@sentry/react'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import ReactGA from 'react-ga4'
-import { onCLS, onFID, onLCP } from 'web-vitals'
-import type { Metric } from 'web-vitals'
+import GA4 from 'react-ga4'
+import type {
+  CLSMetricWithAttribution,
+  FIDMetricWithAttribution,
+  LCPMetricWithAttribution,
+} from 'web-vitals/attribution'
+import { onCLS, onFID, onLCP } from 'web-vitals/attribution'
 
 import App from './App'
 
@@ -22,12 +26,27 @@ if (process.env.NODE_ENV === 'production') {
     replaysSessionSampleRate: 0.1,
   })
 
-  ReactGA.initialize(process.env.VITE_GA_MEASUREMENT_ID as string)
+  GA4.initialize(process.env.VITE_GA_MEASUREMENT_ID as string)
 
-  function sendToGoogleAnalytics({ id, delta, name, value }: Metric) {
-    // Assumes the global `gtag()` function exists, see:
-    // https://developers.google.com/analytics/devguides/collection/ga4
-    ReactGA.gtag('event', name, {
+  function sendToGoogleAnalytics({
+    name,
+    delta,
+    value,
+    id,
+    attribution,
+  }:
+    | CLSMetricWithAttribution
+    | FIDMetricWithAttribution
+    | LCPMetricWithAttribution) {
+    interface EventParams {
+      metric_delta: number
+      metric_id: string
+      metric_value: number
+      value: number
+      debug_target?: any
+    }
+
+    const eventParams: EventParams = {
       // Optional.
       metric_delta: delta,
 
@@ -40,14 +59,25 @@ if (process.env.NODE_ENV === 'production') {
 
       // Built-in params:
       value: delta, // Optional.
+    }
 
-      // OPTIONAL: any additional params or debug info here.
-      // See: https://web.dev/debug-performance-in-the-field/
-      // metric_rating: 'good' | 'needs-improvement' | 'poor',
-      // debug_info: '...',
-      // ...
-    })
+    switch (name) {
+      case 'CLS':
+        eventParams.debug_target = attribution.largestShiftTarget
+        break
+      case 'FID':
+        eventParams.debug_target = attribution.eventTarget
+        break
+      case 'LCP':
+        eventParams.debug_target = attribution.element
+        break
+    }
+
+    // Assumes the global `gtag()` function exists, see:
+    // https://developers.google.com/analytics/devguides/collection/ga4
+    GA4.gtag('event', name, eventParams)
   }
+
   onCLS(sendToGoogleAnalytics)
   onFID(sendToGoogleAnalytics)
   onLCP(sendToGoogleAnalytics)
