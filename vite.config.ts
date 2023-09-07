@@ -35,6 +35,7 @@ export default defineConfig({
       'VITE_API_ENDPOINT',
       'VITE_SENTRY_DNS',
       'VITE_GA_MEASUREMENT_ID',
+      'VITE_GTAG',
     ]),
   ],
   publicDir: 'public',

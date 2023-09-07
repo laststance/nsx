@@ -27,6 +27,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 
   GA4.initialize(process.env.VITE_GA_MEASUREMENT_ID as string)
+  GA4.gtag('config', process.env.VITE_GTAG)
 
   function sendToGoogleAnalytics({
     name,
