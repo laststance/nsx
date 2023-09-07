@@ -16,12 +16,10 @@ export default defineConfig({
             'react-hook-form',
             'react-helmet',
             'redux-persist',
-            'react-ga4',
             'react-markdown',
             'rehype-raw',
             'remark-breaks',
             'remark-gfm',
-            'web-vitals',
             'react-spinners',
           ], // put react and react-dom into a 'vendor' chunk
         },
