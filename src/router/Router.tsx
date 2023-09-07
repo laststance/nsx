@@ -1,6 +1,7 @@
 import React, { memo, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
+import About from '../pages/About'
 import Index from '../pages/Index'
 import Post from '../pages/Post'
 
@@ -12,7 +13,6 @@ const Edit = lazy(async () => import('../pages/Dashboard/Edit'))
 const Setting = lazy(async () => import('../pages/Dashboard/Setting'))
 const Login = lazy(async () => import('../pages/Login'))
 const NotFound = lazy(async () => import('../pages/NotFound'))
-const About = lazy(async () => import('../pages/About'))
 
 const Router = memo(
   () => (
