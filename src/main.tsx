@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/react'
-import React from 'react'
 import { createRoot } from 'react-dom/client'
 import GA4 from 'react-ga4'
 import type {
@@ -10,6 +9,7 @@ import type {
 import { onCLS, onFID, onLCP } from 'web-vitals/attribution'
 
 import App from './App'
+import type { EventParams } from './vite-env'
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
@@ -27,8 +27,6 @@ if (process.env.NODE_ENV === 'production') {
   })
 
   GA4.initialize(process.env.VITE_GA_MEASUREMENT_ID as string)
-  GA4.gtag('config', process.env.VITE_GTAG)
-
   function sendToGoogleAnalytics({
     name,
     delta,
@@ -39,14 +37,6 @@ if (process.env.NODE_ENV === 'production') {
     | CLSMetricWithAttribution
     | FIDMetricWithAttribution
     | LCPMetricWithAttribution) {
-    interface EventParams {
-      metric_delta: number
-      metric_id: string
-      metric_value: number
-      value: number
-      debug_target?: any
-    }
-
     const eventParams: EventParams = {
       // Optional.
       metric_delta: delta,
@@ -76,7 +66,7 @@ if (process.env.NODE_ENV === 'production') {
 
     // Assumes the global `gtag()` function exists, see:
     // https://developers.google.com/analytics/devguides/collection/ga4
-    GA4.gtag('event', name, eventParams)
+    gtag('event', name, eventParams)
   }
 
   onCLS(sendToGoogleAnalytics)
