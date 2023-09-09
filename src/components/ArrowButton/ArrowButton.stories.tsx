@@ -1,25 +1,34 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 
 import ArrowButton from './ArrowButton'
 
-const meta: ComponentMeta<typeof ArrowButton> = {
+const meta = {
+  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+
   component: ArrowButton,
+
+  parameters: {
+    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
+    layout: 'centered',
+  },
+
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
+  tags: ['autodocs'],
+
   title: 'Components/ArrowButton',
-}
+} satisfies Meta<typeof ArrowButton>
 
 export default meta
+type Story = StoryObj<typeof meta>
 
-const Template: ComponentStory<typeof ArrowButton> = (props) => (
-  <ArrowButton {...props} />
-)
-
-export const Right = Template.bind({})
-Right.args = {
-  direction: 'right',
+export const Right: Story = {
+  args: {
+    direction: 'right',
+  },
 }
 
-export const Left = Template.bind({})
-Left.args = {
-  direction: 'left',
+export const Left: Story = {
+  args: {
+    direction: 'left',
+  },
 }
