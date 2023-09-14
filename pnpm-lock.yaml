@@ -293,11 +293,11 @@ devDependencies:
     specifier: ^22.1.0
     version: 22.1.0
   msw:
-    specifier: ^1.3.0
-    version: 1.3.0(typescript@5.2.2)
+    specifier: ^1.3.1
+    version: 1.3.1(typescript@5.2.2)
   msw-storybook-addon:
     specifier: ^1.8.0
-    version: 1.8.0(msw@1.3.0)
+    version: 1.8.0(msw@1.3.1)
   node-fetch:
     specifier: ^3.3.2
     version: 3.3.2
@@ -2950,15 +2950,15 @@ packages:
       set-cookie-parser: 2.6.0
     dev: true
 
-  /@mswjs/interceptors@0.17.9:
-    resolution: {integrity: sha512-4LVGt03RobMH/7ZrbHqRxQrS9cc2uh+iNKSj8UWr8M26A2i793ju+csaB5zaqYltqJmA2jUq4VeYfKmVqvsXQg==}
+  /@mswjs/interceptors@0.17.10:
+    resolution: {integrity: sha512-N8x7eSLGcmUFNWZRxT1vsHvypzIRgQYdG0rJey/rZCy6zT/30qDt8Joj7FxzGNLSwXbeZqJOMqDurp7ra4hgbw==}
     engines: {node: '>=14'}
     dependencies:
       '@open-draft/until': 1.0.3
       '@types/debug': 4.1.8
       '@xmldom/xmldom': 0.8.10
       debug: 4.3.4(supports-color@8.1.1)
-      headers-polyfill: 3.2.3
+      headers-polyfill: 3.2.5
       outvariant: 1.4.0
       strict-event-emitter: 0.2.8
       web-encoding: 1.1.5
@@ -5017,31 +5017,6 @@ packages:
       '@storybook/preview-api': 7.4.1
     dev: true
 
-  /@storybook/manager-api@7.4.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-sBfkkt0eZGTozeKrbzMtWLEOQrgqdk24OUJlkc2IDaucR1CBNjoCMjNeYg7cLDw0rXE8W3W3AdWtJnfsUbLMAQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      '@storybook/channels': 7.4.0
-      '@storybook/client-logger': 7.4.0
-      '@storybook/core-events': 7.4.0
-      '@storybook/csf': 0.1.1
-      '@storybook/global': 5.0.0
-      '@storybook/router': 7.4.0(react-dom@18.2.0)(react@18.2.0)
-      '@storybook/theming': 7.4.0(react-dom@18.2.0)(react@18.2.0)
-      '@storybook/types': 7.4.0
-      dequal: 2.0.3
-      lodash: 4.17.21
-      memoizerific: 1.11.3
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      semver: 7.5.4
-      store2: 2.14.2
-      telejson: 7.2.0
-      ts-dedent: 2.2.0
-    dev: true
-
   /@storybook/manager-api@7.4.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-nzYasETW20uDWpfST6JFf6c/GSFB/dj7xVtg5EpvAYF8GkErCk9TvNKdLNroRrIYm5VJxHWC2V+CJ07RuX3Glw==}
     peerDependencies:
@@ -5085,25 +5060,6 @@ packages:
 
   /@storybook/postinstall@7.4.1:
     resolution: {integrity: sha512-nzSAS2kKhYFdeQHOb+mwk6LCiSBx8vigiRActRWMpoUSntlrLFdYKXoYfPQtUQcE7cHDLv5hutD31Kcl7pIazw==}
-    dev: true
-
-  /@storybook/preview-api@7.4.0:
-    resolution: {integrity: sha512-ndXO0Nx+eE7ktVE4EqHpQZ0guX7yYBdruDdJ7B739C0+OoPWsJN7jAzUqq0NXaBcYrdaU5gTy+KnWJUt8R+OyA==}
-    dependencies:
-      '@storybook/channels': 7.4.0
-      '@storybook/client-logger': 7.4.0
-      '@storybook/core-events': 7.4.0
-      '@storybook/csf': 0.1.1
-      '@storybook/global': 5.0.0
-      '@storybook/types': 7.4.0
-      '@types/qs': 6.9.8
-      dequal: 2.0.3
-      lodash: 4.17.21
-      memoizerific: 1.11.3
-      qs: 6.11.2
-      synchronous-promise: 2.0.17
-      ts-dedent: 2.2.0
-      util-deprecate: 1.0.2
     dev: true
 
   /@storybook/preview-api@7.4.1:
@@ -5207,19 +5163,6 @@ packages:
       - supports-color
     dev: true
 
-  /@storybook/router@7.4.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-IATdtFL5C3ryjNQSwaQfrmiOZiVFoVNMevMoBGDC++g0laSW40TGiNK6fUjUDBKuOgbuDt4Svfbl29k21GefEg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      '@storybook/client-logger': 7.4.0
-      memoizerific: 1.11.3
-      qs: 6.11.2
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: true
-
   /@storybook/router@7.4.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-7tE1B18jb+5+ujXd3BHcub85QnytIVBNA0iAo+o8MNwArISyodqp12y2D3w+QpXkg0GtPhAp/CMhzpyxotPhRQ==}
     peerDependencies:
@@ -5271,20 +5214,6 @@ packages:
       '@testing-library/dom': 9.3.1
       '@testing-library/user-event': 14.4.3(@testing-library/dom@9.3.1)
       ts-dedent: 2.2.0
-    dev: true
-
-  /@storybook/theming@7.4.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-eLjEf6G3cqlegfutF/iUrec9LrUjKDj7K4ZhGdACWrf7bQcODs99EK62e9/d8GNKr4b+QMSEuM6XNGaqdPnuzQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      '@emotion/use-insertion-effect-with-fallbacks': 1.0.1(react@18.2.0)
-      '@storybook/client-logger': 7.4.0
-      '@storybook/global': 5.0.0
-      memoizerific: 1.11.3
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
     dev: true
 
   /@storybook/theming@7.4.1(react-dom@18.2.0)(react@18.2.0):
@@ -9892,8 +9821,8 @@ packages:
       space-separated-tokens: 2.0.2
     dev: false
 
-  /headers-polyfill@3.2.3:
-    resolution: {integrity: sha512-oj6MO8sdFQ9gQQedSVdMGh96suxTNp91vPQu7C4qx/57FqYsA5TiNr92nhIZwVQq8zygn4nu3xS1aEqpakGqdw==}
+  /headers-polyfill@3.2.5:
+    resolution: {integrity: sha512-tUCGvt191vNSQgttSyJoibR+VO+I6+iCHIUdhzEMJKE+EAL8BwCN7fUOZlY4ofOelNHsK+gEjxB/B+9N3EWtdA==}
     dev: true
 
   /history@5.3.0:
@@ -11919,17 +11848,17 @@ packages:
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  /msw-storybook-addon@1.8.0(msw@1.3.0):
+  /msw-storybook-addon@1.8.0(msw@1.3.1):
     resolution: {integrity: sha512-dw3vZwqjixmiur0vouRSOax7wPSu9Og2Hspy9JZFHf49bZRjwDiLF0Pfn2NXEkGviYJOJiGxS1ejoTiUwoSg4A==}
     peerDependencies:
       msw: '>=0.35.0 <2.0.0'
     dependencies:
       is-node-process: 1.2.0
-      msw: 1.3.0(typescript@5.2.2)
+      msw: 1.3.1(typescript@5.2.2)
     dev: true
 
-  /msw@1.3.0(typescript@5.2.2):
-    resolution: {integrity: sha512-nnWAZlQyQOKeYRblCpseT1kSPt1aF5e/jHz1hn/18IxbsMFreSVV1cJriT0uV+YG6+wvwFRMHXU3zVuMvuwERQ==}
+  /msw@1.3.1(typescript@5.2.2):
+    resolution: {integrity: sha512-GhP5lHSTXNlZb9EaKgPRJ01YAnVXwzkvnTzRn4W8fxU2DXuJrRO+Nb6OHdYqB4fCkwSNpIJH9JkON5Y6rHqJMQ==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
@@ -11940,7 +11869,7 @@ packages:
         optional: true
     dependencies:
       '@mswjs/cookies': 0.2.2
-      '@mswjs/interceptors': 0.17.9
+      '@mswjs/interceptors': 0.17.10
       '@open-draft/until': 1.0.3
       '@types/cookie': 0.4.1
       '@types/js-levenshtein': 1.1.1
@@ -11948,7 +11877,7 @@ packages:
       chokidar: 3.5.3
       cookie: 0.4.2
       graphql: 16.8.0
-      headers-polyfill: 3.2.3
+      headers-polyfill: 3.2.5
       inquirer: 8.2.6
       is-node-process: 1.2.0
       js-levenshtein: 1.1.6
