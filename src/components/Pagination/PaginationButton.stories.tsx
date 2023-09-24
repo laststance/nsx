@@ -4,8 +4,8 @@ import React from 'react'
 import ButtonGroup from './ButtonGroup'
 
 const meta: ComponentMeta<typeof ButtonGroup> = {
-  component: ButtonGroup,
   title: 'Components/PaginationButtonGroup',
+  component: ButtonGroup,
 }
 
 export default meta

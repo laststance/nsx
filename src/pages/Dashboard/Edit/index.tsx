@@ -23,16 +23,16 @@ const Edit: React.FC = memo(() => {
   const { postId: id } = useParams() as unknown as { postId: number }
   assertIsDefined(id)
 
-  const { data, isLoading, error } = API.endpoints.fetchPost.useQuery(id)
+  const { data, error, isLoading } = API.endpoints.fetchPost.useQuery(id)
   const [updatePost, { isLoading: isUpdating }] =
     API.endpoints.updatePost.useMutation()
   const navigate = useNavigate()
   const author = useAppSelector(selectAuthor)
   const {
-    register,
-    handleSubmit,
     formState: { errors },
     getValues,
+    handleSubmit,
+    register,
   } = useForm<FormInput>({
     resolver: superstructResolver(editPostFormValidator),
   })
@@ -55,8 +55,8 @@ const Edit: React.FC = memo(() => {
       <Input
         defaultValue={data.title}
         reactHookFormPrams={{
-          fieldError: errors['title'],
           name: 'title',
+          fieldError: errors['title'],
           register,
         }}
         data-cy="edit-title-input"
@@ -65,8 +65,8 @@ const Edit: React.FC = memo(() => {
       <Textarea
         defaultValue={data.body}
         reactHookFormParams={{
-          fieldError: errors['body'],
           name: 'body',
+          fieldError: errors['body'],
           register,
         }}
         className="mt-3 h-96 w-full"

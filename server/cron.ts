@@ -28,8 +28,8 @@ async function postReadingList() {
   }
 
   await db.post.create<PostModel>({
-    body: body,
     title: title,
+    body: body,
   })
   await db.stock.destroy({
     truncate: true,

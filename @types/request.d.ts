@@ -29,8 +29,8 @@ declare namespace Req {
    */
   declare interface CreatePost {
     title: Post['title']
-    body: Post['body']
     author: Author
+    body: Post['body']
   }
 
   /**
@@ -39,7 +39,7 @@ declare namespace Req {
   declare interface UpdatePost {
     id: Post['id']
     title: Post['title']
-    body: Post['body']
     author: Author
+    body: Post['body']
   }
 }

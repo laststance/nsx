@@ -12,10 +12,9 @@ module.exports = {
       'authors',
       [
         {
+          name: 'John Doe',
           // hash of 'popcoon',
           createdAt: new Date(),
-
-          name: 'John Doe',
           password:
             '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC',
           updatedAt: new Date(),

@@ -8,17 +8,17 @@ import type { UseFormRegister } from 'react-hook-form/dist/types/form'
 
 // All form element Components depends on library that https://github.com/react-hook-form/react-hook-form
 export interface ReactHookFormParams {
-  register: UseFormRegister<_>
   name: InternalFieldName
   fieldError: FieldError | undefined
   options?: RegisterOptions
+  register: UseFormRegister<_>
 }
 
 interface Props {
-  type?: HTMLInputTypeAttribute
   defaultValue?: string | number | readonly string[] | undefined
   placeholder?: string
   reactHookFormPrams: ReactHookFormParams
+  type?: HTMLInputTypeAttribute
 }
 
 const styles = {
@@ -37,9 +37,9 @@ const Input: React.FC<
   React.PropsWithChildren<Props & InputHTMLAttributes<HTMLInputElement>>
 > = memo(
   ({
-    type,
     placeholder,
-    reactHookFormPrams: { register, options, name, fieldError },
+    reactHookFormPrams: { name, fieldError, options, register },
+    type,
     ...rest
   }) => {
     return (

@@ -2,11 +2,11 @@ import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
 interface Props {
-  post: Post
   index: number
+  post: Post
 }
 
-const PostLink: React.FC<Props> = memo(({ post, index }) => {
+const PostLink: React.FC<Props> = memo(({ index, post }) => {
   return (
     <div className="break-word w-64 max-w-[600px] flex-initial flex-shrink-0 text-lg sm:w-auto">
       <Link

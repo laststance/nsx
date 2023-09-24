@@ -4,8 +4,8 @@ import React from 'react'
 import ToggleTheme from '.'
 
 const meta: ComponentMeta<typeof ToggleTheme> = {
-  component: ToggleTheme,
   title: 'Components/ToggleTheme',
+  component: ToggleTheme,
 }
 
 export default meta

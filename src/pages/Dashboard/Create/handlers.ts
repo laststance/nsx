@@ -28,9 +28,9 @@ export async function onSubmit(
   navigate: NavigateFunction,
 ) {
   const post = await createPost({
+    title,
     author,
     body,
-    title,
   })
   // @TODO Rewrite mutation error handling flow
   if (isSuccess(post) && 'data' in post) {

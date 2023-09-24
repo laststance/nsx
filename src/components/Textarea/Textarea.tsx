@@ -8,9 +8,9 @@ import { stopPropagation } from '../Input/Input'
 
 interface Props {
   defaultValue?: string | number | readonly string[] | undefined
-  value?: string | number | readonly string[] | undefined
   placeholder?: string
   reactHookFormParams: ReactHookFormParams
+  value?: string | number | readonly string[] | undefined
 }
 
 const styles = {
@@ -24,10 +24,10 @@ const Textarea: React.FC<
   React.PropsWithChildren<Props & TextareaHTMLAttributes<HTMLTextAreaElement>>
 > = memo(
   ({
-    value,
     defaultValue,
     placeholder,
-    reactHookFormParams: { register, options, fieldError, name },
+    reactHookFormParams: { name, fieldError, options, register },
+    value,
     ...rest
   }) => {
     return (

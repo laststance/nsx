@@ -4,8 +4,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 export interface SnackBarMessage {
-  message: string
   color: 'red' | 'green'
+  message: string
 }
 
 export interface SnackBarState {
@@ -17,8 +17,8 @@ const initialState: SnackBarState = {
 }
 
 export const snackbarSlice = createSlice({
-  initialState,
   name: 'snackbar',
+  initialState,
   reducers: {
     dequeSnackbar: (state) => {
       state.snackbarQueue.pop()
@@ -35,6 +35,6 @@ export const snackbarSlice = createSlice({
 export const selectMessageQueue = (state: RootState): Array<SnackBarMessage> =>
   state.snackbar.snackbarQueue
 
-export const { enqueSnackbar, dequeSnackbar } = snackbarSlice.actions
+export const { dequeSnackbar, enqueSnackbar } = snackbarSlice.actions
 
 export default snackbarSlice.reducer

@@ -7,10 +7,6 @@ module.exports = {
 
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('authors', {
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,6 +15,10 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
       password: {
         type: Sequelize.TEXT,

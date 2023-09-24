@@ -4,8 +4,8 @@ import React from 'react'
 import Loading from './Loading'
 
 export default {
-  component: Loading,
   title: 'Components/Loading',
+  component: Loading,
 }
 
 const Template: Story = (props) => <Loading {...props} />

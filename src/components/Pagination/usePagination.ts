@@ -13,12 +13,12 @@ import {
 import { dispatch } from '../../redux/store'
 
 export interface UsePagenationResult {
-  page: PagenationState['page']
-  totalPage: PagenationState['totalPage']
   data: Res.PostList | undefined
   error: FetchBaseQueryError | SerializedError | undefined
-  refetch: ReturnType<typeof API.endpoints.fetchPostList.useQuery>['refetch']
   isLoading: boolean
+  page: PagenationState['page']
+  refetch: ReturnType<typeof API.endpoints.fetchPostList.useQuery>['refetch']
+  totalPage: PagenationState['totalPage']
 }
 
 function usePagination(
@@ -32,7 +32,7 @@ function usePagination(
   }, [])
   const { page, perPage, totalPage } = useAppSelector(selectPagenationParams)
 
-  const { data, error, refetch, isLoading } =
+  const { data, error, isLoading, refetch } =
     API.endpoints.fetchPostList.useQuery({
       page,
       perPage,

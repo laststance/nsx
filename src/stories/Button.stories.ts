@@ -4,6 +4,7 @@ import { Button } from './Button'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
+  title: 'Example/Button',
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
     backgroundColor: { control: 'color' },
@@ -18,8 +19,6 @@ const meta = {
 
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   tags: ['autodocs'],
-
-  title: 'Example/Button',
 } satisfies Meta<typeof Button>
 
 export default meta

@@ -7,14 +7,14 @@ import type { UsePagenationResult } from '../../components/Pagination/usePaginat
 import { handleDelete } from './handler'
 
 interface Props {
-  post: Post
   author: Author
-  refetch: UsePagenationResult['refetch']
   index: number
+  post: Post
+  refetch: UsePagenationResult['refetch']
 }
 
 const EditButtonGroup: React.FC<Props> = memo(
-  ({ post, author, refetch, index }) => {
+  ({ author, index, post, refetch }) => {
     return (
       <div className="flex w-full justify-end space-x-2">
         <Link to={`/dashboard/edit/${post.id}`}>

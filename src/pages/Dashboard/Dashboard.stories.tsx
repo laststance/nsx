@@ -7,8 +7,8 @@ import { history } from '../../redux/store'
 import Dashboard from '.'
 
 export default {
-  component: Dashboard,
   title: 'Pages/Dashboard',
+  component: Dashboard,
 }
 
 const Template: ComponentStory<typeof Dashboard> = () => (

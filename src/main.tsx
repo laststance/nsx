@@ -28,11 +28,11 @@ if (process.env.NODE_ENV === 'production') {
 
   GA4.initialize(process.env.VITE_GA_MEASUREMENT_ID as string)
   function sendToGoogleAnalytics({
+    id,
     name,
+    attribution,
     delta,
     value,
-    id,
-    attribution,
   }:
     | CLSMetricWithAttribution
     | FIDMetricWithAttribution

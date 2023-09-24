@@ -4,8 +4,8 @@
 declare interface Author {
   id: number
   name: string
-  password: string
   createdAt: string
+  password: string
   updatedAt: string
 }
 
@@ -21,10 +21,10 @@ declare type Posts = Post[]
 
 declare interface Stock {
   id: number
-  pageTitle: string
-  url: string
   createdAt: string
+  pageTitle: string
   updatedAt: string
+  url: string
 }
 
 declare type StockList = Stock[]

@@ -5,8 +5,8 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import Post from '.'
 
 export default {
-  component: Post,
   title: 'Pages/Post',
+  component: Post,
 }
 
 const Template: ComponentStory<typeof Post> = () => (

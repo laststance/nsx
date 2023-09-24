@@ -6,7 +6,7 @@ import { useGetUserCountQuery } from '../redux/API'
 
 // @TODO refactor into a Sidebar
 const Installation: React.FC = memo(() => {
-  const { data, isLoading, error } = useGetUserCountQuery()
+  const { data, error, isLoading } = useGetUserCountQuery()
 
   if (isLoading) return <Loading />
   if (error) return <div>Error</div>

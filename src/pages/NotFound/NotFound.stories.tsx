@@ -7,8 +7,8 @@ import { history } from '../../redux/store'
 import NotFound from '.'
 
 export default {
-  component: NotFound,
   title: 'Pages/NotFound',
+  component: NotFound,
 }
 
 const Template: ComponentStory<typeof NotFound> = () => (

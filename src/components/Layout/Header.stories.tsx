@@ -7,8 +7,8 @@ import { history } from '../../redux/store'
 import Header from './Header'
 
 export default {
-  component: Header,
   title: 'Components/Layout/Header',
+  component: Header,
 }
 
 const Template: ComponentStory<typeof Header> = () => (

@@ -7,14 +7,14 @@ import PostLink from '../Index/PostList/PostRow/PostLink'
 import EditButtonGroup from './EditButtonGroup'
 
 interface Props {
-  post: Post
-  index: ArrayMapIndex
   author: Author
+  index: ArrayMapIndex
+  post: Post
   refetch: UsePagenationResult['refetch']
 }
 
 const DashboardPostRow: React.FC<Props> = memo(
-  ({ post, author, refetch, index }) => {
+  ({ author, index, post, refetch }) => {
     return (
       <li className="post-row">
         <PostDate date={post.createdAt} />

@@ -5,11 +5,11 @@ import type { SpinnerProps } from './Spinner'
 import Spinner from './Spinner'
 
 const meta: Meta = {
+  title: 'Components/Spinner',
   component: Spinner,
   parameters: {
     controls: { expanded: true },
   },
-  title: 'Components/Spinner',
 }
 
 export default meta

@@ -20,10 +20,10 @@ declare module 'react' {
    */
   export interface HeadlessEffectComponent<in P = any> {
     (props: P, context?: any): ReactNode['null']
-    propTypes?: WeakValidationMap<P> | undefined
     contextTypes?: ValidationMap<any> | undefined
     defaultProps?: Partial<P> | undefined
     displayName?: string | undefined
+    propTypes?: WeakValidationMap<P> | undefined
   }
 
   /**

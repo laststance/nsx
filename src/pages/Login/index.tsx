@@ -24,9 +24,9 @@ const Login: React.FC = memo(() => {
   const navigate = useNavigate()
   const [loginReqest] = API.endpoints.loginReqest.useMutation()
   const {
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
   } = useForm<FormInput>({
     resolver: superstructResolver(userAccountValidator),
   })
@@ -69,8 +69,8 @@ const Login: React.FC = memo(() => {
             <Input
               type="text"
               reactHookFormPrams={{
-                fieldError: errors['name'],
                 name: 'name',
+                fieldError: errors['name'],
                 register,
               }}
               data-cy="name-input"
@@ -90,8 +90,8 @@ const Login: React.FC = memo(() => {
             <Input
               type="current-password"
               reactHookFormPrams={{
-                fieldError: errors['password'],
                 name: 'password',
+                fieldError: errors['password'],
                 register,
               }}
               data-cy="password-input"

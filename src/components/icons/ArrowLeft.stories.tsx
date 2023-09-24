@@ -4,8 +4,8 @@ import React from 'react'
 import ArrowLeft from './ArrowLeft'
 
 export default {
-  component: ArrowLeft,
   title: 'Components/Icons/ArrowLeft',
+  component: ArrowLeft,
 }
 
 const Template: ComponentStory<typeof ArrowLeft> = () => <ArrowLeft />

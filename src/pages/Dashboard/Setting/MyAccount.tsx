@@ -15,9 +15,9 @@ interface FormInput extends FieldValues {
 
 const MyAccount: React.FC = memo(() => {
   const {
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
   } = useForm<FormInput>({
     resolver: superstructResolver(userAccountValidator),
   })
@@ -47,8 +47,8 @@ const MyAccount: React.FC = memo(() => {
             <Input
               type="text"
               reactHookFormPrams={{
-                fieldError: errors['name'],
                 name: 'name',
+                fieldError: errors['name'],
                 register,
               }}
               data-cy="name-input"
@@ -68,8 +68,8 @@ const MyAccount: React.FC = memo(() => {
             <Input
               type="password"
               reactHookFormPrams={{
-                fieldError: errors['password'],
                 name: 'password',
+                fieldError: errors['password'],
                 register,
               }}
               data-cy="password-input"

@@ -17,6 +17,7 @@ const initialState: PagenationState = {
 }
 
 export const pagenationSlice = createSlice({
+  name: 'pagenation',
   extraReducers: (builder) => {
     builder.addMatcher(
       API.endpoints.fetchPostList.matchFulfilled,
@@ -26,7 +27,6 @@ export const pagenationSlice = createSlice({
     )
   },
   initialState,
-  name: 'pagenation',
   reducers: {
     updatePage: (
       state,

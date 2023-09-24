@@ -13,7 +13,7 @@ import { useAppSelector } from '../../redux/hooks'
 import DashboardPostRow from './DashboardPostRow'
 
 const Dashboard: React.FC = memo(() => {
-  const { page, totalPage, data, error, isLoading, refetch } = usePagination(10)
+  const { data, error, isLoading, page, refetch, totalPage } = usePagination(10)
   const author = useAppSelector(selectAuthor)
 
   if (error) {

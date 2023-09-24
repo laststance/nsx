@@ -176,8 +176,8 @@ router.post('/create', async (req: Request, res: Response) => {
   const { title, body } = req.body
   try {
     const postModelInstance = await db.post.create<PostModel>({
-      body: body,
       title: title,
+      body: body,
     })
     const post = postModelInstance.toJSON()
     res.status(201).json(post)
@@ -203,7 +203,7 @@ router.post(
     const body = req.body
     try {
       await db.post.update(
-        { body: body.body, title: body.title },
+        { title: body.title, body: body.body },
         { where: { id: body.id } },
       )
 

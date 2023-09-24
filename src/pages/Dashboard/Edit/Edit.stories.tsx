@@ -5,8 +5,8 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import Edit from '.'
 
 export default {
-  component: Edit,
   title: 'Pages/Edit',
+  component: Edit,
 }
 
 const Template: ComponentStory<typeof Edit> = () => (

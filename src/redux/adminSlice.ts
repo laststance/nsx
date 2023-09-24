@@ -4,15 +4,15 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 export interface AdminState {
-  login: boolean
   author: Author
+  login: boolean
 }
 
 const initialState = {
   author: {
-    createdAt: 'none',
     id: 9999,
     name: 'guest',
+    createdAt: 'none',
     password: 'none',
     updatedAt: 'none',
   },
@@ -20,8 +20,8 @@ const initialState = {
 }
 
 export const adminSlice = createSlice({
-  initialState,
   name: 'admin',
+  initialState,
   reducers: {
     login: (state, action: PayloadAction<Author>) => {
       state.login = true

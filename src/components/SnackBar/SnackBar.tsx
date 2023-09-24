@@ -6,8 +6,8 @@ import { dequeSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
 
 interface Props {
-  message: SnackBarMessage['message']
   color: SnackBarMessage['color']
+  message: SnackBarMessage['message']
 }
 
 const getBGColor = (color: SnackBarMessage['color']): string => {
@@ -20,7 +20,7 @@ const getBGColor = (color: SnackBarMessage['color']): string => {
 }
 
 const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
-  ({ message, color }) => {
+  ({ color, message }) => {
     const [opacity, setOpacity] = useState('opacity-0')
 
     useIsomorphicLayoutEffect(() => {

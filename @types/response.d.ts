@@ -20,8 +20,8 @@ declare namespace Res {
   }
 
   declare interface PostList {
-    total: number
     postList: Post[]
+    total: number
   }
 
   declare interface UpdatePost {

@@ -9,7 +9,7 @@ import Installation from '../../../HeadlessComponents/Installation'
 import PostRow from './PostRow'
 
 const PostList: React.FC = memo(() => {
-  const { page, totalPage, data, isLoading, error } = usePagination(15)
+  const { data, error, isLoading, page, totalPage } = usePagination(15)
 
   if (error) {
     return <RTKQueryErrorMessages error={error} />

@@ -9,7 +9,7 @@ export function handleClick(
 ) {
   return async () => {
     const author = selectAuthor(getRootState())
-    await dispatch(API.endpoints.deleteStock.initiate({ author, id: stock.id }))
+    await dispatch(API.endpoints.deleteStock.initiate({ id: stock.id, author }))
     // refetch stockList
     refetch()
     // Insert stock web page into the post body

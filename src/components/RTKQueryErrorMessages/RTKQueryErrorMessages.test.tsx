@@ -10,8 +10,8 @@ const fetchBaseQueryError: FetchBaseQueryError = {
 
   // @ts-ignore
   error: {
-    message: 'Missing user',
     name: 'Error',
+    message: 'Missing user',
     stack:
       'Error: Missing user\n    at Object.queryFn (/Users/ryota.murakami/fork/redux-toolkit/packages/toolkit/src/query/tests/queryFn.test.tsx:342:19)\n    at executeEndpoint (/Users/ryota.murakami/fork/redux-toolkit/packages/toolkit/src/query/core/buildThunks.ts:297:18)\n    at /Users/ryota.murakami/fork/redux-toolkit/packages/toolkit/src/createAsyncThunk.ts:602:25\n    at async Promise.all (index 1)',
   },

@@ -12,7 +12,7 @@ export function handleDelete(
 ) {
   return async function (): Promise<void> {
     const res = await dispatch(
-      API.endpoints.deletePost.initiate({ author, id }),
+      API.endpoints.deletePost.initiate({ id, author }),
     )
 
     if (isSuccess(res) && 'data' in res) {

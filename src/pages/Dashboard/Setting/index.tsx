@@ -23,10 +23,10 @@ const TabRouterContainer: React.FC<ComponentProps<'section'>> = ({
 )
 
 const tabs = [
-  { icon: UserIcon, name: 'My Account', path: 'my-account' },
-  { icon: BuildingOfficeIcon, name: 'Company', path: 'company' },
-  { icon: UsersIcon, name: 'Team Members', path: 'team-member' },
-  { icon: CreditCardIcon, name: 'Billing', path: 'billing' },
+  { name: 'My Account', icon: UserIcon, path: 'my-account' },
+  { name: 'Company', icon: BuildingOfficeIcon, path: 'company' },
+  { name: 'Team Members', icon: UsersIcon, path: 'team-member' },
+  { name: 'Billing', icon: CreditCardIcon, path: 'billing' },
 ]
 
 const Setting: React.FC = memo(() => {

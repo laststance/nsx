@@ -24,9 +24,9 @@ const Create: React.FC = memo(() => {
   const body = useAppSelector(selectBody)
   const author = useAppSelector(selectAuthor)
   const {
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
   } = useForm<FormInput>({
     resolver: superstructResolver(createPostFormValidator),
   })
@@ -43,8 +43,8 @@ const Create: React.FC = memo(() => {
             defaultValue={title}
             type="text"
             reactHookFormPrams={{
-              fieldError: errors['title'],
               name: 'title',
+              fieldError: errors['title'],
               register,
             }}
             onChange={handleTitleChange}
@@ -53,8 +53,8 @@ const Create: React.FC = memo(() => {
           <Textarea
             value={body}
             reactHookFormParams={{
-              fieldError: errors['body'],
               name: 'body',
+              fieldError: errors['body'],
               register,
             }}
             className="mt-3 h-96 w-full"

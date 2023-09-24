@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 import Textarea from './Textarea'
 
 export default {
-  component: Textarea,
   title: 'Components/Textarea',
+  component: Textarea,
 }
 
 interface FormInput {
@@ -15,15 +15,15 @@ interface FormInput {
 
 const TextareaForm = () => {
   const {
-    register,
     formState: { errors },
+    register,
   } = useForm<FormInput>()
   return (
     <Textarea
       name="message"
       reactHookFormParams={{
-        fieldError: errors['message'],
         name: 'message',
+        fieldError: errors['message'],
         options: { required: 'message is required' },
         register,
       }}

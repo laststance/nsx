@@ -6,15 +6,15 @@ module.exports = {
   },
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('stocks', {
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
       pageTitle: {
         type: Sequelize.TEXT,

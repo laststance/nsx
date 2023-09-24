@@ -8,17 +8,17 @@ type User = {
 }
 
 interface HeaderProps {
-  user?: User
+  onCreateAccount: () => void
   onLogin: () => void
   onLogout: () => void
-  onCreateAccount: () => void
+  user?: User
 }
 
 export const Header = ({
-  user,
+  onCreateAccount,
   onLogin,
   onLogout,
-  onCreateAccount,
+  user,
 }: HeaderProps) => (
   <header>
     <div className="storybook-header">

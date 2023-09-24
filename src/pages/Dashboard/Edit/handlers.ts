@@ -16,10 +16,10 @@ export async function onSubmit(
   dispatch: AppDispatch,
 ) {
   const response = await updatePost({
-    author: author,
-    body: getValues('body'),
     id: id,
     title: getValues('title'),
+    author: author,
+    body: getValues('body'),
   })
 
   if (isSuccess(response) && 'data' in response) {

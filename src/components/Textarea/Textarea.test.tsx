@@ -18,20 +18,20 @@ const formValidator = object({
 })
 
 interface Props {
-  handleSubmitMock?: AnyFunction
   defaultValue?: string | number | readonly string[] | undefined
+  handleSubmitMock?: AnyFunction
   placeholder?: string | undefined
 }
 
 const Form: React.FC<Props> = ({
-  handleSubmitMock = vi.fn(),
   defaultValue = undefined,
+  handleSubmitMock = vi.fn(),
   placeholder = undefined,
 }) => {
   const {
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
   } = useForm<FormInput>({
     resolver: superstructResolver(formValidator),
   })
@@ -45,8 +45,8 @@ const Form: React.FC<Props> = ({
         defaultValue={defaultValue}
         placeholder={placeholder}
         reactHookFormParams={{
-          fieldError: errors['body'],
           name: 'body',
+          fieldError: errors['body'],
           register,
         }}
       />

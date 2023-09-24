@@ -29,8 +29,8 @@ AuthorModel.init(
 
 PostModel.init(
   {
-    body: DataTypes.TEXT,
     title: DataTypes.STRING,
+    body: DataTypes.TEXT,
   },
   {
     modelName: 'post',
@@ -46,8 +46,8 @@ StockModel.init(
 interface DB {
   author: typeof AuthorModel
   post: typeof PostModel
-  stock: typeof StockModel
   sequelize: Sequelize
+  stock: typeof StockModel
 }
 
 // @ts-ignore sequelize design is not doing straightforward class instanciation with "new" so TS can't notice class member

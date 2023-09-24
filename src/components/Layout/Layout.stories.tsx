@@ -7,8 +7,8 @@ import { history } from '../../redux/store'
 import Layout from '.'
 
 export default {
-  component: Layout,
   title: 'Components/Layout',
+  component: Layout,
 }
 
 const Template: ComponentStory<typeof Layout> = () => (

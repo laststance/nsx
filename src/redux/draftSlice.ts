@@ -9,13 +9,13 @@ export interface DraftState {
 }
 
 const initialState: DraftState = {
-  body: '',
   title: '',
+  body: '',
 }
 
 export const draftSlice = createSlice({
-  initialState,
   name: 'draft',
+  initialState,
   reducers: {
     clearDraft: (state) => {
       state.title = ''
@@ -48,6 +48,6 @@ export const selectTitle = (state: RootState): DraftState['title'] =>
 export const selectBody = (state: RootState): DraftState['body'] =>
   state.draft.body
 
-export const { updateTitle, updateBody, clearDraft } = draftSlice.actions
+export const { clearDraft, updateBody, updateTitle } = draftSlice.actions
 
 export default draftSlice.reducer

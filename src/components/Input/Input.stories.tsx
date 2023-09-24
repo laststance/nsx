@@ -5,22 +5,22 @@ import { useForm } from 'react-hook-form'
 import Input from './Input'
 
 const meta: ComponentMeta<typeof Input> = {
-  component: Input,
   title: 'Components/Input',
+  component: Input,
 }
 
 export default meta
 
 interface formInputValue {
+  email: string
   firstName: string
   lastName: string
-  email: string
 }
 
 const InputGroup: React.FC = (props) => {
   const {
-    register,
     formState: { errors },
+    register,
   } = useForm<formInputValue>()
 
   return (
@@ -28,8 +28,8 @@ const InputGroup: React.FC = (props) => {
       type="text"
       placeholder="Emily"
       reactHookFormPrams={{
-        fieldError: errors['firstName'],
         name: 'firstName',
+        fieldError: errors['firstName'],
         options: { required: 'firstName is required' },
         register,
       }}

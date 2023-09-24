@@ -19,19 +19,19 @@ const sizes = {
 }
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: keyof typeof variants
-  size?: keyof typeof sizes
   isLoading?: boolean
+  size?: keyof typeof sizes
+  variant?: keyof typeof variants
 }
 
 const Button: React.FC<React.PropsWithChildren<ButtonProps>> = memo(
   ({
-    type = 'button',
-    variant = 'primary',
-    size = 'md',
-    isLoading = false,
     children,
     className = '',
+    isLoading = false,
+    size = 'md',
+    type = 'button',
+    variant = 'primary',
     ...rest
   }) => {
     const base =

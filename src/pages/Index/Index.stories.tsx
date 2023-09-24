@@ -7,8 +7,8 @@ import { history } from '../../redux/store'
 import Index from '.'
 
 export default {
-  component: Index,
   title: 'Pages',
+  component: Index,
 }
 
 const Template: ComponentStory<typeof Index> = () => (

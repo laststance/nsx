@@ -4,8 +4,8 @@ import React from 'react'
 import About from './Github'
 
 export default {
-  component: About,
   title: 'Components/Icons/Github',
+  component: About,
 }
 
 const Template: ComponentStory<typeof About> = () => <About />

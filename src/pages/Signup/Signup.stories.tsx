@@ -7,8 +7,8 @@ import { history } from '../../redux/store'
 import Signup from '.'
 
 export default {
-  component: Signup,
   title: 'Pages/Signup',
+  component: Signup,
 }
 
 const Template: ComponentStory<typeof Signup> = () => (

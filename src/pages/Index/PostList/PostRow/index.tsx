@@ -5,11 +5,11 @@ import PostDate from '../../../../components/PostDate/PostDate'
 import PostLink from './PostLink'
 
 interface Props {
-  post: Post
   index: number
+  post: Post
 }
 
-const PostRow: React.FC<Props> = memo(({ post, index }) => {
+const PostRow: React.FC<Props> = memo(({ index, post }) => {
   return (
     <li className="post-row">
       <PostDate date={post.createdAt} />
