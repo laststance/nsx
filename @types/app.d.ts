@@ -1,6 +1,7 @@
 /**
  * Domain Data
  */
+
 declare interface Author {
   id: number
   name: string
