@@ -45,9 +45,7 @@
                   "type": "object",
                   "properties": {
                     "postList": {
-                      "type": "array",
-                      "items": {},
-                      "example": [null]
+                      "$ref": "#/components/schemas/Posts"
                     },
                     "total": {
                       "type": "number",
@@ -84,29 +82,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 71
-                    },
-                    "body": {
-                      "type": "string",
-                      "example": "testing now"
-                    },
-                    "title": {
-                      "type": "string",
-                      "example": "from cypress"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "example": "2023-08-10T21:39:25.000Z"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "example": "2023-08-10T21:39:25.000Z"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Post"
                 }
               }
             }
@@ -159,29 +135,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 1
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "newTransitionBloger"
-                    },
-                    "password": {
-                      "type": "string",
-                      "example": "******"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "example": "2023-08-10T21:42:14.050Z"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "example": "2023-08-10T21:42:14.050Z"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Author"
                 }
               }
             }
@@ -247,29 +201,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 71
-                    },
-                    "body": {
-                      "type": "string",
-                      "example": "testing now"
-                    },
-                    "title": {
-                      "type": "string",
-                      "example": "from cypress"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "example": "2023-08-10T21:39:25.876Z"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "example": "2023-08-10T21:39:25.876Z"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Post"
                 }
               }
             }
@@ -318,8 +250,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {}
+                  "$ref": "#/components/schemas/StockList"
                 }
               }
             }
@@ -349,5 +280,88 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "components": {
+    "schemas": {
+      "Author": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "password": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Posts": {
+        "type": "array",
+        "items": {
+          "$ref": "#/Post"
+        }
+      },
+      "Stock": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pageTitle": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "StockList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/Stock"
+        }
+      }
+    }
+  }
 }

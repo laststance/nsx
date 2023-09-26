@@ -35,7 +35,7 @@ const app = express()
 if (isDev) {
   // OpenAPI Spec Generator
   expressOasGenerator.handleResponses(app, {
-    alwaysServeDocs: false,
+    alwaysServeDocs: true,
     specOutputFileBehavior: SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
     swaggerDocumentOptions: SwaggerUiOptions,
   })
