@@ -16,7 +16,7 @@ dependencies:
     version: 3.3.1(react-hook-form@7.46.2)
   '@reduxjs/toolkit':
     specifier: 2.0.0-beta.2
-    version: 2.0.0-beta.2(react-redux@8.1.2)(react@18.2.0)
+    version: 2.0.0-beta.2(react-redux@9.0.0-beta.0)(react@18.2.0)
   '@sentry/react':
     specifier: ^7.72.0
     version: 7.72.0(react@18.2.0)
@@ -84,8 +84,8 @@ dependencies:
     specifier: ^9.0.0
     version: 9.0.0(@types/react@18.2.23)(react@18.2.0)
   react-redux:
-    specifier: ^8.1.2
-    version: 8.1.2(@types/react-dom@18.2.8)(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
+    specifier: 9.0.0-beta.0
+    version: 9.0.0-beta.0(@types/react-dom@18.2.8)(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
   react-router-dom:
     specifier: ^6.16.0
     version: 6.16.0(react-dom@18.2.0)(react@18.2.0)
@@ -3752,7 +3752,7 @@ packages:
       - encoding
     dev: true
 
-  /@reduxjs/toolkit@2.0.0-beta.2(react-redux@8.1.2)(react@18.2.0):
+  /@reduxjs/toolkit@2.0.0-beta.2(react-redux@9.0.0-beta.0)(react@18.2.0):
     resolution: {integrity: sha512-LVfySlJ5UUFWM6jBD869CAK568f0iF8sI0opzcFn1KFNhn7sYQ9s+MgIc2vUCCGsrDr3fqp9QYFnmtDofeDN1A==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
@@ -3765,7 +3765,7 @@ packages:
     dependencies:
       immer: 10.0.2
       react: 18.2.0
-      react-redux: 8.1.2(@types/react-dom@18.2.8)(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
+      react-redux: 9.0.0-beta.0(@types/react-dom@18.2.8)(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
       redux: 5.0.0-beta.0
       redux-thunk: 3.0.0-beta.0(redux@5.0.0-beta.0)
       reselect: 5.0.0-alpha.2
@@ -5639,13 +5639,6 @@ packages:
     resolution: {integrity: sha512-hs/iBJx2aydugBQx5ETV3ZgeSS0oIreQrFJ4bjBl0XvM4wAmDjFEALY7p0rTSLt2eL+ibjRAAs9dTPiCLtmbqQ==}
     dependencies:
       '@types/unist': 3.0.0
-    dev: false
-
-  /@types/hoist-non-react-statics@3.3.2:
-    resolution: {integrity: sha512-YIQtIg4PKr7ZyqNPZObpxfHsHEmuB8dXCxd6qVcGuQVDK2bpsF7bYNnBJ4Nn7giuACZg+WewExgrtAJ3XnA4Xw==}
-    dependencies:
-      '@types/react': 18.2.23
-      hoist-non-react-statics: 3.3.2
     dev: false
 
   /@types/http-errors@2.0.2:
@@ -13221,15 +13214,15 @@ packages:
       - supports-color
     dev: false
 
-  /react-redux@8.1.2(@types/react-dom@18.2.8)(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0):
-    resolution: {integrity: sha512-xJKYI189VwfsFc4CJvHqHlDrzyFTY/3vZACbE+rr/zQ34Xx1wQfB4OTOSeOSNrF6BDVe8OOdxIrAnMGXA3ggfw==}
+  /react-redux@9.0.0-beta.0(@types/react-dom@18.2.8)(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0):
+    resolution: {integrity: sha512-esuJoiavyjA9zV40E9nssp6QJsupMk7092sRh42dYxMI6am6NF5fo6vloRIhRbFgwxrvFB9u6679iokhCkVQFg==}
     peerDependencies:
-      '@types/react': ^16.8 || ^17.0 || ^18.0
-      '@types/react-dom': ^16.8 || ^17.0 || ^18.0
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-      react-native: '>=0.59'
-      redux: ^4 || ^5.0.0-beta.0
+      '@types/react': ^18.0
+      '@types/react-dom': ^18.0
+      react: ^18.0
+      react-dom: ^18.0
+      react-native: '>=0.71'
+      redux: ^5.0.0-beta.0
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -13242,12 +13235,9 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.23.1
-      '@types/hoist-non-react-statics': 3.3.2
       '@types/react': 18.2.23
       '@types/react-dom': 18.2.8
       '@types/use-sync-external-store': 0.0.3
-      hoist-non-react-statics: 3.3.2
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-is: 18.2.0
