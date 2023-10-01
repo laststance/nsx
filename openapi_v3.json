@@ -1,8 +1,13 @@
 {
   "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://nsx.malloc.tokyo/api"
+    }
+  ],
   "info": {
     "title": "nsx",
-    "version": "v0.0.1",
+    "version": "v0.0.0",
     "license": {
       "name": "MIT"
     },
@@ -331,7 +336,7 @@
       "Posts": {
         "type": "array",
         "items": {
-          "$ref": "#/Post"
+          "$ref": "#/components/schemas/Post"
         }
       },
       "Stock": {
@@ -359,7 +364,7 @@
       "StockList": {
         "type": "array",
         "items": {
-          "$ref": "#/Stock"
+          "$ref": "#/components/schemas/Stock"
         }
       }
     }
