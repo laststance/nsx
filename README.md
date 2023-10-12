@@ -23,9 +23,9 @@
 
 ⚛️ [Production](https://nsx.malloc.tokyo/) ✅ [Storybook](https://main--61c089c06b3b4d003adde63b.chromatic.com)
 
-Currently doghooding this project as a Reading List blog.
+Auto post of web page list you read that day.  
 
-But I if you have interest for the implementation code, local development environment is availavle for everyone.
+Used in combination with [nsx-browser-extension]().
 
 # Prerequisites
 
