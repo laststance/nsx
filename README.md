@@ -25,7 +25,7 @@
 
 Auto post of web page list you read that day.  
 
-Used in combination with [nsx-browser-extension]().
+Used in combination with [nsx-browser-extension](https://github.com/laststance/nsx-browser-extension).
 
 # Prerequisites
 
