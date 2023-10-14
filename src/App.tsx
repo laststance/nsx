@@ -12,7 +12,7 @@ import Sidebar from './components/Sidebar'
 import HookLoaderComponent from './HeadlessComponents/GrobalHooks'
 import SnackBarRenderer from './HeadlessComponents/SnackBarRenderer'
 import { store, history } from './redux/store'
-import Router from './router/Router'
+import Routes from './Routes'
 
 const persistor = persistStore(store)
 
@@ -30,7 +30,7 @@ const App = memo(
                 <HookLoaderComponent />
                 <Sidebar />
                 <SnackBarRenderer />
-                <Router />
+                <Routes />
               </ReduxPersistGate>
             </HistoryRouter>
           </ReduxStoreProvider>

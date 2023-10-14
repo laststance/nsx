@@ -8,7 +8,7 @@ import { selectTheme, updateTheme } from '../redux/themeSlice'
 
 const HookLoaderComponent: HeadlessEffectComponent = memo(() => {
   // apply TailwindCSS theme onLoaded
-  // bause Router component render phase defenitelly run once per app loding
+  // bause Routes component render phase defenitelly run once per app loding
   const theme = useAppSelector(selectTheme)
   useIsomorphicLayoutEffect(() => {
     dispatch(updateTheme(theme))

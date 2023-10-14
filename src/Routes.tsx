@@ -1,21 +1,20 @@
 import React, { memo } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes as ReactRouterRoutes, Route } from 'react-router-dom'
 
-import About from '../pages/About'
-import Dashboard from '../pages/Dashboard'
-import Create from '../pages/Dashboard/Create'
-import Edit from '../pages/Dashboard/Edit'
-import Setting from '../pages/Dashboard/Setting'
-import Index from '../pages/Index'
-import Login from '../pages/Login'
-import NotFound from '../pages/NotFound'
-import Post from '../pages/Post'
+import About from './pages/About'
+import Dashboard from './pages/Dashboard'
+import Create from './pages/Dashboard/Create'
+import Edit from './pages/Dashboard/Edit'
+import Setting from './pages/Dashboard/Setting'
+import Index from './pages/Index'
+import Login from './pages/Login'
+import NotFound from './pages/NotFound'
+import Post from './pages/Post'
+import AuthRouter from './router/AuthRouter'
 
-import AuthRouter from './AuthRouter'
-
-const Router = memo(
+const Routes = memo(
   () => (
-    <Routes>
+    <ReactRouterRoutes>
       <Route path="/" element={<Index />} />
       <Route path="post/:postId_querystring" element={<Post />} />
       <Route path="about" element={<About />} />
@@ -27,11 +26,11 @@ const Router = memo(
         <Route path="setting/*" element={<Setting />} />
       </Route>
       <Route path="*" element={<NotFound />} />
-    </Routes>
+    </ReactRouterRoutes>
   ),
 
   () => true,
 )
-Router.displayName = 'Router'
+Routes.displayName = 'Routes'
 
-export default Router
+export default Routes
