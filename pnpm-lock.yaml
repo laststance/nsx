@@ -260,8 +260,8 @@ devDependencies:
     specifier: ^8.51.0
     version: 8.51.0
   eslint-config-ts-prefixer:
-    specifier: ^1.9.3
-    version: 1.9.3(@typescript-eslint/eslint-plugin@6.9.0)(@typescript-eslint/parser@6.9.0)(eslint-config-prettier@9.0.0)(eslint-import-resolver-typescript@3.6.1)(eslint-plugin-import@2.29.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-sort-keys-custom-order@1.0.5)(eslint@8.51.0)(prettier@3.0.3)(typescript@5.2.2)
+    specifier: ^1.11.3
+    version: 1.11.3(@typescript-eslint/eslint-plugin@6.9.0)(@typescript-eslint/parser@6.9.0)(eslint-config-prettier@9.0.0)(eslint-import-resolver-typescript@3.6.1)(eslint-plugin-import@2.29.0)(eslint-plugin-prettier@5.0.1)(eslint@8.51.0)(prettier@3.0.3)(typescript@5.2.2)
   eslint-import-resolver-typescript:
     specifier: ^3.6.1
     version: 3.6.1(@typescript-eslint/parser@6.9.0)(eslint-plugin-import@2.29.0)(eslint@8.51.0)
@@ -5774,12 +5774,6 @@ packages:
     resolution: {integrity: sha512-3xA4X31gHT1F1l38ATDIL9GpRLdwVhnEFC8Uikv5ZLlXATwrCYyPq7ZWHxzxc3J/30SUiwiYT+bQe0/XvKlWbw==}
     dev: true
 
-  /@types/node@20.8.7:
-    resolution: {integrity: sha512-21TKHHh3eUHIi2MloeptJWALuCu5H7HQTdTrWIFReA8ad+aggoX+lRes3ex7/FtpC+sVUpFMQ+QTfYr74mruiQ==}
-    dependencies:
-      undici-types: 5.25.3
-    dev: false
-
   /@types/node@20.8.9:
     resolution: {integrity: sha512-UzykFsT3FhHb1h7yD4CA4YhBHq545JC0YnEz41xkipN88eKQtL6rSgocL5tbAP6Ola9Izm/Aw4Ora8He4x0BHg==}
     dependencies:
@@ -5899,7 +5893,7 @@ packages:
   /@types/whatwg-url@8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 20.8.7
+      '@types/node': 20.8.9
       '@types/webidl-conversions': 7.0.1
     dev: false
 
@@ -8327,8 +8321,8 @@ packages:
       eslint: 8.51.0
     dev: true
 
-  /eslint-config-ts-prefixer@1.9.3(@typescript-eslint/eslint-plugin@6.9.0)(@typescript-eslint/parser@6.9.0)(eslint-config-prettier@9.0.0)(eslint-import-resolver-typescript@3.6.1)(eslint-plugin-import@2.29.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-sort-keys-custom-order@1.0.5)(eslint@8.51.0)(prettier@3.0.3)(typescript@5.2.2):
-    resolution: {integrity: sha512-clE1uWGam16XiE8XB5eWSnc/1dEpzUx7zReHvQVBtlXhD4EMX2F1p2PoeiOwJpzTlmTxn07ILImGlRbvF7w+8g==}
+  /eslint-config-ts-prefixer@1.11.3(@typescript-eslint/eslint-plugin@6.9.0)(@typescript-eslint/parser@6.9.0)(eslint-config-prettier@9.0.0)(eslint-import-resolver-typescript@3.6.1)(eslint-plugin-import@2.29.0)(eslint-plugin-prettier@5.0.1)(eslint@8.51.0)(prettier@3.0.3)(typescript@5.2.2):
+    resolution: {integrity: sha512-Z5S1JhpuMpbosiINDcygDuSlA+jENTgPCytB2c1RPKCtg9sPC2X1fytY4eVuZJ5wv/UsDK/tvXybcoSSGF3cjg==}
     hasBin: true
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^6.7.0
@@ -8338,7 +8332,6 @@ packages:
       eslint-import-resolver-typescript: ^3.6.0
       eslint-plugin-import: ^2.28.1
       eslint-plugin-prettier: ^5.0.0
-      eslint-plugin-sort-keys-custom-order: ^1.0.5
       prettier: ^3.0.3
       typescript: ^5.1.6
     dependencies:
@@ -8351,7 +8344,6 @@ packages:
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.9.0)(eslint-plugin-import@2.29.0)(eslint@8.51.0)
       eslint-plugin-import: 2.29.0(@typescript-eslint/parser@6.9.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.51.0)
       eslint-plugin-prettier: 5.0.1(eslint-config-prettier@9.0.0)(eslint@8.51.0)(prettier@3.0.3)
-      eslint-plugin-sort-keys-custom-order: 1.0.5(eslint@8.51.0)
       inquirer: 9.2.11
       prettier: 3.0.3
       typescript: 5.2.2
@@ -15312,10 +15304,6 @@ packages:
   /undefsafe@2.0.5:
     resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
     dev: true
-
-  /undici-types@5.25.3:
-    resolution: {integrity: sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==}
-    dev: false
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
