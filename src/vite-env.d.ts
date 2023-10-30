@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string
   readonly VITE_GA_MEASUREMENT_ID: string
   readonly VITE_SENTRY_DNS: string
+  readonly DB_URL: string
 }
 
 interface ImportMeta {
