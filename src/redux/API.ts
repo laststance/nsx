@@ -32,7 +32,7 @@ export const API = createApi({
       Res.DeletePost,
       { id: Post['id']; author: Author }
     >({
-      invalidatesTags: (result, error, { id }) => [{ id, type: 'Posts' }],
+      invalidatesTags: (_result, _error, { id }) => [{ id, type: 'Posts' }],
       query: ({ id, author }) => ({
         body: { author: author },
         method: 'DELETE',
@@ -52,7 +52,7 @@ export const API = createApi({
     }),
 
     fetchPost: builder.query<Post, Post['id']>({
-      providesTags: (result, error, id) => [{ id, type: 'Posts' }],
+      providesTags: (_result, _error, id) => [{ id, type: 'Posts' }],
       query: (id) => ({ method: 'GET', url: `post/${id}` }),
     }),
 
@@ -108,7 +108,7 @@ export const API = createApi({
     }),
 
     updatePost: builder.mutation<Res.UpdatePost, Req.UpdatePost>({
-      invalidatesTags: (result, error, { id }) => [{ id, type: 'Posts' }],
+      invalidatesTags: (_result, _error, { id }) => [{ id, type: 'Posts' }],
       query: (values) => ({
         body: values,
         method: 'POST',
