@@ -15,8 +15,8 @@ dependencies:
     specifier: ^3.3.2
     version: 3.3.2(react-hook-form@7.47.0)
   '@reduxjs/toolkit':
-    specifier: 2.0.0-beta.3
-    version: 2.0.0-beta.3(react-redux@9.0.0-beta.0)(react@18.2.0)
+    specifier: 2.0.0-beta.4
+    version: 2.0.0-beta.4(react-redux@9.0.0-beta.0)(react@18.2.0)
   '@sentry/react':
     specifier: ^7.76.0
     version: 7.76.0(react@18.2.0)
@@ -3766,11 +3766,11 @@ packages:
       - encoding
     dev: true
 
-  /@reduxjs/toolkit@2.0.0-beta.3(react-redux@9.0.0-beta.0)(react@18.2.0):
-    resolution: {integrity: sha512-JUINQUveScGU29Z2rCdfh6REVZDJksMn7/L5bGlhjQ442/Yq9JuMc3n5rjjnwcpSYnwgCireKC0dEpS1i+5Q6w==}
+  /@reduxjs/toolkit@2.0.0-beta.4(react-redux@9.0.0-beta.0)(react@18.2.0):
+    resolution: {integrity: sha512-Bh53FuSfh0eeXIBzoWkB6XdBt61Pxk3xHsUmzcz4aMr5l3Tu1YcPx0KxRJqKJUnTU/I9k92536cv7d4CGU/oOg==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
-      react-redux: ^7.2.1 || ^8.0.2 || ^9.0.0-alpha.1
+      react-redux: ^7.2.1 || ^8.0.2 || ^9.0.0-beta.0
     peerDependenciesMeta:
       react:
         optional: true
@@ -3782,7 +3782,7 @@ packages:
       react-redux: 9.0.0-beta.0(@types/react-dom@18.2.14)(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
       redux: 5.0.0-beta.0
       redux-thunk: 3.0.0-beta.0(redux@5.0.0-beta.0)
-      reselect: 5.0.0-alpha.2
+      reselect: 5.0.0-beta.0
     dev: false
 
   /@remix-run/router@1.11.0:
@@ -13593,8 +13593,8 @@ packages:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
     dev: true
 
-  /reselect@5.0.0-alpha.2:
-    resolution: {integrity: sha512-wachIH1FWB/ceIgBP418PXtjJyhvgjtjqi0Go5nCqe/2xrwwAyCn1/4krfBurNfxxo7dWpiLGb1yYjCrWi40PA==}
+  /reselect@5.0.0-beta.0:
+    resolution: {integrity: sha512-q9cwinGYNn3xNtyknjmNZQvH6FYdxS0tqUin1MIrtMLt1QB17FFz/C2WhlPgYBYuKJe9K/+bTKALuYXn+Elp1g==}
     dev: false
 
   /resolve-from@4.0.0:
