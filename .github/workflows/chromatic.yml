@@ -13,22 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     # Job steps
     steps:
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 8
-          run_install: false
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install dependencies
-        # 👇 Install dependencies with the same package manager used in the project (replace it as needed), e.g. yarn, npm, pnpm
-        run: pnpm install
+      - uses: ./.github/actions/prepare
         # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
         uses: chromaui/action-next@v1

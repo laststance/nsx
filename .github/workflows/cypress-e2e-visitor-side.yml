@@ -10,19 +10,8 @@ jobs:
   cypress-e2e-visitor-side:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 8
-          run_install: true
+      - uses: ./.github/actions/prepare
+      - uses: actions/checkout@v3
       - run: mv .env.sample .env
       - run: docker-compose up -d
       - uses: cypress-io/github-action@v4
