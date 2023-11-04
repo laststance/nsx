@@ -10,7 +10,7 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/prepare
       - uses: actions/checkout@v3
+      - uses: ./.github/actions/prepare
       - name: Typecheck
         run: pnpm typecheck

@@ -13,7 +13,7 @@ jobs:
       - uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: 'Asia/Tokyo'
-      - uses: ./.github/actions/prepare
       - uses: actions/checkout@v3
+      - uses: ./.github/actions/prepare
       - name: Test
         run: pnpm test
