@@ -6,9 +6,10 @@ interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string
   readonly VITE_GA_MEASUREMENT_ID: string
   readonly VITE_SENTRY_DNS: string
+  readonly JWT_SECRET: string
   readonly DB_URL: string
   // Which browser vite dev server open
-  readonly BROWSER: 'Arc'
+  readonly BROWSER: string
 }
 
 interface ImportMeta {

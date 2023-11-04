@@ -23,17 +23,14 @@
 
 ⚛️ [Production](https://nsx.malloc.tokyo/) ✅ [Storybook](https://main--61c089c06b3b4d003adde63b.chromatic.com)
 
-Auto post of web page list you read that day.  
+Auto post of web page list you read that day.
 
 Used in combination with [nsx-browser-extension](https://github.com/laststance/nsx-browser-extension).
 
 # Prerequisites
 
-#### Install [Volta](https://volta.sh/)
-
-```shell
-curl https://get.volta.sh | bash
-```
+- Node.js v18.x.x
+- pnpm
 
 #### Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
@@ -41,15 +38,14 @@ curl https://get.volta.sh | bash
 
 1. `git clone https://github.com/laststance/nsx.git`
 1. `cd nsx`
-1. `node`
-1. `yarn install`
+1. `pnpm install`
 1. `cp .env.sample .env`
 1. `docker-compose up -d`
-1. `yarn db:reset`
-1. `yarn validate`
-1. `yarn server:start`
-1. in other terminal screen `yarn start`
-1. `yarn e2e:admin`
+1. `pnpm db:reset`
+1. `pnpm validate`
+1. `pnpm server:start`
+1. in other terminal screen `pnpm start`
+1. `pnpm e2e:admin`
 1. then, you confirmed local develop environment working fine.
 
 open sidebar press `x` key
@@ -61,14 +57,16 @@ pass: `popcoon`
 
 These are storing `.env` and evaluate at build time.
 
-| Variable Name         | Role        | other |
-| --------------------- | ----------- | ----- |
-| VITE_APP_TITLE        | title       |       |
-| VITE_APP_DESCRIPTION  | desc        |       |
-| VITE_API_ENDPOINT     | end         |       |
-| VITE_SENTRY_DNS       | sentry      |       |
-| VITE_GA_TRACKING_CODE | ga          |       |
-| JWT_SECRET            | server auth |       |
+| Variable Name         | Role                | other |
+| --------------------- | ------------------- | ----- |
+| VITE_APP_TITLE        | title               |       |
+| VITE_APP_DESCRIPTION  | desc                |       |
+| VITE_API_ENDPOINT     | end                 |       |
+| VITE_SENTRY_DNS       | sentry              |       |
+| VITE_GA_TRACKING_CODE | ga                  |       |
+| JWT_SECRET            | server auth         |       |
+| DB_URL                | Database            |       |
+| BROWSER               | open via dev server |       |
 
 ## Production Server
 
@@ -91,10 +89,10 @@ pm2 ps -a                        // Show all processes
 1. `cd ~ && git clone https://github.com/laststance/nsx.git`
 1. `cd nsx` and install [volta](https://volta.sh/)
 1. `source ~/.bashrc` && `volta install node`
-1. `yarn`
+1. `pnpm`
 1. install docker on Ubuntu https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository
 1. docker-compose up -d
-1. yarn db:migrate
+1. pnpm db:migrate
 1. touch .env.prod
 1. npm i -g pm2
 1. `touch .env && echo "JWT_SECRET=$(openssl rand -base64 60 | tr -d '\n' | cut -c1-60)" >> .env`
