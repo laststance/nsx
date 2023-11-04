@@ -135,7 +135,6 @@
     "start": "vite",
     "dev": "vite",
     "build": "dotenv -e .env.prod vite build",
-    "preview": "vite preview",
     "serve": "serve build",
     "test": "dotenv -e .env.test -- vitest",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx,cjs,mjs",
