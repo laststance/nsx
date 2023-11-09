@@ -21,7 +21,7 @@ export const snackbarSlice = createSlice({
   initialState,
   reducers: {
     dequeSnackbar: (state) => {
-      state.snackbarQueue.pop()
+      state.snackbarQueue.shift()
     },
     enqueSnackbar: (state, action: PayloadAction<SnackBarMessage>) => {
       const message: SnackBarMessage['message'] = action.payload.message

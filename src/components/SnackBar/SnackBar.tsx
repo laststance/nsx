@@ -28,10 +28,10 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
 
       const timer1Id = setTimeout(() => {
         setOpacity('opacity-0')
-      }, 1000)
+      }, 4000)
       const timer2Id = setTimeout(() => {
         dispatch(dequeSnackbar())
-      }, 4000)
+      }, 5000)
 
       return () => {
         clearTimeout(timer2Id)
