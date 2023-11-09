@@ -1,11 +1,10 @@
 name: Cypress E2E Admin Side
 on:
+  pull_request: ~
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+
 jobs:
   cypress-e2e-admin-side:
     runs-on: ubuntu-latest

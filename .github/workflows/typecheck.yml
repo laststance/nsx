@@ -1,9 +1,7 @@
 name: Typecheck
 on:
+  pull_request: ~
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 jobs:

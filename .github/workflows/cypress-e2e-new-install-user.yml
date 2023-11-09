@@ -1,9 +1,7 @@
 name: Cypress-E2E New Install User
 on:
+  pull_request: ~
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 jobs:
