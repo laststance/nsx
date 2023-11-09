@@ -1,14 +1,16 @@
-import type { ComponentStory } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import Textarea from './Textarea'
 
-export default {
+const meta = {
   title: 'Components/Textarea',
   component: Textarea,
-}
-
+  tags: ['autodocs'],
+} satisfies Meta<typeof Textarea>
+export default meta
+type Story = StoryObj<typeof meta>
 interface FormInput {
   message: string
 }
@@ -32,8 +34,5 @@ const TextareaForm = () => {
   )
 }
 
-const Template: ComponentStory<typeof Textarea> = (props) => (
-  <TextareaForm {...props} />
-)
-
-export const Default = Template.bind({})
+// @ts-expect-error wrapped original component for pass hookForm parameters
+export const Default: Story = (props) => <TextareaForm {...props} />
