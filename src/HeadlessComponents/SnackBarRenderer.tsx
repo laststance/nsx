@@ -4,6 +4,7 @@ import SnackBar from '../components/SnackBar/SnackBar'
 import { useAppSelector } from '../redux/hooks'
 import { selectMessageQueue } from '../redux/snackbarSlice'
 
+// TODO re-implement as a SnackBarStack
 const SnackBarRenderer: React.HeadlessLongicRenderer = React.memo(
   () => {
     const messageQueue = useAppSelector(selectMessageQueue)
