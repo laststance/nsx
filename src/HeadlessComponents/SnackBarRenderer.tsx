@@ -14,6 +14,6 @@ const SnackBarRenderer: React.HeadlessLongicRenderer = React.memo(
   },
   () => true,
 )
-SnackBarRenderer.displayName = 'HeadlessLongicRenderer.SnackBarDispatcher'
+SnackBarRenderer.displayName = 'HeadlessComponent.SnackBarDispatcher'
 
 export default SnackBarRenderer
