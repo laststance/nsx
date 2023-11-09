@@ -27,9 +27,5 @@ declare module 'react' {
     propTypes?: WeakValidationMap<P> | undefined
   }
 
-  /**
-   * Usually mount as a HeadlessEffectComponeneat first render.
-   * But sometime render time e t modal, toast, ntackbar
-   */
-  export type HeadlessLongicRenderer<in P = any> = React.FC<P>
+  export type HeadlessComponent<in P = any> = React.FC<P>
 }
