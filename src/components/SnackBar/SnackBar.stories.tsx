@@ -20,7 +20,7 @@ type Story = StoryObj<typeof SnackBar>
  * to learn how to use render functions.
  */
 export const Primary: Story = {
-  render: ({ color = 'green', message = 'Complete!' }) => (
-    <SnackBar color={color} message={message} />
+  render: ({ id = 1, color = 'green', message = 'Complete!' }) => (
+    <SnackBar id={id} color={color} message={message} />
   ),
 }

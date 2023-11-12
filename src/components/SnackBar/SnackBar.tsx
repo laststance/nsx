@@ -6,6 +6,7 @@ import { dequeSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
 
 interface Props {
+  id: SnackBarMessage['id']
   color: SnackBarMessage['color']
   message: SnackBarMessage['message']
 }
@@ -20,7 +21,7 @@ const getBGColor = (color: SnackBarMessage['color']): string => {
 }
 
 const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
-  ({ color, message }) => {
+  ({ id, color, message }) => {
     const [opacity, setOpacity] = useState('opacity-0')
 
     useIsomorphicEffect(() => {
@@ -30,7 +31,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
         setOpacity('opacity-0')
       }, 4000)
       const timer2Id = setTimeout(() => {
-        dispatch(dequeSnackbar())
+        dispatch(dequeSnackbar(id))
       }, 5000)
 
       return () => {
@@ -42,7 +43,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
     return (
       <div
         data-cy="snackbar"
-        className={`z-60 fixed right-0 top-0 m-2 flex items-center justify-between rounded-lg p-4 shadow-lg sm:m-4 ${getBGColor(
+        className={`flex items-center justify-between rounded-lg p-4 shadow-lg sm:m-4 ${getBGColor(
           color,
         )} ${opacity} transition-opacity duration-1000 ease-out`}
       >

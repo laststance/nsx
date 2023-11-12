@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 export interface SnackBarMessage {
+  //id: number TODO id
   color: 'red' | 'green'
   message: string
 }
@@ -26,6 +27,8 @@ export const snackbarSlice = createSlice({
     enqueSnackbar: (state, action: PayloadAction<SnackBarMessage>) => {
       const message: SnackBarMessage['message'] = action.payload.message
       const color: SnackBarMessage['color'] = action.payload.color
+      // TODO id
+      //const id: SnackBarMessage['id'] = action.payload.id
       const newMessage: SnackBarMessage = { color, message }
       state.snackbarQueue.push(newMessage)
     },
