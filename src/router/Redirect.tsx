@@ -3,7 +3,7 @@ import { memo } from 'react'
 import type { To } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect'
+import { useIsomorphicEffect } from '../hooks/useIsomorphicEffect'
 
 interface Props {
   to: To
@@ -12,7 +12,7 @@ interface Props {
 const Redirect: HeadlessEffectComponent<Props> = memo<Props>(
   ({ to }) => {
     const navigate = useNavigate()
-    useIsomorphicLayoutEffect(() => {
+    useIsomorphicEffect(() => {
       navigate(to)
     }, [])
     return null

@@ -2,7 +2,7 @@ import type { SerializedError } from '@reduxjs/toolkit'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 import { assertCast } from '../../../lib/assertCast'
-import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
+import { useIsomorphicEffect } from '../../hooks/useIsomorphicEffect'
 import { API } from '../../redux/API'
 import { useAppSelector } from '../../redux/hooks'
 import type { PagenationState } from '../../redux/pagenationSlice'
@@ -24,7 +24,7 @@ export interface UsePagenationResult {
 function usePagination(
   customPerPage?: PagenationState['perPage'],
 ): UsePagenationResult {
-  useIsomorphicLayoutEffect(() => {
+  useIsomorphicEffect(() => {
     if (Number.isSafeInteger(customPerPage)) {
       assertCast<number>(customPerPage) // TypeScript can't detect result of Number.isSafeInteger()
       dispatch(updatePerPage({ perPage: customPerPage }))

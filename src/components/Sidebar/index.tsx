@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import React, { memo, Fragment } from 'react'
 
-import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
+import { useIsomorphicEffect } from '../../hooks/useIsomorphicEffect'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 import { selectSidebarOpen, toggleSidebar } from '../../redux/sidebarSlice'
@@ -29,7 +29,7 @@ const Sidebar: React.FC = memo(() => {
   const open = useAppSelector(selectSidebarOpen)
   const login = useAppSelector(selectLogin)
 
-  useIsomorphicLayoutEffect(() => {
+  useIsomorphicEffect(() => {
     window.document.addEventListener('keyup', keypressListener)
   }, [])
 

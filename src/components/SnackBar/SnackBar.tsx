@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react'
 
-import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect'
+import { useIsomorphicEffect } from '../../hooks/useIsomorphicEffect'
 import type { SnackBarMessage } from '../../redux/snackbarSlice'
 import { dequeSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
@@ -23,7 +23,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
   ({ color, message }) => {
     const [opacity, setOpacity] = useState('opacity-0')
 
-    useIsomorphicLayoutEffect(() => {
+    useIsomorphicEffect(() => {
       setOpacity('opacity-100')
 
       const timer1Id = setTimeout(() => {
