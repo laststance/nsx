@@ -40,7 +40,7 @@ context('admin basic', () => {
   context('CRUD post operation', () => {
     it('create new post via Dashboard', () => {
       cy.login()
-      cy.get('header > div > a').contains('Reading List').click()
+      cy.get('header > div > a').contains('ReadList').click()
       cy.url().should('eq', 'http://localhost:3000/')
       cy.toggleSidebar()
       cy.$('dashboard-link').contains('Dashboard').click()
@@ -62,7 +62,7 @@ context('admin basic', () => {
 
     it('create new post via Sidebar', () => {
       cy.login()
-      cy.get('header > div > a').contains('Reading List').click()
+      cy.get('header > div > a').contains('ReadList').click()
       cy.url().should('eq', 'http://localhost:3000/')
       cy.toggleSidebar()
       cy.$('create-link').contains('Create').click()

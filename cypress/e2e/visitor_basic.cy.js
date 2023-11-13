@@ -5,7 +5,7 @@ before(() => {
 context('visitor basic', () => {
   it('show blog title', () => {
     cy.visit('http://localhost:3000/')
-    cy.$('header').should('contain', 'Reading List')
+    cy.$('header').should('contain', 'ReadList')
   })
 
   it('show lait article list', () => {
