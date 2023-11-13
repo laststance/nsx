@@ -7,7 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_GA_MEASUREMENT_ID: string
   readonly VITE_SENTRY_DNS: string
   readonly JWT_SECRET: string
-  readonly DB_URL: string
+  readonly DATABASE_URL: string
   // Which browser vite dev server open
   readonly BROWSER: string
 }

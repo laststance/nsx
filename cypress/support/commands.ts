@@ -22,6 +22,6 @@ Cypress.Commands.add('logout', () =>
   cy.request('http://localhost:3000/api/logout'),
 )
 
-Cypress.Commands.add('resetDB', () => cy.exec('yarn db:reset'))
+Cypress.Commands.add('resetDB', () => cy.exec('pnpm db:reset'))
 
-Cypress.Commands.add('cleanDB', () => cy.exec('yarn db:truncate'))
+Cypress.Commands.add('cleanDB', () => cy.exec('pnpm db:truncate'))

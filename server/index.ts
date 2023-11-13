@@ -26,7 +26,7 @@ require('dotenv').config(
   isProd ? path.join(__dirname, './../../.env') : __dirname,
 )
 
-Cron.readingList.start()
+Cron.readList.start()
 
 /**
  Express Setup

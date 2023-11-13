@@ -1,38 +1,30 @@
 import { CronJob } from 'cron'
 
-import db from './db/models'
-import type PostModel from './db/models/postModel'
+import { prisma } from './prisma'
 interface CronInterface {
-  readingList: InstanceType<typeof CronJob>
+  readList: InstanceType<typeof CronJob>
 }
 
 export const Cron: CronInterface = {
-  readingList: new CronJob(
-    '0 0 * * *',
-    postReadingList,
-    null,
-    true,
-    'Asia/Tokyo',
-  ),
+  readList: new CronJob('0 0 * * *', postReadlist, null, true, 'Asia/Tokyo'),
 }
 
-async function postReadingList() {
-  const Stocks = await db.stock.findAll()
-  if (Stocks.length === 0) return
+async function postReadlist() {
+  const stocks = await prisma.stocks.findMany()
+  if (stocks.length === 0) return
 
-  const title = Stocks[0].pageTitle + ' etc...'
+  const title = stocks[0].pageTitle + ' etc...'
 
   let body = ''
-  for (const stock of Stocks) {
+  for (const stock of stocks) {
     body += `[${stock.pageTitle}](${stock.url})  \n\n`
   }
 
-  await db.post.create<PostModel>({
-    title: title,
-    body: body,
+  await prisma.posts.create({
+    data: {
+      title: title,
+      body: body,
+    },
   })
-  await db.stock.destroy({
-    truncate: true,
-    where: {},
-  })
+  await prisma.stocks.deleteMany()
 }
