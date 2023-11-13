@@ -156,7 +156,7 @@
     "server:build": "tsc -p server/tsconfig.json",
     "analyze": "vite-bundle-visualizer",
     "deploy": "bash scripts/deploy",
-    "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
+    "workflow:deploy": "pnpm build && pnpm server:build && pnpm deploy",
     "validate": "./scripts/validate",
     "show:api:docs": "redocly preview-docs openapi_v3.json",
     "db:hashgen": "node server/db/scripts/passhashgen.js",
