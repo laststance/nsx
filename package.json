@@ -12,6 +12,9 @@
   "volta": {
     "node": "18.18.2"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
@@ -50,7 +53,6 @@
     "rehype-raw": "^7.0.0",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.0",
-    "sequelize": "^6.34.0",
     "superstruct": "^1.0.3",
     "web-vitals": "^3.5.0"
   },
@@ -122,13 +124,13 @@
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "rimraf": "^5.0.5",
-    "sequelize-cli": "^6.6.2",
     "serve": "^14.2.1",
     "storybook": "^7.5.2",
     "tailwindcss": "^3.3.5",
     "terser": "^5.24.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
+    "tsx": "^4.1.1",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vite-bundle-visualizer": "^0.11.0",
@@ -158,15 +160,10 @@
     "validate": "./scripts/validate",
     "show:api:docs": "redocly preview-docs openapi_v3.json",
     "db:hashgen": "node server/db/scripts/passhashgen.js",
-    "db:reset": "yarn db:drop && yarn db:create && yarn db:migrate && yarn db:seed:all",
-    "db:truncate": "yarn db:drop && yarn db:create && yarn db:migrate",
-    "db:create": "sequelize db:create",
-    "db:drop": "sequelize db:drop",
-    "db:migrate": "sequelize db:migrate",
-    "db:seed": "sequelize db:seed",
-    "db:seed:undo": "sequelize db:seed:undo",
-    "db:seed:all": "sequelize db:seed:all",
-    "db:seed:undo:all": "sequelize db:seed:undo:all",
+    "db:reset": "prisma migrate reset",
+    "db:truncate": "prisma migrate reset --skip-seed",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "cy:open": "cypress open",
     "e2e:admin": "cypress run --headed --spec cypress/e2e/admin_basic.cy.js",
     "e2e:admin:headless": "cypress run --spec cypress/e2e/admin_basic.cy.js",
