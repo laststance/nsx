@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+/// <reference types="react/canary" />
 import type GA4 from 'react-ga4'
 interface ImportMetaEnv {
   readonly VITE_API_ENDPOINT: string
