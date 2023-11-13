@@ -4,32 +4,35 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 export interface SnackBarMessage {
-  //id: number TODO id
+  id: number
   color: 'red' | 'green'
   message: string
 }
 
 export interface SnackBarState {
+  nextId: number
   snackbarQueue: Array<SnackBarMessage>
 }
 
 const initialState: SnackBarState = {
+  nextId: 0,
   snackbarQueue: [],
 }
-
 export const snackbarSlice = createSlice({
   name: 'snackbar',
   initialState,
   reducers: {
-    dequeSnackbar: (state) => {
-      state.snackbarQueue.shift()
+    dequeSnackbar: (state, action: PayloadAction<SnackBarMessage['id']>) => {
+      state.nextId--
+      state.snackbarQueue = state.snackbarQueue.filter(
+        (v) => v.id !== action.payload,
+      )
     },
     enqueSnackbar: (state, action: PayloadAction<SnackBarMessage>) => {
       const message: SnackBarMessage['message'] = action.payload.message
       const color: SnackBarMessage['color'] = action.payload.color
-      // TODO id
-      //const id: SnackBarMessage['id'] = action.payload.id
-      const newMessage: SnackBarMessage = { color, message }
+      state.nextId++
+      const newMessage: SnackBarMessage = { id: state.nextId, color, message }
       state.snackbarQueue.push(newMessage)
     },
   },

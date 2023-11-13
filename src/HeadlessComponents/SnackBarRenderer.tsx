@@ -12,8 +12,13 @@ const SnackBarRenderer: React.HeadlessComponent = React.memo(
 
     return (
       <SnackBarContainer>
-        {messageQueue.map((que, i) => (
-          <SnackBar key={i} message={que.message} color={que.color} />
+        {messageQueue.map((que) => (
+          <SnackBar
+            key={que.id}
+            message={que.message}
+            color={que.color}
+            id={que.id}
+          />
         ))}
       </SnackBarContainer>
     )
