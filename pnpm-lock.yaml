@@ -302,11 +302,11 @@ devDependencies:
     specifier: ^15.0.2
     version: 15.0.2
   msw:
-    specifier: ^2.0.5
-    version: 2.0.5(typescript@5.2.2)
+    specifier: ^2.0.6
+    version: 2.0.6(typescript@5.2.2)
   msw-storybook-addon:
     specifier: 2.0.0--canary.122.b3ed3b1.0
-    version: 2.0.0--canary.122.b3ed3b1.0(msw@2.0.5)
+    version: 2.0.0--canary.122.b3ed3b1.0(msw@2.0.6)
   node-fetch:
     specifier: 2.6.7
     version: 2.6.7
@@ -11903,17 +11903,17 @@ packages:
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  /msw-storybook-addon@2.0.0--canary.122.b3ed3b1.0(msw@2.0.5):
+  /msw-storybook-addon@2.0.0--canary.122.b3ed3b1.0(msw@2.0.6):
     resolution: {integrity: sha512-HZn9B6MCdfHpgm5wQ92A0K3moXDCDTxPRjWWH6C/4myg3KmsD0kwiaE14vWO49A4+TG10yXMGqIll2NjIMtnQg==}
     peerDependencies:
       msw: ^2.0.0
     dependencies:
       is-node-process: 1.2.0
-      msw: 2.0.5(typescript@5.2.2)
+      msw: 2.0.6(typescript@5.2.2)
     dev: true
 
-  /msw@2.0.5(typescript@5.2.2):
-    resolution: {integrity: sha512-vjI7rEtv879CvbTGUfcI6JjKVE/XX/MU8uggiCkAzfl930U8LSp0h81RnfNfVOllELlbLTCvGkpV3e7TuVBGdA==}
+  /msw@2.0.6(typescript@5.2.2):
+    resolution: {integrity: sha512-74nN9ADQxHsVx8YGOq5yeDE4bye1mVMAYXojKl0qWraRunTK8UjAVk3wSmOOvVVIDJsyySyjDZ4oYvRuzuMO2g==}
     engines: {node: '>=18'}
     hasBin: true
     requiresBuild: true
