@@ -28,7 +28,10 @@ export const snackbarSlice = createSlice({
         (v) => v.id !== action.payload,
       )
     },
-    enqueSnackbar: (state, action: PayloadAction<SnackBarMessage>) => {
+    enqueSnackbar: (
+      state,
+      action: PayloadAction<Omit<SnackBarMessage, 'id'>>,
+    ) => {
       const message: SnackBarMessage['message'] = action.payload.message
       const color: SnackBarMessage['color'] = action.payload.color
       state.nextId++

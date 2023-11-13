@@ -9,6 +9,7 @@ const meta: Meta<typeof SnackBar> = {
    */
   title: 'Components/SnackBar',
   component: SnackBar,
+  tags: ['autodocs'],
 }
 
 export default meta
@@ -19,8 +20,10 @@ type Story = StoryObj<typeof SnackBar>
  * See https://storybook.js.org/docs/react/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
-  render: ({ color = 'green', message = 'Complete!' }) => (
-    <SnackBar color={color} message={message} />
-  ),
+export const Success: Story = {
+  args: { id: 1, color: 'green', message: 'Complete!' },
+}
+
+export const Error: Story = {
+  args: { id: 2, color: 'red', message: 'Network Error' },
 }
