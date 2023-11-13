@@ -9,16 +9,16 @@ datasource db {
 
 model authors {
   id        Int      @id @default(autoincrement())
-  name      String?  @db.VarChar(255)
+  name      String   @db.VarChar(255)
   createdAt DateTime @default(now())
-  password  String?  @db.Text
+  password  String   @db.Text
   updatedAt DateTime @updatedAt
 }
 
 model posts {
   id        Int      @id @default(autoincrement())
-  title     String?  @db.VarChar(255)
-  body      String?  @db.Text
+  title     String   @db.VarChar(255)
+  body      String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -26,7 +26,7 @@ model posts {
 model stocks {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  pageTitle String?  @db.Text
+  pageTitle String   @db.Text
   updatedAt DateTime @updatedAt
-  url       String?  @db.Text
+  url       String   @db.Text
 }
