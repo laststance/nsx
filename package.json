@@ -153,7 +153,7 @@
     "build-storybook": "dotenv -e .env.storybook -- storybook build",
     "serve:storybook": "serve storybook-static",
     "server:start": "cross-env NODE_ENV=development nodemon --ext ts,js --watch 'server' --ignore './src' --exec ts-node --files --project server/tsconfig.json server/index.ts",
-    "server:build": "tsc -p server/tsconfig.json && cp -r server/db/migrations server_build && cp server/db/config.json server_build/server/db/config.json",
+    "server:build": "tsc -p server/tsconfig.json",
     "analyze": "vite-bundle-visualizer",
     "deploy": "bash scripts/deploy",
     "workflow:deploy": "yarn build && yarn server:build && yarn deploy",
