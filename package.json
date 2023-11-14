@@ -6,6 +6,7 @@
   "author": "Ryota Murakami <dojce1048@gmail.com> (https://github.com/ryota-murakami)",
   "description": "Auto post of web page list you read that day.",
   "homepage": "https://github.com/laststance/nsx",
+  "packageManager": "pnpm@8.10.5+sha256.a4bd9bb7b48214bbfcd95f264bd75bb70d100e5d4b58808f5cd6ab40c6ac21c5",
   "msw": {
     "workerDirectory": "public"
   },
@@ -14,6 +15,9 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "lint-staged": {
+    "*": "prettier --ignore-unknown --write"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
@@ -173,8 +177,5 @@
     "e2e:admin:firefox": "cypress run --headed -b firefox --spec cypress/e2e/admin_basic.cy.js",
     "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/e2e/visitor_basic.cy.js",
     "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*": "prettier --ignore-unknown --write"
   }
 }
