@@ -21,8 +21,8 @@ dependencies:
     specifier: 2.0.0-rc.1
     version: 2.0.0-rc.1(react-redux@9.0.0-rc.0)(react@18.3.0-canary-6b3834a45-20231110)
   '@sentry/react':
-    specifier: ^7.81.1
-    version: 7.81.1(react@18.3.0-canary-6b3834a45-20231110)
+    specifier: ^7.82.0
+    version: 7.82.0(react@18.3.0-canary-6b3834a45-20231110)
   '@sentry/tracing':
     specifier: ^7.81.1
     version: 7.81.1
@@ -3852,15 +3852,24 @@ packages:
       '@sentry/utils': 7.81.1
     dev: false
 
-  /@sentry/browser@7.81.1:
-    resolution: {integrity: sha512-DNtS7bZEnFPKVoGazKs5wHoWC0FwsOFOOMNeDvEfouUqKKbjO7+RDHbr7H6Bo83zX4qmZWRBf8V+3n3YPIiJFw==}
+  /@sentry-internal/tracing@7.82.0:
+    resolution: {integrity: sha512-kgZVHYbZCeOb5apTDZJG9bioaKNPImmHTggZSWMmZj1Q037ft4481EleIVtKWOUvJzmEndEmD91mglkXBGPQwA==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry-internal/tracing': 7.81.1
-      '@sentry/core': 7.81.1
-      '@sentry/replay': 7.81.1
-      '@sentry/types': 7.81.1
-      '@sentry/utils': 7.81.1
+      '@sentry/core': 7.82.0
+      '@sentry/types': 7.82.0
+      '@sentry/utils': 7.82.0
+    dev: false
+
+  /@sentry/browser@7.82.0:
+    resolution: {integrity: sha512-u5QMnkuI1Xl6yLKIIyGPoLorVzsqwmMhGTxDbZ3r3Khr1au9BV+7P87L1jqaUC5uz7lmQ6T3U8jwY3zC4t3yiw==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry-internal/tracing': 7.82.0
+      '@sentry/core': 7.82.0
+      '@sentry/replay': 7.82.0
+      '@sentry/types': 7.82.0
+      '@sentry/utils': 7.82.0
     dev: false
 
   /@sentry/core@7.81.1:
@@ -3871,27 +3880,35 @@ packages:
       '@sentry/utils': 7.81.1
     dev: false
 
-  /@sentry/react@7.81.1(react@18.3.0-canary-6b3834a45-20231110):
-    resolution: {integrity: sha512-kk0plP/mf8KgVLOiImIpp1liYysmh3Un8uXcVAToomSuHZPGanelFAdP0XhY+0HlWU9KIfxTjhMte1iSwQ8pYw==}
+  /@sentry/core@7.82.0:
+    resolution: {integrity: sha512-Wc+AYPzDIgFbuKkyYd/8tFm4E8CQboDkxefsz26N66CU1Ueqlk0RA8nVbzhbklhO/SuPJeR+fVOOx1spXYoybg==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry/types': 7.82.0
+      '@sentry/utils': 7.82.0
+    dev: false
+
+  /@sentry/react@7.82.0(react@18.3.0-canary-6b3834a45-20231110):
+    resolution: {integrity: sha512-RB8CFrpByLFXFiH2WP85JtJBwLvNyBuV+efbYKusUUVREU1uMfHWSQk5HehUQmTTJFyPVtbSD4Bukwl9OdMpEg==}
     engines: {node: '>=8'}
     peerDependencies:
       react: 15.x || 16.x || 17.x || 18.x
     dependencies:
-      '@sentry/browser': 7.81.1
-      '@sentry/types': 7.81.1
-      '@sentry/utils': 7.81.1
+      '@sentry/browser': 7.82.0
+      '@sentry/types': 7.82.0
+      '@sentry/utils': 7.82.0
       hoist-non-react-statics: 3.3.2
       react: 18.3.0-canary-6b3834a45-20231110
     dev: false
 
-  /@sentry/replay@7.81.1:
-    resolution: {integrity: sha512-4ueT0C4bYjngN/9p0fEYH10dTMLovHyk9HxJ6zSTgePvGVexhg+cSEHXisoBDwHeRZVnbIvsVM0NA7rmEDXJJw==}
+  /@sentry/replay@7.82.0:
+    resolution: {integrity: sha512-GisaYEudkVC87UV9DnrDuliuczixmq0UusPfBvp3LPJoJcV8v1d/jM2wE9GJr1eclZvctGV01aD8yBx7w8xFYQ==}
     engines: {node: '>=12'}
     dependencies:
-      '@sentry-internal/tracing': 7.81.1
-      '@sentry/core': 7.81.1
-      '@sentry/types': 7.81.1
-      '@sentry/utils': 7.81.1
+      '@sentry-internal/tracing': 7.82.0
+      '@sentry/core': 7.82.0
+      '@sentry/types': 7.82.0
+      '@sentry/utils': 7.82.0
     dev: false
 
   /@sentry/tracing@7.81.1:
@@ -3906,11 +3923,23 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /@sentry/types@7.82.0:
+    resolution: {integrity: sha512-mWiSaWXas2zAyO7Kt5Eb9/W2vEiDiTw56NGRjKWsZnmKyl9bK3Mnxuk0TR7M6F+q8OoAFZPK1rECnyGIcb0fqQ==}
+    engines: {node: '>=8'}
+    dev: false
+
   /@sentry/utils@7.81.1:
     resolution: {integrity: sha512-gq+MDXIirHKxNZ+c9/lVvCXd6y2zaZANujwlFggRH2u9SRiPaIXVilLpvMm4uJqmqBMEcY81ArujExtHvkbCqg==}
     engines: {node: '>=8'}
     dependencies:
       '@sentry/types': 7.81.1
+    dev: false
+
+  /@sentry/utils@7.82.0:
+    resolution: {integrity: sha512-Tba4yemyePW+bwKO/UR5/hlY3CBuBWc/PiKMLLfE6VNhFgZN/Ei9T/Wfp2ld/ANhfC0imqSd2iCv2rUuDPNRpQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry/types': 7.82.0
     dev: false
 
   /@sinclair/typebox@0.27.8:
