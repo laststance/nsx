@@ -128,8 +128,8 @@ devDependencies:
     specifier: ^8.3.1
     version: 8.3.1
   '@redocly/cli':
-    specifier: ^1.4.1
-    version: 1.4.1
+    specifier: ^1.5.0
+    version: 1.5.0
   '@storybook/addon-essentials':
     specifier: ^7.5.2
     version: 7.5.2(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)
@@ -3757,12 +3757,12 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /@redocly/cli@1.4.1:
-    resolution: {integrity: sha512-c0v8SYyqC1QvImJrGhw6+wIPXn10Zhp1sUGmvXIIXZQzS7fL15+qBH4f19nh3ChpSdO4x0EdBFvvTovrupV4sQ==}
+  /@redocly/cli@1.5.0:
+    resolution: {integrity: sha512-2E6yhYIs/dj6pFM9ahzuyI4AzFOjmOK1dkwYCtTWT1w5kROlW4HVVgHrxnOIUupRDTD5TdScWSH28n2U1VivWQ==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     hasBin: true
     dependencies:
-      '@redocly/openapi-core': 1.4.1
+      '@redocly/openapi-core': 1.5.0
       chokidar: 3.5.3
       colorette: 1.4.0
       core-js: 3.32.2
@@ -3773,7 +3773,7 @@ packages:
       node-fetch: 2.6.7
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      redoc: 2.1.2(core-js@3.32.2)(mobx@6.10.2)(react-dom@18.2.0)(react@18.2.0)(styled-components@6.0.8)
+      redoc: 2.1.3(core-js@3.32.2)(mobx@6.10.2)(react-dom@18.2.0)(react@18.2.0)(styled-components@6.0.8)
       semver: 7.5.4
       simple-websocket: 9.1.0
       styled-components: 6.0.8(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)
@@ -3787,8 +3787,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@redocly/openapi-core@1.4.1:
-    resolution: {integrity: sha512-oAhnG8MKocM9LuP++NGFxdniNKWSLA7hzHPQoOK92LIP/DdvXx8pEeZ68UTNxIXhKonoUcO6s86I3L0zj143zg==}
+  /@redocly/openapi-core@1.5.0:
+    resolution: {integrity: sha512-AnDLoDl1+a7mZO4+lx0KG8zH04BQx4ez6yh403PuNl9/0ygbicPPc9QG/y0/0OImChOA+knKLpJazNFjzhOAeg==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     dependencies:
       '@redocly/ajv': 8.11.0
@@ -12899,11 +12899,6 @@ packages:
     resolution: {integrity: sha512-jmYNElW7yvO7TV33CjSmvSiE2yco3bV2czu/OzDKdMNVZQWfxCblURLhf+47syQRBntjfLdd/H0egrzIG+oaFQ==}
     dev: true
 
-  /punycode@2.3.0:
-    resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
-    engines: {node: '>=6'}
-    dev: true
-
   /punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -13388,8 +13383,8 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
-  /redoc@2.1.2(core-js@3.32.2)(mobx@6.10.2)(react-dom@18.2.0)(react@18.2.0)(styled-components@6.0.8):
-    resolution: {integrity: sha512-pTu+aTdyJAMPVnOBYMesEjvRnh51BKE7bFLDIM6DiUSigli+3LfandSEp2FaaGnoqyvvC9axg/dvKQP16s02ww==}
+  /redoc@2.1.3(core-js@3.32.2)(mobx@6.10.2)(react-dom@18.2.0)(react@18.2.0)(styled-components@6.0.8):
+    resolution: {integrity: sha512-d7F9qLLxaiFW4GC03VkwlX9wuRIpx9aiIIf3o6mzMnqPfhxrn2IRKGndrkJeVdItgCfmg9jXZiFEowm60f1meQ==}
     engines: {node: '>=6.9', npm: '>=3.0.0'}
     peerDependencies:
       core-js: ^3.1.4
@@ -13398,7 +13393,7 @@ packages:
       react-dom: ^16.8.4 || ^17.0.0 || ^18.0.0
       styled-components: ^4.1.1 || ^5.1.1 || ^6.0.5
     dependencies:
-      '@redocly/openapi-core': 1.4.1
+      '@redocly/openapi-core': 1.5.0
       classnames: 2.3.2
       core-js: 3.32.2
       decko: 1.2.0
@@ -14813,7 +14808,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       psl: 1.9.0
-      punycode: 2.3.0
+      punycode: 2.3.1
       universalify: 0.2.0
       url-parse: 1.5.10
     dev: true
@@ -15326,7 +15321,7 @@ packages:
   /uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
-      punycode: 2.3.0
+      punycode: 2.3.1
     dev: true
 
   /url-parse@1.5.10:
