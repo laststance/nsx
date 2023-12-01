@@ -64,16 +64,16 @@ declare type JsonObject = { [Key in string]?: JsonValue }
 declare type Expand<T> = T extends (...args: infer A) => infer R
   ? (...args: Expand<A>) => Expand<R>
   : T extends infer O
-  ? { [K in keyof O]: O[K] }
-  : never
+    ? { [K in keyof O]: O[K] }
+    : never
 
 declare type ExpandRecursively<T> = T extends (...args: infer A) => infer R
   ? (...args: ExpandRecursively<A>) => ExpandRecursively<R>
   : T extends object
-  ? T extends infer O
-    ? { [K in keyof O]: ExpandRecursively<O[K]> }
-    : never
-  : T
+    ? T extends infer O
+      ? { [K in keyof O]: ExpandRecursively<O[K]> }
+      : never
+    : T
 
 declare type ArrayMapCallback = Parameters<Array<any>['map']>[0]
 declare type ArrayMapIndex = Parameters<ArrayMapCallback>[1]
