@@ -91,7 +91,7 @@ pm2 ps -a                        // Show all processes
 1. `source ~/.bashrc` && `volta install node`
 1. `pnpm`
 1. install docker on Ubuntu https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository
-1. docker-compose up -d
+1. docker compose up -d
 1. pnpm db:migrate
 1. touch .env.prod
 1. npm i -g pm2
