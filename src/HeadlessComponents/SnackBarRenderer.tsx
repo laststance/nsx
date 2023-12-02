@@ -5,7 +5,7 @@ import SnackBarContainer from '../components/SnackBar/SnackBarContainer'
 import { useAppSelector } from '../redux/hooks'
 import { selectMessageQueue } from '../redux/snackbarSlice'
 
-const SnackBarRenderer: React.HeadlessComponent = React.memo(
+const SnackBarRenderer: React.FC = React.memo(
   () => {
     const messageQueue = useAppSelector(selectMessageQueue)
     if (messageQueue.length === 0) return null
@@ -25,6 +25,6 @@ const SnackBarRenderer: React.HeadlessComponent = React.memo(
   },
   () => true,
 )
-SnackBarRenderer.displayName = 'HeadlessComponent.SnackBarDispatcher'
+SnackBarRenderer.displayName = 'SnackBarRenderer'
 
 export default SnackBarRenderer
