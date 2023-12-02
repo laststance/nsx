@@ -6,16 +6,19 @@ import { useAppSelector } from '../redux/hooks'
 import { dispatch } from '../redux/store'
 import { selectTheme, updateTheme } from '../redux/themeSlice'
 
-const HookLoaderComponent: HeadlessEffectComponent = memo(() => {
-  // apply TailwindCSS theme onLoaded
-  // bause Routes component render phase defenitelly run once per app loding
-  const theme = useAppSelector(selectTheme)
-  useIsomorphicEffect(() => {
-    dispatch(updateTheme(theme))
-  }, [])
+const HookLoaderComponent: HeadlessEffectComponent = memo(
+  () => {
+    // apply TailwindCSS theme onLoaded
+    // bause Routes component render phase defenitelly run once per app loding
+    const theme = useAppSelector(selectTheme)
+    useIsomorphicEffect(() => {
+      dispatch(updateTheme(theme))
+    }, [])
 
-  return null
-})
+    return null
+  },
+  () => true,
+)
 HookLoaderComponent.displayName = 'HeadlessEffect.HookLoaderComponent'
 
 export default HookLoaderComponent
