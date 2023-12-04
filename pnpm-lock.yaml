@@ -94,7 +94,7 @@ dependencies:
     version: 9.0.1(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)
   react-redux:
     specifier: 9.0.0-rc.0
-    version: 9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0-rc.1)
+    version: 9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0)
   react-router-dom:
     specifier: ^6.20.0
     version: 6.20.0(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)
@@ -102,14 +102,14 @@ dependencies:
     specifier: ^0.13.8
     version: 0.13.8(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)
   redux:
-    specifier: 5.0.0-rc.1
-    version: 5.0.0-rc.1
+    specifier: 5.0.0
+    version: 5.0.0
   redux-first-history:
     specifier: ^5.1.1
-    version: 5.1.1(history@5.3.0)(redux@5.0.0-rc.1)
+    version: 5.1.1(history@5.3.0)(redux@5.0.0)
   redux-persist:
     specifier: ^6.0.0
-    version: 6.0.0(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0-rc.1)
+    version: 6.0.0(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0)
   rehype-raw:
     specifier: ^7.0.0
     version: 7.0.0
@@ -3914,9 +3914,9 @@ packages:
     dependencies:
       immer: 10.0.3
       react: 18.3.0-canary-6b3834a45-20231110
-      react-redux: 9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0-rc.1)
-      redux: 5.0.0-rc.1
-      redux-thunk: 3.0.0-rc.0(redux@5.0.0-rc.1)
+      react-redux: 9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0)
+      redux: 5.0.0
+      redux-thunk: 3.0.0-rc.0(redux@5.0.0)
       reselect: 5.0.0-rc.0
     dev: false
 
@@ -13598,7 +13598,7 @@ packages:
       - supports-color
     dev: false
 
-  /react-redux@9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0-rc.1):
+  /react-redux@9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0):
     resolution: {integrity: sha512-QUe/rtMgT26nC8CcFiuNFy2CHpRD3nPsxNO09+cgzEKSgPc5K5JGez2nFDnEGPnjD59eoy/KrdH/ekMO54zTmA==}
     peerDependencies:
       '@types/react': ^18.0
@@ -13624,7 +13624,7 @@ packages:
       '@types/use-sync-external-store': 0.0.3
       react: 18.3.0-canary-6b3834a45-20231110
       react-dom: 18.3.0-canary-6b3834a45-20231110(react@18.3.0-canary-6b3834a45-20231110)
-      redux: 5.0.0-rc.1
+      redux: 5.0.0
       use-sync-external-store: 1.2.0(react@18.3.0-canary-6b3834a45-20231110)
     dev: false
 
@@ -13877,17 +13877,17 @@ packages:
       - react-native
     dev: true
 
-  /redux-first-history@5.1.1(history@5.3.0)(redux@5.0.0-rc.1):
+  /redux-first-history@5.1.1(history@5.3.0)(redux@5.0.0):
     resolution: {integrity: sha512-ujVHv+y9wC2rqavS5tLiSu6zkw+VYrEea+/ggwVTRuutadEtwxSRlaK19ry/PTLSQtFuUF1Xu+plL5erD4roVw==}
     peerDependencies:
       history: ^4.7.2 || ^5.0
       redux: ^3.6.0 || ^4.0.0
     dependencies:
       history: 5.3.0
-      redux: 5.0.0-rc.1
+      redux: 5.0.0
     dev: false
 
-  /redux-persist@6.0.0(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0-rc.1):
+  /redux-persist@6.0.0(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0):
     resolution: {integrity: sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==}
     peerDependencies:
       react: '>=16'
@@ -13897,19 +13897,19 @@ packages:
         optional: true
     dependencies:
       react: 18.3.0-canary-6b3834a45-20231110
-      redux: 5.0.0-rc.1
+      redux: 5.0.0
     dev: false
 
-  /redux-thunk@3.0.0-rc.0(redux@5.0.0-rc.1):
+  /redux-thunk@3.0.0-rc.0(redux@5.0.0):
     resolution: {integrity: sha512-2NcCM9cZZT+mrAISy0LWYKX4HjeMg7o8vcs/JgZCx8o+3/sXmzW7tk64Xvc6wTQwIWinpQCTX6eHNGCF4en/nA==}
     peerDependencies:
       redux: ^5.0.0-rc.0
     dependencies:
-      redux: 5.0.0-rc.1
+      redux: 5.0.0
     dev: false
 
-  /redux@5.0.0-rc.1:
-    resolution: {integrity: sha512-/MWJ9K9v/r1jAzYw9MJIP2rA2RvmdI3KJ3s4ZwCzeEtFGcVaIWInS0xuFF490nRe35sRJTqfXWtkV0UxC8Pv+w==}
+  /redux@5.0.0:
+    resolution: {integrity: sha512-blLIYmYetpZMET6Q6uCY7Jtl/Im5OBldy+vNPauA8vvsdqyt66oep4EUpAMWNHauTC6xa9JuRPhRB72rY82QGA==}
     dev: false
 
   /reflect.getprototypeof@1.0.4:
