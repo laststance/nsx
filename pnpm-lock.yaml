@@ -18,8 +18,8 @@ dependencies:
     specifier: 5.7.0
     version: 5.7.0(prisma@5.6.0)
   '@reduxjs/toolkit':
-    specifier: 2.0.0-rc.2
-    version: 2.0.0-rc.2(react-redux@9.0.0-rc.0)(react@18.3.0-canary-6b3834a45-20231110)
+    specifier: 2.0.1
+    version: 2.0.1(react-redux@9.0.0-rc.0)(react@18.3.0-canary-6b3834a45-20231110)
   '@sentry/react':
     specifier: ^7.86.0
     version: 7.86.0(react@18.3.0-canary-6b3834a45-20231110)
@@ -3896,11 +3896,11 @@ packages:
       - encoding
     dev: true
 
-  /@reduxjs/toolkit@2.0.0-rc.2(react-redux@9.0.0-rc.0)(react@18.3.0-canary-6b3834a45-20231110):
-    resolution: {integrity: sha512-VL8Vdjnt6xKIEp+34BXkr+X33sywD8ZUfOU7ZTXjthSxbgZyA2KNE1VOdvcR1j8qYPw8Rm4jcv9P5P/6KeVPIw==}
+  /@reduxjs/toolkit@2.0.1(react-redux@9.0.0-rc.0)(react@18.3.0-canary-6b3834a45-20231110):
+    resolution: {integrity: sha512-fxIjrR9934cmS8YXIGd9e7s1XRsEU++aFc9DVNMFMRTM5Vtsg2DCRMj21eslGtDt43IUf9bJL3h5bwUlZleibA==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
-      react-redux: ^7.2.1 || ^8.1.3 || ^9.0.0-rc.0
+      react-redux: ^7.2.1 || ^8.1.3 || ^9.0.0
     peerDependenciesMeta:
       react:
         optional: true
@@ -3911,8 +3911,8 @@ packages:
       react: 18.3.0-canary-6b3834a45-20231110
       react-redux: 9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0)
       redux: 5.0.0
-      redux-thunk: 3.0.0-rc.0(redux@5.0.0)
-      reselect: 5.0.0-rc.0
+      redux-thunk: 3.1.0(redux@5.0.0)
+      reselect: 5.0.1
     dev: false
 
   /@remix-run/router@1.13.1:
@@ -13969,10 +13969,10 @@ packages:
       redux: 5.0.0
     dev: false
 
-  /redux-thunk@3.0.0-rc.0(redux@5.0.0):
-    resolution: {integrity: sha512-2NcCM9cZZT+mrAISy0LWYKX4HjeMg7o8vcs/JgZCx8o+3/sXmzW7tk64Xvc6wTQwIWinpQCTX6eHNGCF4en/nA==}
+  /redux-thunk@3.1.0(redux@5.0.0):
+    resolution: {integrity: sha512-NW2r5T6ksUKXCabzhL9z+h206HQw/NJkcLm1GPImRQ8IzfXwRGqjVhKJGauHirT0DAuyy6hjdnMZaRoAcy0Klw==}
     peerDependencies:
-      redux: ^5.0.0-rc.0
+      redux: ^5.0.0
     dependencies:
       redux: 5.0.0
     dev: false
@@ -14184,8 +14184,8 @@ packages:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
     dev: true
 
-  /reselect@5.0.0-rc.0:
-    resolution: {integrity: sha512-SEFZMpPuyC4M0ThG709V2Tpq9YWlDq2ubyfq7XSRRU9ONje6VykUoYUlWKISl1BWmfBLuRYkDS2mg5r2nu1jBA==}
+  /reselect@5.0.1:
+    resolution: {integrity: sha512-D72j2ubjgHpvuCiORWkOUxndHJrxDaSolheiz5CO+roz8ka97/4msh2E8F5qay4GawR5vzBt5MkbDHT+Rdy/Wg==}
     dev: false
 
   /resolve-from@4.0.0:
