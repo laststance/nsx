@@ -13,7 +13,7 @@ dependencies:
     version: 2.0.18(react@18.3.0-canary-6b3834a45-20231110)
   '@hookform/resolvers':
     specifier: ^3.3.2
-    version: 3.3.2(react-hook-form@7.48.2)
+    version: 3.3.2(react-hook-form@7.49.2)
   '@prisma/client':
     specifier: 5.7.1
     version: 5.7.1(prisma@5.7.1)
@@ -87,8 +87,8 @@ dependencies:
     specifier: ^6.1.0
     version: 6.1.0(react@18.3.0-canary-6b3834a45-20231110)
   react-hook-form:
-    specifier: ^7.48.2
-    version: 7.48.2(react@18.3.0-canary-6b3834a45-20231110)
+    specifier: ^7.49.2
+    version: 7.49.2(react@18.3.0-canary-6b3834a45-20231110)
   react-markdown:
     specifier: ^9.0.1
     version: 9.0.1(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)
@@ -2744,12 +2744,12 @@ packages:
       react: 18.3.0-canary-6b3834a45-20231110
     dev: false
 
-  /@hookform/resolvers@3.3.2(react-hook-form@7.48.2):
+  /@hookform/resolvers@3.3.2(react-hook-form@7.49.2):
     resolution: {integrity: sha512-Tw+GGPnBp+5DOsSg4ek3LCPgkBOuOgS5DsDV7qsWNH9LZc433kgsWICjlsh2J9p04H2K66hsXPPb9qn9ILdUtA==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.48.2(react@18.3.0-canary-6b3834a45-20231110)
+      react-hook-form: 7.49.2(react@18.3.0-canary-6b3834a45-20231110)
     dev: false
 
   /@humanwhocodes/config-array@0.11.13:
@@ -13641,9 +13641,9 @@ packages:
       react-side-effect: 2.1.2(react@18.3.0-canary-6b3834a45-20231110)
     dev: false
 
-  /react-hook-form@7.48.2(react@18.3.0-canary-6b3834a45-20231110):
-    resolution: {integrity: sha512-H0T2InFQb1hX7qKtDIZmvpU1Xfn/bdahWBN1fH19gSe4bBEqTfmlr7H3XWTaVtiK4/tpPaI1F3355GPMZYge+A==}
-    engines: {node: '>=12.22.0'}
+  /react-hook-form@7.49.2(react@18.3.0-canary-6b3834a45-20231110):
+    resolution: {integrity: sha512-TZcnSc17+LPPVpMRIDNVITY6w20deMdNi6iehTFLV1x8SqThXGwu93HjlUVU09pzFgZH7qZOvLMM7UYf2ShAHA==}
+    engines: {node: '>=18', pnpm: '8'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
     dependencies:
