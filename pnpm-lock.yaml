@@ -19,7 +19,7 @@ dependencies:
     version: 5.7.1(prisma@5.7.1)
   '@reduxjs/toolkit':
     specifier: 2.0.1
-    version: 2.0.1(react-redux@9.0.0-rc.0)(react@18.3.0-canary-6b3834a45-20231110)
+    version: 2.0.1(react-redux@9.0.4)(react@18.3.0-canary-6b3834a45-20231110)
   '@sentry/react':
     specifier: ^7.91.0
     version: 7.91.0(react@18.3.0-canary-6b3834a45-20231110)
@@ -93,8 +93,8 @@ dependencies:
     specifier: ^9.0.1
     version: 9.0.1(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)
   react-redux:
-    specifier: 9.0.0-rc.0
-    version: 9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0)
+    specifier: 9.0.4
+    version: 9.0.4(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0)
   react-router-dom:
     specifier: ^6.21.0
     version: 6.21.0(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)
@@ -3923,7 +3923,7 @@ packages:
       - encoding
     dev: true
 
-  /@reduxjs/toolkit@2.0.1(react-redux@9.0.0-rc.0)(react@18.3.0-canary-6b3834a45-20231110):
+  /@reduxjs/toolkit@2.0.1(react-redux@9.0.4)(react@18.3.0-canary-6b3834a45-20231110):
     resolution: {integrity: sha512-fxIjrR9934cmS8YXIGd9e7s1XRsEU++aFc9DVNMFMRTM5Vtsg2DCRMj21eslGtDt43IUf9bJL3h5bwUlZleibA==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
@@ -3936,7 +3936,7 @@ packages:
     dependencies:
       immer: 10.0.3
       react: 18.3.0-canary-6b3834a45-20231110
-      react-redux: 9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0)
+      react-redux: 9.0.4(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0)
       redux: 5.0.0
       redux-thunk: 3.1.0(redux@5.0.0)
       reselect: 5.0.1
@@ -6051,6 +6051,7 @@ packages:
     resolution: {integrity: sha512-HWMdW+7r7MR5+PZqJF6YFNSCtjz1T0dsvo/f1BV6HkV+6erD/nA7wd9NM00KVG83zf2nJ7uATPO9ttdIPvi3gg==}
     dependencies:
       '@types/react': 18.2.37
+    dev: true
 
   /@types/react-helmet@6.1.11:
     resolution: {integrity: sha512-0QcdGLddTERotCXo3VFlUSWO3ztraw8nZ6e3zJSgG7apwV5xt+pJUS8ewPBqT4NYB1optGLprNQzFleIY84u/g==}
@@ -13695,21 +13696,15 @@ packages:
       - supports-color
     dev: false
 
-  /react-redux@9.0.0-rc.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0):
-    resolution: {integrity: sha512-QUe/rtMgT26nC8CcFiuNFy2CHpRD3nPsxNO09+cgzEKSgPc5K5JGez2nFDnEGPnjD59eoy/KrdH/ekMO54zTmA==}
+  /react-redux@9.0.4(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.0):
+    resolution: {integrity: sha512-9J1xh8sWO0vYq2sCxK2My/QO7MzUMRi3rpiILP/+tDr8krBHixC6JMM17fMK88+Oh3e4Ae6/sHIhNBgkUivwFA==}
     peerDependencies:
-      '@types/react': ^18.0
-      '@types/react-dom': ^18.0
+      '@types/react': ^18.2.25
       react: ^18.0
-      react-dom: ^18.0
-      react-native: '>=0.71'
-      redux: ^5.0.0-rc.0
+      react-native: '>=0.69'
+      redux: ^5.0.0
     peerDependenciesMeta:
       '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-      react-dom:
         optional: true
       react-native:
         optional: true
@@ -13717,10 +13712,8 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.2.37
-      '@types/react-dom': 18.2.15
       '@types/use-sync-external-store': 0.0.3
       react: 18.3.0-canary-6b3834a45-20231110
-      react-dom: 18.3.0-canary-6b3834a45-20231110(react@18.3.0-canary-6b3834a45-20231110)
       redux: 5.0.0
       use-sync-external-store: 1.2.0(react@18.3.0-canary-6b3834a45-20231110)
     dev: false
