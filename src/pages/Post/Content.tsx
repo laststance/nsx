@@ -41,7 +41,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
       {login && (
         <div className="flex justify-end pt-8">
           <Link to={`/dashboard/edit/${post.id}`}>
-            <Button variant="primary" data-cy="edit-btn">
+            <Button variant="primary" data-testid="edit-btn">
               Edit
             </Button>
           </Link>

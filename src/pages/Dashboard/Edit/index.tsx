@@ -59,7 +59,6 @@ const Edit: React.FC = memo(() => {
           fieldError: errors['title'],
           register,
         }}
-        data-cy="edit-title-input"
         data-testid="edit-title-input"
       />
       <Textarea
@@ -70,14 +69,13 @@ const Edit: React.FC = memo(() => {
           register,
         }}
         className="mt-3 h-96 w-full"
-        data-cy="edit-body-input"
         data-testid="edit-body-input"
       />
       <div className="flex justify-end gap-4 pt-8">
         <Button
           type="submit"
           variant="secondary"
-          data-cy="update-btn"
+          data-testid="update-btn"
           isLoading={isUpdating}
         >
           Update

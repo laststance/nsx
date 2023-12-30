@@ -23,7 +23,7 @@ const EditButtonGroup: React.FC<Props> = memo(
         <Button
           onClick={handleDelete(post.id, author, refetch)}
           variant="danger"
-          data-cy={`delete-btn-${index + 1}`}
+          data-testid={`delete-btn-${index + 1}`}
           className="h-[42px]"
         >
           Delete

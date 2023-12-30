@@ -46,7 +46,7 @@ const Signup: React.FC = memo(() => {
     <section className="flex flex-col gap-[24px]">
       <h1
         className="text-color-primary text-center text-3xl"
-        data-cy="signup-page"
+        data-testid="signup-page"
       >
         Signup
       </h1>
@@ -71,7 +71,7 @@ const Signup: React.FC = memo(() => {
                 fieldError: errors['name'],
                 register,
               }}
-              data-cy="signup-name-input"
+              data-testid="signup-name-input"
             />
           </div>
         </div>
@@ -92,7 +92,7 @@ const Signup: React.FC = memo(() => {
                 fieldError: errors['password'],
                 register,
               }}
-              data-cy="signup-password-input"
+              data-testid="signup-password-input"
             />
           </div>
         </div>
@@ -102,7 +102,7 @@ const Signup: React.FC = memo(() => {
             <Button
               type="submit"
               variant="secondary"
-              data-cy="signup-submit-btn"
+              data-testid="signup-submit-btn"
             >
               Submit
             </Button>

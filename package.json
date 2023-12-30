@@ -125,6 +125,7 @@
     "msw-storybook-addon": "2.0.0--canary.122.06f0c92.0",
     "node-fetch": "2.6.7",
     "nodemon": "^3.0.2",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.32",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.9",
@@ -147,6 +148,7 @@
     "start": "vite",
     "dev": "vite",
     "build": "dotenv -e .env.prod vite build",
+    "build:e2e": "cross-env NODE_ENV=test dotenv -e .env.e2e vite build",
     "serve": "serve build",
     "test": "dotenv -e .env.test -- vitest",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx,cjs,mjs",
@@ -177,6 +179,11 @@
     "e2e:new-install-user": "cypress run --headed --spec cypress/e2e/new_isntalled_user_flow.cy.js",
     "e2e:admin:firefox": "cypress run --headed -b firefox --spec cypress/e2e/admin_basic.cy.js",
     "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/e2e/visitor_basic.cy.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "playwright": "playwright test",
+    "playwright:headed": "playwright test --headed",
+    "playwright:ui": "playwright test --ui",
+    "playwright:debug": "playwright test --debug",
+    "playwright:codegen": "playwright codegen"
   }
 }

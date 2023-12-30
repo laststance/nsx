@@ -4,7 +4,7 @@ import { HistoryRouter } from 'redux-first-history/rr6'
 import { persistStore } from 'redux-persist'
 import { PersistGate as ReduxPersistGate } from 'redux-persist/integration/react'
 
-import './index.css'
+import './global.css'
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import Loading from './components/Loading/Loading'

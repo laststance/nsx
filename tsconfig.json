@@ -21,6 +21,7 @@
     "target": "ESNext"
   },
   "include": [
+    "e2e",
     "src",
     "validator",
     "server",
@@ -30,12 +31,13 @@
     "prisma",
     ".storybook",
     ".eslintrc.cjs",
-    "prettier.config.js",
+    "prettier.config.cjs",
     "ecosystem.config.js",
     "setupTests.ts",
-    "postcss.config.js",
+    "postcss.config.cjs",
     "vite.config.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "playwright.config.ts"
   ],
   "exclude": ["public/mockServiceWorker.js", "server_build", "storybook-static"]
 }

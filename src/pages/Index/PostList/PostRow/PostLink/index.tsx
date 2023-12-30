@@ -12,7 +12,7 @@ const PostLink: React.FC<Props> = memo(({ index, post }) => {
       <Link
         className="text-color-primary hover:text-gray-400"
         to={`/post/${post.id}`}
-        data-cy={`single-post-page-link-${index + 1}`}
+        data-testid={`single-post-page-link-${index + 1}`}
       >
         {post.title}
       </Link>

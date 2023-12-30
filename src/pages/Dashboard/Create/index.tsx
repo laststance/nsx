@@ -48,7 +48,7 @@ const Create: React.FC = memo(() => {
               register,
             }}
             onChange={handleTitleChange}
-            data-cy="post-title-input"
+            data-testid="post-title-input"
           />
           <Textarea
             value={body}
@@ -65,7 +65,7 @@ const Create: React.FC = memo(() => {
               type="submit"
               variant="primary"
               isLoading={isLoading}
-              data-cy="submit-btn"
+              data-testid="submit-btn"
             >
               Submit
             </Button>

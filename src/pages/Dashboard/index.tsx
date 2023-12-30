@@ -46,7 +46,7 @@ const Dashboard: React.FC = memo(() => {
         </ul>
         <div className="mt-8 flex justify-end gap-4">
           <Link to="create">
-            <Button data-cy="create-btn" variant="primary">
+            <Button data-testid="create-btn" variant="primary">
               Create
             </Button>
           </Link>
