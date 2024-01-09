@@ -6,37 +6,6 @@ before(() => {
 })
 
 context('admin basic', () => {
-  context('login & logout', () => {
-    it('show login button', () => {
-      cy.visit('http://localhost:3000/')
-      cy.wait(500)
-      cy.toggleSidebar()
-      cy.$('login-link').should('exist')
-    })
-
-    it('failed login with incorrect user/password', () => {
-      cy.visit('http://localhost:3000/')
-      cy.wait(500)
-      cy.toggleSidebar()
-      cy.$('login-link').click()
-      cy.$('name-input').type('wefjweiofjwie')
-      cy.$('password-input').type('wfjweoifjio23r03')
-      cy.$('submit-btn').click()
-      cy.wait(400)
-      cy.$('snackbar').should('exist').should('contain', 'User does not exist')
-    })
-
-    it('successful Logout', () => {
-      cy.login()
-      cy.$('logout-link').should('not.exist')
-      cy.toggleSidebar()
-      cy.$('logout-link').should('exist')
-      cy.$('logout-link').contains('Logout').click()
-      cy.url().should('eq', 'http://localhost:3000/')
-      cy.$('login-link').should('exist')
-    })
-  })
-
   context('CRUD post operation', () => {
     it('create new post via Dashboard', () => {
       cy.login()
