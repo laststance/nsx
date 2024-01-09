@@ -24,7 +24,7 @@ const App = memo(
     return (
       <ErrorBoundary>
         <Suspense fallback={<Loading />}>
-          <ReduxStoreProvider store={store} noopCheck="always">
+          <ReduxStoreProvider store={store} identityFunctionCheck="always">
             <HistoryRouter history={history}>
               <ReduxPersistGate persistor={persistor}>
                 <HookLoaderComponent />
