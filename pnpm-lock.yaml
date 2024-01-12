@@ -19,7 +19,7 @@ dependencies:
     version: 5.8.0(prisma@5.8.0)
   '@reduxjs/toolkit':
     specifier: 2.0.1
-    version: 2.0.1(react-redux@9.0.4)(react@18.3.0-canary-6b3834a45-20231110)
+    version: 2.0.1(react-redux@9.1.0)(react@18.3.0-canary-6b3834a45-20231110)
   '@sentry/react':
     specifier: ^7.93.0
     version: 7.93.0(react@18.3.0-canary-6b3834a45-20231110)
@@ -93,8 +93,8 @@ dependencies:
     specifier: ^9.0.1
     version: 9.0.1(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)
   react-redux:
-    specifier: 9.0.4
-    version: 9.0.4(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.1)
+    specifier: 9.1.0
+    version: 9.1.0(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.1)
   react-router-dom:
     specifier: ^6.21.2
     version: 6.21.2(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)
@@ -4139,7 +4139,7 @@ packages:
       - encoding
     dev: true
 
-  /@reduxjs/toolkit@2.0.1(react-redux@9.0.4)(react@18.3.0-canary-6b3834a45-20231110):
+  /@reduxjs/toolkit@2.0.1(react-redux@9.1.0)(react@18.3.0-canary-6b3834a45-20231110):
     resolution: {integrity: sha512-fxIjrR9934cmS8YXIGd9e7s1XRsEU++aFc9DVNMFMRTM5Vtsg2DCRMj21eslGtDt43IUf9bJL3h5bwUlZleibA==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
@@ -4152,7 +4152,7 @@ packages:
     dependencies:
       immer: 10.0.3
       react: 18.3.0-canary-6b3834a45-20231110
-      react-redux: 9.0.4(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.1)
+      react-redux: 9.1.0(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.1)
       redux: 5.0.1
       redux-thunk: 3.1.0(redux@5.0.1)
       reselect: 5.0.1
@@ -6228,12 +6228,6 @@ packages:
     resolution: {integrity: sha512-3xA4X31gHT1F1l38ATDIL9GpRLdwVhnEFC8Uikv5ZLlXATwrCYyPq7ZWHxzxc3J/30SUiwiYT+bQe0/XvKlWbw==}
     dev: true
 
-  /@types/node@20.10.8:
-    resolution: {integrity: sha512-f8nQs3cLxbAFc00vEU59yf9UyGUftkPaLGfvbVOIDdx2i1b8epBqj2aNGyP19fiyXWvlmZ7qC1XLjAzw/OKIeA==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: false
-
   /@types/node@20.11.0:
     resolution: {integrity: sha512-o9bjXmDNcF7GbM4CNQpmi+TutCgap/K3w1JyKgxAjqx41zp9qlIAVFi0IhCNsJcXolEqLWhbFbEeL0PvYm4pcQ==}
     dependencies:
@@ -6352,7 +6346,7 @@ packages:
   /@types/whatwg-url@8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 20.11.0
       '@types/webidl-conversions': 7.0.1
     dev: false
 
@@ -13955,8 +13949,8 @@ packages:
       - supports-color
     dev: false
 
-  /react-redux@9.0.4(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.1):
-    resolution: {integrity: sha512-9J1xh8sWO0vYq2sCxK2My/QO7MzUMRi3rpiILP/+tDr8krBHixC6JMM17fMK88+Oh3e4Ae6/sHIhNBgkUivwFA==}
+  /react-redux@9.1.0(@types/react@18.2.37)(react@18.3.0-canary-6b3834a45-20231110)(redux@5.0.1):
+    resolution: {integrity: sha512-6qoDzIO+gbrza8h3hjMA9aq4nwVFCKFtY2iLxCtVT38Swyy2C/dJCGBXHeHLtx6qlg/8qzc2MrhOeduf5K32wQ==}
     peerDependencies:
       '@types/react': ^18.2.25
       react: ^18.0
