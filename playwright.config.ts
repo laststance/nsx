@@ -40,7 +40,6 @@ export default defineConfig({
     {
       name: 'Chromium',
       use: { ...devices['Desktop Chrome'] },
-      testMatch: 'admin_login_logout.spec.ts',
     },
     /* Test against mobile viewports. */
     // {

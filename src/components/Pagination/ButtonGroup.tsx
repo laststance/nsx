@@ -25,7 +25,7 @@ const ButtonGroup: React.FC<Props> = memo(({ page, totalPage }) => (
     <ArrowButton
       direction="left"
       onClick={prevPage(page)}
-      disabled={page <= 1 ? true : false}
+      disabled={page <= 1}
       data-testid="prev-page-btn"
     />
     <PageCount
@@ -37,7 +37,7 @@ const ButtonGroup: React.FC<Props> = memo(({ page, totalPage }) => (
     <ArrowButton
       direction="right"
       onClick={nextPage(page)}
-      disabled={page === totalPage ? true : false}
+      disabled={page === totalPage}
       data-testid="next-page-btn"
     />
   </div>

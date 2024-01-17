@@ -21,7 +21,7 @@ export const sidebarSlice = createSlice({
       state.open = true
     },
     toggleSidebar: (state) => {
-      state.open = state.open === true ? false : true
+      state.open = state.open !== true
     },
   },
 })
