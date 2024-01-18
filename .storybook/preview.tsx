@@ -5,7 +5,7 @@ import { initialize, mswDecorator } from 'msw-storybook-addon'
 import { Provider as ReduxStoreProvider } from 'react-redux'
 import { store } from '../src/redux/store'
 import { handlers } from '../mocks/handlers'
-import '../src/index.css'
+import '../src/global.css'
 
 // Initialize MSW
 initialize()
