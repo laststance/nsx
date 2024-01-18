@@ -15,10 +15,12 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+      - name: Generate Prisma Client
+        run: pnpm prisma generate
       - name: Build Frontend App
         run: pnpm build:e2e
+      - name: docker compose run
+        run: docker-compose up -d
       - name: Run Playwright tests
         run: pnpm exec playwright test
       - uses: actions/upload-artifact@v3
