@@ -3,8 +3,6 @@ import util from 'node:util'
 const exec = util.promisify(require('node:child_process').exec)
 import { expect } from '@playwright/test'
 
-import { sleep } from '../lib/sleep'
-
 import { test } from './helper'
 
 test.beforeAll(async () => {
@@ -70,8 +68,9 @@ test.describe('CRUD post operation', () => {
 
     await page.getByTestId('submit-btn').click()
 
-    await sleep(1000) // wait fadeout past snackbar
-    await expect(page.getByTestId('snackbar')).toHaveText('New Post Created!')
+    await expect(page.getByTestId('snackbar').nth(1)).toHaveText(
+      'New Post Created!',
+    )
 
     await expect(page.locator('main h1')).toContainText('from platwright dash')
     await expect(page.locator('main article')).toContainText('testing now dash')
@@ -99,17 +98,17 @@ test.describe('CRUD post operation', () => {
     )
   })
 
-  // it('delete post', () => {
-  //   cy.login()
-  //   cy.visit('http://localhost:3000/')
-  //   cy.toggleSidebar()
-  //   cy.$('dashboard-link').contains('Dashboard').click()
-  //   cy.url().should('eq', 'http://localhost:3000/dashboard')
-  //   cy.get('main').contains('Edit Title!')
-  //   cy.$('delete-btn-1').contains('Delete').click()
-  //   cy.url().should('eq', 'http://localhost:3000/dashboard')
-  //   cy.get('main').should('not.contain', 'Edit Title!')
-  // })
+  test('delete post', async ({ authenticated: page }) => {
+    await page.goto('http://localhost:3000/')
+    await page.keyboard.press('x')
+    await page.getByTestId('dashboard-link').click()
+    await expect(page).toHaveURL('http://localhost:3000/dashboard')
+    await expect(page.locator('main')).toHaveText(/Edit Title!/)
+    await page.getByTestId('delete-btn-1').click()
+    await expect(page).toHaveURL('http://localhost:3000/dashboard')
+    await expect(page.getByTestId('snackbar')).toHaveText('Delete Successful!')
+    await expect(page.locator('main')).not.toHaveText(/Edit Title!/)
+  })
 })
 
 test.afterAll(async () => {
