@@ -40,7 +40,7 @@ test.describe('login & logout', () => {
 })
 
 test.describe('CRUD post operation', () => {
-  test('create new post via Dashboard', async ({ authenticated: page }) => {
+  test('create new post via Sidebar', async ({ authenticated: page }) => {
     await page.goto('http://localhost:3000')
     await page.click('header > div > a:has-text("ReadList")')
     await page.keyboard.press('x')
@@ -59,24 +59,23 @@ test.describe('CRUD post operation', () => {
     await expect(page.locator('[data-testid=edit-btn]')).toBeVisible()
   })
 
-  // it('create new post via Sidebar', () => {
-  //   cy.login()
-  //   cy.get('header > div > a').contains('ReadList').click()
-  //   cy.url().should('eq', 'http://localhost:3000/')
-  //   cy.toggleSidebar()
-  //   cy.$('create-link').contains('Create').click()
-  //   cy.url().should('eq', 'http://localhost:3000/dashboard/create')
-  //   cy.logger('wrting blog post...')
-  //   cy.$('post-title-input').type('from cypress')
-  //   cy.$('post-body-input').type('testing now')
+  test('create new post via Dashboard', async ({ authenticated: page }) => {
+    await page.click('header > div > a:has-text("ReadList")')
+    await page.keyboard.press('x')
+    await page.getByTestId('create-link').click()
+    await expect(page).toHaveURL('http://localhost:3000/dashboard/create')
+    await page.getByTestId('post-title-input').fill('from platwright dash')
+    await page.getByTestId('post-body-input').fill('testing now dash')
 
-  //   cy.$('submit-btn').click()
+    await page.getByTestId('submit-btn').click()
 
-  //   cy.logger('jump post page and should show input contents and edit button')
-  //   cy.get('main h1').contains('from cypress')
-  //   cy.get('main article').contains('testing now')
-  //   cy.$('edit-btn').should('exist')
-  // })
+    await page.getByTestId('snackbar').waitFor()
+    await expect(page.getByTestId('snackbar')).toHaveText('New Post Created!')
+
+    await expect(page.locator('main h1')).toContainText('from platwright dash')
+    await expect(page.locator('main article')).toContainText('testing now dash')
+    await expect(page.locator('[data-testid=edit-btn]')).toBeVisible()
+  })
 
   // it('edit existing post', () => {
   //   cy.login()
