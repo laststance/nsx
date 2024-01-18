@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Create .env file
+        run: cp .env.e2e .env
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
       - name: Generate Prisma Client
