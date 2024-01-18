@@ -18,8 +18,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: 1,
-  // @TODO why RangeError: Maximum call stack size exceeded
+  workers: process.env.CI ? 1 : 6,
   // globalSetup: require.resolve('./e2e/global-setup'),
   // globalTeardown: require.resolve('./e2e/global-teardown'),
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -29,7 +28,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
     launchOptions: {
-      slowMo: isHeadedOrUIMode() ? 2000 : 400,
+      slowMo: isHeadedOrUIMode() ? 1000 : 400,
     },
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
