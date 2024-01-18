@@ -42,7 +42,7 @@ const Textarea: React.FC<
               clsx(fieldError && styles.error, !fieldError && styles.basic)
             }
             placeholder={placeholder}
-            data-cy="post-body-input"
+            data-testid="post-body-input"
             onKeyUp={stopPropagation}
             {...rest}
           />

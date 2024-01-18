@@ -62,6 +62,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
+    "@playwright/test": "^1.40.1",
     "@redocly/cli": "^1.6.0",
     "@storybook/addon-essentials": "^7.5.2",
     "@storybook/addon-interactions": "^7.5.2",
@@ -124,11 +125,11 @@
     "msw-storybook-addon": "2.0.0--canary.122.06f0c92.0",
     "node-fetch": "2.6.7",
     "nodemon": "^3.0.3",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.33",
     "prettier": "^3.2.4",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "rimraf": "^5.0.5",
-    "serve": "^14.2.1",
     "storybook": "^7.5.2",
     "tailwindcss": "^3.4.1",
     "terser": "^5.27.0",
@@ -143,10 +144,12 @@
     "vitest-matchmedia-mock": "^1.0.2"
   },
   "scripts": {
+    "postinstall": "pnpm exec playwright install --with-deps",
     "start": "vite",
     "dev": "vite",
     "build": "dotenv -e .env.prod vite build",
-    "serve": "serve build",
+    "build:e2e": "cross-env NODE_ENV=test dotenv -e .env.e2e vite build",
+    "preview": "vite preview",
     "test": "dotenv -e .env.test -- vitest",
     "lint": "eslint . --ext .ts,.tsx,.js,jsx,cjs,mjs",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,jsx,cjs,mjs --fix",
@@ -168,14 +171,11 @@
     "db:truncate": "prisma migrate reset --skip-seed --force",
     "db:migrate:dev": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
-    "cy:open": "cypress open",
-    "e2e:admin": "cypress run --headed --spec cypress/e2e/admin_basic.cy.js",
-    "e2e:admin:headless": "cypress run --spec cypress/e2e/admin_basic.cy.js",
-    "e2e:visitor": "cypress run --headed --spec cypress/e2e/visitor_basic.cy.js",
-    "e2e:visitor:headless": "cypress run --spec cypress/e2e/visitor_basic.cy.js",
-    "e2e:new-install-user": "cypress run --headed --spec cypress/e2e/new_isntalled_user_flow.cy.js",
-    "e2e:admin:firefox": "cypress run --headed -b firefox --spec cypress/e2e/admin_basic.cy.js",
-    "e2e:visitor:firefox": "cypress run --headed -b firefox --spec cypress/e2e/visitor_basic.cy.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "playwright": "playwright test",
+    "playwright:headed": "playwright test --headed",
+    "playwright:ui": "playwright test --ui",
+    "playwright:debug": "playwright test --debug",
+    "playwright:codegen": "playwright codegen"
   }
 }

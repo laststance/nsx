@@ -25,20 +25,20 @@ const ButtonGroup: React.FC<Props> = memo(({ page, totalPage }) => (
     <ArrowButton
       direction="left"
       onClick={prevPage(page)}
-      disabled={page <= 1 ? true : false}
-      data-cy="prev-page-btn"
+      disabled={page <= 1}
+      data-testid="prev-page-btn"
     />
     <PageCount
       className="text-color-primary"
       page={page}
       totalPage={totalPage}
-      data-cy="page-count"
+      data-testid="page-count"
     />
     <ArrowButton
       direction="right"
       onClick={nextPage(page)}
-      disabled={page === totalPage ? true : false}
-      data-cy="next-page-btn"
+      disabled={page === totalPage}
+      data-testid="next-page-btn"
     />
   </div>
 ))

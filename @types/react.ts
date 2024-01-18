@@ -1,5 +1,5 @@
 import type React from 'react'
-import type { SetStateAction, ValidationMap, FunctionComponent } from 'react'
+import type { SetStateAction, ValidationMap } from 'react'
 
 declare module 'react' {
   export type SetState<S> = React.Dispatch<SetStateAction<S>>

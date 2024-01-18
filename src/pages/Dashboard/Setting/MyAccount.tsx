@@ -26,7 +26,7 @@ const MyAccount: React.FC = memo(() => {
     <>
       <h1
         className="text-color-primary text-center text-3xl"
-        data-cy="my-account-setting"
+        data-testid="my-account-setting"
       >
         My Account
       </h1>
@@ -51,7 +51,7 @@ const MyAccount: React.FC = memo(() => {
                 fieldError: errors['name'],
                 register,
               }}
-              data-cy="name-input"
+              data-testid="name-input"
             />
           </div>
         </div>
@@ -72,14 +72,14 @@ const MyAccount: React.FC = memo(() => {
                 fieldError: errors['password'],
                 register,
               }}
-              data-cy="password-input"
+              data-testid="password-input"
             />
           </div>
         </div>
         <div className="md:flex md:items-center">
           <div className="md:w-1/3"></div>
           <div className="md:w-2/3">
-            <Button type="submit" variant="secondary" data-cy="submit-btn">
+            <Button type="submit" variant="secondary" data-testid="submit-btn">
               Submit
             </Button>
           </div>

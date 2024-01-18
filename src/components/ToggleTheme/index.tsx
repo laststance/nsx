@@ -39,7 +39,7 @@ const ThemeToggle = memo(() => {
     <Listbox value={theme} onChange={updateTheme}>
       <Listbox.Label className="sr-only">Theme</Listbox.Label>
       <div className="relative">
-        <Listbox.Button type="button" data-cy="theme-menu-button">
+        <Listbox.Button type="button" data-testid="theme-menu-button">
           <span className="dark:hidden">
             <SunIcon className="h-6 w-6" selected={theme !== 'system'} />
           </span>
@@ -57,7 +57,7 @@ const ThemeToggle = memo(() => {
                     selected && 'text-green-400',
                     active && 'bg-slate-50 dark:bg-slate-600/30',
                   )}
-                  data-cy={`theme-select-option-${value}`}
+                  data-testid={`theme-select-option-${value}`}
                 >
                   <Icon selected={selected} className="mr-2 h-6 w-6" />
                   {label}

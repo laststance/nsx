@@ -42,7 +42,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
 
     return (
       <div
-        data-cy="snackbar"
+        data-testid="snackbar"
         className={`flex items-center justify-between rounded-lg p-4 shadow-lg sm:m-4 ${getBGColor(
           color,
         )} ${opacity} transition-opacity duration-1000 ease-out`}
