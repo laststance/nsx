@@ -3,6 +3,8 @@ import util from 'node:util'
 const exec = util.promisify(require('node:child_process').exec)
 import { expect } from '@playwright/test'
 
+import { sleep } from '../lib/sleep'
+
 import { test } from './helper'
 
 test.beforeAll(async () => {
@@ -51,7 +53,6 @@ test.describe('CRUD post operation', () => {
 
     await page.getByTestId('submit-btn').click()
 
-    await page.getByTestId('snackbar').waitFor()
     await expect(page.getByTestId('snackbar')).toHaveText('New Post Created!')
 
     await expect(page.locator('main h1')).toContainText('from platwright')
@@ -69,7 +70,7 @@ test.describe('CRUD post operation', () => {
 
     await page.getByTestId('submit-btn').click()
 
-    await page.getByTestId('snackbar').waitFor()
+    await sleep(1000) // wait fadeout past snackbar
     await expect(page.getByTestId('snackbar')).toHaveText('New Post Created!')
 
     await expect(page.locator('main h1')).toContainText('from platwright dash')
@@ -77,26 +78,26 @@ test.describe('CRUD post operation', () => {
     await expect(page.locator('[data-testid=edit-btn]')).toBeVisible()
   })
 
-  // it('edit existing post', () => {
-  //   cy.login()
-  //   cy.visit('http://localhost:3000/')
-  //   cy.logger('Open post that creaed prev test.')
-  //   cy.$('single-post-page-link-1').contains('from cypress').click()
-  //   cy.url().should('eq', 'http://localhost:3000/post/72')
-  //   cy.get('main h1').contains('from cypress')
-  //   cy.get('main article').contains('testing now')
-  //   cy.logger('Click Edit button and modify contents.')
-  //   cy.$('edit-btn').contains('Edit').click()
-  //   cy.$('edit-title-input').type('Edit Title!')
-  //   cy.$('edit-body-input').type('Edit Post Contents!')
-  //   cy.logger(
-  //     'Edit complete then click Update button, after page transition single post page.',
-  //   )
-  //   cy.$('update-btn').contains('Update').click()
-  //   cy.url().should('eq', 'http://localhost:3000/post/72')
-  //   cy.get('main h1').contains('Edit Title!')
-  //   cy.get('main article').contains('Edit Post Contents!')
-  // })
+  test('edit existing post', async ({ authenticated: page }) => {
+    await page.goto('http://localhost:3000/')
+    await expect(page.getByTestId('single-post-page-link-1')).toHaveText(
+      'from platwright dash',
+    )
+    await page.getByTestId('single-post-page-link-1').click()
+    await expect(page).toHaveURL('http://localhost:3000/post/72')
+    await expect(page.locator('main h1')).toContainText('from platwright dash')
+    await expect(page.locator('main article')).toContainText('testing now dash')
+    await page.locator('[data-testid=edit-btn]').click()
+    await page.getByTestId('edit-title-input').fill('Edit Title!')
+    await page.getByTestId('edit-body-input').fill('Edit Post Contents!')
+
+    await page.getByTestId('update-btn').click()
+    await expect(page).toHaveURL('http://localhost:3000/post/72')
+    await expect(page.locator('main h1')).toContainText('Edit Title!')
+    await expect(page.locator('main article')).toContainText(
+      'Edit Post Contents!',
+    )
+  })
 
   // it('delete post', () => {
   //   cy.login()
