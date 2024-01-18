@@ -62,7 +62,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'pnpm npm-run-all --parallel serve server:start',
+    command: 'pnpm npm-run-all --parallel preview server:start',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
   },
