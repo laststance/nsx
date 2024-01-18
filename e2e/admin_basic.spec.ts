@@ -51,6 +51,9 @@ test.describe('CRUD post operation', () => {
 
     await page.getByTestId('submit-btn').click()
 
+    await page.getByTestId('snackbar').waitFor()
+    await expect(page.getByTestId('snackbar')).toHaveText('New Post Created!')
+
     await expect(page.locator('main h1')).toContainText('from platwright')
     await expect(page.locator('main article')).toContainText('testing now')
     await expect(page.locator('[data-testid=edit-btn]')).toBeVisible()
