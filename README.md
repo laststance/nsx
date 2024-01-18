@@ -68,6 +68,11 @@ These are storing `.env` and evaluate at build time.
 | DB_URL                | Database            |       |
 | BROWSER               | open via dev server |       |
 
+## Playwright
+
+I'm using [Playwright](https://playwright.dev/) for E2E testing.  
+Before run 'pnpm playwright', you need to run `pnpm build:e2e`.
+
 ## Production Server
 
 - commands
