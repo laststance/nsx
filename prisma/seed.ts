@@ -35,7 +35,6 @@ async function main() {
       body: 'In the docs there are 2 command `sequelize` and `sequelize-cli`.  \nIn the beginning I thought those command has different feature but both are exact same executable command finally I got it.\n\n- [Profiler API](https://reactjs.org/docs/profiler.html)\n- [sequelize/cli](https://github.com/sequelize/cli)\n- [How to Generate Fake Data in Node.js Using Faker.js](https://www.section.io/engineering-education/how-to-generate-fake-data-in-node-using-faker.js/)\n- [webpack or esbuild: Why not both?](https://blog.logrocket.com/webpack-or-esbuild-why-not-both/)\n- [Yarn 3.0](https://dev.to/arcanis/yarn-3-0-performances-esbuild-better-patches-e07)',
     },
     {
-      id: 21,
       title: 'Researching production docker-compose setting',
       body: '- [Use Compose in production](https://docs.docker.com/compose/production/)',
     },
