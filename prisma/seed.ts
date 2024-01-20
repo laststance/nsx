@@ -190,12 +190,10 @@ async function main() {
       body: '- [Overview of TypeScript in Deno](https://deno.land/manual@v1.12.1/typescript/overview)\n- [ypes and Type Declarations](https://deno.land/manual@v1.12.1/typescript/types)',
     },
     {
-      id: 16,
       title: "What's the ESBuild? What's the Vite? What's the Deno?",
       body: '- [Why eslint consider JSX or some react @types undefined, since upgrade typescript-eslint/parser to version 4.0.0](https://stackoverflow.com/questions/64170868/why-eslint-consider-jsx-or-some-react-types-undefined-since-upgrade-typescript)\n- [Dockerize your Node app](https://dev.to/karanpratapsingh/dockerize-node-application-222k)\n- [Workaround for anchor-is-valid with next/link](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/402)\n- [Using CSS custom properties (variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)\n- [fmt: add config flag #3827](https://github.com/denoland/deno/issues/3827)\n- [esBuild Getting Started](https://esbuild.github.io/getting-started/#build-scripts)\n- [Vite Dependency Pre-Bundling](https://vitejs.dev/guide/dep-pre-bundling.html)',
     },
     {
-      id: 15,
       title: 'How I created in-memory DOM?',
       body: '- [How I created in-memory DOM?](https://dev.to/abhishekraj272/how-i-created-this-mini-virtual-dom-13lp)',
     },
