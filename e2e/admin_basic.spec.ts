@@ -25,8 +25,7 @@ test.describe('login & logout', () => {
     await page.fill('[data-testid=name-input]', 'wefjweiofjwie')
     await page.fill('[data-testid=password-input]', 'wfjweoifjio23r03')
     await page.click('[data-testid=submit-btn]')
-    const snackbar = page.locator('[data-testid=snackbar]')
-    expect(await snackbar.innerText()).toContain('USER DOES NOT EXIST')
+    await expect(page.getByTestId('snackbar')).toHaveText('User does not exist')
   })
 
   test('successful Logout', async ({ authenticated: page }) => {
@@ -83,7 +82,7 @@ test.describe('CRUD post operation', () => {
       'from platwright dash',
     )
     await page.getByTestId('single-post-page-link-1').click()
-    await expect(page).toHaveURL('http://localhost:3000/post/72')
+    await expect(page).toHaveURL('http://localhost:3000/post/61')
     await expect(page.locator('main h1')).toContainText('from platwright dash')
     await expect(page.locator('main article')).toContainText('testing now dash')
     await page.locator('[data-testid=edit-btn]').click()
@@ -91,7 +90,7 @@ test.describe('CRUD post operation', () => {
     await page.getByTestId('edit-body-input').fill('Edit Post Contents!')
 
     await page.getByTestId('update-btn').click()
-    await expect(page).toHaveURL('http://localhost:3000/post/72')
+    await expect(page).toHaveURL('http://localhost:3000/post/61')
     await expect(page.locator('main h1')).toContainText('Edit Title!')
     await expect(page.locator('main article')).toContainText(
       'Edit Post Contents!',
