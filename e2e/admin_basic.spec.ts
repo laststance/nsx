@@ -13,9 +13,7 @@ test.describe('login & logout', () => {
   test('show login button', async ({ page }) => {
     await page.goto('http://localhost:3000/')
     await page.keyboard.press('x')
-    // Add the code to toggle the sidebar here
-    const loginLink = page.getByTestId('login-link')
-    expect(await loginLink.isVisible()).toBeTruthy()
+    await expect(page.getByTestId('login-link')).toBeVisible()
   })
 
   test('failed login with incorrect user/password', async ({ page }) => {
@@ -32,9 +30,8 @@ test.describe('login & logout', () => {
     await page.goto('http://localhost:3000')
     await page.keyboard.press('x')
     await page.click('[data-testid=logout-link]')
-    expect(page.url()).toBe('http://localhost:3000/')
-    const loginLink = page.getByTestId('login-link')
-    expect(loginLink).toBeTruthy()
+    await expect(page).toHaveURL('http://localhost:3000/')
+    await expect(page.getByTestId('login-link')).toBeVisible()
   })
 })
 
