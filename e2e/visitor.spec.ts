@@ -39,7 +39,7 @@ test.describe('visitor basic', () => {
     await page.goto('http://localhost:3000/')
     await page.getByTestId('next-page-btn').click()
     await page.getByTestId('single-post-page-link-2').click()
-
+    // 07/27/21 React Rush
     await expect(page.getByRole('main')).toHaveText(/using __proto__/)
   })
 })
