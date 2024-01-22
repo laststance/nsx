@@ -13,6 +13,11 @@ test.describe('visitor basic', () => {
     await expect(page).toHaveURL('http://localhost:3000/')
     await expect(page.getByRole('heading')).toHaveText('ReadList')
   })
+
+  test('show latest article in list', async ({ page }) => {
+    await page.goto('http://localhost:3000/')
+    await expect(page.getByRole('main')).toHaveText(/close your eyes/)
+  })
 })
 
 test.afterAll(async () => {
