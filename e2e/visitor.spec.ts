@@ -24,6 +24,24 @@ test.describe('visitor basic', () => {
     await page.getByTestId('single-post-page-link-1').click()
     await expect(page.getByRole('main')).toHaveText(/CSS Weekly #464/)
   })
+
+  test('never shown every admin page link button without login', async ({
+    page,
+  }) => {
+    await page.goto('http://localhost:3000/')
+    await expect(page.getByTestId('dashboard-page-link')).not.toBeVisible()
+    await page.getByTestId('single-post-page-link-2').click()
+
+    await expect(page.getByTestId('edit-btn')).not.toBeVisible()
+  })
+
+  test('show post that contains syntax hilight Markdown', async ({ page }) => {
+    await page.goto('http://localhost:3000/')
+    await page.getByTestId('next-page-btn').click()
+    await page.getByTestId('single-post-page-link-2').click()
+
+    await expect(page.getByRole('main')).toHaveText(/using __proto__/)
+  })
 })
 
 test.afterAll(async () => {
