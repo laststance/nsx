@@ -18,6 +18,12 @@ test.describe('visitor basic', () => {
     await page.goto('http://localhost:3000/')
     await expect(page.getByRole('main')).toHaveText(/close your eyes/)
   })
+
+  test('show single post', async ({ page }) => {
+    await page.goto('http://localhost:3000/')
+    await page.getByTestId('single-post-page-link-1').click()
+    await expect(page.getByRole('main')).toHaveText(/CSS Weekly #464/)
+  })
 })
 
 test.afterAll(async () => {
