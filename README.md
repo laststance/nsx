@@ -4,8 +4,6 @@
 [![Lint](https://github.com/laststance/nsx/actions/workflows/lint.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/lint.yml)
 [![Chromatic](https://github.com/laststance/nsx/actions/workflows/chromatic.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/chromatic.yml)
 
-
-
 > # Project Status: currently under development and scheduled for release in release 2026.
 >
 > The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
@@ -69,7 +67,7 @@ These are storing `.env` and evaluate at build time.
 ## Playwright
 
 I'm using [Playwright](https://playwright.dev/) for E2E testing.  
-Before run 'pnpm playwright', you need to run `pnpm build:e2e`.
+Before run `pnpm playwright`, you need to run `pnpm build:e2e`.
 
 ## Production Server
 
