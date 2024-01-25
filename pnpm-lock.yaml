@@ -308,11 +308,11 @@ devDependencies:
     specifier: ^15.2.0
     version: 15.2.0
   msw:
-    specifier: ^2.1.4
-    version: 2.1.4(typescript@5.3.3)
+    specifier: ^2.1.5
+    version: 2.1.5(typescript@5.3.3)
   msw-storybook-addon:
     specifier: 2.0.0--canary.122.06f0c92.0
-    version: 2.0.0--canary.122.06f0c92.0(msw@2.1.4)
+    version: 2.0.0--canary.122.06f0c92.0(msw@2.1.5)
   node-fetch:
     specifier: 2.6.7
     version: 2.6.7
@@ -3193,8 +3193,8 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /@mswjs/interceptors@0.25.14:
-    resolution: {integrity: sha512-2dnIxl+obqIqjoPXTFldhe6pcdOrqiz+GcLaQQ6hmL02OldAF7nIC+rUgTWm+iF6lvmyCVhFFqbgbapNhR8eag==}
+  /@mswjs/interceptors@0.25.15:
+    resolution: {integrity: sha512-s4jdyxmq1eeftfDXJ7MUiK/jlvYaU8Sr75+42hHCVBrYez0k51RHbMitKIKdmsF92Q6gwhp8Sm1MmvdA9llpcg==}
     engines: {node: '>=18'}
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
@@ -5988,12 +5988,6 @@ packages:
       undici-types: 5.26.5
     dev: true
 
-  /@types/node@20.11.5:
-    resolution: {integrity: sha512-g557vgQjUUfN76MZAN/dt1z3dzcUsimuysco0KeluHgrPdJXkP/XdAURgyO2W9fZWHRtRBiVKzKn8vyOAwlG+w==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: false
-
   /@types/node@20.11.6:
     resolution: {integrity: sha512-+EOokTnksGVgip2PbYbr3xnR7kZigh4LbybAfBAw5BpnQ+FqBYUsvCEjYd70IXKlbohQ64mzEYmMtlWUY8q//Q==}
     dependencies:
@@ -6115,7 +6109,7 @@ packages:
   /@types/whatwg-url@8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 20.11.5
+      '@types/node': 20.11.6
       '@types/webidl-conversions': 7.0.3
     dev: false
 
@@ -12272,17 +12266,17 @@ packages:
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  /msw-storybook-addon@2.0.0--canary.122.06f0c92.0(msw@2.1.4):
+  /msw-storybook-addon@2.0.0--canary.122.06f0c92.0(msw@2.1.5):
     resolution: {integrity: sha512-Bm0kud8QoB5dVm3Zn9eWY+j9VTY5KEuNtFoGhCpliSjC6b+V196WzVeUOz5GQXixkx6cDFxawsow4rFDPKXTtQ==}
     peerDependencies:
       msw: ^2.0.9
     dependencies:
       is-node-process: 1.2.0
-      msw: 2.1.4(typescript@5.3.3)
+      msw: 2.1.5(typescript@5.3.3)
     dev: true
 
-  /msw@2.1.4(typescript@5.3.3):
-    resolution: {integrity: sha512-YyIQpfLqAJf/O1kYPWBSbDqjgv71kRBmEbGLxkkai1Btcs/LcxKiAwT1My3COa9J/vTh9Ua41B/ReuiW9cXmkw==}
+  /msw@2.1.5(typescript@5.3.3):
+    resolution: {integrity: sha512-r39AZk4taMmUEYwtzDAgFy38feqJy1yaKykvo0QE8q7H7c28yH/WIlOmE7oatjkC3dMgpTYfND8MaxeywgU+Yg==}
     engines: {node: '>=18'}
     hasBin: true
     requiresBuild: true
@@ -12295,7 +12289,7 @@ packages:
       '@bundled-es-modules/cookie': 2.0.0
       '@bundled-es-modules/statuses': 1.0.1
       '@mswjs/cookies': 1.1.0
-      '@mswjs/interceptors': 0.25.14
+      '@mswjs/interceptors': 0.25.15
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
       '@types/statuses': 2.0.4
