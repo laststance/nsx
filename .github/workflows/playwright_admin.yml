@@ -17,8 +17,6 @@ jobs:
         run: cp .env.e2e .env
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
-      - name: Generate Prisma Client
-        run: pnpm prisma generate
       - name: Build Frontend App
         run: pnpm build:e2e
       - name: docker compose run
