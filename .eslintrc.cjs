@@ -1,7 +1,4 @@
 module.exports = {
-  env: {
-    'cypress/globals': true,
-  },
   extends: [
     'ts-prefixer',
     'plugin:jsx-a11y/recommended',
@@ -10,7 +7,7 @@ module.exports = {
   globals: {
     JSX: 'readonly',
   },
-  plugins: ['cypress', 'jsx-a11y', 'react-hooks', 'react'],
+  plugins: ['jsx-a11y', 'react-hooks', 'react'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react/display-name': 'warn',
