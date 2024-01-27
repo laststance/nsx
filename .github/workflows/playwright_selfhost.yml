@@ -1,0 +1,31 @@
+name: Playwright Selfhost Tests
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Create .env file
+        run: cp .env.e2e .env
+      - name: Install dependencies
+        run: npm install -g pnpm && pnpm install
+      - name: Build Frontend App
+        run: pnpm build:e2e
+      - name: docker compose run
+        run: docker-compose up -d
+      - name: Run Playwright tests
+        run: pnpm exec playwright test self-host.spec.ts
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
