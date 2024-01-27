@@ -6,11 +6,11 @@
   "author": "Ryota Murakami <dojce1048@gmail.com> (https://github.com/ryota-murakami)",
   "description": "Auto post of web page list you read that day.",
   "homepage": "https://github.com/laststance/nsx",
+  "volta": {
+    "node": "20.11.0"
+  },
   "msw": {
     "workerDirectory": "public"
-  },
-  "volta": {
-    "node": "18.18.2"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
