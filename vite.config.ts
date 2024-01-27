@@ -8,7 +8,7 @@ export default defineConfig({
     exclude: [],
   },
   build: {
-    minify: 'terser',
+    minify: 'esbuild',
     outDir: 'build',
     rollupOptions: {
       output: {
