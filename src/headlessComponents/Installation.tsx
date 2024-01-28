@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import Loading from '../components/Loading/Loading'
+import Loading from '../components/Loading'
 import Signup from '../pages/Signup'
 import { useGetUserCountQuery } from '../redux/API'
 

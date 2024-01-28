@@ -6,8 +6,8 @@ import { PersistGate as ReduxPersistGate } from 'redux-persist/integration/react
 
 import './global.css'
 
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
-import Loading from './components/Loading/Loading'
+import ErrorBoundary from './components/ErrorBoundary'
+import Loading from './components/Loading'
 import Sidebar from './components/Sidebar'
 import HookLoaderComponent from './headlessComponents/GrobalHooks'
 import SnackBarRenderer from './headlessComponents/SnackBarRenderer'

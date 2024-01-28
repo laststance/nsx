@@ -1,7 +1,7 @@
 import type { Story } from '@storybook/react'
 import React from 'react'
 
-import Loading from './Loading'
+import Loading from './index'
 
 export default {
   title: 'Components/Loading',

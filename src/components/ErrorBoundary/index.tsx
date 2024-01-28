@@ -33,9 +33,8 @@ class ErrorBoundary extends Component<Props, State> {
 export default ErrorBoundary
 
 const LayoutStyle: React.CSSProperties = {
-  alignItems: 'center',
-  display: 'flex',
-  justifyContent: 'center',
+  display: 'grid',
+  placeContent: 'center',
   minHeight: '100vh',
   minWidth: '100%',
 }
@@ -48,9 +47,7 @@ const MessageStyle: React.CSSProperties = {
   padding: '40px',
 }
 
-export const ErrorBoundaryFallbackComponent: React.FC<
-  React.PropsWithChildren<unknown>
-> = () => (
+export const ErrorBoundaryFallbackComponent: React.FC = () => (
   <main style={LayoutStyle}>
     <section style={MessageStyle}>
       Something Error Ooccurring

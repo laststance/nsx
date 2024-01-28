@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import Loading from '../../../components/Loading/Loading'
+import Loading from '../../../components/Loading'
 import ButtonGroup from '../../../components/Pagination/ButtonGroup'
 import usePagination from '../../../components/Pagination/usePagination'
 import RTKQueryErrorMessages from '../../../components/RTKQueryErrorMessages/RTKQueryErrorMessages'

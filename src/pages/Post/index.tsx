@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { assertIsDefined } from '../../../lib/assertIsDefined'
-import Loading from '../../components/Loading/Loading'
+import Loading from '../../components/Loading'
 import { API } from '../../redux/API'
 import NotFound from '../NotFound'
 
