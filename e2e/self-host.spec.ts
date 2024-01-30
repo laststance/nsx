@@ -1,7 +1,9 @@
+import { exec as execCb } from 'node:child_process'
 import util from 'node:util'
 
-const exec = util.promisify(require('node:child_process').exec)
 import { test, expect } from '@playwright/test'
+
+const exec = util.promisify(execCb)
 
 test.beforeAll(async () => {
   await exec('pnpm db:truncate')

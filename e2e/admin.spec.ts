@@ -1,9 +1,11 @@
+import { exec as execCb } from 'node:child_process'
 import util from 'node:util'
 
-const exec = util.promisify(require('node:child_process').exec)
 import { expect } from '@playwright/test'
 
 import { test } from './helper'
+
+const exec = util.promisify(execCb)
 
 test.beforeAll(async () => {
   await exec('pnpm db:reset')
