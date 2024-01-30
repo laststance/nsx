@@ -134,8 +134,8 @@ devDependencies:
     specifier: ^1.41.1
     version: 1.41.1
   '@redocly/cli':
-    specifier: ^1.8.0
-    version: 1.8.0
+    specifier: ^1.8.1
+    version: 1.8.1
   '@storybook/addon-essentials':
     specifier: ^7.6.10
     version: 7.6.10(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)
@@ -3925,12 +3925,12 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /@redocly/cli@1.8.0:
-    resolution: {integrity: sha512-aoErGYBQU+KkWy56Y/U++n5GDGB0rSyFa4aioqCCSFbDTCkO5JqGrCjl5Y2fNR36koaNLQePaOmqAtlwV7eJrQ==}
+  /@redocly/cli@1.8.1:
+    resolution: {integrity: sha512-Jf63hGI/YYTKhs8nNCmjS/Qz6iVhHdV8tR3LRXTbYNy4Hsm5piBqFuJ1PxhBXZ5Qt5oZPv3UYfgT1876Q3xM8Q==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     hasBin: true
     dependencies:
-      '@redocly/openapi-core': 1.8.0
+      '@redocly/openapi-core': 1.8.1
       abort-controller: 3.0.0
       chokidar: 3.5.3
       colorette: 1.4.0
@@ -3956,8 +3956,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@redocly/openapi-core@1.8.0:
-    resolution: {integrity: sha512-Bx7Sv0E15ZkbuNNnTXCgUWgVxQB9paXO0JcXQvInPLIDdslt2ezon8o2roLTY02aVZpHcG5NcRizoIkj+RoDiw==}
+  /@redocly/openapi-core@1.8.1:
+    resolution: {integrity: sha512-8gTDKZaGarknXiY/yYUx0cxnO8GEBWIG+H0LT+G/MWkBtOKL3p4cmEhjOC78klSeqjwEddzqCBZw1Ap7rLH0ww==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     dependencies:
       '@redocly/ajv': 8.11.0
@@ -5930,12 +5930,6 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
-  /@types/node@20.11.6:
-    resolution: {integrity: sha512-+EOokTnksGVgip2PbYbr3xnR7kZigh4LbybAfBAw5BpnQ+FqBYUsvCEjYd70IXKlbohQ64mzEYmMtlWUY8q//Q==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: false
-
   /@types/normalize-package-data@2.4.4:
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
     dev: true
@@ -6038,7 +6032,7 @@ packages:
   /@types/whatwg-url@8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 20.11.6
+      '@types/node': 20.11.10
       '@types/webidl-conversions': 7.0.3
     dev: false
 
@@ -13508,7 +13502,7 @@ packages:
       react-dom: ^16.8.4 || ^17.0.0 || ^18.0.0
       styled-components: ^4.1.1 || ^5.1.1 || ^6.0.5
     dependencies:
-      '@redocly/openapi-core': 1.8.0
+      '@redocly/openapi-core': 1.8.1
       classnames: 2.5.1
       core-js: 3.35.0
       decko: 1.2.0
