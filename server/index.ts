@@ -7,10 +7,6 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
-import expressOasGenerator, {
-  SPEC_OUTPUT_FILE_BEHAVIOR,
-  SwaggerUiOptions,
-} from 'express-oas-generator'
 import morgan from 'morgan'
 
 import router from './api'
@@ -32,14 +28,7 @@ Cron.readList.start()
  Express Setup
  */
 const app = express()
-if (isDev) {
-  // OpenAPI Spec Generator
-  expressOasGenerator.handleResponses(app, {
-    alwaysServeDocs: true,
-    specOutputFileBehavior: SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
-    swaggerDocumentOptions: SwaggerUiOptions,
-  })
-}
+
 app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -51,7 +40,6 @@ app.use('/api', router)
  DEV Server
  */
 if (isDev) {
-  expressOasGenerator.handleRequests()
   app.listen(4000, () => {
     Logger.log()
     Logger.info('DEV API Server listening on port 4000!')
