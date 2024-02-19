@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 import EnvironmentPlugin from 'vite-plugin-environment'
@@ -59,6 +61,11 @@ export default defineConfig({
         changeOrigin: true,
         target: 'http://localhost:4000',
       },
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
   },
 })
