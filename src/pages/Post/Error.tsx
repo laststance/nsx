@@ -3,7 +3,8 @@ import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import * as Sentry from '@sentry/react'
 import React, { memo } from 'react'
 
-import { ErrorBoundaryFallbackComponent } from '../../components/ErrorBoundary'
+import { ErrorBoundaryFallbackComponent } from '@/src/components/ErrorBoundary'
+
 import { useIsomorphicEffect } from '../../hooks/useIsomorphicEffect'
 import { enqueSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'

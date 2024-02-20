@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import Layout from '../../components/Layout'
+import Layout from '@/src/components/Layout'
 
 const NotFound = memo(
   () => (

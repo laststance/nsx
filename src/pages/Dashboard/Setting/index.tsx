@@ -9,7 +9,7 @@ import React, { memo } from 'react'
 import type { ComponentProps } from 'react'
 import { Link, Routes, Route, Outlet, useLocation } from 'react-router-dom'
 
-import Layout from '../../../components/Layout'
+import Layout from '@/src/components/Layout'
 
 import MyAccount from './MyAccount'
 

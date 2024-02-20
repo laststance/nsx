@@ -6,8 +6,9 @@ import rehypeRaw from 'rehype-raw'
 import breaks from 'remark-breaks'
 import gfm from 'remark-gfm'
 
-import Button from '../../components/Button/Button'
-import Layout from '../../components/Layout'
+import Button from '@/src/components/Button'
+import Layout from '@/src/components/Layout'
+
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
 

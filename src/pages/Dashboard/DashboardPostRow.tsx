@@ -1,7 +1,8 @@
 import React, { memo } from 'react'
 
-import type { UsePagenationResult } from '../../components/Pagination/usePagination'
-import PostDate from '../../components/PostDate/PostDate'
+import type { UsePagenationResult } from '@/src/components/Pagination/usePagination'
+import PostDate from '@/src/components/PostDate/PostDate'
+
 import PostLink from '../Index/PostList/PostRow/PostLink'
 
 import EditButtonGroup from './EditButtonGroup'

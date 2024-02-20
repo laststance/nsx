@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import Button from '../../components/Button/Button'
-import type { UsePagenationResult } from '../../components/Pagination/usePagination'
+import Button from '@/src/components/Button'
+import type { UsePagenationResult } from '@/src/components/Pagination/usePagination'
 
 import { handleDelete } from './handler'
 

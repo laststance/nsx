@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import PostDate from '../../../../components/PostDate/PostDate'
+import PostDate from '@/src/components/PostDate/PostDate'
 
 import PostLink from './PostLink'
 

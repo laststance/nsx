@@ -1,4 +1,5 @@
-import type { UsePagenationResult } from '../../components/Pagination/usePagination'
+import type { UsePagenationResult } from '@/src/components/Pagination/usePagination'
+
 import type { AdminState } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
 import isSuccess from '../../redux/helper/isSuccess'

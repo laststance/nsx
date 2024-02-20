@@ -1,7 +1,7 @@
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import React, { memo } from 'react'
 
-import { concatSelecor } from '../../lib/concatSelecor'
+import { concatSelecor } from '@/src/lib/concatSelecor'
 
 import Footer from './Footer'
 import Header from './Header'

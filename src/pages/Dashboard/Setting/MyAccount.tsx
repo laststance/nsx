@@ -3,9 +3,10 @@ import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { FieldValues } from 'react-hook-form'
 
+import Button from '@/src/components/Button'
+import Input from '@/src/components/Input/Input'
+
 import { userAccountValidator } from '../../../../validator'
-import Button from '../../../components/Button/Button'
-import Input from '../../../components/Input/Input'
 
 const mockOnSubmit = (v: any) => console.log(v)
 interface FormInput extends FieldValues {
