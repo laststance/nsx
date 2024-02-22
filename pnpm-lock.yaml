@@ -24,8 +24,8 @@ dependencies:
     specifier: ^7.102.0
     version: 7.102.0(react@18.3.0-canary-6b3834a45-20231110)
   '@sentry/tracing':
-    specifier: ^7.102.0
-    version: 7.102.0
+    specifier: ^7.102.1
+    version: 7.102.1
   bcrypt:
     specifier: ^5.1.1
     version: 5.1.1
@@ -3579,6 +3579,15 @@ packages:
       '@sentry/utils': 7.102.0
     dev: false
 
+  /@sentry-internal/tracing@7.102.1:
+    resolution: {integrity: sha512-RkFlFyAC0fQOvBbBqnq0CLmFW5m3JJz9pKbZd5vXPraWAlniKSb1bC/4DF9SlNx0FN1LWG+IU3ISdpzwwTeAGg==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry/core': 7.102.1
+      '@sentry/types': 7.102.1
+      '@sentry/utils': 7.102.1
+    dev: false
+
   /@sentry/browser@7.102.0:
     resolution: {integrity: sha512-hIggcMnojIbWhbmlRfkykHmy6n7pjug0AHfF19HRUQxAx9KJfMH5YdWvohov0Hb9fS+jdvqgE+/4AWbEeXQrHw==}
     engines: {node: '>=8'}
@@ -3598,6 +3607,14 @@ packages:
     dependencies:
       '@sentry/types': 7.102.0
       '@sentry/utils': 7.102.0
+    dev: false
+
+  /@sentry/core@7.102.1:
+    resolution: {integrity: sha512-QjY+LSP3du3J/C8x/FfEbRxgZgsWd0jfTJ4P7s9f219I1csK4OeBMC3UA1HwEa0pY/9OF6H/egW2CjOcMM5Pdg==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry/types': 7.102.1
+      '@sentry/utils': 7.102.1
     dev: false
 
   /@sentry/react@7.102.0(react@18.3.0-canary-6b3834a45-20231110):
@@ -3624,15 +3641,20 @@ packages:
       '@sentry/utils': 7.102.0
     dev: false
 
-  /@sentry/tracing@7.102.0:
-    resolution: {integrity: sha512-2ZLgJw43qY7FjRHnnPGp4rOlPpsrcDGcFlnPIVJgfV14b4bfin1kMMeVgHc9O1S+DTfrkakcPnPnOg1qK1qltg==}
+  /@sentry/tracing@7.102.1:
+    resolution: {integrity: sha512-9VQEox0R7ouhhUVHtBwlGlXG5beDCM/Uo0BY+G0M1H03aFJsLAwnxPNeWnK3WvPejxf94EgdimKMjDjv9l2Sbg==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry-internal/tracing': 7.102.0
+      '@sentry-internal/tracing': 7.102.1
     dev: false
 
   /@sentry/types@7.102.0:
     resolution: {integrity: sha512-FPfFBP0x3LkPARw1/6cWySLq1djIo8ao3Qo2KNBeE9CHdq8bsS1a8zzjJLuWG4Ww+wieLP8/lY3WTgrCz4jowg==}
+    engines: {node: '>=8'}
+    dev: false
+
+  /@sentry/types@7.102.1:
+    resolution: {integrity: sha512-htKorf3t/D0XYtM7foTcmG+rM47rDP6XdbvCcX5gBCuCYlzpM1vqCt2rl3FLktZC6TaIpFRJw1TLfx6m+x5jdA==}
     engines: {node: '>=8'}
     dev: false
 
@@ -3641,6 +3663,13 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       '@sentry/types': 7.102.0
+    dev: false
+
+  /@sentry/utils@7.102.1:
+    resolution: {integrity: sha512-+8WcFjHVV/HROXSAwMuUzveElBFC43EiTG7SNEBNgOUeQzQVTmbUZXyTVgLrUmtoWqvnIxCacoLxtZo1o67kdg==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry/types': 7.102.1
     dev: false
 
   /@sinclair/typebox@0.27.8:
