@@ -136,7 +136,7 @@
     "vitest-matchmedia-mock": "^1.0.4"
   },
   "scripts": {
-    "postinstall": "pnpm prisma generate && pnpm exec playwright install --with-deps",
+    "postinstall": "pnpm prisma generate",
     "start": "VITE_CJS_IGNORE_WARNING=true vite",
     "dev": "VITE_CJS_IGNORE_WARNING=true vite dev",
     "build": "VITE_CJS_IGNORE_WARNING=true dotenv -e .env.prod vite build",
