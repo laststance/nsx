@@ -1,14 +1,16 @@
-import type { ComponentStory } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
 import ArrowRight from './ArrowRight'
 
-export default {
+const meta = {
   title: 'Components/Icons/ArrowRight',
   component: ArrowRight,
+  tags: ['autodocs'],
+} as Meta<typeof ArrowRight>
+
+export default meta
+
+export const Default: StoryObj<typeof meta> = {
+  render: () => <ArrowRight />,
 }
-
-const Template: ComponentStory<typeof ArrowRight> = () => <ArrowRight />
-
-export const Default = Template.bind({})
-Default.args = {}

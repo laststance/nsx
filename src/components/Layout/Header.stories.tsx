@@ -1,4 +1,4 @@
-import type { ComponentStory } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 import { HistoryRouter } from 'redux-first-history/rr6'
 
@@ -6,16 +6,18 @@ import { history } from '../../redux/store'
 
 import Header from './Header'
 
-export default {
+const meta: Meta<typeof Header> = {
   title: 'Components/Layout/Header',
   component: Header,
+  tags: ['autodocs'],
 }
 
-const Template: ComponentStory<typeof Header> = () => (
-  <HistoryRouter history={history}>
-    <Header />
-  </HistoryRouter>
-)
+export default meta
 
-export const Default = Template.bind({})
-Default.args = {}
+export const Default: StoryObj<typeof Header> = {
+  render: () => (
+    <HistoryRouter history={history}>
+      <Header />
+    </HistoryRouter>
+  ),
+}

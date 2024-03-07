@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import ArrowButton from './ArrowButton'
 
-const meta = {
+const meta: Meta<typeof ArrowButton> = {
   title: 'Components/ArrowButton',
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 
@@ -15,18 +15,17 @@ const meta = {
 
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   tags: ['autodocs'],
-} satisfies Meta<typeof ArrowButton>
+}
 
 export default meta
-type Story = StoryObj<typeof meta>
 
-export const Right: Story = {
+export const Right: StoryObj<typeof meta> = {
   args: {
     direction: 'right',
   },
 }
 
-export const Left: Story = {
+export const Left: StoryObj<typeof meta> = {
   args: {
     direction: 'left',
   },

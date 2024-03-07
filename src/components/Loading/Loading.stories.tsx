@@ -1,14 +1,14 @@
-import type { Story } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 
 import Loading from './index'
 
-export default {
+const meta: Meta<typeof Loading> = {
   title: 'Components/Loading',
   component: Loading,
 }
 
-const Template: Story = (props) => <Loading {...props} />
+export default meta
 
-export const Default = Template.bind({})
-Default.args = {}
+export const Default: StoryObj<typeof Loading> = {
+  render: () => <Loading />,
+}

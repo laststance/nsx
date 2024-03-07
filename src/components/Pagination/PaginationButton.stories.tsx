@@ -1,16 +1,17 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
 import ButtonGroup from './ButtonGroup'
 
-const meta: ComponentMeta<typeof ButtonGroup> = {
+const meta: Meta<typeof ButtonGroup> = {
   title: 'Components/PaginationButtonGroup',
   component: ButtonGroup,
 }
 
 export default meta
 
-export const Default: ComponentStory<typeof ButtonGroup> = ({
-  page,
-  totalPage,
-}) => <ButtonGroup page={page} totalPage={totalPage} />
+export const Default: StoryObj<typeof ButtonGroup> = {
+  render: ({ page, totalPage }) => (
+    <ButtonGroup page={page} totalPage={totalPage} />
+  ),
+}

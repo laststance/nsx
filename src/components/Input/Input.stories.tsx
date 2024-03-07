@@ -1,12 +1,13 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import Input from './Input'
 
-const meta: ComponentMeta<typeof Input> = {
+const meta: Meta<typeof Input> = {
   title: 'Components/Input',
   component: Input,
+  tags: ['autodocs'],
 }
 
 export default meta
@@ -17,7 +18,7 @@ interface formInputValue {
   lastName: string
 }
 
-const InputGroup: React.FC = (props) => {
+const InputGroup: React.FC = () => {
   const {
     formState: { errors },
     register,
@@ -33,13 +34,10 @@ const InputGroup: React.FC = (props) => {
         options: { required: 'firstName is required' },
         register,
       }}
-      {...props}
     />
   )
 }
 
-const Template: ComponentStory<typeof Input> = (props) => (
-  <InputGroup {...props} />
-)
-
-export const TextInput = Template.bind({})
+export const Default: StoryObj<typeof meta> = {
+  render: () => <InputGroup />,
+}

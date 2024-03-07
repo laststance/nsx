@@ -1,37 +1,43 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 
 import Button from './Button'
 
-const meta: ComponentMeta<typeof Button> = {
+const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
+  tags: ['autodocs'],
 }
 
 export default meta
 
-const Template: ComponentStory<typeof Button> = (props) => <Button {...props} />
-
-export const Primary = Template.bind({})
-Primary.args = {
-  children: 'Primary Color',
-  variant: 'primary',
+export const Primary: StoryObj<typeof meta> = {
+  args: {
+    children: 'Primary Color',
+    variant: 'primary',
+  },
 }
 
-export const Secondary = Template.bind({})
+export const Secondary: StoryObj<typeof meta> = {
+  args: {
+    children: 'Secondary Color',
+    variant: 'secondary',
+  },
+}
 Secondary.args = {
   children: 'Secondary Color',
   variant: 'secondary',
 }
 
-export const Inverse = Template.bind({})
-Inverse.args = {
-  children: 'Inverse Color',
-  variant: 'inverse',
+export const Inverse: StoryObj<typeof meta> = {
+  args: {
+    children: 'Inverse Color',
+    variant: 'inverse',
+  },
 }
 
-export const Danger = Template.bind({})
-Danger.args = {
-  children: 'Danger Color',
-  variant: 'danger',
+export const Danger: StoryObj<typeof meta> = {
+  args: {
+    children: 'Danger Color',
+    variant: 'danger',
+  },
 }
