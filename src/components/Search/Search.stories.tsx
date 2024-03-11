@@ -1,18 +1,21 @@
-import type { Story } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+
+import type ArrowButton from '../ArrowButton'
 
 import Search from './Search'
 
-export default {
+const meta: Meta<typeof ArrowButton> = {
   title: 'Components/Search',
   component: Search,
+  tags: ['autodocs'],
 }
 
-const Template: Story = (props) => (
-  <div style={{ width: '600px' }}>
-    <Search {...props} />
-  </div>
-)
+export default meta
 
-export const Default = Template.bind({})
-Default.args = {}
+export const Default: StoryObj<typeof meta> = {
+  render: () => (
+    <div style={{ width: '600px' }}>
+      <Search />
+    </div>
+  ),
+}
