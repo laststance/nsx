@@ -1,21 +1,22 @@
-import type { ComponentStory } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { HistoryRouter } from 'redux-first-history/rr6'
 
-import { history } from '../../../redux/store'
+import { history } from '@/src/redux/store'
 
 import Create from '.'
 
-export default {
+const meta: Meta<typeof Create> = {
   title: 'Pages/Create',
   component: Create,
+  decorators: [
+    (Story) => (
+      <HistoryRouter history={history}>
+        <Story />
+      </HistoryRouter>
+    ),
+  ],
 }
 
-const Template: ComponentStory<typeof Create> = () => (
-  <HistoryRouter history={history}>
-    <Create />
-  </HistoryRouter>
-)
+export default meta
 
-export const Default = Template.bind({})
-Default.args = {}
+export const Default: StoryObj<typeof Create> = {}
