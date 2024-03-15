@@ -1,21 +1,22 @@
-import type { ComponentStory } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { HistoryRouter } from 'redux-first-history/rr6'
 
 import { history } from '../../redux/store'
 
 import NotFound from '.'
 
-export default {
+const meta: Meta<typeof NotFound> = {
   title: 'Pages/NotFound',
   component: NotFound,
-}
+  decorators: [
+    (Story) => (
+      <HistoryRouter history={history}>
+        <Story />
+      </HistoryRouter>
+    ),
+  ],
+} satisfies Meta<typeof NotFound>
 
-const Template: ComponentStory<typeof NotFound> = () => (
-  <HistoryRouter history={history}>
-    <NotFound />
-  </HistoryRouter>
-)
+export default meta
 
-export const Default = Template.bind({})
-Default.args = {}
+export const Default: StoryObj<typeof NotFound> = {}

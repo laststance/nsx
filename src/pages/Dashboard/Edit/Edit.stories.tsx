@@ -1,21 +1,22 @@
-import type { ComponentStory } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 
 import Edit from '.'
 
-export default {
+const meta = {
   title: 'Pages/Edit',
   component: Edit,
+  tags: ['autodocs'],
+} satisfies Meta<typeof Edit>
+
+export default meta
+
+export const Default: StoryObj<typeof meta> = {
+  render: () => (
+    <MemoryRouter initialEntries={['/edit/52']}>
+      <Routes>
+        <Route path="/edit/:postId" element={<Edit />} />
+      </Routes>
+    </MemoryRouter>
+  ),
 }
-
-const Template: ComponentStory<typeof Edit> = () => (
-  <MemoryRouter initialEntries={['/edit/52']}>
-    <Routes>
-      <Route path="/edit/:postId" element={<Edit />} />
-    </Routes>
-  </MemoryRouter>
-)
-
-export const Default = Template.bind({})
-Default.args = {}
