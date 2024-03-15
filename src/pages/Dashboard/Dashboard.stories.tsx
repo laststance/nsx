@@ -1,21 +1,23 @@
-import type { ComponentStory } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { HistoryRouter } from 'redux-first-history/rr6'
 
-import { history } from '../../redux/store'
+import { history } from '@/src/redux/store'
 
 import Dashboard from '.'
 
-export default {
+const meta = {
   title: 'Pages/Dashboard',
   component: Dashboard,
-}
+  tags: ['autodocs'],
+  decorators: [
+    (Story) => (
+      <HistoryRouter history={history}>
+        <Story />
+      </HistoryRouter>
+    ),
+  ],
+} satisfies Meta<typeof Dashboard>
 
-const Template: ComponentStory<typeof Dashboard> = () => (
-  <HistoryRouter history={history}>
-    <Dashboard />
-  </HistoryRouter>
-)
+export default meta
 
-export const Default = Template.bind({})
-Default.args = {}
+export const Default: StoryObj<typeof meta> = {}

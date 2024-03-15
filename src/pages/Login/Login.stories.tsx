@@ -1,21 +1,29 @@
-import type { ComponentStory } from '@storybook/react'
-import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { HistoryRouter } from 'redux-first-history/rr6'
 
 import { history } from '../../redux/store'
 
 import Login from '.'
 
-export default {
+const meta = {
   title: 'Pages/Login',
   component: Login,
+  decorators: [
+    (Story) => (
+      <HistoryRouter history={history}>
+        <Story />
+      </HistoryRouter>
+    ),
+  ],
+  tags: ['autodocs'],
+} satisfies Meta<typeof Login>
+
+export default meta
+
+export const Default: StoryObj<typeof Login> = {
+  render: () => (
+    <HistoryRouter history={history}>
+      <Login />
+    </HistoryRouter>
+  ),
 }
-
-const Template: ComponentStory<typeof Login> = () => (
-  <HistoryRouter history={history}>
-    <Login />
-  </HistoryRouter>
-)
-
-export const Default = Template.bind({})
-Default.args = {}
