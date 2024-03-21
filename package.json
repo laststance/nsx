@@ -7,7 +7,7 @@
   "description": "Auto post of web page list you read that day.",
   "homepage": "https://github.com/laststance/nsx",
   "volta": {
-    "node": "20.11.0"
+    "node": "20.11.1"
   },
   "msw": {
     "workerDirectory": "public"
@@ -163,7 +163,7 @@
     "db:truncate": "prisma migrate reset --skip-seed --force",
     "db:migrate:dev": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
-    "prepare": "husky install",
+    "prepare": "husky",
     "playwright": "playwright test",
     "playwright:headed": "playwright test --headed",
     "playwright:ui": "playwright test --ui",
