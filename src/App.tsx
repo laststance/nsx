@@ -14,7 +14,7 @@ import SnackBarRenderer from './headlessComponents/SnackBarRenderer'
 import { store, history } from './redux/store'
 import Routes from './Routes'
 
-const persistor = persistStore(store)
+const persistorStore = persistStore(store)
 
 // @ts-expect-error
 ReduxStoreProvider.displayName = 'ReduxStoreProvider'
@@ -26,7 +26,7 @@ const App = memo(
         <Suspense fallback={<Loading />}>
           <ReduxStoreProvider store={store} identityFunctionCheck="always">
             <HistoryRouter history={history}>
-              <ReduxPersistGate persistor={persistor}>
+              <ReduxPersistGate persistor={persistorStore}>
                 <HookLoaderComponent />
                 <Sidebar />
                 <SnackBarRenderer />
