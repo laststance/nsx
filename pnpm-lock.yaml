@@ -134,8 +134,8 @@ devDependencies:
     specifier: ^1.43.0
     version: 1.43.0
   '@redocly/cli':
-    specifier: ^1.10.6
-    version: 1.10.6
+    specifier: ^1.11.0
+    version: 1.11.0
   '@storybook/addon-essentials':
     specifier: ^8.0.4
     version: 8.0.5(@types/react@18.2.73)(react-dom@18.3.0-canary-6b3834a45-20231110)(react@18.3.0-canary-6b3834a45-20231110)
@@ -2741,12 +2741,12 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /@redocly/cli@1.10.6:
-    resolution: {integrity: sha512-KSy8fidqmnY3IQJ3zd+3j6QNu7xxj7mNzkN7q71wVXhWVqqB0WuBb2HmsnFgtGFzm83UHwVDFNpFR9qpK9HsMg==}
+  /@redocly/cli@1.11.0:
+    resolution: {integrity: sha512-ZBNaSdbX+A5CR4X3sxLYqUI3z9CazK7GoQqpTXijZ+bJ0R0Sd+DuR3dZqrd6Fh9k+UdYPRitOkU19bjPQ+fJjQ==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     hasBin: true
     dependencies:
-      '@redocly/openapi-core': 1.10.6
+      '@redocly/openapi-core': 1.11.0
       abort-controller: 3.0.0
       chokidar: 3.6.0
       colorette: 1.4.0
@@ -2772,16 +2772,16 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@redocly/config@0.1.6:
-    resolution: {integrity: sha512-8vXiTEKAqun98i7LksmhtMUIMl34ePiPchDdsikQLwh3/Hg8J9FyEZujwm5QvYQE2evo78W6x8pcHJtzSmyZgQ==}
+  /@redocly/config@0.2.0:
+    resolution: {integrity: sha512-r0TqTPVXrxdvhpbOntWnJofOx0rC7u+A+tfC0KFwMtw38QCNb3pwodVjeLa7MT5Uu+fcPxfO119yLBj0QHvBuQ==}
     dev: true
 
-  /@redocly/openapi-core@1.10.6:
-    resolution: {integrity: sha512-qWZszssMMe/UrJ4LN4qh2mdcIx5uMHwnvtkAEdmWYWlUv+LNaBeqazjDt0UrCOX5EsrD4d+21oxQJNdbyGMVVA==}
+  /@redocly/openapi-core@1.11.0:
+    resolution: {integrity: sha512-VH10SAkDu+jVW9tDFJWWYroFxHVY9N5VS4gorXw0cK8L+LydUOQ4KiZaKbTsTF2piWmZCxngZI7sNPHMiJ4Ftg==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     dependencies:
       '@redocly/ajv': 8.11.0
-      '@redocly/config': 0.1.6
+      '@redocly/config': 0.2.0
       colorette: 1.4.0
       js-levenshtein: 1.1.6
       js-yaml: 4.1.0
@@ -9932,7 +9932,7 @@ packages:
       oas-kit-common: 1.0.8
       reftools: 1.1.9
       yaml: 1.10.2
-      yargs: 17.0.1
+      yargs: 17.7.2
     dev: true
 
   /oas-schema-walker@1.1.5:
@@ -11238,7 +11238,7 @@ packages:
       react-dom: ^16.8.4 || ^17.0.0 || ^18.0.0
       styled-components: ^4.1.1 || ^5.1.1 || ^6.0.5
     dependencies:
-      '@redocly/openapi-core': 1.10.6
+      '@redocly/openapi-core': 1.11.0
       classnames: 2.5.1
       core-js: 3.36.1
       decko: 1.2.0
@@ -12334,7 +12334,7 @@ packages:
       oas-validator: 5.0.8
       reftools: 1.1.9
       yaml: 1.10.2
-      yargs: 17.0.1
+      yargs: 17.7.2
     transitivePeerDependencies:
       - encoding
     dev: true
