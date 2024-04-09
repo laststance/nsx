@@ -12,5 +12,5 @@ ssh ${USER}@${HOST} "docker exec ${DOCKER_CONTAINER_NAME} /usr/bin/mysqldump -u 
 
 # SCP the backup file to your local machine
 scp ${USER}@${HOST}:${REMOTE_DIR}/${BACKUP_FILE_NAME} .
-
+ssh ${USER}@${HOST} "rm -f ${REMOTE_DIR}/*.sql"
 echo "MySQL backup has been created and downloaded to the current directory."
