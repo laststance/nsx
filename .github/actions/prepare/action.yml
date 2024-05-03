@@ -12,7 +12,7 @@ runs:
         cache: pnpm
         node-version: '20'
     - run: |
-        pnpm install pnpm --no-frozen-lockfile
+        pnpm install --no-frozen-lockfile
         pnpm prisma generate
       shell: bash
   using: composite
