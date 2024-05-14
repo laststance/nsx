@@ -17,7 +17,7 @@ export function handleDelete(
     )
 
     if (isSuccess(res) && 'data' in res) {
-      dispatch(enqueSnackbar({ color: 'green', message: res.data.message }))
+      dispatch(enqueSnackbar({ color: 'green', message: res.data?.message! }))
       refetch()
     }
   }

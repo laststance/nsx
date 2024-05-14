@@ -37,6 +37,6 @@ export async function onSubmit(
     dispatch(enqueSnackbar({ color: 'green', message: 'New Post Created!' }))
     dispatch(clearDraft())
 
-    navigate(`/post/${post.data.id}`)
+    navigate(`/post/${post.data?.id}`)
   }
 }
