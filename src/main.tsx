@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     dsn: process.env.VITE_SENTRY_DNS,
 
-    integrations: [new Sentry.Replay()],
+    integrations: [Sentry.replayIntegration()],
 
     // If the entire session is not sampled, use the below sample rate to sample
     // sessions when an error occurs.
