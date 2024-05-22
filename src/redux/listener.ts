@@ -1,6 +1,6 @@
 import type { Theme } from './themeSlice'
 
-export function SwitchTailwindCSSTheme(theme: Theme) {
+export function SwitchLightAndDarkTheme(theme: Theme) {
   if (
     theme === 'dark' ||
     (theme === 'system' &&

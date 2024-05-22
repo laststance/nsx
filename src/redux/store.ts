@@ -9,7 +9,7 @@ import storage from 'redux-persist/lib/storage'
 import adminReducer from './adminSlice'
 import { API } from './API'
 import draftReducer from './draftSlice'
-import { SwitchTailwindCSSTheme } from './listener'
+import { SwitchLightAndDarkTheme } from './listener'
 import pagenationReducer from './pagenationSlice'
 import sidebarReducer from './sidebarSlice'
 import snackbarReducer from './snackbarSlice'
@@ -43,7 +43,7 @@ const listenerMiddleware = createListenerMiddleware()
 listenerMiddleware.startListening({
   actionCreator: updateTheme,
   effect: (action) => {
-    SwitchTailwindCSSTheme(action.payload)
+    SwitchLightAndDarkTheme(action.payload)
   },
 })
 export const store = configureStore({
