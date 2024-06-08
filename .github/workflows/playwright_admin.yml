@@ -22,7 +22,7 @@ jobs:
       - name: Build Frontend App
         run: pnpm build:e2e
       - name: docker compose run
-        run: docker-compose up -d
+        run: docker compose up -d
       - name: Run Playwright tests
         run: pnpm exec playwright test admin.spec.ts
       - uses: actions/upload-artifact@v3
