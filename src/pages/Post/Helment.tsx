@@ -9,6 +9,7 @@ interface Props {
 
 const Helment: React.FC<React.PropsWithChildren<Props>> = memo(
   ({ post }) => (
+    // @ts-expect-error React 19 RC type is unstable yet
     <Helmet>
       <meta name="description" content={truncateString(post.body, 40)} />
       <meta property="og:title" content={post.title} />

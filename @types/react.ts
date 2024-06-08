@@ -1,5 +1,5 @@
 import type React from 'react'
-import type { SetStateAction, ValidationMap } from 'react'
+import type { SetStateAction } from 'react'
 
 declare module 'react' {
   export type SetState<S> = React.Dispatch<SetStateAction<S>>
@@ -10,7 +10,6 @@ declare module 'react' {
    */
   export interface HeadlessComponent<P = any> extends FunctionComponent {
     (props: P, context?: any): null
-    contextTypes?: ValidationMap<any> | undefined
     displayName?: string | undefined
   }
 }
