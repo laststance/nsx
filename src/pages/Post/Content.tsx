@@ -30,6 +30,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
       </h1>
       <article>
         <ReactMarkdown
+          // @ts-ignore Type LegacyRef<HTMLAnchorElement> | undefined is not assignable to type Ref<HTMLAnchorElement> | undefined
           components={{ a }}
           rehypePlugins={[rehypeRaw]}
           remarkPlugins={[breaks, gfm]}
