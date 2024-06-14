@@ -24,5 +24,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    container_name: mysql
 volumes:
   db_data:
