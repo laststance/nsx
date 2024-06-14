@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { execSync } from 'child_process';
 
 /**
  * Read environment variables from file.
@@ -65,6 +66,11 @@ export default defineConfig({
     command: 'pnpm npm-run-all --parallel preview server:start',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
+    onStdout: (chunk) => {
+      if (chunk.toString().includes('MySQL container is up')) {
+        console.log('MySQL container is ready for connections.');
+      }
+    },
   },
 })
 

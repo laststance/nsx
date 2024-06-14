@@ -23,6 +23,8 @@ jobs:
         run: pnpm build:e2e
       - name: docker compose run
         run: docker compose up -d
+      - name: Log MySQL container status
+        run: docker logs mysql
       - name: Run Playwright tests
         run: pnpm exec playwright test admin.spec.ts
       - uses: actions/upload-artifact@v3

@@ -14,5 +14,15 @@ services:
       MYSQL_DATABASE: digital
       MYSQL_USER: strength
       MYSQL_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 volumes:
   db_data:
