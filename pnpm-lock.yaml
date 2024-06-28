@@ -19,7 +19,7 @@ importers:
         version: 3.6.0(react-hook-form@7.52.0(react@19.0.0-rc-cc1ec60d0d-20240607))
       '@prisma/client':
         specifier: 5.16.1
-        version: 5.16.1(prisma@5.16.0)
+        version: 5.16.1(prisma@5.16.1)
       '@reduxjs/toolkit':
         specifier: 2.2.5
         version: 2.2.5(react-redux@9.1.2(react@19.0.0-rc-cc1ec60d0d-20240607)(redux@5.0.1)(types-react@19.0.0-rc.1))(react@19.0.0-rc-cc1ec60d0d-20240607)
@@ -72,8 +72,8 @@ importers:
         specifier: ^5.4.1
         version: 5.4.1
       prisma:
-        specifier: ^5.16.0
-        version: 5.16.0
+        specifier: ^5.16.1
+        version: 5.16.1
       react:
         specifier: 19.0.0-rc-cc1ec60d0d-20240607
         version: 19.0.0-rc-cc1ec60d0d-20240607
@@ -1545,20 +1545,20 @@ packages:
       prisma:
         optional: true
 
-  '@prisma/debug@5.16.0':
-    resolution: {integrity: sha512-pfdOGxMShqZKkNNskYB0yXICsqL6rOkQUKNktouUZ9Y9ASd5736+ae2fpzif7onwJiIyEpu/yvOO3rFUbliKTA==}
+  '@prisma/debug@5.16.1':
+    resolution: {integrity: sha512-JsNgZAg6BD9RInLSrg7ZYzo11N7cVvYArq3fHGSD89HSgtN0VDdjV6bib7YddbcO6snzjchTiLfjeTqBjtArVQ==}
 
   '@prisma/engines-version@5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303':
     resolution: {integrity: sha512-HkT2WbfmFZ9WUPyuJHhkiADxazHg8Y4gByrTSVeb3OikP6tjQ7txtSUGu9OBOBH0C13dPKN2qqH12xKtHu/Hiw==}
 
-  '@prisma/engines@5.16.0':
-    resolution: {integrity: sha512-OGvi/GvLX3XwTWQ+k/57kLyHGidQ8rC8zB+Zq9nEE7gegjazyzgLYN9qzfdcCfyI8ilc6IMxOyX4sspwkv98hg==}
+  '@prisma/engines@5.16.1':
+    resolution: {integrity: sha512-KkyF3eIUtBIyp5A/rJHCtwQO18OjpGgx18PzjyGcJDY/+vNgaVyuVd+TgwBgeq6NLdd1XMwRCI+58vinHsAdfA==}
 
-  '@prisma/fetch-engine@5.16.0':
-    resolution: {integrity: sha512-8C8y6J9eWRl+R/aO3vQ2HlmM9IbjAmrZaaEAdC0OJfG3CHvbTOcL7VRY6CEUKo8RwZ8bdATOePaSMS634fHWgw==}
+  '@prisma/fetch-engine@5.16.1':
+    resolution: {integrity: sha512-oOkjaPU1lhcA/Rvr4GVfd1NLJBwExgNBE36Ueq7dr71kTMwy++a3U3oLd2ZwrV9dj9xoP6LjCcky799D9nEt4w==}
 
-  '@prisma/get-platform@5.16.0':
-    resolution: {integrity: sha512-ynp2jAYfYdd7OObX+uWaFRpvhPVmpF0nsRMhbrWdVVUj39q3Zr8dGz5WDj2g+BTUE++u1T1Am3RyM3PBQdDZXA==}
+  '@prisma/get-platform@5.16.1':
+    resolution: {integrity: sha512-R4IKnWnMkR2nUAbU5gjrPehdQYUUd7RENFD2/D+xXTNhcqczp0N+WEGQ3ViyI3+6mtVcjjNIMdnUTNyu3GxIgA==}
 
   '@radix-ui/primitive@1.0.1':
     resolution: {integrity: sha512-yQ8oGX2GVsEYMWGxcovu1uGWPCxV5BFfeeYxqPmuAzUyLT9qmaMXSAhXpb0WrspIeqYzdJpkh2vHModJPgRIaw==}
@@ -5794,8 +5794,8 @@ packages:
     resolution: {integrity: sha512-66hKPCr+72mlfiSjlEB1+45IjXSqvVAIy6mocupoww4tBFE9R9IhwwUGoI4G++Tc9Aq+2rxOt0RFU6gPcrte0A==}
     engines: {node: '>= 0.8'}
 
-  prisma@5.16.0:
-    resolution: {integrity: sha512-T1ZWJT/vgzp3rtRmd1iCSnPPsgOItXnnny+/cfpHraowiBEvUMD2pEI6yEOL6CP2EelTmq4wKDbXbYucy4Fd+A==}
+  prisma@5.16.1:
+    resolution: {integrity: sha512-Z1Uqodk44diztImxALgJJfNl2Uisl9xDRvqybMKEBYJLNKNhDfAHf+ZIJbZyYiBhLMbKU9cYGdDVG5IIXEnL2Q==}
     engines: {node: '>=16.13'}
     hasBin: true
 
@@ -8773,30 +8773,30 @@ snapshots:
 
   '@polka/url@1.0.0-next.25': {}
 
-  '@prisma/client@5.16.1(prisma@5.16.0)':
+  '@prisma/client@5.16.1(prisma@5.16.1)':
     optionalDependencies:
-      prisma: 5.16.0
+      prisma: 5.16.1
 
-  '@prisma/debug@5.16.0': {}
+  '@prisma/debug@5.16.1': {}
 
   '@prisma/engines-version@5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303': {}
 
-  '@prisma/engines@5.16.0':
+  '@prisma/engines@5.16.1':
     dependencies:
-      '@prisma/debug': 5.16.0
+      '@prisma/debug': 5.16.1
       '@prisma/engines-version': 5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303
-      '@prisma/fetch-engine': 5.16.0
-      '@prisma/get-platform': 5.16.0
+      '@prisma/fetch-engine': 5.16.1
+      '@prisma/get-platform': 5.16.1
 
-  '@prisma/fetch-engine@5.16.0':
+  '@prisma/fetch-engine@5.16.1':
     dependencies:
-      '@prisma/debug': 5.16.0
+      '@prisma/debug': 5.16.1
       '@prisma/engines-version': 5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303
-      '@prisma/get-platform': 5.16.0
+      '@prisma/get-platform': 5.16.1
 
-  '@prisma/get-platform@5.16.0':
+  '@prisma/get-platform@5.16.1':
     dependencies:
-      '@prisma/debug': 5.16.0
+      '@prisma/debug': 5.16.1
 
   '@radix-ui/primitive@1.0.1':
     dependencies:
@@ -14357,9 +14357,9 @@ snapshots:
 
   pretty-hrtime@1.0.3: {}
 
-  prisma@5.16.0:
+  prisma@5.16.1:
     dependencies:
-      '@prisma/engines': 5.16.0
+      '@prisma/engines': 5.16.1
 
   prismjs@1.29.0: {}
 
