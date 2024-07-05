@@ -120,8 +120,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       superstruct:
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^2.0.0
+        version: 2.0.0
       web-vitals:
         specifier: ^4.2.1
         version: 4.2.1
@@ -6663,8 +6663,8 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
 
-  superstruct@1.0.4:
-    resolution: {integrity: sha512-7JpaAoX2NGyoFlI9NBh66BQXGONc+uE+MRS5i2iOBKuS4e+ccgMDjATgZldkah+33DakBxDHiss9kvUcGAO8UQ==}
+  superstruct@2.0.0:
+    resolution: {integrity: sha512-l9HkF2HGmEc4cm0Mc3E08o/lhminlAdDDekqc+m1urG+SK6CL3e0TL0EJ8QyXkDwfS69rgI94GOXLD4qCD+1WA==}
     engines: {node: '>=14.0.0'}
 
   supports-color@5.5.0:
@@ -9122,7 +9122,7 @@ snapshots:
       node-fetch: 2.6.7
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      redoc: 2.1.5(core-js@3.37.1)(enzyme@3.11.0)(mobx@6.12.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      redoc: 2.1.5(core-js@3.37.1)(enzyme@3.11.0)(mobx@6.12.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.11(react-dom@19.0.0-rc-cc1ec60d0d-20240607(react@19.0.0-rc-cc1ec60d0d-20240607))(react@19.0.0-rc-cc1ec60d0d-20240607))
       semver: 7.6.2
       simple-websocket: 9.1.0
       styled-components: 6.1.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -14732,7 +14732,7 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  redoc@2.1.5(core-js@3.37.1)(enzyme@3.11.0)(mobx@6.12.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+  redoc@2.1.5(core-js@3.37.1)(enzyme@3.11.0)(mobx@6.12.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.11(react-dom@19.0.0-rc-cc1ec60d0d-20240607(react@19.0.0-rc-cc1ec60d0d-20240607))(react@19.0.0-rc-cc1ec60d0d-20240607)):
     dependencies:
       '@cfaester/enzyme-adapter-react-18': 0.8.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@redocly/openapi-core': 1.17.0
@@ -15429,7 +15429,7 @@ snapshots:
       pirates: 4.0.6
       ts-interface-checker: 0.1.13
 
-  superstruct@1.0.4: {}
+  superstruct@2.0.0: {}
 
   supports-color@5.5.0:
     dependencies:
