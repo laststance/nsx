@@ -136,8 +136,8 @@ importers:
         specifier: ^1.45.1
         version: 1.45.1
       '@redocly/cli':
-        specifier: ^1.17.1
-        version: 1.17.1(enzyme@3.11.0)
+        specifier: ^1.18.0
+        version: 1.18.0(enzyme@3.11.0)
       '@storybook/addon-essentials':
         specifier: ^8.0.4
         version: 8.1.9(prettier@3.3.2)(react-dom@19.0.0-rc-cc1ec60d0d-20240607(react@19.0.0-rc-cc1ec60d0d-20240607))(react@19.0.0-rc-cc1ec60d0d-20240607)(types-react-dom@19.0.0-rc.1)(types-react@19.0.0-rc.1)
@@ -1725,16 +1725,16 @@ packages:
   '@redocly/ajv@8.11.0':
     resolution: {integrity: sha512-9GWx27t7xWhDIR02PA18nzBdLcKQRgc46xNQvjFkrYk4UOmvKhJ/dawwiX0cCOeetN5LcaaiqQbVOWYK62SGHw==}
 
-  '@redocly/cli@1.17.1':
-    resolution: {integrity: sha512-a7OIlsGQT8OBRMPswqcJzCoub/nvm1zYvOCOBnaLt1cYeYK9nRzYCXA6Bnx0I7wMCXf5YmL7rVTMG8RJTC+3mA==}
+  '@redocly/cli@1.18.0':
+    resolution: {integrity: sha512-JDxBetC1EYYZ2HNA4GzgkJK03Pbd/ABq7bT0WXGlgXsTQPkMEwv2S5QlwIprIBRHl7E+7zMaIO5tZGEPW/uCBQ==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     hasBin: true
 
   '@redocly/config@0.6.2':
     resolution: {integrity: sha512-c3K5u64eMnr2ootPcpEI0ioIRLE8QP8ptvLxG9MwAmb2sU8HMRfVwXDU3AZiMVY2w4Ts0mDc+Xv4HTIk8DRqFw==}
 
-  '@redocly/openapi-core@1.17.1':
-    resolution: {integrity: sha512-PQxDLLNk5cBatJBBxvfk49HFw/nVozw1XZ6Dw/GX0Tviq+WxeEjEuLAKfnLVvb5L0wgs4TNmVG4Y+JyofSPu1A==}
+  '@redocly/openapi-core@1.18.0':
+    resolution: {integrity: sha512-kcbt7w23pcVYGLnJkh2LZpXF1OX5RDM4DLOtwPug2HvRE8ow/YfY8ZEM1YCFlA41D8rBPBVP918cYeIx4BVUbw==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
 
   '@reduxjs/toolkit@2.2.6':
@@ -9131,9 +9131,9 @@ snapshots:
       require-from-string: 2.0.2
       uri-js: 4.4.1
 
-  '@redocly/cli@1.17.1(enzyme@3.11.0)':
+  '@redocly/cli@1.18.0(enzyme@3.11.0)':
     dependencies:
-      '@redocly/openapi-core': 1.17.1
+      '@redocly/openapi-core': 1.18.0
       abort-controller: 3.0.0
       chokidar: 3.6.0
       colorette: 1.4.0
@@ -9161,7 +9161,7 @@ snapshots:
 
   '@redocly/config@0.6.2': {}
 
-  '@redocly/openapi-core@1.17.1':
+  '@redocly/openapi-core@1.18.0':
     dependencies:
       '@redocly/ajv': 8.11.0
       '@redocly/config': 0.6.2
@@ -14787,7 +14787,7 @@ snapshots:
   redoc@2.1.5(core-js@3.37.1)(enzyme@3.11.0)(mobx@6.12.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.11(react-dom@19.0.0-rc-cc1ec60d0d-20240607(react@19.0.0-rc-cc1ec60d0d-20240607))(react@19.0.0-rc-cc1ec60d0d-20240607)):
     dependencies:
       '@cfaester/enzyme-adapter-react-18': 0.8.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@redocly/openapi-core': 1.17.1
+      '@redocly/openapi-core': 1.18.0
       classnames: 2.5.1
       core-js: 3.37.1
       decko: 1.2.0
