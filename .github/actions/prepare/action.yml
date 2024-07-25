@@ -10,7 +10,7 @@ runs:
     - uses: actions/setup-node@v3
       with:
         cache: pnpm
-        node-version: '22'
+        node-version: '20'
     - run: |
         pnpm install --no-frozen-lockfile
         pnpm prisma generate
