@@ -1,7 +1,6 @@
 #yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 services:
   db:
-    platform: linux/x86_64
     image: mysql:8.1
     volumes:
       - db_data:/var/lib/mysql
@@ -9,10 +8,12 @@ services:
     restart: always
     ports:
       - '3306:3306'
+    expose:
+      - '3306'
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: digital
-      MYSQL_USER: strength
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: 'rootpass'
+      MYSQL_DATABASE: 'digital'
+      MYSQL_USER: 'strength'
+      MYSQL_PASSWORD: 'password'
 volumes:
   db_data:
