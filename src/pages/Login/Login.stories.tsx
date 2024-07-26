@@ -8,13 +8,6 @@ import Login from '.'
 const meta = {
   title: 'Pages/Login',
   component: Login,
-  decorators: [
-    (Story) => (
-      <HistoryRouter history={history}>
-        <Story />
-      </HistoryRouter>
-    ),
-  ],
   tags: ['autodocs'],
 } satisfies Meta<typeof Login>
 

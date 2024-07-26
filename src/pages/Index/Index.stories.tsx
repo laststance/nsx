@@ -6,7 +6,7 @@ import { history } from '../../redux/store'
 import Index from '.'
 
 const meta: Meta<typeof Index> = {
-  title: 'Pages',
+  title: 'Pages/Index',
   component: Index,
   decorators: [
     (Story) => (
