@@ -1,9 +1,8 @@
-import type { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
 import type { ChangeEvent } from 'react'
 import type { NavigateFunction } from 'react-router-dom'
 
 import type { AdminState } from '../../../redux/adminSlice'
-import type { CreatePostMutationDefinition } from '../../../redux/API'
+import type { API } from '../../../redux/API'
 import type { DraftState } from '../../../redux/draftSlice'
 import { updateBody, updateTitle, clearDraft } from '../../../redux/draftSlice'
 import isSuccess from '../../../redux/helper/isSuccess'
@@ -21,7 +20,7 @@ export const handleBodyChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
 }
 
 export async function onSubmit(
-  createPost: MutationTrigger<CreatePostMutationDefinition>,
+  createPost: ReturnType<typeof API.endpoints.createPost.useMutation>[0],
   title: DraftState['title'],
   body: DraftState['body'],
   author: AdminState['author'],
