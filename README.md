@@ -7,7 +7,7 @@
 [![Playwright Selfhost Tests](https://github.com/laststance/nsx/actions/workflows/playwright_selfhost.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/playwright_selfhost.yml)
 [![Playwright Visitor Tests](https://github.com/laststance/nsx/actions/workflows/playwright_visitor.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/playwright_visitor.yml)
 
-> # Project Status: currently under development and scheduled for release in release 2026.
+> # Project Status: currently under development and scheduled for release in release 2028.
 >
 > The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
 > I'm developping essential feature while my spare time, currenty I planning release v1 2026.  
