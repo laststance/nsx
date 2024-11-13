@@ -16,7 +16,7 @@ importers:
         version: 2.1.5(react@19.0.0-rc-cc1ec60d0d-20240607)
       '@hookform/resolvers':
         specifier: ^3.9.1
-        version: 3.9.1(react-hook-form@7.53.1(react@19.0.0-rc-cc1ec60d0d-20240607))
+        version: 3.9.1(react-hook-form@7.53.2(react@19.0.0-rc-cc1ec60d0d-20240607))
       '@prisma/client':
         specifier: 5.22.0
         version: 5.22.0(prisma@5.22.0)
@@ -87,8 +87,8 @@ importers:
         specifier: ^6.1.0
         version: 6.1.0(react@19.0.0-rc-cc1ec60d0d-20240607)
       react-hook-form:
-        specifier: ^7.53.1
-        version: 7.53.1(react@19.0.0-rc-cc1ec60d0d-20240607)
+        specifier: ^7.53.2
+        version: 7.53.2(react@19.0.0-rc-cc1ec60d0d-20240607)
       react-markdown:
         specifier: ^9.0.1
         version: 9.0.1(react@19.0.0-rc-cc1ec60d0d-20240607)(types-react@19.0.0-rc.1)
@@ -4810,8 +4810,8 @@ packages:
     peerDependencies:
       react: '>=16.3.0'
 
-  react-hook-form@7.53.1:
-    resolution: {integrity: sha512-6aiQeBda4zjcuaugWvim9WsGqisoUk+etmFEsSUMm451/Ic8L/UAb7sRtMj3V+Hdzm6mMjU1VhiSzYUZeBm0Vg==}
+  react-hook-form@7.53.2:
+    resolution: {integrity: sha512-YVel6fW5sOeedd1524pltpHX+jgU2u3DSDtXEaBORNdqiNrsX/nUI/iGXONegttg0mJVnfrIkiV0cmTU6Oo2xw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
@@ -6451,9 +6451,9 @@ snapshots:
     dependencies:
       react: 19.0.0-rc-cc1ec60d0d-20240607
 
-  '@hookform/resolvers@3.9.1(react-hook-form@7.53.1(react@19.0.0-rc-cc1ec60d0d-20240607))':
+  '@hookform/resolvers@3.9.1(react-hook-form@7.53.2(react@19.0.0-rc-cc1ec60d0d-20240607))':
     dependencies:
-      react-hook-form: 7.53.1(react@19.0.0-rc-cc1ec60d0d-20240607)
+      react-hook-form: 7.53.2(react@19.0.0-rc-cc1ec60d0d-20240607)
 
   '@humanfs/core@0.19.1': {}
 
@@ -11243,7 +11243,7 @@ snapshots:
       react-fast-compare: 3.2.2
       react-side-effect: 2.1.2(react@19.0.0-rc-cc1ec60d0d-20240607)
 
-  react-hook-form@7.53.1(react@19.0.0-rc-cc1ec60d0d-20240607):
+  react-hook-form@7.53.2(react@19.0.0-rc-cc1ec60d0d-20240607):
     dependencies:
       react: 19.0.0-rc-cc1ec60d0d-20240607
 
