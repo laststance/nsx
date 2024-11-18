@@ -295,11 +295,11 @@ importers:
         specifier: ^15.2.10
         version: 15.2.10
       msw:
-        specifier: ^2.6.4
-        version: 2.6.4(@types/node@22.9.0)(typescript@5.6.3)
+        specifier: ^2.6.5
+        version: 2.6.5(@types/node@22.9.0)(typescript@5.6.3)
       msw-storybook-addon:
         specifier: 2.0.4
-        version: 2.0.4(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3))
+        version: 2.0.4(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3))
       node-fetch:
         specifier: 2.6.7
         version: 2.6.7
@@ -350,10 +350,10 @@ importers:
         version: 1.1.3(vite@5.4.10(@types/node@22.9.0))
       vitest:
         specifier: ^2.1.3
-        version: 2.1.3(@types/node@22.9.0)(@vitest/ui@2.1.3)(jsdom@25.0.1)(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3))
+        version: 2.1.3(@types/node@22.9.0)(@vitest/ui@2.1.3)(jsdom@25.0.1)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3))
       vitest-matchmedia-mock:
         specifier: ^1.0.6
-        version: 1.0.6(@types/node@22.9.0)(@vitest/ui@2.1.3(vitest@2.1.3))(jsdom@25.0.1)(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3))
+        version: 1.0.6(@types/node@22.9.0)(@vitest/ui@2.1.3(vitest@2.1.3))(jsdom@25.0.1)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3))
 
 packages:
 
@@ -962,8 +962,8 @@ packages:
       '@types/react': '>=16'
       react: '>=16'
 
-  '@mswjs/interceptors@0.36.6':
-    resolution: {integrity: sha512-issnYydStyH0wPEeU7CMwfO7kI668ffVtzKRMRS7H7BliOYuPuwEZxh9dwiXV+oeHBxT5SXT0wPwV8T7V2PJUA==}
+  '@mswjs/interceptors@0.37.1':
+    resolution: {integrity: sha512-SvE+tSpcX884RJrPCskXxoS965Ky/pYABDEhWW6oeSRhpUDLrS5nTvT5n1LLSDVDYvty4imVmXsy+3/ROVuknA==}
     engines: {node: '>=18'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -4132,8 +4132,8 @@ packages:
     peerDependencies:
       msw: ^2.0.0
 
-  msw@2.6.4:
-    resolution: {integrity: sha512-Pm4LmWQeytDsNCR+A7gt39XAdtH6zQb6jnIKRig0FlvYOn8eksn3s1nXxUfz5KYUjbckof7Z4p2ewzgffPoCbg==}
+  msw@2.6.5:
+    resolution: {integrity: sha512-PnlnTpUlOrj441kYQzzFhzMzMCGFT6a2jKUBG7zSpLkYS5oh8Arrbc0dL8/rNAtxaoBy0EVs2mFqj2qdmWK7lQ==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -6675,7 +6675,7 @@ snapshots:
       '@types/react': 18.3.12
       react: 18.3.1
 
-  '@mswjs/interceptors@0.36.6':
+  '@mswjs/interceptors@0.37.1':
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
       '@open-draft/logger': 0.3.0
@@ -6817,7 +6817,7 @@ snapshots:
       pluralize: 8.0.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      redoc: 2.2.0(core-js@3.38.1)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      redoc: 2.2.0(core-js@3.38.1)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0-rc-cc1ec60d0d-20240607(react@19.0.0-rc-cc1ec60d0d-20240607))(react@19.0.0-rc-cc1ec60d0d-20240607))
       semver: 7.6.3
       simple-websocket: 9.1.0
       styled-components: 6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7755,13 +7755,13 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.3(@vitest/spy@2.1.3)(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3))(vite@5.4.10(@types/node@22.9.0))':
+  '@vitest/mocker@2.1.3(@vitest/spy@2.1.3)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3))(vite@5.4.10(@types/node@22.9.0))':
     dependencies:
       '@vitest/spy': 2.1.3
       estree-walker: 3.0.3
       magic-string: 0.30.12
     optionalDependencies:
-      msw: 2.6.4(@types/node@22.9.0)(typescript@5.6.3)
+      msw: 2.6.5(@types/node@22.9.0)(typescript@5.6.3)
       vite: 5.4.10(@types/node@22.9.0)
 
   '@vitest/pretty-format@2.0.5':
@@ -7800,7 +7800,7 @@ snapshots:
       sirv: 2.0.4
       tinyglobby: 0.2.10
       tinyrainbow: 1.2.0
-      vitest: 2.1.3(@types/node@22.9.0)(@vitest/ui@2.1.3)(jsdom@25.0.1)(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3))
+      vitest: 2.1.3(@types/node@22.9.0)(@vitest/ui@2.1.3)(jsdom@25.0.1)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3))
 
   '@vitest/utils@2.0.5':
     dependencies:
@@ -10544,18 +10544,18 @@ snapshots:
 
   ms@2.1.3: {}
 
-  msw-storybook-addon@2.0.4(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3)):
+  msw-storybook-addon@2.0.4(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3)):
     dependencies:
       is-node-process: 1.2.0
-      msw: 2.6.4(@types/node@22.9.0)(typescript@5.6.3)
+      msw: 2.6.5(@types/node@22.9.0)(typescript@5.6.3)
 
-  msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3):
+  msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.1
       '@bundled-es-modules/statuses': 1.0.1
       '@bundled-es-modules/tough-cookie': 0.1.6
       '@inquirer/confirm': 5.0.1(@types/node@22.9.0)
-      '@mswjs/interceptors': 0.36.6
+      '@mswjs/interceptors': 0.37.1
       '@open-draft/deferred-promise': 2.2.0
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
@@ -11405,7 +11405,7 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  redoc@2.2.0(core-js@3.38.1)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+  redoc@2.2.0(core-js@3.38.1)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0-rc-cc1ec60d0d-20240607(react@19.0.0-rc-cc1ec60d0d-20240607))(react@19.0.0-rc-cc1ec60d0d-20240607)):
     dependencies:
       '@cfaester/enzyme-adapter-react-18': 0.8.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@redocly/openapi-core': 1.25.11
@@ -12516,9 +12516,9 @@ snapshots:
       '@types/node': 22.9.0
       fsevents: 2.3.3
 
-  vitest-matchmedia-mock@1.0.6(@types/node@22.9.0)(@vitest/ui@2.1.3(vitest@2.1.3))(jsdom@25.0.1)(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3)):
+  vitest-matchmedia-mock@1.0.6(@types/node@22.9.0)(@vitest/ui@2.1.3(vitest@2.1.3))(jsdom@25.0.1)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3)):
     dependencies:
-      vitest: 2.1.3(@types/node@22.9.0)(@vitest/ui@2.1.3)(jsdom@25.0.1)(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3))
+      vitest: 2.1.3(@types/node@22.9.0)(@vitest/ui@2.1.3)(jsdom@25.0.1)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/node'
@@ -12536,10 +12536,10 @@ snapshots:
       - supports-color
       - terser
 
-  vitest@2.1.3(@types/node@22.9.0)(@vitest/ui@2.1.3)(jsdom@25.0.1)(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3)):
+  vitest@2.1.3(@types/node@22.9.0)(@vitest/ui@2.1.3)(jsdom@25.0.1)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3)):
     dependencies:
       '@vitest/expect': 2.1.3
-      '@vitest/mocker': 2.1.3(@vitest/spy@2.1.3)(msw@2.6.4(@types/node@22.9.0)(typescript@5.6.3))(vite@5.4.10(@types/node@22.9.0))
+      '@vitest/mocker': 2.1.3(@vitest/spy@2.1.3)(msw@2.6.5(@types/node@22.9.0)(typescript@5.6.3))(vite@5.4.10(@types/node@22.9.0))
       '@vitest/pretty-format': 2.1.3
       '@vitest/runner': 2.1.3
       '@vitest/snapshot': 2.1.3
