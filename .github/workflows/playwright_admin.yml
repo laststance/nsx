@@ -25,6 +25,7 @@ jobs:
           MYSQL_PASSWORD: password
         volumes:
           - ./my.cnf:/etc/mysql/conf.d/my.cnf
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

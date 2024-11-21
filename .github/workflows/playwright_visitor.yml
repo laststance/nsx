@@ -8,6 +8,24 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.1
+        ports:
+          - '3306:3306'
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+        env:
+          MYSQL_ROOT_PASSWORD: rootpass
+          MYSQL_DATABASE: digital
+          MYSQL_PASSWORD: password
+        volumes:
+          - ./my.cnf:/etc/mysql/conf.d/my.cnf
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,8 +39,6 @@ jobs:
         run: pnpm exec playwright install
       - name: Build Frontend App
         run: pnpm build:e2e
-      - name: docker compose run
-        run: docker compose up -d
       - name: Run Playwright tests
         run: pnpm exec playwright test visitor.spec.ts
       - uses: actions/upload-artifact@v4
