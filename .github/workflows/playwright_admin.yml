@@ -22,7 +22,6 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: rootpass
           MYSQL_DATABASE: digital
-          MYSQL_USER: root
           MYSQL_PASSWORD: password
         volumes:
           - ./my.cnf:/etc/mysql/conf.d/my.cnf
