@@ -19,7 +19,7 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-          --default-authentication-plugin=mysql_native_password
+          --mysql-native-password=ON
           --character-set-server=utf8mb4
           --collation-server=utf8mb4_unicode_ci
         env:
