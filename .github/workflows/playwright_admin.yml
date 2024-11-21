@@ -8,6 +8,25 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.1
+        ports:
+          - '3306:3306'
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+          --default-authentication-plugin=mysql_native_password
+          --character-set-server=utf8mb4
+          --collation-server=utf8mb4_unicode_ci
+        env:
+          MYSQL_ROOT_PASSWORD: rootpass
+          MYSQL_DATABASE: digital
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,8 +40,6 @@ jobs:
         run: pnpm exec playwright install
       - name: Build Frontend App
         run: pnpm build:e2e
-      - name: docker compose run
-        run: docker compose up
       - name: Apply DB schema
         run: pnpm prisma migrate dev
       - name: Run Playwright tests
