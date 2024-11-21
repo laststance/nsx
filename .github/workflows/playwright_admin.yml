@@ -22,7 +22,7 @@ jobs:
       - name: Build Frontend App
         run: pnpm build:e2e
       - name: docker compose run
-        run: docker compose up -d
+        run: docker compose up
       - name: Apply DB schema
         run: pnpm prisma migrate dev
       - name: Run Playwright tests
