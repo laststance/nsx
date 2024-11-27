@@ -238,8 +238,8 @@ importers:
         specifier: ^8.16.0
         version: 8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2)
       '@vitejs/plugin-react-swc':
-        specifier: ^3.7.1
-        version: 3.7.1(vite@5.4.11(@types/node@22.9.4))
+        specifier: ^3.7.2
+        version: 3.7.2(vite@5.4.11(@types/node@22.9.4))
       '@vitest/ui':
         specifier: ^2.1.3
         version: 2.1.5(vitest@2.1.5)
@@ -1917,10 +1917,10 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@vitejs/plugin-react-swc@3.7.1':
-    resolution: {integrity: sha512-vgWOY0i1EROUK0Ctg1hwhtC3SdcDjZcdit4Ups4aPkDcB1jYhmo+RMYWY87cmXMhvtD5uf8lV89j2w16vkdSVg==}
+  '@vitejs/plugin-react-swc@3.7.2':
+    resolution: {integrity: sha512-y0byko2b2tSVVf5Gpng1eEhX1OvPC7x8yns1Fx8jDzlJp4LS6CMkCPfLw47cjyoMrshQDoQw4qcgjsU9VvlCew==}
     peerDependencies:
-      vite: ^4 || ^5
+      vite: ^4 || ^5 || ^6
 
   '@vitest/expect@2.0.5':
     resolution: {integrity: sha512-yHZtwuP7JZivj65Gxoi8upUN2OzHTi3zVfjwdpu2WrvCZPLwsJ2Ey5ILIPccoW23dd/zQBlJ4/dhi7DWNyXCpA==}
@@ -6924,7 +6924,7 @@ snapshots:
       pluralize: 8.0.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0-rc.1(react@19.0.0-rc.1))(react@19.0.0-rc.1))
       semver: 7.6.3
       simple-websocket: 9.1.0
       styled-components: 6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7739,7 +7739,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.7.1(vite@5.4.11(@types/node@22.9.4))':
+  '@vitejs/plugin-react-swc@3.7.2(vite@5.4.11(@types/node@22.9.4))':
     dependencies:
       '@swc/core': 1.9.2
       vite: 5.4.11(@types/node@22.9.4)
@@ -11375,7 +11375,7 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0-rc.1(react@19.0.0-rc.1))(react@19.0.0-rc.1)):
     dependencies:
       '@cfaester/enzyme-adapter-react-18': 0.8.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@redocly/openapi-core': 1.25.14
