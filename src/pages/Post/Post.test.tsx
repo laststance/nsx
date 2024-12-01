@@ -1,6 +1,6 @@
 import { waitFor, getByRole as $ } from '@testing-library/dom'
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router'
 
 import { sleep } from '../../../lib/sleep'
 import TestRenderer from '../../lib/TestRenderer'

@@ -1,7 +1,7 @@
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router'
 
 import Button from '@/src/components/Button'
 import Input from '@/src/components/Input/Input'

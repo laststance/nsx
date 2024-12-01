@@ -1,7 +1,7 @@
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
 import React, { memo } from 'react'
-import type { NavigateFunction } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import type { NavigateFunction } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { logout } from '../../redux/adminSlice'
 import { API } from '../../redux/API'

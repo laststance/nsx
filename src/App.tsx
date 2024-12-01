@@ -1,6 +1,6 @@
 import React, { Suspense, memo } from 'react'
 import { Provider as ReduxStoreProvider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import { persistStore } from 'redux-persist'
 import { PersistGate as ReduxPersistGate } from 'redux-persist/integration/react'
 

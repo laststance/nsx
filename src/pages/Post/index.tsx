@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 import Loading from '@/src/components/Loading'
 

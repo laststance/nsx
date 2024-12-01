@@ -1,5 +1,5 @@
 import type { UseFormGetValues } from 'react-hook-form'
-import type { NavigateFunction } from 'react-router-dom'
+import type { NavigateFunction } from 'react-router'
 
 import type { AdminState } from '../../../redux/adminSlice'
 import type { FormInput } from '../../../redux/draftSlice'

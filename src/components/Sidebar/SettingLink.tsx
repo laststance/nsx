@@ -1,6 +1,6 @@
 import { CogIcon } from '@heroicons/react/24/outline'
 import React, { memo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import { onCloseHander } from './onCloseHander'
 

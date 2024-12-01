@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import Button from '@/src/components/Button'
 import Layout from '@/src/components/Layout'

@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react'
-import type { NavigateFunction } from 'react-router-dom'
+import type { NavigateFunction } from 'react-router'
 
 import type { AdminState } from '../../../redux/adminSlice'
 import type { API } from '../../../redux/API'

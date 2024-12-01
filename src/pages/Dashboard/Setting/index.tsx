@@ -7,7 +7,7 @@ import {
 import clsx from 'clsx'
 import React, { memo } from 'react'
 import type { ComponentProps } from 'react'
-import { Link, Routes, Route, Outlet, useLocation } from 'react-router-dom'
+import { Link, Routes, Route, Outlet, useLocation } from 'react-router'
 
 import Layout from '@/src/components/Layout'
 

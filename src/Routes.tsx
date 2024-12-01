@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Routes as ReactRouterRoutes, Route } from 'react-router-dom'
+import { Routes as ReactRouterRoutes, Route } from 'react-router'
 
 import About from './pages/About'
 import Dashboard from './pages/Dashboard'

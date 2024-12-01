@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Outlet as AuthorizedApp } from 'react-router-dom'
+import { Outlet as AuthorizedApp } from 'react-router'
 
 import NotFound from '../pages/NotFound'
 import { selectLogin } from '../redux/adminSlice'
