@@ -1,8 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import React from 'react'
-import { HistoryRouter } from 'redux-first-history/rr6'
-
-import { history } from '../../redux/store'
+import { BrowserRouter } from 'react-router-dom'
 
 import Layout from '.'
 
@@ -16,7 +13,7 @@ export default meta
 
 export const Default: StoryObj<typeof Layout> = {
   render: () => (
-    <HistoryRouter history={history}>
+    <BrowserRouter>
       <Layout>
         <div
           style={{
@@ -31,6 +28,6 @@ export const Default: StoryObj<typeof Layout> = {
           Layout Component
         </div>
       </Layout>
-    </HistoryRouter>
+    </BrowserRouter>
   ),
 }

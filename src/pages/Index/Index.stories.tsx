@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { HistoryRouter } from 'redux-first-history/rr6'
-
-import { history } from '../../redux/store'
+import { BrowserRouter } from 'react-router-dom'
 
 import Index from '.'
 
@@ -10,9 +8,9 @@ const meta: Meta<typeof Index> = {
   component: Index,
   decorators: [
     (Story) => (
-      <HistoryRouter history={history}>
+      <BrowserRouter>
         <Story />
-      </HistoryRouter>
+      </BrowserRouter>
     ),
   ],
 } satisfies Meta<typeof Index>

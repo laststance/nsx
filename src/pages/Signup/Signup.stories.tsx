@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { HistoryRouter } from 'redux-first-history/rr6'
-
-import { history } from '../../redux/store'
+import { BrowserRouter } from 'react-router-dom'
 
 import Signup from '.'
 
@@ -10,9 +8,9 @@ const meta: Meta<typeof Signup> = {
   component: Signup,
   decorators: [
     (Story) => (
-      <HistoryRouter history={history}>
+      <BrowserRouter>
         <Story />
-      </HistoryRouter>
+      </BrowserRouter>
     ),
   ],
 } satisfies Meta<typeof Signup>

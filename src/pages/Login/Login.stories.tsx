@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { HistoryRouter } from 'redux-first-history/rr6'
-
-import { history } from '../../redux/store'
+import { BrowserRouter } from 'react-router-dom'
 
 import Login from '.'
 
@@ -15,8 +13,8 @@ export default meta
 
 export const Default: StoryObj<typeof Login> = {
   render: () => (
-    <HistoryRouter history={history}>
+    <BrowserRouter>
       <Login />
-    </HistoryRouter>
+    </BrowserRouter>
   ),
 }

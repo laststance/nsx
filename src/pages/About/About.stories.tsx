@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { HistoryRouter } from 'redux-first-history/rr6'
-
-import { history } from '../../redux/store'
+import { BrowserRouter } from 'react-router-dom'
 
 import About from '.'
 
@@ -14,8 +12,8 @@ const meta = {
 export default meta
 export const Default: StoryObj<typeof About> = {
   render: () => (
-    <HistoryRouter history={history}>
+    <BrowserRouter>
       <About />
-    </HistoryRouter>
+    </BrowserRouter>
   ),
 }

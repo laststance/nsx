@@ -1,6 +1,6 @@
 import React, { Suspense, memo } from 'react'
 import { Provider as ReduxStoreProvider } from 'react-redux'
-import { HistoryRouter } from 'redux-first-history/rr6'
+import { BrowserRouter } from 'react-router-dom'
 import { persistStore } from 'redux-persist'
 import { PersistGate as ReduxPersistGate } from 'redux-persist/integration/react'
 
@@ -11,7 +11,7 @@ import Loading from './components/Loading'
 import Sidebar from './components/Sidebar'
 import HookLoaderComponent from './headlessComponents/GrobalHooks'
 import SnackBarRenderer from './headlessComponents/SnackBarRenderer'
-import { store, history } from './redux/store'
+import { store } from './redux/store'
 import Routes from './Routes'
 
 const persistorStore = persistStore(store)
@@ -25,14 +25,14 @@ const App = memo(
       <ErrorBoundary>
         <Suspense fallback={<Loading />}>
           <ReduxStoreProvider store={store} identityFunctionCheck="always">
-            <HistoryRouter history={history}>
+            <BrowserRouter>
               <ReduxPersistGate persistor={persistorStore}>
                 <HookLoaderComponent />
                 <Sidebar />
                 <SnackBarRenderer />
                 <Routes />
               </ReduxPersistGate>
-            </HistoryRouter>
+            </BrowserRouter>
           </ReduxStoreProvider>
         </Suspense>
       </ErrorBoundary>

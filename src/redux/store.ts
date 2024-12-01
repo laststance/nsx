@@ -1,8 +1,6 @@
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { createBrowserHistory } from 'history'
 import { combineReducers } from 'redux'
-import { createReduxHistoryContext } from 'redux-first-history'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -15,15 +13,10 @@ import sidebarReducer from './sidebarSlice'
 import snackbarReducer from './snackbarSlice'
 import themeReducer, { updateTheme } from './themeSlice'
 
-// Setup redux-first-history
-const { createReduxHistory, routerMiddleware, routerReducer } =
-  createReduxHistoryContext({ history: createBrowserHistory() })
-
 const reducers = combineReducers({
   admin: adminReducer,
   draft: draftReducer,
   pagenation: pagenationReducer,
-  router: routerReducer,
   sidebar: sidebarReducer,
   snackbar: snackbarReducer,
   theme: themeReducer,
@@ -51,7 +44,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false })
       .prepend(listenerMiddleware.middleware)
-      .concat([API.middleware, routerMiddleware]),
+      .concat([API.middleware]),
   reducer: persistedReducer,
 })
 
@@ -64,5 +57,3 @@ export type RTK_QueryState = RootState['RTK_Query']
 
 export type DispatchFunction = (dispatch: AppDispatch) => void
 export const getRootState = (): RootState => store.getState()
-
-export const history = createReduxHistory(store)
