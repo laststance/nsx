@@ -259,8 +259,8 @@ importers:
         specifier: ^9.14.0
         version: 9.15.0(jiti@1.21.6)
       eslint-config-ts-prefixer:
-        specifier: ^1.14.0
-        version: 1.14.0(@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint-import-resolver-typescript@3.6.3)(eslint-plugin-import@2.31.0)(eslint-plugin-prettier@5.2.1(eslint@9.15.0(jiti@1.21.6))(prettier@3.4.1))(eslint@9.15.0(jiti@1.21.6))(prettier@3.4.1)(typescript@5.7.2)
+        specifier: ^1.14.1
+        version: 1.14.1(@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint-import-resolver-typescript@3.6.3)(eslint-plugin-import@2.31.0)(eslint-plugin-prettier@5.2.1(eslint@9.15.0(jiti@1.21.6))(prettier@3.4.1))(eslint@9.15.0(jiti@1.21.6))(prettier@3.4.1)(typescript@5.7.2)
       eslint-import-resolver-typescript:
         specifier: ^3.6.3
         version: 3.6.3(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@1.21.6))
@@ -2847,13 +2847,13 @@ packages:
     engines: {node: '>=6.0'}
     hasBin: true
 
-  eslint-config-ts-prefixer@1.14.0:
-    resolution: {integrity: sha512-j1TT/dQT7V/XQvtezKRedl9xYJdHq+tm8EoNj7w9jYOKfRTQ0LKw4FZfzwAdHAwIB7kogYFuMAhpIFf788dZGg==}
+  eslint-config-ts-prefixer@1.14.1:
+    resolution: {integrity: sha512-0FBieFVbQfBxsA5tHKNOnVWePxpNBnIZShJYld5B5m9M55i9i2ncLomhCsL7UNEcrIZnS2R7ehzzDWm/q3W7jw==}
     hasBin: true
     peerDependencies:
-      '@typescript-eslint/eslint-plugin': ^6.0.0 || ^7.0.0
-      '@typescript-eslint/parser': ^6.0.0 || ^7.0.0
-      eslint: ^8.50.0
+      '@typescript-eslint/eslint-plugin': ^6.0.0 || ^7.0.0 || ^8.0.0
+      '@typescript-eslint/parser': ^6.0.0 || ^7.0.0 || ^8.0.0
+      eslint: ^8.50.0 || ^9.0.0
       eslint-import-resolver-typescript: ^3.6.1
       eslint-plugin-import: ^2.29.0
       eslint-plugin-prettier: ^4.0.0 || ^5.0.1
@@ -6914,7 +6914,7 @@ snapshots:
       pluralize: 8.0.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0-rc.1(react@19.0.0-rc.1))(react@19.0.0-rc.1))
       semver: 7.6.3
       simple-websocket: 9.1.0
       styled-components: 6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -8839,7 +8839,7 @@ snapshots:
     optionalDependencies:
       source-map: 0.6.1
 
-  eslint-config-ts-prefixer@1.14.0(@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint-import-resolver-typescript@3.6.3)(eslint-plugin-import@2.31.0)(eslint-plugin-prettier@5.2.1(eslint@9.15.0(jiti@1.21.6))(prettier@3.4.1))(eslint@9.15.0(jiti@1.21.6))(prettier@3.4.1)(typescript@5.7.2):
+  eslint-config-ts-prefixer@1.14.1(@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint-import-resolver-typescript@3.6.3)(eslint-plugin-import@2.31.0)(eslint-plugin-prettier@5.2.1(eslint@9.15.0(jiti@1.21.6))(prettier@3.4.1))(eslint@9.15.0(jiti@1.21.6))(prettier@3.4.1)(typescript@5.7.2):
     dependencies:
       '@inquirer/prompts': 5.5.0
       '@typescript-eslint/eslint-plugin': 8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2))(eslint@9.15.0(jiti@1.21.6))(typescript@5.7.2)
@@ -11359,7 +11359,7 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0-rc.1(react@19.0.0-rc.1))(react@19.0.0-rc.1)):
     dependencies:
       '@cfaester/enzyme-adapter-react-18': 0.8.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@redocly/openapi-core': 1.25.14
