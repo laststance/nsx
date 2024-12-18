@@ -139,8 +139,8 @@ importers:
         specifier: ^1.49.0
         version: 1.49.0
       '@redocly/cli':
-        specifier: ^1.25.14
-        version: 1.25.14(enzyme@3.11.0)
+        specifier: ^1.26.1
+        version: 1.26.1(enzyme@3.11.0)
       '@storybook/addon-essentials':
         specifier: ^8.3.6
         version: 8.4.5(storybook@8.4.5(prettier@3.4.1))(types-react@19.0.0-rc.1)
@@ -1187,16 +1187,16 @@ packages:
   '@redocly/ajv@8.11.2':
     resolution: {integrity: sha512-io1JpnwtIcvojV7QKDUSIuMN/ikdOUd1ReEnUnMKGfDVridQZ31J0MmIuqwuRjWDZfmvr+Q0MqCcfHM2gTivOg==}
 
-  '@redocly/cli@1.25.14':
-    resolution: {integrity: sha512-HRDOoN3YpFe4+2rWrL/uTqRUDqqyrRtj1MVHFJ0heKTfBLOFEEfXXUYExw7R6yoiY3+GnptR96wePeFpH1gheg==}
+  '@redocly/cli@1.26.1':
+    resolution: {integrity: sha512-ZNutKq1W+iiwpR7GtuGCfU1hU62KsP0AELDvcCvkWzcCWhRiaOGEQSSwPfRdjehgzqecApUvG0nG0nCQmwqcoQ==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     hasBin: true
 
-  '@redocly/config@0.16.0':
-    resolution: {integrity: sha512-t9jnODbUcuANRSl/K4L9nb12V+U5acIHnVSl26NWrtSdDZVtoqUXk2yGFPZzohYf62cCfEQUT8ouJ3bhPfpnJg==}
+  '@redocly/config@0.17.1':
+    resolution: {integrity: sha512-CEmvaJuG7pm2ylQg53emPmtgm4nW2nxBgwXzbVEHpGas/lGnMyN8Zlkgiz6rPw0unASg6VW3wlz27SOL5XFHYQ==}
 
-  '@redocly/openapi-core@1.25.14':
-    resolution: {integrity: sha512-B9ewI0KVC1yqyeoQzErVnV4kdnxaYfwRMctxk/YwJxZZc/nVZ3VOVE+r2kXIFaGbUgc4ZHFn+aE2qvzCRXTXHw==}
+  '@redocly/openapi-core@1.26.1':
+    resolution: {integrity: sha512-xRuVZqMVRFzqjbUCpOTra4tbnmQMWsya996omZMV3WgD084Z6OWB3FXflhAp93E/yAmbWlWZpddw758AyoaLSw==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
 
   '@reduxjs/toolkit@2.3.0':
@@ -6915,9 +6915,9 @@ snapshots:
       require-from-string: 2.0.2
       uri-js-replace: 1.0.1
 
-  '@redocly/cli@1.25.14(enzyme@3.11.0)':
+  '@redocly/cli@1.26.1(enzyme@3.11.0)':
     dependencies:
-      '@redocly/openapi-core': 1.25.14
+      '@redocly/openapi-core': 1.26.1
       abort-controller: 3.0.0
       chokidar: 3.6.0
       colorette: 1.4.0
@@ -6931,7 +6931,7 @@ snapshots:
       pluralize: 8.0.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0-rc.1(react@19.0.0-rc.1))(react@19.0.0-rc.1))
+      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       semver: 7.6.3
       simple-websocket: 9.1.0
       styled-components: 6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -6944,17 +6944,16 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@redocly/config@0.16.0': {}
+  '@redocly/config@0.17.1': {}
 
-  '@redocly/openapi-core@1.25.14':
+  '@redocly/openapi-core@1.26.1':
     dependencies:
       '@redocly/ajv': 8.11.2
-      '@redocly/config': 0.16.0
+      '@redocly/config': 0.17.1
       colorette: 1.4.0
       https-proxy-agent: 7.0.5
       js-levenshtein: 1.1.6
       js-yaml: 4.1.0
-      lodash.isequal: 4.5.0
       minimatch: 5.1.6
       node-fetch: 2.6.7
       pluralize: 8.0.0
@@ -11391,10 +11390,10 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0-rc.1(react@19.0.0-rc.1))(react@19.0.0-rc.1)):
+  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
     dependencies:
       '@cfaester/enzyme-adapter-react-18': 0.8.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@redocly/openapi-core': 1.25.14
+      '@redocly/openapi-core': 1.26.1
       classnames: 2.5.1
       core-js: 3.39.0
       decko: 1.2.0
