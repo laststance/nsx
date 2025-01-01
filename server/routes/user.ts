@@ -37,7 +37,10 @@ router.post('/signup', async (req: Request, res: Response) => {
       },
     })
 
-    const token: JWTtoken = jwt.sign(author, process.env.JWT_SECRET as string)
+    const token: JWTtoken = jwt.sign(
+      author,
+      process.env.REFRESH_TOKEN_SECRET as string,
+    )
     res.cookie('token', token, cookieOptions)
     res.status(201).json(author)
   } catch (error: unknown) {
@@ -61,7 +64,10 @@ router.post('/login', async ({ body }: Request, res: Response) => {
     const isValidPassword = await bcrypt.compare(body.password, author.password)
 
     if (isValidPassword) {
-      const token: JWTtoken = jwt.sign(author, process.env.JWT_SECRET as string)
+      const token: JWTtoken = jwt.sign(
+        author,
+        process.env.REFRESH_TOKEN_SECRET as string,
+      )
       res.cookie('token', token, cookieOptions)
       res.status(200).json(author)
     } else {
