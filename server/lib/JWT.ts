@@ -1,5 +1,5 @@
-import jwt, { type JwtPayload } from 'jsonwebtoken'
 import type { authors } from '@prisma/client'
+import jwt, { type JwtPayload } from 'jsonwebtoken'
 
 // Generate Access Token
 export function generateAccessToken(author: authors) {

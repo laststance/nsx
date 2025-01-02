@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/named
 import { test as base } from '@playwright/test'
 
 export const test = base.extend({
@@ -11,6 +12,7 @@ export const test = base.extend({
     await page.getByTestId('submit-btn').click()
 
     // Pass the logged in page to the test
+    // eslint-disable-next-line
     await use(page)
   },
 })

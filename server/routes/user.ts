@@ -3,9 +3,9 @@ import type { Request, Response, Router } from 'express'
 import express from 'express'
 
 import { cookieOptions } from '../api'
+import { generateAccessToken } from '../lib/JWT'
 import Logger from '../lib/Logger'
 import { prisma } from '../prisma'
-import { generateAccessToken } from '../lib/JWT'
 
 const router: Router = express.Router()
 
