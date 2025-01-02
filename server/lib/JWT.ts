@@ -24,3 +24,12 @@ export function verifyAccessToken(token: string): JwtPayload {
     process.env.REFRESH_TOKEN_SECRET as string,
   ) as JwtPayload
 }
+
+export function deleteJWTattribute(payload: JwtPayload) {
+  delete payload.iat
+  delete payload.exp
+  delete payload.nbf
+  delete payload.jti
+  delete payload.jwtid
+  return payload
+}

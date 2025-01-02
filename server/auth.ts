@@ -3,9 +3,8 @@ import type { Request, Response } from 'express'
 import { assertIsDefined } from '../lib/assertIsDefined'
 import shallowEqualScalar from '../lib/shallowEqualScalar'
 
-import deleteJWTattribute from './lib/deleteJWTattribute'
+import { deleteJWTattribute, verifyAccessToken } from './lib/JWT'
 import Logger from './lib/Logger'
-import { verifyAccessToken } from './lib/JWT'
 
 export const isAuthorized = (req: Request, res: Response): true | void => {
   const token = req.cookies.token as JWTtoken
