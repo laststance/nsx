@@ -63,7 +63,8 @@ These are storing `.env` and evaluate at build time.
 | VITE_API_ENDPOINT     | end                 |       |
 | VITE_SENTRY_DNS       | sentry              |       |
 | VITE_GA_TRACKING_CODE | ga                  |       |
-| REFRESH_TOKEN_SECRET  | server auth         |       |
+| ACCESS_TOKEN_SECRET   | JWT                 |       |
+| REFRESH_TOKEN_SECRET  | JWT                 |       |
 | DB_URL                | Database            |       |
 | BROWSER               | open via dev server |       |
 
@@ -99,6 +100,6 @@ pm2 ps -a                        // Show all processes
 1. pnpm db:migrate
 1. touch .env.prod
 1. npm i -g pm2
-1. `touch .env && echo "REFRESH_TOKEN_SECRET=$(openssl rand -base64 60 | tr -d '\n' | cut -c1-60)" >> .env`
+1. `touch .env && echo "ACCESS_TOKEN_SECRET=$(openssl rand -base64 60 | tr -d '\n' | cut -c1-60)" >> .env`
 1. `pm2 start ecosystem.config.js`
 1. Access from browser

@@ -3,8 +3,7 @@ import jwt, { type JwtPayload } from 'jsonwebtoken'
 
 // Generate Access Token
 export function generateAccessToken(author: authors) {
-  // @TODO replace REFRESH_TOKEN_SECRET with ACCESS_TOKEN_SECRET
-  return jwt.sign(author, process.env.REFRESH_TOKEN_SECRET as string, {
+  return jwt.sign(author, process.env.ACCESS_TOKEN_SECRET as string, {
     expiresIn: '15m',
   })
 }
@@ -18,10 +17,9 @@ export function generateRefreshToken(author: authors) {
 
 // Verify Access Token
 export function verifyAccessToken(token: string): JwtPayload {
-  // @TODO replace REFRESH_TOKEN_SECRET with ACCESS_TOKEN_SECRET
   return jwt.verify(
     token,
-    process.env.REFRESH_TOKEN_SECRET as string,
+    process.env.ACCESS_TOKEN_SECRET as string,
   ) as JwtPayload
 }
 
