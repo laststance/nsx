@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// TODO: replace with User
 model authors {
   id        Int      @id @default(autoincrement())
   name      String   @db.VarChar(255)
@@ -15,6 +16,7 @@ model authors {
   updatedAt DateTime @updatedAt
 }
 
+// TODO: replace with Post
 model posts {
   id        Int      @id @default(autoincrement())
   title     String   @db.VarChar(400)
@@ -23,6 +25,7 @@ model posts {
   updatedAt DateTime @updatedAt
 }
 
+// TODO: replace with Stock
 model stocks {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
