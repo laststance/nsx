@@ -139,8 +139,8 @@ importers:
         specifier: ^1.49.1
         version: 1.49.1
       '@redocly/cli':
-        specifier: ^1.26.1
-        version: 1.26.1(enzyme@3.11.0)
+        specifier: ^1.27.0
+        version: 1.27.0(enzyme@3.11.0)
       '@storybook/addon-essentials':
         specifier: ^8.3.6
         version: 8.4.5(@types/react@19.0.2)(storybook@8.4.5(prettier@3.4.2))
@@ -1183,16 +1183,16 @@ packages:
   '@redocly/ajv@8.11.2':
     resolution: {integrity: sha512-io1JpnwtIcvojV7QKDUSIuMN/ikdOUd1ReEnUnMKGfDVridQZ31J0MmIuqwuRjWDZfmvr+Q0MqCcfHM2gTivOg==}
 
-  '@redocly/cli@1.26.1':
-    resolution: {integrity: sha512-ZNutKq1W+iiwpR7GtuGCfU1hU62KsP0AELDvcCvkWzcCWhRiaOGEQSSwPfRdjehgzqecApUvG0nG0nCQmwqcoQ==}
+  '@redocly/cli@1.27.0':
+    resolution: {integrity: sha512-Ifk7ocvKKCKkNBugX2EQZq6HPMrpEzy6OCB7kejmrrGt3wLpLGIy4SwJk9G4YNn6cmCYiOdTkw661VLHTYhe1Q==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     hasBin: true
 
   '@redocly/config@0.17.1':
     resolution: {integrity: sha512-CEmvaJuG7pm2ylQg53emPmtgm4nW2nxBgwXzbVEHpGas/lGnMyN8Zlkgiz6rPw0unASg6VW3wlz27SOL5XFHYQ==}
 
-  '@redocly/openapi-core@1.26.1':
-    resolution: {integrity: sha512-xRuVZqMVRFzqjbUCpOTra4tbnmQMWsya996omZMV3WgD084Z6OWB3FXflhAp93E/yAmbWlWZpddw758AyoaLSw==}
+  '@redocly/openapi-core@1.27.0':
+    resolution: {integrity: sha512-C3EU9NYbo7bCc9SduHrk6/liUuuBqVfJHOhfbscNCR1443Rdpz3s+bB2Xhso9mdQJT0JjklRn2WTANjavl2Zng==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
 
   '@reduxjs/toolkit@2.5.0':
@@ -6005,11 +6005,6 @@ packages:
   url-template@2.0.8:
     resolution: {integrity: sha512-XdVKMF4SJ0nP/O7XIPB0JwAEuT9lDIYnNsK8yGVe43y0AWoKeJNdv3ZNWh7ksJ6KqQFjOO6ox/VEitLnaVNufw==}
 
-  use-sync-external-store@1.2.2:
-    resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-
   use-sync-external-store@1.4.0:
     resolution: {integrity: sha512-9WXSPC5fMv61vaupRkCKCxsPxBocVnwakBEkMIHHpkTTg6icbJtg6jzgtLDm4bl3cSHAca52rYWih0k4K3PfHw==}
     peerDependencies:
@@ -6463,7 +6458,7 @@ snapshots:
     dependencies:
       enzyme: 3.11.0
       enzyme-shallow-equal: 1.0.7
-      function.prototype.name: 1.1.6
+      function.prototype.name: 1.1.8
       has: 1.0.4
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -7095,9 +7090,9 @@ snapshots:
       require-from-string: 2.0.2
       uri-js-replace: 1.0.1
 
-  '@redocly/cli@1.26.1(enzyme@3.11.0)':
+  '@redocly/cli@1.27.0(enzyme@3.11.0)':
     dependencies:
-      '@redocly/openapi-core': 1.26.1
+      '@redocly/openapi-core': 1.27.0
       abort-controller: 3.0.0
       chokidar: 3.6.0
       colorette: 1.4.0
@@ -7111,7 +7106,7 @@ snapshots:
       pluralize: 8.0.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       semver: 7.6.3
       simple-websocket: 9.1.0
       styled-components: 6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7126,7 +7121,7 @@ snapshots:
 
   '@redocly/config@0.17.1': {}
 
-  '@redocly/openapi-core@1.26.1':
+  '@redocly/openapi-core@1.27.0':
     dependencies:
       '@redocly/ajv': 8.11.2
       '@redocly/config': 0.17.1
@@ -10023,7 +10018,7 @@ snapshots:
 
   is-boolean-object@1.1.2:
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.8
       has-tostringtag: 1.0.2
 
   is-boolean-object@1.2.1:
@@ -10904,7 +10899,7 @@ snapshots:
     dependencies:
       mobx: 6.13.5
       react: 18.3.1
-      use-sync-external-store: 1.2.2(react@18.3.1)
+      use-sync-external-store: 1.4.0(react@18.3.1)
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
 
@@ -11142,7 +11137,7 @@ snapshots:
 
   object-is@1.1.6:
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.8
       define-properties: 1.2.1
 
   object-keys@1.1.1: {}
@@ -11788,10 +11783,10 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0)):
+  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
     dependencies:
       '@cfaester/enzyme-adapter-react-18': 0.8.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@redocly/openapi-core': 1.26.1
+      '@redocly/openapi-core': 1.27.0
       classnames: 2.5.1
       core-js: 3.39.0
       decko: 1.2.0
@@ -12896,7 +12891,7 @@ snapshots:
 
   url-template@2.0.8: {}
 
-  use-sync-external-store@1.2.2(react@18.3.1):
+  use-sync-external-store@1.4.0(react@18.3.1):
     dependencies:
       react: 18.3.1
 
@@ -13111,7 +13106,7 @@ snapshots:
   which-builtin-type@1.2.1:
     dependencies:
       call-bound: 1.0.3
-      function.prototype.name: 1.1.6
+      function.prototype.name: 1.1.8
       has-tostringtag: 1.0.2
       is-async-function: 2.0.0
       is-date-object: 1.1.0
