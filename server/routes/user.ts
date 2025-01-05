@@ -3,7 +3,7 @@ import type { Request, Response, Router } from 'express'
 import express from 'express'
 
 import { cookieOptions } from '../api'
-import { generateAccessToken } from '../lib/JWT'
+import { generateAccessToken, generateRefreshToken } from '../lib/JWT'
 import Logger from '../lib/Logger'
 import { prisma } from '../prisma'
 
@@ -62,7 +62,10 @@ router.post('/login', async ({ body }: Request, res: Response) => {
 
     if (isValidPassword) {
       const token: JWTtoken = generateAccessToken(author)
+      const refreshToken = generateRefreshToken(author)
+      // @TODO replace cookie to response body token
       res.cookie('token', token, cookieOptions)
+      res.cookie('refresh', refreshToken, cookieOptions)
       res.status(200).json(author)
     } else {
       Logger.warn('Invalid Password')

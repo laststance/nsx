@@ -7,9 +7,9 @@ import userRoute from './routes/user'
 
 export const cookieOptions: CookieOptions = {
   httpOnly: true,
-  maxAge: 1000 * 60 * 60 * 24 * 365,
+  maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year cookie
   sameSite: 'none',
-  secure: true, // 1 year cookie
+  secure: true,
 }
 
 const router: Router = express.Router()
