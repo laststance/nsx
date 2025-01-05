@@ -38,7 +38,10 @@ router.post('/signup', async (req: Request, res: Response) => {
     })
 
     const token: JWTtoken = generateAccessToken(author)
+    // @TODO replace cookie to response body token
+    const refreshToken = generateRefreshToken(author)
     res.cookie('token', token, cookieOptions)
+    res.cookie('refresh', refreshToken, cookieOptions)
     res.status(201).json(author)
   } catch (error: unknown) {
     if (error instanceof Error) {
