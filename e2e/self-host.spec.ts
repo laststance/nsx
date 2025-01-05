@@ -1,6 +1,7 @@
 import { exec as execCb } from 'node:child_process'
 import util from 'node:util'
 
+// eslint-disable-next-line import/named
 import { test, expect } from '@playwright/test'
 
 const exec = util.promisify(execCb)

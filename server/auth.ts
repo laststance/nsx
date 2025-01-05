@@ -1,10 +1,9 @@
 import type { Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
 
 import { assertIsDefined } from '../lib/assertIsDefined'
 import shallowEqualScalar from '../lib/shallowEqualScalar'
 
-import deleteJWTattribute from './lib/deleteJWTattribute'
+import { deleteJWTattribute, verifyAccessToken } from './lib/JWT'
 import Logger from './lib/Logger'
 
 export const isAuthorized = (req: Request, res: Response): true | void => {
@@ -18,10 +17,7 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
     Logger.info('req.cookies.token: ' + req.cookies.token)
 
     try {
-      decripted = jwt.verify(
-        token,
-        process.env.JWT_SECRET as string,
-      ) as IndexSignature<JWTpayload>
+      decripted = verifyAccessToken(token)
     } catch (error) {
       Logger.error('failed jwt.verify()')
       Logger.error('decripted ' + JSON.stringify(decripted))
