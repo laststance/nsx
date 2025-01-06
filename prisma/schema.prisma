@@ -14,6 +14,7 @@ model authors {
   createdAt DateTime @default(now())
   password  String   @db.Text
   updatedAt DateTime @updatedAt
+  refreshTokens RefreshToken[]
 }
 
 // TODO: replace with Post
@@ -32,4 +33,14 @@ model stocks {
   pageTitle String   @db.Text
   updatedAt DateTime @updatedAt
   url       String   @db.Text
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @db.Text
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  isValid   Boolean  @default(true)
+  user      authors  @relation(fields: [userId], references: [id])
 }
