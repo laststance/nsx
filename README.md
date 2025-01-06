@@ -64,7 +64,6 @@ These are storing `.env` and evaluate at build time.
 | VITE_SENTRY_DNS       | sentry              |       |
 | VITE_GA_TRACKING_CODE | ga                  |       |
 | ACCESS_TOKEN_SECRET   | JWT                 |       |
-| REFRESH_TOKEN_SECRET  | JWT                 |       |
 | DB_URL                | Database            |       |
 | BROWSER               | open via dev server |       |
 
