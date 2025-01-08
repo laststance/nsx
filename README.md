@@ -10,7 +10,7 @@
 > # Project Status: currently under development and scheduled for release in release 2028.
 >
 > The ultimate goal for this project is release it as a personal blog starter kit for React developers like Minimal Wordpress.  
-> I'm developping essential feature while my spare time, currenty I planning release v1 2026.  
+> I'm developping essential feature while my spare time, currenty I planning release v1 2028.  
 > All core feature implemented completely, I'm planning distribute repo source directly as similar as [Beam](https://github.com/planetscale/beam).
 > [Roadmap](https://github.com/laststance/nsx/projects/1)
 
