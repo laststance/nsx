@@ -130,8 +130,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       '@eslint/js':
-        specifier: ^9.17.0
-        version: 9.17.0
+        specifier: ^9.18.0
+        version: 9.18.0
       '@faker-js/faker':
         specifier: ^9.3.0
         version: 9.3.0
@@ -954,6 +954,10 @@ packages:
 
   '@eslint/js@9.17.0':
     resolution: {integrity: sha512-Sxc4hqcs1kTu0iID3kcZDW3JHq2a77HO9P8CP6YEA/FpH3Ll8UXE2r/86Rz9YJLKme39S9vU5OWNjC6Xl0Cr3w==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/js@9.18.0':
+    resolution: {integrity: sha512-fK6L7rxcq6/z+AaQMtiFTkvbHkBLNlwyRxHpKawP0x3u9+NC6MQTnFW+AdpwC6gfHTW0051cokQgtTN2FqlxQA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.4':
@@ -6770,6 +6774,8 @@ snapshots:
 
   '@eslint/js@9.17.0': {}
 
+  '@eslint/js@9.18.0': {}
+
   '@eslint/object-schema@2.1.4': {}
 
   '@eslint/plugin-kit@0.2.3':
@@ -7136,7 +7142,7 @@ snapshots:
       pluralize: 8.0.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+      redoc: 2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       semver: 7.6.3
       simple-websocket: 9.1.0
       styled-components: 6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -11788,7 +11794,7 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0)):
+  redoc@2.2.0(core-js@3.39.0)(enzyme@3.11.0)(mobx@6.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
     dependencies:
       '@cfaester/enzyme-adapter-react-18': 0.8.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@redocly/openapi-core': 1.27.1
