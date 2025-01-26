@@ -33,7 +33,7 @@ const LogoutLink: React.FC = memo(() => {
       data-testid="logout-link"
       className="group flex w-full items-center rounded-md bg-gray-900 px-2 py-2 text-base font-medium text-white"
     >
-      <ArrowRightOnRectangleIcon className="mr-4 h-6 w-6 flex-shrink-0 text-gray-300" />
+      <ArrowRightOnRectangleIcon className="mr-4 h-6 w-6 shrink-0 text-gray-300" />
       Logout
     </button>
   )

@@ -35,7 +35,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = memo(
     ...rest
   }) => {
     const base =
-      'flex justify-center items-center shadow rounded disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none font-semibold'
+      'flex justify-center items-center shadow-sm rounded-sm disabled:opacity-70 disabled:cursor-not-allowed focus:outline-hidden font-semibold'
 
     return (
       <button

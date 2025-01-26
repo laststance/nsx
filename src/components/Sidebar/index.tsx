@@ -72,7 +72,7 @@ const Sidebar: React.FC = memo(() => {
                   <div className="absolute right-0 top-0 -mr-12 pt-2">
                     <button
                       type="button"
-                      className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                      className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-white"
                       onClick={onCloseHander}
                     >
                       <span className="sr-only">Close sidebar</span>
@@ -83,7 +83,7 @@ const Sidebar: React.FC = memo(() => {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="flex flex-shrink-0 items-center px-4">
+                <div className="flex shrink-0 items-center px-4">
                   <img
                     className="h-8 w-auto"
                     src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"

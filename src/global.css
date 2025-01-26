@@ -1,59 +1,80 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@layer utilities {
-  .focus-ring {
-    @apply ring-team-current focus-within:ring-team-current hover:ring-team-current focus:ring-team-current group-hover:ring-team-current group-focus:ring-team-current ring-offset-4 ring-offset-white transition duration-300 focus-within:outline-none focus-within:ring-2 hover:ring-2 focus:outline-none focus:ring-2 disabled:ring-0 group-hover:ring-2 group-focus:ring-2 dark:ring-offset-gray-900;
-  }
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
 
-  .focus-ring.danger {
-    @apply ring-red-500 focus-within:ring-red-500 hover:ring-red-500 focus:ring-red-500 group-hover:ring-red-500 group-focus:ring-red-500 dark:focus-within:ring-red-500 dark:hover:ring-red-500 dark:focus:ring-red-500 dark:group-hover:ring-red-500 group-focus:dark:ring-red-500;
-  }
+@custom-variant dark (&:is(.dark *));
 
-  .bg-primary {
-    @apply bg-white dark:bg-neutral-900;
-  }
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 980px;
 
-  .bg-secondary {
-    @apply bg-gray-100 dark:bg-gray-800;
-  }
+  --font-sans: Inter var, ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
 
-  .bg-alt {
-    @apply bg-gray-200 dark:bg-gray-700;
-  }
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-  .bg-inverse {
-    @apply bg-black dark:bg-white;
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
+}
 
-  .border-primary {
-    @apply border-gray-900 dark:border-white;
-  }
+@utility bg-primary {
+  @apply bg-white dark:bg-neutral-900;
+}
 
-  .border-secondary {
-    @apply border-gray-200 dark:border-gray-600;
-  }
+@utility bg-secondary {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
 
-  .text-color-primary {
-    @apply text-black dark:text-white;
-  }
+@utility bg-alt {
+  @apply bg-gray-200 dark:bg-gray-700;
+}
 
-  .text-color-secondary {
-    @apply text-gray-500 dark:text-gray-200;
-  }
+@utility bg-inverse {
+  @apply bg-black dark:bg-white;
+}
 
-  .text-color-inverse {
-    @apply text-white dark:text-black;
-  }
+@utility border-primary {
+  @apply border-gray-900 dark:border-white;
+}
 
-  .post-row-container {
-    @apply flex flex-col justify-start space-y-4;
-  }
+@utility border-secondary {
+  @apply border-gray-200 dark:border-gray-600;
+}
 
-  .post-row {
-    @apply flex sm:flex-nowrap sm:space-x-2.5;
-  }
+@utility text-color-primary {
+  @apply text-black dark:text-white;
+}
+
+@utility text-color-secondary {
+  @apply text-gray-500 dark:text-gray-200;
+}
+
+@utility text-color-inverse {
+  @apply text-white dark:text-black;
+}
+
+@utility post-row-container {
+  @apply flex flex-col justify-start space-y-4;
+}
+
+@utility post-row {
+  @apply flex sm:flex-nowrap sm:space-x-2.5;
 }
 
 html,
@@ -63,9 +84,9 @@ body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

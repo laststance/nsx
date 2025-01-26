@@ -53,7 +53,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
         <div className="ml-2 flex items-center">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded p-1 text-white opacity-75 hover:opacity-100 focus:outline-none focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:opacity-75"
+            className="inline-flex items-center justify-center rounded-sm p-1 text-white opacity-75 hover:opacity-100 focus:outline-hidden focus:ring-3 focus:ring-gray-500 focus:ring-opacity-25 active:opacity-75"
           >
             <svg
               className="hi-solid hi-x inline-block h-5 w-5"

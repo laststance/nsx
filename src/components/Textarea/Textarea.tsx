@@ -15,7 +15,7 @@ interface Props {
 
 const styles = {
   basic:
-    'focus:bg-white focus:border-purple-500 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none',
+    'focus:bg-white focus:border-purple-500 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded-sm appearance-none',
   error:
     'focus:ring-red-500 focus:border-red-500 sm:text-sm block pr-10 text-red-900 placeholder-red-300 border-red-300 rounded-md',
 }
@@ -32,13 +32,13 @@ const Textarea: React.FC<
   }) => {
     return (
       <div>
-        <div className="relative mt-1 rounded-md shadow-sm">
+        <div className="relative mt-1 rounded-md shadow-xs">
           <textarea
             value={value}
             defaultValue={defaultValue}
             {...register(name, options)}
             className={
-              'focus:outline-none' +
+              'focus:outline-hidden' +
               clsx(fieldError && styles.error, !fieldError && styles.basic)
             }
             placeholder={placeholder}
