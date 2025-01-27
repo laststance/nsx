@@ -62,7 +62,7 @@ Dashboard.displayName = 'Dashborad'
 const DashboardPage = memo(() => (
   <Layout
     disableBaseStyle
-    className="mx-auto flex grow flex-col justify-start px-4 py-4 lg:container sm:w-full"
+    className="mx-auto flex grow flex-col justify-start px-4 py-4 sm:w-full lg:container"
   >
     <Dashboard />
   </Layout>

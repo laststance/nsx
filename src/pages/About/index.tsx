@@ -5,7 +5,7 @@ import Layout from '@/src/components/Layout'
 const About = memo(
   () => (
     <>
-      <h1 className="text-color-primary pb-6 pt-4 text-3xl">About</h1>
+      <h1 className="text-color-primary pt-4 pb-6 text-3xl">About</h1>
       <section className="text-color-primary space-y-4 text-xl leading-8">
         <p>
           This is just a garbage blog written by{' '}
@@ -13,7 +13,7 @@ const About = memo(
             href="https://ryota-murakami.github.io/"
             target="_blank"
             rel="noreferrer"
-            className="font-medium leading-6 no-underline hover:underline"
+            className="leading-6 font-medium no-underline hover:underline"
           >
             Ryota Murakami
           </a>
@@ -33,7 +33,7 @@ const About = memo(
             href="https://laststance.io/"
             target="_blank"
             rel="noreferrer"
-            className="font-medium leading-6 no-underline hover:underline"
+            className="leading-6 font-medium no-underline hover:underline"
           >
             Laststance.io
           </a>{' '}

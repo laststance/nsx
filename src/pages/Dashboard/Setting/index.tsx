@@ -51,7 +51,7 @@ const Setting: React.FC = memo(() => {
           >
             <tab.icon
               className={clsx(
-                '-ml-0.5 mr-2 h-5 w-5',
+                'mr-2 -ml-0.5 h-5 w-5',
                 tab.path === currentPath
                   ? 'text-indigo-500'
                   : 'text-gray-400 group-hover:text-gray-500',

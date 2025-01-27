@@ -12,7 +12,7 @@ const Header = memo(() => (
           {process.env.VITE_APP_TITLE}
         </h1>
       </Link>
-      <p className="text-color-secondary justify-self-start text-base sm:pl-1.5 sm:pt-2.5">
+      <p className="text-color-secondary justify-self-start text-base sm:pt-2.5 sm:pl-1.5">
         {process.env.VITE_APP_DESCRIPTION}
         <span className="pl-1" role="img" aria-label="note emoji">
           📝

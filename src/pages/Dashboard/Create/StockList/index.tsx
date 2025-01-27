@@ -14,7 +14,7 @@ const StockList: React.FC = memo(() => {
         ? data.map((stock: Stock) => (
             <button
               onClick={handleClick(stock, refetch)}
-              className="text-color-primary whitespace-nowrap text-left font-bold hover:text-cyan-300"
+              className="text-color-primary text-left font-bold whitespace-nowrap hover:text-cyan-300"
               key={stock.id}
             >
               {stock.pageTitle}

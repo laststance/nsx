@@ -25,7 +25,7 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
   return (
     <>
       <Helment post={post} />
-      <h1 className="text-color-primary pb-10 pt-4 text-2xl font-semibold">
+      <h1 className="text-color-primary pt-4 pb-10 text-2xl font-semibold">
         {post.title}
       </h1>
       <article>

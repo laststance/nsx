@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 
 const SnackBarContainer: React.FC<PropsWithChildren> = memo(({ children }) => {
   return (
-    <div className="z-60 fixed right-0 top-0 bg-transparent flex flex-col w-fit">
+    <div className="fixed top-0 right-0 z-60 flex w-fit flex-col bg-transparent">
       {children}
     </div>
   )

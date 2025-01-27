@@ -5,7 +5,7 @@ const Loading: React.FC = memo(
   () => {
     return (
       <div
-        className="h-screen w-full grid place-content-center"
+        className="grid h-screen w-full place-content-center"
         data-testid="loading"
       >
         <CircleLoader size={250} color="#9CA3AF" />

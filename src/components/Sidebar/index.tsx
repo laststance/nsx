@@ -46,7 +46,7 @@ const Sidebar: React.FC = memo(() => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+            <div className="bg-opacity-75 fixed inset-0 bg-gray-600" />
           </Transition.Child>
 
           <div className="fixed inset-0 z-40 flex">
@@ -59,7 +59,7 @@ const Sidebar: React.FC = memo(() => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800 pb-4 pt-5">
+              <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800 pt-5 pb-4">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-300"
@@ -69,10 +69,10 @@ const Sidebar: React.FC = memo(() => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <div className="absolute right-0 top-0 -mr-12 pt-2">
+                  <div className="absolute top-0 right-0 -mr-12 pt-2">
                     <button
                       type="button"
-                      className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-white"
+                      className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
                       onClick={onCloseHander}
                     >
                       <span className="sr-only">Close sidebar</span>

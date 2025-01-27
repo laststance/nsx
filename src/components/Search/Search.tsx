@@ -13,7 +13,7 @@ const Search = memo(() => {
         </div>
         <input
           id="search-field"
-          className="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-hidden focus:ring-0 sm:text-sm"
+          className="block h-full w-full border-transparent py-2 pr-3 pl-8 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:ring-0 focus:outline-hidden sm:text-sm"
           placeholder="Search"
           type="search"
           name="search"

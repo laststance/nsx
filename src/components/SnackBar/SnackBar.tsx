@@ -48,12 +48,12 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
         )} ${opacity} transition-opacity duration-1000 ease-out`}
       >
         <div className="inline-flex items-center text-teal-50">
-          <p className="text-lg font-medium uppercase text-white">{message}</p>
+          <p className="text-lg font-medium text-white uppercase">{message}</p>
         </div>
         <div className="ml-2 flex items-center">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-sm p-1 text-white opacity-75 hover:opacity-100 focus:outline-hidden focus:ring-3 focus:ring-gray-500 focus:ring-opacity-25 active:opacity-75"
+            className="focus:ring-opacity-25 inline-flex items-center justify-center rounded-sm p-1 text-white opacity-75 hover:opacity-100 focus:ring-3 focus:ring-gray-500 focus:outline-hidden active:opacity-75"
           >
             <svg
               className="hi-solid hi-x inline-block h-5 w-5"
