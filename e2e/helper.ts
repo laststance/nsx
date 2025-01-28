@@ -13,7 +13,7 @@ export const test = base.extend<CustomFixtures>({
     await page.keyboard.press('x')
     await page.getByTestId('login-link').click()
     await page.getByTestId('name-input').fill('John Doe')
-    await page.getByTestId('password-input').fill('popcorn')
+    await page.getByTestId('password-input').fill('popcoon')
     await page.getByTestId('submit-btn').click()
 
     // Pass the logged in page to the test
