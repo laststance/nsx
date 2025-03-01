@@ -14,5 +14,7 @@ runs:
     - run: |
         pnpm install --no-frozen-lockfile
         pnpm prisma generate
+        # Rebuild bcrypt to ensure native modules are properly compiled
+        pnpm rebuild bcrypt
       shell: bash
   using: composite
