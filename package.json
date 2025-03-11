@@ -169,5 +169,17 @@
     "playwright:ui": "playwright test --ui",
     "playwright:debug": "playwright test --debug",
     "playwright:codegen": "playwright codegen"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "msw",
+      "@prisma/client",
+      "@prisma/engines",
+      "@swc/core",
+      "bcrypt",
+      "core-js",
+      "esbuild",
+      "prisma"
+    ]
   }
 }
