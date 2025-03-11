@@ -28,9 +28,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential python3
       - uses: ./.github/actions/prepare
       - name: Create .env file
         run: cp .env.e2e .env
+      - name: Explicitly rebuild bcrypt
+        run: pnpm rebuild bcrypt
       - name: install Playwright browsers
         run: pnpm exec playwright install
       - name: Build Frontend App
