@@ -35,8 +35,6 @@ jobs:
         run: pnpm exec playwright install
       - name: Build Frontend App
         run: pnpm build:e2e
-      - name: Apply DB schema
-        run: pnpm prisma migrate dev
       - name: Run Playwright tests
         run: pnpm exec playwright test admin.spec.ts
       - uses: actions/upload-artifact@v4
