@@ -16,9 +16,10 @@ router.get('/post/:id', async (req: Request, res: Response) => {
 })
 
 router.delete('/post/:id', async (req: Request, res: Response) => {
-  if (!isAuthorized(req, res))
-    return res.status(403).json({ message: 'unauthorized' })
-
+  if (!isAuthorized(req, res)) {
+    res.status(403).json({ message: 'unauthorized' })
+    return
+  }
   try {
     await prisma.posts.delete({ where: { id: parseInt(req.params.id, 10) } })
     res.status(200).json({ message: 'Delete Successful!' })
@@ -72,8 +73,10 @@ router.get(
 )
 
 router.post('/create', async (req: Request, res: Response) => {
-  if (!isAuthorized(req, res))
-    return res.status(403).json({ message: 'unauthorized' })
+  if (!isAuthorized(req, res)) {
+    res.status(403).json({ message: 'unauthorized' })
+    return
+  }
 
   const { title, body } = req.body
   try {
@@ -100,8 +103,10 @@ router.post('/create', async (req: Request, res: Response) => {
 router.post(
   '/update',
   async (req: Request, res: Response, next: NextFunction) => {
-    if (!isAuthorized(req, res))
-      return res.status(403).json({ message: 'unauthorized' })
+    if (!isAuthorized(req, res)) {
+      res.status(403).json({ message: 'unauthorized' })
+      return
+    }
 
     const body = req.body
     try {

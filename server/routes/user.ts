@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import type { Request, Response, Router } from 'express'
+import type { Request, Response, Router, RequestHandler } from 'express'
 import express from 'express'
 
 import { generateAccessToken, cookieOptions } from '../lib/JWT'
@@ -7,6 +7,11 @@ import Logger from '../lib/Logger'
 import { prisma } from '../prisma'
 
 const router: Router = express.Router()
+
+interface SignupRequest {
+  name: string
+  password: string
+}
 
 router.get(
   '/user_count',
@@ -16,13 +21,14 @@ router.get(
   },
 )
 
-router.post('/signup', async (req: Request, res: Response) => {
-  const body = req.body
+const signupHandler: RequestHandler = async (req, res) => {
+  const body = req.body as SignupRequest
   if (!(body?.name && body?.password)) {
     Logger.warn('Empty Post Content. Might be data not formatted properly.')
-    return res.status(400).json({
+    res.status(400).json({
       error: 'Empty Post Content. Might be data not formatted properly.',
     })
+    return
   }
 
   const salt = await bcrypt.genSalt(10)
@@ -50,7 +56,9 @@ router.post('/signup', async (req: Request, res: Response) => {
       })
     }
   }
-})
+}
+
+router.post('/signup', signupHandler)
 
 router.post('/login', async ({ body }: Request, res: Response) => {
   const author = await prisma.authors.findFirst({
