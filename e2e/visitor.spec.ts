@@ -22,6 +22,14 @@ test.describe('visitor basic', () => {
     await expect(page.getByRole('main')).toHaveText(/close your eyes/)
   })
 
+  test('clicking on "Deno super rush" link shows article with "Today I read" text', async ({
+    page,
+  }) => {
+    await page.goto('http://localhost:3000/')
+    await page.getByText('Deno super rush').click()
+    await expect(page.getByRole('main')).toHaveText(/Today I read/)
+  })
+
   test('show single post', async ({ page }) => {
     await page.goto('http://localhost:3000/')
     await page.getByTestId('single-post-page-link-1').click()
