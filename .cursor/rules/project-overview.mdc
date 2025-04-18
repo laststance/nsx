@@ -7,148 +7,179 @@ globs:
   - "README.md"
 alwaysApply: true
 ---
-Project Overview:
+# NSX Project Overview
 
 NSX is a web application that automatically posts a list of web pages you read during the day.
 It's used in combination with a browser extension called "nsx-browser-extension".
 The project is still under development and is scheduled for release in 2028.
 The ultimate goal is to release it as a personal blog starter kit for React developers, similar to a minimal WordPress.
-Technology Stack:
 
-Frontend: React, Redux Toolkit, React Router, TailwindCSS
-Backend: Express.js, Prisma ORM, MySQL
-Authentication: JWT
-Testing: Vitest, Playwright for E2E testing
-Build Tools: Vite, TypeScript
-Deployment: PM2, Docker
-Database Structure:
+## Technology Stack
 
-authors: Represents users with fields for id, name, password, and timestamps
-posts: Represents blog posts with fields for id, title, body, and timestamps
-stocks: Represents saved web pages with fields for id, pageTitle, url, and timestamps
-Core Functionality:
+**Frontend**  
+- React  
+- Redux Toolkit  
+- React Router  
+- TailwindCSS  
 
-Users can save web pages they read using the browser extension.
-The application automatically creates a post of all the web pages read that day at midnight (via a cron job).
-Users can manually create posts and include links to saved web pages.
-Users can edit and delete posts.
-The application has authentication for admin users.
-Project Structure:
+**Backend**  
+- Express.js  
+- Prisma ORM + MySQL  
 
-src/: Frontend code
-components/: Reusable UI components
-pages/: Page components
-redux/: Redux state management
-hooks/: Custom React hooks
-lib/: Utility functions
-server/: Backend code
-routes/: API routes
-lib/: Server utility functions
-prisma/: Database schema and migrations
-e2e/: End-to-end tests
-public/: Static assets
-Now I can provide a comprehensive overview of the project to the user.
+**Authentication**  
+- JWT  
 
+**Testing**  
+- Vitest  
+- Playwright (E2E)  
 
-NSX Project Overview
-NSX is a web application that automatically creates blog posts containing lists of web pages you've read during the day. It's designed to work with a companion browser extension (nsx-browser-extension) that helps users save web pages they visit.
+**Build Tools & Languages**  
+- Vite  
+- TypeScript  
 
-Project Status
-The project is currently under development with a planned release in 2028. The ultimate goal is to release it as a personal blog starter kit for React developers, similar to a minimal WordPress. All core features are implemented, and the developer plans to distribute the repository source directly, similar to Beam.
+**Deployment**  
+- PM2  
+- Docker  
 
-Technology Stack
-Frontend
-React 19 with functional components and hooks
-Redux Toolkit for state management with RTK Query for API calls
-React Router for routing
-TailwindCSS for styling
-React Hook Form for form handling
-React Markdown for rendering markdown content
-Backend
-Express.js for the API server
-Prisma ORM with MySQL for database access
-JWT for authentication
-bcrypt for password hashing
-cron for scheduled tasks
-Development & Testing
-TypeScript for type safety
-Vite as the build tool
-Vitest for unit testing
-Playwright for E2E testing
-Storybook for component development
-ESLint & Prettier for code quality
-Docker for development environment
-Project Structure
+## Database Structure
+
+- **authors**  
+  - id  
+  - name  
+  - password (hashed)  
+  - createdAt, updatedAt  
+
+- **posts**  
+  - id  
+  - title  
+  - body  
+  - createdAt, updatedAt  
+
+- **stocks**  
+  - id  
+  - pageTitle  
+  - url  
+  - createdAt, updatedAt  
+
+## Core Functionality
+
+- Save web pages via the browser extension  
+- Automated daily cron job (midnight) to:
+  1. Fetch saved pages  
+  2. Create a post with links  
+  3. Clear the saved list  
+- Manual post CRUD (create/edit/delete)  
+- JWT‑based authentication for admin users  
+
+## Project Structure
+
+```
 nsx/
-├── src/                  # Frontend code
+├── src/
 │   ├── components/       # Reusable UI components
 │   ├── pages/            # Page components
 │   ├── redux/            # Redux state management
 │   ├── hooks/            # Custom React hooks
-│   ├── lib/              # Utility functions
-│   └── router/           # Routing logic
-├── server/               # Backend code
+│   └── lib/              # Shared frontend utilities
+├── server/
 │   ├── routes/           # API routes
-│   └── lib/              # Server utility functions
-├── prisma/               # Database schema and migrations
+│   └── lib/              # Server utilities
+├── prisma/               # DB schema & migrations
 ├── e2e/                  # End-to-end tests
 └── public/               # Static assets
-Database Structure
-The application uses three main database models:
+```
 
-authors - Represents users with fields for id, name, password, and timestamps
-posts - Represents blog posts with fields for id, title, body, and timestamps
-stocks - Represents saved web pages with fields for id, pageTitle, url, and timestamps
-Core Functionality
-Web Page Saving & Automatic Posts
-Users save web pages they read using the browser extension
-A daily cron job runs at midnight (Asia/Tokyo timezone) that:
-Fetches all saved web pages (stocks)
-Creates a new post with links to all the saved pages
-Clears the stocks table after creating the post
-Manual Post Management
-Users can manually create posts through the dashboard
-When creating posts, users can include links to saved web pages
-Users can edit and delete existing posts
-Authentication
-JWT-based authentication with HTTP-only cookies
-Tokens expire after 15 minutes, but cookies last for 7 days
-Protected routes for admin functionality
-Frontend Features
-Responsive design with TailwindCSS
-Light/dark theme support
-Pagination for post lists
-Markdown rendering for post content
-Form validation
-Key Components & Pages
-Frontend Pages
-Index - Displays a list of posts with pagination
-Post - Displays a single post with markdown rendering
-Login - Login form for admin users
-Dashboard - Admin interface for managing posts
-Create - Form for creating new posts, with a list of saved web pages
-Edit - Form for editing existing posts
-About - Information about the application
-Backend API Endpoints
-Post-related: Create, read, update, delete posts, and get post lists
-Stock-related: Save web pages, get stock lists, delete stocks
-User-related: Login, logout, signup, get user count
-Development Setup
+## Project Status
+
+The project is currently under development with a planned release in 2028. The ultimate goal is to release it as a personal blog starter kit for React developers, similar to a minimal WordPress. All core features are implemented, and the developer plans to distribute the repository source directly, similar to Beam.
+
+## Detailed Technology Stack
+
+### Frontend
+- React 18 with functional components and hooks
+- Redux Toolkit for state management with RTK Query for API calls
+- React Router for routing
+- TailwindCSS for styling
+- React Hook Form for form handling
+- React Markdown for rendering markdown content
+
+### Backend
+- Express.js for the API server
+- Prisma ORM with MySQL for database access
+- JWT for authentication
+- bcrypt for password hashing
+- cron for scheduled tasks
+
+### Development & Testing
+- TypeScript for type safety
+- Vite as the build tool
+- Vitest for unit testing
+- Playwright for E2E testing
+- Storybook for component development
+- ESLint & Prettier for code quality
+- Docker for development environment
+
+## Feature Details
+
+### Web Page Saving & Automatic Posts
+- Users save web pages they read using the browser extension
+- A daily cron job runs at midnight (Asia/Tokyo timezone) that:
+  1. Fetches all saved web pages (stocks)
+  2. Creates a new post with links to all the saved pages
+  3. Clears the stocks table after creating the post
+
+### Manual Post Management
+- Users can manually create posts through the dashboard
+- When creating posts, users can include links to saved web pages
+- Users can edit and delete existing posts
+
+### Authentication
+- JWT-based authentication with HTTP-only cookies
+- Tokens expire after 15 minutes, but cookies last for 7 days
+- Protected routes for admin functionality
+
+### Frontend Features
+- Responsive design with TailwindCSS
+- Light/dark theme support
+- Pagination for post lists
+- Markdown rendering for post content
+- Form validation
+
+## Key Components & Pages
+
+### Frontend Pages
+- Index - Displays a list of posts with pagination
+- Post - Displays a single post with markdown rendering
+- Login - Login form for admin users
+- Dashboard - Admin interface for managing posts
+- Create - Form for creating new posts, with a list of saved web pages
+- Edit - Form for editing existing posts
+- About - Information about the application
+
+### Backend API Endpoints
+- Post-related: Create, read, update, delete posts, and get post lists
+- Stock-related: Save web pages, get stock lists, delete stocks
+- User-related: Login, logout, signup, get user count
+
+## Development Setup
+
 The project includes detailed setup instructions in the README, including:
 
-Prerequisites (Node.js, pnpm, Docker)
-Environment setup
-Database initialization
-Running the development server
-Testing
-Deployment
+- Prerequisites (Node.js, pnpm, Docker)
+- Environment setup
+- Database initialization
+- Running the development server
+- Testing
+
+## Deployment
+
 The application can be deployed to Ubuntu servers on platforms like Digital Ocean or Fly.io, using PM2 for process management.
 
 This project demonstrates a well-structured full-stack React application with modern practices like:
 
-Component-based architecture
-State management with Redux Toolkit
-API integration with RTK Query
-Database access with Prisma ORM
-Authentication with JWT
-Automated testing
+- Component-based architecture
+- State management with Redux Toolkit
+- API integration with RTK Query
+- Database access with Prisma ORM
+- Authentication with JWT
+- Automated testing
