@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BACKUP_FILE=$1
+USER="root"
+HOST="nsx.malloc.tokyo"
+REMOTE_DIR="/root/nsx/"
+
+if [ -z "$BACKUP_FILE" ]; then
+  echo "Usage: ./scripts/restore <backup file name>"
+  exit 1
+fi
+
+# Transfer backup file to remote server
+scp ${BACKUP_FILE} ${USER}@${HOST}:${REMOTE_DIR}/
+
+# Restore database on remote server
+ssh ${USER}@${HOST} "docker exec -i nsx-db-1 mysql -u root -prootpass digital < ${REMOTE_DIR}/$(basename ${BACKUP_FILE})"
+
+echo "Remote server database restore completed"
