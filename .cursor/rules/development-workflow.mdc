@@ -1,0 +1,53 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Development Workflow
+
+## Getting Started
+
+1. Install dependencies: `pnpm install`
+2. Start the development server: `pnpm dev`
+3. Start the backend: `pnpm server:start`
+
+## Development Scripts
+
+- `pnpm dev`: Start the frontend development server
+- `pnpm server:start`: Start the backend server
+- `pnpm storybook`: Start Storybook for component development
+- `pnpm test`: Run unit tests
+- `pnpm playwright`: Run E2E tests
+
+## Code Quality
+
+- TypeScript for type safety
+- ESLint for code linting (`pnpm lint`)
+- Prettier for code formatting (`pnpm prettier`)
+- Husky for pre-commit hooks
+
+## Database Management
+
+- `pnpm db:reset`: Reset the database
+- `pnpm db:migrate:dev`: Create a new migration
+- `pnpm db:migrate:deploy`: Apply migrations
+
+## Building for Production
+
+- `pnpm build`: Build the frontend
+- `pnpm server:build`: Build the backend
+- `pnpm workflow:deploy`: Build and deploy the application
+
+## Docker
+
+The project includes Docker configuration for development:
+
+- `docker-compose up -d`: Start the database container
+- Configuration in [compose.yml](mdc:compose.yml)
+
+## Deployment
+
+The application can be deployed using PM2:
+
+- Configuration in [ecosystem.config.js](mdc:ecosystem.config.js)
+- Deployment script in [scripts/deploy](mdc:scripts/deploy)

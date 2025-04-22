@@ -1,0 +1,69 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Database Schema
+
+NSX uses Prisma ORM with MySQL for database access. The schema is defined in [schema.prisma](mdc:prisma/schema.prisma).
+
+## Models
+
+### Authors
+
+Authors are the users who can log in and manage posts:
+
+```prisma
+model authors {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  password  String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+### Posts
+
+Posts are blog entries created manually or automatically from saved web pages:
+
+```prisma
+model posts {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(400)
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+### Stocks
+
+Stocks are web pages saved by the browser extension for inclusion in automatic posts:
+
+```prisma
+model stocks {
+  id        Int      @id @default(autoincrement())
+  pageTitle String   @db.Text
+  url       String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+## Database Operations
+
+Database operations are performed through the Prisma client:
+
+- Client initialization in [server/prisma.ts](mdc:server/prisma.ts)
+- Database seeding in [prisma/seed.ts](mdc:prisma/seed.ts)
+- Migrations in [prisma/migrations](mdc:prisma/migrations)
+
+## Database Scripts
+
+Common database operations can be run through npm scripts:
+
+- `pnpm db:reset`: Reset the database (drop and recreate all tables)
+- `pnpm db:truncate`: Truncate all tables without dropping them
+- `pnpm db:migrate:dev`: Create a new migration
+- `pnpm db:migrate:deploy`: Apply migrations

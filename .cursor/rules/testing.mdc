@@ -1,0 +1,54 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Testing
+
+NSX uses a comprehensive testing strategy with multiple levels of tests.
+
+## Unit Testing
+
+Unit tests are written with Vitest:
+
+- Configuration in [vitest.config.ts](mdc:vitest.config.ts)
+- Test setup in [setupTests.ts](mdc:setupTests.ts)
+- Run with `pnpm test`
+
+## Component Testing
+
+React components are tested with:
+
+- @testing-library/react for component testing
+- @testing-library/user-event for simulating user interactions
+
+Example: [App.test.tsx](mdc:src/App.test.tsx)
+
+## End-to-End Testing
+
+End-to-end tests use Playwright:
+
+- Configuration in [playwright.config.ts](mdc:playwright.config.ts)
+- Tests in the [e2e](mdc:e2e) directory
+- Run with `pnpm playwright`
+
+## Mocking
+
+API mocks are provided by Mock Service Worker (MSW):
+
+- Mock declarations in the [mocks](mdc:mocks) directory
+- Used in both tests and Storybook
+
+## Storybook
+
+Storybook is used for component development and visual testing:
+
+- Configuration in [.storybook](mdc:.storybook)
+- Run with `pnpm storybook`
+
+## Testing Commands
+
+- `pnpm test`: Run unit tests with Vitest
+- `pnpm playwright`: Run E2E tests with Playwright
+- `pnpm playwright:ui`: Run E2E tests with Playwright UI
+- `pnpm storybook`: Start Storybook for component development
