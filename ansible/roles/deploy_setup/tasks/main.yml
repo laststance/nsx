@@ -1,0 +1,102 @@
+---
+# Set locale configuration
+- name: Set locale to UTF-8
+  shell: |
+    apt-get update
+    apt-get install -y locales
+    locale-gen en_US.UTF-8
+    update-locale LANG=en_US.UTF-8
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+# Install required packages
+- name: Install required packages
+  apt:
+    name:
+      - git
+      - curl
+      - build-essential
+      - python3-pip
+    state: present
+    update_cache: true
+
+# Install Node.js
+- name: Install Node.js repository
+  shell: |
+    curl -fsSL https://deb.nodesource.com/setup_{{ node_version }} | bash -
+  args:
+    creates: /etc/apt/sources.list.d/nodesource.list
+
+- name: Install Node.js
+  apt:
+    name: nodejs
+    state: present
+
+# Install PM2
+- name: Install PM2 globally
+  npm:
+    name: pm2
+    global: true
+    state: present
+
+# Create deploy user
+- name: Create deploy user
+  user:
+    name: '{{ deploy_user }}'
+    shell: /bin/bash
+    groups: sudo
+    append: true
+    create_home: true
+
+# Create SSH configuration directory
+- name: Create .ssh directory for deploy user
+  file:
+    path: '/home/{{ deploy_user }}/.ssh'
+    state: directory
+    owner: '{{ deploy_user }}'
+    group: '{{ deploy_user }}'
+    mode: 0700
+
+# Generate deployment key
+- name: Generate SSH key for GitHub Actions
+  openssh_keypair:
+    path: /root/github-actions-deploy
+    type: ed25519
+    comment: 'github-actions-deploy'
+    mode: 0600
+
+# Configure public key
+- name: Add public key to deploy user's authorized_keys
+  authorized_key:
+    user: '{{ deploy_user }}'
+    key: "{{ lookup('file', '/root/github-actions-deploy.pub') }}"
+    state: present
+
+# Create application directory
+- name: Create application directory
+  file:
+    path: '{{ app_dir }}'
+    state: directory
+    owner: '{{ deploy_user }}'
+    group: '{{ deploy_user }}'
+    mode: 0755
+
+# Configure PM2 auto-startup
+- name: Setup PM2 startup
+  shell: 'pm2 startup systemd -u {{ deploy_user }} --hp /home/{{ deploy_user }}'
+  args:
+    creates: /etc/systemd/system/pm2-{{ deploy_user }}.service
+
+- name: Ensure PM2 service is enabled
+  systemd:
+    name: 'pm2-{{ deploy_user }}'
+    enabled: true
+    daemon_reload: true
+
+# Display important information
+- name: Display important information
+  debug:
+    msg:
+      - 'Server setup completed!'
+      - 'Copy the following private key to GitHub Secrets (DEPLOY_KEY):'
+      - "{{ lookup('file', '/root/github-actions-deploy') }}"

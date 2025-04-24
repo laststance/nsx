@@ -1,0 +1,12 @@
+---
+- name: Setup Deploy Environment
+  hosts: webservers
+  become: true
+  vars:
+    deploy_user: deploy
+    app_name: nsx
+    app_dir: /home/{{ deploy_user }}/{{ app_name }}
+    node_version: 20.x
+
+  roles:
+    - deploy_setup

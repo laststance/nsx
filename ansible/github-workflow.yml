@@ -1,0 +1,53 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Build server
+        run: npm run server:build
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Deploy to server
+        env:
+          DEPLOY_HOST: your_server_ip
+          DEPLOY_USER: deploy
+          DEPLOY_PATH: /home/deploy/nsx
+        run: |
+          # rsync with strict host key checking disabled
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" \
+            ./build/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/build/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" \
+            ./server_build/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/server_build/
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" \
+            ./ecosystem.config.js $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/
+
+      - name: Restart PM2
+        env:
+          DEPLOY_HOST: your_server_ip
+          DEPLOY_USER: deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "cd ~/nsx && pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js"
