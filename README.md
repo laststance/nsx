@@ -28,7 +28,7 @@ Used in combination with [nsx-browser-extension](https://github.com/laststance/n
 
 # Prerequisites
 
-- Node.js v18.x.x
+- Node.js v20.x.x
 - pnpm
 
 #### Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
