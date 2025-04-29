@@ -37,6 +37,7 @@ jobs:
           cp -r server_build/ deploy/
           cp ecosystem.config.js deploy/
           cp compose.yml deploy/
+          cp prisma/ deploy/
           cp package.json deploy/
           cp pnpm-lock.yaml deploy/
 
