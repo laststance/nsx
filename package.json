@@ -173,14 +173,16 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "msw",
       "@prisma/client",
       "@prisma/engines",
       "@swc/core",
       "bcrypt",
       "core-js",
       "esbuild",
-      "prisma"
+      "msw",
+      "prisma",
+      "protobufjs",
+      "unrs-resolver"
     ]
   }
 }
