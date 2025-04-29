@@ -65,6 +65,7 @@ jobs:
           source: 'deploy/*'
           target: ${{ secrets.REMOTE_DIR }}
           strip_components: 1
+          debug: true
 
       - name: Setup .env and install dependencies
         uses: appleboy/ssh-action@v1
