@@ -102,3 +102,30 @@ pm2 ps -a                        // Show all processes
 1. `touch .env && echo "ACCESS_TOKEN_SECRET=$(openssl rand -base64 60 | tr -d '\n' | cut -c1-60)" >> .env`
 1. `pm2 start ecosystem.config.js`
 1. Access from browser
+
+## Deploy Flow
+
+```
+GitHub Repository (main branch)
+       │
+       │ Push / PR Merge
+       ▼
+GitHub Actions Workflow
+       │
+       │ 1. Checkout code
+       │ 2. Setup Node.js & pnpm
+       │ 3. Install dependencies
+       │ 4. Build frontend & backend
+       ▼
+   Build Artifacts
+       │
+       │ Upload via SCP
+       ▼
+DigitalOcean Server
+       │
+       │ 1. Create .env from secrets
+       │ 2. Install production dependencies
+       │ 3. PM2 restart
+       ▼
+Running Application (https://nsx.malloc.tokyo/)
+```

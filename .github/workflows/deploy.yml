@@ -1,0 +1,82 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.actor != 'dependabot[bot]')
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare
+      - name: Setup Frontend Environment Variables
+        run: |
+          touch .env.prod
+          echo "VITE_APP_TITLE=${{ secrets.VITE_APP_TITLE }}" >> .env.prod
+          echo "VITE_APP_DESCRIPTION=${{ secrets.VITE_APP_DESCRIPTION }}" >> .env.prod
+          echo "VITE_API_ENDPOINT=${{ secrets.VITE_API_ENDPOINT }}" >> .env.prod
+          echo "VITE_SENTRY_DNS=${{ secrets.VITE_SENTRY_DNS }}" >> .env.prod
+          echo "VITE_GA_MEASUREMENT_ID=${{ secrets.VITE_GA_MEASUREMENT_ID }}" >> .env.prod
+
+      - name: Build frontend
+        run: pnpm build
+
+      - name: Build backend
+        run: pnpm server:build
+
+      - name: Create artifact
+        run: |
+          mkdir -p deploy
+          cp -r build/ deploy/
+          cp -r server_build/ deploy/
+          cp ecosystem.config.js deploy/
+          cp package.json deploy/
+          cp pnpm-lock.yaml deploy/
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: deploy/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: deploy
+
+      - name: Deploy to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: 'deploy/*'
+          target: ${{ secrets.REMOTE_DIR }}
+          strip_components: 1
+
+      - name: Setup .env and install dependencies
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.REMOTE_DIR }}
+            cat > .env << EOL
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
+            EOL
+            pnpm install --prod
+            pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
