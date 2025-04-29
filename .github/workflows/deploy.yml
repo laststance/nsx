@@ -75,9 +75,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ${{ secrets.REMOTE_DIR }}
+            # Install pnpm if not exists
+            if ! command -v pnpm &> /dev/null; then
+              npm install -g pnpm
+            fi
+            # Install pm2 if not exists
+            if ! command -v pm2 &> /dev/null; then
+              npm install -g pm2
+            fi
             cat > .env << EOL
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
             EOL
             pnpm install --prod
             pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+          debug: true
