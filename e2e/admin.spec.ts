@@ -41,7 +41,7 @@ test.describe('login & logout', () => {
 test.describe('CRUD post operation', () => {
   test('create new post via Sidebar', async ({ authenticated: page }) => {
     await page.goto('http://localhost:3000')
-    await page.click('header > div > a:has-text("ReadList")')
+    await page.click('header > div > a:has-text("NSX")')
     await page.keyboard.press('x')
     await page.getByTestId('create-link').click()
     await expect(page).toHaveURL('http://localhost:3000/dashboard/create')
@@ -58,7 +58,7 @@ test.describe('CRUD post operation', () => {
   })
 
   test('create new post via Dashboard', async ({ authenticated: page }) => {
-    await page.click('header > div > a:has-text("ReadList")')
+    await page.click('header > div > a:has-text("NSX")')
     await page.keyboard.press('x')
     await page.getByTestId('create-link').click()
     await expect(page).toHaveURL('http://localhost:3000/dashboard/create')
