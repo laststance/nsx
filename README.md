@@ -56,16 +56,15 @@ pass: `popcoon`
 
 These are storing `.env` and evaluate at build time.
 
-| Variable Name         | Role                | other |
-| --------------------- | ------------------- | ----- |
-| VITE_APP_TITLE        | title               |       |
-| VITE_APP_DESCRIPTION  | desc                |       |
-| VITE_API_ENDPOINT     | end                 |       |
-| VITE_SENTRY_DNS       | sentry              |       |
-| VITE_GA_TRACKING_CODE | ga                  |       |
-| ACCESS_TOKEN_SECRET   | JWT                 |       |
-| DATABASE_URL          | Database            |       |
-| BROWSER               | open via dev server |       |
+| Variable Name         | Role     | other |
+| --------------------- | -------- | ----- |
+| VITE_APP_TITLE        | title    |       |
+| VITE_APP_DESCRIPTION  | desc     |       |
+| VITE_API_ENDPOINT     | end      |       |
+| VITE_SENTRY_DNS       | sentry   |       |
+| VITE_GA_TRACKING_CODE | ga       |       |
+| ACCESS_TOKEN_SECRET   | JWT      |       |
+| DATABASE_URL          | Database |       |
 
 ## Playwright
 
