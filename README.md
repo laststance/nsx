@@ -128,3 +128,49 @@ DigitalOcean Server
        ▼
 Running Application (https://nsx.malloc.tokyo/)
 ```
+
+## Utility Scripts
+
+NSX includes several utility scripts in the `scripts/` directory to help with common development and deployment tasks:
+
+### Deploy Script
+
+```bash
+# Deploy both frontend and backend to production
+./scripts/deploy
+
+# Deploy only backend
+./scripts/deploy -s
+
+# Deploy only frontend
+./scripts/deploy -f
+```
+
+The deploy script uses rsync to upload build artifacts to the production server.
+
+### Database Backup
+
+```bash
+# Create a database backup and download it to your local machine
+./scripts/backup
+```
+
+This script connects to the production server, creates a MySQL database dump from the Docker container, and downloads it to your local machine.
+
+### Database Restore
+
+```bash
+# Restore a database from a backup file
+./scripts/restore backup_20240101.sql
+```
+
+This script uploads a local backup file to the production server and restores the database from it.
+
+### Code Validation
+
+```bash
+# Run all validation checks at once
+./scripts/validate
+```
+
+The validate script runs tests, linting, type checking, and build in parallel to ensure code quality.
