@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express'
+import { TokenExpiredError } from 'jsonwebtoken'
 
 import { assertIsDefined } from '../lib/assertIsDefined'
 import shallowEqualScalar from '../lib/shallowEqualScalar'
@@ -20,9 +21,25 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
       decripted = verifyAccessToken(token)
     } catch (error) {
       Logger.error('failed jwt.verify()')
+
+      // トークンの期限切れを特別に処理
+      if (error instanceof TokenExpiredError) {
+        Logger.warn('Token expired')
+        // クッキーをクリアしてログアウト処理
+        res.cookie('token', '', { expires: new Date() })
+        res.status(401).json({ error: 'Token expired. Please login again.' })
+        return
+      }
+
+      // その他のJWTエラー
       Logger.error('decripted ' + JSON.stringify(decripted))
-      Logger.error('token: ')
+      Logger.error('token error: ')
       Logger.error(error)
+
+      // 他のエラーの場合もクッキーをクリア
+      res.cookie('token', '', { expires: new Date() })
+      res.status(401).json({ error: 'Invalid token. Please login again.' })
+      return
     }
     assertIsDefined(decripted)
     if (
