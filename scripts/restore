@@ -3,7 +3,7 @@
 BACKUP_FILE=$1
 USER="root"
 HOST="nsx.malloc.tokyo"
-REMOTE_DIR="/root/nsx/"
+REMOTE_DIR="/home/deploy/nsx/"
 
 if [ -z "$BACKUP_FILE" ]; then
   echo "Usage: ./scripts/restore <backup file name>"
