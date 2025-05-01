@@ -13,7 +13,6 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
     const author: IndexSignature<Author> = req.body.author
     let decripted
 
-    Logger.info('if (token && req.body.author) {')
     Logger.info('req.body.author: ' + JSON.stringify(req.body.author))
     Logger.info('req.cookies.token: ' + req.cookies.token)
 
@@ -22,21 +21,21 @@ export const isAuthorized = (req: Request, res: Response): true | void => {
     } catch (error) {
       Logger.error('failed jwt.verify()')
 
-      // トークンの期限切れを特別に処理
+      // Expired path
       if (error instanceof TokenExpiredError) {
         Logger.warn('Token expired')
-        // クッキーをクリアしてログアウト処理
+        // Clear cookie
         res.cookie('token', '', { expires: new Date() })
         res.status(401).json({ error: 'Token expired. Please login again.' })
         return
       }
 
-      // その他のJWTエラー
-      Logger.error('decripted ' + JSON.stringify(decripted))
+      // Other error
+      Logger.error('decripted: ' + JSON.stringify(decripted))
       Logger.error('token error: ')
       Logger.error(error)
 
-      // 他のエラーの場合もクッキーをクリア
+      // Clear cookie
       res.cookie('token', '', { expires: new Date() })
       res.status(401).json({ error: 'Invalid token. Please login again.' })
       return

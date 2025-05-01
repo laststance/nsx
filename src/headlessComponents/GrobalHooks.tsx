@@ -19,6 +19,6 @@ const HookLoaderComponent = memo(
   },
   () => true,
 ) as HeadlessComponent
-HookLoaderComponent.displayName = 'Headless.HookLoaderComponent'
+HookLoaderComponent.displayName = 'SideEffect.HookLoaderComponent'
 
 export default HookLoaderComponent

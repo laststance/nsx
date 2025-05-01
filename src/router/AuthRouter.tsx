@@ -8,10 +8,8 @@ import { useAppSelector } from '../redux/hooks'
 const AuthRouter: React.FC = memo(() => {
   const login = useAppSelector(selectLogin)
 
-  // @TODO add JWT Token validation?
-
   return login ? <AuthorizedApp /> : <NotFound />
 })
-AuthRouter.displayName = 'HeadlessEffect.AuthRouter'
+AuthRouter.displayName = 'AuthRouter'
 
 export default AuthRouter
