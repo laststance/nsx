@@ -6,6 +6,7 @@
 [![Playwright Admin Tests](https://github.com/laststance/nsx/actions/workflows/playwright_admin.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/playwright_admin.yml)
 [![Playwright Selfhost Tests](https://github.com/laststance/nsx/actions/workflows/playwright_selfhost.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/playwright_selfhost.yml)
 [![Playwright Visitor Tests](https://github.com/laststance/nsx/actions/workflows/playwright_visitor.yml/badge.svg)](https://github.com/laststance/nsx/actions/workflows/playwright_visitor.yml)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/laststance/nsx)
 
 > # Project Status: currently under development and scheduled for release in release 2028.
 >
