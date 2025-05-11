@@ -2,6 +2,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import React, { memo, Fragment } from 'react'
 
+import TweetLink from '@/src/components/Sidebar/TweetLink'
+
 import { useIsomorphicEffect } from '../../hooks/useIsomorphicEffect'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
@@ -98,6 +100,7 @@ const Sidebar: React.FC = memo(() => {
                         <SettingLink />
                         <DashboardLink />
                         <CreateLink />
+                        <TweetLink />
                       </>
                     )}
                   </nav>
