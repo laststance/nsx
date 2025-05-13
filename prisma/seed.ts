@@ -2,6 +2,13 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+/**
+ * Seeds the database with initial posts, authors, and tweets.
+ *
+ * Populates the `posts` table with a collection of technical notes and reflections, creates two author records with predefined credentials, and inserts a set of sample tweets into the `tweet` table.
+ *
+ * @remark This function should be run only in development or testing environments, as it will insert predefined data into the database.
+ */
 async function main() {
   const posts = [
     {
