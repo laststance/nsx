@@ -49,7 +49,8 @@ export const isAuthorized = (
       Logger.warn('Token expired')
       // Clear cookie
       res.cookie('token', '', { expires: new Date() })
-      return next(createError(401, 'Token expired. Please login again.'))
+      next(createError(401, 'Token expired. Please login again.'))
+      return
     }
 
     // Other error
