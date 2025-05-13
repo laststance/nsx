@@ -15,26 +15,26 @@ router.get('/post/:id', async (req: Request, res: Response) => {
   res.status(200).json(post)
 })
 
-router.delete('/post/:id', async (req: Request, res: Response) => {
-  if (!isAuthorized(req, res)) {
-    res.status(403).json({ message: 'unauthorized' })
-    return
-  }
-  try {
-    await prisma.posts.delete({ where: { id: parseInt(req.params.id, 10) } })
-    res.status(200).json({ message: 'Delete Successful!' })
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      Logger.error(error)
-      res.status(500).json({ message: error.message })
-    } else {
-      Logger.error(error)
-      res
-        .status(500)
-        .json({ message: `someting wrong: ${JSON.stringify(error)}` })
+router.delete(
+  '/post/:id',
+  isAuthorized,
+  async (req: Request, res: Response) => {
+    try {
+      await prisma.posts.delete({ where: { id: parseInt(req.params.id, 10) } })
+      res.status(200).json({ message: 'Delete Successful!' })
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Logger.error(error)
+        res.status(500).json({ message: error.message })
+      } else {
+        Logger.error(error)
+        res
+          .status(500)
+          .json({ message: `someting wrong: ${JSON.stringify(error)}` })
+      }
     }
-  }
-})
+  },
+)
 
 router.get(
   '/post_list',
@@ -72,12 +72,7 @@ router.get(
   },
 )
 
-router.post('/create', async (req: Request, res: Response) => {
-  if (!isAuthorized(req, res)) {
-    res.status(403).json({ message: 'unauthorized' })
-    return
-  }
-
+router.post('/create', isAuthorized, async (req: Request, res: Response) => {
   const { title, body } = req.body
   try {
     const post = await prisma.posts.create({
@@ -102,12 +97,8 @@ router.post('/create', async (req: Request, res: Response) => {
 
 router.post(
   '/update',
+  isAuthorized,
   async (req: Request, res: Response, next: NextFunction) => {
-    if (!isAuthorized(req, res)) {
-      res.status(403).json({ message: 'unauthorized' })
-      return
-    }
-
     const body = req.body
     try {
       await prisma.posts.update({
@@ -115,7 +106,7 @@ router.post(
         where: { id: parseInt(body.id, 10) },
       })
 
-      res.status(200).json({ message: 'Post Updated!' })
+      res.status(200).json({ message: 'Successfully Updated!' })
     } catch (error) {
       Logger.error(error)
       next(error)
