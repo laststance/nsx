@@ -46,5 +46,5 @@ model attachment {
   id       Int    @id @default(autoincrement())
   url      String @db.Text
   tweetId  Int
-  tweet    tweet  @relation(fields: [tweetId], references: [id])
+  tweet    tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
 }
