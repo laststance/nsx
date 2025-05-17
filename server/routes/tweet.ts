@@ -4,12 +4,12 @@ import express from 'express'
 import { isAuthorized } from '../auth'
 import { prisma } from '../prisma'
 
-const router: Router = express.Router()
+export const tweet: Router = express.Router()
 
-router.get(
+tweet.get(
   '/',
   isAuthorized,
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const tweets = await prisma.tweet.findMany()
       res.status(200).json(tweets)
