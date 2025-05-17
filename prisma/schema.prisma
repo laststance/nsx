@@ -33,3 +33,18 @@ model stocks {
   updatedAt DateTime @updatedAt
   url       String   @db.Text
 }
+
+model tweet {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  text        String        @db.Text
+  attachments attachment[]
+}
+
+model attachment {
+  id       Int    @id @default(autoincrement())
+  url      String @db.Text
+  tweetId  Int
+  tweet    tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+}
