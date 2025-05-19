@@ -57,10 +57,12 @@ export const Tweet: React.FC = () => {
       </form>
 
       <div className="mt-4 grid gap-4">
-        {data &&
-          data?.map((tweet: TweetType) => (
-            <TweetCard key={tweet.id} tweet={tweet} />
-          ))}
+        {data?.map((tweet: TweetType) => (
+          <TweetCard key={tweet.id} tweet={tweet} />
+        ))}
+        {data && data.length === 0 && (
+          <p className="text-gray-500">No tweets found. Be the first to post!</p>
+        )}
       </div>
     </Layout>
   )
