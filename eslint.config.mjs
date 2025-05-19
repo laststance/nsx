@@ -8,6 +8,8 @@ import jsxA11Y from 'eslint-plugin-jsx-a11y'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 
+import noJsxWithoutReturn from './eslint-plugin-no-jsx-without-return.js'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const compat = new FlatCompat({
@@ -50,6 +52,7 @@ export default [
       'jsx-a11y': jsxA11Y,
       'react-hooks': fixupPluginRules(reactHooks),
       react,
+      'no-jsx-without-return': noJsxWithoutReturn,
     },
 
     languageOptions: {
@@ -72,6 +75,7 @@ export default [
     rules: {
       'react-hooks/rules-of-hooks': 'error',
       'react/display-name': 'warn',
+      'no-jsx-without-return/no-jsx-without-return': 'error',
     },
   },
 ]

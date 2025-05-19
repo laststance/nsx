@@ -1,6 +1,8 @@
 import React, { memo } from 'react'
 import { Routes as ReactRouterRoutes, Route } from 'react-router'
 
+import { Tweet } from '@/src/pages/Dashboard/Tweet'
+
 import About from './pages/About'
 import Dashboard from './pages/Dashboard'
 import Create from './pages/Dashboard/Create'
@@ -23,6 +25,7 @@ const Routes = memo(
         <Route index element={<Dashboard />} />
         <Route path="create" element={<Create />} />
         <Route path="edit/:postId" element={<Edit />} />
+        <Route path="tweet" element={<Tweet />} />
         <Route path="setting/*" element={<Setting />} />
       </Route>
       <Route path="*" element={<NotFound />} />
