@@ -13,6 +13,9 @@ import { tweetSchema } from '@/validator'
 const endpoint = process.env.VITE_API_ENDPOINT
 
 export const API = createApi({
+  reducerPath: 'RTK_Query',
+  tagTypes: ['Posts', 'Tweets'],
+  keepUnusedDataFor: 30,
   baseQuery: fetchBaseQuery({
     baseUrl: endpoint,
     fetchFn: async (requestInfo: RequestInfo, ...rest) =>
@@ -122,12 +125,6 @@ export const API = createApi({
       query: () => ({ method: 'GET', url: 'tweet' }),
       responseSchema: z.array(tweetSchema),
     }),
-export const api = createApi({
-  reducerPath: 'RTK_Query',
-- tagTypes: ['Posts'],
-+ tagTypes: ['Posts', 'Tweets'],
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  endpoints: builder => ({
     // TODO: add response schema
     createTweet: builder.mutation({
       query: (text: string) => ({
@@ -135,16 +132,10 @@ export const api = createApi({
         url: 'tweet',
         body: { text },
       }),
-+     responseSchema: tweetSchema,
-+     invalidatesTags: () => [{ type: 'Tweets' }],
+      responseSchema: tweetSchema,
+      invalidatesTags: () => [{ type: 'Tweets' }],
     }),
-    // ...other endpoints
   }),
-});
-  }),
-  keepUnusedDataFor: 0,
-  reducerPath: 'RTK_Query',
-  tagTypes: ['Posts'],
 })
 
 // Export hooks for usage in functional components, which are

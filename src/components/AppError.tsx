@@ -30,4 +30,4 @@ export const AppError: React.FC<React.PropsWithChildren<Props<any>>> = memo(
   },
   () => true,
 )
-Error.displayName = 'Error'
+AppError.displayName = 'AppError'

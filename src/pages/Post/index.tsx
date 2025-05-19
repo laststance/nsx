@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { useParams } from 'react-router'
 
-import { Error } from '@/src/components/Error'
+import { AppError } from '@/src/components/AppError'
 import Loading from '@/src/components/Loading'
 
 import { assertIsDefined } from '../../../lib/assertIsDefined'
@@ -28,7 +28,7 @@ const PostPage: React.FC = memo(() => {
   if (cache) return <Content post={cache} />
 
   if (isLoading) return <Loading />
-  if (error) return <Error error={error} />
+  if (error) return <AppError error={error} />
   if (data) return <Content post={data} />
 
   return <NotFound />

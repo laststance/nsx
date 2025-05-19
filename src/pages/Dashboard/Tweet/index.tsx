@@ -4,15 +4,7 @@ import type React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-// src/pages/Dashboard/Tweet/index.tsx
-
-// … other imports …
--import { Error } from '@/src/components/Error'
-+import { Error as ErrorComponent } from '@/src/components/Error'
-
-// … later in your render logic …
--  if (error) return <Error error={error} />
-+  if (error) return <ErrorComponent error={error} />
+import { AppError } from '@/src/components/AppError'
 import Layout from '@/src/components/Layout'
 import Loading from '@/src/components/Loading'
 import { TweetCard } from '@/src/components/TweetCard'
@@ -32,10 +24,10 @@ export const Tweet: React.FC = () => {
   const [createTweet, { isLoading: isCreatingTweet }] = useCreateTweetMutation()
 
   if (isLoading || isCreatingTweet) return <Loading />
-  if (error) return <Error error={error} />
+  if (error) return <AppError error={error} />
 
   const onSubmit = async (data: TweetFormData) => {
-    const result = await createTweet({ text: data.text })
+    const result = await createTweet(data.text)
 
     if (isSuccess(result)) {
       dispatch(
@@ -45,6 +37,7 @@ export const Tweet: React.FC = () => {
         }),
       )
     } else {
+      // TODO: Move Error Handling to Axios Error Interceptor
       Sentry.captureException(result.error)
       dispatch(
         enqueSnackbar({
@@ -64,14 +57,18 @@ export const Tweet: React.FC = () => {
         <button type="submit">Submit</button>
       </form>
 
-      <div className="mt-4 grid gap-4">
-        {data?.map((tweet: TweetType) => (
-          <TweetCard key={tweet.id} tweet={tweet} />
-        ))}
-        {data && data.length === 0 && (
-          <p className="text-gray-500">No tweets found. Be the first to post!</p>
-        )}
-      </div>
+      {data && (
+        <div className="mt-4 grid gap-4">
+          {data.length === 0 && (
+            <p className="text-gray-500">
+              No tweets found. Be the first to post!
+            </p>
+          )}
+          {data.map((tweet: TweetType) => (
+            <TweetCard key={tweet.id} tweet={tweet} />
+          ))}
+        </div>
+      )}
     </Layout>
   )
 }
