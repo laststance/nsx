@@ -10,7 +10,12 @@ module.exports = {
         schema: [],
       },
       create(context) {
-        // Helper function to check if a node is a JSX element or fragment
+        /**
+         * Determines whether the given AST node is a JSX element or JSX fragment.
+         *
+         * @param {object} node - The AST node to check.
+         * @returns {boolean} True if the node is a JSX element or fragment; otherwise, false.
+         */
         function isJSX(node) {
           return (
             node && (node.type === 'JSXElement' || node.type === 'JSXFragment')
