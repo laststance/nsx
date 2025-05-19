@@ -1,5 +1,14 @@
-import React from 'react'
+import React, { type ComponentProps } from 'react'
 
-export const TweetCard: React.FC = () => {
-  return <div>TweetCard</div>
+import type { Tweet } from '@/validator'
+
+interface Props {
+  tweet: Tweet
+}
+
+export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
+  tweet,
+  ...rest
+}) => {
+  return <div {...rest}>{tweet.text}</div>
 }

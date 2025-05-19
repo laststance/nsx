@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { useParams } from 'react-router'
 
+import { Error } from '@/src/components/Error'
 import Loading from '@/src/components/Loading'
 
 import { assertIsDefined } from '../../../lib/assertIsDefined'
@@ -8,7 +9,6 @@ import { API } from '../../redux/API'
 import NotFound from '../NotFound'
 
 import Content from './Content'
-import Error from './Error'
 import useCachePost from './useCachePost'
 
 const PostPage: React.FC = memo(() => {

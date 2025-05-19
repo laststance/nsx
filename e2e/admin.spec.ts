@@ -110,6 +110,16 @@ test.describe('CRUD post operation', () => {
   })
 })
 
+test.describe('Tweet CRUD', () => {
+  // TODO: add tweet CRUD test
+  test.skip('create new tweet', async ({ authenticated: page }) => {
+    await page.goto('http://localhost:3000/')
+    await page.keyboard.press('x')
+    await page.getByTestId('dashboard-link').click()
+    await expect(page).toHaveURL('http://localhost:3000/dashboard')
+  })
+})
+
 test.afterAll(async () => {
   await exec('pnpm db:reset')
 })
