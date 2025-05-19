@@ -38,7 +38,7 @@ export const Tweet: React.FC = () => {
       )
     } else {
       // TODO: Move Error Handling to Axios Error Interceptor
-      Sentry.captureException(result.error)
+      Sentry.captureException(JSON.stringify(result.error, null, 2))
       dispatch(
         enqueSnackbar({
           color: 'red',
