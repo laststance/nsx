@@ -122,6 +122,12 @@ export const API = createApi({
       query: () => ({ method: 'GET', url: 'tweet' }),
       responseSchema: z.array(tweetSchema),
     }),
+export const api = createApi({
+  reducerPath: 'RTK_Query',
+- tagTypes: ['Posts'],
++ tagTypes: ['Posts', 'Tweets'],
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  endpoints: builder => ({
     // TODO: add response schema
     createTweet: builder.mutation({
       query: (text: string) => ({
@@ -129,7 +135,12 @@ export const API = createApi({
         url: 'tweet',
         body: { text },
       }),
++     responseSchema: tweetSchema,
++     invalidatesTags: () => [{ type: 'Tweets' }],
     }),
+    // ...other endpoints
+  }),
+});
   }),
   keepUnusedDataFor: 0,
   reducerPath: 'RTK_Query',
