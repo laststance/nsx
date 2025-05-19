@@ -1,5 +1,6 @@
 import type { Result } from 'superstruct'
 import { define, object } from 'superstruct'
+import { z } from 'zod'
 
 import { assertCast } from '../lib/assertCast'
 
@@ -52,3 +53,12 @@ export const editPostFormValidator = object({
   title: title,
   body: body,
 })
+
+export const tweetSchema = z.object({
+  id: z.number(),
+  text: z.string().min(1),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+})
+
+export type Tweet = z.infer<typeof tweetSchema>

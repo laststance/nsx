@@ -2,6 +2,13 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+/**
+ * Seeds the database with initial data for posts, authors, and tweets.
+ *
+ * Inserts a predefined collection of posts, creates two author accounts with hashed passwords, and adds sample tweets to their respective tables using Prisma ORM.
+ *
+ * @remark Intended for use only in development or testing environments, as it will overwrite existing data with predefined values.
+ */
 async function main() {
   const posts = [
     {
@@ -246,12 +253,17 @@ async function main() {
       body: '\n- [CSS Weekly #464](https://css-weekly.com/issue-464/)\n- [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition)\n- [Contributor Covenant](https://www.contributor-covenant.org/)\n- [RTK Query Overview](https://redux-toolkit.js.org/rtk-query/overview)\n- [Queries](https://redux-toolkit.js.org/rtk-query/usage/queries)\n- [Mutation](https://redux-toolkit.js.org/rtk-query/usage/mutations)\n- [RTK Query Quick Start](https://redux-toolkit.js.org/tutorials/rtk-query)\n- [Usage With TypeScript](https://redux-toolkit.js.org/rtk-query/usage-with-typescript)\n- [Fix the "React Hook is Called Conditionally" Error in React](https://typeofnan.dev/fix-the-react-hook-is-called-conditionally-error-in-react/)',
     },
   ]
-
+  /*
+   * Post Seed
+   */
   for (const post of posts) {
     await prisma.posts.create({
       data: post,
     })
   }
+  /*
+   * User Seed
+   */
   await prisma.authors.create({
     data: {
       name: 'John Doe',
@@ -259,8 +271,58 @@ async function main() {
       password: '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC',
     },
   })
+  await prisma.authors.create({
+    data: {
+      name: 'rex',
+      // hash of 'popcoon',
+      password: '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC',
+    },
+  })
+  /*
+   * Tweet Seed
+   */
+  const tweets = [
+    {
+      text: 'Just launched our new feature! Anyone else excited about learning a new language through immersive storytelling? #LanguageLearning',
+    },
+    {
+      text: "Hot take: TypeScript isn't just JavaScript with extra steps. It's JavaScript with a safety net. Discuss.",
+    },
+    {
+      text: "That feeling when your code works on the first try and you don't know why 👀 #DeveloperLife",
+    },
+    {
+      text: 'Reading "Clean Code" for the third time and still finding new insights. What tech books do you keep coming back to?',
+    },
+    {
+      text: 'Just had a call with a client who implemented our API and increased conversions by 37%. This is why we build things!',
+    },
+    {
+      text: "Controversial opinion: dark mode isn't better for your eyes, you just think it looks cooler (and you're right)",
+    },
+    {
+      text: 'Sometimes I debug by adding console.log, sometimes I use a proper debugger, but mostly I just stare at the code until it confesses its sins.',
+    },
+    {
+      text: 'The best database is the one that works for YOUR specific use case. Stop fighting holy wars over SQL vs NoSQL and start solving real problems.',
+    },
+    {
+      text: "Want to join our beta program? We're looking for early adopters who aren't afraid to give honest feedback! Drop a reply if interested.",
+    },
+    {
+      text: 'Just hit 10,000 users! Thank you to everyone who believed in us when we were just three people working out of a basement. This journey is just beginning.',
+    },
+  ]
+  for (const tweet of tweets) {
+    await prisma.tweet.create({
+      data: tweet,
+    })
+  }
 }
 
+/*
+ * Main
+ */
 main()
   .catch((e) => {
     throw e

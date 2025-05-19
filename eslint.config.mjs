@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from 'eslint-plugin-storybook'
+
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -7,6 +10,8 @@ import js from '@eslint/js'
 import jsxA11Y from 'eslint-plugin-jsx-a11y'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
+
+import noJsxWithoutReturn from './eslint-plugin-no-jsx-without-return.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -50,6 +55,7 @@ export default [
       'jsx-a11y': jsxA11Y,
       'react-hooks': fixupPluginRules(reactHooks),
       react,
+      'no-jsx-without-return': noJsxWithoutReturn,
     },
 
     languageOptions: {
@@ -72,6 +78,8 @@ export default [
     rules: {
       'react-hooks/rules-of-hooks': 'error',
       'react/display-name': 'warn',
+      'no-jsx-without-return/no-jsx-without-return': 'error',
     },
   },
+  ...storybook.configs['flat/recommended'],
 ]

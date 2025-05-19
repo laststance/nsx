@@ -6,10 +6,16 @@ import type {
   FetchBaseQueryMeta,
 } from '@reduxjs/toolkit/query'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { z } from 'zod'
+
+import { tweetSchema } from '@/validator'
 
 const endpoint = process.env.VITE_API_ENDPOINT
 
 export const API = createApi({
+  reducerPath: 'RTK_Query',
+  tagTypes: ['Posts', 'Tweets'],
+  keepUnusedDataFor: 30,
   baseQuery: fetchBaseQuery({
     baseUrl: endpoint,
     fetchFn: async (requestInfo: RequestInfo, ...rest) =>
@@ -115,15 +121,31 @@ export const API = createApi({
         url: 'update',
       }),
     }),
+    fetchAllTweet: builder.query({
+      query: () => ({ method: 'GET', url: 'tweet' }),
+      responseSchema: z.array(tweetSchema),
+    }),
+    // TODO: add response schema
+    createTweet: builder.mutation({
+      query: (text: string) => ({
+        method: 'POST',
+        url: 'tweet',
+        body: { text },
+      }),
+      responseSchema: tweetSchema,
+      invalidatesTags: () => [{ type: 'Tweets' }],
+    }),
   }),
-  keepUnusedDataFor: 180,
-  reducerPath: 'RTK_Query',
-  tagTypes: ['Posts'],
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetUserCountQuery, useSignupReqestMutation } = API
+export const {
+  useGetUserCountQuery,
+  useSignupReqestMutation,
+  useFetchAllTweetQuery,
+  useCreateTweetMutation,
+} = API
 
 export type CreatePostMutationDefinition = MutationDefinition<
   Req.CreatePost,
