@@ -122,8 +122,16 @@ export const API = createApi({
       query: () => ({ method: 'GET', url: 'tweet' }),
       responseSchema: z.array(tweetSchema),
     }),
+    // TODO: add response schema
+    createTweet: builder.mutation({
+      query: (text: string) => ({
+        method: 'POST',
+        url: 'tweet',
+        body: { text },
+      }),
+    }),
   }),
-  keepUnusedDataFor: 10,
+  keepUnusedDataFor: 0,
   reducerPath: 'RTK_Query',
   tagTypes: ['Posts'],
 })
@@ -134,6 +142,7 @@ export const {
   useGetUserCountQuery,
   useSignupReqestMutation,
   useFetchAllTweetQuery,
+  useCreateTweetMutation,
 } = API
 
 export type CreatePostMutationDefinition = MutationDefinition<

@@ -56,7 +56,7 @@ export const editPostFormValidator = object({
 
 export const tweetSchema = z.object({
   id: z.number(),
-  text: z.string(),
+  text: z.string().min(1),
   createdAt: z.string(),
   updatedAt: z.string(),
 })
