@@ -3,10 +3,10 @@ import { createRoot } from 'react-dom/client'
 import GA4 from 'react-ga4'
 import type {
   CLSMetricWithAttribution,
-  FIDMetricWithAttribution,
+  INPMetricWithAttribution,
   LCPMetricWithAttribution,
 } from 'web-vitals/attribution'
-import { onCLS, onFID, onLCP } from 'web-vitals/attribution'
+import { onCLS, onINP, onLCP } from 'web-vitals/attribution'
 
 import App from './App'
 import type { EventParams } from './vite-env'
@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
     value,
   }:
     | CLSMetricWithAttribution
-    | FIDMetricWithAttribution
+    | INPMetricWithAttribution
     | LCPMetricWithAttribution) {
     const eventParams: EventParams = {
       // Optional.
@@ -56,11 +56,11 @@ if (process.env.NODE_ENV === 'production') {
       case 'CLS':
         eventParams.debug_target = attribution.largestShiftTarget
         break
-      case 'FID':
-        eventParams.debug_target = attribution.eventTarget
+      case 'INP':
+        eventParams.debug_target = attribution.interactionTarget
         break
       case 'LCP':
-        eventParams.debug_target = attribution.element
+        eventParams.debug_target = attribution.elementRenderDelay
         break
     }
 
@@ -70,7 +70,7 @@ if (process.env.NODE_ENV === 'production') {
   }
 
   onCLS(sendToGoogleAnalytics)
-  onFID(sendToGoogleAnalytics)
+  onINP(sendToGoogleAnalytics)
   onLCP(sendToGoogleAnalytics)
 }
 
