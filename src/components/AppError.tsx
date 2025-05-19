@@ -16,7 +16,7 @@ export const AppError: React.FC<React.PropsWithChildren<Props<any>>> = memo(
   ({ error }) => {
     useIsomorphicEffect(() => {
       if (error) {
-        Sentry.captureException(error)
+        Sentry.captureException(JSON.stringify(error, null, 2))
         dispatch(
           enqueSnackbar({
             color: 'red',
