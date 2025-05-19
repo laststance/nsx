@@ -12,7 +12,7 @@ interface Props<T extends Error> {
   error?: T | FetchBaseQueryError | SerializedError | undefined
 }
 
-export const Error: React.FC<React.PropsWithChildren<Props<any>>> = memo(
+export const AppError: React.FC<React.PropsWithChildren<Props<any>>> = memo(
   ({ error }) => {
     useIsomorphicEffect(() => {
       if (error) {
