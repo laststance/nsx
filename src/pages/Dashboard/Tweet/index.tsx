@@ -4,7 +4,15 @@ import type React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Error } from '@/src/components/Error'
+// src/pages/Dashboard/Tweet/index.tsx
+
+// … other imports …
+-import { Error } from '@/src/components/Error'
++import { Error as ErrorComponent } from '@/src/components/Error'
+
+// … later in your render logic …
+-  if (error) return <Error error={error} />
++  if (error) return <ErrorComponent error={error} />
 import Layout from '@/src/components/Layout'
 import Loading from '@/src/components/Loading'
 import { TweetCard } from '@/src/components/TweetCard'
