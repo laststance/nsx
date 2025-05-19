@@ -27,7 +27,7 @@ export const Tweet: React.FC = () => {
   if (error) return <Error error={error} />
 
   const onSubmit = async (data: TweetFormData) => {
-    const result = await createTweet(data.text)
+    const result = await createTweet({ text: data.text })
 
     if (isSuccess(result)) {
       dispatch(
