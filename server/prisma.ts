@@ -1,6 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 
-// Recursive function to convert dates to strings
+/**
+ * Recursively converts all Date instances within an object or array to ISO string format.
+ *
+ * @param obj - The input value, which may be an object, array, Date, or primitive.
+ * @returns The input with all Date values replaced by their ISO string representations.
+ */
 function convertDateToString(obj: any): any {
   if (obj === null || obj === undefined) {
     return obj

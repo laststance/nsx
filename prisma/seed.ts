@@ -3,11 +3,11 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 /**
- * Populates the database with initial data for posts, authors, and tweets.
+ * Seeds the database with predefined posts, authors, and tweets for development or testing.
  *
- * Inserts a predefined set of posts, creates two author accounts with hashed passwords, and adds sample tweets to their respective tables using Prisma ORM.
+ * Inserts a fixed set of posts, creates two author accounts with hashed passwords, and adds sample tweets to their respective tables using Prisma ORM.
  *
- * @remark Intended for use only in development or testing environments, as it will overwrite existing data with predefined values.
+ * @remark This operation will overwrite existing data in the affected tables and should only be used in non-production environments.
  */
 async function main() {
   const posts = [
