@@ -41,7 +41,7 @@ export const Tweet: React.FC = () => {
       dispatch(
         enqueSnackbar({
           color: 'red',
-          message: JSON.stringify(error, null, 2),
+          message: JSON.stringify(result.error, null, 2),
         }),
       )
     }
