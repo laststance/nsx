@@ -9,11 +9,10 @@ import Layout from '@/src/components/Layout'
 import Loading from '@/src/components/Loading'
 import { TweetCard } from '@/src/components/TweetCard'
 import { useFetchAllTweetQuery, useCreateTweetMutation } from '@/src/redux/API'
+import isSuccess from '@/src/redux/helper/isSuccess'
 import { enqueSnackbar } from '@/src/redux/snackbarSlice'
 import { dispatch } from '@/src/redux/store'
 import type { Tweet as TweetType } from '@/validator'
-import isSuccess from '@/src/redux/helper/isSuccess'
-
 type TweetFormData = Pick<TweetType, 'text'>
 
 export const Tweet: React.FC = () => {
