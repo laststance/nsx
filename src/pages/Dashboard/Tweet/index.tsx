@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { AppError } from '@/src/components/AppError'
+import Button from '@/src/components/Button/Button'
+import Input from '@/src/components/Input/Input'
 import Layout from '@/src/components/Layout'
 import Loading from '@/src/components/Loading'
 import { TweetCard } from '@/src/components/TweetCard'
@@ -16,7 +18,11 @@ import type { Tweet as TweetType } from '@/validator'
 type TweetFormData = Pick<TweetType, 'text'>
 
 export const Tweet: React.FC = () => {
-  const { register, handleSubmit } = useForm<TweetFormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TweetFormData>({
     // TODO: set picked field from tweetSchema to zodResolver
     resolver: zodResolver(z.object({ text: z.string().min(1) })),
   })
@@ -25,7 +31,7 @@ export const Tweet: React.FC = () => {
 
   if (isLoading || isCreatingTweet) return <Loading />
   if (error) return <AppError error={error} />
-
+  console.log(register)
   const onSubmit = async (data: TweetFormData) => {
     const result = await createTweet(data.text)
 
@@ -50,17 +56,23 @@ export const Tweet: React.FC = () => {
 
   return (
     <Layout className="flex flex-col justify-start">
-      <h1 className="mb-4 text-2xl font-bold">Tweets</h1>
+      <h1 className="mb-4 text-2xl font-bold dark:text-white">Tweets</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register('text')} />
-        <button type="submit">Submit</button>
+      <form className="mx-auto flex gap-2" onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          reactHookFormPrams={{
+            name: 'text',
+            fieldError: errors['text'],
+            register,
+          }}
+        />
+        <Button type="submit">Submit</Button>
       </form>
 
       {data && (
         <div className="mt-4 grid gap-4">
           {data.length === 0 && (
-            <p className="text-gray-500">
+            <p className="text-gray-500 dark:text-white">
               No tweets found. Be the first to post!
             </p>
           )}
