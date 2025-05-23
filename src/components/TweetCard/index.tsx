@@ -10,5 +10,12 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
   tweet,
   ...rest
 }) => {
-  return <div {...rest}>{tweet.text}</div>
+  return (
+    <div
+      {...rest}
+      className="rounded-md border border-gray-200 p-4 dark:border-gray-700 dark:text-white"
+    >
+      {tweet.text}
+    </div>
+  )
 }

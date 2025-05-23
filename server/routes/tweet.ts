@@ -8,7 +8,11 @@ const tweet: Router = express.Router()
 // TODO: add Tweet[] type to Response generic
 tweet.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
-    const tweets = await prisma.tweet.findMany()
+    const tweets = await prisma.tweet.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
 
     res.status(200).json(tweets)
   } catch (error) {
