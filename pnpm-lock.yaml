@@ -280,8 +280,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0(eslint@9.27.0(jiti@2.4.2))
       eslint-plugin-storybook:
-        specifier: 9.0.0-rc.3
-        version: 9.0.0-rc.3(eslint@9.27.0(jiti@2.4.2))(storybook@9.0.0-rc.2(@testing-library/dom@10.4.0)(prettier@3.5.3))(typescript@5.8.3)
+        specifier: 9.0.0-rc.4
+        version: 9.0.0-rc.4(eslint@9.27.0(jiti@2.4.2))(storybook@9.0.0-rc.2(@testing-library/dom@10.4.0)(prettier@3.5.3))(typescript@5.8.3)
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -2870,12 +2870,12 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-storybook@9.0.0-rc.3:
-    resolution: {integrity: sha512-OWpn06VKEnvsYAmt92nCgy3asCqLqxCguHMhOPbkXAd61w7zZX3rTB97fruVyycxIpiyu3+EXKJdQIbbPdE7VA==}
+  eslint-plugin-storybook@9.0.0-rc.4:
+    resolution: {integrity: sha512-7oxhn5MuC5neYLVeg5Pi9BhqdBkoLVb3x1h2/Kpud5yWk9Yl2d4eaUxid56beIiHwUNHhIVZ/itMNZ9LuL5IPw==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^9.0.0-rc.3
+      storybook: ^9.0.0-rc.4
 
   eslint-scope@8.3.0:
     resolution: {integrity: sha512-pUNxi75F8MJ/GdeKtVLSbYg4ZI34J6C0C7sbL4YOp2exGwen7ZsuBqKzUhXd0qMQ362yET3z+uPwKeg/0C2XCQ==}
@@ -8668,7 +8668,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-storybook@9.0.0-rc.3(eslint@9.27.0(jiti@2.4.2))(storybook@9.0.0-rc.2(@testing-library/dom@10.4.0)(prettier@3.5.3))(typescript@5.8.3):
+  eslint-plugin-storybook@9.0.0-rc.4(eslint@9.27.0(jiti@2.4.2))(storybook@9.0.0-rc.2(@testing-library/dom@10.4.0)(prettier@3.5.3))(typescript@5.8.3):
     dependencies:
       '@typescript-eslint/utils': 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.27.0(jiti@2.4.2)
