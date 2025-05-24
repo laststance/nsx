@@ -30,7 +30,8 @@ export const Tweet: React.FC = () => {
   const { data, isLoading, error } = useFetchAllTweetQuery()
   const [createTweet, { isLoading: isCreatingTweet }] = useCreateTweetMutation()
 
-  if (isLoading || isCreatingTweet) return <Loading />
+  // Only show loading spinner for initial data fetch, not during tweet creation
+  if (isLoading) return <Loading />
   if (error) return <AppError error={error} />
 
   const onSubmit = async (data: TweetFormData) => {
@@ -71,7 +72,9 @@ export const Tweet: React.FC = () => {
             register,
           }}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" isLoading={isCreatingTweet}>
+          Submit
+        </Button>
       </form>
 
       {data && (
