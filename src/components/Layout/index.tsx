@@ -13,32 +13,29 @@ interface LayoutProps {
 const Layout = memo<
   DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> &
     LayoutProps
->(
-  ({ children, className, disableBaseStyle, ...props }) => {
-    let baseStyle = 'container mx-auto grow px-4 py-4'
+>(({ children, className, disableBaseStyle, ...props }) => {
+  let baseStyle = 'container mx-auto grow px-4 py-4'
 
-    if (className && !disableBaseStyle) {
-      // TODO replace to cn
-      baseStyle = concatSelecor(baseStyle, className)
-    } else if (className && disableBaseStyle) {
-      baseStyle = className
-    } else if (!className && disableBaseStyle) {
-      baseStyle = ''
-    }
+  if (className && !disableBaseStyle) {
+    // TODO replace to cn
+    baseStyle = concatSelecor(baseStyle, className)
+  } else if (className && disableBaseStyle) {
+    baseStyle = className
+  } else if (!className && disableBaseStyle) {
+    baseStyle = ''
+  }
 
-    return (
-      <div
-        className="bg-primary flex min-h-screen w-full flex-col justify-between"
-        {...props}
-      >
-        <Header />
-        <main className={baseStyle}>{children}</main>
-        <Footer />
-      </div>
-    )
-  },
-  () => true,
-)
+  return (
+    <div
+      className="bg-primary flex min-h-screen w-full flex-col justify-between"
+      {...props}
+    >
+      <Header />
+      <main className={baseStyle}>{children}</main>
+      <Footer />
+    </div>
+  )
+})
 Layout.displayName = 'Layout'
 
 export default Layout
