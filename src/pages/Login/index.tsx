@@ -68,8 +68,8 @@ const Login: React.FC = memo(() => {
           </div>
           <div className="md:w-2/3">
             <Input
-              type="text"
-              reactHookFormPrams={{
+              placeholder="name"
+              reactHookFormParams={{
                 name: 'name',
                 fieldError: errors['name'],
                 register,
@@ -89,8 +89,9 @@ const Login: React.FC = memo(() => {
           </div>
           <div className="md:w-2/3">
             <Input
-              type="current-password"
-              reactHookFormPrams={{
+              type="password"
+              placeholder="password"
+              reactHookFormParams={{
                 name: 'password',
                 fieldError: errors['password'],
                 register,

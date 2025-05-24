@@ -54,8 +54,8 @@ const Edit: React.FC = memo(() => {
       )}
     >
       <Input
-        defaultValue={data.title}
-        reactHookFormPrams={{
+        placeholder="Post Title"
+        reactHookFormParams={{
           name: 'title',
           fieldError: errors['title'],
           register,

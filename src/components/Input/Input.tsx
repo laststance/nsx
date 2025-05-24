@@ -17,7 +17,8 @@ export interface ReactHookFormParams {
 interface Props {
   defaultValue?: string | number | readonly string[] | undefined
   placeholder?: string
-  reactHookFormPrams: ReactHookFormParams
+  // TODO remove reactHookFormParams props and easy to use Input Component like this <Input {..register('text')} /> LAS-166
+  reactHookFormParams: ReactHookFormParams
   type?: HTMLInputTypeAttribute
 }
 
@@ -38,7 +39,7 @@ const Input: React.FC<
 > = memo(
   ({
     placeholder,
-    reactHookFormPrams: { name, fieldError, options, register },
+    reactHookFormParams: { name, fieldError, options, register },
     type,
     ...rest
   }) => {

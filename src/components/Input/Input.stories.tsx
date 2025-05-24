@@ -28,7 +28,7 @@ const InputGroup: React.FC = () => {
     <Input
       type="text"
       placeholder="Emily"
-      reactHookFormPrams={{
+      reactHookFormParams={{
         name: 'firstName',
         fieldError: errors['firstName'],
         options: { required: 'firstName is required' },

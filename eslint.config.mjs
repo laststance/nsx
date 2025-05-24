@@ -1,5 +1,4 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from 'eslint-plugin-storybook'
 
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -10,6 +9,7 @@ import js from '@eslint/js'
 import jsxA11Y from 'eslint-plugin-jsx-a11y'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
+import storybook from 'eslint-plugin-storybook'
 
 import noJsxWithoutReturn from './eslint-plugin-no-jsx-without-return.js'
 

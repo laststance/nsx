@@ -41,9 +41,8 @@ const Create: React.FC = memo(() => {
           )}
         >
           <Input
-            defaultValue={title}
-            type="text"
-            reactHookFormPrams={{
+            placeholder="Post Title"
+            reactHookFormParams={{
               name: 'title',
               fieldError: errors['title'],
               register,

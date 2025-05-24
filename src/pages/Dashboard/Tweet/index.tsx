@@ -60,7 +60,7 @@ export const Tweet: React.FC = () => {
 
       <form className="mx-auto flex gap-2" onSubmit={handleSubmit(onSubmit)}>
         <Input
-          reactHookFormPrams={{
+          reactHookFormParams={{
             name: 'text',
             fieldError: errors['text'],
             register,
