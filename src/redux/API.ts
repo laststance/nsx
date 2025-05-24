@@ -123,7 +123,7 @@ export const API = createApi({
         url: 'update',
       }),
     }),
-    fetchAllTweet: builder.query({
+    fetchAllTweet: builder.query<any[], void>({
       query: () => ({ method: 'GET', url: 'tweet' }),
       responseSchema: z.array(tweetSchema),
       providesTags: (result) =>
@@ -141,7 +141,8 @@ export const API = createApi({
         body: { text },
       }),
       responseSchema: tweetSchema,
-      invalidatesTags: [{ type: 'Tweets', id: 'LIST' }],
+      invalidatesTags: (result, _error) =>
+        result ? [{ type: 'Tweets', id: 'LIST' }] : [],
     }),
   }),
 })

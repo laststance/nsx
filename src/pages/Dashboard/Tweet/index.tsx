@@ -27,7 +27,7 @@ export const Tweet: React.FC = () => {
     // TODO: set picked field from tweetSchema to zodResolver
     resolver: zodResolver(z.object({ text: z.string().min(1) })),
   })
-  const { data, isLoading, error } = useFetchAllTweetQuery({})
+  const { data, isLoading, error } = useFetchAllTweetQuery()
   const [createTweet, { isLoading: isCreatingTweet }] = useCreateTweetMutation()
 
   if (isLoading || isCreatingTweet) return <Loading />
