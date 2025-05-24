@@ -16,6 +16,8 @@ export const API = createApi({
   reducerPath: 'RTK_Query',
   tagTypes: ['Posts', 'Tweets'],
   keepUnusedDataFor: 30,
+  // TODO handle unauthorized error state change {login: false} and redirect to index page
+  // TODO Replace fetchBaseQuery with axios
   baseQuery: fetchBaseQuery({
     baseUrl: endpoint,
     fetchFn: async (requestInfo: RequestInfo, ...rest) =>
@@ -124,8 +126,14 @@ export const API = createApi({
     fetchAllTweet: builder.query({
       query: () => ({ method: 'GET', url: 'tweet' }),
       responseSchema: z.array(tweetSchema),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Tweets' as const, id })),
+              { type: 'Tweets', id: 'LIST' },
+            ]
+          : [{ type: 'Tweets', id: 'LIST' }],
     }),
-    // TODO: add response schema
     createTweet: builder.mutation({
       query: (text: string) => ({
         method: 'POST',
@@ -133,7 +141,7 @@ export const API = createApi({
         body: { text },
       }),
       responseSchema: tweetSchema,
-      invalidatesTags: () => [{ type: 'Tweets' }],
+      invalidatesTags: [{ type: 'Tweets', id: 'LIST' }],
     }),
   }),
 })

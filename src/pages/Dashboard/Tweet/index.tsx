@@ -22,6 +22,7 @@ export const Tweet: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<TweetFormData>({
     // TODO: set picked field from tweetSchema to zodResolver
     resolver: zodResolver(z.object({ text: z.string().min(1) })),
@@ -31,11 +32,15 @@ export const Tweet: React.FC = () => {
 
   if (isLoading || isCreatingTweet) return <Loading />
   if (error) return <AppError error={error} />
-  console.log(register)
+
   const onSubmit = async (data: TweetFormData) => {
     const result = await createTweet(data.text)
 
     if (isSuccess(result)) {
+      // RTK Query will automatically refetch the tweet list due to cache invalidation
+      // The createTweet mutation has invalidatesTags: ['Tweets'] which will trigger
+      // refetch of useFetchAllTweetQuery that has providesTags: ['Tweets']
+      reset()
       dispatch(
         enqueSnackbar({
           color: 'green',
