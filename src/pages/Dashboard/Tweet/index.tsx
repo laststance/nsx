@@ -25,7 +25,9 @@ export const Tweet: React.FC = () => {
     reset,
   } = useForm<TweetFormData>({
     // TODO: set picked field from tweetSchema to zodResolver
-    resolver: zodResolver(z.object({ text: z.string().min(1) })),
+    resolver: zodResolver(
+      z.object({ text: z.string().trim().min(1).max(140) }),
+    ),
   })
   const { data, isLoading, error } = useFetchAllTweetQuery()
   const [createTweet, { isLoading: isCreatingTweet }] = useCreateTweetMutation()
@@ -62,7 +64,7 @@ export const Tweet: React.FC = () => {
 
   return (
     <Layout className="flex flex-col justify-start">
-      <h1 className="mb-4 text-2xl font-bold dark:text-white">Tweets</h1>
+      <h2 className="mb-4 text-2xl font-bold dark:text-white">Tweets</h2>
 
       <form className="mx-auto flex gap-2" onSubmit={handleSubmit(onSubmit)}>
         <Input

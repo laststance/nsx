@@ -14,7 +14,7 @@ test.describe('Tweet functionality', () => {
     await expect(page).toHaveURL('http://localhost:3000/dashboard/tweet')
 
     // Wait for the page to load
-    await expect(page.locator('h1')).toContainText('Tweets')
+    await expect(page.locator('h2')).toContainText('Tweets')
 
     // Wait for tweets to load or check if there are no tweets yet
     const tweetCards = page.locator('[data-testid^="tweet-card-"]')
@@ -33,9 +33,7 @@ test.describe('Tweet functionality', () => {
     )
 
     // Verify the tweet appears in the list automatically (without manual refresh)
-    await expect(page.locator(`text=${testTweetText}`)).toBeVisible({
-      timeout: 5000,
-    })
+    await expect(page.locator(`text=${testTweetText}`)).toBeVisible()
 
     // Verify the tweet count increased
     await expect(tweetCards).toHaveCount(initialTweetCount + 1)
