@@ -17,7 +17,6 @@ export default defineConfig({
         manualChunks: {
           vendor: [
             '@sentry/react',
-            '@sentry/tracing',
             'react-hook-form',
             'react-helmet',
             'redux-persist',

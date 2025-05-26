@@ -1,10 +1,3 @@
-import type {
-  MutationDefinition,
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-} from '@reduxjs/toolkit/query'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { z } from 'zod'
 
@@ -155,17 +148,3 @@ export const {
   useFetchAllTweetQuery,
   useCreateTweetMutation,
 } = API
-
-export type CreatePostMutationDefinition = MutationDefinition<
-  Req.CreatePost,
-  BaseQueryFn<
-    string | FetchArgs,
-    unknown,
-    FetchBaseQueryError,
-    {},
-    FetchBaseQueryMeta
-  >,
-  'Posts',
-  Post,
-  'RTK_Query'
->

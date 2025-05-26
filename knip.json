@@ -1,0 +1,73 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/main.tsx",
+    "server/index.ts",
+    "scripts/*",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "postcss.config.cjs",
+    "eslint.config.mjs",
+    ".storybook/**/*.{js,ts}",
+    "prisma/schema.prisma",
+    "prisma/seed.ts",
+    "setupTests.ts",
+    "e2e/**/*.{spec,test}.{js,ts}",
+    "src/**/*.{test,spec}.{js,ts,tsx}",
+    "src/**/*.stories.{js,ts,tsx}"
+  ],
+  "project": [
+    "src/**/*.{js,ts,jsx,tsx}",
+    "server/**/*.{js,ts}",
+    "scripts/**/*",
+    "e2e/**/*.{js,ts}",
+    "lib/**/*.{js,ts}",
+    "prisma/**/*.{js,ts}",
+    ".storybook/**/*.{js,ts}",
+    "mocks/**/*.{js,ts}",
+    "**/*.config.{js,ts,cjs,mjs}",
+    "**/*.setup.{js,ts}"
+  ],
+  "ignore": [
+    "@types/**",
+    "ecosystem.config.js",
+    "build/**",
+    "server_build/**",
+    "dist/**",
+    "storybook-static/**",
+    "playwright-report/**",
+    "test-results/**",
+    "coverage/**",
+    "node_modules/**",
+    "data/**",
+    "public/**",
+    "*.log",
+    "pnpm-lock.yaml",
+    "src/router/Redirect.tsx"
+  ],
+  "ignoreDependencies": [
+    "mysql2",
+    "pm2",
+    "@tailwindcss/forms",
+    "@tailwindcss/typography",
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "eslint-config-ts-prefixer",
+    "eslint-import-resolver-typescript",
+    "eslint-plugin-import",
+    "eslint-plugin-prettier",
+    "tailwindcss",
+    "all-contributors-cli",
+    "concurrently",
+    "npm-run-all"
+  ],
+  "ignoreBinaries": ["serve"],
+  "rules": {
+    "devDependencies": "warn",
+    "exports": "warn",
+    "types": "warn"
+  },
+  "ignoreExportsUsedInFile": true,
+  "includeEntryExports": false
+}
