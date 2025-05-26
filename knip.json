@@ -1,0 +1,52 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/main.tsx",
+    "server/index.ts",
+    "scripts/*",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "postcss.config.cjs",
+    "eslint.config.mjs",
+    ".storybook/**/*.{js,ts}",
+    "prisma/seed.ts",
+    "setupTests.ts",
+    "e2e/**/*.{spec,test}.{js,ts}",
+    "src/**/*.{test,spec}.{js,ts,tsx}",
+    "src/**/*.stories.{js,ts,tsx}"
+  ],
+  "project": [
+    "src/**/*.{js,ts,jsx,tsx}",
+    "server/**/*.{js,ts}",
+    "scripts/**/*",
+    "e2e/**/*.{js,ts}",
+    "lib/**/*.{js,ts}",
+    "prisma/**/*.{js,ts}",
+    "validator/**/*.{js,ts}",
+    ".storybook/**/*.{js,ts}",
+    "mocks/**/*.{js,ts}",
+    "**/*.config.{js,ts,cjs,mjs}",
+    "**/*.setup.{js,ts}"
+  ],
+  "ignore": [
+    "@types/**",
+    "ecosystem.config.js",
+    "build/**",
+    "server_build/**",
+    "dist/**",
+    "storybook-static/**",
+    "playwright-report/**",
+    "test-results/**",
+    "coverage/**",
+    "node_modules/**",
+    "data/**",
+    "public/**",
+    "*.log",
+    "pnpm-lock.yaml"
+  ],
+  "ignoreDependencies": ["@swc/core", "@tailwindcss/oxide"],
+  "ignoreBinaries": ["serve"],
+  "ignoreExportsUsedInFile": true,
+  "includeEntryExports": false
+}
