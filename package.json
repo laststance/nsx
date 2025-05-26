@@ -155,7 +155,6 @@
     "build-storybook": "dotenv -e .env.storybook -- storybook build",
     "serve:storybook": "serve storybook-static",
     "server:start": "nodemon",
-    "server:start:native": "cross-env NODE_ENV=development tsx --watch server/index.ts",
     "server:build": "tsc -p server/tsconfig.json",
     "analyze": "vite-bundle-visualizer",
     "prepare": "husky",
