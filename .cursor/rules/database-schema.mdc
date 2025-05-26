@@ -51,6 +51,33 @@ model stocks {
 }
 ```
 
+### Tweets
+
+Tweets are short messages that can be created and displayed:
+
+```prisma
+model tweet {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  text        String        @db.Text
+  attachments attachment[]
+}
+```
+
+### Attachments
+
+Attachments are files or media attached to tweets:
+
+```prisma
+model attachment {
+  id       Int    @id @default(autoincrement())
+  url      String @db.Text
+  tweetId  Int
+  tweet    tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+}
+```
+
 ## Database Operations
 
 Database operations are performed through the Prisma client:

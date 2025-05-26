@@ -18,8 +18,8 @@ The frontend of NSX is built with React 19, Redux Toolkit, and TailwindCSS.
 Redux Toolkit is used for state management:
 
 - [redux/store.ts](mdc:src/redux/store.ts): Redux store configuration
-- [redux/slices](mdc:src/redux/slices): Redux slices for different parts of the application
-- [redux/api](mdc:src/redux/api): RTK Query API definitions
+- Redux slice files directly in [redux](mdc:src/redux): Redux slices for different parts of the application
+- [redux/API.ts](mdc:src/redux/API.ts): RTK Query API definitions
 
 ## Components
 
@@ -34,8 +34,8 @@ Components are organized into:
 TailwindCSS is used for styling:
 
 - Utility classes directly in JSX
-- Configuration in [tailwind.config.js](mdc:tailwind.config.js)
-- Global styles in [global.css](mdc:src/global.css)
+- TailwindCSS v4 configuration via PostCSS in [postcss.config.cjs](mdc:postcss.config.cjs)
+- Global styles with Tailwind directives in [global.css](mdc:src/global.css)
 
 ## Forms
 
