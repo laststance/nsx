@@ -24,7 +24,6 @@
     "e2e/**/*.{js,ts}",
     "lib/**/*.{js,ts}",
     "prisma/**/*.{js,ts}",
-    "validator/**/*.{js,ts}",
     ".storybook/**/*.{js,ts}",
     "mocks/**/*.{js,ts}",
     "**/*.config.{js,ts,cjs,mjs}",
@@ -45,8 +44,6 @@
     "public/**",
     "*.log",
     "pnpm-lock.yaml",
-    "lib/assertIsError.ts",
-    "src/pages/Post/Error.tsx",
     "src/router/Redirect.tsx"
   ],
   "ignoreDependencies": [
@@ -54,6 +51,13 @@
     "pm2",
     "@tailwindcss/forms",
     "@tailwindcss/typography",
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "eslint-config-ts-prefixer",
+    "eslint-import-resolver-typescript",
+    "eslint-plugin-import",
+    "eslint-plugin-prettier",
+    "tailwindcss",
     "all-contributors-cli",
     "concurrently",
     "npm-run-all"
