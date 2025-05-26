@@ -1,0 +1,22 @@
+{
+  "watch": ["server"],
+  "ext": "ts,js,json",
+  "ignore": [
+    "node_modules",
+    "src",
+    ".next",
+    "build",
+    "server_build",
+    "storybook-static",
+    "test-results",
+    "playwright-report",
+    "*.test.*",
+    "*.spec.*"
+  ],
+  "exec": "tsx server/index.ts",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "verbose": true,
+  "delay": 1000
+}
