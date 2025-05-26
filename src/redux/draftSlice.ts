@@ -41,8 +41,6 @@ export interface FormInput {
   title: DraftState['title']
   body: DraftState['body']
 }
-
-export const selectDraftState = (state: RootState): DraftState => state.draft
 export const selectTitle = (state: RootState): DraftState['title'] =>
   state.draft.title
 export const selectBody = (state: RootState): DraftState['body'] =>
