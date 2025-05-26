@@ -10,6 +10,7 @@
     "postcss.config.cjs",
     "eslint.config.mjs",
     ".storybook/**/*.{js,ts}",
+    "prisma/schema.prisma",
     "prisma/seed.ts",
     "setupTests.ts",
     "e2e/**/*.{spec,test}.{js,ts}",
@@ -43,10 +44,27 @@
     "data/**",
     "public/**",
     "*.log",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
+    "lib/assertIsError.ts",
+    "src/pages/Post/Error.tsx",
+    "src/router/Redirect.tsx"
   ],
-  "ignoreDependencies": ["@swc/core", "@tailwindcss/oxide"],
+  "ignoreDependencies": [
+    "mysql2",
+    "pm2",
+    "@tailwindcss/forms",
+    "@tailwindcss/typography",
+    "@types/assert",
+    "all-contributors-cli",
+    "concurrently",
+    "npm-run-all"
+  ],
   "ignoreBinaries": ["serve"],
+  "rules": {
+    "devDependencies": "warn",
+    "exports": "warn",
+    "types": "warn"
+  },
   "ignoreExportsUsedInFile": true,
   "includeEntryExports": false
 }
