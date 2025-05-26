@@ -133,8 +133,8 @@ importers:
         version: 4.0.0-beta.20250505T195954
     devDependencies:
       '@chromatic-com/storybook':
-        specifier: ^4.0.0-next.8
-        version: 4.0.0-next.8(storybook@9.0.0-rc.4(@testing-library/dom@10.4.0)(prettier@3.5.3))
+        specifier: ^4.0.0--canary.368.9860312.0
+        version: 4.0.0--canary.368.9860312.0(storybook@9.0.0-rc.4(@testing-library/dom@10.4.0)(prettier@3.5.3))
       '@eslint/compat':
         specifier: ^1.2.9
         version: 1.2.9(eslint@9.27.0(jiti@2.4.2))
@@ -444,8 +444,8 @@ packages:
   '@bundled-es-modules/tough-cookie@0.1.6':
     resolution: {integrity: sha512-dvMHbL464C0zI+Yqxbz6kZ5TOEp7GLW+pry/RWndAR8MJQAXZ2rPmIs8tziTZjeIyhSNZgZbCePtfSbdWqStJw==}
 
-  '@chromatic-com/storybook@4.0.0-next.8':
-    resolution: {integrity: sha512-WWKYI0rdHeQRFU9dvLuboGLjf8r498OH/7ZzgW1IMA23swxj/gZ5xJBjk5fs0VULtgYX6Kshj/31uwkbp3HxFQ==}
+  '@chromatic-com/storybook@4.0.0--canary.368.9860312.0':
+    resolution: {integrity: sha512-V08+PvvGu4x7ODIhIknqMSoI/EoxR10TQVL12E15NptOikGK9MKpEsSrH6sRwC2xi2PRM18WDRU0hgG/S9PVhw==}
     engines: {node: '>=20.0.0', yarn: '>=1.22.18'}
     peerDependencies:
       storybook: ^9.0.0 || ^9.0.0-0 || ^0.0.0-0
@@ -2282,8 +2282,8 @@ packages:
     resolution: {integrity: sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g==}
     engines: {node: '>=18'}
 
-  chromatic@11.28.2:
-    resolution: {integrity: sha512-aCmUPcZUs4/p9zRZdMreOoO/5JqO2DiJC3md1/vRx8dlMRcmR/YI5ZbgXZcai2absVR+6hsXZ5XiPxV2sboTuQ==}
+  chromatic@11.29.0:
+    resolution: {integrity: sha512-yisBlntp9hHVj19lIQdpTlcYIXuU9H/DbFuu6tyWHmj6hWT2EtukCCcxYXL78XdQt1vm2GfIrtgtKpj/Rzmo4A==}
     hasBin: true
     peerDependencies:
       '@chromatic-com/cypress': ^0.*.* || ^1.0.0
@@ -6126,10 +6126,10 @@ snapshots:
       '@types/tough-cookie': 4.0.5
       tough-cookie: 4.1.4
 
-  '@chromatic-com/storybook@4.0.0-next.8(storybook@9.0.0-rc.4(@testing-library/dom@10.4.0)(prettier@3.5.3))':
+  '@chromatic-com/storybook@4.0.0--canary.368.9860312.0(storybook@9.0.0-rc.4(@testing-library/dom@10.4.0)(prettier@3.5.3))':
     dependencies:
       '@neoconfetti/react': 1.0.0
-      chromatic: 11.28.2
+      chromatic: 11.29.0
       filesize: 10.1.6
       jsonfile: 6.1.0
       storybook: 9.0.0-rc.4(@testing-library/dom@10.4.0)(prettier@3.5.3)
@@ -8018,7 +8018,7 @@ snapshots:
 
   chownr@3.0.0: {}
 
-  chromatic@11.28.2: {}
+  chromatic@11.29.0: {}
 
   classnames@2.5.1: {}
 
