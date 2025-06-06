@@ -92,5 +92,6 @@ jobs:
             EOL
             pnpm install --prod
             pnpm prisma migrate deploy
+            pm2 status
             sudo pm2 delete ecosystem.config.js
             sudo pm2 start ecosystem.config.js
