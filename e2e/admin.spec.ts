@@ -1,7 +1,6 @@
 import { exec as execCb } from 'node:child_process'
 import util from 'node:util'
 
-// eslint-disable-next-line import/named
 import { expect } from '@playwright/test'
 
 import { test } from './helper'

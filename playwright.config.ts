@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/named
 import { defineConfig, devices } from '@playwright/test'
 
 /**

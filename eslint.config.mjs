@@ -1,85 +1,41 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-import { fixupPluginRules } from '@eslint/compat'
-import { FlatCompat } from '@eslint/eslintrc'
-import js from '@eslint/js'
-import jsxA11Y from 'eslint-plugin-jsx-a11y'
-import react from 'eslint-plugin-react'
+import { defineConfig } from 'eslint/config'
+import tsPrefixer from 'eslint-config-ts-prefixer'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
 import reactHooks from 'eslint-plugin-react-hooks'
 import storybook from 'eslint-plugin-storybook'
 
 import noJsxWithoutReturn from './eslint-plugin-no-jsx-without-return.js'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-})
-
-export default [
-  {
-    files: [
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.js',
-      '**/*.jsx',
-      '**/*.cjs',
-      '**/*.mjs',
-    ],
-  },
+export default defineConfig([
+  ...tsPrefixer,
   {
     ignores: [
-      '**/node_modules',
-      '**/build',
-      '**/images',
-      '**/server_build',
-      'db/scripts',
+      '**/node_modules/**',
+      '**/build/**',
+      '**/images/**',
+      '**/server_build/**',
+      'db/scripts/**',
       '**/tailwind.config.js',
-      '**/storybook-static',
+      '**/storybook-static/**',
       '**/package.json',
-      '**/coverage',
+      '**/coverage/**',
       'public/mockServiceWorker.js',
-      'playwright-report',
-      'test-results',
-      '.storybook',
+      'playwright-report/**',
+      'test-results/**',
+      '.storybook/**',
     ],
   },
-  ...compat.extends('ts-prefixer', 'plugin:jsx-a11y/recommended'),
   {
     plugins: {
-      'jsx-a11y': jsxA11Y,
-      'react-hooks': fixupPluginRules(reactHooks),
-      react,
+      'react-hooks': reactHooks,
       'no-jsx-without-return': noJsxWithoutReturn,
     },
-
-    languageOptions: {
-      globals: {
-        JSX: 'readonly',
-      },
-    },
-
-    settings: {
-      react: {
-        version: 'detect',
-      },
-
-      typescript: {
-        alwaysTryTypes: true,
-        project: ['server/tsconfig.json'],
-      },
-    },
-
     rules: {
       'react-hooks/rules-of-hooks': 'error',
-      'react/display-name': 'warn',
       'no-jsx-without-return/no-jsx-without-return': 'error',
     },
   },
   ...storybook.configs['flat/recommended'],
-]
+  jsxA11y.flatConfigs.recommended,
+])

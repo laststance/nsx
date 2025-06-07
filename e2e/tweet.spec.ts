@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/named
 import { expect } from '@playwright/test'
 
 import { test } from './helper'

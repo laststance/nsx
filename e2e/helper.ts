@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/named
 import { test as base } from '@playwright/test'
 import type { Page } from '@playwright/test'
 
