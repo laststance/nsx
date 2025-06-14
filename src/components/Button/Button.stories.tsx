@@ -76,5 +76,5 @@ export const WithCustomProps: StoryObj<typeof meta> = {
     className: 'custom-class',
     'data-testid': 'custom-button',
     type: 'submit',
-  },
+  } as any,
 }

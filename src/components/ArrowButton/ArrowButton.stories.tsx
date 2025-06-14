@@ -40,5 +40,5 @@ export const WithCustomProps: StoryObj<typeof meta> = {
     direction: 'left',
     'aria-label': 'Previous page',
     'data-testid': 'nav-previous',
-  },
+  } as any,
 }
