@@ -1,10 +1,10 @@
-import { superstructResolver } from '@hookform/resolvers/superstruct'
+import { zodResolver } from '@hookform/resolvers/zod'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { object } from 'superstruct'
+import { z } from 'zod/v4'
 
-import { name } from '../../../validator'
+import { nameSchema } from '../../../validator'
 import TestRenderer from '../../lib/TestRenderer'
 
 import Input from './Input'
@@ -13,8 +13,8 @@ interface FormInput {
   name: Author['name']
 }
 
-const formValidator = object({
-  name: name,
+const formValidator = z.object({
+  name: nameSchema,
 })
 
 interface Props {
@@ -35,7 +35,7 @@ const Form: React.FC<Props> = ({
     handleSubmit,
     register,
   } = useForm<FormInput>({
-    resolver: superstructResolver(formValidator),
+    resolver: zodResolver(formValidator),
   })
 
   return (

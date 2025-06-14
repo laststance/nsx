@@ -1,4 +1,4 @@
-import { superstructResolver } from '@hookform/resolvers/superstruct'
+import { zodResolver } from '@hookform/resolvers/zod'
 import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler, FieldValues } from 'react-hook-form'
@@ -27,7 +27,7 @@ const Signup: React.FC = memo(() => {
     handleSubmit,
     register,
   } = useForm<FormInput>({
-    resolver: superstructResolver(userAccountValidator),
+    resolver: zodResolver(userAccountValidator),
   })
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {

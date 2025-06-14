@@ -119,14 +119,11 @@ importers:
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1
-      superstruct:
-        specifier: ^2.0.2
-        version: 2.0.2
       web-vitals:
         specifier: ^5.0.3
         version: 5.0.3
       zod:
-        specifier: 3.25.64
+        specifier: ^3.25.64
         version: 3.25.64
     devDependencies:
       '@chromatic-com/storybook':
@@ -5413,10 +5410,6 @@ packages:
 
   stylis@4.3.2:
     resolution: {integrity: sha512-bhtUjWd/z6ltJiQwg0dUfxEJ+W+jdqQd8TbWLWyeIJHlnsqmGLRFFd8e5mA0AZi/zx90smXRlN66YMTcaSFifg==}
-
-  superstruct@2.0.2:
-    resolution: {integrity: sha512-uV+TFRZdXsqXTL2pRvujROjdZQ4RAlBUS5BTh9IGm+jTqQntYThciG/qu57Gs69yjnVUSqdxF9YLmSnpupBW9A==}
-    engines: {node: '>=14.0.0'}
 
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -11718,8 +11711,6 @@ snapshots:
       tslib: 2.6.2
 
   stylis@4.3.2: {}
-
-  superstruct@2.0.2: {}
 
   supports-color@5.5.0:
     dependencies:

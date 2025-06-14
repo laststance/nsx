@@ -1,7 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { z } from 'zod/v4'
-
-import { tweetSchema } from '@/validator'
 
 const endpoint = process.env.VITE_API_ENDPOINT
 
@@ -118,7 +115,6 @@ export const API = createApi({
     }),
     fetchAllTweet: builder.query<any[], void>({
       query: () => ({ method: 'GET', url: 'tweet' }),
-      responseSchema: z.array(tweetSchema),
       providesTags: (result) =>
         result
           ? [
@@ -133,7 +129,6 @@ export const API = createApi({
         url: 'tweet',
         body: { text },
       }),
-      responseSchema: tweetSchema,
       invalidatesTags: (result, _error) =>
         result ? [{ type: 'Tweets', id: 'LIST' }] : [],
     }),

@@ -1,57 +1,47 @@
-import type { Result } from 'superstruct'
-import { define, object } from 'superstruct'
 import { z } from 'zod/v4'
-
-import { assertCast } from '../lib/assertCast'
 
 /**
  * Login User Data
  */
-export const name = define<Author['name']>('name', (value): Result => {
-  assertCast<string>(value)
-  return value.trim().length > 3 && value.trim().length < 100
-    ? true
-    : 'name should be 3~100 characters'
-})
+export const nameSchema = z
+  .string()
+  .trim()
+  .min(4, { message: 'name should be 3~100 characters' })
+  .max(99, { message: 'name should be 3~100 characters' })
 
-export const password = define<Author['password']>(
-  'password',
-  (value): Result => {
-    assertCast<string>(value)
-    return value.trim().length > 6 && value.trim().length < 100
-      ? true
-      : 'password must be at least 6 characters long'
-  },
-)
+export const passwordSchema = z
+  .string()
+  .trim()
+  .min(7, { message: 'password must be at least 6 characters long' })
+  .max(99, { message: 'password must be at least 6 characters long' })
 
-export const userAccountValidator = object({
-  name: name,
-  password: password,
+export const userAccountValidator = z.object({
+  name: nameSchema,
+  password: passwordSchema,
 })
 
 /**
  * Post Data
  */
-export const title = define<Post['title']>('title', (value): Result => {
-  assertCast<string>(value)
-  return value.trim().length > 0 && value.trim().length < 100
-    ? true
-    : 'title should be 1~100 characters'
+export const titleSchema = z
+  .string()
+  .trim()
+  .min(1, { message: 'title should be 1~100 characters' })
+  .max(99, { message: 'title should be 1~100 characters' })
+
+export const bodySchema = z
+  .string()
+  .trim()
+  .min(1, { message: 'post body is requred' })
+
+export const createPostFormValidator = z.object({
+  title: titleSchema,
+  body: bodySchema,
 })
 
-export const body = define<Post['body']>('body', (value): Result => {
-  assertCast<string>(value)
-  return value.trim().length > 0 ? true : 'post body is requred'
-})
-
-export const createPostFormValidator = object({
-  title: title,
-  body: body,
-})
-
-export const editPostFormValidator = object({
-  title: title,
-  body: body,
+export const editPostFormValidator = z.object({
+  title: titleSchema,
+  body: bodySchema,
 })
 
 export const tweetSchema = z.object({
