@@ -1,0 +1,218 @@
+import { Meta, Canvas, Primary, Controls } from '@storybook/blocks'
+import * as InputStories from './Input.stories'
+
+<Meta of={InputStories} />
+
+# Input Component
+
+The Input component is a form input field built for React Hook Form integration, providing validation, error handling, and consistent styling across the application.
+
+## Overview
+
+This component is specifically designed to work with React Hook Form library and provides built-in error handling, validation feedback, and accessibility features. It automatically handles form registration and displays validation errors with visual indicators.
+
+## Features
+
+- **React Hook Form Integration**: Seamless integration with form validation
+- **Error Handling**: Visual error states with messages and icons
+- **Accessibility**: Proper ARIA attributes and keyboard navigation
+- **Type Support**: All standard HTML input types
+- **Event Handling**: Built-in keyboard event management
+- **Visual Feedback**: Error states with red styling and exclamation icon
+
+## Usage
+
+<Primary />
+
+<Controls />
+
+## Default State
+
+The basic input with standard styling:
+
+<Canvas of={InputStories.Default} />
+
+## Error State
+
+When validation fails, the input displays:
+
+- Red border and text color
+- Exclamation circle icon on the right
+- Error message below the input field
+
+## Props
+
+| Prop                  | Type                                    | Default  | Description                              |
+| --------------------- | --------------------------------------- | -------- | ---------------------------------------- |
+| `reactHookFormParams` | `ReactHookFormParams`                   | -        | Required form integration object         |
+| `type`                | `HTMLInputTypeAttribute`                | `'text'` | Input type (text, email, password, etc.) |
+| `placeholder`         | `string`                                | -        | Placeholder text                         |
+| `defaultValue`        | `string \| number \| readonly string[]` | -        | Default input value                      |
+
+### ReactHookFormParams
+
+| Property     | Type                      | Description                 |
+| ------------ | ------------------------- | --------------------------- |
+| `name`       | `InternalFieldName`       | Form field name             |
+| `fieldError` | `FieldError \| undefined` | Validation error object     |
+| `options`    | `RegisterOptions`         | Validation rules            |
+| `register`   | `UseFormRegister`         | Hook Form register function |
+
+Plus all standard `InputHTMLAttributes<HTMLInputElement>` props.
+
+## Examples
+
+### Basic Usage with React Hook Form
+
+```tsx
+import { useForm } from 'react-hook-form'
+import Input from './Input'
+
+interface FormData {
+  email: string
+  password: string
+}
+
+function MyForm() {
+  const {
+    register,
+    formState: { errors },
+  } = useForm<FormData>()
+
+  return (
+    <form>
+      <Input
+        type="email"
+        placeholder="Enter your email"
+        reactHookFormParams={{
+          name: 'email',
+          fieldError: errors.email,
+          options: {
+            required: 'Email is required',
+            pattern: {
+              value: /^\S+@\S+$/i,
+              message: 'Invalid email format',
+            },
+          },
+          register,
+        }}
+      />
+    </form>
+  )
+}
+```
+
+### Different Input Types
+
+```tsx
+// Email Input
+<Input
+  type="email"
+  placeholder="user@example.com"
+  reactHookFormParams={{...}}
+/>
+
+// Password Input
+<Input
+  type="password"
+  placeholder="Enter password"
+  reactHookFormParams={{...}}
+/>
+
+// Number Input
+<Input
+  type="number"
+  placeholder="Enter age"
+  reactHookFormParams={{...}}
+/>
+```
+
+### With Validation Rules
+
+```tsx
+<Input
+  type="text"
+  placeholder="Enter username"
+  reactHookFormParams={{
+    name: 'username',
+    fieldError: errors.username,
+    options: {
+      required: 'Username is required',
+      minLength: {
+        value: 3,
+        message: 'Username must be at least 3 characters',
+      },
+      maxLength: {
+        value: 20,
+        message: 'Username must not exceed 20 characters',
+      },
+    },
+    register,
+  }}
+/>
+```
+
+## Styling
+
+The component uses two main style configurations:
+
+### Basic State
+
+- Gray background with focus transition to white
+- Purple focus border
+- Standard padding and border radius
+
+### Error State
+
+- Red border and text color
+- Red placeholder text
+- Red focus ring
+- Exclamation icon indicator
+
+## Accessibility Features
+
+- **Focus Management**: Clear focus indicators and proper tab order
+- **Error Announcement**: Error messages are properly associated with inputs
+- **Keyboard Navigation**: Supports all standard keyboard interactions
+- **ARIA Support**: Proper labeling and error message association
+- **Screen Reader Friendly**: Error states are announced to assistive technologies
+
+## Event Handling
+
+The component includes built-in keyboard event management:
+
+```tsx
+// Prevents keyboard events from propagating to global shortcuts
+export const stopPropagation = (e: React.KeyboardEvent) => e.stopPropagation()
+```
+
+This prevents form inputs from interfering with application-level keyboard shortcuts.
+
+## Design System Integration
+
+The component follows the application's design system:
+
+- **Colors**: Uses Tailwind CSS color palette
+- **Spacing**: Consistent padding and margins
+- **Typography**: Inherits text styles from design system
+- **Shadows**: Subtle shadow for depth (`shadow-xs`)
+- **Focus States**: Purple accent color for consistency
+
+## Best Practices
+
+1. **Always provide validation rules** for user guidance
+2. **Use appropriate input types** for better UX (email, tel, url, etc.)
+3. **Provide clear placeholder text** to guide users
+4. **Handle error states gracefully** with helpful messages
+5. **Test with keyboard navigation** for accessibility
+
+## Related Components
+
+- **Textarea**: For multi-line text input
+- **Button**: Often used together in forms
+- **Form layouts**: Used within form structures
+- **Validation components**: Works with form validation systems
+
+## Migration Notes
+
+> **TODO**: The component currently requires React Hook Form integration. Future versions may support standalone usage with a simpler API like `<Input {...register('text')} />` (Reference: LAS-166)

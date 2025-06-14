@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { tweetSchema } from '@/validator'
 

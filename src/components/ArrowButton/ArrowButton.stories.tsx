@@ -12,9 +12,6 @@ const meta: Meta<typeof ArrowButton> = {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'centered',
   },
-
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ['autodocs'],
 }
 
 export default meta
@@ -29,4 +26,19 @@ export const Left: StoryObj<typeof meta> = {
   args: {
     direction: 'left',
   },
+}
+
+export const Disabled: StoryObj<typeof meta> = {
+  args: {
+    direction: 'right',
+    disabled: true,
+  },
+}
+
+export const WithCustomProps: StoryObj<typeof meta> = {
+  args: {
+    direction: 'left',
+    'aria-label': 'Previous page',
+    'data-testid': 'nav-previous',
+  } as any,
 }
