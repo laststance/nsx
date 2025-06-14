@@ -2,9 +2,12 @@ import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import type { InputHTMLAttributes, HTMLInputTypeAttribute } from 'react'
 import React, { memo } from 'react'
-import type { InternalFieldName, RegisterOptions } from 'react-hook-form'
-import type { FieldError } from 'react-hook-form/dist/types/errors'
-import type { UseFormRegister } from 'react-hook-form/dist/types/form'
+import type {
+  InternalFieldName,
+  RegisterOptions,
+  FieldError,
+  UseFormRegister,
+} from 'react-hook-form'
 
 // All form element Components depends on library that https://github.com/react-hook-form/react-hook-form
 export interface ReactHookFormParams {
