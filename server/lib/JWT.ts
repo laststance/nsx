@@ -9,6 +9,17 @@ export function generateAccessToken(author: authors) {
   })
 }
 
+// Get expiration date from JWT token
+export function getTokenExpiration(token: string): Date {
+  const decoded = jwt.decode(token) as JwtPayload
+  if (decoded?.exp) {
+    // exp is in seconds, convert to milliseconds
+    return new Date(decoded.exp * 1000)
+  }
+  // Default to 7 days if no exp claim
+  return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+}
+
 // Verify Access Token
 export function verifyAccessToken(token: string): JwtPayload {
   try {
@@ -35,6 +46,21 @@ export function deleteJWTattribute(payload: JwtPayload) {
   return payload
 }
 
+// Get cookie options based on JWT expiration
+export function getCookieOptions(token: string): CookieOptions {
+  const expiration = getTokenExpiration(token)
+  const maxAge = expiration.getTime() - Date.now()
+
+  return {
+    httpOnly: true,
+    expires: expiration,
+    maxAge: maxAge > 0 ? maxAge : 0,
+    sameSite: 'none',
+    secure: true,
+  }
+}
+
+// Legacy static cookie options (to be removed)
 export const cookieOptions: CookieOptions = {
   httpOnly: true,
   maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
