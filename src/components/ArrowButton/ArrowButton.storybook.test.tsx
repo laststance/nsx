@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react'
 import { composeStories } from '@storybook/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 
 import * as stories from './ArrowButton.stories'
@@ -118,7 +118,7 @@ describe('ArrowButton Component Stories', () => {
         { story: Left, direction: 'left' },
       ]
 
-      directions.forEach(({ story: Story, direction }) => {
+      directions.forEach(({ story: Story }) => {
         const { unmount } = render(<Story />)
         const button = screen.getByRole('button')
 

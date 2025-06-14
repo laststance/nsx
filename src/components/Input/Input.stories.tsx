@@ -43,10 +43,7 @@ export const Default: StoryObj<typeof meta> = {
 
 // Error state story
 const ErrorInputGroup: React.FC = () => {
-  const {
-    formState: { errors },
-    register,
-  } = useForm<formInputValue>()
+  const { register } = useForm<formInputValue>()
 
   return (
     <Input
