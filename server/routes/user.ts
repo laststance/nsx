@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import type { Request, Response, Router, RequestHandler } from 'express'
 import express from 'express'
 
-import { generateAccessToken, cookieOptions } from '../lib/JWT'
+import { generateAccessToken, getCookieOptions } from '../lib/JWT'
 import Logger from '../lib/Logger'
 import { prisma } from '../prisma'
 
@@ -43,7 +43,7 @@ const signupHandler: RequestHandler = async (req, res) => {
     })
 
     const token: JWTtoken = generateAccessToken(author)
-    res.cookie('token', token, cookieOptions)
+    res.cookie('token', token, getCookieOptions(token))
     res.status(201).json(author)
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -69,7 +69,7 @@ router.post('/login', async ({ body }: Request, res: Response) => {
 
     if (isValidPassword) {
       const token: JWTtoken = generateAccessToken(author)
-      res.cookie('token', token, cookieOptions)
+      res.cookie('token', token, getCookieOptions(token))
       res.status(200).json(author)
     } else {
       Logger.warn('Invalid Password')
