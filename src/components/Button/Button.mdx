@@ -1,0 +1,138 @@
+import { Meta, Canvas, Primary, Controls } from '@storybook/blocks'
+import * as ButtonStories from './Button.stories'
+
+<Meta of={ButtonStories} />
+
+# Button Component
+
+The Button component is a versatile and customizable button element that supports multiple variants, sizes, and states including loading states.
+
+## Overview
+
+The Button component provides a consistent interface for user interactions throughout the application. It's built with accessibility in mind and supports various visual styles to match different contexts.
+
+## Features
+
+- **Multiple Variants**: Primary, Secondary, Inverse, and Danger styles
+- **Three Sizes**: Small (sm), Medium (md), and Large (lg)
+- **Loading State**: Shows a spinner when `isLoading` is true
+- **Accessibility**: Proper focus management and ARIA attributes
+- **TypeScript Support**: Full type safety with ButtonHTMLAttributes
+- **Customization**: Supports custom className and all standard button props
+
+## Usage
+
+<Primary />
+
+<Controls />
+
+## Variants
+
+The Button component supports four visual variants:
+
+### Primary
+
+The default variant with green background, ideal for primary actions.
+
+<Canvas of={ButtonStories.Primary} />
+
+### Secondary
+
+Blue variant for secondary actions.
+
+<Canvas of={ButtonStories.Secondary} />
+
+### Inverse
+
+Outlined variant with green border, suitable for less emphasized actions.
+
+<Canvas of={ButtonStories.Inverse} />
+
+### Danger
+
+Red variant for destructive actions like delete or cancel.
+
+<Canvas of={ButtonStories.Danger} />
+
+## Sizes
+
+The Button component supports three sizes:
+
+- **Small (sm)**: `py-2 px-4 text-sm` - Compact buttons for tight spaces
+- **Medium (md)**: `py-2 px-6 text-md` - Default size for most use cases
+- **Large (lg)**: `py-3 px-8 text-lg` - Prominent buttons for important actions
+
+## Loading State
+
+When `isLoading` is true, the button displays a spinner and becomes non-interactive:
+
+```tsx
+<Button isLoading={true} variant="primary">
+  Processing...
+</Button>
+```
+
+## Props
+
+| Prop        | Type                                                | Default     | Description                     |
+| ----------- | --------------------------------------------------- | ----------- | ------------------------------- |
+| `variant`   | `'primary' \| 'secondary' \| 'inverse' \| 'danger'` | `'primary'` | Visual style variant            |
+| `size`      | `'sm' \| 'md' \| 'lg'`                              | `'md'`      | Button size                     |
+| `isLoading` | `boolean`                                           | `false`     | Shows loading spinner when true |
+| `children`  | `ReactNode`                                         | -           | Button content                  |
+| `className` | `string`                                            | `''`        | Additional CSS classes          |
+
+Plus all standard `ButtonHTMLAttributes<HTMLButtonElement>` props.
+
+## Examples
+
+### Basic Usage
+
+```tsx
+import Button from './Button'
+
+;<Button variant="primary" size="md" onClick={handleClick}>
+  Click me
+</Button>
+```
+
+### With Loading State
+
+```tsx
+<Button variant="primary" isLoading={isSubmitting}>
+  {isSubmitting ? 'Submitting...' : 'Submit'}
+</Button>
+```
+
+### Disabled State
+
+```tsx
+<Button variant="secondary" disabled>
+  Disabled Button
+</Button>
+```
+
+## Accessibility
+
+The Button component includes several accessibility features:
+
+- **Focus Management**: Proper focus outline and keyboard navigation
+- **Disabled State**: Properly handles disabled state with `cursor-not-allowed`
+- **Screen Reader Support**: Works with assistive technologies
+- **Color Contrast**: All variants meet WCAG color contrast requirements
+
+## Design Tokens
+
+The component uses the following design tokens:
+
+- **Colors**: Defined in Tailwind CSS color palette
+- **Spacing**: Consistent padding and margin values
+- **Typography**: Font weight and size from design system
+- **Border Radius**: `rounded-sm` for subtle corners
+- **Shadows**: `shadow-sm` for depth
+
+## Related Components
+
+- **ArrowButton**: Specialized button with arrow icons
+- **Spinner**: Used within Button for loading states
+- **Form Components**: Often used together with Input and Textarea

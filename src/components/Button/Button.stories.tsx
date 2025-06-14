@@ -5,7 +5,6 @@ import Button from './Button'
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
-  tags: ['autodocs'],
 }
 
 export default meta
@@ -23,10 +22,6 @@ export const Secondary: StoryObj<typeof meta> = {
     variant: 'secondary',
   },
 }
-Secondary.args = {
-  children: 'Secondary Color',
-  variant: 'secondary',
-}
 
 export const Inverse: StoryObj<typeof meta> = {
   args: {
@@ -39,5 +34,47 @@ export const Danger: StoryObj<typeof meta> = {
   args: {
     children: 'Danger Color',
     variant: 'danger',
+  },
+}
+
+export const Loading: StoryObj<typeof meta> = {
+  args: {
+    children: 'Loading Button',
+    isLoading: true,
+    variant: 'primary',
+  },
+}
+
+export const Disabled: StoryObj<typeof meta> = {
+  args: {
+    children: 'Disabled Button',
+    disabled: true,
+    variant: 'primary',
+  },
+}
+
+export const Sizes: StoryObj<typeof meta> = {
+  render: () => (
+    <div className="flex items-center gap-4">
+      <Button size="sm" variant="primary">
+        Small
+      </Button>
+      <Button size="md" variant="primary">
+        Medium
+      </Button>
+      <Button size="lg" variant="primary">
+        Large
+      </Button>
+    </div>
+  ),
+}
+
+export const WithCustomProps: StoryObj<typeof meta> = {
+  args: {
+    children: 'Custom Button',
+    variant: 'primary',
+    className: 'custom-class',
+    'data-testid': 'custom-button',
+    type: 'submit',
   },
 }

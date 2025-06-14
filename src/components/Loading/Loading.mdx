@@ -1,0 +1,182 @@
+import { Meta, Canvas, Primary } from '@storybook/blocks'
+import * as LoadingStories from './Loading.stories'
+
+<Meta of={LoadingStories} />
+
+# Loading Component
+
+The Loading component displays a full-screen loading indicator using a circular spinner animation. It's designed to provide visual feedback during data fetching or processing operations.
+
+## Overview
+
+This component creates a centered loading screen that occupies the full viewport. It uses the `CircleLoader` from react-spinners library to provide a smooth, consistent loading animation across the application.
+
+## Features
+
+- **Full-Screen Coverage**: Takes up the entire viewport
+- **Centered Layout**: Uses CSS Grid for perfect centering
+- **Consistent Styling**: Uses application color palette
+- **Accessibility**: Includes proper test ID for testing
+- **Performance Optimized**: Memoized with custom equality function
+- **Responsive**: Works on all screen sizes
+
+## Usage
+
+<Primary />
+
+## Default Loading State
+
+The component displays a large circular spinner in the center of the screen:
+
+<Canvas of={LoadingStories.Default} />
+
+## Implementation Details
+
+The component is implemented as a memoized functional component with several key characteristics:
+
+### Full-Screen Layout
+
+```tsx
+<div className="grid h-screen w-full place-content-center">
+  <CircleLoader size={250} color="#9CA3AF" />
+</div>
+```
+
+### Performance Optimization
+
+The component uses `memo` with a custom equality function that always returns `true`, meaning it never re-renders once mounted:
+
+```tsx
+const Loading = memo(
+  () => {
+    /* ... */
+  },
+  () => true,
+)
+```
+
+This optimization is appropriate because the Loading component has no props and its display should remain static.
+
+## Props
+
+The Loading component accepts no props. It's designed to be a simple, consistent loading indicator.
+
+## Styling
+
+| Property     | Value                       | Description                       |
+| ------------ | --------------------------- | --------------------------------- |
+| `size`       | `250`                       | Large spinner size for visibility |
+| `color`      | `#9CA3AF`                   | Gray-400 from Tailwind palette    |
+| `layout`     | `grid place-content-center` | Perfect centering                 |
+| `dimensions` | `h-screen w-full`           | Full viewport coverage            |
+
+## Examples
+
+### Basic Usage
+
+```tsx
+import Loading from './Loading'
+
+function App() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  if (isLoading) {
+    return <Loading />
+  }
+
+  return <div>App content...</div>
+}
+```
+
+### Conditional Rendering
+
+```tsx
+function DataFetcher() {
+  const { data, isLoading, error } = useQuery('data', fetchData)
+
+  if (isLoading) return <Loading />
+  if (error) return <div>Error occurred</div>
+
+  return <div>{data}</div>
+}
+```
+
+### With React Router
+
+```tsx
+import { Suspense } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Loading from './Loading'
+
+function App() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Suspense>
+  )
+}
+```
+
+## Accessibility
+
+The component includes several accessibility considerations:
+
+- **Test ID**: `data-testid="loading"` for automated testing
+- **Screen Reader Friendly**: The animation provides visual feedback
+- **No Interactive Elements**: Prevents user interaction during loading
+- **High Contrast**: Gray color provides good visibility
+
+## Performance Considerations
+
+1. **Memoization**: Component never re-renders unnecessarily
+2. **Simple DOM Structure**: Minimal markup for fast rendering
+3. **CSS Grid**: Efficient layout solution
+4. **Static Props**: CircleLoader props are constant
+
+## Use Cases
+
+- **Initial App Loading**: While the main application loads
+- **Data Fetching**: During API calls and data processing
+- **Route Transitions**: Between page navigations
+- **Form Submissions**: While processing user input
+- **File Uploads**: During upload operations
+
+## Browser Support
+
+The component uses:
+
+- **CSS Grid**: Supported in all modern browsers
+- **CircleLoader**: React Spinners library with broad support
+- **Tailwind Classes**: Standard CSS properties
+
+## Related Components
+
+- **Spinner**: Smaller loading indicator for inline use
+- **Button**: Uses Spinner component internally for loading states
+- **Layout**: May contain Loading component during transitions
+
+## Design System Integration
+
+The Loading component follows the application's design system:
+
+- **Color Palette**: Uses gray-400 (`#9CA3AF`) from Tailwind
+- **Spacing**: Full viewport dimensions
+- **Animation**: Consistent with other loading states
+- **Typography**: No text content, purely visual
+
+## Testing
+
+The component includes a test ID for easy testing:
+
+```tsx
+// Test example
+const loadingElement = screen.getByTestId('loading')
+expect(loadingElement).toBeInTheDocument()
+```
+
+## Migration Notes
+
+This component is stable and requires no migration. The react-spinners dependency should be maintained for consistent animation behavior.

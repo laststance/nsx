@@ -1,0 +1,259 @@
+import { Meta, Canvas, Primary, Controls } from '@storybook/blocks'
+import * as ArrowButtonStories from './ArrowButton.stories'
+
+<Meta of={ArrowButtonStories} />
+
+# ArrowButton Component
+
+The ArrowButton component is a specialized button designed for navigation controls, featuring directional arrow icons and consistent styling for pagination and navigation interfaces.
+
+## Overview
+
+This component provides a standardized way to create navigation buttons with left or right arrow indicators. It's commonly used in pagination controls, carousels, and other navigation interfaces where directional movement is needed.
+
+## Features
+
+- **Directional Icons**: Left and right arrow variants
+- **Consistent Sizing**: Fixed dimensions for layout predictability
+- **Hover States**: Interactive feedback on user interaction
+- **Accessibility**: Proper focus management and disabled states
+- **Flexible Props**: Supports all standard button attributes
+- **Clean Design**: Minimal styling that fits various contexts
+
+## Usage
+
+<Primary />
+
+<Controls />
+
+## Directions
+
+The ArrowButton supports two directional variants:
+
+### Right Arrow
+
+Used for "next", "forward", or "continue" actions:
+
+<Canvas of={ArrowButtonStories.Right} />
+
+### Left Arrow
+
+Used for "previous", "back", or "return" actions:
+
+<Canvas of={ArrowButtonStories.Left} />
+
+## Props
+
+| Prop        | Type                | Required | Description                |
+| ----------- | ------------------- | -------- | -------------------------- |
+| `direction` | `'left' \| 'right'` | ✓        | Arrow direction to display |
+
+Plus all standard `ButtonHTMLAttributes<HTMLButtonElement>` props including `onClick`, `disabled`, `aria-label`, etc.
+
+## Examples
+
+### Basic Navigation
+
+```tsx
+import ArrowButton from './ArrowButton'
+
+function Pagination() {
+  return (
+    <div className="flex gap-2">
+      <ArrowButton
+        direction="left"
+        onClick={goToPrevious}
+        aria-label="Previous page"
+      />
+      <ArrowButton
+        direction="right"
+        onClick={goToNext}
+        aria-label="Next page"
+      />
+    </div>
+  )
+}
+```
+
+### With Disabled State
+
+```tsx
+function NavigationControls({ canGoBack, canGoForward }) {
+  return (
+    <div className="flex gap-2">
+      <ArrowButton
+        direction="left"
+        disabled={!canGoBack}
+        onClick={handlePrevious}
+        aria-label="Go to previous item"
+      />
+      <ArrowButton
+        direction="right"
+        disabled={!canGoForward}
+        onClick={handleNext}
+        aria-label="Go to next item"
+      />
+    </div>
+  )
+}
+```
+
+### In a Carousel
+
+```tsx
+function ImageCarousel({ images, currentIndex, setCurrentIndex }) {
+  const goToPrevious = () => {
+    setCurrentIndex(Math.max(0, currentIndex - 1))
+  }
+
+  const goToNext = () => {
+    setCurrentIndex(Math.min(images.length - 1, currentIndex + 1))
+  }
+
+  return (
+    <div className="relative">
+      <img src={images[currentIndex]} alt="Carousel item" />
+
+      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 transform gap-2">
+        <ArrowButton
+          direction="left"
+          onClick={goToPrevious}
+          disabled={currentIndex === 0}
+        />
+        <ArrowButton
+          direction="right"
+          onClick={goToNext}
+          disabled={currentIndex === images.length - 1}
+        />
+      </div>
+    </div>
+  )
+}
+```
+
+## Styling
+
+The component uses consistent styling across all states:
+
+### Default State
+
+- White background with gray border
+- Fixed dimensions: `h-10 w-14` (40px × 56px)
+- Rounded corners with `rounded-sm`
+- Flexbox centering for icon alignment
+
+### Hover State
+
+- Light gray background (`bg-gray-100`)
+- Lighter border color (`border-gray-200`)
+- Subtle text color change (`text-gray-400`)
+
+### Disabled State
+
+- Reduced opacity (`opacity-30`)
+- Not-allowed cursor (`cursor-not-allowed`)
+- Prevents interaction while maintaining visual presence
+
+## Accessibility Features
+
+The ArrowButton component includes several accessibility considerations:
+
+- **Focus Management**: Clear focus outline for keyboard navigation
+- **Disabled State Handling**: Proper disabled attribute support
+- **ARIA Support**: Compatible with `aria-label` and other ARIA attributes
+- **Keyboard Navigation**: Supports Enter and Space key activation
+- **Screen Reader Friendly**: Works well with assistive technologies
+
+### Recommended ARIA Labels
+
+```tsx
+// For pagination
+<ArrowButton direction="left" aria-label="Previous page" />
+<ArrowButton direction="right" aria-label="Next page" />
+
+// For carousels
+<ArrowButton direction="left" aria-label="Previous image" />
+<ArrowButton direction="right" aria-label="Next image" />
+
+// For general navigation
+<ArrowButton direction="left" aria-label="Go back" />
+<ArrowButton direction="right" aria-label="Continue" />
+```
+
+## Design System Integration
+
+The component follows the application's design system:
+
+- **Colors**: Uses gray scale from Tailwind CSS
+- **Spacing**: Consistent padding and dimensions
+- **Icons**: Custom ArrowLeft and ArrowRight components
+- **Border Radius**: Subtle rounded corners (`rounded-sm`)
+- **Focus States**: Standard focus outline behavior
+
+## Icon Components
+
+The ArrowButton uses two custom icon components:
+
+- **ArrowLeft**: Left-pointing arrow icon
+- **ArrowRight**: Right-pointing arrow icon
+
+These icons are designed to be consistent with the overall icon system and properly sized for the button container.
+
+## Use Cases
+
+Common scenarios where ArrowButton is used:
+
+1. **Pagination Controls**: Navigate between pages of content
+2. **Image Carousels**: Move between images or slides
+3. **Form Wizards**: Step navigation in multi-step forms
+4. **Data Tables**: Navigate between table pages
+5. **Modal Navigation**: Move between modal screens
+6. **Timeline Navigation**: Navigate through chronological content
+
+## Browser Support
+
+The component uses standard CSS properties and HTML button elements:
+
+- **Flexbox**: Supported in all modern browsers
+- **CSS Grid**: Not used in this component
+- **Border Radius**: Widely supported
+- **Hover States**: Standard CSS hover pseudoclass
+
+## Related Components
+
+- **Button**: General-purpose button component
+- **Pagination**: Uses ArrowButton for navigation
+- **ArrowLeft/ArrowRight**: Icon components used internally
+- **Navigation Components**: Various components that use ArrowButton
+
+## Performance
+
+The component is optimized for performance:
+
+- **Memoized**: Uses React.memo to prevent unnecessary re-renders
+- **Simple Structure**: Minimal DOM nodes
+- **CSS Classes**: Uses Tailwind for efficient styling
+- **No Dependencies**: Only uses custom icon components
+
+## Testing
+
+Example test scenarios for ArrowButton:
+
+```tsx
+// Test rendering
+expect(screen.getByRole('button')).toBeInTheDocument()
+
+// Test direction prop
+const rightButton = screen.getByLabelText('Next page')
+expect(rightButton).toHaveAttribute('direction', 'right')
+
+// Test click handler
+const handleClick = jest.fn()
+const button = render(<ArrowButton direction="left" onClick={handleClick} />)
+fireEvent.click(button.getByRole('button'))
+expect(handleClick).toHaveBeenCalled()
+
+// Test disabled state
+const disabledButton = render(<ArrowButton direction="left" disabled />)
+expect(disabledButton.getByRole('button')).toBeDisabled()
+```
