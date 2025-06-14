@@ -34,7 +34,9 @@ jobs:
           echo "VITE_GA_MEASUREMENT_ID=${{ secrets.VITE_GA_MEASUREMENT_ID }}" >> .env.prod
 
       - name: Build frontend
-        run: pnpm build
+        run: |
+          pnpm build
+          rm -rf build/mockServiceWorker.js
 
       - name: Build backend
         run: pnpm server:build
