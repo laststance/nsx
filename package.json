@@ -18,7 +18,10 @@
     "seed": "tsx prisma/seed.ts"
   },
   "lint-staged": {
-    "*": "prettier --ignore-unknown --write"
+    "*": "prettier --ignore-unknown --write",
+    "*.{js,ts,jsx,tsx,cjs,mjs}": [
+      "eslint --fix"
+    ]
   },
   "dependencies": {
     "@headlessui/react": "^1.7.19",
