@@ -1,6 +1,6 @@
 import type { Result } from 'superstruct'
 import { define, object } from 'superstruct'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { assertCast } from '../lib/assertCast'
 
