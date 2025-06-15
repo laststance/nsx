@@ -55,7 +55,7 @@ export const API = createApi({
 
     deletePost: builder.mutation<
       Res.DeletePost,
-      { id: Post['id']; author: Author }
+      { id: Post['id']; author: User }
     >({
       invalidatesTags: (_result, _error, { id }) => [{ id, type: 'Posts' }],
       query: ({ id, author }) => ({
@@ -67,7 +67,7 @@ export const API = createApi({
 
     deleteStock: builder.mutation<
       Res.DeleteStock,
-      { id: Stock['id']; author: Author }
+      { id: Stock['id']; author: User }
     >({
       query: ({ id, author }) => ({
         body: { author: author },
@@ -124,7 +124,7 @@ export const API = createApi({
       }),
     }),
 
-    signupReqest: builder.mutation<Author, Req.Login>({
+    signupReqest: builder.mutation<User, Req.Login>({
       query: (loginInfo) => ({
         body: loginInfo,
         method: 'POST',
@@ -132,7 +132,7 @@ export const API = createApi({
       }),
     }),
 
-    validateToken: builder.query<{ valid: boolean; author?: Author }, void>({
+    validateToken: builder.query<{ valid: boolean; author?: User }, void>({
       query: () => ({
         method: 'GET',
         url: 'validate',

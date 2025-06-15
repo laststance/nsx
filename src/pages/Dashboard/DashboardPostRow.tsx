@@ -8,7 +8,7 @@ import PostLink from '../Index/PostList/PostRow/PostLink'
 import EditButtonGroup from './EditButtonGroup'
 
 interface Props {
-  author: Author
+  author: User
   index: ArrayMapIndex
   post: Post
   refetch: UsePagenationResult['refetch']

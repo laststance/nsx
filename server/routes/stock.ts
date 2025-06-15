@@ -12,7 +12,7 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body
     try {
-      const stock = await prisma.stocks.create({
+      const stock = await prisma.stock.create({
         data: {
           pageTitle: body.pageTitle,
           url: body.url,
@@ -27,13 +27,13 @@ router.post(
 )
 
 router.get('/stocklist', async (_req, res) => {
-  const stockList = await prisma.stocks.findMany()
+  const stockList = await prisma.stock.findMany()
   res.status(200).json(stockList)
 })
 
 router.delete('/stock/:id', isAuthorized, async (req, res) => {
   try {
-    await prisma.stocks.delete({ where: { id: parseInt(req.params.id, 10) } })
+    await prisma.stock.delete({ where: { id: parseInt(req.params.id, 10) } })
     res.status(200).json({ message: 'Delete Successful!' })
   } catch (error: unknown) {
     if (error instanceof Error) {

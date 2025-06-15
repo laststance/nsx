@@ -10,7 +10,7 @@ export const Cron: CronInterface = {
 }
 
 async function postReadlist() {
-  const stocks = await prisma.stocks.findMany()
+  const stocks = await prisma.stock.findMany()
   if (stocks.length === 0) return
 
   const title = stocks[0].pageTitle + ' etc...'
@@ -20,11 +20,11 @@ async function postReadlist() {
     body += `[${stock.pageTitle}](${stock.url})  \n\n`
   }
 
-  await prisma.posts.create({
+  await prisma.post.create({
     data: {
       title: title,
       body: body,
     },
   })
-  await prisma.stocks.deleteMany()
+  await prisma.stock.deleteMany()
 }

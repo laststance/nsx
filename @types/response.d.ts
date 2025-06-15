@@ -5,12 +5,12 @@ declare namespace Res {
   /**
    * POST /api/login
    */
-  declare type Login = Author | Res.failedMessag
+  declare type Login = User | Res.failedMessag
 
   /**
    * POST: /api/signup
    */
-  declare type SignUp = Author | Res.Error
+  declare type SignUp = User | Res.Error
 
   /**
    * GET /api/user_count

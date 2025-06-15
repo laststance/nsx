@@ -10,7 +10,7 @@ import TestRenderer from '../../lib/TestRenderer'
 import Input from './Input'
 
 interface FormInput {
-  name: Author['name']
+  name: User['name']
 }
 
 const formValidator = z.object({

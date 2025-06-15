@@ -2,7 +2,7 @@
  * Domain Data
  */
 
-declare interface Author {
+declare interface User {
   id: number
   name: string
   createdAt: string
@@ -35,4 +35,4 @@ declare type StockList = Stock[]
  */
 declare type JWTtoken = string
 
-declare type JWTpayload = Author // @TODO Omit password
+declare type JWTpayload = User // @TODO Omit password

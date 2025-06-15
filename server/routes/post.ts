@@ -8,7 +8,7 @@ import { prisma } from '../prisma'
 const router: Router = express.Router()
 
 router.get('/post/:id', async (req: Request, res: Response) => {
-  const post = await prisma.posts.findFirst({
+  const post = await prisma.post.findFirst({
     where: { id: parseInt(req.params.id, 10) },
   })
 
@@ -20,7 +20,7 @@ router.delete(
   isAuthorized,
   async (req: Request, res: Response) => {
     try {
-      await prisma.posts.delete({ where: { id: parseInt(req.params.id, 10) } })
+      await prisma.post.delete({ where: { id: parseInt(req.params.id, 10) } })
       res.status(200).json({ message: 'Delete Successful!' })
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -52,7 +52,7 @@ router.get(
   ) => {
     const page = parseInt(req.query.page, 10)
     const perPage = parseInt(req.query.perPage, 10)
-    const total = await prisma.posts.count()
+    const total = await prisma.post.count()
 
     const offset = perPage * (page - 1)
     const options =
@@ -67,7 +67,7 @@ router.get(
             orderBy: { id: 'desc' as const },
           } as const)
 
-    const postList = await prisma.posts.findMany(options as any)
+    const postList = await prisma.post.findMany(options as any)
     res.status(200).json({ postList, total })
   },
 )
@@ -75,7 +75,7 @@ router.get(
 router.post('/create', isAuthorized, async (req: Request, res: Response) => {
   const { title, body } = req.body
   try {
-    const post = await prisma.posts.create({
+    const post = await prisma.post.create({
       data: {
         title: title,
         body: body,
@@ -101,7 +101,7 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body
     try {
-      await prisma.posts.update({
+      await prisma.post.update({
         data: { title: body.title, body: body.body },
         where: { id: parseInt(body.id, 10) },
       })

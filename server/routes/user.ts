@@ -20,7 +20,7 @@ interface SignupRequest {
 router.get(
   '/user_count',
   async (_req: Request, res: Response<Res.GetUserCount>) => {
-    const userCount = await prisma.authors.count()
+    const userCount = await prisma.user.count()
     res.status(200).json({ userCount })
   },
 )
@@ -39,16 +39,16 @@ const signupHandler: RequestHandler = async (req, res) => {
   const hash = await bcrypt.hash(body.password, salt)
 
   try {
-    const author = await prisma.authors.create({
+    const user = await prisma.user.create({
       data: {
         name: body.name,
         password: hash,
       },
     })
 
-    const token: JWTtoken = generateAccessToken(author)
+    const token: JWTtoken = generateAccessToken(user)
     res.cookie('token', token, getCookieOptions(token))
-    res.status(201).json(author)
+    res.status(201).json(user)
   } catch (error: unknown) {
     if (error instanceof Error) {
       Logger.error(error)
@@ -65,16 +65,16 @@ const signupHandler: RequestHandler = async (req, res) => {
 router.post('/signup', signupHandler)
 
 router.post('/login', async ({ body }: Request, res: Response) => {
-  const author = await prisma.authors.findFirst({
+  const user = await prisma.user.findFirst({
     where: { name: body.name },
   })
-  if (author) {
-    const isValidPassword = await bcrypt.compare(body.password, author.password)
+  if (user) {
+    const isValidPassword = await bcrypt.compare(body.password, user.password)
 
     if (isValidPassword) {
-      const token: JWTtoken = generateAccessToken(author)
+      const token: JWTtoken = generateAccessToken(user)
       res.cookie('token', token, getCookieOptions(token))
-      res.status(200).json(author)
+      res.status(200).json(user)
     } else {
       Logger.warn('Invalid Password')
       res.status(200).json({ failed: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
@@ -100,12 +100,12 @@ const validateHandler: RequestHandler = async (req: Request, res: Response) => {
 
   try {
     const decoded = verifyAccessToken(token)
-    const author = await prisma.authors.findFirst({
+    const user = await prisma.user.findFirst({
       where: { id: decoded.id },
     })
 
-    if (author) {
-      res.status(200).json({ valid: true, author })
+    if (user) {
+      res.status(200).json({ valid: true, author: user })
     } else {
       res.cookie('token', '', { expires: new Date() })
       res.status(401).json({ valid: false, message: 'User not found' })

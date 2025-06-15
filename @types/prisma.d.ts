@@ -1,17 +1,17 @@
 import type { Prisma } from '@prisma/client'
 
 declare module '@prisma/client' {
-  export interface authors {
+  export interface User {
     createdAt: string
     updatedAt: string
   }
 
-  export interface posts {
+  export interface Post {
     createdAt: string
     updatedAt: string
   }
 
-  export interface stocks {
+  export interface Stock {
     createdAt: string
     updatedAt: string
   }
@@ -22,55 +22,55 @@ declare module '@prisma/client' {
   }
 
   export interface PrismaClient {
-    authors: Omit<
-      Prisma.AuthorsDelegate<
+    User: Omit<
+      Prisma.UserDelegate<
         Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
       >,
       'findUnique' | 'findFirst' | 'findMany'
     > & {
-      findUnique<T extends Prisma.AuthorsFindUniqueArgs>(
+      findUnique<T extends Prisma.UserFindUniqueArgs>(
         args: T,
-      ): Promise<WithDateAsString<Prisma.AuthorsGetPayload<T>> | null>
-      findFirst<T extends Prisma.AuthorsFindFirstArgs>(
+      ): Promise<WithDateAsString<Prisma.UserGetPayload<T>> | null>
+      findFirst<T extends Prisma.UserFindFirstArgs>(
         args: T,
-      ): Promise<WithDateAsString<Prisma.AuthorsGetPayload<T>> | null>
-      findMany<T extends Prisma.AuthorsFindManyArgs>(
+      ): Promise<WithDateAsString<Prisma.UserGetPayload<T>> | null>
+      findMany<T extends Prisma.UserFindManyArgs>(
         args?: T,
-      ): Promise<WithDateAsString<Prisma.AuthorsGetPayload<T>>[]>
+      ): Promise<WithDateAsString<Prisma.UserGetPayload<T>>[]>
     }
 
-    posts: Omit<
-      Prisma.PostsDelegate<
+    Post: Omit<
+      Prisma.PostDelegate<
         Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
       >,
       'findUnique' | 'findFirst' | 'findMany'
     > & {
-      findUnique<T extends Prisma.PostsFindUniqueArgs>(
+      findUnique<T extends Prisma.PostFindUniqueArgs>(
         args: T,
-      ): Promise<WithDateAsString<Prisma.PostsGetPayload<T>> | null>
-      findFirst<T extends Prisma.PostsFindFirstArgs>(
+      ): Promise<WithDateAsString<Prisma.PostGetPayload<T>> | null>
+      findFirst<T extends Prisma.PostFindFirstArgs>(
         args: T,
-      ): Promise<WithDateAsString<Prisma.PostsGetPayload<T>> | null>
-      findMany<T extends Prisma.PostsFindManyArgs>(
+      ): Promise<WithDateAsString<Prisma.PostGetPayload<T>> | null>
+      findMany<T extends Prisma.PostFindManyArgs>(
         args?: T,
-      ): Promise<WithDateAsString<Prisma.PostsGetPayload<T>>[]>
+      ): Promise<WithDateAsString<Prisma.PostGetPayload<T>>[]>
     }
 
-    stocks: Omit<
-      Prisma.StocksDelegate<
+    Stock: Omit<
+      Prisma.StockDelegate<
         Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
       >,
       'findUnique' | 'findFirst' | 'findMany'
     > & {
-      findUnique<T extends Prisma.StocksFindUniqueArgs>(
+      findUnique<T extends Prisma.StockFindUniqueArgs>(
         args: T,
-      ): Promise<WithDateAsString<Prisma.StocksGetPayload<T>> | null>
-      findFirst<T extends Prisma.StocksFindFirstArgs>(
+      ): Promise<WithDateAsString<Prisma.StockGetPayload<T>> | null>
+      findFirst<T extends Prisma.StockFindFirstArgs>(
         args: T,
-      ): Promise<WithDateAsString<Prisma.StocksGetPayload<T>> | null>
-      findMany<T extends Prisma.StocksFindManyArgs>(
+      ): Promise<WithDateAsString<Prisma.StockGetPayload<T>> | null>
+      findMany<T extends Prisma.StockFindManyArgs>(
         args?: T,
-      ): Promise<WithDateAsString<Prisma.StocksGetPayload<T>>[]>
+      ): Promise<WithDateAsString<Prisma.StockGetPayload<T>>[]>
     }
 
     tweet: Omit<

@@ -1,10 +1,10 @@
-import type { authors } from '@prisma/client'
+import type { User } from '@prisma/client'
 import type { CookieOptions } from 'express'
 import jwt, { type JwtPayload, TokenExpiredError } from 'jsonwebtoken'
 
 // Generate Access Token
-export function generateAccessToken(author: authors) {
-  return jwt.sign(author, process.env.ACCESS_TOKEN_SECRET as string, {
+export function generateAccessToken(user: User) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, {
     expiresIn: '7d',
   })
 }

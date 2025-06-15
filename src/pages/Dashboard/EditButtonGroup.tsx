@@ -7,7 +7,7 @@ import type { UsePagenationResult } from '@/src/components/Pagination/usePaginat
 import { handleDelete } from './handler'
 
 interface Props {
-  author: Author
+  author: User
   index: number
   post: Post
   refetch: UsePagenationResult['refetch']

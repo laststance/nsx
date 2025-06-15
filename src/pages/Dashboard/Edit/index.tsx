@@ -12,7 +12,7 @@ import Textarea from '@/src/components/Textarea/Textarea'
 
 import { assertIsDefined } from '../../../../lib/assertIsDefined'
 import { editPostFormValidator } from '../../../../validator'
-import { selectAuthor } from '../../../redux/adminSlice'
+import { selectUser } from '../../../redux/adminSlice'
 import { API } from '../../../redux/API'
 import type { FormInput } from '../../../redux/draftSlice'
 import { useAppSelector } from '../../../redux/hooks'
@@ -28,7 +28,7 @@ const Edit: React.FC = memo(() => {
   const [updatePost, { isLoading: isUpdating }] =
     API.endpoints.updatePost.useMutation()
   const navigate = useNavigate()
-  const author = useAppSelector(selectAuthor)
+  const user = useAppSelector(selectUser)
   const {
     formState: { errors },
     getValues,
@@ -50,7 +50,7 @@ const Edit: React.FC = memo(() => {
     <form
       data-testid="edit-form"
       onSubmit={handleSubmit(async () =>
-        onSubmit(updatePost, author, getValues, navigate, id, dispatch),
+        onSubmit(updatePost, user, getValues, navigate, id, dispatch),
       )}
     >
       <Input

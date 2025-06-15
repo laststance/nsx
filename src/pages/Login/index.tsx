@@ -17,8 +17,8 @@ import { enqueSnackbar } from '../../redux/snackbarSlice'
 import { dispatch } from '../../redux/store'
 
 interface FormInput extends FieldValues {
-  name: Author['name']
-  password: Author['password']
+  name: User['name']
+  password: User['password']
 }
 
 const Login: React.FC = memo(() => {

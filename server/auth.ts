@@ -20,7 +20,7 @@ export const isAuthorized = (
     return next(createError(403, 'unauthorized'))
   }
 
-  const author: IndexSignature<Author> = req.body.author
+  const author: IndexSignature<User> = req.body.author
   Logger.info('req.body.author: ' + JSON.stringify(req.body.author))
   Logger.info('req.cookies.token: ' + req.cookies.token)
 

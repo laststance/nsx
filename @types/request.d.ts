@@ -4,16 +4,16 @@ declare namespace Req {
    * POST: /api/signup
    */
   declare interface SignUp {
-    name: Author['name']
-    password: Author['password']
+    name: User['name']
+    password: User['password']
   }
 
   /**
    * POST /api/login
    */
   declare interface Login {
-    name: Author['name']
-    password: Author['password']
+    name: User['name']
+    password: User['password']
   }
 
   /**
@@ -29,7 +29,7 @@ declare namespace Req {
    */
   declare interface CreatePost {
     title: Post['title']
-    author: Author
+    author: User
     body: Post['body']
   }
 
@@ -39,7 +39,7 @@ declare namespace Req {
   declare interface UpdatePost {
     id: Post['id']
     title: Post['title']
-    author: Author
+    author: User
     body: Post['body']
   }
 }

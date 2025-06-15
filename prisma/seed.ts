@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 /**
- * Seeds the database with initial data for posts, authors, and tweets.
+ * Seeds the database with initial data for posts, users, and tweets.
  *
  * Inserts a predefined collection of posts, creates two author accounts with hashed passwords, and adds sample tweets to their respective tables using Prisma ORM.
  *
@@ -257,21 +257,21 @@ async function main() {
    * Post Seed
    */
   for (const post of posts) {
-    await prisma.posts.create({
+    await prisma.post.create({
       data: post,
     })
   }
   /*
    * User Seed
    */
-  await prisma.authors.create({
+  await prisma.user.create({
     data: {
       name: 'John Doe',
       // hash of 'popcoon',
       password: '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC',
     },
   })
-  await prisma.authors.create({
+  await prisma.user.create({
     data: {
       name: 'rex',
       // hash of 'popcoon',

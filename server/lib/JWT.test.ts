@@ -13,7 +13,7 @@ vi.stubEnv('ACCESS_TOKEN_SECRET', 'test-secret')
 describe('JWT Functions', () => {
   describe('generateAccessToken', () => {
     it('should generate a token with 7 day expiration', () => {
-      const author = {
+      const user = {
         id: 1,
         name: 'Test User',
         password: 'hashed',
@@ -21,7 +21,7 @@ describe('JWT Functions', () => {
         updatedAt: new Date().toISOString(),
       }
 
-      const token = generateAccessToken(author)
+      const token = generateAccessToken(user)
       const decoded = jwt.decode(token) as any
 
       expect(decoded).toBeTruthy()
@@ -36,7 +36,7 @@ describe('JWT Functions', () => {
 
   describe('getTokenExpiration', () => {
     it('should extract expiration date from JWT token', () => {
-      const author = {
+      const user = {
         id: 1,
         name: 'Test User',
         password: 'hashed',
@@ -44,7 +44,7 @@ describe('JWT Functions', () => {
         updatedAt: new Date().toISOString(),
       }
 
-      const token = generateAccessToken(author)
+      const token = generateAccessToken(user)
       const expiration = getTokenExpiration(token)
 
       // Should be approximately 7 days from now
@@ -70,7 +70,7 @@ describe('JWT Functions', () => {
 
   describe('getCookieOptions', () => {
     it('should return cookie options with correct expiration', () => {
-      const author = {
+      const user = {
         id: 1,
         name: 'Test User',
         password: 'hashed',
@@ -78,7 +78,7 @@ describe('JWT Functions', () => {
         updatedAt: new Date().toISOString(),
       }
 
-      const token = generateAccessToken(author)
+      const token = generateAccessToken(user)
       const options = getCookieOptions(token)
 
       expect(options.httpOnly).toBe(true)

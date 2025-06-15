@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 export interface AdminState {
-  author: Author
+  author: User
   login: boolean
 }
 
@@ -23,7 +23,7 @@ export const adminSlice = createSlice({
   name: 'admin',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<Author>) => {
+    login: (state, action: PayloadAction<User>) => {
       state.login = true
       state.author = action.payload
     },
@@ -36,7 +36,7 @@ export const adminSlice = createSlice({
 
 export const selectLogin = (state: RootState): AdminState['login'] =>
   state.admin.login
-export const selectAuthor = (state: RootState): AdminState['author'] =>
+export const selectUser = (state: RootState): AdminState['author'] =>
   state.admin.author
 
 export const { login, logout } = adminSlice.actions
