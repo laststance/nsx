@@ -14,26 +14,22 @@ import NotFound from './pages/NotFound'
 import Post from './pages/Post'
 import AuthRouter from './router/AuthRouter'
 
-const Routes = memo(
-  () => (
-    <ReactRouterRoutes>
-      <Route path="/" element={<Index />} />
-      <Route path="post/:postId_querystring" element={<Post />} />
-      <Route path="about" element={<About />} />
-      <Route path="login" element={<Login />} />
-      <Route path="dashboard" element={<AuthRouter />}>
-        <Route index element={<Dashboard />} />
-        <Route path="create" element={<Create />} />
-        <Route path="edit/:postId" element={<Edit />} />
-        <Route path="tweet" element={<Tweet />} />
-        <Route path="setting/*" element={<Setting />} />
-      </Route>
-      <Route path="*" element={<NotFound />} />
-    </ReactRouterRoutes>
-  ),
-
-  () => true,
-)
+const Routes = memo(() => (
+  <ReactRouterRoutes>
+    <Route path="/" element={<Index />} />
+    <Route path="post/:postId_querystring" element={<Post />} />
+    <Route path="about" element={<About />} />
+    <Route path="login" element={<Login />} />
+    <Route path="dashboard" element={<AuthRouter />}>
+      <Route index element={<Dashboard />} />
+      <Route path="create" element={<Create />} />
+      <Route path="edit/:postId" element={<Edit />} />
+      <Route path="tweet" element={<Tweet />} />
+      <Route path="settings/*" element={<Setting />} />
+    </Route>
+    <Route path="*" element={<NotFound />} />
+  </ReactRouterRoutes>
+))
 Routes.displayName = 'Routes'
 
 export default Routes

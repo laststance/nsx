@@ -132,26 +132,26 @@ test.describe('site theme', () => {
   })
 
   test.describe('security', () => {
-    test('never show private routes without login', async ({ page }) => {
+    test('never show private routes and redirect to home page without login', async ({
+      page,
+    }) => {
       await page.goto('http://localhost:3000/')
 
+      // TODO: In the future, we'll issue a login token to redirect users to the login screen, and unless the token is valid, the login page won't be accessible
       await page.goto('http://localhost:3000/login')
       await expect(page.getByRole('main')).toHaveText(/Login/)
 
-      await page.goto('http://localhost:3000/signup')
-      await expect(page.getByRole('main')).toHaveText('404: Page Not Found')
-
       await page.goto('http://localhost:3000/dashboard')
-      await expect(page.getByRole('main')).toHaveText('404: Page Not Found')
+      await expect(page.getByRole('main')).toHaveText(/close your eyes/)
 
-      await page.goto('http://localhost:3000/create')
-      await expect(page.getByRole('main')).toHaveText('404: Page Not Found')
+      await page.goto('http://localhost:3000/dashboard/create')
+      await expect(page.getByRole('main')).toHaveText(/close your eyes/)
 
-      await page.goto('http://localhost:3000/edit')
-      await expect(page.getByRole('main')).toHaveText('404: Page Not Found')
+      await page.goto('http://localhost:3000/dashboard/edit/1')
+      await expect(page.getByRole('main')).toHaveText(/close your eyes/)
 
-      await page.goto('http://localhost:3000/delete')
-      await expect(page.getByRole('main')).toHaveText('404: Page Not Found')
+      await page.goto('http://localhost:3000/dashboard/tweet')
+      await expect(page.getByRole('main')).toHaveText(/close your eyes/)
     })
   })
 })

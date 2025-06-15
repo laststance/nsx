@@ -1,5 +1,4 @@
 import { getByRole } from '@testing-library/dom'
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { sleep } from '../lib/sleep'
