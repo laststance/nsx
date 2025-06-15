@@ -1,21 +1,48 @@
+import type {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+} from '@reduxjs/toolkit/query'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+import { logout } from './adminSlice'
+
 const endpoint = process.env.VITE_API_ENDPOINT
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: endpoint,
+  credentials: 'include',
+  fetchFn: async (requestInfo: RequestInfo, ...rest) =>
+    fetch(requestInfo, ...rest),
+  prepareHeaders: (headers: Headers) => {
+    return headers
+  },
+})
+
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  const result = await baseQuery(args, api, extraOptions)
+
+  // Handle 401 unauthorized responses
+  if (result.error && result.error.status === 401) {
+    // Dispatch logout action to update Redux state
+    api.dispatch(logout())
+
+    // Redirect to login page
+    window.location.href = '/'
+  }
+
+  return result
+}
 
 export const API = createApi({
   reducerPath: 'RTK_Query',
   tagTypes: ['Posts', 'Tweets'],
   keepUnusedDataFor: 30,
-  // TODO handle unauthorized error state change {login: false} and redirect to index page
-  // TODO Replace fetchBaseQuery with axios
-  baseQuery: fetchBaseQuery({
-    baseUrl: endpoint,
-    fetchFn: async (requestInfo: RequestInfo, ...rest) =>
-      fetch(requestInfo, ...rest),
-    prepareHeaders: (headers: Headers) => {
-      return headers
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     createPost: builder.mutation<Post, Req.CreatePost>({
       invalidatesTags: () => [{ type: 'Posts' }],
@@ -102,6 +129,13 @@ export const API = createApi({
         body: loginInfo,
         method: 'POST',
         url: 'signup',
+      }),
+    }),
+
+    validateToken: builder.query<{ valid: boolean; author?: Author }, void>({
+      query: () => ({
+        method: 'GET',
+        url: 'validate',
       }),
     }),
 

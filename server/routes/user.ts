@@ -2,7 +2,11 @@ import bcrypt from 'bcrypt'
 import type { Request, Response, Router, RequestHandler } from 'express'
 import express from 'express'
 
-import { generateAccessToken, getCookieOptions } from '../lib/JWT'
+import {
+  generateAccessToken,
+  getCookieOptions,
+  verifyAccessToken,
+} from '../lib/JWT'
 import Logger from '../lib/Logger'
 import { prisma } from '../prisma'
 
@@ -85,5 +89,34 @@ router.get('/logout', (_req: Request, res: Response<Res.Logout>) => {
   res.cookie('token', '', { expires: new Date() })
   res.status(200).json({ message: 'Logout Successful' })
 })
+
+const validateHandler: RequestHandler = async (req: Request, res: Response) => {
+  const token = req.cookies.token as JWTtoken
+
+  if (!token) {
+    res.status(401).json({ valid: false, message: 'No token found' })
+    return
+  }
+
+  try {
+    const decoded = verifyAccessToken(token)
+    const author = await prisma.authors.findFirst({
+      where: { id: decoded.id },
+    })
+
+    if (author) {
+      res.status(200).json({ valid: true, author })
+    } else {
+      res.cookie('token', '', { expires: new Date() })
+      res.status(401).json({ valid: false, message: 'User not found' })
+    }
+  } catch {
+    // Clear invalid token
+    res.cookie('token', '', { expires: new Date() })
+    res.status(401).json({ valid: false, message: 'Invalid or expired token' })
+  }
+}
+
+router.get('/validate', validateHandler)
 
 export default router

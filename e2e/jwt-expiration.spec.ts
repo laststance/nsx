@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test'
 test.describe('JWT Expiration', () => {
   test('cookie expiration should match JWT token expiration', async ({
     page,
+    context,
   }) => {
     // Navigate to login page
     await page.goto('http://localhost:3000')
@@ -13,32 +14,39 @@ test.describe('JWT Expiration', () => {
     await page.getByTestId('name-input').fill('John Doe')
     await page.getByTestId('password-input').fill('popcoon')
 
-    // Intercept the login response to check the cookie
-    const responsePromise = page.waitForResponse('**/login')
+    // Submit login and wait for response
     await page.getByTestId('submit-btn').click()
-    const response = await responsePromise
 
-    // Get the Set-Cookie header
-    const cookies = response.headers()['set-cookie']
-    expect(cookies).toBeTruthy()
+    // Wait for navigation or for login error
+    await page.waitForLoadState('networkidle')
 
-    // Parse the cookie to check expiration
-    const cookieMatch = cookies.match(/token=([^;]+)/)
-    const expiresMatch = cookies.match(/expires=([^;]+)/)
-    const maxAgeMatch = cookies.match(/max-age=(\d+)/)
+    // Get cookies from the context after login
+    const cookies = await context.cookies()
+    const tokenCookie = cookies.find((c) => c.name === 'token')
 
-    expect(cookieMatch).toBeTruthy()
-    expect(expiresMatch || maxAgeMatch).toBeTruthy()
-
-    // Check that max-age is approximately 7 days (604800 seconds)
-    if (maxAgeMatch) {
-      const maxAge = parseInt(maxAgeMatch[1], 10)
-      // Allow for some variance due to processing time
-      expect(maxAge).toBeGreaterThan(604700) // ~6.99 days
-      expect(maxAge).toBeLessThan(604900) // ~7.01 days
+    // If no cookie is set, login might have failed
+    if (!tokenCookie) {
+      // Check if we're still on login page with error
+      const currentUrl = page.url()
+      throw new Error(
+        `Login failed - no token cookie set. Current URL: ${currentUrl}`,
+      )
     }
 
-    // Verify we're logged in
+    expect(tokenCookie).toBeTruthy()
+
+    // Check that cookie expiration is approximately 7 days from now
+    const expirationDate = new Date(tokenCookie.expires * 1000)
+    const now = new Date()
+    const diffInDays =
+      (expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+
+    // Allow for some variance
+    expect(diffInDays).toBeGreaterThan(6.9)
+    expect(diffInDays).toBeLessThan(7.1)
+
+    // Verify we're logged in - check for menu button first
+    await page.keyboard.press('x')
     await expect(page.getByTestId('dashboard-link')).toBeVisible()
   })
 
@@ -52,9 +60,21 @@ test.describe('JWT Expiration', () => {
     await page.getByTestId('login-link').click()
     await page.getByTestId('name-input').fill('John Doe')
     await page.getByTestId('password-input').fill('popcoon')
-    await page.getByTestId('submit-btn').click()
 
-    // Wait for successful login
+    // Wait for login response
+    const responsePromise = page.waitForResponse('**/login')
+    await page.getByTestId('submit-btn').click()
+    const response = await responsePromise
+
+    // Check if login was successful
+    const responseBody = await response.json()
+    if (responseBody.failed) {
+      throw new Error(`Login failed: ${responseBody.failed}`)
+    }
+
+    // Wait for navigation and verify login
+    await page.waitForLoadState('networkidle')
+    await page.keyboard.press('x')
     await expect(page.getByTestId('dashboard-link')).toBeVisible()
 
     // Get the current cookies
@@ -62,8 +82,8 @@ test.describe('JWT Expiration', () => {
     const tokenCookie = cookies.find((c) => c.name === 'token')
     expect(tokenCookie).toBeTruthy()
 
-    // Manually set an expired token (this is a workaround since we can't actually wait 7 days)
-    // We'll create a token that's already expired by setting a past date
+    // Manually set an expired token
+    // Clear cookies and set an invalid/expired token
     await context.clearCookies()
     await context.addCookies([
       {
@@ -78,11 +98,14 @@ test.describe('JWT Expiration', () => {
       },
     ])
 
-    // Try to access a protected route
+    // Try to access a protected route - this should trigger a 401 response
     await page.goto('http://localhost:3000/dashboard')
 
-    // Should be redirected to login or shown an error
-    await expect(page).toHaveURL(/\/(login|$)/)
+    // Wait for the redirect to complete
+    await page.waitForLoadState('networkidle')
+
+    // Should be redirected to home page
+    await expect(page).toHaveURL('http://localhost:3000/')
   })
 
   test('logout should clear the JWT cookie', async ({ page, context }) => {
@@ -92,9 +115,21 @@ test.describe('JWT Expiration', () => {
     await page.getByTestId('login-link').click()
     await page.getByTestId('name-input').fill('John Doe')
     await page.getByTestId('password-input').fill('popcoon')
-    await page.getByTestId('submit-btn').click()
 
-    // Wait for successful login
+    // Wait for login response
+    const loginResponsePromise = page.waitForResponse('**/login')
+    await page.getByTestId('submit-btn').click()
+    const loginResponse = await loginResponsePromise
+
+    // Check if login was successful
+    const responseBody = await loginResponse.json()
+    if (responseBody.failed) {
+      throw new Error(`Login failed: ${responseBody.failed}`)
+    }
+
+    // Wait for navigation and verify login
+    await page.waitForLoadState('networkidle')
+    await page.keyboard.press('x')
     await expect(page.getByTestId('dashboard-link')).toBeVisible()
 
     // Verify cookie exists
@@ -102,15 +137,19 @@ test.describe('JWT Expiration', () => {
     expect(cookies.find((c) => c.name === 'token')).toBeTruthy()
 
     // Logout
-    await page.keyboard.press('x')
+    const logoutResponsePromise = page.waitForResponse('**/logout')
     await page.getByTestId('logout-link').click()
+    await logoutResponsePromise
 
-    // Wait for logout to complete
-    await page.waitForTimeout(500)
+    // Wait for logout to complete and navigation
+    await page.waitForLoadState('networkidle')
 
     // Verify cookie is cleared
     cookies = await context.cookies()
     const tokenCookie = cookies.find((c) => c.name === 'token')
     expect(!tokenCookie || tokenCookie.value === '').toBeTruthy()
+
+    // Verify we're redirected to home page after logout
+    await expect(page).toHaveURL('http://localhost:3000/')
   })
 })

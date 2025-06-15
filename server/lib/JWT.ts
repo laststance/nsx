@@ -51,19 +51,14 @@ export function getCookieOptions(token: string): CookieOptions {
   const expiration = getTokenExpiration(token)
   const maxAge = expiration.getTime() - Date.now()
 
+  // In development/test, use secure false to work with HTTP
+  const isProduction = process.env.NODE_ENV === 'production'
+
   return {
     httpOnly: true,
     expires: expiration,
     maxAge: maxAge > 0 ? maxAge : 0,
-    sameSite: 'none',
-    secure: true,
+    sameSite: 'lax',
+    secure: isProduction,
   }
-}
-
-// Legacy static cookie options (to be removed)
-export const cookieOptions: CookieOptions = {
-  httpOnly: true,
-  maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
-  sameSite: 'none',
-  secure: true,
 }
