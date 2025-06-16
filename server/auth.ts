@@ -2,10 +2,9 @@ import type { Request, Response, NextFunction } from 'express'
 import createError from 'http-errors'
 import { TokenExpiredError } from 'jsonwebtoken'
 
-import { prisma } from 'server/prisma'
-
 import { verifyAccessToken } from './lib/JWT'
 import Logger from './lib/Logger'
+import { prisma } from './prisma'
 
 export const isAuthorized = async (
   req: Request,
