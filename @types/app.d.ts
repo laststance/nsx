@@ -6,7 +6,6 @@ declare interface User {
   id: number
   name: string
   createdAt: string
-  password: string
   updatedAt: string
 }
 
@@ -35,4 +34,4 @@ declare type StockList = Stock[]
  */
 declare type JWTtoken = string
 
-declare type JWTpayload = User // @TODO Omit password
+declare type JWTpayload = User // Password is already omitted from User type

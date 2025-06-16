@@ -18,7 +18,7 @@ import { dispatch } from '../../redux/store'
 
 interface FormInput extends FieldValues {
   name: User['name']
-  password: User['password']
+  password: string
 }
 
 const Login: React.FC = memo(() => {

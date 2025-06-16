@@ -132,7 +132,7 @@ export const API = createApi({
       }),
     }),
 
-    validateToken: builder.query<{ valid: boolean; author?: User }, void>({
+    validateToken: builder.query<{ valid: boolean; user?: User }, void>({
       query: () => ({
         method: 'GET',
         url: 'validate',

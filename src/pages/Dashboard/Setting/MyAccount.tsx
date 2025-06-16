@@ -11,7 +11,7 @@ import { userAccountValidator } from '../../../../validator'
 const mockOnSubmit = (v: any) => console.log(v)
 interface FormInput extends FieldValues {
   name: User['name']
-  password: User['password']
+  password: string
 }
 
 const MyAccount: React.FC = memo(() => {

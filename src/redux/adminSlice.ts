@@ -13,7 +13,6 @@ const initialState = {
     id: 9999,
     name: 'guest',
     createdAt: 'none',
-    password: 'none',
     updatedAt: 'none',
   },
   login: false,

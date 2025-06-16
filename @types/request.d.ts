@@ -5,7 +5,7 @@ declare namespace Req {
    */
   declare interface SignUp {
     name: User['name']
-    password: User['password']
+    password: string
   }
 
   /**
@@ -13,7 +13,7 @@ declare namespace Req {
    */
   declare interface Login {
     name: User['name']
-    password: User['password']
+    password: string
   }
 
   /**

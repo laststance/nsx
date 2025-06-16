@@ -48,7 +48,13 @@ const signupHandler: RequestHandler = async (req, res) => {
 
     const token: JWTtoken = generateAccessToken(user)
     res.cookie('token', token, getCookieOptions(token))
-    res.status(201).json(user)
+    // Return user without password
+    res.status(201).json({
+      id: user.id,
+      name: user.name,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    })
   } catch (error: unknown) {
     if (error instanceof Error) {
       Logger.error(error)
@@ -74,7 +80,13 @@ router.post('/login', async ({ body }: Request, res: Response) => {
     if (isValidPassword) {
       const token: JWTtoken = generateAccessToken(user)
       res.cookie('token', token, getCookieOptions(token))
-      res.status(200).json(user)
+      // Return user without password
+      res.status(200).json({
+        id: user.id,
+        name: user.name,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      })
     } else {
       Logger.warn('Invalid Password')
       res.status(200).json({ failed: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
@@ -101,11 +113,17 @@ const validateHandler: RequestHandler = async (req: Request, res: Response) => {
   try {
     const decoded = verifyAccessToken(token)
     const user = await prisma.user.findFirst({
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+      },
       where: { id: decoded.id },
     })
 
     if (user) {
-      res.status(200).json({ valid: true, author: user })
+      res.status(200).json({ valid: true, user })
     } else {
       res.cookie('token', '', { expires: new Date() })
       res.status(401).json({ valid: false, message: 'User not found' })
