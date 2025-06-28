@@ -18,9 +18,11 @@ const isDev = env === 'development'
 const isProd = env === 'production'
 // .env file path resolve different between dev and production.
 // dev: projectRoot/.env production: projectRoot/server_build/.env
-require('dotenv').config(
-  isProd ? path.join(__dirname, './../../.env') : __dirname,
-)
+require('dotenv').config({
+  path: isProd
+    ? path.join(__dirname, './../../.env')
+    : path.join(__dirname, '../.env'),
+})
 
 Cron.readList.start()
 

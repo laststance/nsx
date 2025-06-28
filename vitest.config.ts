@@ -14,16 +14,21 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    include: [
-      'src/**/*.{spec,test}.{js,jsx,ts,tsx}',
-      'src/**/__tests__/**/*.{js,jsx,ts,tsx}',
-      'lib/**/*.{spec,test}.{js,jsx,ts,tsx}',
-      'scripts/**/*.{spec,test}.{js,jsx,ts,tsx}',
-    ],
     setupFiles: ['setupTests.ts'],
     projects: [
       {
-        extends: true,
+        test: {
+          name: 'unit',
+          include: [
+            'src/**/*.{spec,test}.{js,jsx,ts,tsx}',
+            'src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+            'lib/**/*.{spec,test}.{js,jsx,ts,tsx}',
+            'scripts/**/*.{spec,test}.{js,jsx,ts,tsx}',
+          ],
+          environment: 'jsdom',
+        },
+      },
+      {
         plugins: [
           // The plugin will run tests for the stories defined in your Storybook config
           // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest

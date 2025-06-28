@@ -17,6 +17,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/prepare
+      - name: Create .env file for Storybook
+        run: cp .env.storybook .env
         # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
         uses: chromaui/action-next@v1
