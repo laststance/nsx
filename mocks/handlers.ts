@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 export const handlers = [
-  http.get('http://localhost:3000/api/post_list', async () => {
+  http.get('/api/post_list', async () => {
     return HttpResponse.json({
       postList: [
         {
@@ -142,7 +142,28 @@ export const handlers = [
   http.post('/update', async () => {
     return HttpResponse.json([])
   }),
-  http.get('http://localhost:3000/api/stock_list', async () => {
+  http.post('/api/update', async () => {
+    return HttpResponse.json([])
+  }),
+  http.post('/api/create', async () => {
+    return HttpResponse.json([])
+  }),
+  http.post('/api/signup', async () => {
+    return HttpResponse.json([])
+  }),
+  http.post('/api/login', async () => {
+    return HttpResponse.json([])
+  }),
+  http.get('/api/logout', async () => {
+    return HttpResponse.json([])
+  }),
+  http.delete('/api/post/:id', async () => {
+    return HttpResponse.json([])
+  }),
+  http.get('/api/stock_list', async () => {
+    return HttpResponse.json([])
+  }),
+  http.get('/api/stocklist', async () => {
     return HttpResponse.json([])
   }),
 ]

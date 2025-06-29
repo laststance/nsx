@@ -12,7 +12,7 @@ test('My React App is working', async () => {
   root.render(<App />)
 
   // Loading post list
-  await sleep(300)
+  await sleep(1000)
 
   const header = container.querySelector('header')!
   expect(getByRole(header, 'heading')).toHaveTextContent('Reading List')
