@@ -88,6 +88,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ${{ secrets.REMOTE_DIR }}
+            npm i -g pnpm
             cat > .env << EOL
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
