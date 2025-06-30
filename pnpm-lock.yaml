@@ -139,8 +139,8 @@ importers:
         specifier: ^1.53.1
         version: 1.53.1
       '@redocly/cli':
-        specifier: ^1.34.3
-        version: 1.34.3(ajv@6.12.6)
+        specifier: ^1.34.4
+        version: 1.34.4(ajv@6.12.6)
       '@storybook/addon-a11y':
         specifier: ^9.0.13
         version: 9.0.14(storybook@9.0.14(@testing-library/dom@10.4.0)(prettier@3.6.2))
@@ -1087,20 +1087,20 @@ packages:
   '@redocly/ajv@8.11.2':
     resolution: {integrity: sha512-io1JpnwtIcvojV7QKDUSIuMN/ikdOUd1ReEnUnMKGfDVridQZ31J0MmIuqwuRjWDZfmvr+Q0MqCcfHM2gTivOg==}
 
-  '@redocly/cli@1.34.3':
-    resolution: {integrity: sha512-GJNBTMfm5wTCtH6K+RtPQZuGbqflMclXqAZ5My12tfux6xFDMW1l0MNd5RMpnIS1aeFcDX++P1gnnROWlesj4w==}
+  '@redocly/cli@1.34.4':
+    resolution: {integrity: sha512-seH/GgrjSB1EeOsgJ/4Ct6Jk2N7sh12POn/7G8UQFARMyUMJpe1oHtBwT2ndfp4EFCpgBAbZ/82Iw6dwczNxEA==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
     hasBin: true
 
   '@redocly/config@0.22.2':
     resolution: {integrity: sha512-roRDai8/zr2S9YfmzUfNhKjOF0NdcOIqF7bhf4MVC5UxpjIysDjyudvlAiVbpPHp3eDRWbdzUgtkK1a7YiDNyQ==}
 
-  '@redocly/openapi-core@1.34.3':
-    resolution: {integrity: sha512-3arRdUp1fNx55itnjKiUhO6t4Mf91TsrTIYINDNLAZPS0TPd5YpiXRctwjel0qqWoOOhjA34cZ3m4dksLDFUYg==}
+  '@redocly/openapi-core@1.34.4':
+    resolution: {integrity: sha512-hf53xEgpXIgWl3b275PgZU3OTpYh1RoD2LHdIfQ1JzBNTWsiNKczTEsI/4Tmh2N1oq9YcphhSMyk3lDh85oDjg==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
-  '@redocly/respect-core@1.34.3':
-    resolution: {integrity: sha512-vo/gu7dRGwTVsRueVSjVk04jOQuL0w22RBJRdRUWkfyse791tYXgMCOx35ijKekL83Q/7Okxf/YX6UY1v5CAug==}
+  '@redocly/respect-core@1.34.4':
+    resolution: {integrity: sha512-MitKyKyQpsizA4qCVv+MjXL4WltfhFQAoiKiAzrVR1Kusro3VhYb6yJuzoXjiJhR0ukLP5QOP19Vcs7qmj9dZg==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
   '@reduxjs/toolkit@2.8.2':
@@ -2601,8 +2601,8 @@ packages:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
     engines: {node: '>=12'}
 
-  dotenv@16.4.5:
-    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+  dotenv@16.4.7:
+    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
     engines: {node: '>=12'}
 
   dotenv@16.6.1:
@@ -6751,7 +6751,7 @@ snapshots:
       require-from-string: 2.0.2
       uri-js-replace: 1.0.1
 
-  '@redocly/cli@1.34.3(ajv@6.12.6)':
+  '@redocly/cli@1.34.4(ajv@6.12.6)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/exporter-trace-otlp-http': 0.53.0(@opentelemetry/api@1.9.0)
@@ -6759,13 +6759,13 @@ snapshots:
       '@opentelemetry/sdk-trace-node': 1.26.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.27.0
       '@redocly/config': 0.22.2
-      '@redocly/openapi-core': 1.34.3
-      '@redocly/respect-core': 1.34.3(ajv@6.12.6)
+      '@redocly/openapi-core': 1.34.4
+      '@redocly/respect-core': 1.34.4(ajv@6.12.6)
       abort-controller: 3.0.0
       chokidar: 3.6.0
       colorette: 1.4.0
       core-js: 3.43.0
-      dotenv: 16.6.1
+      dotenv: 16.4.7
       form-data: 4.0.3
       get-port-please: 3.1.2
       glob: 7.2.3
@@ -6789,7 +6789,7 @@ snapshots:
 
   '@redocly/config@0.22.2': {}
 
-  '@redocly/openapi-core@1.34.3':
+  '@redocly/openapi-core@1.34.4':
     dependencies:
       '@redocly/ajv': 8.11.2
       '@redocly/config': 0.22.2
@@ -6803,16 +6803,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@redocly/respect-core@1.34.3(ajv@6.12.6)':
+  '@redocly/respect-core@1.34.4(ajv@6.12.6)':
     dependencies:
       '@faker-js/faker': 7.6.0
       '@redocly/ajv': 8.11.2
-      '@redocly/openapi-core': 1.34.3
+      '@redocly/openapi-core': 1.34.4
       better-ajv-errors: 1.2.0(ajv@6.12.6)
       colorette: 2.0.20
       concat-stream: 2.0.0
       cookie: 0.7.2
-      dotenv: 16.4.5
+      dotenv: 16.4.7
       form-data: 4.0.0
       jest-diff: 29.7.0
       jest-matcher-utils: 29.7.0
@@ -8310,7 +8310,7 @@ snapshots:
 
   dotenv-expand@10.0.0: {}
 
-  dotenv@16.4.5: {}
+  dotenv@16.4.7: {}
 
   dotenv@16.6.1: {}
 
@@ -10381,7 +10381,7 @@ snapshots:
       oas-kit-common: 1.0.8
       reftools: 1.1.9
       yaml: 1.10.2
-      yargs: 17.0.1
+      yargs: 17.7.2
 
   oas-schema-walker@1.1.5: {}
 
@@ -11005,7 +11005,7 @@ snapshots:
 
   redoc@2.5.0(core-js@3.43.0)(mobx@6.13.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0)):
     dependencies:
-      '@redocly/openapi-core': 1.34.3
+      '@redocly/openapi-core': 1.34.4
       classnames: 2.5.1
       core-js: 3.43.0
       decko: 1.2.0
@@ -11673,7 +11673,7 @@ snapshots:
       oas-validator: 5.0.8
       reftools: 1.1.9
       yaml: 1.10.2
-      yargs: 17.0.1
+      yargs: 17.7.2
     transitivePeerDependencies:
       - encoding
 
