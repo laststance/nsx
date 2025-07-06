@@ -1,0 +1,468 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs'
+
+<Meta title="Design Tokens/Shadows" />
+
+# Shadows
+
+NSX uses a layered shadow system to create depth and visual hierarchy in the interface.
+
+## Shadow Scale
+
+A comprehensive shadow scale from subtle to dramatic, designed for different elevation levels.
+
+<Canvas>
+  <Story name="Shadow Scale">
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gap: '24px',
+        padding: '24px',
+      }}
+    >
+      {[
+        {
+          name: 'shadow-xs',
+          value: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+          usage: 'Form elements, subtle borders',
+        },
+        {
+          name: 'shadow-sm',
+          value: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+          usage: 'Buttons, small cards',
+        },
+        {
+          name: 'shadow-md',
+          value:
+            '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          usage: 'Cards, form containers',
+        },
+        {
+          name: 'shadow-lg',
+          value:
+            '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+          usage: 'Dropdowns, modals, popovers',
+        },
+        {
+          name: 'shadow-xl',
+          value:
+            '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+          usage: 'Large modals, overlays',
+        },
+        {
+          name: 'shadow-2xl',
+          value: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+          usage: 'Hero sections, prominent features',
+        },
+        {
+          name: 'shadow-inner',
+          value: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
+          usage: 'Input fields, pressed states',
+        },
+      ].map(({ name, value, usage }) => (
+        <div key={name} style={{ textAlign: 'center' }}>
+          <div
+            style={{
+              width: '120px',
+              height: '120px',
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              boxShadow: value,
+              margin: '0 auto 16px auto',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '12px',
+              color: '#6b7280',
+            }}
+          >
+            {name}
+          </div>
+          <h4
+            style={{
+              margin: '0 0 8px 0',
+              fontSize: '14px',
+              fontWeight: '600',
+              fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif',
+            }}
+          >
+            {name}
+          </h4>
+          <p
+            style={{
+              margin: '0 0 8px 0',
+              fontSize: '12px',
+              color: '#6b7280',
+              fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif',
+            }}
+          >
+            {usage}
+          </p>
+          <code
+            style={{
+              fontSize: '10px',
+              color: '#6b7280',
+              wordBreak: 'break-all',
+              lineHeight: '1.3',
+            }}
+          >
+            {value}
+          </code>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+## Shadow Usage Examples
+
+Real-world examples of how shadows are used in NSX components.
+
+<Canvas>
+  <Story name="Shadow Usage Examples">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px' }}>
+      
+      {/* Buttons */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Buttons (shadow-sm)
+        </h3>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button style={{ 
+            padding: '8px 16px',
+            backgroundColor: '#22c55e',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: '600',
+            boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+            cursor: 'pointer'
+          }}>
+            Primary Button
+          </button>
+          <button style={{ 
+            padding: '8px 16px',
+            backgroundColor: 'white',
+            color: '#374151',
+            border: '1px solid #d1d5db',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: '500',
+            boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+            cursor: 'pointer'
+          }}>
+            Secondary Button
+          </button>
+        </div>
+      </div>
+
+      {/* Cards */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Cards (shadow-md)
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '24px',
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+          }}>
+            <h4 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: '600' }}>Card Title</h4>
+            <p style={{ margin: '0', fontSize: '14px', color: '#6b7280', lineHeight: '1.5' }}>
+              This is a card with medium shadow elevation, perfect for content sections and form containers.
+            </p>
+          </div>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '24px',
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+          }}>
+            <h4 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: '600' }}>Another Card</h4>
+            <p style={{ margin: '0', fontSize: '14px', color: '#6b7280', lineHeight: '1.5' }}>
+              Cards provide clear content separation and visual hierarchy in layouts.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Dropdown */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Dropdown (shadow-lg)
+        </h3>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button style={{
+            padding: '8px 16px',
+            backgroundColor: 'white',
+            color: '#374151',
+            border: '1px solid #d1d5db',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: '500',
+            cursor: 'pointer'
+          }}>
+            Menu ▼
+          </button>
+          <div style={{
+            position: 'absolute',
+            top: '100%',
+            left: '0',
+            marginTop: '4px',
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '8px 0',
+            minWidth: '160px',
+            boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+            border: '1px solid #e5e7eb'
+          }}>
+            {['Option 1', 'Option 2', 'Option 3'].map(option => (
+              <div key={option} style={{
+                padding: '8px 16px',
+                fontSize: '14px',
+                color: '#374151',
+                cursor: 'pointer'
+              }}>
+                {option}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Form Elements with Inner Shadow */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Form Elements (shadow-inner + shadow-xs)
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '300px' }}>
+          <input
+            type="text"
+            placeholder="Input with inner shadow"
+            style={{
+              padding: '8px 12px',
+              border: '1px solid #d1d5db',
+              borderRadius: '6px',
+              fontSize: '14px',
+              boxShadow: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)'
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Focused input"
+            style={{
+              padding: '8px 12px',
+              border: '2px solid #3b82f6',
+              borderRadius: '6px',
+              fontSize: '14px',
+              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              outline: 'none'
+            }}
+          />
+          <textarea
+            placeholder="Textarea with inner shadow"
+            style={{
+              padding: '8px 12px',
+              border: '1px solid #d1d5db',
+              borderRadius: '6px',
+              fontSize: '14px',
+              boxShadow: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
+              resize: 'vertical',
+              minHeight: '80px'
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Modal/Overlay */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Modal/Overlay (shadow-2xl)
+        </h3>
+        <div style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.1)',
+          padding: '40px',
+          borderRadius: '8px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            padding: '32px',
+            maxWidth: '400px',
+            boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)'
+          }}>
+            <h4 style={{ margin: '0 0 16px 0', fontSize: '20px', fontWeight: '600' }}>Modal Dialog</h4>
+            <p style={{ margin: '0 0 24px 0', fontSize: '14px', color: '#6b7280', lineHeight: '1.5' }}>
+              This modal uses the largest shadow (2xl) to create strong visual separation from the background content.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              <button style={{
+                padding: '8px 16px',
+                backgroundColor: 'transparent',
+                color: '#6b7280',
+                border: '1px solid #d1d5db',
+                borderRadius: '6px',
+                fontSize: '14px',
+                cursor: 'pointer'
+              }}>
+                Cancel
+              </button>
+              <button style={{
+                padding: '8px 16px',
+                backgroundColor: '#22c55e',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}>
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </Story>
+</Canvas>
+
+## Shadow Layering
+
+Examples of how shadows work together to create depth hierarchy.
+
+<Canvas>
+  <Story name="Shadow Layering">
+    <div style={{ 
+      backgroundColor: '#f9fafb', 
+      padding: '40px', 
+      borderRadius: '8px',
+      position: 'relative',
+      minHeight: '300px'
+    }}>
+      <h3 style={{ margin: '0 0 24px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+        Layered Interface Elements
+      </h3>
+      
+      {/* Base layer - no shadow */}
+      <div style={{ 
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        padding: '20px',
+        marginBottom: '16px'
+      }}>
+        <p style={{ margin: '0', fontSize: '14px', color: '#6b7280' }}>
+          Base layer - no shadow (sits on background)
+        </p>
+      </div>
+
+      {/* Layer 1 - subtle shadow */}
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        padding: '20px',
+        marginBottom: '16px',
+        boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)'
+      }}>
+        <p style={{ margin: '0', fontSize: '14px', color: '#6b7280' }}>
+          Layer 1 - shadow-sm (buttons, form elements)
+        </p>
+      </div>
+
+      {/* Layer 2 - medium shadow */}
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        padding: '20px',
+        marginBottom: '16px',
+        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+      }}>
+        <p style={{ margin: '0 0 12px 0', fontSize: '14px', color: '#6b7280' }}>
+          Layer 2 - shadow-md (cards, containers)
+        </p>
+
+        {/* Nested dropdown */}
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '6px',
+          padding: '12px',
+          boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+          border: '1px solid #e5e7eb',
+          marginLeft: '20px'
+        }}>
+          <p style={{ margin: '0', fontSize: '12px', color: '#6b7280' }}>
+            Layer 3 - shadow-lg (dropdowns, popovers)
+          </p>
+        </div>
+      </div>
+
+      {/* Floating action button */}
+      <div style={{
+        position: 'absolute',
+        bottom: '20px',
+        right: '20px',
+        width: '56px',
+        height: '56px',
+        backgroundColor: '#22c55e',
+        borderRadius: '50%',
+        boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontSize: '24px',
+        cursor: 'pointer'
+      }}>
+        +
+      </div>
+      <div style={{
+        position: 'absolute',
+        bottom: '10px',
+        right: '80px',
+        fontSize: '10px',
+        color: '#6b7280'
+      }}>
+        Floating element - shadow-xl
+      </div>
+    </div>
+
+  </Story>
+</Canvas>
+
+## Usage Guidelines
+
+### Shadow Hierarchy
+
+- **shadow-xs/sm**: Use for subtle elevation, buttons, form elements
+- **shadow-md**: Use for cards, panels, content containers
+- **shadow-lg**: Use for dropdowns, tooltips, popovers that appear above content
+- **shadow-xl/2xl**: Use for modals, overlays, prominent floating elements
+- **shadow-inner**: Use for input fields, pressed states, inset elements
+
+### Best Practices
+
+- **Layer Consistently**: Use shadows to create clear visual hierarchy
+- **Less is More**: Don't overshadow (pun intended) - use shadows purposefully
+- **Context Matters**: Floating elements need stronger shadows than embedded elements
+- **Accessibility**: Ensure shadows don't interfere with focus indicators
+- **Performance**: Use box-shadow efficiently - avoid animating large shadows
+
+### Common Patterns
+
+- **Form Focus**: Combine shadow-xs with colored border for focus states
+- **Button Hover**: Slightly increase shadow on hover for interactive feedback
+- **Card Hover**: Enhance shadow-md to shadow-lg on hover for interactivity
+- **Layered Menus**: Use progressively stronger shadows for nested menu levels
+
+### Dark Mode Considerations
+
+- Shadows are less visible on dark backgrounds
+- Consider using border or background color changes as alternatives
+- If using shadows on dark backgrounds, increase opacity or use colored shadows

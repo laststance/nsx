@@ -1,0 +1,704 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs'
+
+<Meta title="Design Tokens/Border Radii" />
+
+# Border Radii
+
+NSX uses a consistent border radius scale to create cohesive rounded corners across all interface elements.
+
+## Border Radius Scale
+
+From sharp corners to fully rounded, designed for different UI elements and visual styles.
+
+<Canvas>
+  <Story name="Border Radius Scale">
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+        gap: '24px',
+        padding: '24px',
+      }}
+    >
+      {[
+        {
+          name: 'rounded-none',
+          value: '0px',
+          usage: 'Sharp corners, technical interfaces',
+        },
+        { name: 'rounded-sm', value: '2px', usage: 'Buttons, small elements' },
+        {
+          name: 'rounded-md',
+          value: '6px',
+          usage: 'Form elements, default components',
+        },
+        {
+          name: 'rounded-lg',
+          value: '8px',
+          usage: 'Cards, containers, dropdowns',
+        },
+        {
+          name: 'rounded-xl',
+          value: '12px',
+          usage: 'Large containers, hero sections',
+        },
+        {
+          name: 'rounded-2xl',
+          value: '16px',
+          usage: 'Prominent cards, modals',
+        },
+        {
+          name: 'rounded-3xl',
+          value: '24px',
+          usage: 'Large features, marketing elements',
+        },
+        {
+          name: 'rounded-full',
+          value: '9999px',
+          usage: 'Circular elements, avatars, pills',
+        },
+      ].map(({ name, value, usage }) => (
+        <div key={name} style={{ textAlign: 'center' }}>
+          <div
+            style={{
+              width: '100px',
+              height: '100px',
+              backgroundColor: '#22c55e',
+              borderRadius: value,
+              margin: '0 auto 12px auto',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '10px',
+              fontWeight: '600',
+            }}
+          >
+            {value}
+          </div>
+          <h4
+            style={{
+              margin: '0 0 4px 0',
+              fontSize: '12px',
+              fontWeight: '600',
+              fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif',
+            }}
+          >
+            {name}
+          </h4>
+          <p
+            style={{
+              margin: '0',
+              fontSize: '10px',
+              color: '#6b7280',
+              fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif',
+              lineHeight: '1.3',
+            }}
+          >
+            {usage}
+          </p>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+## Common UI Elements
+
+Real-world examples of border radius usage in NSX components.
+
+<Canvas>
+  <Story name="Common UI Elements">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '24px' }}>
+      
+      {/* Buttons */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Buttons (rounded-sm, rounded-md)
+        </h3>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <button style={{ 
+            padding: '6px 12px',
+            backgroundColor: '#22c55e',
+            color: 'white',
+            border: 'none',
+            borderRadius: '2px',
+            fontSize: '12px',
+            fontWeight: '600',
+            cursor: 'pointer'
+          }}>
+            Small Button (2px)
+          </button>
+          <button style={{ 
+            padding: '8px 16px',
+            backgroundColor: '#3b82f6',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: '600',
+            cursor: 'pointer'
+          }}>
+            Regular Button (6px)
+          </button>
+          <button style={{ 
+            padding: '10px 20px',
+            backgroundColor: '#8b5cf6',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '16px',
+            fontWeight: '600',
+            cursor: 'pointer'
+          }}>
+            Large Button (8px)
+          </button>
+          <button style={{ 
+            padding: '8px 16px',
+            backgroundColor: '#ef4444',
+            color: 'white',
+            border: 'none',
+            borderRadius: '9999px',
+            fontSize: '14px',
+            fontWeight: '600',
+            cursor: 'pointer'
+          }}>
+            Pill Button (full)
+          </button>
+        </div>
+      </div>
+
+      {/* Form Elements */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Form Elements (rounded-md)
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '300px' }}>
+          <input
+            type="text"
+            placeholder="Text input (6px radius)"
+            style={{
+              padding: '8px 12px',
+              border: '1px solid #d1d5db',
+              borderRadius: '6px',
+              fontSize: '14px'
+            }}
+          />
+          <select style={{
+            padding: '8px 12px',
+            border: '1px solid #d1d5db',
+            borderRadius: '6px',
+            fontSize: '14px',
+            backgroundColor: 'white'
+          }}>
+            <option>Select dropdown (6px radius)</option>
+            <option>Option 1</option>
+            <option>Option 2</option>
+          </select>
+          <textarea
+            placeholder="Textarea (6px radius)"
+            style={{
+              padding: '8px 12px',
+              border: '1px solid #d1d5db',
+              borderRadius: '6px',
+              fontSize: '14px',
+              resize: 'vertical',
+              minHeight: '80px'
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Cards */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Cards (rounded-lg, rounded-xl)
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '20px',
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+            border: '1px solid #e5e7eb'
+          }}>
+            <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600' }}>
+              Standard Card
+            </h4>
+            <p style={{ margin: '0', fontSize: '14px', color: '#6b7280', lineHeight: '1.5' }}>
+              8px border radius for most cards and containers.
+            </p>
+          </div>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            padding: '24px',
+            boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+            border: '1px solid #e5e7eb'
+          }}>
+            <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600' }}>
+              Prominent Card
+            </h4>
+            <p style={{ margin: '0', fontSize: '14px', color: '#6b7280', lineHeight: '1.5' }}>
+              12px border radius for featured or prominent content.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Dropdowns and Popovers */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Dropdowns and Popovers (rounded-lg)
+        </h3>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '8px 0',
+            minWidth: '180px',
+            boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+            border: '1px solid #e5e7eb'
+          }}>
+            <div style={{ padding: '8px 12px 4px 12px', fontSize: '12px', color: '#6b7280', fontWeight: '600' }}>
+              MENU OPTIONS
+            </div>
+            {['Profile Settings', 'Notifications', 'Privacy', 'Sign Out'].map(option => (
+              <div key={option} style={{
+                padding: '8px 12px',
+                fontSize: '14px',
+                color: '#374151',
+                cursor: 'pointer',
+                borderRadius: option === 'Sign Out' ? '0 0 8px 8px' : '0'
+              }}>
+                {option}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Circular Elements */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Circular Elements (rounded-full)
+        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <div style={{
+            width: '32px',
+            height: '32px',
+            backgroundColor: '#f59e0b',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '14px',
+            fontWeight: '600'
+          }}>
+            R
+          </div>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            backgroundColor: '#10b981',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '16px',
+            fontWeight: '600'
+          }}>
+            M
+          </div>
+          <div style={{
+            width: '48px',
+            height: '48px',
+            backgroundColor: '#8b5cf6',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '18px',
+            fontWeight: '600'
+          }}>
+            L
+          </div>
+          <div style={{
+            padding: '6px 12px',
+            backgroundColor: '#e5e7eb',
+            borderRadius: '9999px',
+            fontSize: '12px',
+            color: '#374151',
+            fontWeight: '500'
+          }}>
+            Status Badge
+          </div>
+          <div style={{
+            padding: '4px 8px',
+            backgroundColor: '#22c55e',
+            borderRadius: '9999px',
+            fontSize: '10px',
+            color: 'white',
+            fontWeight: '600'
+          }}>
+            New
+          </div>
+        </div>
+      </div>
+
+      {/* Notification Badges */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Notification and Status Indicators
+        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+          <div style={{ position: 'relative' }}>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#3b82f6',
+              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '18px'
+            }}>
+              📧
+            </div>
+            <div style={{
+              position: 'absolute',
+              top: '-4px',
+              right: '-4px',
+              width: '16px',
+              height: '16px',
+              backgroundColor: '#ef4444',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '10px',
+              fontWeight: '600'
+            }}>
+              3
+            </div>
+          </div>
+
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '4px 8px',
+            backgroundColor: '#f0fdf4',
+            border: '1px solid #22c55e',
+            borderRadius: '6px'
+          }}>
+            <div style={{
+              width: '8px',
+              height: '8px',
+              backgroundColor: '#22c55e',
+              borderRadius: '50%'
+            }} />
+            <span style={{ fontSize: '12px', color: '#15803d', fontWeight: '500' }}>
+              Online
+            </span>
+          </div>
+
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '4px 8px',
+            backgroundColor: '#fef2f2',
+            border: '1px solid #ef4444',
+            borderRadius: '6px'
+          }}>
+            <div style={{
+              width: '8px',
+              height: '8px',
+              backgroundColor: '#ef4444',
+              borderRadius: '50%'
+            }} />
+            <span style={{ fontSize: '12px', color: '#dc2626', fontWeight: '500' }}>
+              Error
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </Story>
+</Canvas>
+
+## Directional Border Radius
+
+Examples of applying border radius to specific corners for custom layouts.
+
+<Canvas>
+  <Story name="Directional Border Radius">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px' }}>
+      
+      {/* Top Rounded */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Top Rounded (rounded-t-*)
+        </h3>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <div style={{ 
+            width: '100px',
+            height: '80px',
+            backgroundColor: '#22c55e',
+            borderRadius: '8px 8px 0 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '12px',
+            fontWeight: '600'
+          }}>
+            rounded-t-lg
+          </div>
+          <div style={{ 
+            width: '200px',
+            backgroundColor: 'white',
+            border: '1px solid #e5e7eb',
+            borderRadius: '8px 8px 0 0'
+          }}>
+            <div style={{ padding: '12px', backgroundColor: '#f3f4f6', borderRadius: '8px 8px 0 0' }}>
+              <h4 style={{ margin: '0', fontSize: '14px', fontWeight: '600' }}>Card Header</h4>
+            </div>
+            <div style={{ padding: '12px' }}>
+              <p style={{ margin: '0', fontSize: '12px', color: '#6b7280' }}>
+                Card body with top-rounded header
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Rounded */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Bottom Rounded (rounded-b-*)
+        </h3>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <div style={{
+            width: '100px',
+            height: '80px',
+            backgroundColor: '#3b82f6',
+            borderRadius: '0 0 8px 8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '12px',
+            fontWeight: '600'
+          }}>
+            rounded-b-lg
+          </div>
+          <div style={{
+            width: '200px',
+            backgroundColor: 'white',
+            border: '1px solid #e5e7eb',
+            borderRadius: '0 0 8px 8px'
+          }}>
+            <div style={{ padding: '12px' }}>
+              <p style={{ margin: '0', fontSize: '12px', color: '#6b7280' }}>
+                Card body with bottom-rounded footer
+              </p>
+            </div>
+            <div style={{
+              padding: '12px',
+              backgroundColor: '#f3f4f6',
+              borderRadius: '0 0 8px 8px',
+              borderTop: '1px solid #e5e7eb'
+            }}>
+              <button style={{
+                fontSize: '12px',
+                fontWeight: '600',
+                backgroundColor: 'transparent',
+                border: 'none',
+                color: '#3b82f6',
+                cursor: 'pointer'
+              }}>
+                Card Action
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Left/Right Rounded */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Left/Right Rounded (rounded-l-*, rounded-r-*)
+        </h3>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <div style={{
+            width: '80px',
+            height: '60px',
+            backgroundColor: '#8b5cf6',
+            borderRadius: '8px 0 0 8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: '600'
+          }}>
+            rounded-l-lg
+          </div>
+          <div style={{
+            width: '80px',
+            height: '60px',
+            backgroundColor: '#ef4444',
+            borderRadius: '0 8px 8px 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: '600'
+          }}>
+            rounded-r-lg
+          </div>
+          <div style={{ display: 'flex' }}>
+            <div style={{
+              padding: '12px',
+              backgroundColor: '#22c55e',
+              borderRadius: '6px 0 0 6px',
+              color: 'white',
+              fontSize: '12px',
+              fontWeight: '600'
+            }}>
+              Button Group
+            </div>
+            <div style={{
+              padding: '12px',
+              backgroundColor: '#16a34a',
+              borderRadius: '0 6px 6px 0',
+              color: 'white',
+              fontSize: '12px',
+              fontWeight: '600'
+            }}>
+              Connected
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Individual Corners */}
+      <div>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
+          Individual Corners (rounded-tl-*, rounded-tr-*, etc.)
+        </h3>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            backgroundColor: '#f59e0b',
+            borderRadius: '16px 0 0 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: '600',
+            textAlign: 'center'
+          }}>
+            rounded-tl-2xl
+          </div>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            backgroundColor: '#10b981',
+            borderRadius: '0 16px 0 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: '600',
+            textAlign: 'center'
+          }}>
+            rounded-tr-2xl
+          </div>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            backgroundColor: '#8b5cf6',
+            borderRadius: '0 0 16px 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: '600',
+            textAlign: 'center'
+          }}>
+            rounded-br-2xl
+          </div>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            backgroundColor: '#ef4444',
+            borderRadius: '0 0 0 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: '600',
+            textAlign: 'center'
+          }}>
+            rounded-bl-2xl
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </Story>
+</Canvas>
+
+## Usage Guidelines
+
+### Border Radius Selection
+
+- **rounded-sm (2px)**: Small buttons, compact UI elements, technical interfaces
+- **rounded-md (6px)**: Default for most components - forms, buttons, small cards
+- **rounded-lg (8px)**: Cards, containers, dropdowns, most prominent elements
+- **rounded-xl (12px)**: Large containers, featured content, modals
+- **rounded-2xl+ (16px+)**: Marketing elements, hero sections, highly prominent features
+- **rounded-full**: Circular elements, avatars, badges, pill-shaped buttons
+
+### Consistency Rules
+
+- **Forms**: Use `rounded-md` (6px) for consistency across inputs, selects, textareas
+- **Buttons**: Use `rounded-sm` for compact buttons, `rounded-md` for standard buttons
+- **Cards**: Use `rounded-lg` (8px) as the standard, `rounded-xl` for featured content
+- **Navigation**: Match border radius to the overall design language of your nav style
+
+### Accessibility
+
+- Border radius doesn't affect accessibility directly
+- Ensure sufficient contrast is maintained around rounded corners
+- Consider that very large border radius values can affect button/link target size
+
+### Performance
+
+- Border radius is efficiently rendered by modern browsers
+- Avoid animating border-radius changes for better performance
+- Use consistent values to enable better CSS optimization
+
+### Common Patterns
+
+- **Button Groups**: Use directional radius (`rounded-l-md rounded-r-none`) for connected buttons
+- **Card Headers/Footers**: Use `rounded-t-lg` and `rounded-b-lg` for sectioned cards
+- **Tabs**: Use `rounded-t-md` for tab interfaces
+- **Dropdowns**: Match the border radius of the trigger element for visual connection

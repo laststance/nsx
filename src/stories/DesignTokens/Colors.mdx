@@ -1,0 +1,477 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs'
+
+<Meta title="Design Tokens/Colors" />
+
+# Colors
+
+NSX uses a comprehensive color system built on semantic color tokens that support both light and dark themes.
+
+## Color Palette
+
+### Primary Colors - Green
+
+Used for primary actions, links, and success states.
+
+<Canvas>
+  <Story name="Primary Colors">
+    <div
+      style={{
+        display: 'flex',
+        gap: '8px',
+        flexWrap: 'wrap',
+        marginBottom: '16px',
+      }}
+    >
+      {[
+        { name: 'green-50', value: '#f0fdf4' },
+        { name: 'green-100', value: '#dcfce7' },
+        { name: 'green-200', value: '#bbf7d0' },
+        { name: 'green-300', value: '#86efac' },
+        { name: 'green-400', value: '#4ade80' },
+        { name: 'green-500', value: '#22c55e' },
+        { name: 'green-600', value: '#16a34a' },
+        { name: 'green-700', value: '#15803d' },
+        { name: 'green-800', value: '#166534' },
+        { name: 'green-900', value: '#14532d' },
+        { name: 'green-950', value: '#052e16' },
+      ].map(({ name, value }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: '80px',
+          }}
+        >
+          <div
+            style={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: value,
+              borderRadius: '6px',
+              border: value === '#ffffff' ? '1px solid #e5e7eb' : 'none',
+            }}
+          />
+          <span style={{ fontSize: '12px', marginTop: '4px' }}>{name}</span>
+          <code style={{ fontSize: '10px', color: '#6b7280' }}>{value}</code>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+### Secondary Colors - Blue
+
+Used for secondary actions and informational states.
+
+<Canvas>
+  <Story name="Secondary Colors">
+    <div
+      style={{
+        display: 'flex',
+        gap: '8px',
+        flexWrap: 'wrap',
+        marginBottom: '16px',
+      }}
+    >
+      {[
+        { name: 'blue-50', value: '#eff6ff' },
+        { name: 'blue-100', value: '#dbeafe' },
+        { name: 'blue-200', value: '#bfdbfe' },
+        { name: 'blue-300', value: '#93c5fd' },
+        { name: 'blue-400', value: '#60a5fa' },
+        { name: 'blue-500', value: '#3b82f6' },
+        { name: 'blue-600', value: '#2563eb' },
+        { name: 'blue-700', value: '#1d4ed8' },
+        { name: 'blue-800', value: '#1e40af' },
+        { name: 'blue-900', value: '#1e3a8a' },
+        { name: 'blue-950', value: '#172554' },
+      ].map(({ name, value }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: '80px',
+          }}
+        >
+          <div
+            style={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: value,
+              borderRadius: '6px',
+              border: value === '#ffffff' ? '1px solid #e5e7eb' : 'none',
+            }}
+          />
+          <span style={{ fontSize: '12px', marginTop: '4px' }}>{name}</span>
+          <code style={{ fontSize: '10px', color: '#6b7280' }}>{value}</code>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+### Danger Colors - Red
+
+Used for error states, destructive actions, and warnings.
+
+<Canvas>
+  <Story name="Danger Colors">
+    <div
+      style={{
+        display: 'flex',
+        gap: '8px',
+        flexWrap: 'wrap',
+        marginBottom: '16px',
+      }}
+    >
+      {[
+        { name: 'red-50', value: '#fef2f2' },
+        { name: 'red-100', value: '#fee2e2' },
+        { name: 'red-200', value: '#fecaca' },
+        { name: 'red-300', value: '#fca5a5' },
+        { name: 'red-400', value: '#f87171' },
+        { name: 'red-500', value: '#ef4444' },
+        { name: 'red-600', value: '#dc2626' },
+        { name: 'red-700', value: '#b91c1c' },
+        { name: 'red-800', value: '#991b1b' },
+        { name: 'red-900', value: '#7f1d1d' },
+        { name: 'red-950', value: '#450a0a' },
+      ].map(({ name, value }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: '80px',
+          }}
+        >
+          <div
+            style={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: value,
+              borderRadius: '6px',
+              border: value === '#ffffff' ? '1px solid #e5e7eb' : 'none',
+            }}
+          />
+          <span style={{ fontSize: '12px', marginTop: '4px' }}>{name}</span>
+          <code style={{ fontSize: '10px', color: '#6b7280' }}>{value}</code>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+### Gray Scale
+
+Used for text, borders, backgrounds, and general UI elements.
+
+<Canvas>
+  <Story name="Gray Scale">
+    <div
+      style={{
+        display: 'flex',
+        gap: '8px',
+        flexWrap: 'wrap',
+        marginBottom: '16px',
+      }}
+    >
+      {[
+        { name: 'gray-50', value: '#f9fafb' },
+        { name: 'gray-100', value: '#f3f4f6' },
+        { name: 'gray-200', value: '#e5e7eb' },
+        { name: 'gray-300', value: '#d1d5db' },
+        { name: 'gray-400', value: '#9ca3af' },
+        { name: 'gray-500', value: '#6b7280' },
+        { name: 'gray-600', value: '#4b5563' },
+        { name: 'gray-700', value: '#374151' },
+        { name: 'gray-800', value: '#1f2937' },
+        { name: 'gray-900', value: '#111827' },
+        { name: 'gray-950', value: '#030712' },
+      ].map(({ name, value }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: '80px',
+          }}
+        >
+          <div
+            style={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: value,
+              borderRadius: '6px',
+              border:
+                value === '#ffffff' || value === '#f9fafb'
+                  ? '1px solid #e5e7eb'
+                  : 'none',
+            }}
+          />
+          <span style={{ fontSize: '12px', marginTop: '4px' }}>{name}</span>
+          <code style={{ fontSize: '10px', color: '#6b7280' }}>{value}</code>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+### Neutral Scale
+
+Alternative neutral colors for various UI elements.
+
+<Canvas>
+  <Story name="Neutral Scale">
+    <div
+      style={{
+        display: 'flex',
+        gap: '8px',
+        flexWrap: 'wrap',
+        marginBottom: '16px',
+      }}
+    >
+      {[
+        { name: 'neutral-50', value: '#fafafa' },
+        { name: 'neutral-100', value: '#f5f5f5' },
+        { name: 'neutral-200', value: '#e5e5e5' },
+        { name: 'neutral-300', value: '#d4d4d4' },
+        { name: 'neutral-400', value: '#a3a3a3' },
+        { name: 'neutral-500', value: '#737373' },
+        { name: 'neutral-600', value: '#525252' },
+        { name: 'neutral-700', value: '#404040' },
+        { name: 'neutral-800', value: '#262626' },
+        { name: 'neutral-900', value: '#171717' },
+        { name: 'neutral-950', value: '#0a0a0a' },
+      ].map(({ name, value }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: '80px',
+          }}
+        >
+          <div
+            style={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: value,
+              borderRadius: '6px',
+              border:
+                value === '#ffffff' || value === '#fafafa'
+                  ? '1px solid #e5e7eb'
+                  : 'none',
+            }}
+          />
+          <span style={{ fontSize: '12px', marginTop: '4px' }}>{name}</span>
+          <code style={{ fontSize: '10px', color: '#6b7280' }}>{value}</code>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+## Semantic Color Utilities
+
+NSX includes custom semantic color utilities that automatically handle light/dark theme switching:
+
+### Background Utilities
+
+<Canvas>
+  <Story name="Background Utilities">
+    <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+      {[
+        {
+          name: 'bg-primary',
+          light: 'white',
+          dark: 'neutral-900',
+          description: 'Primary background',
+        },
+        {
+          name: 'bg-secondary',
+          light: 'gray-100',
+          dark: 'gray-800',
+          description: 'Secondary background',
+        },
+        {
+          name: 'bg-alt',
+          light: 'gray-200',
+          dark: 'gray-700',
+          description: 'Alternative background',
+        },
+        {
+          name: 'bg-inverse',
+          light: 'black',
+          dark: 'white',
+          description: 'Inverse background',
+        },
+      ].map(({ name, light, dark, description }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: '120px',
+          }}
+        >
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
+              background: `linear-gradient(to right, ${light === 'white' ? '#ffffff' : light === 'black' ? '#000000' : light === 'gray-100' ? '#f3f4f6' : '#e5e7eb'} 50%, ${dark === 'neutral-900' ? '#171717' : dark === 'gray-800' ? '#1f2937' : dark === 'gray-700' ? '#374151' : dark === 'white' ? '#ffffff' : '#000000'} 50%)`,
+              borderRadius: '6px',
+              border: '1px solid #e5e7eb',
+            }}
+          />
+          <span
+            style={{ fontSize: '12px', marginTop: '4px', fontWeight: '600' }}
+          >
+            {name}
+          </span>
+          <span
+            style={{ fontSize: '10px', color: '#6b7280', textAlign: 'center' }}
+          >
+            {description}
+          </span>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+### Text Color Utilities
+
+<Canvas>
+  <Story name="Text Color Utilities">
+    <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+      {[
+        {
+          name: 'text-color-primary',
+          light: 'black',
+          dark: 'white',
+          description: 'Primary text',
+        },
+        {
+          name: 'text-color-secondary',
+          light: 'gray-500',
+          dark: 'gray-200',
+          description: 'Secondary text',
+        },
+        {
+          name: 'text-color-inverse',
+          light: 'white',
+          dark: 'black',
+          description: 'Inverse text',
+        },
+      ].map(({ name, light, dark, description }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: '120px',
+          }}
+        >
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
+              background: `linear-gradient(to right, ${light === 'black' ? '#000000' : light === 'white' ? '#ffffff' : '#6b7280'} 50%, ${dark === 'white' ? '#ffffff' : dark === 'black' ? '#000000' : '#e5e7eb'} 50%)`,
+              borderRadius: '6px',
+              border: '1px solid #e5e7eb',
+            }}
+          />
+          <span
+            style={{ fontSize: '12px', marginTop: '4px', fontWeight: '600' }}
+          >
+            {name}
+          </span>
+          <span
+            style={{ fontSize: '10px', color: '#6b7280', textAlign: 'center' }}
+          >
+            {description}
+          </span>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+### Border Color Utilities
+
+<Canvas>
+  <Story name="Border Color Utilities">
+    <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+      {[
+        {
+          name: 'border-primary',
+          light: 'gray-900',
+          dark: 'white',
+          description: 'Primary border',
+        },
+        {
+          name: 'border-secondary',
+          light: 'gray-200',
+          dark: 'gray-600',
+          description: 'Secondary border',
+        },
+      ].map(({ name, light, dark, description }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: '120px',
+          }}
+        >
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
+              background: `linear-gradient(to right, ${light === 'gray-900' ? '#111827' : '#e5e7eb'} 50%, ${dark === 'white' ? '#ffffff' : '#4b5563'} 50%)`,
+              borderRadius: '6px',
+              border: '1px solid #e5e7eb',
+            }}
+          />
+          <span
+            style={{ fontSize: '12px', marginTop: '4px', fontWeight: '600' }}
+          >
+            {name}
+          </span>
+          <span
+            style={{ fontSize: '10px', color: '#6b7280', textAlign: 'center' }}
+          >
+            {description}
+          </span>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+## Usage Guidelines
+
+- **Primary (Green)**: Use for primary actions, success states, and brand elements
+- **Secondary (Blue)**: Use for secondary actions and informational elements
+- **Danger (Red)**: Use for error states, destructive actions, and critical warnings
+- **Gray/Neutral**: Use for text, borders, backgrounds, and general UI elements
+- **Semantic utilities**: Use custom utilities (bg-primary, text-color-primary, etc.) for automatic theme switching
+
+## Color Accessibility
+
+All color combinations follow WCAG 2.1 AA accessibility guidelines for contrast ratios:
+
+- Large text (18px+): minimum 3:1 contrast ratio
+- Normal text: minimum 4.5:1 contrast ratio
+- Interactive elements: minimum 3:1 contrast ratio

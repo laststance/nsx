@@ -1,0 +1,547 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs'
+
+<Meta title="Design Tokens/Spacing" />
+
+# Spacing
+
+NSX uses a consistent 4px-based spacing scale for padding, margins, gaps, and positioning.
+
+## Spacing Scale
+
+Base spacing units from 0px to 96px, following a predictable scale.
+
+<Canvas>
+  <Story name="Spacing Scale">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      {[
+        { name: '0', value: '0px', rem: '0', usage: 'Reset spacing' },
+        {
+          name: '1',
+          value: '4px',
+          rem: '0.25rem',
+          usage: 'Very tight spacing, icon padding',
+        },
+        {
+          name: '2',
+          value: '8px',
+          rem: '0.5rem',
+          usage: 'Small spacing, compact elements',
+        },
+        {
+          name: '3',
+          value: '12px',
+          rem: '0.75rem',
+          usage: 'Form element spacing',
+        },
+        {
+          name: '4',
+          value: '16px',
+          rem: '1rem',
+          usage: 'Standard spacing, most common',
+        },
+        { name: '5', value: '20px', rem: '1.25rem', usage: 'Medium spacing' },
+        {
+          name: '6',
+          value: '24px',
+          rem: '1.5rem',
+          usage: 'Section spacing, large elements',
+        },
+        { name: '7', value: '28px', rem: '1.75rem', usage: 'Large spacing' },
+        { name: '8', value: '32px', rem: '2rem', usage: 'Extra large spacing' },
+        {
+          name: '10',
+          value: '40px',
+          rem: '2.5rem',
+          usage: 'Section separation',
+        },
+        {
+          name: '12',
+          value: '48px',
+          rem: '3rem',
+          usage: 'Large section separation',
+        },
+        {
+          name: '16',
+          value: '64px',
+          rem: '4rem',
+          usage: 'Page section spacing',
+        },
+        {
+          name: '20',
+          value: '80px',
+          rem: '5rem',
+          usage: 'Major layout spacing',
+        },
+        { name: '24', value: '96px', rem: '6rem', usage: 'Maximum spacing' },
+      ].map(({ name, value, rem, usage }) => (
+        <div
+          key={name}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            padding: '8px 0',
+            borderBottom: '1px solid #f3f4f6',
+          }}
+        >
+          <div style={{ minWidth: '40px' }}>
+            <code style={{ fontSize: '12px', color: '#6b7280' }}>{name}</code>
+          </div>
+          <div style={{ minWidth: '60px', fontSize: '12px', color: '#6b7280' }}>
+            {value}
+          </div>
+          <div style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>
+            {rem}
+          </div>
+          <div
+            style={{
+              width: value,
+              height: '20px',
+              backgroundColor: '#22c55e',
+              borderRadius: '2px',
+              minWidth: value,
+            }}
+          />
+          <div style={{ fontSize: '12px', color: '#6b7280', flex: 1 }}>
+            {usage}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Story>
+</Canvas>
+
+## Padding Examples
+
+Common padding patterns used throughout NSX components.
+
+<Canvas>
+  <Story name="Padding Examples">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      
+      {/* Button Padding */}
+      <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
+          Button Padding
+        </h3>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
+            <button style={{ 
+              padding: '4px 8px', 
+              fontSize: '12px', 
+              backgroundColor: '#22c55e',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px'
+            }}>
+              Small
+            </button>
+            <span style={{ 
+              position: 'absolute', 
+              top: '-20px', 
+              left: '0', 
+              fontSize: '10px', 
+              color: '#6b7280' 
+            }}>
+              py-1 px-2
+            </span>
+          </div>
+          <div style={{ position: 'relative' }}>
+            <button style={{ 
+              padding: '8px 16px', 
+              fontSize: '14px', 
+              backgroundColor: '#22c55e',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px'
+            }}>
+              Medium
+            </button>
+            <span style={{ 
+              position: 'absolute', 
+              top: '-20px', 
+              left: '0', 
+              fontSize: '10px', 
+              color: '#6b7280' 
+            }}>
+              py-2 px-4
+            </span>
+          </div>
+          <div style={{ position: 'relative' }}>
+            <button style={{ 
+              padding: '12px 24px', 
+              fontSize: '16px', 
+              backgroundColor: '#22c55e',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px'
+            }}>
+              Large
+            </button>
+            <span style={{ 
+              position: 'absolute', 
+              top: '-20px', 
+              left: '0', 
+              fontSize: '10px', 
+              color: '#6b7280' 
+            }}>
+              py-3 px-6
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Form Element Padding */}
+      <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
+          Form Element Padding
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ position: 'relative' }}>
+            <input
+              type="text"
+              placeholder="px-3 py-2"
+              style={{
+                padding: '8px 12px',
+                fontSize: '14px',
+                border: '1px solid #d1d5db',
+                borderRadius: '6px',
+                width: '200px'
+              }}
+            />
+            <span style={{
+              position: 'absolute',
+              right: '-80px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '10px',
+              color: '#6b7280'
+            }}>
+              px-3 py-2
+            </span>
+          </div>
+          <div style={{ position: 'relative' }}>
+            <textarea
+              placeholder="p-4"
+              style={{
+                padding: '16px',
+                fontSize: '14px',
+                border: '1px solid #d1d5db',
+                borderRadius: '6px',
+                width: '200px',
+                height: '80px',
+                resize: 'none'
+              }}
+            />
+            <span style={{
+              position: 'absolute',
+              right: '-60px',
+              top: '16px',
+              fontSize: '10px',
+              color: '#6b7280'
+            }}>
+              p-4
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Container Padding */}
+      <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
+          Container Padding
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{
+            padding: '16px',
+            backgroundColor: '#f3f4f6',
+            borderRadius: '6px',
+            position: 'relative'
+          }}>
+            <span style={{ fontSize: '12px' }}>Card with p-4 padding</span>
+            <span style={{
+              position: 'absolute',
+              top: '2px',
+              right: '8px',
+              fontSize: '10px',
+              color: '#6b7280'
+            }}>
+              p-4
+            </span>
+          </div>
+          <div style={{
+            padding: '24px',
+            backgroundColor: '#f3f4f6',
+            borderRadius: '6px',
+            position: 'relative'
+          }}>
+            <span style={{ fontSize: '12px' }}>Section with p-6 padding</span>
+            <span style={{
+              position: 'absolute',
+              top: '2px',
+              right: '8px',
+              fontSize: '10px',
+              color: '#6b7280'
+            }}>
+              p-6
+            </span>
+          </div>
+          <div style={{
+            padding: '32px',
+            backgroundColor: '#f3f4f6',
+            borderRadius: '6px',
+            position: 'relative'
+          }}>
+            <span style={{ fontSize: '12px' }}>Page section with p-8 padding</span>
+            <span style={{
+              position: 'absolute',
+              top: '2px',
+              right: '8px',
+              fontSize: '10px',
+              color: '#6b7280'
+            }}>
+              p-8
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </Story>
+</Canvas>
+
+## Margin Examples
+
+Common margin patterns for spacing between elements.
+
+<Canvas>
+  <Story name="Margin Examples">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      
+      {/* Vertical Margins */}
+      <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
+          Vertical Margins (my-*)
+        </h3>
+        <div style={{ backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
+          {[1, 2, 4, 6, 8].map(size => (
+            <div key={size}>
+              <div style={{ 
+                backgroundColor: '#22c55e', 
+                height: '20px',
+                margin: `${size * 4}px 0`,
+                borderRadius: '2px',
+                display: 'flex',
+                alignItems: 'center',
+                paddingLeft: '8px',
+                fontSize: '12px',
+                color: 'white'
+              }}>
+                my-{size} ({size * 4}px)
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Horizontal Margins */}
+      <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
+          Horizontal Margins (mx-*)
+        </h3>
+        <div style={{ backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px', overflow: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', minWidth: 'max-content' }}>
+            {[1, 2, 4, 6, 8].map(size => (
+              <div key={size} style={{
+                backgroundColor: '#3b82f6',
+                width: '60px',
+                height: '40px',
+                margin: `0 ${size * 4}px`,
+                borderRadius: '2px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '10px',
+                color: 'white'
+              }}>
+                mx-{size}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Auto Margins */}
+      <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
+          Auto Margins (Centering)
+        </h3>
+        <div style={{ backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
+          <div style={{
+            backgroundColor: '#ef4444',
+            width: '200px',
+            height: '40px',
+            margin: '0 auto',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '12px',
+            color: 'white'
+          }}>
+            mx-auto (centered)
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </Story>
+</Canvas>
+
+## Gap Examples
+
+Flexbox and grid gap spacing for layouts.
+
+<Canvas>
+  <Story name="Gap Examples">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      
+      {/* Flex Gap */}
+      <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
+          Flex Gap
+        </h3>
+        {[1, 2, 4, 6, 8].map(size => (
+          <div key={size} style={{ marginBottom: '16px' }}>
+            <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '4px' }}>
+              gap-{size} ({size * 4}px)
+            </div>
+            <div style={{ 
+              display: 'flex', 
+              gap: `${size * 4}px`,
+              backgroundColor: '#f9fafb',
+              padding: '8px',
+              borderRadius: '4px'
+            }}>
+              {[1, 2, 3, 4].map(item => (
+                <div key={item} style={{ 
+                  backgroundColor: '#8b5cf6', 
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                  color: 'white'
+                }}>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Space Between */}
+      <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
+          Space Between (space-x-*, space-y-*)
+        </h3>
+        <div style={{ marginBottom: '16px' }}>
+          <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '4px' }}>
+            space-x-4 (16px horizontal)
+          </div>
+          <div style={{
+            display: 'flex',
+            backgroundColor: '#f9fafb',
+            padding: '8px',
+            borderRadius: '4px'
+          }}>
+            {[1, 2, 3].map(item => (
+              <div key={item} style={{
+                backgroundColor: '#f59e0b',
+                width: '60px',
+                height: '40px',
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px',
+                color: 'white',
+                marginLeft: item > 1 ? '16px' : '0'
+              }}>
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '4px' }}>
+            space-y-4 (16px vertical)
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#f9fafb',
+            padding: '8px',
+            borderRadius: '4px'
+          }}>
+            {[1, 2, 3].map(item => (
+              <div key={item} style={{
+                backgroundColor: '#10b981',
+                width: '60px',
+                height: '30px',
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px',
+                color: 'white',
+                marginTop: item > 1 ? '16px' : '0'
+              }}>
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </Story>
+</Canvas>
+
+## Usage Guidelines
+
+### Spacing Scale
+
+- **0-1**: Use for very tight spacing, icon padding, borders
+- **2-3**: Use for compact layouts, form element spacing
+- **4**: Most common spacing value, standard element spacing
+- **6**: Use for section spacing, card padding
+- **8**: Use for large element spacing, page sections
+- **10+**: Use for major layout spacing, page-level separation
+
+### Common Patterns
+
+- **Buttons**: `py-2 px-4` (8px vertical, 16px horizontal)
+- **Form Inputs**: `px-3 py-2` (12px horizontal, 8px vertical)
+- **Cards**: `p-4` or `p-6` (16px or 24px all around)
+- **Page Sections**: `py-8` or `py-12` (32px or 48px vertical)
+- **Navigation**: `px-4 py-2` (16px horizontal, 8px vertical)
+
+### Responsive Spacing
+
+- Use responsive prefixes (`sm:`, `md:`, `lg:`) to adjust spacing at different breakpoints
+- Smaller screens typically need less spacing
+- Larger screens can accommodate more generous spacing
+
+### Consistency
+
+- Stick to the defined scale - avoid arbitrary values
+- Use consistent spacing patterns across similar components
+- Align spacing with the 4px grid system
+- Use space between utilities (`space-x-*`, `space-y-*`) for consistent element spacing
