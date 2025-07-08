@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs'
+import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title="Design Tokens/Typography" />
 
@@ -12,8 +12,6 @@ NSX uses a systematic typography scale built on consistent font families, sizes,
 
 Used for all UI elements, body text, and headings.
 
-<Canvas>
-  <Story name="Font Families">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <div
         style={{
@@ -72,15 +70,11 @@ Used for all UI elements, body text, and headings.
         </code>
       </div>
     </div>
-  </Story>
-</Canvas>
 
 ## Font Sizes
 
 Typography scale from 12px to 36px for various UI elements.
 
-<Canvas>
-  <Story name="Font Sizes">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       {[
         {
@@ -165,15 +159,11 @@ Typography scale from 12px to 36px for various UI elements.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ## Font Weights
 
 Font weight scale for emphasis and hierarchy.
 
-<Canvas>
-  <Story name="Font Weights">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       {[
         {
@@ -231,15 +221,11 @@ Font weight scale for emphasis and hierarchy.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ## Line Heights
 
 Line height scale for optimal readability and vertical rhythm.
 
-<Canvas>
-  <Story name="Line Heights">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {[
         {
@@ -294,35 +280,31 @@ Line height scale for optimal readability and vertical rhythm.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ## Typography Combinations
 
 Common typography patterns used throughout NSX.
 
-<Canvas>
-  <Story name="Typography Combinations">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      
+
       {/* Page Header */}
       <div style={{ padding: '24px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
         <h3 style={{ margin: '0 0 16px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
           Page Header
         </h3>
-        <h1 style={{ 
-          margin: '0 0 8px 0', 
-          fontSize: '24px', 
-          fontWeight: '700', 
+        <h1 style={{
+          margin: '0 0 8px 0',
+          fontSize: '24px',
+          fontWeight: '700',
           lineHeight: '1.25',
           fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif'
         }}>
           Dashboard
         </h1>
-        <p style={{ 
-          margin: '0', 
-          fontSize: '16px', 
-          color: '#6b7280', 
+        <p style={{
+          margin: '0',
+          fontSize: '16px',
+          color: '#6b7280',
           lineHeight: '1.5',
           fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif'
         }}>
@@ -435,13 +417,11 @@ Common typography patterns used throughout NSX.
 
 {`const greeting = "Hello, World!";
 console.log(greeting);`}
+
 </pre>
 </div>
 
     </div>
-
-  </Story>
-</Canvas>
 
 ## Usage Guidelines
 

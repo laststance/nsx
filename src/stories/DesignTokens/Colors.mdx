@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs'
+import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title="Design Tokens/Colors" />
 
@@ -12,8 +12,6 @@ NSX uses a comprehensive color system built on semantic color tokens that suppor
 
 Used for primary actions, links, and success states.
 
-<Canvas>
-  <Story name="Primary Colors">
     <div
       style={{
         display: 'flex',
@@ -58,15 +56,11 @@ Used for primary actions, links, and success states.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ### Secondary Colors - Blue
 
 Used for secondary actions and informational states.
 
-<Canvas>
-  <Story name="Secondary Colors">
     <div
       style={{
         display: 'flex',
@@ -111,15 +105,11 @@ Used for secondary actions and informational states.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ### Danger Colors - Red
 
 Used for error states, destructive actions, and warnings.
 
-<Canvas>
-  <Story name="Danger Colors">
     <div
       style={{
         display: 'flex',
@@ -164,15 +154,11 @@ Used for error states, destructive actions, and warnings.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ### Gray Scale
 
 Used for text, borders, backgrounds, and general UI elements.
 
-<Canvas>
-  <Story name="Gray Scale">
     <div
       style={{
         display: 'flex',
@@ -220,15 +206,11 @@ Used for text, borders, backgrounds, and general UI elements.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ### Neutral Scale
 
 Alternative neutral colors for various UI elements.
 
-<Canvas>
-  <Story name="Neutral Scale">
     <div
       style={{
         display: 'flex',
@@ -276,8 +258,6 @@ Alternative neutral colors for various UI elements.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ## Semantic Color Utilities
 
@@ -285,8 +265,6 @@ NSX includes custom semantic color utilities that automatically handle light/dar
 
 ### Background Utilities
 
-<Canvas>
-  <Story name="Background Utilities">
     <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
       {[
         {
@@ -345,13 +323,9 @@ NSX includes custom semantic color utilities that automatically handle light/dar
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ### Text Color Utilities
 
-<Canvas>
-  <Story name="Text Color Utilities">
     <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
       {[
         {
@@ -404,13 +378,9 @@ NSX includes custom semantic color utilities that automatically handle light/dar
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ### Border Color Utilities
 
-<Canvas>
-  <Story name="Border Color Utilities">
     <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
       {[
         {
@@ -457,8 +427,6 @@ NSX includes custom semantic color utilities that automatically handle light/dar
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ## Usage Guidelines
 

@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs'
+import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title="Design Tokens/Shadows" />
 
@@ -10,8 +10,6 @@ NSX uses a layered shadow system to create depth and visual hierarchy in the int
 
 A comprehensive shadow scale from subtle to dramatic, designed for different elevation levels.
 
-<Canvas>
-  <Story name="Shadow Scale">
     <div
       style={{
         display: 'grid',
@@ -111,24 +109,20 @@ A comprehensive shadow scale from subtle to dramatic, designed for different ele
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ## Shadow Usage Examples
 
 Real-world examples of how shadows are used in NSX components.
 
-<Canvas>
-  <Story name="Shadow Usage Examples">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px' }}>
-      
+
       {/* Buttons */}
       <div>
         <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
           Buttons (shadow-sm)
         </h3>
         <div style={{ display: 'flex', gap: '12px' }}>
-          <button style={{ 
+          <button style={{
             padding: '8px 16px',
             backgroundColor: '#22c55e',
             color: 'white',
@@ -141,7 +135,7 @@ Real-world examples of how shadows are used in NSX components.
           }}>
             Primary Button
           </button>
-          <button style={{ 
+          <button style={{
             padding: '8px 16px',
             backgroundColor: 'white',
             color: '#374151',
@@ -331,18 +325,13 @@ Real-world examples of how shadows are used in NSX components.
 
     </div>
 
-  </Story>
-</Canvas>
-
 ## Shadow Layering
 
 Examples of how shadows work together to create depth hierarchy.
 
-<Canvas>
-  <Story name="Shadow Layering">
-    <div style={{ 
-      backgroundColor: '#f9fafb', 
-      padding: '40px', 
+    <div style={{
+      backgroundColor: '#f9fafb',
+      padding: '40px',
       borderRadius: '8px',
       position: 'relative',
       minHeight: '300px'
@@ -350,9 +339,9 @@ Examples of how shadows work together to create depth hierarchy.
       <h3 style={{ margin: '0 0 24px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
         Layered Interface Elements
       </h3>
-      
+
       {/* Base layer - no shadow */}
-      <div style={{ 
+      <div style={{
         backgroundColor: 'white',
         borderRadius: '8px',
         padding: '20px',
@@ -432,9 +421,6 @@ Examples of how shadows work together to create depth hierarchy.
         Floating element - shadow-xl
       </div>
     </div>
-
-  </Story>
-</Canvas>
 
 ## Usage Guidelines
 

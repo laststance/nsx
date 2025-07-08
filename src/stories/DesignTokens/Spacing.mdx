@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs'
+import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title="Design Tokens/Spacing" />
 
@@ -10,8 +10,6 @@ NSX uses a consistent 4px-based spacing scale for padding, margins, gaps, and po
 
 Base spacing units from 0px to 96px, following a predictable scale.
 
-<Canvas>
-  <Story name="Spacing Scale">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       {[
         { name: '0', value: '0px', rem: '0', usage: 'Reset spacing' },
@@ -108,17 +106,13 @@ Base spacing units from 0px to 96px, following a predictable scale.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ## Padding Examples
 
 Common padding patterns used throughout NSX components.
 
-<Canvas>
-  <Story name="Padding Examples">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      
+
       {/* Button Padding */}
       <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
         <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
@@ -126,9 +120,9 @@ Common padding patterns used throughout NSX components.
         </h3>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <div style={{ position: 'relative' }}>
-            <button style={{ 
-              padding: '4px 8px', 
-              fontSize: '12px', 
+            <button style={{
+              padding: '4px 8px',
+              fontSize: '12px',
               backgroundColor: '#22c55e',
               color: 'white',
               border: 'none',
@@ -136,20 +130,20 @@ Common padding patterns used throughout NSX components.
             }}>
               Small
             </button>
-            <span style={{ 
-              position: 'absolute', 
-              top: '-20px', 
-              left: '0', 
-              fontSize: '10px', 
-              color: '#6b7280' 
+            <span style={{
+              position: 'absolute',
+              top: '-20px',
+              left: '0',
+              fontSize: '10px',
+              color: '#6b7280'
             }}>
               py-1 px-2
             </span>
           </div>
           <div style={{ position: 'relative' }}>
-            <button style={{ 
-              padding: '8px 16px', 
-              fontSize: '14px', 
+            <button style={{
+              padding: '8px 16px',
+              fontSize: '14px',
               backgroundColor: '#22c55e',
               color: 'white',
               border: 'none',
@@ -157,20 +151,20 @@ Common padding patterns used throughout NSX components.
             }}>
               Medium
             </button>
-            <span style={{ 
-              position: 'absolute', 
-              top: '-20px', 
-              left: '0', 
-              fontSize: '10px', 
-              color: '#6b7280' 
+            <span style={{
+              position: 'absolute',
+              top: '-20px',
+              left: '0',
+              fontSize: '10px',
+              color: '#6b7280'
             }}>
               py-2 px-4
             </span>
           </div>
           <div style={{ position: 'relative' }}>
-            <button style={{ 
-              padding: '12px 24px', 
-              fontSize: '16px', 
+            <button style={{
+              padding: '12px 24px',
+              fontSize: '16px',
               backgroundColor: '#22c55e',
               color: 'white',
               border: 'none',
@@ -178,12 +172,12 @@ Common padding patterns used throughout NSX components.
             }}>
               Large
             </button>
-            <span style={{ 
-              position: 'absolute', 
-              top: '-20px', 
-              left: '0', 
-              fontSize: '10px', 
-              color: '#6b7280' 
+            <span style={{
+              position: 'absolute',
+              top: '-20px',
+              left: '0',
+              fontSize: '10px',
+              color: '#6b7280'
             }}>
               py-3 px-6
             </span>
@@ -308,17 +302,12 @@ Common padding patterns used throughout NSX components.
 
     </div>
 
-  </Story>
-</Canvas>
-
 ## Margin Examples
 
 Common margin patterns for spacing between elements.
 
-<Canvas>
-  <Story name="Margin Examples">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      
+
       {/* Vertical Margins */}
       <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
         <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
@@ -327,8 +316,8 @@ Common margin patterns for spacing between elements.
         <div style={{ backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
           {[1, 2, 4, 6, 8].map(size => (
             <div key={size}>
-              <div style={{ 
-                backgroundColor: '#22c55e', 
+              <div style={{
+                backgroundColor: '#22c55e',
                 height: '20px',
                 margin: `${size * 4}px 0`,
                 borderRadius: '2px',
@@ -397,17 +386,12 @@ Common margin patterns for spacing between elements.
 
     </div>
 
-  </Story>
-</Canvas>
-
 ## Gap Examples
 
 Flexbox and grid gap spacing for layouts.
 
-<Canvas>
-  <Story name="Gap Examples">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      
+
       {/* Flex Gap */}
       <div style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '6px' }}>
         <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
@@ -418,16 +402,16 @@ Flexbox and grid gap spacing for layouts.
             <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '4px' }}>
               gap-{size} ({size * 4}px)
             </div>
-            <div style={{ 
-              display: 'flex', 
+            <div style={{
+              display: 'flex',
               gap: `${size * 4}px`,
               backgroundColor: '#f9fafb',
               padding: '8px',
               borderRadius: '4px'
             }}>
               {[1, 2, 3, 4].map(item => (
-                <div key={item} style={{ 
-                  backgroundColor: '#8b5cf6', 
+                <div key={item} style={{
+                  backgroundColor: '#8b5cf6',
                   width: '40px',
                   height: '40px',
                   borderRadius: '4px',
@@ -510,9 +494,6 @@ Flexbox and grid gap spacing for layouts.
       </div>
 
     </div>
-
-  </Story>
-</Canvas>
 
 ## Usage Guidelines
 

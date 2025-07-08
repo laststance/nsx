@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs'
+import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title="Design Tokens/Overview" />
 
@@ -12,22 +12,20 @@ Design tokens are the atomic design decisions that define your design system. Th
 
 ## Token Categories
 
-<Canvas>
-  <Story name="Token Categories">
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', padding: '20px' }}>
-      
+
       {/* Colors */}
-      <div style={{ 
-        padding: '20px', 
-        backgroundColor: 'white', 
-        borderRadius: '8px', 
+      <div style={{
+        padding: '20px',
+        backgroundColor: 'white',
+        borderRadius: '8px',
         border: '1px solid #e5e7eb',
         boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-          <div style={{ 
-            width: '40px', 
-            height: '40px', 
+          <div style={{
+            width: '40px',
+            height: '40px',
             background: 'linear-gradient(45deg, #22c55e, #3b82f6, #ef4444)',
             borderRadius: '6px'
           }} />
@@ -38,11 +36,11 @@ Design tokens are the atomic design decisions that define your design system. Th
         </p>
         <div style={{ display: 'flex', gap: '4px' }}>
           {['#22c55e', '#3b82f6', '#ef4444', '#6b7280'].map(color => (
-            <div key={color} style={{ 
-              width: '20px', 
-              height: '20px', 
-              backgroundColor: color, 
-              borderRadius: '2px' 
+            <div key={color} style={{
+              width: '20px',
+              height: '20px',
+              backgroundColor: color,
+              borderRadius: '2px'
             }} />
           ))}
         </div>
@@ -215,9 +213,6 @@ Design tokens are the atomic design decisions that define your design system. Th
 
     </div>
 
-  </Story>
-</Canvas>
-
 ## Implementation
 
 ### Tailwind CSS v4 Configuration
@@ -246,15 +241,13 @@ NSX uses Tailwind CSS v4's new `@theme` directive to define all design tokens in
 
 NSX includes custom semantic utilities that automatically handle light/dark theme switching:
 
-<Canvas>
-  <Story name="Semantic Utilities">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      
+
       {/* Background Utilities */}
-      <div style={{ 
-        padding: '16px', 
-        backgroundColor: 'white', 
-        borderRadius: '8px', 
+      <div style={{
+        padding: '16px',
+        backgroundColor: 'white',
+        borderRadius: '8px',
         border: '1px solid #e5e7eb'
       }}>
         <h4 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600' }}>
@@ -267,7 +260,7 @@ NSX includes custom semantic utilities that automatically handle light/dark them
             { name: 'bg-alt', desc: 'Alternative background' },
             { name: 'bg-inverse', desc: 'Inverse background' }
           ].map(({ name, desc }) => (
-            <div key={name} style={{ 
+            <div key={name} style={{
               padding: '8px 12px',
               backgroundColor: '#f3f4f6',
               borderRadius: '4px',
@@ -342,26 +335,21 @@ NSX includes custom semantic utilities that automatically handle light/dark them
 
     </div>
 
-  </Story>
-</Canvas>
-
 ## Usage Examples
 
 ### Component Examples
 
 See how design tokens work together in real NSX components:
 
-<Canvas>
-  <Story name="Component Examples">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      
+
       {/* Button Component */}
       <div>
         <h4 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
           Button Component
         </h4>
         <div style={{ display: 'flex', gap: '12px' }}>
-          <button style={{ 
+          <button style={{
             padding: '8px 16px',           // spacing-2 spacing-4
             backgroundColor: '#22c55e',    // color-green-500
             color: 'white',               // color-white
@@ -374,7 +362,7 @@ See how design tokens work together in real NSX components:
           }}>
             Primary Button
           </button>
-          <button style={{ 
+          <button style={{
             padding: '8px 16px',
             backgroundColor: 'transparent',
             color: '#374151',
@@ -455,9 +443,6 @@ See how design tokens work together in real NSX components:
       </div>
 
     </div>
-
-  </Story>
-</Canvas>
 
 ## Benefits
 

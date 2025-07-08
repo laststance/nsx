@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs'
+import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title="Design Tokens/Breakpoints" />
 
@@ -10,8 +10,6 @@ NSX uses a mobile-first responsive design system with three strategic breakpoint
 
 Custom breakpoints optimized for NSX's content and user base.
 
-<Canvas>
-  <Story name="Breakpoint Scale">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {[
         {
@@ -105,29 +103,25 @@ Custom breakpoints optimized for NSX's content and user base.
         </div>
       ))}
     </div>
-  </Story>
-</Canvas>
 
 ## Responsive Behavior Examples
 
 See how layouts adapt across different breakpoints.
 
-<Canvas>
-  <Story name="Responsive Behavior">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      
+
       {/* Typography Scaling */}
       <div>
         <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
           Typography Scaling
         </h3>
-        <div style={{ 
-          padding: '24px', 
-          backgroundColor: '#f9fafb', 
+        <div style={{
+          padding: '24px',
+          backgroundColor: '#f9fafb',
           borderRadius: '8px',
           border: '1px solid #e5e7eb'
         }}>
-          <h1 style={{ 
+          <h1 style={{
             margin: '0 0 8px 0',
             fontSize: 'clamp(20px, 4vw, 24px)',
             fontWeight: '700',
@@ -135,17 +129,17 @@ See how layouts adapt across different breakpoints.
           }}>
             Responsive Heading
           </h1>
-          <p style={{ 
-            margin: '0', 
-            fontSize: '14px', 
+          <p style={{
+            margin: '0',
+            fontSize: '14px',
             color: '#6b7280',
             fontFamily: 'source-code-pro, monospace'
           }}>
             text-xl lg:text-2xl
           </p>
-          <p style={{ 
-            marginTop: '12px', 
-            fontSize: '14px', 
+          <p style={{
+            marginTop: '12px',
+            fontSize: '14px',
             color: '#6b7280',
             lineHeight: '1.5'
           }}>
@@ -291,29 +285,24 @@ See how layouts adapt across different breakpoints.
 
     </div>
 
-  </Story>
-</Canvas>
-
 ## Common Responsive Patterns
 
 Frequently used responsive design patterns in NSX.
 
-<Canvas>
-  <Story name="Common Patterns">
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      
+
       {/* Navigation */}
       <div>
         <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: '600', color: '#374151' }}>
           Navigation Patterns
         </h3>
-        
+
         {/* Mobile Navigation */}
         <div style={{ marginBottom: '16px' }}>
           <h4 style={{ margin: '0 0 8px 0', fontSize: '14px', fontWeight: '600', color: '#6b7280' }}>
             Mobile (< 640px)
           </h4>
-          <div style={{ 
+          <div style={{
             padding: '12px 16px',
             backgroundColor: 'white',
             border: '1px solid #e5e7eb',
@@ -323,7 +312,7 @@ Frequently used responsive design patterns in NSX.
             alignItems: 'center'
           }}>
             <div style={{ fontSize: '16px', fontWeight: '600' }}>NSX</div>
-            <button style={{ 
+            <button style={{
               padding: '8px',
               backgroundColor: 'transparent',
               border: 'none',
@@ -491,9 +480,6 @@ Frequently used responsive design patterns in NSX.
       </div>
 
     </div>
-
-  </Story>
-</Canvas>
 
 ## Breakpoint Usage Guidelines
 
