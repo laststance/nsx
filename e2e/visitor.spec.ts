@@ -127,7 +127,7 @@ test.describe('site theme', () => {
     await expect(page.getByTestId('root')).toHaveClass(/dark/)
     await expect(page.getByTestId('body')).toHaveCSS(
       'background-color',
-      'oklch(0.205 0 0)',
+      'rgb(23, 23, 23)',
     )
   })
 
