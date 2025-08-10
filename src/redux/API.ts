@@ -166,6 +166,16 @@ export const API = createApi({
       invalidatesTags: (result, _error) =>
         result ? [{ type: 'Tweets', id: 'LIST' }] : [],
     }),
+    deleteTweet: builder.mutation<{ message: string }, number>({
+      query: (id: number) => ({
+        method: 'DELETE',
+        url: `tweet/${id}`,
+      }),
+      invalidatesTags: (_result, _error, id) => [
+        { type: 'Tweets', id },
+        { type: 'Tweets', id: 'LIST' },
+      ],
+    }),
   }),
 })
 
@@ -176,4 +186,5 @@ export const {
   useSignupReqestMutation,
   useFetchAllTweetQuery,
   useCreateTweetMutation,
+  useDeleteTweetMutation,
 } = API
