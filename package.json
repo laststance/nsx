@@ -14,9 +14,6 @@
       "public"
     ]
   },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write",
     "*.{js,ts,jsx,tsx,cjs,mjs}": [
@@ -155,6 +152,7 @@
     "validate": "./scripts/validate",
     "show:api:docs": "redocly preview-docs openapi_v3.json",
     "db:hashgen": "node server/db/scripts/passhashgen.js",
+    "db:seed": "tsx prisma/seed.ts",
     "db:reset": "prisma migrate reset --force",
     "db:truncate": "prisma migrate reset --skip-seed --force",
     "db:migrate:dev": "prisma migrate dev",
