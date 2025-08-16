@@ -145,6 +145,57 @@ test.describe('Tweet CRUD', () => {
     // Verify the form was reset
     await expect(page.locator('input[name="text"]')).toHaveValue('')
   })
+
+  test('delete tweet', async ({ authenticated: page }) => {
+    await page.goto('http://localhost:3000/')
+    await page.keyboard.press('x')
+    await page.click('[data-testid="tweet-link"]')
+    await expect(page).toHaveURL('http://localhost:3000/dashboard/tweet')
+
+    // Wait for the page to load
+    await expect(page.locator('h2')).toContainText('Tweets')
+
+    // Create a tweet to delete
+    const testTweetText = `Tweet to delete ${Date.now()}`
+    await page.fill('input[name="text"]', testTweetText)
+    await page.click('button[type="submit"]')
+
+    // Wait for success message
+    await expect(page.locator('[data-testid="snackbar"]')).toContainText(
+      'Tweet created successfully',
+    )
+
+    // Verify the tweet appears
+    await expect(page.locator(`text=${testTweetText}`)).toBeVisible()
+
+    // Get the tweet card that contains our test text
+    const tweetCard = page.locator('[data-testid^="tweet-card-"]').filter({
+      hasText: testTweetText,
+    })
+    await expect(tweetCard).toBeVisible()
+
+    // Find and click the delete button within that tweet card
+    const deleteButton = tweetCard.locator('[data-testid^="delete-tweet-"]')
+    await expect(deleteButton).toBeVisible()
+
+    // Handle the confirmation dialog
+    page.on('dialog', (dialog) => {
+      expect(dialog.message()).toContain(
+        'Are you sure you want to delete this tweet?',
+      )
+      dialog.accept()
+    })
+
+    await deleteButton.click()
+
+    // Wait for success message
+    await expect(page.locator('[data-testid="snackbar"]')).toContainText(
+      'Tweet deleted successfully',
+    )
+
+    // Verify the tweet is no longer visible
+    await expect(page.locator(`text=${testTweetText}`)).not.toBeVisible()
+  })
 })
 
 test.afterAll(async () => {
