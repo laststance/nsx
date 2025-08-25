@@ -1,41 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
-/**
- * Recursively traverses an object or array, converting all Date instances to ISO string format.
- *
- * @param obj - The value to process, which may be an object, array, Date, or primitive.
- * @returns The input with all Date values replaced by their ISO string representations.
- */
-function convertDateToString(obj: any): any {
-  if (obj === null || obj === undefined) {
-    return obj
-  }
-
-  if (obj instanceof Date) {
-    return obj.toISOString()
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(convertDateToString)
-  }
-
-  if (typeof obj === 'object') {
-    for (const key in obj) {
-      obj[key] = convertDateToString(obj[key])
-    }
-  }
-
-  return obj
-}
-
 // Instantiate the client
 const originalPrisma = new PrismaClient()
-
-// Add middleware (kept for safety)
-originalPrisma.$use(async (params, next) => {
-  const result = await next(params)
-  return convertDateToString(result)
-})
 
 // Use Prisma Extensions to add more type-safe extensions
 // This is reflected in TypeScript type definitions
@@ -47,20 +13,30 @@ const prisma = originalPrisma.$extends({
       createdAt: {
         needs: { createdAt: true } as any,
         compute(data: any): string {
-          if (data.createdAt instanceof Date) {
-            return data.createdAt.toISOString()
+          try {
+            if (data.createdAt instanceof Date) {
+              return data.createdAt.toISOString()
+            }
+            return data.createdAt as string
+          } catch (error) {
+            console.error('Error converting createdAt:', error)
+            return data.createdAt as string
           }
-          return data.createdAt as string
         },
       },
       // Convert updatedAt field to string
       updatedAt: {
         needs: { updatedAt: true } as any,
         compute(data: any): string {
-          if (data.updatedAt instanceof Date) {
-            return data.updatedAt.toISOString()
+          try {
+            if (data.updatedAt instanceof Date) {
+              return data.updatedAt.toISOString()
+            }
+            return data.updatedAt as string
+          } catch (error) {
+            console.error('Error converting updatedAt:', error)
+            return data.updatedAt as string
           }
-          return data.updatedAt as string
         },
       },
     },

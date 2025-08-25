@@ -8,11 +8,23 @@ import { prisma } from '../prisma'
 const router: Router = express.Router()
 
 router.get('/post/:id', async (req: Request, res: Response) => {
-  const post = await prisma.post.findFirst({
-    where: { id: parseInt(req.params.id, 10) },
-  })
+  try {
+    const post = await prisma.post.findFirst({
+      where: { id: parseInt(req.params.id, 10) },
+    })
 
-  res.status(200).json(post)
+    res.status(200).json(post)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(error)
+      res.status(500).json({ error: error.message })
+    } else {
+      Logger.error(error)
+      res.status(500).json({
+        error: `something wrong: ${JSON.stringify(error)}`,
+      })
+    }
+  }
 })
 
 router.delete(
@@ -50,25 +62,37 @@ router.get(
     >,
     res: Response,
   ) => {
-    const page = parseInt(req.query.page, 10)
-    const perPage = parseInt(req.query.perPage, 10)
-    const total = await prisma.post.count()
+    try {
+      const page = parseInt(req.query.page, 10)
+      const perPage = parseInt(req.query.perPage, 10)
+      const total = await prisma.post.count()
 
-    const offset = perPage * (page - 1)
-    const options =
-      0 >= offset
-        ? {
-            take: perPage,
-            orderBy: { id: 'desc' as const },
-          }
-        : ({
-            take: perPage,
-            skip: offset,
-            orderBy: { id: 'desc' as const },
-          } as const)
+      const offset = perPage * (page - 1)
+      const options =
+        0 >= offset
+          ? {
+              take: perPage,
+              orderBy: { id: 'desc' as const },
+            }
+          : ({
+              take: perPage,
+              skip: offset,
+              orderBy: { id: 'desc' as const },
+            } as const)
 
-    const postList = await prisma.post.findMany(options as any)
-    res.status(200).json({ postList, total })
+      const postList = await prisma.post.findMany(options as any)
+      res.status(200).json({ postList, total })
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Logger.error(error)
+        res.status(500).json({ error: error.message })
+      } else {
+        Logger.error(error)
+        res.status(500).json({
+          error: `something wrong: ${JSON.stringify(error)}`,
+        })
+      }
+    }
   },
 )
 
