@@ -145,6 +145,40 @@ test.describe('Tweet CRUD', () => {
     // Verify the form was reset
     await expect(page.locator('input[name="text"]')).toHaveValue('')
   })
+
+  test('delete tweet', async ({ authenticated: page }) => {
+    await page.goto('http://localhost:3000/')
+    await page.keyboard.press('x')
+    await page.click('[data-testid="tweet-link"]')
+    await expect(page).toHaveURL('http://localhost:3000/dashboard/tweet')
+
+    // Wait for the page to load
+    await expect(page.locator('h2')).toContainText('Tweets')
+
+    // Wait for tweets to load
+    const tweetCards = page.locator('[data-testid^="tweet-card-"]')
+
+    // Get the initial number of tweets (ensure we have at least one tweet)
+    const initialTweetCount = await tweetCards.count()
+    await expect(tweetCards).toHaveCount(initialTweetCount)
+
+    // Get the first tweet and its delete button
+    const firstTweetCard = tweetCards.first()
+    const deleteButton = firstTweetCard.locator(
+      '[data-testid^="delete-tweet-"]',
+    )
+
+    // Click the delete button
+    await deleteButton.click()
+
+    // Wait for success message
+    await expect(page.locator('[data-testid="snackbar"]')).toContainText(
+      'Tweet deleted successfully',
+    )
+
+    // Verify the tweet count decreased
+    await expect(tweetCards).toHaveCount(initialTweetCount - 1)
+  })
 })
 
 test.afterAll(async () => {

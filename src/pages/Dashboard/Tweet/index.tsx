@@ -10,7 +10,11 @@ import Input from '@/src/components/Input/Input'
 import Layout from '@/src/components/Layout'
 import Loading from '@/src/components/Loading'
 import { TweetCard } from '@/src/components/TweetCard'
-import { useFetchAllTweetQuery, useCreateTweetMutation } from '@/src/redux/API'
+import {
+  useFetchAllTweetQuery,
+  useCreateTweetMutation,
+  useDeleteTweetMutation,
+} from '@/src/redux/API'
 import isSuccess from '@/src/redux/helper/isSuccess'
 import { enqueSnackbar } from '@/src/redux/snackbarSlice'
 import { dispatch } from '@/src/redux/store'
@@ -31,6 +35,7 @@ export const Tweet: React.FC = () => {
   })
   const { data, isLoading, error } = useFetchAllTweetQuery()
   const [createTweet, { isLoading: isCreatingTweet }] = useCreateTweetMutation()
+  const [deleteTweet] = useDeleteTweetMutation()
 
   // Only show loading spinner for initial data fetch, not during tweet creation
   if (isLoading) return <Loading />
@@ -62,6 +67,27 @@ export const Tweet: React.FC = () => {
     }
   }
 
+  const onDelete = async (id: number) => {
+    const result = await deleteTweet(id)
+
+    if (isSuccess(result)) {
+      dispatch(
+        enqueSnackbar({
+          color: 'green',
+          message: 'Tweet deleted successfully',
+        }),
+      )
+    } else {
+      Sentry.captureException(JSON.stringify(result.error, null, 2))
+      dispatch(
+        enqueSnackbar({
+          color: 'red',
+          message: 'Failed to delete tweet',
+        }),
+      )
+    }
+  }
+
   return (
     <Layout className="flex flex-col justify-start">
       <h2 className="mb-4 text-2xl font-bold dark:text-white">Tweets</h2>
@@ -87,7 +113,7 @@ export const Tweet: React.FC = () => {
             </p>
           )}
           {data.map((tweet: TweetType) => (
-            <TweetCard key={tweet.id} tweet={tweet} />
+            <TweetCard key={tweet.id} tweet={tweet} onDelete={onDelete} />
           ))}
         </div>
       )}
