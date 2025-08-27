@@ -31,4 +31,18 @@ tweet.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 })
 
+tweet.delete(
+  '/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = parseInt(req.params.id, 10)
+      await prisma.tweet.delete({ where: { id } })
+
+      res.status(200).json({ message: 'Tweet deleted successfully' })
+    } catch (error) {
+      next(error)
+    }
+  },
+)
+
 export default tweet
