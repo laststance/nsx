@@ -139,8 +139,8 @@ importers:
         specifier: ^1.55.0
         version: 1.55.0
       '@redocly/cli':
-        specifier: ^2.0.8
-        version: 2.0.8(@opentelemetry/api@1.9.0)(ajv@6.12.6)(core-js@3.45.0)
+        specifier: ^2.1.0
+        version: 2.1.0(@opentelemetry/api@1.9.0)(ajv@6.12.6)(core-js@3.45.0)
       '@storybook/addon-a11y':
         specifier: ^9.0.16
         version: 9.1.1(storybook@9.1.1(@testing-library/dom@10.4.1)(msw@2.11.1(@types/node@24.3.1)(typescript@5.9.2))(prettier@3.6.2)(vite@7.1.5(@types/node@24.3.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5)(yaml@2.8.1)))
@@ -394,8 +394,8 @@ packages:
     resolution: {integrity: sha512-KHp2IflsnGywDjBWDkR9iEqiWSpc8GIi0lgTT3mOElT0PP1tG26P4tmFI2YvAdzgq9RGyoHZQEIEdZy6Ec5xCA==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/runtime@7.28.3':
-    resolution: {integrity: sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==}
+  '@babel/runtime@7.28.4':
+    resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.27.2':
@@ -1277,27 +1277,27 @@ packages:
   '@redocly/ajv@8.11.3':
     resolution: {integrity: sha512-4P3iZse91TkBiY+Dx5DUgxQ9GXkVJf++cmI0MOyLDxV9b5MUBI4II6ES8zA5JCbO72nKAJxWrw4PUPW+YP3ZDQ==}
 
-  '@redocly/cli@2.0.8':
-    resolution: {integrity: sha512-FWBhB2hvF8rXWViCVgbKT3AmQH9ChRDNCmN3SyLRaL0GQ5SLi10p9rV26/7GktcMAKetM9XC4ETQQJMup3CVQQ==}
+  '@redocly/cli@2.1.0':
+    resolution: {integrity: sha512-rLzhFhFTj7/oZvejZ0/jc4YAgY2iys0UbeC7Gevch2wSpMLTHd89IsO5DEU6Ui2PT4a6ELCkZz2EdTovblAkrA==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
     hasBin: true
 
   '@redocly/config@0.22.2':
     resolution: {integrity: sha512-roRDai8/zr2S9YfmzUfNhKjOF0NdcOIqF7bhf4MVC5UxpjIysDjyudvlAiVbpPHp3eDRWbdzUgtkK1a7YiDNyQ==}
 
-  '@redocly/config@0.29.0':
-    resolution: {integrity: sha512-AkP1Berx9GvD15aN6r0IcOo289ElHp52XgeFTxXCumJ4gaUXUmvzqfZTfFFJWDaGgZvUZvmQrs1UdaPjZEXeHA==}
+  '@redocly/config@0.29.1':
+    resolution: {integrity: sha512-IYkTEFupr0NgbB3XrfNn/pF3rk6l2w0X50GwMmXXLqPhvqZqeZV9bpUKPS5ja4dgNIjIvt9BU3FhunQYCGphHA==}
 
   '@redocly/openapi-core@1.34.5':
     resolution: {integrity: sha512-0EbE8LRbkogtcCXU7liAyC00n9uNG9hJ+eMyHFdUsy9lB/WGqnEBgwjA9q2cyzAVcdTkQqTBBU1XePNnN3OijA==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
-  '@redocly/openapi-core@2.0.8':
-    resolution: {integrity: sha512-ShnpeEgcQY0YxopFDH/m94PWiHgCuWGa9FIcHchdHMZGA0mgV/Eojhi46A/hi2KP7TaVsgZc6+8u7GxTTeTC5g==}
+  '@redocly/openapi-core@2.1.0':
+    resolution: {integrity: sha512-7huzYmqvli/eI5t9E0ZisnhzLcthMuEhDPPZSpi82tOj6P7lDyh41tBpBfRxalt//hwIO1fZkbRZ4H6TD81oZQ==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
-  '@redocly/respect-core@2.0.8':
-    resolution: {integrity: sha512-gKOjUn/UmoHYIDKHV7RanAvFkhQIgQh9oiA3qfYHMI/N4+tWGoJd03Soc+2bn3Zie8DTXjKwQIy0k5n2kZA7hw==}
+  '@redocly/respect-core@2.1.0':
+    resolution: {integrity: sha512-zVOmXdJhe2DY9QQ3U0eV+a01VmS0ZODT8GVhfVKjJOsyXMJoyHzJNI6sMspKdwbbraAMvnF0P+PZ248YaYQl5w==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
   '@reduxjs/toolkit@2.9.0':
@@ -2225,6 +2225,10 @@ packages:
     resolution: {integrity: sha512-TKY5pyBkHyADOPYlRT9Lx6F544mPl0vS5Ew7BJ45hA08Q+t3GjbueLliBWN3sMICk6+y7HdyxSzC4bWS8baBdg==}
     engines: {node: '>=12'}
 
+  ansi-regex@6.2.2:
+    resolution: {integrity: sha512-Bq3SmSpyFHaWjPk8If9yc6svM8c56dB5BAtW4Qbw5jHTwwXXcTLoRMkpDJp6VL0XzlWaCHTXrkFURMYmD0sLqg==}
+    engines: {node: '>=12'}
+
   ansi-styles@3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
     engines: {node: '>=4'}
@@ -2239,6 +2243,10 @@ packages:
 
   ansi-styles@6.2.1:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
+    engines: {node: '>=12'}
+
+  ansi-styles@6.2.3:
+    resolution: {integrity: sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg==}
     engines: {node: '>=12'}
 
   ansis@4.0.0-node10:
@@ -5564,6 +5572,10 @@ packages:
     resolution: {integrity: sha512-iq6eVVI64nQQTRYq2KtEg2d2uU7LElhTJwsH4YzIHZshxlgZms/wIc4VoDQTlG/IvVIrBKG06CrZnp0qv7hkcQ==}
     engines: {node: '>=12'}
 
+  strip-ansi@7.1.2:
+    resolution: {integrity: sha512-gmBGslpoQJtgnMAvOVqGZpEz9dyoKTCzy2nfz/n8aIFhN/jCE/rCmcxabB6jOOHV+0WNnylOxaxBQPSvcWklhA==}
+    engines: {node: '>=12'}
+
   strip-bom@3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
     engines: {node: '>=4'}
@@ -6328,7 +6340,7 @@ snapshots:
 
   '@babel/runtime@7.28.2': {}
 
-  '@babel/runtime@7.28.3': {}
+  '@babel/runtime@7.28.4': {}
 
   '@babel/template@7.27.2':
     dependencies:
@@ -6692,7 +6704,7 @@ snapshots:
     dependencies:
       string-width: 5.1.2
       string-width-cjs: string-width@4.2.3
-      strip-ansi: 7.1.0
+      strip-ansi: 7.1.2
       strip-ansi-cjs: strip-ansi@6.0.1
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
@@ -7075,14 +7087,14 @@ snapshots:
       require-from-string: 2.0.2
       uri-js-replace: 1.0.1
 
-  '@redocly/cli@2.0.8(@opentelemetry/api@1.9.0)(ajv@6.12.6)(core-js@3.45.0)':
+  '@redocly/cli@2.1.0(@opentelemetry/api@1.9.0)(ajv@6.12.6)(core-js@3.45.0)':
     dependencies:
       '@opentelemetry/exporter-trace-otlp-http': 0.202.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.34.0
-      '@redocly/openapi-core': 2.0.8(ajv@6.12.6)
-      '@redocly/respect-core': 2.0.8(ajv@6.12.6)
+      '@redocly/openapi-core': 2.1.0(ajv@6.12.6)
+      '@redocly/respect-core': 2.1.0(ajv@6.12.6)
       abort-controller: 3.0.0
       chokidar: 3.6.0
       colorette: 1.4.0
@@ -7115,7 +7127,7 @@ snapshots:
 
   '@redocly/config@0.22.2': {}
 
-  '@redocly/config@0.29.0':
+  '@redocly/config@0.29.1':
     dependencies:
       json-schema-to-ts: 2.7.2
 
@@ -7133,10 +7145,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@redocly/openapi-core@2.0.8(ajv@6.12.6)':
+  '@redocly/openapi-core@2.1.0(ajv@6.12.6)':
     dependencies:
       '@redocly/ajv': 8.11.3
-      '@redocly/config': 0.29.0
+      '@redocly/config': 0.29.1
       ajv-formats: 2.1.1(ajv@6.12.6)
       colorette: 1.4.0
       js-levenshtein: 1.1.6
@@ -7147,12 +7159,12 @@ snapshots:
     transitivePeerDependencies:
       - ajv
 
-  '@redocly/respect-core@2.0.8(ajv@6.12.6)':
+  '@redocly/respect-core@2.1.0(ajv@6.12.6)':
     dependencies:
       '@faker-js/faker': 7.6.0
       '@noble/hashes': 1.8.0
       '@redocly/ajv': 8.11.2
-      '@redocly/openapi-core': 2.0.8(ajv@6.12.6)
+      '@redocly/openapi-core': 2.1.0(ajv@6.12.6)
       better-ajv-errors: 1.2.0(ajv@6.12.6)
       colorette: 2.0.20
       jest-diff: 29.7.0
@@ -8099,6 +8111,8 @@ snapshots:
 
   ansi-regex@6.2.0: {}
 
+  ansi-regex@6.2.2: {}
+
   ansi-styles@3.2.1:
     dependencies:
       color-convert: 1.9.3
@@ -8110,6 +8124,8 @@ snapshots:
   ansi-styles@5.2.0: {}
 
   ansi-styles@6.2.1: {}
+
+  ansi-styles@6.2.3: {}
 
   ansis@4.0.0-node10: {}
 
@@ -9923,7 +9939,7 @@ snapshots:
 
   json-schema-to-ts@2.7.2:
     dependencies:
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
       '@types/json-schema': 7.0.15
       ts-algebra: 1.2.2
 
@@ -11164,7 +11180,7 @@ snapshots:
 
   polished@4.3.1:
     dependencies:
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
 
   possible-typed-array-names@1.1.0: {}
 
@@ -11975,13 +11991,13 @@ snapshots:
     dependencies:
       eastasianwidth: 0.2.0
       emoji-regex: 9.2.2
-      strip-ansi: 7.1.0
+      strip-ansi: 7.1.2
 
   string-width@7.2.0:
     dependencies:
       emoji-regex: 10.5.0
       get-east-asian-width: 1.3.1
-      strip-ansi: 7.1.0
+      strip-ansi: 7.1.2
 
   string.prototype.includes@2.0.1:
     dependencies:
@@ -12035,6 +12051,10 @@ snapshots:
   strip-ansi@7.1.0:
     dependencies:
       ansi-regex: 6.2.0
+
+  strip-ansi@7.1.2:
+    dependencies:
+      ansi-regex: 6.2.2
 
   strip-bom@3.0.0: {}
 
@@ -12671,9 +12691,9 @@ snapshots:
 
   wrap-ansi@8.1.0:
     dependencies:
-      ansi-styles: 6.2.1
+      ansi-styles: 6.2.3
       string-width: 5.1.2
-      strip-ansi: 7.1.0
+      strip-ansi: 7.1.2
 
   wrap-ansi@9.0.0:
     dependencies:
