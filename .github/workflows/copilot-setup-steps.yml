@@ -1,0 +1,130 @@
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+
+    services:
+      mysql:
+        image: mysql:8.1
+        env:
+          MYSQL_ROOT_PASSWORD: rootpass
+          MYSQL_DATABASE: digital
+          MYSQL_USER: strength
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -prootpass"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+          --character-set-server=utf8mb4
+          --collation-server=utf8mb4_unicode_ci
+          --default-authentication-plugin=mysql_native_password
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.17.1'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Copy environment file
+        run: |
+          if [ -f .env.sample ]; then
+            cp .env.sample .env
+            echo "✓ Copied .env.sample to .env"
+          else
+            echo "⚠️ .env.sample not found"
+            exit 1
+          fi
+
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -u root -prootpass --silent; then
+              echo "✓ MySQL is ready"
+              break
+            fi
+            if [ $i -eq 30 ]; then
+              echo "❌ MySQL failed to start within 60 seconds"
+              exit 1
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 2
+          done
+
+      - name: Set up database with Prisma
+        env:
+          DATABASE_URL: mysql://root:rootpass@127.0.0.1:3306/digital
+        run: |
+          echo "Setting up database schema and seeding..."
+          pnpm prisma migrate reset --force --skip-generate
+          echo "✓ Database reset and seeded successfully"
+
+      - name: Verify database connection
+        env:
+          DATABASE_URL: mysql://root:rootpass@127.0.0.1:3306/digital
+        run: |
+          echo "Verifying database connection..."
+          pnpm prisma db pull --print
+          echo "✓ Database connection verified"
+
+      - name: Build frontend (optional verification)
+        run: |
+          echo "Building frontend to verify setup..."
+          pnpm build:e2e
+          echo "✓ Frontend build successful"
+
+      - name: Build backend (optional verification)
+        run: |
+          echo "Building backend to verify setup..."
+          pnpm server:build
+          echo "✓ Backend build successful"
+
+      - name: Summary
+        run: |
+          echo "🎉 Environment setup completed successfully!"
+          echo "✓ Node.js $(node --version)"
+          echo "✓ pnpm $(pnpm --version)"
+          echo "✓ Dependencies installed"
+          echo "✓ Environment variables configured"
+          echo "✓ MySQL database ready"
+          echo "✓ Prisma schema migrated and seeded"
+          echo "✓ Frontend and backend builds verified"
