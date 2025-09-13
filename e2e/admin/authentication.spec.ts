@@ -1,4 +1,15 @@
-import { expect, test } from '@playwright/test'
+import { exec as execCb } from 'node:child_process'
+import util from 'node:util'
+
+import { expect } from '@playwright/test'
+
+import { test } from '../helper'
+
+const exec = util.promisify(execCb)
+
+test.beforeAll(async () => {
+  await exec('pnpm db:reset')
+})
 
 test.describe('JWT Expiration', () => {
   test('cookie expiration should match JWT token expiration', async ({
@@ -152,4 +163,8 @@ test.describe('JWT Expiration', () => {
     // Verify we're redirected to home page after logout
     await expect(page).toHaveURL('http://localhost:3000/')
   })
+})
+
+test.afterAll(async () => {
+  await exec('pnpm db:reset')
 })
