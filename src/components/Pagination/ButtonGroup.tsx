@@ -7,11 +7,16 @@ import { dispatch } from '@/src/redux/store'
 import ArrowButton from '../ArrowButton'
 
 import PageCount from './PageCount'
-import type { UsePagenationResult } from './usePagination'
+import type {
+  UsePagenationResult,
+  UseTweetPagenationResult,
+} from './usePagination'
 
 interface Props {
   page: PagenationState['page']
-  totalPage: UsePagenationResult['totalPage']
+  totalPage:
+    | UsePagenationResult['totalPage']
+    | UseTweetPagenationResult['totalPage']
 }
 
 const prevPage = (page: Props['page']) => () => {

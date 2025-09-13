@@ -25,6 +25,12 @@ export const pagenationSlice = createSlice({
         state.totalPage = Math.ceil(payload.total / state.perPage)
       },
     )
+    builder.addMatcher(
+      API.endpoints.fetchTweetList.matchFulfilled,
+      (state, { payload }) => {
+        state.totalPage = Math.ceil(payload.total / state.perPage)
+      },
+    )
   },
   initialState,
   reducers: {

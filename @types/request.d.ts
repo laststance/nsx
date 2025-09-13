@@ -25,6 +25,14 @@ declare namespace Req {
   }
 
   /**
+   * GET /api/tweet/tweet_list
+   */
+  declare interface TweetList {
+    page: number
+    perPage: number
+  }
+
+  /**
    * POST /api/create
    */
   declare interface CreatePost {

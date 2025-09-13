@@ -1,8 +1,7 @@
+import lastStancePlugin from '@laststance/react-next-eslint-plugin'
 import { defineConfig } from 'eslint/config'
 import tsPrefixer from 'eslint-config-ts-prefixer'
 import reactHooks from 'eslint-plugin-react-hooks'
-
-import noJsxWithoutReturn from './eslint-plugin-no-jsx-without-return.js'
 
 export default defineConfig([
   ...tsPrefixer,
@@ -17,16 +16,17 @@ export default defineConfig([
       'playwright-report/**',
       'test-results/**',
       '.storybook/**',
+      '.conductor',
     ],
   },
   {
     plugins: {
       'react-hooks': reactHooks,
-      'no-jsx-without-return': noJsxWithoutReturn,
+      laststance: lastStancePlugin,
     },
     rules: {
       'react-hooks/rules-of-hooks': 'error',
-      'no-jsx-without-return/no-jsx-without-return': 'error',
+      'laststance/no-jsx-without-return': 'error',
     },
   },
 ])

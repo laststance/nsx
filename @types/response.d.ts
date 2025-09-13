@@ -24,6 +24,11 @@ declare namespace Res {
     total: number
   }
 
+  declare interface TweetList {
+    tweetList: Tweet[]
+    total: number
+  }
+
   declare interface UpdatePost {
     message: 'Post Updated!'
   }

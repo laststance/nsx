@@ -9,12 +9,10 @@ import Button from '@/src/components/Button/Button'
 import Input from '@/src/components/Input/Input'
 import Layout from '@/src/components/Layout'
 import Loading from '@/src/components/Loading'
+import ButtonGroup from '@/src/components/Pagination/ButtonGroup'
+import { useTweetPagination } from '@/src/components/Pagination/usePagination'
 import { TweetCard } from '@/src/components/TweetCard'
-import {
-  useFetchAllTweetQuery,
-  useCreateTweetMutation,
-  useDeleteTweetMutation,
-} from '@/src/redux/API'
+import { useCreateTweetMutation, useDeleteTweetMutation } from '@/src/redux/API'
 import isSuccess from '@/src/redux/helper/isSuccess'
 import { enqueSnackbar } from '@/src/redux/snackbarSlice'
 import { dispatch } from '@/src/redux/store'
@@ -33,7 +31,7 @@ export const Tweet: React.FC = () => {
       z.object({ text: z.string().trim().min(1).max(140) }),
     ),
   })
-  const { data, isLoading, error } = useFetchAllTweetQuery()
+  const { data, isLoading, error, page, totalPage } = useTweetPagination(10)
   const [createTweet, { isLoading: isCreatingTweet }] = useCreateTweetMutation()
   const [deleteTweet] = useDeleteTweetMutation()
 
@@ -105,18 +103,21 @@ export const Tweet: React.FC = () => {
         </Button>
       </form>
 
-      {data && (
-        <div className="mt-4 grid gap-4">
-          {data.length === 0 && (
-            <p className="text-gray-500 dark:text-white">
-              No tweets found. Be the first to post!
-            </p>
-          )}
-          {data.map((tweet: TweetType) => (
-            <TweetCard key={tweet.id} tweet={tweet} onDelete={onDelete} />
-          ))}
-        </div>
-      )}
+      <section className="flex h-full flex-col justify-between">
+        {data && (
+          <div className="mt-4 grid gap-4">
+            {data.tweetList.length === 0 && (
+              <p className="text-gray-500 dark:text-white">
+                No tweets found. Be the first to post!
+              </p>
+            )}
+            {data.tweetList.map((tweet: TweetType) => (
+              <TweetCard key={tweet.id} tweet={tweet} onDelete={onDelete} />
+            ))}
+          </div>
+        )}
+        <ButtonGroup page={page} totalPage={totalPage} />
+      </section>
     </Layout>
   )
 }

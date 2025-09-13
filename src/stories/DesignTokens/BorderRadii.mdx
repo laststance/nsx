@@ -9,89 +9,94 @@ NSX uses a consistent border radius scale to create cohesive rounded corners acr
 ## Border Radius Scale
 
 From sharp corners to fully rounded, designed for different UI elements and visual styles.
+
 <div
-style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-        gap: '24px',
-        padding: '24px',
-      }} >
-{[
-{
-name: 'rounded-none',
-value: '0px',
-usage: 'Sharp corners, technical interfaces',
-},
-{ name: 'rounded-sm', value: '2px', usage: 'Buttons, small elements' },
-{
-name: 'rounded-md',
-value: '6px',
-usage: 'Form elements, default components',
-},
-{
-name: 'rounded-lg',
-value: '8px',
-usage: 'Cards, containers, dropdowns',
-},
-{
-name: 'rounded-xl',
-value: '12px',
-usage: 'Large containers, hero sections',
-},
-{
-name: 'rounded-2xl',
-value: '16px',
-usage: 'Prominent cards, modals',
-},
-{
-name: 'rounded-3xl',
-value: '24px',
-usage: 'Large features, marketing elements',
-},
-{
-name: 'rounded-full',
-value: '9999px',
-usage: 'Circular elements, avatars, pills',
-},
-].map(({ name, value, usage }) => (
-<div key={name} style={{ textAlign: 'center' }}>
-<div
-style={{
-              width: '100px',
-              height: '100px',
-              backgroundColor: '#22c55e',
-              borderRadius: value,
-              margin: '0 auto 12px auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontSize: '10px',
-              fontWeight: '600',
-            }} >
-{value}
-</div>
-<h4
-style={{
-              margin: '0 0 4px 0',
-              fontSize: '12px',
-              fontWeight: '600',
-              fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif',
-            }} >
-{name}
-</h4>
-<p
-style={{
-              margin: '0',
-              fontSize: '10px',
-              color: '#6b7280',
-              fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif',
-              lineHeight: '1.3',
-            }} >
-{usage}
-</p>
-</div>
-))}
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+    gap: '24px',
+    padding: '24px',
+  }}
+>
+  {[
+    {
+      name: 'rounded-none',
+      value: '0px',
+      usage: 'Sharp corners, technical interfaces',
+    },
+    { name: 'rounded-sm', value: '2px', usage: 'Buttons, small elements' },
+    {
+      name: 'rounded-md',
+      value: '6px',
+      usage: 'Form elements, default components',
+    },
+    {
+      name: 'rounded-lg',
+      value: '8px',
+      usage: 'Cards, containers, dropdowns',
+    },
+    {
+      name: 'rounded-xl',
+      value: '12px',
+      usage: 'Large containers, hero sections',
+    },
+    {
+      name: 'rounded-2xl',
+      value: '16px',
+      usage: 'Prominent cards, modals',
+    },
+    {
+      name: 'rounded-3xl',
+      value: '24px',
+      usage: 'Large features, marketing elements',
+    },
+    {
+      name: 'rounded-full',
+      value: '9999px',
+      usage: 'Circular elements, avatars, pills',
+    },
+  ].map(({ name, value, usage }) => (
+    <div key={name} style={{ textAlign: 'center' }}>
+      <div
+        style={{
+          width: '100px',
+          height: '100px',
+          backgroundColor: '#22c55e',
+          borderRadius: value,
+          margin: '0 auto 12px auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '10px',
+          fontWeight: '600',
+        }}
+      >
+        {value}
+      </div>
+      <h4
+        style={{
+          margin: '0 0 4px 0',
+          fontSize: '12px',
+          fontWeight: '600',
+          fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif',
+        }}
+      >
+        {name}
+      </h4>
+      <p
+        style={{
+          margin: '0',
+          fontSize: '10px',
+          color: '#6b7280',
+          fontFamily: 'Inter var, ui-sans-serif, system-ui, sans-serif',
+          lineHeight: '1.3',
+        }}
+      >
+        {usage}
+      </p>
+    </div>
+  ))}
 </div>
 
 ## Common UI Elements

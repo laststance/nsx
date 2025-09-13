@@ -157,6 +157,20 @@ export const API = createApi({
             ]
           : [{ type: 'Tweets', id: 'LIST' }],
     }),
+    fetchTweetList: builder.query<Res.TweetList, Req.TweetList>({
+      providesTags: (result) =>
+        result && result.tweetList
+          ? [
+              ...result.tweetList.map(({ id }) => ({
+                id,
+                type: 'Tweets' as const,
+              })),
+              { id: 'LIST', type: 'Tweets' },
+            ]
+          : [{ id: 'LIST', type: 'Tweets' }],
+      query: ({ page, perPage }) =>
+        `tweet/tweet_list?page=${page}&perPage=${perPage}`,
+    }),
     createTweet: builder.mutation({
       query: (text: string) => ({
         method: 'POST',
@@ -188,6 +202,7 @@ export const {
   useGetUserCountQuery,
   useSignupReqestMutation,
   useFetchAllTweetQuery,
+  useFetchTweetListQuery,
   useCreateTweetMutation,
   useDeleteTweetMutation,
 } = API
