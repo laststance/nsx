@@ -3,7 +3,7 @@ import util from 'node:util'
 
 import { expect } from '@playwright/test'
 
-import { test } from './helper'
+import { test } from '../helper'
 
 const exec = util.promisify(execCb)
 
