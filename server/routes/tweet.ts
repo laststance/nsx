@@ -20,6 +20,48 @@ tweet.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   }
 })
 
+// Paginated tweet list endpoint
+tweet.get(
+  '/tweet_list',
+  async (
+    req: Request<
+      _,
+      _,
+      _,
+      {
+        page: string
+        perPage: string
+      }
+    >,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const page = parseInt(req.query.page, 10)
+      const perPage = parseInt(req.query.perPage, 10)
+      const total = await prisma.tweet.count()
+
+      const offset = perPage * (page - 1)
+      const options =
+        0 >= offset
+          ? {
+              take: perPage,
+              orderBy: { createdAt: 'desc' as const },
+            }
+          : ({
+              take: perPage,
+              skip: offset,
+              orderBy: { createdAt: 'desc' as const },
+            } as const)
+
+      const tweetList = await prisma.tweet.findMany(options as any)
+      res.status(200).json({ tweetList, total })
+    } catch (error) {
+      next(error)
+    }
+  },
+)
+
 tweet.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { text } = req.body

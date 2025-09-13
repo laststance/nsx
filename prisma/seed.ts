@@ -312,6 +312,51 @@ async function main() {
     {
       text: 'Just hit 10,000 users! Thank you to everyone who believed in us when we were just three people working out of a basement. This journey is just beginning.',
     },
+    {
+      text: 'React 19 is here and the new concurrent features are game-changing! Server Components + Suspense = 🔥',
+    },
+    {
+      text: "Fun fact: The most productive hours aren't always 9-5. Sometimes the best code comes at 2 AM with a cup of coffee.",
+    },
+    {
+      text: 'TIL: You can use CSS container queries now! No more media queries for component-based responsive design.',
+    },
+    {
+      text: "Code review tip: Don't just look for bugs. Look for clarity, maintainability, and knowledge sharing opportunities.",
+    },
+    {
+      text: 'Docker containers are like gift boxes for your apps - everything you need wrapped up nicely! 🎁 #DevOps',
+    },
+    {
+      text: "JavaScript fatigue is real, but remember: you don't need to learn every new framework. Pick what solves YOUR problems.",
+    },
+    {
+      text: 'Git tip: Use `git bisect` to find the exact commit that introduced a bug. Your future self will thank you!',
+    },
+    {
+      text: "Building accessible web apps isn't just about compliance - it's about making the internet usable for everyone. #a11y",
+    },
+    {
+      text: "Performance optimization rule: Measure first, optimize second. Don't guess where your bottlenecks are!",
+    },
+    {
+      text: 'The best programmers I know spend more time thinking about the problem than writing code. Planning > Coding.',
+    },
+    {
+      text: 'CSS Grid + Flexbox = UI layout superpowers. Still amazed how much easier responsive design has become.',
+    },
+    {
+      text: "Testing isn't about catching bugs - it's about having confidence in your code changes. Write tests for peace of mind.",
+    },
+    {
+      text: 'API design is user experience design. Your endpoints should be intuitive, consistent, and well-documented.',
+    },
+    {
+      text: "Microservices aren't always the answer. Sometimes a well-structured monolith is exactly what you need.",
+    },
+    {
+      text: 'Learning new programming languages expands your thinking, even if you never use them professionally. Try something different!',
+    },
   ]
   for (const tweet of tweets) {
     await prisma.tweet.create({

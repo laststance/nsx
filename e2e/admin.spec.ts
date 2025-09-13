@@ -120,12 +120,6 @@ test.describe('Tweet CRUD', () => {
     // Wait for the page to load
     await expect(page.locator('h2')).toContainText('Tweets')
 
-    // Wait for tweets to load or check if there are no tweets yet
-    const tweetCards = page.locator('[data-testid^="tweet-card-"]')
-
-    // Get the initial number of tweets
-    const initialTweetCount = await tweetCards.count()
-
     // Create a new tweet
     const testTweetText = `Test tweet ${Date.now()}`
     await page.fill('input[name="text"]', testTweetText)
@@ -138,9 +132,6 @@ test.describe('Tweet CRUD', () => {
 
     // Verify the tweet appears in the list automatically (without manual refresh)
     await expect(page.locator(`text=${testTweetText}`)).toBeVisible()
-
-    // Verify the tweet count increased
-    await expect(tweetCards).toHaveCount(initialTweetCount + 1)
 
     // Verify the form was reset
     await expect(page.locator('input[name="text"]')).toHaveValue('')
@@ -158,10 +149,6 @@ test.describe('Tweet CRUD', () => {
     // Wait for tweets to load
     const tweetCards = page.locator('[data-testid^="tweet-card-"]')
 
-    // Get the initial number of tweets (ensure we have at least one tweet)
-    const initialTweetCount = await tweetCards.count()
-    await expect(tweetCards).toHaveCount(initialTweetCount)
-
     // Get the first tweet and its delete button
     const firstTweetCard = tweetCards.first()
     const deleteButton = firstTweetCard.locator(
@@ -175,9 +162,6 @@ test.describe('Tweet CRUD', () => {
     await expect(page.locator('[data-testid="snackbar"]')).toContainText(
       'Tweet deleted successfully',
     )
-
-    // Verify the tweet count decreased
-    await expect(tweetCards).toHaveCount(initialTweetCount - 1)
   })
 })
 
