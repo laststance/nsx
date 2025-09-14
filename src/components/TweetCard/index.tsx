@@ -4,6 +4,7 @@ import React, { useState, type ComponentProps } from 'react'
 import {
   useTranslateTextMutation,
   usePostToBlueSkyMutation,
+  useCreateTweetMutation,
 } from '@/src/redux/API'
 import { enqueSnackbar } from '@/src/redux/snackbarSlice'
 import { dispatch } from '@/src/redux/store'
@@ -22,16 +23,20 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
   const [translateText, { isLoading: isTranslating }] =
     useTranslateTextMutation()
   const [postToBlueSky, { isLoading: isPosting }] = usePostToBlueSkyMutation()
+  const [createTweet, { isLoading: isCreating }] = useCreateTweetMutation()
 
   const handleTranslate = async () => {
     try {
       const result = await translateText(tweet.text).unwrap()
 
       if (result.isTranslated) {
+        // Create a new tweet with the translated text
+        await createTweet(result.translatedText).unwrap()
+
         dispatch(
           enqueSnackbar({
             color: 'green',
-            message: `Translated: ${result.translatedText}`,
+            message: 'Translation completed and new English tweet created!',
           }),
         )
       } else {
@@ -86,12 +91,12 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
         <div className="absolute top-2 left-2 z-10 flex gap-2">
           <button
             onClick={handleTranslate}
-            disabled={isTranslating}
+            disabled={isTranslating || isCreating}
             className="flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-orange-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
             data-testid={`translate-tweet-${tweet.id}`}
-            aria-label="Translate tweet to English"
+            aria-label="Translate tweet to English and create new tweet"
           >
-            {isTranslating ? (
+            {isTranslating || isCreating ? (
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
             ) : (
               <>

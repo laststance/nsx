@@ -91,6 +91,9 @@ jobs:
             cat > .env << EOL
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
+            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            BLUESKY_USERNAME=${{ secrets.BLUESKY_USERNAME }}
+            BLUESKY_PASSWORD=${{ secrets.BLUESKY_PASSWORD }}
             EOL
             pnpm install --prod
             pnpm prisma migrate deploy
