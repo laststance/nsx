@@ -193,6 +193,35 @@ export const API = createApi({
             ]
           : [],
     }),
+    translateText: builder.mutation<
+      {
+        translatedText: string
+        isTranslated: boolean
+        originalText?: string
+      },
+      string
+    >({
+      query: (text: string) => ({
+        method: 'POST',
+        url: 'translate',
+        body: { text },
+      }),
+    }),
+    postToBlueSky: builder.mutation<
+      {
+        success: boolean
+        postUri: string
+        postCid: string
+        message: string
+      },
+      string
+    >({
+      query: (text: string) => ({
+        method: 'POST',
+        url: 'bluesky/post',
+        body: { text },
+      }),
+    }),
   }),
 })
 
@@ -205,4 +234,6 @@ export const {
   useFetchTweetListQuery,
   useCreateTweetMutation,
   useDeleteTweetMutation,
+  useTranslateTextMutation,
+  usePostToBlueSkyMutation,
 } = API
