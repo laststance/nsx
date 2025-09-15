@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test'
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+require('dotenv').config()
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -26,7 +26,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: 'http://localhost:3000',
     launchOptions: {
       slowMo: isHeadedOrUIMode() ? 700 : 400,
     },
@@ -61,11 +61,29 @@ export default defineConfig({
     // },
   ],
 
-  webServer: {
-    command: 'pnpm npm-run-all --parallel preview server:start',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      name: 'Frontend',
+      command: 'pnpm preview',
+      url: 'http://localhost:3000',
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      name: 'Backend',
+      command: 'pnpm server:start',
+      url: 'http://localhost:4000/api/user_count',
+      timeout: 120 * 1000,
+      reuseExistingServer: true,
+      env: {
+        ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET!,
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
+        BLUESKY_USERNAME: process.env.BLUESKY_USERNAME!,
+        BLUESKY_PASSWORD: process.env.BLUESKY_PASSWORD!,
+        DATABASE_URL: process.env.DATABASE_URL!,
+      },
+    },
+  ],
 })
 
 function isHeadedOrUIMode() {
