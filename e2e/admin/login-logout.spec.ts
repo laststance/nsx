@@ -8,7 +8,7 @@ import { test } from '../helper'
 const exec = util.promisify(execCb)
 
 test.beforeAll(async () => {
-  await exec('pnpm db:reset')
+  await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=1 pnpm db:reset')
 })
 
 test.describe('login & logout', () => {
@@ -38,5 +38,5 @@ test.describe('login & logout', () => {
 })
 
 test.afterAll(async () => {
-  await exec('pnpm db:reset')
+  await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=1 pnpm db:reset')
 })
