@@ -1,6 +1,18 @@
+import path from 'node:path'
+
 import express from 'express'
 import type { Router } from 'express'
 import OpenAI from 'openai'
+
+const env = process.env.NODE_ENV || 'development'
+const isProd = env === 'production'
+// .env file path resolve different between dev and production.
+// dev: projectRoot/.env production: projectRoot/server_build/.env
+require('dotenv').config({
+  path: isProd
+    ? path.join(__dirname, './../../../.env')
+    : path.join(__dirname, '../../.env'),
+})
 
 const router: Router = express.Router()
 
