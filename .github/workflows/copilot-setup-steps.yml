@@ -13,8 +13,6 @@ jobs:
   copilot-setup-steps:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    permissions:
-      contents: read
 
     services:
       mysql:
@@ -39,37 +37,10 @@ jobs:
       - uses: ./.github/actions/prepare
       - name: Install dependencies (ensure lockfile)
         run: pnpm install --frozen-lockfile
-
-      - name: Create .env file for Copilot
-        run: |
-          # Use the e2e env which contains test-friendly defaults in CI
-          if [ -f .env.e2e ]; then
-            cp .env.e2e .env
-            echo "✓ Copied .env.e2e to .env"
-          elif [ -f .env.sample ]; then
-            cp .env.sample .env
-            echo "✓ Copied .env.sample to .env"
-          else
-            echo "⚠️ No .env.e2e or .env.sample found"
-            exit 1
-          fi
-
-      - name: Wait for MySQL to be ready
-        run: |
-          echo "Waiting for MySQL to be ready..."
-          for i in {1..30}; do
-            if mysqladmin ping --silent; then
-              echo "✓ MySQL is ready"
-              break
-            fi
-            if [ $i -eq 30 ]; then
-              echo "❌ MySQL failed to start within expected time"
-              exit 1
-            fi
-            echo "Waiting for MySQL... ($i/30)"
-            sleep 2
-          done
-
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare
+      - name: Create .env file
+        run: cp .env.e2e .env
       - name: Set up database with Prisma
         env:
           DATABASE_URL: mysql://root:rootpass@127.0.0.1:3306/digital
@@ -77,34 +48,9 @@ jobs:
           echo "Setting up database schema and seeding..."
           PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=1 pnpm prisma migrate reset --force --skip-generate
           echo "✓ Database reset and seeded successfully"
-
-      - name: Verify database connection
-        env:
-          DATABASE_URL: mysql://root:rootpass@127.0.0.1:3306/digital
-        run: |
-          echo "Verifying database connection..."
-          pnpm prisma db pull --print
-          echo "✓ Database connection verified"
-
-      - name: Build frontend (optional verification)
-        run: |
-          echo "Building frontend to verify setup..."
-          pnpm build:e2e
-          echo "✓ Frontend build successful"
-
-      - name: Build backend (optional verification)
-        run: |
-          echo "Building backend to verify setup..."
-          pnpm server:build
-          echo "✓ Backend build successful"
-
-      - name: Summary
-        run: |
-          echo "🎉 Environment setup completed successfully!"
-          echo "✓ Node.js $(node --version)"
-          echo "✓ pnpm $(pnpm --version)"
-          echo "✓ Dependencies installed"
-          echo "✓ Environment variables configured"
-          echo "✓ MySQL database ready"
-          echo "✓ Prisma schema migrated and seeded"
-          echo "✓ Frontend and backend builds verified"
+      - name: Launch backend dev server
+        run: pnpm server:start
+      - name: Launch frontend dev server
+        run: pnpm start
+      - name: install Playwright browsers
+        run: pnpm exec playwright install
