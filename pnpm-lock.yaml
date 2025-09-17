@@ -76,7 +76,7 @@ importers:
         version: 3.14.5
       openai:
         specifier: ^5.20.3
-        version: 5.20.3(ws@8.18.3)(zod@4.1.8)
+        version: 5.20.3(ws@8.18.3)(zod@4.1.9)
       pm2:
         specifier: ^6.0.11
         version: 6.0.11
@@ -129,8 +129,8 @@ importers:
         specifier: ^5.0.3
         version: 5.1.0
       zod:
-        specifier: ^4.1.8
-        version: 4.1.8
+        specifier: ^4.1.9
+        version: 4.1.9
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^4.1.1
@@ -6314,8 +6314,8 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.1.8:
-    resolution: {integrity: sha512-5R1P+WwQqmmMIEACyzSvo4JXHY5WiAFHRMg+zBZKgKS+Q1viRa0C1hmUKtHltoIFKtIdki3pRxkmpP74jnNYHQ==}
+  zod@4.1.9:
+    resolution: {integrity: sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -11054,10 +11054,10 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@5.20.3(ws@8.18.3)(zod@4.1.8):
+  openai@5.20.3(ws@8.18.3)(zod@4.1.9):
     optionalDependencies:
       ws: 8.18.3
-      zod: 4.1.8
+      zod: 4.1.9
 
   openapi-sampler@1.6.1:
     dependencies:
@@ -12937,6 +12937,6 @@ snapshots:
 
   zod@3.25.76: {}
 
-  zod@4.1.8: {}
+  zod@4.1.9: {}
 
   zwitch@2.0.4: {}
