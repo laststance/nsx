@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as Sentry from '@sentry/react'
 import type React from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod/v4'
+import { z } from 'zod'
 
 import { AppError } from '@/src/components/AppError'
 import Button from '@/src/components/Button/Button'

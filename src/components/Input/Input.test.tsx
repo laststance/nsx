@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod/v4'
+import { z } from 'zod'
 
 import { nameSchema } from '../../../validator'
 import TestRenderer from '../../lib/TestRenderer'
