@@ -92,7 +92,7 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
           <button
             onClick={handleTranslate}
             disabled={isTranslating || isCreating}
-            className="flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-orange-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-orange-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border dark:border-cyan-400/40 dark:bg-cyan-600/75 dark:shadow-lg dark:shadow-cyan-500/25 dark:backdrop-blur-md dark:hover:bg-cyan-500/85"
             data-testid={`translate-tweet-${tweet.id}`}
             aria-label="Translate tweet to English and create new tweet"
           >
@@ -109,7 +109,7 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
           <button
             onClick={handleBlueSkyPost}
             disabled={isPosting}
-            className="flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-blue-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-blue-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border dark:border-amber-400/40 dark:bg-amber-600/75 dark:shadow-lg dark:shadow-amber-500/25 dark:backdrop-blur-md dark:hover:bg-amber-500/85"
             data-testid={`bluesky-post-${tweet.id}`}
             aria-label="Post to BlueSky"
           >
