@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@atproto/api':
-        specifier: ^0.16.11
-        version: 0.16.11
+        specifier: ^0.17.0
+        version: 0.17.0
       '@headlessui/react':
         specifier: ^1.7.19
         version: 1.7.19(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -350,8 +350,8 @@ packages:
   '@asamuzakjp/nwsapi@2.3.9':
     resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
 
-  '@atproto/api@0.16.11':
-    resolution: {integrity: sha512-1dhfQNHiclb102RW+Ea8Nft5olfqU0Ev/vlQaSX6mWNo1aP5zT+sPODJ8+BTUOYk3vcuvL7QMkqA/rLYy2PMyw==}
+  '@atproto/api@0.17.0':
+    resolution: {integrity: sha512-FNS9SW7/3kslAnJH7F4fO9/jPjXzC0NMD6u9NjJ/h4EnaIEpWHZQPkmD9Q2hvAwD6+Uo2boYZEPKkOa55Lr5Dg==}
 
   '@atproto/common-web@0.4.3':
     resolution: {integrity: sha512-nRDINmSe4VycJzPo6fP/hEltBcULFxt9Kw7fQk6405FyAWZiTluYHlXOnU7GkQfeUK44OENG1qFTBcmCJ7e8pg==}
@@ -5718,9 +5718,6 @@ packages:
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
 
-  tailwindcss@4.1.13:
-    resolution: {integrity: sha512-i+zidfmTqtwquj4hMEwdjshYYgMbOrPzb9a0M3ZgNa0JMoZeFC6bxZvO8yr8ozS6ix2SDz0+mvryPeBs2TFE+w==}
-
   tailwindcss@4.1.14:
     resolution: {integrity: sha512-b7pCxjGO98LnxVkKjaZSDeNuljC4ueKUddjENJOADtubtdo8llTaJy7HwBMeLNSSo2N5QIAgklslK1+Ir8r6CA==}
 
@@ -6337,7 +6334,7 @@ snapshots:
 
   '@asamuzakjp/nwsapi@2.3.9': {}
 
-  '@atproto/api@0.16.11':
+  '@atproto/api@0.17.0':
     dependencies:
       '@atproto/common-web': 0.4.3
       '@atproto/lexicon': 0.5.1
@@ -12268,8 +12265,6 @@ snapshots:
 
   systeminformation@5.27.10:
     optional: true
-
-  tailwindcss@4.1.13: {}
 
   tailwindcss@4.1.14: {}
 
