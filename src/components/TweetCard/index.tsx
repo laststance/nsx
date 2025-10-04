@@ -5,6 +5,7 @@ import {
   useTranslateTextMutation,
   usePostToBlueSkyMutation,
   useCreateTweetMutation,
+  useGetHoverColorPreferenceQuery,
 } from '@/src/redux/API'
 import { enqueSnackbar } from '@/src/redux/snackbarSlice'
 import { dispatch } from '@/src/redux/store'
@@ -24,6 +25,18 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
     useTranslateTextMutation()
   const [postToBlueSky, { isLoading: isPosting }] = usePostToBlueSkyMutation()
   const [createTweet, { isLoading: isCreating }] = useCreateTweetMutation()
+  const { data: preferenceData } = useGetHoverColorPreferenceQuery()
+
+  const useLegacyColors = preferenceData?.useLegacyHoverColors ?? false
+
+  // Color classes based on preference
+  const translateButtonColors = useLegacyColors
+    ? 'dark:border-cyan-400/40 dark:bg-cyan-600/75 dark:shadow-cyan-500/25 dark:hover:bg-cyan-500/85'
+    : 'dark:border-orange-300/40 dark:bg-orange-500/75 dark:shadow-orange-400/25 dark:hover:bg-orange-400/85'
+
+  const blueSkyButtonColors = useLegacyColors
+    ? 'dark:border-amber-400/40 dark:bg-amber-600/75 dark:shadow-amber-500/25 dark:hover:bg-amber-500/85'
+    : 'dark:border-blue-300/40 dark:bg-blue-500/75 dark:shadow-blue-400/25 dark:hover:bg-blue-400/85'
 
   const handleTranslate = async () => {
     try {
@@ -92,7 +105,7 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
           <button
             onClick={handleTranslate}
             disabled={isTranslating || isCreating}
-            className="flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-orange-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border dark:border-orange-300/40 dark:bg-orange-500/75 dark:shadow-lg dark:shadow-orange-400/25 dark:backdrop-blur-md dark:hover:bg-orange-400/85"
+            className={`flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-orange-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border dark:shadow-lg dark:backdrop-blur-md ${translateButtonColors}`}
             data-testid={`translate-tweet-${tweet.id}`}
             aria-label="Translate tweet to English and create new tweet"
           >
@@ -109,7 +122,7 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
           <button
             onClick={handleBlueSkyPost}
             disabled={isPosting}
-            className="flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-blue-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border dark:border-blue-300/40 dark:bg-blue-500/75 dark:shadow-lg dark:shadow-blue-400/25 dark:backdrop-blur-md dark:hover:bg-blue-400/85"
+            className={`flex min-h-[32px] min-w-[44px] items-center gap-1 rounded-full bg-blue-500 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border dark:shadow-lg dark:backdrop-blur-md ${blueSkyButtonColors}`}
             data-testid={`bluesky-post-${tweet.id}`}
             aria-label="Post to BlueSky"
           >

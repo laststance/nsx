@@ -222,6 +222,25 @@ export const API = createApi({
         body: { text },
       }),
     }),
+    getHoverColorPreference: builder.query<
+      { useLegacyHoverColors: boolean },
+      void
+    >({
+      query: () => ({
+        method: 'GET',
+        url: 'hover-color-preference',
+      }),
+    }),
+    updateHoverColorPreference: builder.mutation<
+      { useLegacyHoverColors: boolean },
+      boolean
+    >({
+      query: (useLegacyHoverColors: boolean) => ({
+        method: 'PATCH',
+        url: 'hover-color-preference',
+        body: { useLegacyHoverColors },
+      }),
+    }),
   }),
 })
 
@@ -236,4 +255,6 @@ export const {
   useDeleteTweetMutation,
   useTranslateTextMutation,
   usePostToBlueSkyMutation,
+  useGetHoverColorPreferenceQuery,
+  useUpdateHoverColorPreferenceMutation,
 } = API
