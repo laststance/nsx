@@ -148,8 +148,8 @@ importers:
         specifier: ^1.56.0
         version: 1.56.0
       '@redocly/cli':
-        specifier: ^2.3.0
-        version: 2.3.0(@opentelemetry/api@1.9.0)(ajv@6.12.6)(core-js@3.45.0)
+        specifier: ^2.3.1
+        version: 2.3.1(@opentelemetry/api@1.9.0)(ajv@6.12.6)(core-js@3.45.0)
       '@storybook/addon-a11y':
         specifier: ^9.0.16
         version: 9.1.1(storybook@9.1.1(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.6.2)(typescript@5.9.3))(prettier@3.6.2)(vite@7.1.9(@types/node@24.6.2)(jiti@2.6.1)(lightningcss@1.30.1)(tsx@4.20.6)(yaml@2.8.1)))
@@ -1049,18 +1049,6 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@jsep-plugin/assignment@1.3.0':
-    resolution: {integrity: sha512-VVgV+CXrhbMI3aSusQyclHkenWSAm95WaiKrMxRFam3JSUiIaQjoMIw2sEs/OX4XifnqeQUN4DYbJjlA8EfktQ==}
-    engines: {node: '>= 10.16.0'}
-    peerDependencies:
-      jsep: ^0.4.0||^1.0.0
-
-  '@jsep-plugin/regex@1.0.4':
-    resolution: {integrity: sha512-q7qL4Mgjs1vByCaTnDFcBnV9HS7GVPJX5vyVoCgZHNSC9rjwIlmbXG5sUuorR5ndfHAIlJ8pVStxvjXHbNvtUg==}
-    engines: {node: '>= 10.16.0'}
-    peerDependencies:
-      jsep: ^0.4.0||^1.0.0
-
   '@laststance/react-next-eslint-plugin@0.1.1':
     resolution: {integrity: sha512-YtDx5aRyuPOIgfkEXAdTEZg9sU7EsmGQbajTvYr3slSybvYze9nX4Jn8RFXiAkd9KP9xL2HYEmNuuRpptahnlw==}
     engines: {node: '>=20.0.0'}
@@ -1375,8 +1363,8 @@ packages:
   '@redocly/ajv@8.11.3':
     resolution: {integrity: sha512-4P3iZse91TkBiY+Dx5DUgxQ9GXkVJf++cmI0MOyLDxV9b5MUBI4II6ES8zA5JCbO72nKAJxWrw4PUPW+YP3ZDQ==}
 
-  '@redocly/cli@2.3.0':
-    resolution: {integrity: sha512-pR8D1GUtoAV2mcYZ5ZrVC2vuQ+8k02qVV19uqxQoJ11vgjnIukkoRZ3/LI2HH75B1wxaGn/MeWngn+5pRODHSQ==}
+  '@redocly/cli@2.3.1':
+    resolution: {integrity: sha512-q4Ik8wvP7qZvAwq7n9hJrREHs3IuoKtW3NWP+Y0F1dM9YcdgNl9EwxCsqBHaeZPPpFbyMxpzTlqMEJGh5VCmqg==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
     hasBin: true
 
@@ -1390,12 +1378,12 @@ packages:
     resolution: {integrity: sha512-0EbE8LRbkogtcCXU7liAyC00n9uNG9hJ+eMyHFdUsy9lB/WGqnEBgwjA9q2cyzAVcdTkQqTBBU1XePNnN3OijA==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
-  '@redocly/openapi-core@2.3.0':
-    resolution: {integrity: sha512-A/zA8lMhgM1Uyct+RP4YVNgedYko4XPOANDgS0wK0mmR3+R/Et13QPkzsh8jc+xe0QKwbGIETwEnLTLrPRuvrw==}
+  '@redocly/openapi-core@2.3.1':
+    resolution: {integrity: sha512-lCEUq3BB6nwfDbUBEj9OUA46SJRCzD55GmuB4tFZnxIB1+E4FQb8kCD0UMtXh8hHImafpKoNXk5NzcQEuIZWWA==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
-  '@redocly/respect-core@2.3.0':
-    resolution: {integrity: sha512-+8n9DYOigyUOhLbJl64pHhsqg1qlICN0ViylAczVbtGNFCV2rrEE06dhEQce/YVSIOCLxsXsPJLIBUt8A8VG6w==}
+  '@redocly/respect-core@2.3.1':
+    resolution: {integrity: sha512-4TTuPdiUlK3HcBHxyBza4bQxvpdOqlJyrcdhQgHZr21TFOzS5EJZgcXhnSLusk98sgoUeIMpUMK29VNIgz1xcg==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
   '@reduxjs/toolkit@2.9.0':
@@ -3938,10 +3926,6 @@ packages:
       canvas:
         optional: true
 
-  jsep@1.4.0:
-    resolution: {integrity: sha512-B7qPcEVE3NVkmSJbaYxvv4cHkVW7DQsZz13pUMrfS8z8Q/BuShN+gcTXrUlPiGqM2/t/EEaI030bpxMqY8gMlw==}
-    engines: {node: '>= 10.16.0'}
-
   jsesc@3.1.0:
     resolution: {integrity: sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA==}
     engines: {node: '>=6'}
@@ -3988,10 +3972,9 @@ packages:
   jsonfile@6.2.0:
     resolution: {integrity: sha512-FGuPw30AdOIUTRMC2OMRtQV+jkVj2cfPqSeWXv1NEAJ1qZ5zb1X6z1mFhbfOB/iy3ssJCD+3KuZ8r8C3uVFlAg==}
 
-  jsonpath-plus@10.3.0:
-    resolution: {integrity: sha512-8TNmfeTCk2Le33A3vRRwtuworG/L5RrgMvdjhKZxvyShO+mBu2fP50OWUjRLNtvw344DdDarFh9buFAZs5ujeA==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
+  jsonpath-rfc9535@1.3.0:
+    resolution: {integrity: sha512-3jFHya7oZ45aDxIIdx+/zQARahHXxFSMWBkcBUldfXpLS9VCXDJyTKt35kQfEXLqh0K3Ixw/9xFnvcDStaxh7Q==}
+    engines: {node: '>=20'}
 
   jsonpointer@5.0.1:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
@@ -7010,14 +6993,6 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jsep-plugin/assignment@1.3.0(jsep@1.4.0)':
-    dependencies:
-      jsep: 1.4.0
-
-  '@jsep-plugin/regex@1.0.4(jsep@1.4.0)':
-    dependencies:
-      jsep: 1.4.0
-
   '@laststance/react-next-eslint-plugin@0.1.1(eslint@9.36.0(jiti@2.6.1))':
     dependencies:
       eslint: 9.36.0(jiti@2.6.1)
@@ -7344,14 +7319,14 @@ snapshots:
       require-from-string: 2.0.2
       uri-js-replace: 1.0.1
 
-  '@redocly/cli@2.3.0(@opentelemetry/api@1.9.0)(ajv@6.12.6)(core-js@3.45.0)':
+  '@redocly/cli@2.3.1(@opentelemetry/api@1.9.0)(ajv@6.12.6)(core-js@3.45.0)':
     dependencies:
       '@opentelemetry/exporter-trace-otlp-http': 0.202.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.34.0
-      '@redocly/openapi-core': 2.3.0(ajv@6.12.6)
-      '@redocly/respect-core': 2.3.0(ajv@6.12.6)
+      '@redocly/openapi-core': 2.3.1(ajv@6.12.6)
+      '@redocly/respect-core': 2.3.1(ajv@6.12.6)
       abort-controller: 3.0.0
       chokidar: 3.6.0
       colorette: 1.4.0
@@ -7402,7 +7377,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@redocly/openapi-core@2.3.0(ajv@6.12.6)':
+  '@redocly/openapi-core@2.3.1(ajv@6.12.6)':
     dependencies:
       '@redocly/ajv': 8.11.3
       '@redocly/config': 0.31.0
@@ -7416,17 +7391,17 @@ snapshots:
     transitivePeerDependencies:
       - ajv
 
-  '@redocly/respect-core@2.3.0(ajv@6.12.6)':
+  '@redocly/respect-core@2.3.1(ajv@6.12.6)':
     dependencies:
       '@faker-js/faker': 7.6.0
       '@noble/hashes': 1.8.0
       '@redocly/ajv': 8.11.2
-      '@redocly/openapi-core': 2.3.0(ajv@6.12.6)
+      '@redocly/openapi-core': 2.3.1(ajv@6.12.6)
       better-ajv-errors: 1.2.0(ajv@6.12.6)
       colorette: 2.0.20
       jest-matcher-utils: 29.7.0
       json-pointer: 0.6.2
-      jsonpath-plus: 10.3.0
+      jsonpath-rfc9535: 1.3.0
       openapi-sampler: 1.6.1
       outdent: 0.8.0
     transitivePeerDependencies:
@@ -10207,8 +10182,6 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  jsep@1.4.0: {}
-
   jsesc@3.1.0: {}
 
   json-buffer@3.0.1: {}
@@ -10252,11 +10225,7 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  jsonpath-plus@10.3.0:
-    dependencies:
-      '@jsep-plugin/assignment': 1.3.0(jsep@1.4.0)
-      '@jsep-plugin/regex': 1.0.4(jsep@1.4.0)
-      jsep: 1.4.0
+  jsonpath-rfc9535@1.3.0: {}
 
   jsonpointer@5.0.1: {}
 
