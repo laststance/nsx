@@ -137,4 +137,64 @@ const validateHandler: RequestHandler = async (req: Request, res: Response) => {
 
 router.get('/validate', validateHandler)
 
+router.get('/hover-color-preference', async (req: Request, res: Response) => {
+  const token = req.cookies.token as JWTtoken
+
+  if (!token) {
+    res.status(401).json({ error: 'No token found' })
+    return
+  }
+
+  try {
+    const decoded = verifyAccessToken(token)
+    const user = await prisma.user.findFirst({
+      select: {
+        useLegacyHoverColors: true,
+      },
+      where: { id: decoded.id },
+    })
+
+    if (user) {
+      res.status(200).json({ useLegacyHoverColors: user.useLegacyHoverColors })
+    } else {
+      res.status(404).json({ error: 'User not found' })
+    }
+  } catch (error) {
+    Logger.error(error)
+    res.status(401).json({ error: 'Invalid or expired token' })
+  }
+})
+
+router.patch('/hover-color-preference', async (req: Request, res: Response) => {
+  const token = req.cookies.token as JWTtoken
+
+  if (!token) {
+    res.status(401).json({ error: 'No token found' })
+    return
+  }
+
+  try {
+    const decoded = verifyAccessToken(token)
+    const { useLegacyHoverColors } = req.body
+
+    if (typeof useLegacyHoverColors !== 'boolean') {
+      res.status(400).json({ error: 'useLegacyHoverColors must be a boolean' })
+      return
+    }
+
+    const user = await prisma.user.update({
+      where: { id: decoded.id },
+      data: { useLegacyHoverColors },
+      select: {
+        useLegacyHoverColors: true,
+      },
+    })
+
+    res.status(200).json({ useLegacyHoverColors: user.useLegacyHoverColors })
+  } catch (error) {
+    Logger.error(error)
+    res.status(500).json({ error: 'Failed to update hover color preference' })
+  }
+})
+
 export default router

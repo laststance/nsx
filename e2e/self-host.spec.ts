@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test'
 const exec = util.promisify(execCb)
 
 test.beforeAll(async () => {
-  await exec('pnpm db:truncate')
+  await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=yes pnpm db:truncate')
 })
 
 test.describe('new install', () => {
@@ -29,5 +29,5 @@ test.describe('new install', () => {
 })
 
 test.afterAll(async () => {
-  await exec('pnpm db:reset')
+  await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=yes pnpm db:reset')
 })

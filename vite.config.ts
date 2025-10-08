@@ -1,6 +1,7 @@
 import path from 'node:path'
 
-import react from '@vitejs/plugin-react-swc'
+import { inspectorServer } from '@react-dev-inspector/vite-plugin'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import EnvironmentPlugin from 'vite-plugin-environment'
 
@@ -32,7 +33,12 @@ export default defineConfig({
     sourcemap: true,
   },
   plugins: [
-    react(),
+    inspectorServer(),
+    react({
+      babel: {
+        plugins: ['@react-dev-inspector/babel-plugin'],
+      },
+    }),
     EnvironmentPlugin([
       'VITE_APP_TITLE',
       'VITE_APP_DESCRIPTION',

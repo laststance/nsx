@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vitest/config'
+// TODO move to const ad DIR_NAME
 const dirname =
   typeof __dirname !== 'undefined'
     ? __dirname

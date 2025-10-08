@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import React, { memo, Fragment } from 'react'
+import React, { memo } from 'react'
 
 import TweetLink from '@/src/components/Sidebar/TweetLink'
 
@@ -37,10 +37,9 @@ const Sidebar: React.FC = memo(() => {
 
   return (
     <>
-      <Transition.Root show={open} as={Fragment}>
+      <Transition.Root show={open}>
         <Dialog as="section" className="relative z-40" onClose={onCloseHander}>
           <Transition.Child
-            as={Fragment}
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
             enterTo="opacity-100"
@@ -53,7 +52,6 @@ const Sidebar: React.FC = memo(() => {
 
           <div className="fixed inset-0 z-40 flex">
             <Transition.Child
-              as={Fragment}
               enter="transition ease-in-out duration-300 transform"
               enterFrom="-translate-x-full"
               enterTo="translate-x-0"
@@ -63,7 +61,6 @@ const Sidebar: React.FC = memo(() => {
             >
               <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800 pt-5 pb-4">
                 <Transition.Child
-                  as={Fragment}
                   enter="ease-in-out duration-300"
                   enterFrom="opacity-0"
                   enterTo="opacity-100"
