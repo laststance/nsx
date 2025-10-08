@@ -8,7 +8,7 @@ import { test } from '../helper'
 const exec = util.promisify(execCb)
 
 test.beforeAll(async () => {
-  await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=1 pnpm db:reset')
+  await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=yes pnpm db:reset')
 })
 
 test.describe('Hover Color Preference Toggle', () => {
@@ -39,7 +39,7 @@ test.describe('Hover Color Preference Toggle', () => {
     await page.waitForLoadState('networkidle')
 
     // Navigate to Settings -> My Account
-    await page.goto('http://localhost:3000/dashboard/setting/my-account')
+    await page.goto('http://localhost:3000/dashboard/settings/my-account')
     await page.waitForLoadState('networkidle')
 
     // Verify toggle switch exists and is initially off (new colors)
@@ -80,7 +80,7 @@ test.describe('Hover Color Preference Toggle', () => {
     expect(blueSkyClasses).toContain('dark:hover:bg-blue-400/85')
 
     // Navigate back to Settings
-    await page.goto('http://localhost:3000/dashboard/setting/my-account')
+    await page.goto('http://localhost:3000/dashboard/settings/my-account')
     await page.waitForLoadState('networkidle')
 
     // Toggle to legacy colors
@@ -137,7 +137,7 @@ test.describe('Hover Color Preference Toggle', () => {
     expect(translateClassesAfterReload).toContain('dark:hover:bg-cyan-500/85')
 
     // Toggle back to new colors
-    await page.goto('http://localhost:3000/dashboard/setting/my-account')
+    await page.goto('http://localhost:3000/dashboard/settings/my-account')
     await page.waitForLoadState('networkidle')
 
     const updateResponsePromise2 = page.waitForResponse(
@@ -167,5 +167,5 @@ test.describe('Hover Color Preference Toggle', () => {
 })
 
 test.afterAll(async () => {
-  await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=1 pnpm db:reset')
+  await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=yes pnpm db:reset')
 })
