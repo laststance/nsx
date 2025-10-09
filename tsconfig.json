@@ -43,5 +43,10 @@
     "vitest.shims.d.ts",
     "prisma.config.ts"
   ],
-  "exclude": ["public/mockServiceWorker.js", "server_build", "storybook-static"]
+  "exclude": [
+    "public/mockServiceWorker.js",
+    "server_build",
+    "storybook-static",
+    "browser-extension"
+  ]
 }

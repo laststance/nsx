@@ -1,0 +1,23 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": false,
+    "types": ["@types/chrome", "node"],
+    "typeRoots": ["node_modules/@types"],
+    "moduleResolution": "node",
+    "lib": ["es2019", "dom"],
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    // "jsxImportSource": "preact",
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+    "baseUrl": "./src",
+    "outDir": "./build",
+    "skipLibCheck": true
+  },
+  "include": ["src", "typings.d.ts"],
+  "exclude": ["node_modules", "src/**/*.spec.ts"]
+}

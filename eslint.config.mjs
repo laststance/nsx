@@ -17,6 +17,7 @@ export default defineConfig([
       'test-results/**',
       '.storybook/**',
       '.conductor',
+      'browser-extension/**',
     ],
   },
   {
