@@ -29,15 +29,16 @@ const Content: React.FC<Props & ComponentProps<any>> = memo(({ post }) => {
         {post.title}
       </h1>
       <article>
-        <ReactMarkdown
-          // @ts-ignore Type LegacyRef<HTMLAnchorElement> | undefined is not assignable to type Ref<HTMLAnchorElement> | undefined
-          components={{ a }}
-          rehypePlugins={[rehypeRaw]}
-          remarkPlugins={[breaks, gfm]}
-          className="prose prose-lg dark:prose-invert"
-        >
-          {post.body}
-        </ReactMarkdown>
+        <div className="prose prose-lg dark:prose-invert">
+          <ReactMarkdown
+            // @ts-ignore Type LegacyRef<HTMLAnchorElement> | undefined is not assignable to type Ref<HTMLAnchorElement> | undefined
+            components={{ a }}
+            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[breaks, gfm]}
+          >
+            {post.body}
+          </ReactMarkdown>
+        </div>
       </article>
 
       {login && (
