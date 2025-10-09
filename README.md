@@ -53,19 +53,22 @@ DB seeds initial user account is
 name: `John Doe`  
 pass: `popcoon`
 
-## Enviroment Variables
+## Environment Variables
 
-These are storing `.env` and evaluate at build time.
+These are stored in `.env` and evaluated at build time.
 
-| Variable Name         | Role     | other |
-| --------------------- | -------- | ----- |
-| VITE_APP_TITLE        | title    |       |
-| VITE_APP_DESCRIPTION  | desc     |       |
-| VITE_API_ENDPOINT     | end      |       |
-| VITE_SENTRY_DNS       | sentry   |       |
-| VITE_GA_TRACKING_CODE | ga       |       |
-| ACCESS_TOKEN_SECRET   | JWT      |       |
-| DATABASE_URL          | Database |       |
+| Variable Name          | Description                                      | Required |
+| ---------------------- | ------------------------------------------------ | -------- |
+| VITE_APP_TITLE         | Application title displayed in the UI            | Yes      |
+| VITE_APP_DESCRIPTION   | Application description for meta tags            | Yes      |
+| VITE_API_ENDPOINT      | Backend API endpoint URL                         | Yes      |
+| VITE_SENTRY_DNS        | Sentry DSN for error tracking (optional)         | No       |
+| VITE_GA_MEASUREMENT_ID | Google Analytics measurement ID (optional)       | No       |
+| ACCESS_TOKEN_SECRET    | Secret key for JWT token generation              | Yes      |
+| DATABASE_URL           | MySQL database connection string                 | Yes      |
+| OPENAI_API_KEY         | OpenAI API key for translation features          | No       |
+| BLUESKY_USERNAME       | Bluesky account username for posting integration | No       |
+| BLUESKY_PASSWORD       | Bluesky account password for posting integration | No       |
 
 ## Playwright
 
