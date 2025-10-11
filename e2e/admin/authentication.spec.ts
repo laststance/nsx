@@ -17,7 +17,7 @@ test.describe('JWT Expiration', () => {
     context,
   }) => {
     // Navigate to login page
-    await page.goto('http://localhost:3000')
+    await page.goto('http://localhost:3010')
     await page.keyboard.press('x')
     await page.getByTestId('login-link').click()
 
@@ -66,7 +66,7 @@ test.describe('JWT Expiration', () => {
     context,
   }) => {
     // First login normally
-    await page.goto('http://localhost:3000')
+    await page.goto('http://localhost:3010')
     await page.keyboard.press('x')
     await page.getByTestId('login-link').click()
     await page.getByTestId('name-input').fill('John Doe')
@@ -110,18 +110,18 @@ test.describe('JWT Expiration', () => {
     ])
 
     // Try to access a protected route - this should trigger a 401 response
-    await page.goto('http://localhost:3000/dashboard')
+    await page.goto('http://localhost:3010/dashboard')
 
     // Wait for the redirect to complete
     await page.waitForLoadState('networkidle')
 
     // Should be redirected to home page
-    await expect(page).toHaveURL('http://localhost:3000/')
+    await expect(page).toHaveURL('http://localhost:3010/')
   })
 
   test('logout should clear the JWT cookie', async ({ page, context }) => {
     // Login first
-    await page.goto('http://localhost:3000')
+    await page.goto('http://localhost:3010')
     await page.keyboard.press('x')
     await page.getByTestId('login-link').click()
     await page.getByTestId('name-input').fill('John Doe')
@@ -161,7 +161,7 @@ test.describe('JWT Expiration', () => {
     expect(!tokenCookie || tokenCookie.value === '').toBeTruthy()
 
     // Verify we're redirected to home page after logout
-    await expect(page).toHaveURL('http://localhost:3000/')
+    await expect(page).toHaveURL('http://localhost:3010/')
   })
 })
 

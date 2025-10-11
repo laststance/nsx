@@ -16,7 +16,7 @@ test.describe('Hover Color Preference Toggle', () => {
     page,
   }) => {
     // Login first
-    await page.goto('http://localhost:3000')
+    await page.goto('http://localhost:3010')
     await page.keyboard.press('x')
     await page.getByTestId('login-link').click()
     await page.getByTestId('name-input').fill('John Doe')
@@ -39,7 +39,7 @@ test.describe('Hover Color Preference Toggle', () => {
     await page.waitForLoadState('networkidle')
 
     // Navigate to Settings -> My Account
-    await page.goto('http://localhost:3000/dashboard/settings/my-account')
+    await page.goto('http://localhost:3010/dashboard/settings/my-account')
     await page.waitForLoadState('networkidle')
 
     // Verify toggle switch exists and is initially off (new colors)
@@ -48,7 +48,7 @@ test.describe('Hover Color Preference Toggle', () => {
     await expect(toggle).toHaveAttribute('aria-checked', 'false')
 
     // Navigate to Tweet page to check initial colors
-    await page.goto('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
     await page.waitForLoadState('networkidle')
 
     // Wait for tweets to load
@@ -80,7 +80,7 @@ test.describe('Hover Color Preference Toggle', () => {
     expect(blueSkyClasses).toContain('dark:hover:bg-blue-400/85')
 
     // Navigate back to Settings
-    await page.goto('http://localhost:3000/dashboard/settings/my-account')
+    await page.goto('http://localhost:3010/dashboard/settings/my-account')
     await page.waitForLoadState('networkidle')
 
     // Toggle to legacy colors
@@ -94,7 +94,7 @@ test.describe('Hover Color Preference Toggle', () => {
     await expect(toggle).toHaveAttribute('aria-checked', 'true')
 
     // Navigate back to Tweet page
-    await page.goto('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
     await page.waitForLoadState('networkidle')
 
     // Wait for tweets to load
@@ -137,7 +137,7 @@ test.describe('Hover Color Preference Toggle', () => {
     expect(translateClassesAfterReload).toContain('dark:hover:bg-cyan-500/85')
 
     // Toggle back to new colors
-    await page.goto('http://localhost:3000/dashboard/settings/my-account')
+    await page.goto('http://localhost:3010/dashboard/settings/my-account')
     await page.waitForLoadState('networkidle')
 
     const updateResponsePromise2 = page.waitForResponse(
@@ -150,7 +150,7 @@ test.describe('Hover Color Preference Toggle', () => {
     await expect(toggle).toHaveAttribute('aria-checked', 'false')
 
     // Verify colors are back to new (orange/blue)
-    await page.goto('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
     await page.waitForLoadState('networkidle')
 
     await page.waitForSelector('[data-testid^="tweet-card-"]', {

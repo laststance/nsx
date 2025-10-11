@@ -26,7 +26,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3010',
     launchOptions: {
       slowMo: isHeadedOrUIMode() ? 700 : 400,
     },
@@ -65,7 +65,7 @@ export default defineConfig({
     {
       name: 'Frontend',
       command: 'pnpm preview',
-      url: 'http://localhost:3000',
+      url: 'http://localhost:3010',
       timeout: 120 * 1000,
       reuseExistingServer: !process.env.CI,
     },

@@ -13,13 +13,13 @@ test.beforeAll(async () => {
 
 test.describe('login & logout', () => {
   test('show login button', async ({ page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await page.keyboard.press('x')
     await expect(page.getByTestId('login-link')).toBeVisible()
   })
 
   test('failed login with incorrect user/password', async ({ page }) => {
-    await page.goto('http://localhost:3000')
+    await page.goto('http://localhost:3010')
     await page.keyboard.press('x')
     await page.click('[data-testid=login-link]')
     await page.fill('[data-testid=name-input]', 'wefjweiofjwie')
@@ -29,10 +29,10 @@ test.describe('login & logout', () => {
   })
 
   test('successful Logout', async ({ authenticated: page }) => {
-    await page.goto('http://localhost:3000')
+    await page.goto('http://localhost:3010')
     await page.keyboard.press('x')
     await page.click('[data-testid=logout-link]')
-    await expect(page).toHaveURL('http://localhost:3000/')
+    await expect(page).toHaveURL('http://localhost:3010/')
     await expect(page.getByTestId('login-link')).toBeVisible()
   })
 })

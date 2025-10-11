@@ -77,7 +77,7 @@ NSX uses a dual-server development setup:
    - Handles API routes and serves static files in production.
 
 2. **Frontend server**: `pnpm start`
-   - Starts Vite dev server on **port 3000**.
+   - Starts Vite dev server on **port 3010**.
    - Proxies API calls to backend on port 4000.
    - Hot reloads on frontend file changes.
 
@@ -99,14 +99,14 @@ NSX uses a dual-server development setup:
 After making changes, ALWAYS run through these validation steps:
 
 1. **Basic Application Flow**:
-   - Navigate to `http://localhost:3000` in browser
+   - Navigate to `http://localhost:3010` in browser
    - Verify homepage loads with "NSX" title and navigation
    - Test theme toggle button (light/dark mode)
    - Navigate to `/about` page and verify content loads
 
 2. **API Functionality**:
    - Ensure backend server is running on port 4000
-   - API endpoints are available at `http://localhost:3000/api/` (proxied by Vite)
+   - API endpoints are available at `http://localhost:3010/api/` (proxied by Vite)
 
 3. **Authentication Flow** (when working on auth features):
    - Use test credentials from E2E tests: username "John Doe", password "popcoon"
@@ -159,7 +159,7 @@ After making changes, ALWAYS run through these validation steps:
 
 All frontend env vars are prefixed with `VITE_`:
 
-- `VITE_API_ENDPOINT=http://localhost:3000/api/` (dev proxy)
+- `VITE_API_ENDPOINT=http://localhost:3010/api/` (dev proxy)
 - `VITE_APP_TITLE="NSX"`
 - `ACCESS_TOKEN_SECRET` (JWT secret, backend only)
 - `DATABASE_URL` (MySQL connection string)
@@ -185,7 +185,7 @@ All frontend env vars are prefixed with `VITE_`:
 
 - **Clean restart**: `pnpm clean && pnpm install`
 - **Database reset**: `pnpm db:reset`
-- **Kill processes**: Use system tools to kill processes on ports 3000/4000/6006
+- **Kill processes**: Use system tools to kill processes on ports 3010/4000/6006
 
 ## Node.js and Dependencies
 
