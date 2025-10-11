@@ -16,8 +16,8 @@ test.describe('Tweet Pagination', () => {
     authenticated: page,
   }) => {
     // Navigate to Tweet page
-    await page.goto('http://localhost:3000/dashboard/tweet')
-    await expect(page).toHaveURL('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
+    await expect(page).toHaveURL('http://localhost:3010/dashboard/tweet')
 
     // Check if page title is correct
     await expect(page.getByRole('heading', { name: 'Tweets' })).toBeVisible()
@@ -42,7 +42,7 @@ test.describe('Tweet Pagination', () => {
   test('should navigate to next page and show correct tweets', async ({
     authenticated: page,
   }) => {
-    await page.goto('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
 
     // Wait for tweets to load
     await page.waitForSelector('[data-testid^="tweet-card-"]')
@@ -68,7 +68,7 @@ test.describe('Tweet Pagination', () => {
   test('should navigate to last page and show remaining tweets', async ({
     authenticated: page,
   }) => {
-    await page.goto('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
 
     // Wait for tweets to load
     await page.waitForSelector('[data-testid^="tweet-card-"]')
@@ -94,7 +94,7 @@ test.describe('Tweet Pagination', () => {
   test('should navigate back to previous page correctly', async ({
     authenticated: page,
   }) => {
-    await page.goto('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
 
     // Wait for tweets to load
     await page.waitForSelector('[data-testid^="tweet-card-"]')
@@ -125,7 +125,7 @@ test.describe('Tweet Pagination', () => {
   test('should create new tweet and maintain pagination', async ({
     authenticated: page,
   }) => {
-    await page.goto('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
 
     // Wait for tweets to load
     await page.waitForSelector('[data-testid^="tweet-card-"]')
@@ -160,7 +160,7 @@ test.describe('Tweet Pagination', () => {
   test('should delete tweet and update pagination correctly', async ({
     authenticated: page,
   }) => {
-    await page.goto('http://localhost:3000/dashboard/tweet')
+    await page.goto('http://localhost:3010/dashboard/tweet')
 
     // Wait for tweets to load
     await page.waitForSelector('[data-testid^="tweet-card-"]')

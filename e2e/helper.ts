@@ -8,7 +8,7 @@ type CustomFixtures = {
 export const test = base.extend<CustomFixtures>({
   authenticated: async ({ page }, use) => {
     // Perform login actions
-    await page.goto('http://localhost:3000')
+    await page.goto('http://localhost:3010')
     await page.keyboard.press('x')
     await page.getByTestId('login-link').click()
     await page.getByTestId('name-input').fill('John Doe')

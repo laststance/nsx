@@ -13,10 +13,10 @@ test.beforeAll(async () => {
 
 test.describe('Tweet CRUD', () => {
   test('create new tweet', async ({ authenticated: page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await page.keyboard.press('x')
     await page.click('[data-testid="tweet-link"]')
-    await expect(page).toHaveURL('http://localhost:3000/dashboard/tweet')
+    await expect(page).toHaveURL('http://localhost:3010/dashboard/tweet')
 
     // Wait for the page to load
     await expect(page.locator('h2')).toContainText('Tweets')
@@ -39,10 +39,10 @@ test.describe('Tweet CRUD', () => {
   })
 
   test('delete tweet', async ({ authenticated: page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await page.keyboard.press('x')
     await page.click('[data-testid="tweet-link"]')
-    await expect(page).toHaveURL('http://localhost:3000/dashboard/tweet')
+    await expect(page).toHaveURL('http://localhost:3010/dashboard/tweet')
 
     // Wait for the page to load
     await expect(page.locator('h2')).toContainText('Tweets')

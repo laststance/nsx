@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 export const handlers = [
-  http.get('/api/post_list', async () => {
+  http.get('http://*/api/post_list', async () => {
     return HttpResponse.json({
       postList: [
         {
@@ -115,7 +115,7 @@ export const handlers = [
       total: 60,
     })
   }),
-  http.get('/api/post/:id', async () => {
+  http.get('http://*/api/post/:id', async () => {
     return HttpResponse.json({
       id: 52,
       title: 'superstruct',
@@ -124,46 +124,46 @@ export const handlers = [
       updatedAt: '2021-12-06T23:19:43.000Z',
     })
   }),
-  http.delete('/post/:id', async () => {
+  http.delete('http://*/post/:id', async () => {
     return HttpResponse.json([])
   }),
-  http.post('/signup', async () => {
+  http.post('http://*/signup', async () => {
     return HttpResponse.json([])
   }),
-  http.post('/login', async () => {
+  http.post('http://*/login', async () => {
     return HttpResponse.json([])
   }),
-  http.get('/logout', async () => {
+  http.get('http://*/logout', async () => {
     return HttpResponse.json([])
   }),
-  http.post('/create', async () => {
+  http.post('http://*/create', async () => {
     return HttpResponse.json([])
   }),
-  http.post('/update', async () => {
+  http.post('http://*/update', async () => {
     return HttpResponse.json([])
   }),
-  http.post('/api/update', async () => {
+  http.post('http://*/api/update', async () => {
     return HttpResponse.json([])
   }),
-  http.post('/api/create', async () => {
+  http.post('http://*/api/create', async () => {
     return HttpResponse.json([])
   }),
-  http.post('/api/signup', async () => {
+  http.post('http://*/api/signup', async () => {
     return HttpResponse.json([])
   }),
-  http.post('/api/login', async () => {
+  http.post('http://*/api/login', async () => {
     return HttpResponse.json([])
   }),
-  http.get('/api/logout', async () => {
+  http.get('http://*/api/logout', async () => {
     return HttpResponse.json([])
   }),
-  http.delete('/api/post/:id', async () => {
+  http.delete('http://*/api/post/:id', async () => {
     return HttpResponse.json([])
   }),
-  http.get('/api/stock_list', async () => {
+  http.get('http://*/api/stock_list', async () => {
     return HttpResponse.json([])
   }),
-  http.get('/api/stocklist', async () => {
+  http.get('http://*/api/stocklist', async () => {
     return HttpResponse.json([])
   }),
 ]

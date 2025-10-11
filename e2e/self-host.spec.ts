@@ -13,7 +13,7 @@ test.describe('new install', () => {
   test('show siginup page and create user, finally showing Dashboard page', async ({
     page,
   }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await expect(page.getByTestId('signup-page')).toBeVisible()
     await expect(page.getByTestId('signup-page')).toHaveText(/Signup/)
 
@@ -23,7 +23,7 @@ test.describe('new install', () => {
     // sbumit
     await page.getByTestId('signup-submit-btn').click()
     // pageTransition /dashboard
-    await expect(page).toHaveURL('http://localhost:3000/dashboard')
+    await expect(page).toHaveURL('http://localhost:3010/dashboard')
     await expect(page.locator('main h1')).toHaveText(/Dashboard/)
   })
 })

@@ -11,26 +11,26 @@ test.beforeAll(async () => {
 
 test.describe('visitor basic', () => {
   test('show blog title', async ({ page }) => {
-    await page.goto('http://localhost:3000/')
-    await expect(page).toHaveURL('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
+    await expect(page).toHaveURL('http://localhost:3010/')
     await expect(page.getByRole('heading')).toHaveText('NSX')
   })
 
   test('show latest article in list', async ({ page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await expect(page.getByRole('main')).toHaveText(/close your eyes/)
   })
 
   test('clicking on "Deno super rush" link shows article with "Today I read" text', async ({
     page,
   }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await page.getByText('Deno super rush').click()
     await expect(page.getByRole('main')).toHaveText(/Today I read/)
   })
 
   test('show single post', async ({ page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await page.getByTestId('single-post-page-link-1').click()
     await expect(page.getByRole('main')).toHaveText(/CSS Weekly #464/)
   })
@@ -38,7 +38,7 @@ test.describe('visitor basic', () => {
   test('never shown every admin page link button without login', async ({
     page,
   }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await expect(page.getByTestId('dashboard-page-link')).not.toBeVisible()
     await page.getByTestId('single-post-page-link-2').click()
 
@@ -46,7 +46,7 @@ test.describe('visitor basic', () => {
   })
 
   test('show post that contains syntax hilight Markdown', async ({ page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await page.getByTestId('next-page-btn').click()
     await page.getByTestId('single-post-page-link-2').click()
     // 07/27/21 React Rush
@@ -57,7 +57,7 @@ test.describe('visitor basic', () => {
 test.describe('pagenation', () => {
   test('working pagenation correctly', async ({ page }) => {
     // showing current & total page number
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await expect(page.getByTestId('single-post-page-link-1')).toHaveText(
       /close your eyes/,
     )
@@ -98,7 +98,7 @@ test.describe('pagenation', () => {
 
 test.describe('site theme', () => {
   test('Working Light Theme switching', async ({ page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
 
     // Check Light Theme
     await page.getByTestId('theme-menu-button').click()
@@ -111,7 +111,7 @@ test.describe('site theme', () => {
   })
 
   test('Working Dark Theme switching', async ({ page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     // Check Light Theme
     await page.getByTestId('theme-menu-button').click()
     await page.getByTestId('theme-select-option-light').click()
@@ -135,22 +135,22 @@ test.describe('site theme', () => {
     test('never show private routes and redirect to home page without login', async ({
       page,
     }) => {
-      await page.goto('http://localhost:3000/')
+      await page.goto('http://localhost:3010/')
 
       // TODO: In the future, we'll issue a login token to redirect users to the login screen, and unless the token is valid, the login page won't be accessible
-      await page.goto('http://localhost:3000/login')
+      await page.goto('http://localhost:3010/login')
       await expect(page.getByRole('main')).toHaveText(/Login/)
 
-      await page.goto('http://localhost:3000/dashboard')
+      await page.goto('http://localhost:3010/dashboard')
       await expect(page.getByRole('main')).toHaveText(/close your eyes/)
 
-      await page.goto('http://localhost:3000/dashboard/create')
+      await page.goto('http://localhost:3010/dashboard/create')
       await expect(page.getByRole('main')).toHaveText(/close your eyes/)
 
-      await page.goto('http://localhost:3000/dashboard/edit/1')
+      await page.goto('http://localhost:3010/dashboard/edit/1')
       await expect(page.getByRole('main')).toHaveText(/close your eyes/)
 
-      await page.goto('http://localhost:3000/dashboard/tweet')
+      await page.goto('http://localhost:3010/dashboard/tweet')
       await expect(page.getByRole('main')).toHaveText(/close your eyes/)
     })
   })

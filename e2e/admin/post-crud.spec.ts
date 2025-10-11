@@ -13,11 +13,11 @@ test.beforeAll(async () => {
 
 test.describe('CRUD post operation', () => {
   test('create new post via Sidebar', async ({ authenticated: page }) => {
-    await page.goto('http://localhost:3000')
+    await page.goto('http://localhost:3010')
     await page.click('header > div > a:has-text("NSX")')
     await page.keyboard.press('x')
     await page.getByTestId('create-link').click()
-    await expect(page).toHaveURL('http://localhost:3000/dashboard/create')
+    await expect(page).toHaveURL('http://localhost:3010/dashboard/create')
     await page.getByTestId('post-title-input').fill('from platwright')
     await page.getByTestId('post-body-input').fill('testing now')
 
@@ -34,7 +34,7 @@ test.describe('CRUD post operation', () => {
     await page.click('header > div > a:has-text("NSX")')
     await page.keyboard.press('x')
     await page.getByTestId('create-link').click()
-    await expect(page).toHaveURL('http://localhost:3000/dashboard/create')
+    await expect(page).toHaveURL('http://localhost:3010/dashboard/create')
     await page.getByTestId('post-title-input').fill('from platwright dash')
     await page.getByTestId('post-body-input').fill('testing now dash')
 
@@ -50,12 +50,12 @@ test.describe('CRUD post operation', () => {
   })
 
   test('edit existing post', async ({ authenticated: page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await expect(page.getByTestId('single-post-page-link-1')).toHaveText(
       'from platwright dash',
     )
     await page.getByTestId('single-post-page-link-1').click()
-    await expect(page).toHaveURL('http://localhost:3000/post/61')
+    await expect(page).toHaveURL('http://localhost:3010/post/61')
     await expect(page.locator('main h1')).toContainText('from platwright dash')
     await expect(page.locator('main article')).toContainText('testing now dash')
     await page.locator('[data-testid=edit-btn]').click()
@@ -63,7 +63,7 @@ test.describe('CRUD post operation', () => {
     await page.getByTestId('edit-body-input').fill('Edit Post Contents!')
 
     await page.getByTestId('update-btn').click()
-    await expect(page).toHaveURL('http://localhost:3000/post/61')
+    await expect(page).toHaveURL('http://localhost:3010/post/61')
     await expect(page.locator('main h1')).toContainText('Edit Title!')
     await expect(page.locator('main article')).toContainText(
       'Edit Post Contents!',
@@ -71,13 +71,13 @@ test.describe('CRUD post operation', () => {
   })
 
   test('delete post', async ({ authenticated: page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3010/')
     await page.keyboard.press('x')
     await page.getByTestId('dashboard-link').click()
-    await expect(page).toHaveURL('http://localhost:3000/dashboard')
+    await expect(page).toHaveURL('http://localhost:3010/dashboard')
     await expect(page.locator('main')).toHaveText(/Edit Title!/)
     await page.getByTestId('delete-btn-1').click()
-    await expect(page).toHaveURL('http://localhost:3000/dashboard')
+    await expect(page).toHaveURL('http://localhost:3010/dashboard')
     await expect(page.getByTestId('snackbar')).toHaveText('Delete Successful!')
     await expect(page.locator('main')).not.toHaveText(/Edit Title!/)
   })

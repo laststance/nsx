@@ -50,7 +50,7 @@ export default defineConfig({
   publicDir: 'public',
   server: {
     host: true,
-    port: 3000,
+    port: 3010,
     proxy: {
       '/api': {
         changeOrigin: true,
@@ -60,7 +60,7 @@ export default defineConfig({
   },
   preview: {
     host: true,
-    port: 3000,
+    port: 3010,
     proxy: {
       '/api': {
         changeOrigin: true,

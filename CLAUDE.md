@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Frontend Development
 
-- `pnpm start` - Start development server (frontend on port 3000)
+- `pnpm start` - Start development server (frontend on port 3010)
 - `pnpm build` - Build production frontend
 - `pnpm build:e2e` - Build for E2E testing environment
 - `pnpm preview` - Preview production build
@@ -77,7 +77,7 @@ NSX is a React + Express application for auto-posting web pages read daily. The 
 
 The project uses dual-server development:
 
-1. Frontend dev server (Vite) on port 3000 with proxy to backend
+1. Frontend dev server (Vite) on port 3010 with proxy to backend
 2. Backend dev server (nodemon) on port 4000
 3. Hot reload for both frontend and backend changes
 
