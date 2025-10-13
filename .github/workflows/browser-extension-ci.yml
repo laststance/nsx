@@ -1,0 +1,155 @@
+name: Browser Extension CI
+
+on:
+  push:
+    branches:
+      - main
+      - feature/**
+    paths:
+      - 'browser-extension/**'
+      - '.github/workflows/browser-extension-ci.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'browser-extension/**'
+      - '.github/workflows/browser-extension-ci.yml'
+
+defaults:
+  run:
+    working-directory: browser-extension
+
+jobs:
+  quality-checks:
+    name: Quality Checks (Lint & Type Check)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.20.0'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm lint
+
+      - name: Run TypeScript type check
+        run: pnpm typecheck
+
+  test:
+    name: E2E Tests (Playwright)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.20.0'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright tests (with virtual display)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" pnpm test
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: browser-extension/test-results/
+          retention-days: 30
+
+  build:
+    name: Build Extension
+    runs-on: ubuntu-latest
+    needs: [quality-checks, test]
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.20.0'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build for ${{ matrix.browser }}
+        run: |
+          if [ "${{ matrix.browser }}" = "firefox" ]; then
+            pnpm build:firefox
+          else
+            pnpm build
+          fi
+
+      - name: Create zip archive
+        run: pnpm zip
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-${{ matrix.browser }}
+          path: browser-extension/.output/*.zip
+          retention-days: 30
+
+      - name: Display build info
+        run: |
+          echo "Browser: ${{ matrix.browser }}"
+          echo "Build output:"
+          ls -lh .output/
+          if [ -f .output/*.zip ]; then
+            unzip -l .output/*.zip | head -20
+          fi
+
+  build-summary:
+    name: Build Summary
+    runs-on: ubuntu-latest
+    needs: build
+    if: always()
+
+    steps:
+      - name: Check build status
+        run: |
+          if [ "${{ needs.build.result }}" = "success" ]; then
+            echo "✅ All browser builds completed successfully"
+            exit 0
+          else
+            echo "❌ Some browser builds failed"
+            exit 1
+          fi
