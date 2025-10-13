@@ -21,7 +21,7 @@ function App() {
     axios
       .post(apiUrl, {
         pageTitle: state.pageTitle,
-        url: state.url,
+        url: state.url.replace(/\/$/, ''),
       })
       .then(() => {
         const span = document.createElement('span');
@@ -76,7 +76,7 @@ function App() {
   };
 
   return (
-    <main id="app-root">
+    <main>
       <section className="row1">
         <div className="title">
           {state.pageTitle.length ? state.pageTitle : ''}
@@ -97,9 +97,9 @@ function App() {
         <a
           className="twitter-btn"
           target="_blank"
-          href={`https://twitter.com/intent/tweet?url=${encodeURI(
-            state.url,
-          )}&text=${encodeURI(comment)}`}
+          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+            state.url.replace(/\/$/, ''),
+          )}&text=${encodeURIComponent(comment)}`}
         >
           tweet
         </a>
