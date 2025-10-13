@@ -1,32 +1,34 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { setBookmarkedIcon } from '../../lib/setBookmarkIcon';
-import { useGetPageInfo } from './useGetPageInfo';
+import axios from 'axios'
+import React, { useState } from 'react'
+
+import { setBookmarkedIcon } from '../../lib/setBookmarkIcon'
+
+import { useGetPageInfo } from './useGetPageInfo'
 
 export interface PopupState {
-  pageTitle: string;
-  url: string;
+  pageTitle: string
+  url: string
 }
 
 function App() {
-  const state = useGetPageInfo();
-  const [comment, setComment] = useState('');
+  const state = useGetPageInfo()
+  const [comment, setComment] = useState('')
 
   const onCheckedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.checked) return;
-    
+    if (!e.target.checked) return
+
     // Updated to use Vite's import.meta.env instead of process.env
-    const apiUrl = import.meta.env.VITE_API_URL;
-    
+    const apiUrl = import.meta.env.VITE_API_URL
+
     axios
       .post(apiUrl, {
         pageTitle: state.pageTitle,
         url: state.url.replace(/\/$/, ''),
       })
       .then(() => {
-        const span = document.createElement('span');
-        span.innerHTML = 'Success!';
-        document.querySelector('.result')!.appendChild(span);
+        const span = document.createElement('span')
+        span.innerHTML = 'Success!'
+        document.querySelector('.result')!.appendChild(span)
 
         const fadeInEffect = new KeyframeEffect(
           span,
@@ -35,10 +37,10 @@ function App() {
             duration: 100,
             fill: 'forwards',
           },
-        );
+        )
 
-        const fadeInAnimation = new Animation(fadeInEffect, document.timeline);
-        fadeInAnimation.play();
+        const fadeInAnimation = new Animation(fadeInEffect, document.timeline)
+        fadeInAnimation.play()
 
         setTimeout(() => {
           const fadeOutEffect = new KeyframeEffect(
@@ -48,32 +50,32 @@ function App() {
               duration: 100,
               fill: 'forwards',
             },
-          );
+          )
 
           const fadeOutAnimation = new Animation(
             fadeOutEffect,
             document.timeline,
-          );
-          fadeOutAnimation.play();
+          )
+          fadeOutAnimation.play()
 
           fadeOutAnimation.onfinish = () => {
-            span.remove();
-          };
-        }, 1000);
+            span.remove()
+          }
+        }, 1000)
       })
       .catch((err) => {
-        const span = document.createElement('span');
-        span.innerHTML = 'Failed...';
-        document.querySelector('.result')!.appendChild(span);
+        const span = document.createElement('span')
+        span.innerHTML = 'Failed...'
+        document.querySelector('.result')!.appendChild(span)
         setTimeout(() => {
-          span.remove();
-        }, 1000);
-        console.error(JSON.stringify(err));
+          span.remove()
+        }, 1000)
+        console.error(JSON.stringify(err))
       })
       .then(() => {
-        setBookmarkedIcon();
-      });
-  };
+        setBookmarkedIcon()
+      })
+  }
 
   return (
     <main>
@@ -106,7 +108,7 @@ function App() {
         <div className="result"></div>
       </section>
     </main>
-  );
+  )
 }
 
-export default App;
+export default App

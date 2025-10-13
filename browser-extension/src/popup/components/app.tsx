@@ -71,7 +71,7 @@ function App() {
         setTimeout(() => {
           span.remove()
         }, 1000)
-        //eslint-disable-next-line no-console
+
         console.error(JSON.stringify(err))
       })
       .then(() => {
