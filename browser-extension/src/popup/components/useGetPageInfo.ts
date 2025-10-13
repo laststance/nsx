@@ -10,7 +10,7 @@ export function useGetPageInfo(): PopupState {
   useLayoutEffect(() => {
     getCurrentTab().then((tab) =>
       setState(() => {
-        return { pageTitle: tab.title, url: tab.url }
+        return { pageTitle: tab.title || '', url: tab.url || '' }
       }),
     )
   }, [])

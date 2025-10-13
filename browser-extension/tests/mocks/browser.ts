@@ -1,11 +1,27 @@
 import { vi } from 'vitest'
 
+export interface MockTab {
+  id?: number
+  index?: number
+  pinned?: boolean
+  highlighted?: boolean
+  windowId?: number
+  active?: boolean
+  incognito?: boolean
+  url?: string
+  title?: string
+  favIconUrl?: string
+  status?: string
+  width?: number
+  height?: number
+  lastAccessed?: number
+  [key: string]: any
+}
+
 /**
  * Create a mock Tab object with sensible defaults
  */
-export function createMockTab(
-  overrides?: Partial<chrome.tabs.Tab>,
-): chrome.tabs.Tab {
+export function createMockTab(overrides?: MockTab): MockTab {
   return {
     id: 1,
     index: 0,
@@ -21,7 +37,7 @@ export function createMockTab(
     width: 1280,
     height: 720,
     ...overrides,
-  } as chrome.tabs.Tab
+  }
 }
 
 /**
@@ -30,9 +46,9 @@ export function createMockTab(
 export function mockBrowserTabs(tabs?: chrome.tabs.Tab[]) {
   const mockTabs = tabs || [createMockTab()]
 
-  vi.mocked(browser.tabs.query).mockResolvedValue(mockTabs)
-  vi.mocked(browser.tabs.create).mockResolvedValue(mockTabs[0])
-  vi.mocked(browser.tabs.update).mockResolvedValue(mockTabs[0])
+  ;(browser.tabs.query as any).mockResolvedValue(mockTabs)
+  ;(browser.tabs.create as any).mockResolvedValue(mockTabs[0])
+  ;(browser.tabs.update as any).mockResolvedValue(mockTabs[0])
 
   return { mockTabs }
 }
@@ -41,20 +57,20 @@ export function mockBrowserTabs(tabs?: chrome.tabs.Tab[]) {
  * Mock browser.storage API
  */
 export function mockBrowserStorage() {
-  vi.mocked(browser.storage.local.get).mockResolvedValue({})
-  vi.mocked(browser.storage.local.set).mockResolvedValue(undefined)
-  vi.mocked(browser.storage.local.remove).mockResolvedValue(undefined)
-  vi.mocked(browser.storage.local.clear).mockResolvedValue(undefined)
-  vi.mocked(browser.storage.sync.get).mockResolvedValue({})
-  vi.mocked(browser.storage.sync.set).mockResolvedValue(undefined)
+  ;(browser.storage.local.get as any).mockResolvedValue({})
+  ;(browser.storage.local.set as any).mockResolvedValue(undefined)
+  ;(browser.storage.local.remove as any).mockResolvedValue(undefined)
+  ;(browser.storage.local.clear as any).mockResolvedValue(undefined)
+  ;(browser.storage.sync.get as any).mockResolvedValue({})
+  ;(browser.storage.sync.set as any).mockResolvedValue(undefined)
 }
 
 /**
  * Mock browser.action API
  */
 export function mockBrowserAction() {
-  vi.mocked(browser.action.setIcon).mockResolvedValue(undefined)
-  vi.mocked(browser.action.setBadgeText).mockResolvedValue(undefined)
+  ;(browser.action.setIcon as any).mockResolvedValue(undefined)
+  ;(browser.action.setBadgeText as any).mockResolvedValue(undefined)
 }
 
 /**
@@ -64,16 +80,16 @@ export function resetBrowserMocks() {
   vi.clearAllMocks()
 
   // Reset mock implementations to default behavior
-  vi.mocked(browser.tabs.query).mockReset()
-  vi.mocked(browser.tabs.create).mockReset()
-  vi.mocked(browser.tabs.update).mockReset()
-  vi.mocked(browser.action.setIcon).mockReset()
-  vi.mocked(browser.action.setBadgeText).mockReset()
-  vi.mocked(browser.storage.local.get).mockReset()
-  vi.mocked(browser.storage.local.set).mockReset()
-  vi.mocked(browser.storage.local.remove).mockReset()
-  vi.mocked(browser.storage.local.clear).mockReset()
-  vi.mocked(browser.storage.sync.get).mockReset()
-  vi.mocked(browser.storage.sync.set).mockReset()
-  vi.mocked(browser.runtime.sendMessage).mockReset()
+  ;(browser.tabs.query as any).mockReset()
+  ;(browser.tabs.create as any).mockReset()
+  ;(browser.tabs.update as any).mockReset()
+  ;(browser.action.setIcon as any).mockReset()
+  ;(browser.action.setBadgeText as any).mockReset()
+  ;(browser.storage.local.get as any).mockReset()
+  ;(browser.storage.local.set as any).mockReset()
+  ;(browser.storage.local.remove as any).mockReset()
+  ;(browser.storage.local.clear as any).mockReset()
+  ;(browser.storage.sync.get as any).mockReset()
+  ;(browser.storage.sync.set as any).mockReset()
+  ;(browser.runtime.sendMessage as any).mockReset()
 }

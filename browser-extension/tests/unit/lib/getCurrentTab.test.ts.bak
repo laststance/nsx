@@ -1,14 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck - TypeScript incorrectly detects TDZ violations in mock setup
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
-
-import { getCurrentTab } from '@/lib/getCurrentTab'
 
 import {
   mockBrowserTabs,
   createMockTab,
   resetBrowserMocks,
 } from '../../mocks/browser'
+
+import { getCurrentTab } from '@/lib/getCurrentTab'
 
 describe('getCurrentTab', () => {
   beforeEach(() => {
@@ -37,7 +35,7 @@ describe('getCurrentTab', () => {
   })
 
   it('should return undefined when no tabs found', async () => {
-    ;(chrome.tabs.query as any).mockResolvedValue([])
+    (chrome.tabs.query as any).mockResolvedValue([])
 
     const result = await getCurrentTab()
 
@@ -55,11 +53,13 @@ describe('getCurrentTab', () => {
       active: false,
       lastAccessed: 1000,
     })
+    const tabs: any[] = [extensionTab, browserTab]
 
-    // First call returns extension tab, second call returns all tabs
-    ;(chrome.tabs.query as any)
+    // First call returns extension tab
+    (chrome.tabs.query as any)
       .mockResolvedValueOnce([extensionTab])
-      .mockResolvedValueOnce([extensionTab, browserTab])
+      // Second call returns all tabs
+      .mockResolvedValueOnce(tabs)
 
     const result = await getCurrentTab()
 
@@ -75,10 +75,11 @@ describe('getCurrentTab', () => {
       url: 'https://example.com',
       lastAccessed: 2000,
     })
+    const allTabs = [extensionTab, validTab]
 
-    ;(chrome.tabs.query as any)
+    (chrome.tabs.query as any)
       .mockResolvedValueOnce([extensionTab])
-      .mockResolvedValueOnce([extensionTab, validTab])
+      .mockResolvedValueOnce(allTabs)
 
     const result = await getCurrentTab()
 
@@ -92,8 +93,9 @@ describe('getCurrentTab', () => {
       url: 'chrome://extensions/',
       active: true,
     })
+    const tabs = [chromeTab]
 
-    ;(chrome.tabs.query as any).mockResolvedValueOnce([chromeTab])
+    (chrome.tabs.query as any).mockResolvedValueOnce(tabs)
 
     const result = await getCurrentTab()
 
@@ -108,8 +110,9 @@ describe('getCurrentTab', () => {
       url: 'about:blank',
       active: true,
     })
+    const tabs = [aboutTab]
 
-    ;(chrome.tabs.query as any).mockResolvedValueOnce([aboutTab])
+    (chrome.tabs.query as any).mockResolvedValueOnce(tabs)
 
     const result = await getCurrentTab()
 
@@ -132,10 +135,11 @@ describe('getCurrentTab', () => {
       url: 'https://new-site.com',
       lastAccessed: 5000,
     })
+    const allTabs = [extensionTab, olderTab, newerTab]
 
-    ;(chrome.tabs.query as any)
+    (chrome.tabs.query as any)
       .mockResolvedValueOnce([extensionTab])
-      .mockResolvedValueOnce([extensionTab, olderTab, newerTab])
+      .mockResolvedValueOnce(allTabs)
 
     const result = await getCurrentTab()
 
@@ -152,10 +156,11 @@ describe('getCurrentTab', () => {
       url: 'https://example.com',
       lastAccessed: undefined,
     })
+    const allTabs = [extensionTab, tabWithoutAccess]
 
-    ;(chrome.tabs.query as any)
+    (chrome.tabs.query as any)
       .mockResolvedValueOnce([extensionTab])
-      .mockResolvedValueOnce([extensionTab, tabWithoutAccess])
+      .mockResolvedValueOnce(allTabs)
 
     const result = await getCurrentTab()
 
@@ -176,10 +181,11 @@ describe('getCurrentTab', () => {
       url: 'https://example.com',
       lastAccessed: 6000,
     })
+    const allTabs = [extensionTab, tabWithoutUrl, validTab]
 
-    ;(chrome.tabs.query as any)
+    (chrome.tabs.query as any)
       .mockResolvedValueOnce([extensionTab])
-      .mockResolvedValueOnce([extensionTab, tabWithoutUrl, validTab])
+      .mockResolvedValueOnce(allTabs)
 
     const result = await getCurrentTab()
 
@@ -196,10 +202,11 @@ describe('getCurrentTab', () => {
       id: 2,
       url: 'chrome://extensions/',
     })
+    const allTabs = [extensionTab, chromeTab]
 
-    ;(chrome.tabs.query as any)
+    (chrome.tabs.query as any)
       .mockResolvedValueOnce([extensionTab])
-      .mockResolvedValueOnce([extensionTab, chromeTab])
+      .mockResolvedValueOnce(allTabs)
 
     const result = await getCurrentTab()
 
@@ -208,7 +215,7 @@ describe('getCurrentTab', () => {
   })
 
   it('should handle query errors gracefully', async () => {
-    ;(chrome.tabs.query as any).mockRejectedValueOnce(
+    (chrome.tabs.query as any).mockRejectedValueOnce(
       new Error('Tabs permission denied'),
     )
 

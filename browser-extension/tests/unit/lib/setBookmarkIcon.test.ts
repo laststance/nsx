@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
-import { resetBrowserMocks } from '../../mocks/browser'
-
 import { setBookmarkedIcon } from '@/lib/setBookmarkIcon'
 import { setDefaultIcon } from '@/lib/setDefaultIcon'
+
+import { resetBrowserMocks } from '../../mocks/browser'
 
 describe('Icon Management Functions', () => {
   beforeEach(() => {
@@ -87,10 +87,12 @@ describe('Icon Management Functions', () => {
 
       expect(chrome.runtime.sendMessage).toHaveBeenCalledTimes(3)
 
-      const calls = vi.mocked(chrome.runtime.sendMessage).mock.calls
-      expect(calls[0][0].path).toBe('../assets/images/logo-bookmarked.png')
-      expect(calls[1][0].path).toBe('../assets/images/logo.png')
-      expect(calls[2][0].path).toBe('../assets/images/logo-bookmarked.png')
+      const calls = (chrome.runtime.sendMessage as any).mock.calls as Array<
+        [{ path: string }]
+      >
+      expect(calls[0]?.[0]?.path).toBe('../assets/images/logo-bookmarked.png')
+      expect(calls[1]?.[0]?.path).toBe('../assets/images/logo.png')
+      expect(calls[2]?.[0]?.path).toBe('../assets/images/logo-bookmarked.png')
     })
   })
 })

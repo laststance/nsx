@@ -19,8 +19,8 @@ function App() {
     axios
       .post(
         process.env.NODE_ENV === 'development'
-          ? process.env.DEV_API_URL
-          : process.env.PROD_API_URL,
+          ? process.env.DEV_API_URL || ''
+          : process.env.PROD_API_URL || '',
         {
           pageTitle: state.pageTitle,
           url: state.url,
@@ -29,7 +29,9 @@ function App() {
       .then(() => {
         const span = document.createElement('span')
         span.innerHTML = 'Success!'
-        document.querySelector('.result').appendChild(span)
+        const resultElement = document.querySelector('.result')
+        if (!resultElement) return
+        resultElement.appendChild(span)
 
         const fadeInEffect = new KeyframeEffect(
           span,
@@ -67,7 +69,9 @@ function App() {
       .catch((err) => {
         const span = document.createElement('span')
         span.innerHTML = 'Failed...'
-        document.querySelector('.result').appendChild(span)
+        const resultElement = document.querySelector('.result')
+        if (!resultElement) return
+        resultElement.appendChild(span)
         setTimeout(() => {
           span.remove()
         }, 1000)

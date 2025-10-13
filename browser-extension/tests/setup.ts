@@ -10,8 +10,8 @@ afterEach(() => {
   cleanup()
 })
 
-// Mock browser API globally
-global.browser = {
+// Create mock browser API
+const mockBrowser = {
   runtime: {
     sendMessage: vi.fn(),
     onMessage: {
@@ -46,7 +46,8 @@ global.browser = {
       set: vi.fn(),
     },
   },
-} as any
+}
 
-// Also mock chrome API for compatibility
-global.chrome = global.browser as any
+// Set browser API globally
+;(globalThis as any).browser = mockBrowser
+;(globalThis as any).chrome = mockBrowser

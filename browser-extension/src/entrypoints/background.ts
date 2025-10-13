@@ -1,6 +1,6 @@
 export default defineBackground(() => {
   // Listen for messages to update extension icon
-  browser.runtime.onMessage.addListener((request) => {
+  browser.runtime.onMessage.addListener((request: any) => {
     if (request.action === 'setIcon') {
       browser.action.setIcon({ path: request.path })
     }
