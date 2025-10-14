@@ -3,12 +3,16 @@
  * Helper utilities for testing WXT Chrome extension functionality with Playwright
  */
 
-import { Page, BrowserContext } from '@playwright/test';
+import {
+  Page,
+  BrowserContext,
+  request as playwrightRequest,
+} from '@playwright/test'
 
 export class ExtensionFixtures {
   constructor(
     public context: BrowserContext,
-    public page: Page
+    public page: Page,
   ) {}
 
   /**
@@ -17,30 +21,32 @@ export class ExtensionFixtures {
    */
   async getExtensionId(): Promise<string> {
     // Wait for service worker to be registered (extension needs time to load)
-    const maxAttempts = 10;
-    const delayMs = 500;
-    
+    const maxAttempts = 10
+    const delayMs = 500
+
     for (let i = 0; i < maxAttempts; i++) {
-      const serviceWorkers = this.context.serviceWorkers();
-      
+      const serviceWorkers = this.context.serviceWorkers()
+
       if (serviceWorkers.length > 0) {
         // Extract extension ID from service worker URL
         // Format: chrome-extension://[extension-id]/background.js
-        const swUrl = serviceWorkers[0].url();
-        const match = swUrl.match(/chrome-extension:\/\/([a-z]+)\//);
-        
+        const swUrl = serviceWorkers[0].url()
+        const match = swUrl.match(/chrome-extension:\/\/([a-z]+)\//)
+
         if (match) {
-          return match[1];
+          return match[1]
         }
-        
-        throw new Error(`Could not extract extension ID from URL: ${swUrl}`);
+
+        throw new Error(`Could not extract extension ID from URL: ${swUrl}`)
       }
-      
+
       // Wait before retry
-      await new Promise(resolve => setTimeout(resolve, delayMs));
+      await new Promise((resolve) => setTimeout(resolve, delayMs))
     }
-    
-    throw new Error('No service worker found after waiting - extension may not be loaded correctly');
+
+    throw new Error(
+      'No service worker found after waiting - extension may not be loaded correctly',
+    )
   }
 
   /**
@@ -48,24 +54,27 @@ export class ExtensionFixtures {
    * Returns a new page with the popup loaded
    */
   async openPopup(): Promise<Page> {
-    const extensionId = await this.getExtensionId();
-    const popupUrl = `chrome-extension://${extensionId}/popup.html`;
-    
-    const popupPage = await this.context.newPage();
-    await popupPage.goto(popupUrl, { waitUntil: 'domcontentloaded' });
-    
+    const extensionId = await this.getExtensionId()
+    const popupUrl = `chrome-extension://${extensionId}/popup.html`
+
+    const popupPage = await this.context.newPage()
+    await popupPage.goto(popupUrl, { waitUntil: 'domcontentloaded' })
+
     // Wait for React app to mount
-    await popupPage.waitForSelector('#popup', { timeout: 5000 });
-    
-    return popupPage;
+    await popupPage.waitForSelector('#popup', { timeout: 5000 })
+
+    return popupPage
   }
 
   /**
    * Verify popup renders with current page info
    */
-  async verifyPopupContent(popupPage: Page, expectedTitle: string): Promise<boolean> {
-    const title = await popupPage.locator('.title').textContent();
-    return title?.includes(expectedTitle) || false;
+  async verifyPopupContent(
+    popupPage: Page,
+    expectedTitle: string,
+  ): Promise<boolean> {
+    const title = await popupPage.locator('.title').textContent()
+    return title?.includes(expectedTitle) || false
   }
 
   /**
@@ -73,11 +82,11 @@ export class ExtensionFixtures {
    * Simulates user interaction with the extension
    */
   async saveCurrentPage(popupPage: Page): Promise<void> {
-    const checkbox = popupPage.locator('.checkbox');
-    await checkbox.check();
-    
+    const checkbox = popupPage.locator('.checkbox')
+    await checkbox.check()
+
     // Wait a bit for the API call to complete
-    await popupPage.waitForTimeout(1000);
+    await popupPage.waitForTimeout(1000)
   }
 
   /**
@@ -86,11 +95,11 @@ export class ExtensionFixtures {
   async verifySuccessMessage(popupPage: Page): Promise<boolean> {
     try {
       // Wait for success message span to appear
-      const successSpan = popupPage.locator('.result span:has-text("Success!")');
-      await successSpan.waitFor({ state: 'visible', timeout: 3000 });
-      return true;
+      const successSpan = popupPage.locator('.result span:has-text("Success!")')
+      await successSpan.waitFor({ state: 'visible', timeout: 3000 })
+      return true
     } catch {
-      return false;
+      return false
     }
   }
 
@@ -99,11 +108,11 @@ export class ExtensionFixtures {
    */
   async verifyErrorMessage(popupPage: Page): Promise<boolean> {
     try {
-      const errorSpan = popupPage.locator('.result span:has-text("Failed")');
-      await errorSpan.waitFor({ state: 'visible', timeout: 3000 });
-      return true;
+      const errorSpan = popupPage.locator('.result span:has-text("Failed")')
+      await errorSpan.waitFor({ state: 'visible', timeout: 3000 })
+      return true
     } catch {
-      return false;
+      return false
     }
   }
 
@@ -111,56 +120,58 @@ export class ExtensionFixtures {
    * Get tweet button URL to verify it includes current page
    */
   async getTweetButtonUrl(popupPage: Page): Promise<string> {
-    const tweetBtn = popupPage.locator('.twitter-btn');
-    const href = await tweetBtn.getAttribute('href');
-    return href || '';
+    const tweetBtn = popupPage.locator('.twitter-btn')
+    const href = await tweetBtn.getAttribute('href')
+    return href || ''
   }
 
   /**
    * Type comment in textarea
    */
   async typeComment(popupPage: Page, comment: string): Promise<void> {
-    const textarea = popupPage.locator('.comment');
-    await textarea.fill(comment);
-    await textarea.blur(); // Trigger onBlur event
+    const textarea = popupPage.locator('.comment')
+    await textarea.fill(comment)
+    await textarea.blur() // Trigger onBlur event
   }
 
   /**
    * Monitor network requests to verify API calls
    */
-  async monitorApiCalls(popupPage: Page): Promise<Array<{url: string, method: string, body: any}>> {
-    const apiCalls: Array<{url: string, method: string, body: any}> = [];
-    
+  async monitorApiCalls(
+    popupPage: Page,
+  ): Promise<Array<{ url: string; method: string; body: unknown }>> {
+    const apiCalls: Array<{ url: string; method: string; body: unknown }> = []
+
     popupPage.on('request', async (request) => {
       if (request.url().includes('/api/')) {
         apiCalls.push({
           url: request.url(),
           method: request.method(),
-          body: request.postDataJSON(),
-        });
+          body: request.postDataJSON() as unknown,
+        })
       }
-    });
-    
-    return apiCalls;
+    })
+
+    return apiCalls
   }
 
   /**
    * Get current page URL and title for testing
    */
-  async getCurrentPageInfo(): Promise<{title: string, url: string}> {
-    const title = await this.page.title();
-    const url = this.page.url();
-    return { title, url };
+  async getCurrentPageInfo(): Promise<{ title: string; url: string }> {
+    const title = await this.page.title()
+    const url = this.page.url()
+    return { title, url }
   }
 
   /**
    * Cleanup - close all extension pages
    */
   async cleanup(): Promise<void> {
-    const pages = this.context.pages();
+    const pages = this.context.pages()
     for (const page of pages) {
       if (page.url().includes('chrome-extension://') && !page.isClosed()) {
-        await page.close();
+        await page.close()
       }
     }
   }
@@ -170,21 +181,28 @@ export class ExtensionFixtures {
  * Helper function to wait for backend API to be ready
  */
 export async function waitForBackendReady(maxAttempts = 10): Promise<boolean> {
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      const response = await fetch('http://localhost:4000/api/user_count');
-      if (response.ok) {
-        return true;
+  const requestContext = await playwrightRequest.newContext()
+  try {
+    for (let i = 0; i < maxAttempts; i++) {
+      try {
+        const response = await requestContext.get(
+          'http://localhost:4000/api/user_count',
+        )
+        if (response.ok()) {
+          return true
+        }
+      } catch {
+        // Backend not ready yet
       }
-    } catch {
-      // Backend not ready yet
+
+      // Wait 1 second before next attempt
+      await new Promise((resolve) => setTimeout(resolve, 1000))
     }
-    
-    // Wait 1 second before next attempt
-    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    return false
+  } finally {
+    await requestContext.dispose()
   }
-  
-  return false;
 }
 
 /**
@@ -203,4 +221,4 @@ export const TestPages = {
     title: 'Playwright',
     url: 'https://playwright.dev',
   },
-};
+}

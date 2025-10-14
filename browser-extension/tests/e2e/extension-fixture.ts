@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url'
 import {
   test as base,
   chromium,
+  request as playwrightRequest,
   type BrowserContext,
   type Page,
 } from '@playwright/test'
@@ -89,20 +90,27 @@ export async function openPopup(
  * Helper to wait for backend API
  */
 export async function waitForBackendReady(maxAttempts = 10): Promise<boolean> {
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      const response = await fetch('http://localhost:4000/api/user_count')
-      if (response.ok) {
-        return true
+  const requestContext = await playwrightRequest.newContext()
+  try {
+    for (let i = 0; i < maxAttempts; i++) {
+      try {
+        const response = await requestContext.get(
+          'http://localhost:4000/api/user_count',
+        )
+        if (response.ok()) {
+          return true
+        }
+      } catch {
+        // Backend not ready yet
       }
-    } catch {
-      // Backend not ready yet
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    return false
+  } finally {
+    await requestContext.dispose()
   }
-
-  return false
 }
 
 /**
