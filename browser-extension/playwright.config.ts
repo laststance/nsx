@@ -1,6 +1,4 @@
 import { defineConfig, devices } from '@playwright/test'
-import path from 'path'
-
 /**
  * Playwright Configuration for WXT Browser Extension E2E Tests
  *
