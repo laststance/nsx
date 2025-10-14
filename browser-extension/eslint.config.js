@@ -3,6 +3,10 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
 const tsPlugin = require('@typescript-eslint/eslint-plugin')
 const tsParser = require('@typescript-eslint/parser')
+const reactPlugin = require('eslint-plugin-react')
+const reactHooksPlugin = require('eslint-plugin-react-hooks')
+const importPlugin = require('eslint-plugin-import')
+const prettierPlugin = require('eslint-plugin-prettier')
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -18,6 +22,10 @@ export default [
 
     plugins: {
       '@typescript-eslint': tsPlugin,
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      import: importPlugin,
+      prettier: prettierPlugin,
     },
 
     languageOptions: {
@@ -52,9 +60,43 @@ export default [
       },
     },
 
+    settings: {
+      react: {
+        version: 'detect',
+      },
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json',
+        },
+      },
+    },
+
     rules: {
       // Include recommended TypeScript rules
       ...tsPlugin.configs.recommended.rules,
+
+      // React rules
+      'react/react-in-jsx-scope': 'off', // Not needed in React 19
+      'react/prop-types': 'off', // Using TypeScript
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+
+      // Import rules
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+          ],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc' },
+        },
+      ],
 
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': [
@@ -72,6 +114,9 @@ export default [
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'prefer-const': 'error',
       'no-var': 'error',
+
+      // Prettier integration
+      'prettier/prettier': 'warn',
     },
   },
 

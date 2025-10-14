@@ -171,6 +171,10 @@
     "knip": "knip"
   },
   "pnpm": {
+    "overrides": {
+      "@wxt-dev/browser": "0.1.4",
+      "@wxt-dev/storage": "1.2.5"
+    },
     "onlyBuiltDependencies": [
       "@prisma/client",
       "@prisma/engines",
