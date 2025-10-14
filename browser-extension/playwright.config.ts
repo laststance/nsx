@@ -97,6 +97,7 @@ export default defineConfig({
       DATABASE_URL:
         process.env.DATABASE_URL ||
         'mysql://root:rootpass@127.0.0.1:3306/digital',
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY || 'test-openai-api-key',
       // Add other required env vars as needed
     },
   },
