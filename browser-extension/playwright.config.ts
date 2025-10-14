@@ -37,11 +37,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
 
   // Reporter to use
-  reporter: [
-    ['list'],
-    ['json', { outputFile: 'test-results/results.json' }],
-    ['html', { outputFolder: 'test-results/html' }],
-  ],
+  reporter: [['list'], ['json', { outputFile: 'test-results/results.json' }]],
 
   // Shared settings for all projects
   use: {
