@@ -1,35 +1,32 @@
 import js from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
-import importPlugin from 'eslint-plugin-import'
-import prettierPlugin from 'eslint-plugin-prettier'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const tsPlugin = require('@typescript-eslint/eslint-plugin')
+const tsParser = require('@typescript-eslint/parser')
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const tsconfigRootDir = path.dirname(fileURLToPath(import.meta.url))
 
 export default [
   // Base JavaScript recommended rules
   js.configs.recommended,
 
-  // TypeScript recommended rules
-  ...tseslint.configs.recommended,
-
-  // Main configuration
+  // Main configuration for JS/TS/React files
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
 
     plugins: {
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
-      import: importPlugin,
-      prettier: prettierPlugin,
+      '@typescript-eslint': tsPlugin,
     },
 
     languageOptions: {
-      ecmaVersion: 2024,
-      sourceType: 'module',
+      parser: tsParser,
       parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaVersion: 2024,
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true },
+        tsconfigRootDir,
       },
       globals: {
         // Browser globals
@@ -37,10 +34,16 @@ export default [
         document: 'readonly',
         navigator: 'readonly',
         console: 'readonly',
+        HTMLInputElement: 'readonly',
+        Animation: 'readonly',
+        KeyframeEffect: 'readonly',
 
         // Browser Extension API globals
         chrome: 'readonly',
         browser: 'readonly',
+        defineBackground: 'readonly',
+        defineContentScript: 'readonly',
+        setTimeout: 'readonly',
 
         // Node.js globals (for config files)
         process: 'readonly',
@@ -49,40 +52,9 @@ export default [
       },
     },
 
-    settings: {
-      react: {
-        version: 'detect',
-      },
-      'import/resolver': {
-        typescript: {
-          project: './tsconfig.json',
-        },
-      },
-    },
-
     rules: {
-      // React rules
-      'react/react-in-jsx-scope': 'off', // Not needed in React 19
-      'react/prop-types': 'off', // Using TypeScript
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-
-      // Import rules
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-          ],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc' },
-        },
-      ],
+      // Include recommended TypeScript rules
+      ...tsPlugin.configs.recommended.rules,
 
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': [
@@ -100,9 +72,6 @@ export default [
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'prefer-const': 'error',
       'no-var': 'error',
-
-      // Prettier integration
-      'prettier/prettier': 'warn',
     },
   },
 
