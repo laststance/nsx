@@ -189,6 +189,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: always()
+    defaults:
+      run:
+        working-directory: .
 
     steps:
       - name: Check build status
