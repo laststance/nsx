@@ -1,0 +1,452 @@
+---
+globs: browser-extension/**/*
+description: Browser extension development with WXT framework
+---
+
+# Browser Extension Guidelines
+
+## Overview
+
+NSX browser extension allows users to bookmark URLs that are automatically aggregated into daily blog posts via the cron job.
+
+## Framework
+
+- **WXT** (Web Extension Toolkit) - Modern framework for cross-browser extensions
+- **Configuration**: [wxt.config.ts](mdc:browser-extension/wxt.config.ts)
+- **Manifest**: V3 (Chrome, Firefox, Edge compatible)
+
+## Project Structure
+
+```
+browser-extension/
+├── src/
+│   ├── background/       # Service worker (background scripts)
+│   ├── entrypoints/      # Popup, options, content scripts
+│   ├── lib/              # Shared utilities
+│   ├── manifest/         # Browser-specific manifests
+│   └── assets/           # Images, styles
+├── public/               # Static files
+├── tests/
+│   ├── unit/            # Vitest unit tests
+│   └── e2e/             # Playwright E2E tests
+└── wxt.config.ts        # WXT configuration
+```
+
+## Development
+
+### Commands
+
+```bash
+cd browser-extension
+
+# Development (Chrome by default)
+pnpm dev
+pnpm dev:firefox
+pnpm dev:edge
+
+# Build for production
+pnpm build              # All browsers
+pnpm build:chrome
+pnpm build:firefox
+pnpm build:edge
+
+# Testing
+pnpm test              # Unit tests
+pnpm test:e2e         # E2E tests
+pnpm typecheck        # TypeScript checks
+```
+
+### Hot Reload
+
+WXT provides automatic hot reload in development:
+- Popup changes: Reload automatically
+- Background changes: Requires extension reload
+- Content script changes: Refresh target page
+
+## Background Service Worker
+
+[src/background/index.ts](mdc:browser-extension/src/background/index.ts)
+
+**Purpose**: Manages extension icon state based on bookmark status.
+
+```typescript
+export default defineBackground(() => {
+  // Listen for messages from popup
+  chrome.runtime.onMessage.addListener((request) => {
+    if (request.action === 'setIcon') {
+      chrome.action.setIcon({ path: request.path })
+    }
+  })
+  
+  // Reset icon on tab switch
+  chrome.tabs.onActivated.addListener(() => {
+    chrome.action.setIcon({
+      path: '../assets/images/logo.png'
+    })
+  })
+})
+```
+
+**Icon States**:
+- Default: `logo.png` (unbookmarked)
+- Bookmarked: `logo-bookmarked.png`
+
+## Popup UI
+
+[src/entrypoints/popup/](mdc:browser-extension/src/entrypoints/popup/)
+
+**Main Component**: [App.tsx](mdc:browser-extension/src/entrypoints/popup/App.tsx)
+
+**Functionality**:
+1. Display current tab information
+2. Bookmark current page (POST to /api/stocks)
+3. Show bookmark status
+4. Update extension icon
+
+```typescript
+import { getCurrentTab } from '@/lib/getCurrentTab'
+import { setBookmarkIcon } from '@/lib/setBookmarkIcon'
+
+export const App: FC = () => {
+  const [tab, setTab] = useState<chrome.tabs.Tab>()
+  const [isBookmarked, setIsBookmarked] = useState(false)
+  
+  useEffect(() => {
+    // Get current tab on popup open
+    getCurrentTab().then(setTab)
+  }, [])
+  
+  const handleBookmark = async () => {
+    if (!tab?.url || !tab?.title) return
+    
+    // Send to backend
+    const response = await fetch(`${API_ENDPOINT}/api/stocks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url: tab.url,
+        title: tab.title
+      })
+    })
+    
+    if (response.ok) {
+      setIsBookmarked(true)
+      setBookmarkIcon() // Change icon to bookmarked state
+    }
+  }
+  
+  return (
+    <div className="w-80 p-4">
+      <h1 className="text-lg font-bold">{tab?.title}</h1>
+      <button 
+        onClick={handleBookmark}
+        disabled={isBookmarked}
+        className="mt-4 w-full py-2 bg-blue-500 text-white rounded"
+      >
+        {isBookmarked ? 'Bookmarked!' : 'Bookmark Page'}
+      </button>
+    </div>
+  )
+}
+```
+
+## Utility Functions
+
+### getCurrentTab
+
+[src/lib/getCurrentTab.tsx](mdc:browser-extension/src/lib/getCurrentTab.tsx)
+
+```typescript
+/**
+ * Gets the currently active tab.
+ * Used by popup to display current page information.
+ */
+export async function getCurrentTab(): Promise<chrome.tabs.Tab | undefined> {
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  })
+  return tab
+}
+```
+
+### setBookmarkIcon
+
+[src/lib/setBookmarkIcon.ts](mdc:browser-extension/src/lib/setBookmarkIcon.ts)
+
+```typescript
+/**
+ * Changes extension icon to bookmarked state.
+ * Sends message to background script.
+ */
+export function setBookmarkIcon() {
+  chrome.runtime.sendMessage({
+    action: 'setIcon',
+    path: '../assets/images/logo-bookmarked.png'
+  })
+}
+```
+
+### setDefaultIcon
+
+[src/lib/setDefaultIcon.ts](mdc:browser-extension/src/lib/setDefaultIcon.ts)
+
+```typescript
+/**
+ * Resets extension icon to default (unbookmarked) state.
+ */
+export function setDefaultIcon() {
+  chrome.runtime.sendMessage({
+    action: 'setIcon',
+    path: '../assets/images/logo.png'
+  })
+}
+```
+
+## Manifest Configuration
+
+### Base Manifest
+
+[src/manifest/base.js](mdc:browser-extension/src/manifest/base.js)
+
+```javascript
+export default {
+  manifest_version: 3,
+  name: 'NSX',
+  description: 'Bookmark pages for auto-posting to NSX blog',
+  version: '1.0.0',
+  
+  permissions: [
+    'tabs',
+    'activeTab',
+    'storage'
+  ],
+  
+  action: {
+    default_popup: 'popup.html',
+    default_icon: {
+      16: 'assets/images/logo.png',
+      48: 'assets/images/logo.png',
+      128: 'assets/images/logo.png'
+    }
+  },
+  
+  background: {
+    service_worker: 'background.js'
+  }
+}
+```
+
+### Browser-Specific Overrides
+
+- [src/manifest/chrome.js](mdc:browser-extension/src/manifest/chrome.js)
+- [src/manifest/firefox.js](mdc:browser-extension/src/manifest/firefox.js)
+- [src/manifest/edge.js](mdc:browser-extension/src/manifest/edge.js)
+
+WXT merges these with the base manifest.
+
+## Styling
+
+Uses TailwindCSS (same config as main app):
+
+- [postcss.config.js](mdc:browser-extension/postcss.config.js)
+- Popup styles: [src/entrypoints/popup/style.css](mdc:browser-extension/src/entrypoints/popup/style.css)
+- Supports dark mode
+
+## Testing
+
+### Unit Tests (Vitest)
+
+[tests/unit/](mdc:browser-extension/tests/unit/)
+
+```typescript
+import { describe, it, expect, vi } from 'vitest'
+import { getCurrentTab } from '@/lib/getCurrentTab'
+
+// Mock Chrome API
+global.chrome = {
+  tabs: {
+    query: vi.fn()
+  }
+}
+
+describe('getCurrentTab', () => {
+  it('returns active tab', async () => {
+    const mockTab = { id: 1, url: 'https://example.com' }
+    chrome.tabs.query.mockResolvedValue([mockTab])
+    
+    const tab = await getCurrentTab()
+    
+    expect(tab).toEqual(mockTab)
+    expect(chrome.tabs.query).toHaveBeenCalledWith({
+      active: true,
+      currentWindow: true
+    })
+  })
+})
+```
+
+### E2E Tests (Playwright)
+
+[tests/e2e/](mdc:browser-extension/tests/e2e/)
+
+**Note**: Requires building extension first (`pnpm build`)
+
+```typescript
+import { test, expect } from './fixtures'
+
+test('opens popup and bookmarks page', async ({ page, extensionId }) => {
+  // Navigate to extension popup
+  await page.goto(`chrome-extension://${extensionId}/popup.html`)
+  
+  // Verify popup loaded
+  await expect(page.locator('h1')).toBeVisible()
+  
+  // Click bookmark button
+  await page.click('button:has-text("Bookmark Page")')
+  
+  // Verify bookmarked state
+  await expect(page.locator('button')).toHaveText('Bookmarked!')
+})
+```
+
+## API Integration
+
+Extension communicates with NSX backend:
+
+```typescript
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:4000'
+
+// POST bookmark
+await fetch(`${API_ENDPOINT}/api/stocks`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    url: currentTab.url,
+    title: currentTab.title
+  })
+})
+```
+
+**No authentication required** for creating stocks - this allows extension to work without login.
+
+## Build Output
+
+After `pnpm build`:
+
+```
+.output/
+├── chrome-mv3/     # Chrome extension
+├── firefox-mv3/    # Firefox addon
+└── edge-mv3/       # Edge extension
+```
+
+Each contains:
+- `manifest.json`
+- Compiled JavaScript
+- Assets (icons, styles)
+
+## Distribution
+
+### Chrome Web Store
+
+1. Build: `pnpm build:chrome`
+2. Zip: `.output/chrome-mv3/`
+3. Upload to Chrome Developer Dashboard
+4. Fill store listing details
+5. Submit for review
+
+### Firefox Add-ons
+
+1. Build: `pnpm build:firefox`
+2. Zip: `.output/firefox-mv3/`
+3. Upload to addons.mozilla.org
+4. Fill listing details
+5. Submit for review
+
+### Microsoft Edge Add-ons
+
+1. Build: `pnpm build:edge`
+2. Zip: `.output/edge-mv3/`
+3. Upload to Edge Add-ons site
+4. Submit for review
+
+## CI/CD
+
+[.github/workflows/browser-extension-ci.yml](mdc:.github/workflows/browser-extension-ci.yml)
+
+Runs on changes to `browser-extension/`:
+1. Install dependencies
+2. Type check
+3. Run unit tests
+4. Build for all browsers
+5. Run E2E tests
+
+## Best Practices
+
+### Permissions
+
+- Request **minimum permissions** needed
+- Use `activeTab` instead of `tabs` when possible
+- Request `storage` only if persisting data
+
+### Performance
+
+- Keep popup **lightweight** (loads on every click)
+- Use **background script** for persistent tasks
+- Minimize bundle size (tree-shaking, code splitting)
+
+### Security
+
+- **Validate all inputs** from web pages
+- Use **Content Security Policy** in manifest
+- **Never execute arbitrary code** from web pages
+- Store sensitive data in `chrome.storage.local` (not localStorage)
+
+### Cross-Browser
+
+- Test in **all target browsers**
+- Use **WXT's browser detection** for differences
+- Provide **fallbacks** for unsupported APIs
+- Use **webextension-polyfill** for Firefox compatibility
+
+## Debugging
+
+### Chrome
+
+1. Go to `chrome://extensions`
+2. Enable "Developer mode"
+3. Load unpacked: `.output/chrome-mv3/`
+4. Click "Inspect views: service worker" for background
+5. Click extension icon → Right-click → "Inspect popup"
+
+### Firefox
+
+1. Go to `about:debugging#/runtime/this-firefox`
+2. Click "Load Temporary Add-on"
+3. Select `manifest.json` from `.output/firefox-mv3/`
+4. Click "Inspect" for debugging
+
+### Logging
+
+```typescript
+// Background script
+console.log('Background:', data)
+
+// Popup
+console.log('Popup:', data)
+
+// View in browser DevTools (Inspect service worker/popup)
+```
+
+## Workspace Integration
+
+**Important**: Never remove `browser-extension` from pnpm workspace.
+
+The extension is part of the monorepo but has:
+- Separate dependencies
+- Separate build process
+- Separate CI/CD pipeline
+- Shared TypeScript config (extends root)

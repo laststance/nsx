@@ -1,41 +1,74 @@
 ---
-description: 
-globs: 
 alwaysApply: true
 ---
-# Project Structure
 
-NSX is organized as a full-stack TypeScript application with a React frontend and Express backend.
+# NSX Project Structure
 
-## Key Directories
+NSX is a full-stack React + Express monorepo for auto-posting web pages read daily.
 
-- **Frontend**: The [src](mdc:src) directory contains the React application
-  - [components](mdc:src/components): Reusable UI components
-  - [pages](mdc:src/pages): Page components that represent routes
-  - [redux](mdc:src/redux): Redux state management with Redux Toolkit
-  - [hooks](mdc:src/hooks): Custom React hooks
-  - [lib](mdc:src/lib): Shared frontend utilities
-  
-- **Backend**: The [server](mdc:server) directory contains the Express application
-  - [routes](mdc:server/routes): API endpoints
-  - [lib](mdc:server/lib): Server utilities
-  - [index.ts](mdc:server/index.ts): Server entry point
-  - [cron.ts](mdc:server/cron.ts): Scheduled tasks
-  
-- **Database**: The [prisma](mdc:prisma) directory contains the Prisma ORM configuration
-  - [schema.prisma](mdc:prisma/schema.prisma): Database schema definition
-  - [migrations](mdc:prisma/migrations): Database migrations
-  
-- **Testing**: The [e2e](mdc:e2e) directory contains end-to-end tests using Playwright
+## Core Architecture
 
-## Main Entry Points
+- **Frontend**: React 19 + Vite + Redux Toolkit + TailwindCSS (port 3010 in dev)
+- **Backend**: Express + Prisma + MySQL (port 4000 in dev)
+- **Browser Extension**: WXT framework for Chrome/Firefox/Edge
+- **Testing**: Vitest (unit) + Playwright (E2E) + Storybook (visual)
 
-- Frontend: [src/main.tsx](mdc:src/main.tsx)
-- Backend: [server/index.ts](mdc:server/index.ts)
+## Directory Structure
 
-## Important Configuration Files
+### Frontend (`/src`)
+- [App.tsx](mdc:src/App.tsx) - Main React application entry
+- [Routes.tsx](mdc:src/Routes.tsx) - React Router configuration
+- `src/pages/` - Page components (Dashboard, Posts, Tweets, etc.)
+- `src/components/` - Reusable UI components with Storybook stories
+- `src/redux/` - Redux Toolkit store, slices, and RTK Query APIs
+- `src/router/` - Router configuration including AuthRouter for protected routes
 
-- [vite.config.ts](mdc:vite.config.ts): Frontend build configuration
-- [tsconfig.json](mdc:tsconfig.json): TypeScript configuration
-- [package.json](mdc:package.json): Project dependencies and scripts
-- [compose.yml](mdc:compose.yml): Docker configuration
+### Backend (`/server`)
+- [server/index.ts](mdc:server/index.ts) - Express server entry point
+- [server/api.ts](mdc:server/api.ts) - API route registration
+- [server/auth.ts](mdc:server/auth.ts) - JWT authentication middleware
+- [server/cron.ts](mdc:server/cron.ts) - Scheduled tasks (daily post aggregation)
+- `server/routes/` - API route handlers (post, tweet, stock, user, etc.)
+
+### Database (`/prisma`)
+- [prisma/schema.prisma](mdc:prisma/schema.prisma) - Prisma schema with User, Post, Stock, Tweet models
+- `prisma/migrations/` - Database migration history
+- [prisma/seed.ts](mdc:prisma/seed.ts) - Database seeding script
+
+### Browser Extension (`/browser-extension`)
+- `browser-extension/src/background/` - Background service worker
+- `browser-extension/src/entrypoints/` - Popup, options, content scripts
+- `browser-extension/src/manifest/` - Browser-specific manifest files
+- [wxt.config.ts](mdc:browser-extension/wxt.config.ts) - WXT framework configuration
+
+### Testing (`/e2e`, `/tests`)
+- `e2e/admin/` - Admin dashboard E2E tests
+- [e2e/visitor.spec.ts](mdc:e2e/visitor.spec.ts) - Public page E2E tests
+- [e2e/self-host.spec.ts](mdc:e2e/self-host.spec.ts) - Self-hosting setup tests
+- `src/components/*.stories.tsx` - Storybook stories
+
+### Shared Types (`/@types`)
+- [app.d.ts](mdc:@types/app.d.ts) - Application-wide types
+- [prisma.d.ts](mdc:@types/prisma.d.ts) - Prisma model extensions
+- [request.d.ts](mdc:@types/request.d.ts) - API request types
+- [response.d.ts](mdc:@types/response.d.ts) - API response types
+
+### Infrastructure
+- [compose.yml](mdc:compose.yml) - Docker Compose for MySQL
+- [ecosystem.config.js](mdc:ecosystem.config.js) - PM2 process manager config
+- `ansible/` - Infrastructure as Code for server provisioning
+- `.github/workflows/` - CI/CD agents (security, testing, deployment)
+
+## Build Artifacts
+
+- `build/` - Production frontend build (served by Express in production)
+- `server_build/` - Compiled TypeScript backend
+- `.output/` - Browser extension builds (Chrome, Firefox, etc.)
+
+## Configuration Files
+
+- [vite.config.ts](mdc:vite.config.ts) - Frontend build configuration
+- [playwright.config.ts](mdc:playwright.config.ts) - E2E test configuration
+- [vitest.config.ts](mdc:vitest.config.ts) - Unit test configuration
+- [eslint.config.mjs](mdc:eslint.config.mjs) - Linting rules
+- [tsconfig.json](mdc:tsconfig.json) - TypeScript configuration

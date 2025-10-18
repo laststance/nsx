@@ -1,49 +1,350 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+globs: src/**/*.tsx,src/**/*.ts
 ---
-# React Frontend
 
-The frontend of NSX is built with React 19, Redux Toolkit, and TailwindCSS.
+# React Frontend Guidelines
 
-## Application Structure
+## Architecture Overview
 
-- [App.tsx](mdc:src/App.tsx): Main application component
-- [Routes.tsx](mdc:src/Routes.tsx): React Router configuration
-- [global.css](mdc:src/global.css): Global styles with TailwindCSS
+NSX frontend uses React 19 with Vite, Redux Toolkit, React Router v7, and TailwindCSS.
 
-## State Management
+## Key Files
 
-Redux Toolkit is used for state management:
+- [App.tsx](mdc:src/App.tsx) - Root component with Redux Provider and MSW setup
+- [Routes.tsx](mdc:src/Routes.tsx) - React Router configuration
+- [main.tsx](mdc:src/main.tsx) - Application entry point
+- [router/AuthRouter.tsx](mdc:src/router/AuthRouter.tsx) - Protected route wrapper for /dashboard
 
-- [redux/store.ts](mdc:src/redux/store.ts): Redux store configuration
-- Redux slice files directly in [redux](mdc:src/redux): Redux slices for different parts of the application
-- [redux/API.ts](mdc:src/redux/API.ts): RTK Query API definitions
+## State Management (Redux Toolkit)
 
-## Components
+### Store Configuration
 
-Components are organized into:
+[src/redux/store.ts](mdc:src/redux/store.ts) - Central store with:
+- RTK Query APIs
+- Feature slices (posts, tweets, user, etc.)
+- Middleware configuration
 
-- **Page Components**: Full pages corresponding to routes in [pages](mdc:src/pages)
-- **Reusable Components**: Shared UI components in [components](mdc:src/components)
-- **Headless Components**: Logic-only components in [headlessComponents](mdc:src/headlessComponents)
+### API Integration (RTK Query)
 
-## Styling
+Each feature has its own API slice:
 
-TailwindCSS is used for styling:
+- [src/redux/api/postsApi.ts](mdc:src/redux/api/postsApi.ts) - Post CRUD operations
+- [src/redux/api/tweetsApi.ts](mdc:src/redux/api/tweetsApi.ts) - Tweet operations
+- [src/redux/api/stocksApi.ts](mdc:src/redux/api/stocksApi.ts) - Stock operations
+- [src/redux/api/userApi.ts](mdc:src/redux/api/userApi.ts) - Authentication
 
-- Utility classes directly in JSX
-- TailwindCSS v4 configuration via PostCSS in [postcss.config.cjs](mdc:postcss.config.cjs)
-- Global styles with Tailwind directives in [global.css](mdc:src/global.css)
+Example RTK Query usage:
+
+```typescript
+import { useGetPostsQuery } from '@/redux/api/postsApi'
+
+export const PostList: FC = () => {
+  const { data: posts, isLoading, error } = useGetPostsQuery()
+  
+  if (isLoading) return <Loading />
+  if (error) return <ErrorMessage error={error} />
+  
+  return <div>{posts?.map(post => <PostCard key={post.id} {...post} />)}</div>
+}
+```
+
+### Feature Slices
+
+- [src/redux/slices/themeSlice.ts](mdc:src/redux/slices/themeSlice.ts) - Theme management (light/dark/system)
+- [src/redux/slices/userSlice.ts](mdc:src/redux/slices/userSlice.ts) - User authentication state
+
+## Routing
+
+### Public Routes
+- `/` - Landing page ([src/pages/Landing/](mdc:src/pages/Landing/))
+- `/about` - About page
+- `/posts` - Post listing
+- `/posts/:id` - Individual post
+
+### Protected Routes (/dashboard)
+- `/dashboard` - Admin dashboard
+- `/dashboard/posts` - Post management
+- `/dashboard/posts/:id/edit` - Post editor
+- `/dashboard/tweets` - Tweet management
+- `/dashboard/settings` - User settings
+
+All /dashboard routes are protected by [AuthRouter](mdc:src/router/AuthRouter.tsx) which checks JWT authentication.
+
+## Component Organization
+
+### Component Directory Structure
+
+```
+src/components/
+├── Button/
+│   ├── Button.tsx
+│   ├── Button.stories.tsx
+│   └── Button.test.tsx
+├── PostCard/
+│   ├── PostCard.tsx
+│   └── PostCard.stories.tsx
+└── ...
+```
+
+### Component Categories
+
+1. **UI Components** (`src/components/`) - Reusable, presentational
+2. **Page Components** (`src/pages/`) - Route-level components
+3. **Headless Components** (`src/headlessComponents/`) - Logic-only components
+
+### Component Patterns
+
+#### Presentational Component
+
+```typescript
+import type { FC } from 'react'
+
+interface Props {
+  title: string
+  body: string
+  onDelete: () => void
+}
+
+/**
+ * Displays a blog post card with title, excerpt, and actions.
+ * Used in post listings and dashboard views.
+ */
+export const PostCard: FC<Props> = ({ title, body, onDelete }) => {
+  return (
+    <article className="rounded-lg border p-4 shadow-sm dark:border-gray-700">
+      <h2 className="text-xl font-bold">{title}</h2>
+      <p className="mt-2 text-gray-600 dark:text-gray-400">{body}</p>
+      <button 
+        onClick={onDelete}
+        className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+      >
+        Delete
+      </button>
+    </article>
+  )
+}
+```
+
+#### Container Component (with Redux)
+
+```typescript
+import { useGetPostsQuery, useDeletePostMutation } from '@/redux/api/postsApi'
+import { PostCard } from '@/components/PostCard'
+
+/**
+ * Container component that fetches posts and handles deletion.
+ * Displays loading and error states.
+ */
+export const PostListContainer: FC = () => {
+  const { data: posts, isLoading } = useGetPostsQuery()
+  const [deletePost] = useDeletePostMutation()
+  
+  const handleDelete = async (id: number) => {
+    if (confirm('Delete this post?')) {
+      await deletePost(id)
+    }
+  }
+  
+  if (isLoading) return <LoadingSpinner />
+  
+  return (
+    <div className="grid gap-4">
+      {posts?.map(post => (
+        <PostCard 
+          key={post.id} 
+          {...post} 
+          onDelete={() => handleDelete(post.id)} 
+        />
+      ))}
+    </div>
+  )
+}
+```
+
+## Styling with TailwindCSS
+
+### Design System
+
+- **Spacing**: 4/8 grid (4, 8, 12, 16, 20, 24px)
+- **Colors**: Theme-aware with dark mode support
+- **Typography**: Responsive font sizes, proper line heights
+- **Accessibility**: 44×44px minimum tap targets
+
+### Dark Mode
+
+Use Tailwind's `dark:` modifier:
+
+```tsx
+<div className="bg-white dark:bg-gray-900">
+  <h1 className="text-gray-900 dark:text-white">Title</h1>
+  <p className="text-gray-600 dark:text-gray-400">Description</p>
+</div>
+```
+
+Theme is managed by [themeSlice](mdc:src/redux/slices/themeSlice.ts) with options:
+- `light` - Force light mode
+- `dark` - Force dark mode
+- `system` - Follow OS preference
 
 ## Forms
 
-Form handling is done with React Hook Form:
+### Form Handling Pattern
 
-- Integration with Zod for validation
-- Custom form components in the components directory
+```typescript
+import { useState } from 'react'
+import { useCreatePostMutation } from '@/redux/api/postsApi'
+
+export const PostForm: FC = () => {
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('')
+  const [createPost, { isLoading, error }] = useCreatePostMutation()
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    try {
+      await createPost({ title, body }).unwrap()
+      // Success: reset form or redirect
+      setTitle('')
+      setBody('')
+    } catch (err) {
+      // Error handled by RTK Query
+      console.error('Failed to create post:', err)
+    }
+  }
+  
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Post title"
+        className="w-full rounded-lg border px-4 py-2"
+        required
+      />
+      <textarea
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
+        placeholder="Post content"
+        className="w-full rounded-lg border px-4 py-2"
+        rows={10}
+        required
+      />
+      <button 
+        type="submit" 
+        disabled={isLoading}
+        className="px-6 py-3 bg-blue-500 text-white rounded-lg disabled:opacity-50"
+      >
+        {isLoading ? 'Creating...' : 'Create Post'}
+      </button>
+      {error && <p className="text-red-500">Error creating post</p>}
+    </form>
+  )
+}
+```
+
+## Authentication Flow
+
+1. User logs in via `/login` ([src/pages/Login.tsx](mdc:src/pages/Login.tsx))
+2. Login calls `userApi.login` which sets JWT cookie
+3. [AuthRouter](mdc:src/router/AuthRouter.tsx) checks authentication on protected routes
+4. If not authenticated, redirects to `/login`
+5. JWT is sent with all API requests via cookie
+
+## API Communication
+
+All API calls go through RTK Query:
+
+- **Base URL**: `VITE_API_ENDPOINT` (e.g., `http://localhost:4000` in dev)
+- **Authentication**: Automatic via HTTP-only cookie
+- **Error Handling**: Built-in with RTK Query error responses
 
 ## Custom Hooks
 
-Custom hooks in [hooks](mdc:src/hooks) provide reusable logic across components.
+- [src/hooks/useLocalStorage.ts](mdc:src/hooks/useLocalStorage.ts) - Persist state to localStorage
+- [src/hooks/useMediaQuery.ts](mdc:src/hooks/useMediaQuery.ts) - Responsive design helper
+- [src/hooks/usePrefersColorScheme.ts](mdc:src/hooks/usePrefersColorScheme.ts) - Detect system color scheme
+
+## Testing Components
+
+### Unit Tests with Vitest + React Testing Library
+
+```typescript
+import { render, screen, fireEvent } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { store } from '@/redux/store'
+import { PostForm } from './PostForm'
+
+describe('PostForm', () => {
+  it('submits form data', async () => {
+    const onSubmit = vi.fn()
+    
+    render(
+      <Provider store={store}>
+        <PostForm onSubmit={onSubmit} />
+      </Provider>
+    )
+    
+    fireEvent.change(screen.getByPlaceholderText('Post title'), {
+      target: { value: 'Test Title' }
+    })
+    
+    fireEvent.click(screen.getByText('Create Post'))
+    
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith({
+        title: 'Test Title',
+        body: expect.any(String)
+      })
+    })
+  })
+})
+```
+
+### Storybook Stories
+
+```typescript
+import type { Meta, StoryObj } from '@storybook/react'
+import { PostCard } from './PostCard'
+
+const meta: Meta<typeof PostCard> = {
+  title: 'Components/PostCard',
+  component: PostCard,
+  tags: ['autodocs'],
+}
+
+export default meta
+type Story = StoryObj<typeof PostCard>
+
+export const Default: Story = {
+  args: {
+    title: 'Example Post',
+    body: 'This is the post content...',
+    onDelete: () => alert('Delete clicked')
+  }
+}
+
+export const LongTitle: Story = {
+  args: {
+    title: 'This is a very long post title that should wrap properly',
+    body: 'Content here',
+    onDelete: () => {}
+  }
+}
+```
+
+## Performance Optimization
+
+- Use `React.memo()` for expensive components
+- Use `useMemo()` and `useCallback()` judiciously (not everywhere)
+- Leverage RTK Query caching (automatic)
+- Code splitting with React.lazy() for large pages
+
+## Accessibility
+
+- Always use semantic HTML (`<button>`, `<nav>`, `<main>`, etc.)
+- Provide `alt` text for images
+- Ensure keyboard navigation works
+- Minimum 44×44px tap targets
+- Support screen readers with proper ARIA labels

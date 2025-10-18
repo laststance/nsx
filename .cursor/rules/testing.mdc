@@ -1,54 +1,501 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+globs: **/*.test.ts,**/*.test.tsx,**/*.spec.ts,e2e/**/*,**/*.stories.tsx
+description: Testing conventions and patterns
 ---
-# Testing
 
-NSX uses a comprehensive testing strategy with multiple levels of tests.
+# Testing Guidelines
 
-## Unit Testing
+## Testing Stack
 
-Unit tests are written with Vitest:
+- **Unit Tests**: Vitest + React Testing Library
+- **E2E Tests**: Playwright
+- **Visual Tests**: Storybook + Chromatic
+- **Mocking**: MSW (Mock Service Worker)
 
-- Configuration in [vitest.config.ts](mdc:vitest.config.ts)
-- Test setup in [setupTests.ts](mdc:setupTests.ts)
-- Run with `pnpm test`
+## Unit Testing (Vitest)
 
-## Component Testing
+### Configuration
 
-React components are tested with:
+- [vitest.config.ts](mdc:vitest.config.ts) - Test configuration
+- [setupTests.ts](mdc:setupTests.ts) - Global test setup
 
-- @testing-library/react for component testing
-- @testing-library/user-event for simulating user interactions
+### Running Tests
 
-Example: [App.test.tsx](mdc:src/App.test.tsx)
+```bash
+pnpm test              # Run all unit tests
+pnpm test --watch      # Watch mode
+pnpm test --coverage   # Coverage report
+pnpm test MyFile       # Run specific test file
+```
 
-## End-to-End Testing
+### Component Testing Pattern
 
-End-to-end tests use Playwright:
+```typescript
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { store } from '@/redux/store'
+import { PostForm } from './PostForm'
 
-- Configuration in [playwright.config.ts](mdc:playwright.config.ts)
-- Tests in the [e2e](mdc:e2e) directory
-- Run with `pnpm playwright`
+describe('PostForm', () => {
+  it('renders form fields', () => {
+    render(
+      <Provider store={store}>
+        <PostForm />
+      </Provider>
+    )
+    
+    expect(screen.getByPlaceholderText('Post title')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Post content')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Create Post' })).toBeInTheDocument()
+  })
+  
+  it('submits form data', async () => {
+    const onSubmit = vi.fn()
+    
+    render(
+      <Provider store={store}>
+        <PostForm onSubmit={onSubmit} />
+      </Provider>
+    )
+    
+    // Fill form
+    fireEvent.change(screen.getByPlaceholderText('Post title'), {
+      target: { value: 'Test Title' }
+    })
+    fireEvent.change(screen.getByPlaceholderText('Post content'), {
+      target: { value: 'Test content here' }
+    })
+    
+    // Submit
+    fireEvent.click(screen.getByRole('button', { name: 'Create Post' }))
+    
+    // Verify
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith({
+        title: 'Test Title',
+        body: 'Test content here'
+      })
+    })
+  })
+  
+  it('shows validation errors', async () => {
+    render(
+      <Provider store={store}>
+        <PostForm />
+      </Provider>
+    )
+    
+    // Submit empty form
+    fireEvent.click(screen.getByRole('button', { name: 'Create Post' }))
+    
+    // Should show HTML5 validation or custom error
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText('Post title')).toBeInvalid()
+    })
+  })
+})
+```
 
-## Mocking
+### Utility Function Testing
 
-API mocks are provided by Mock Service Worker (MSW):
+```typescript
+import { describe, it, expect } from 'vitest'
+import { truncateString } from './truncateString'
 
-- Mock declarations in the [mocks](mdc:mocks) directory
-- Used in both tests and Storybook
+describe('truncateString', () => {
+  it('truncates long strings', () => {
+    const result = truncateString('This is a very long string', 10)
+    expect(result).toBe('This is a ...')
+  })
+  
+  it('leaves short strings unchanged', () => {
+    const result = truncateString('Short', 10)
+    expect(result).toBe('Short')
+  })
+  
+  it('handles edge cases', () => {
+    expect(truncateString('', 10)).toBe('')
+    expect(truncateString('Test', 0)).toBe('...')
+  })
+})
+```
 
-## Storybook
+### Backend Testing
 
-Storybook is used for component development and visual testing:
+```typescript
+// server/lib/JWT.test.ts
+import { describe, it, expect } from 'vitest'
+import { JWT } from './JWT'
 
-- Configuration in [.storybook](mdc:.storybook)
-- Run with `pnpm storybook`
+describe('JWT', () => {
+  it('signs and verifies tokens', () => {
+    const payload = { userId: 1 }
+    const token = JWT.sign(payload)
+    const decoded = JWT.verify(token)
+    
+    expect(decoded.userId).toBe(1)
+    expect(decoded.exp).toBeGreaterThan(Date.now() / 1000)
+  })
+  
+  it('throws on invalid token', () => {
+    expect(() => JWT.verify('invalid.token.here')).toThrow()
+  })
+  
+  it('throws on expired token', () => {
+    // Create token with past expiration
+    const token = JWT.sign({ userId: 1 }, { expiresIn: '-1h' })
+    expect(() => JWT.verify(token)).toThrow()
+  })
+})
+```
 
-## Testing Commands
+## E2E Testing (Playwright)
 
-- `pnpm test`: Run unit tests with Vitest
-- `pnpm playwright`: Run E2E tests with Playwright
-- `pnpm playwright:ui`: Run E2E tests with Playwright UI
-- `pnpm storybook`: Start Storybook for component development
+### Configuration
+
+[playwright.config.ts](mdc:playwright.config.ts) configures:
+- Test environment
+- Browser settings
+- Base URL
+- Screenshots/videos on failure
+
+### Running E2E Tests
+
+```bash
+# IMPORTANT: Build first!
+pnpm build:e2e
+
+# Run tests
+pnpm playwright              # Headless mode
+pnpm playwright --headed     # Show browser
+pnpm playwright --ui         # Interactive UI
+pnpm playwright --debug      # NEVER use this - blocks automation
+
+# Specific tests
+pnpm playwright e2e/admin/post-crud.spec.ts
+```
+
+### Test Structure
+
+```typescript
+// e2e/admin/post-crud.spec.ts
+import { test, expect } from '@playwright/test'
+import { login } from '../helper'
+
+test.describe('Post CRUD', () => {
+  test.beforeEach(async ({ page }) => {
+    // Login before each test
+    await login(page, 'admin', 'admin123')
+  })
+  
+  test('creates a new post', async ({ page }) => {
+    // Navigate to create page
+    await page.goto('/dashboard/posts/new')
+    
+    // Fill form
+    await page.fill('[name="title"]', 'Test Post Title')
+    await page.fill('[name="body"]', '# Test Content\n\nThis is a test post.')
+    
+    // Submit
+    await page.click('button[type="submit"]')
+    
+    // Verify redirect to post detail
+    await expect(page).toHaveURL(/\/dashboard\/posts\/\d+/)
+    
+    // Verify content displayed
+    await expect(page.locator('h1')).toContainText('Test Post Title')
+    await expect(page.locator('article')).toContainText('This is a test post.')
+  })
+  
+  test('edits existing post', async ({ page }) => {
+    // Go to edit page
+    await page.goto('/dashboard/posts/1/edit')
+    
+    // Update title
+    await page.fill('[name="title"]', 'Updated Title')
+    await page.click('button[type="submit"]')
+    
+    // Verify update
+    await expect(page.locator('h1')).toContainText('Updated Title')
+  })
+  
+  test('deletes post', async ({ page }) => {
+    await page.goto('/dashboard/posts/1')
+    
+    // Setup dialog handler
+    page.on('dialog', dialog => dialog.accept())
+    
+    // Click delete button
+    await page.click('button:has-text("Delete")')
+    
+    // Should redirect to post list
+    await expect(page).toHaveURL('/dashboard/posts')
+    
+    // Post should not be in list
+    await expect(page.locator('article')).not.toContainText('Deleted Post')
+  })
+})
+```
+
+### Helper Functions
+
+[e2e/helper.ts](mdc:e2e/helper.ts):
+
+```typescript
+import type { Page } from '@playwright/test'
+
+/**
+ * Logs in as a user via the login form.
+ * Used in beforeEach hooks for admin tests.
+ */
+export async function login(page: Page, username: string, password: string) {
+  await page.goto('/login')
+  await page.fill('[name="username"]', username)
+  await page.fill('[name="password"]', password)
+  await page.click('button[type="submit"]')
+  
+  // Wait for navigation to dashboard
+  await page.waitForURL('/dashboard')
+}
+
+/**
+ * Takes a screenshot with a descriptive name.
+ * Useful for debugging test failures.
+ */
+export async function takeScreenshot(page: Page, name: string) {
+  await page.screenshot({ path: `test-results/${name}.png`, fullPage: true })
+}
+```
+
+### Test Categories
+
+#### Admin Tests ([e2e/admin/](mdc:e2e/admin/))
+
+- [authentication.spec.ts](mdc:e2e/admin/authentication.spec.ts) - JWT token handling
+- [login-logout.spec.ts](mdc:e2e/admin/login-logout.spec.ts) - Login/logout flows
+- [post-crud.spec.ts](mdc:e2e/admin/post-crud.spec.ts) - Post management
+- [tweet-crud.spec.ts](mdc:e2e/admin/tweet-crud.spec.ts) - Tweet operations
+- [tweet-pagination.spec.ts](mdc:e2e/admin/tweet-pagination.spec.ts) - Pagination
+- [hover-color-preference.spec.ts](mdc:e2e/admin/hover-color-preference.spec.ts) - Theme system
+
+#### Visitor Tests
+
+[e2e/visitor.spec.ts](mdc:e2e/visitor.spec.ts) - Public-facing pages (no auth required)
+
+#### Self-Host Tests
+
+[e2e/self-host.spec.ts](mdc:e2e/self-host.spec.ts) - Initial setup and configuration
+
+## Storybook (Visual Testing)
+
+### Running Storybook
+
+```bash
+pnpm storybook          # Dev server on port 6006
+pnpm build-storybook    # Production build
+```
+
+### Story Pattern
+
+```typescript
+// src/components/Button/Button.stories.tsx
+import type { Meta, StoryObj } from '@storybook/react'
+import { Button } from './Button'
+
+const meta: Meta<typeof Button> = {
+  title: 'Components/Button',
+  component: Button,
+  tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['primary', 'secondary', 'danger']
+    }
+  }
+}
+
+export default meta
+type Story = StoryObj<typeof Button>
+
+export const Primary: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Primary Button'
+  }
+}
+
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+    children: 'Secondary Button'
+  }
+}
+
+export const Danger: Story = {
+  args: {
+    variant: 'danger',
+    children: 'Delete'
+  }
+}
+
+export const Disabled: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Disabled',
+    disabled: true
+  }
+}
+
+export const Loading: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Loading...',
+    isLoading: true
+  }
+}
+```
+
+### Visual Regression with Chromatic
+
+Chromatic integration via GitHub Actions:
+- [.github/workflows/chromatic.yml](mdc:.github/workflows/chromatic.yml)
+- Captures screenshots of all stories
+- Compares with baseline
+- Requires approval for visual changes
+
+## Mocking (MSW)
+
+### Mock Service Worker Setup
+
+[mocks/handlers.ts](mdc:mocks/handlers.ts):
+
+```typescript
+import { http, HttpResponse } from 'msw'
+
+export const handlers = [
+  // Mock GET /api/posts
+  http.get('/api/posts', () => {
+    return HttpResponse.json([
+      { id: 1, title: 'Mock Post', body: 'Content', createdAt: new Date() }
+    ])
+  }),
+  
+  // Mock POST /api/posts
+  http.post('/api/posts', async ({ request }) => {
+    const data = await request.json()
+    return HttpResponse.json(
+      { id: 2, ...data, createdAt: new Date() },
+      { status: 201 }
+    )
+  }),
+  
+  // Mock error response
+  http.delete('/api/posts/:id', () => {
+    return HttpResponse.json(
+      { error: 'Not found' },
+      { status: 404 }
+    )
+  })
+]
+```
+
+[mocks/server.ts](mdc:mocks/server.ts) - Node.js server for tests
+[mocks/browser.ts](mdc:mocks/browser.ts) - Browser worker for Storybook
+
+### Using MSW in Tests
+
+```typescript
+import { server } from '@/mocks/server'
+import { http, HttpResponse } from 'msw'
+
+test('handles API error', async () => {
+  // Override default handler for this test
+  server.use(
+    http.get('/api/posts', () => {
+      return HttpResponse.json(
+        { error: 'Server error' },
+        { status: 500 }
+      )
+    })
+  )
+  
+  render(<PostList />)
+  
+  await waitFor(() => {
+    expect(screen.getByText('Failed to load posts')).toBeInTheDocument()
+  })
+})
+```
+
+## Test Best Practices
+
+### DO
+
+- ✅ Test user behavior, not implementation details
+- ✅ Use semantic queries (`getByRole`, `getByLabelText`)
+- ✅ Wait for async operations with `waitFor`
+- ✅ Mock external dependencies (APIs, localStorage)
+- ✅ Write descriptive test names
+- ✅ Use `beforeEach` for common setup
+- ✅ Clean up after tests (MSW resets automatically)
+- ✅ Take screenshots on E2E failures (automatic)
+
+### DON'T
+
+- ❌ Test internal state directly
+- ❌ Use `getByTestId` unless necessary
+- ❌ Write tests that depend on other tests
+- ❌ Use `--debug` flag in CI (blocks automation)
+- ❌ Skip E2E build step (`pnpm build:e2e`)
+- ❌ Forget to wait for async operations
+- ❌ Mock things unnecessarily (over-mocking)
+
+## Coverage
+
+```bash
+# Generate coverage report
+pnpm test --coverage
+
+# View HTML report
+open coverage/index.html
+```
+
+Aim for:
+- **Statements**: > 80%
+- **Branches**: > 75%
+- **Functions**: > 80%
+- **Lines**: > 80%
+
+Focus coverage on:
+- Business logic
+- Utility functions
+- Complex components
+- Critical user flows
+
+Don't worry about:
+- Type definitions
+- Configuration files
+- Storybook stories
+- Mock files
+
+## Browser Extension Testing
+
+[browser-extension/tests/](mdc:browser-extension/tests/) uses separate Playwright config:
+
+```bash
+cd browser-extension
+pnpm test              # Unit tests (Vitest)
+pnpm test:e2e         # E2E tests (Playwright)
+```
+
+See [browser-extension/tests/e2e/](mdc:browser-extension/tests/e2e/) for extension-specific tests.
+
+## CI/CD Integration
+
+All tests run in GitHub Actions:
+- [.github/workflows/test.yml](mdc:.github/workflows/test.yml) - Unit tests
+- [.github/workflows/playwright_admin.yml](mdc:.github/workflows/playwright_admin.yml) - Admin E2E
+- [.github/workflows/playwright_visitor.yml](mdc:.github/workflows/playwright_visitor.yml) - Visitor E2E
+- [.github/workflows/playwright_selfhost.yml](mdc:.github/workflows/playwright_selfhost.yml) - Self-host E2E
+
+Tests must pass before merge to main.

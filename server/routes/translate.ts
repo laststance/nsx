@@ -16,10 +16,23 @@ require('dotenv').config({
 
 const router: Router = express.Router()
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Lazy initialization for OpenAI client to allow server start without API key
+let openaiClient: OpenAI | null = null
+
+/**
+ * Gets or creates OpenAI client instance.
+ * Throws error if OPENAI_API_KEY is not configured.
+ */
+const getOpenAIClient = (): OpenAI => {
+  if (!openaiClient) {
+    const apiKey = process.env.OPENAI_API_KEY
+    if (!apiKey) {
+      throw new Error('OPENAI_API_KEY environment variable is not configured')
+    }
+    openaiClient = new OpenAI({ apiKey })
+  }
+  return openaiClient
+}
 
 // Helper function to detect Japanese text
 const isJapanese = (text: string): boolean => {
@@ -44,6 +57,7 @@ router.post('/translate', async (req, res) => {
     }
 
     // Translate Japanese text to English
+    const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [

@@ -16,22 +16,19 @@ function App() {
 
   const onCheckedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) return
+
+    // Updated to use Vite's import.meta.env instead of process.env
+    const apiUrl = import.meta.env.VITE_API_URL
+
     axios
-      .post(
-        process.env.NODE_ENV === 'development'
-          ? process.env.DEV_API_URL || ''
-          : process.env.PROD_API_URL || '',
-        {
-          pageTitle: state.pageTitle,
-          url: state.url,
-        },
-      )
+      .post(apiUrl, {
+        pageTitle: state.pageTitle,
+        url: state.url.replace(/\/$/, ''),
+      })
       .then(() => {
         const span = document.createElement('span')
         span.innerHTML = 'Success!'
-        const resultElement = document.querySelector('.result')
-        if (!resultElement) return
-        resultElement.appendChild(span)
+        document.querySelector('.result')!.appendChild(span)
 
         const fadeInEffect = new KeyframeEffect(
           span,
@@ -69,13 +66,10 @@ function App() {
       .catch((err) => {
         const span = document.createElement('span')
         span.innerHTML = 'Failed...'
-        const resultElement = document.querySelector('.result')
-        if (!resultElement) return
-        resultElement.appendChild(span)
+        document.querySelector('.result')!.appendChild(span)
         setTimeout(() => {
           span.remove()
         }, 1000)
-
         console.error(JSON.stringify(err))
       })
       .then(() => {
@@ -84,7 +78,7 @@ function App() {
   }
 
   return (
-    <main id="app-root">
+    <main>
       <section className="row1">
         <div className="title">
           {state.pageTitle.length ? state.pageTitle : ''}
@@ -105,9 +99,9 @@ function App() {
         <a
           className="twitter-btn"
           target="_blank"
-          href={`https://twitter.com/intent/tweet?url=${encodeURI(
-            state.url,
-          )}&text=${encodeURI(comment)}`}
+          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+            state.url.replace(/\/$/, ''),
+          )}&text=${encodeURIComponent(comment)}`}
         >
           tweet
         </a>

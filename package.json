@@ -61,7 +61,7 @@
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
     "web-vitals": "^5.0.3",
-    "zod": "^4.1.12"
+    "zod": "^3.25.8"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",
@@ -84,6 +84,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/bcrypt": "^6.0.0",
     "@types/body-parser": "^1.19.5",
+    "@types/chrome": "^0.1.24",
     "@types/compression": "^1.8.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.18",
@@ -170,6 +171,10 @@
     "knip": "knip"
   },
   "pnpm": {
+    "overrides": {
+      "@wxt-dev/browser": "0.1.4",
+      "@wxt-dev/storage": "1.2.5"
+    },
     "onlyBuiltDependencies": [
       "@prisma/client",
       "@prisma/engines",

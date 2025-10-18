@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react'
 
 import { getCurrentTab } from '../../lib/getCurrentTab'
 
-import type { PopupState } from './app'
+import type { PopupState } from './App'
 
 export function useGetPageInfo(): PopupState {
   const [state, setState] = useState<PopupState>({ pageTitle: '', url: '' })

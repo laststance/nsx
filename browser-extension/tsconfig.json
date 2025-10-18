@@ -1,23 +1,24 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "allowJs": true,
-    "target": "es5",
-    "module": "commonjs",
-    "sourceMap": false,
-    "types": ["@types/chrome", "node"],
-    "typeRoots": ["node_modules/@types"],
-    "moduleResolution": "node",
-    "lib": ["es2019", "dom"],
-    "esModuleInterop": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
-    // "jsxImportSource": "preact",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "downlevelIteration": true,
-    "baseUrl": "./src",
-    "outDir": "./build",
-    "skipLibCheck": true
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "types": ["chrome", "webextension-polyfill", "vite/client", "@types/node"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "~/*": ["./*"]
+    }
   },
-  "include": ["src", "typings.d.ts"],
-  "exclude": ["node_modules", "src/**/*.spec.ts"]
+  "include": ["src/**/*", "tests/**/*", "*.config.*", "wxt.d.ts"],
+  "exclude": ["node_modules", ".output", ".wxt"]
 }

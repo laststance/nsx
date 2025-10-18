@@ -1,53 +1,190 @@
 ---
-description: 
-globs: 
 alwaysApply: true
 ---
+
 # Development Workflow
 
-## Getting Started
+## Environment Setup
 
-1. Install dependencies: `pnpm install`
-2. Start the development server: `pnpm dev`
-3. Start the backend: `pnpm server:start`
+**Never remove browser-extension from pnpm workspace** - this is a critical rule.
 
-## Development Scripts
+## Development Commands
 
-- `pnpm dev`: Start the frontend development server
-- `pnpm server:start`: Start the backend server
-- `pnpm storybook`: Start Storybook for component development
-- `pnpm test`: Run unit tests
-- `pnpm playwright`: Run E2E tests
+### Frontend Development
+```bash
+pnpm start          # Dev server on port 3010
+pnpm build          # Production build
+pnpm build:e2e      # E2E testing build
+pnpm preview        # Preview production build
+```
 
-## Code Quality
+### Backend Development
+```bash
+pnpm server:start   # Nodemon on port 4000
+pnpm server:build   # Compile to server_build/
+```
 
-- TypeScript for type safety
-- ESLint for code linting (`pnpm lint`)
-- Prettier for code formatting (`pnpm prettier`)
-- Husky for pre-commit hooks
+### Testing & Quality
+```bash
+pnpm test           # Vitest unit tests
+pnpm lint           # ESLint
+pnpm typecheck      # TypeScript checks
+pnpm validate       # ALL checks in parallel (required before PR)
+pnpm playwright     # E2E tests (requires build:e2e first)
+pnpm playwright:ui  # Playwright with UI
+```
 
-## Database Management
+### Database
+```bash
+pnpm db:reset           # Reset with migrations + seed
+pnpm db:migrate:dev     # Dev migrations
+pnpm db:migrate:deploy  # Production migrations
+pnpm prisma generate    # Regenerate client after schema changes
+pnpm prisma studio      # Database GUI
+```
 
-- `pnpm db:reset`: Reset the database
-- `pnpm db:migrate:dev`: Create a new migration
-- `pnpm db:migrate:deploy`: Apply migrations
+### Storybook
+```bash
+pnpm storybook          # Dev server
+pnpm build-storybook    # Production build
+```
 
-## Building for Production
+## Pre-Exit Checklist (MUST PASS)
 
-- `pnpm build`: Build the frontend
-- `pnpm server:build`: Build the backend
-- `pnpm workflow:deploy`: Build and deploy the application
+Before ending any feature implementation:
 
-## Docker
+1. ✅ Remove all debug code (`console.log`, etc.)
+2. ✅ Delete experimental tests/code/files
+3. ✅ Take screenshot showing expected design
+4. ✅ No lint errors (`pnpm lint`)
+5. ✅ No type errors (`pnpm typecheck`)
+6. ✅ No test failures (`pnpm test`)
+7. ✅ E2E tests pass (`pnpm playwright`)
 
-The project includes Docker configuration for development:
+## Development Flow
 
-- `docker compose up -d`: Start the database container
-- Configuration in [compose.yml](mdc:compose.yml)
+### 1. Start Development Servers
+
+```bash
+# Terminal 1: Frontend
+pnpm start
+
+# Terminal 2: Backend
+pnpm server:start
+
+# Terminal 3: Database (if needed)
+docker compose up
+```
+
+### 2. Make Changes
+
+- Frontend changes hot-reload automatically
+- Backend changes trigger nodemon restart
+- Prisma schema changes require `pnpm prisma generate`
+
+### 3. Validation Pipeline
+
+```bash
+# Run all checks before committing
+pnpm validate
+```
+
+This runs in parallel:
+- Unit tests (Vitest)
+- Linting (ESLint with auto-fix)
+- Type checking (TypeScript)
+- Production build verification
+
+### 4. E2E Testing
+
+```bash
+# Build for E2E environment
+pnpm build:e2e
+
+# Run E2E tests
+pnpm playwright
+
+# Or with UI for debugging
+pnpm playwright:ui
+```
+
+## Environment Variables
+
+All frontend env vars must be prefixed with `VITE_`:
+
+- `VITE_API_ENDPOINT` - Backend API URL
+- `VITE_APP_TITLE` - Application title
+- `VITE_APP_DESCRIPTION` - Meta description
+- `VITE_SENTRY_DNS` - Error tracking
+- `VITE_GA_MEASUREMENT_ID` - Google Analytics
+
+Backend-only vars:
+- `ACCESS_TOKEN_SECRET` - JWT secret
+- `DATABASE_URL` - MySQL connection string
+
+## CI/CD Agents
+
+See [AGENTS.md](mdc:AGENTS.md) for comprehensive agent documentation.
+
+### Key Workflows
+
+1. **Security Agent** (`.github/workflows/safe-chain.yml`) - Malware detection
+2. **Quality Gates** - Lint, typecheck, test must pass
+3. **E2E Testing** - Admin, visitor, and self-host scenarios
+4. **Deployment Agent** - Auto-deploy on merge to main
+5. **Visual Testing** - Chromatic integration for Storybook
 
 ## Deployment
 
-The application can be deployed using PM2:
+### Manual Deployment (Development)
 
-- Configuration in [ecosystem.config.js](mdc:ecosystem.config.js)
-- Deployment script in [scripts/deploy](mdc:scripts/deploy)
+```bash
+# Deploy specific parts
+./scripts/deploy -f  # Frontend only
+./scripts/deploy -s  # Backend only
+./scripts/deploy     # Full deployment
+
+# Database backup/restore
+./scripts/backup
+./scripts/restore [backup-file]
+```
+
+### Automated Deployment (Production)
+
+Merge to `main` triggers:
+1. Build frontend and backend
+2. SCP transfer to production server
+3. SSH remote execution:
+   - Install dependencies
+   - Run migrations
+   - Restart PM2 processes
+
+## Troubleshooting
+
+### Port Already in Use
+
+```bash
+# Kill specific port
+npx kill-port 3010
+npx kill-port 4000
+```
+
+### Database Issues
+
+```bash
+# Reset everything
+pnpm db:reset
+
+# View database
+pnpm prisma studio
+```
+
+### Build Failures
+
+```bash
+# Clean and rebuild
+rm -rf build/ server_build/ node_modules/
+pnpm install
+pnpm build
+pnpm server:build
+```

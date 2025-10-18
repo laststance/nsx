@@ -1,96 +1,368 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+globs: prisma/**/*,server/routes/**/*
+description: Information about database schema and Prisma usage
 ---
-# Database Schema
 
-NSX uses Prisma ORM with MySQL for database access. The schema is defined in [schema.prisma](mdc:prisma/schema.prisma).
+# Database Schema (Prisma)
+
+## Schema File
+
+[prisma/schema.prisma](mdc:prisma/schema.prisma) defines the database structure.
+
+## Database Configuration
+
+- **Type**: MySQL
+- **ORM**: Prisma
+- **Connection**: `DATABASE_URL` environment variable
+- **Development**: Docker Compose (see [compose.yml](mdc:compose.yml))
 
 ## Models
 
-### Authors
-
-Authors are the users who can log in and manage posts:
+### User (table: `authors`)
 
 ```prisma
-model authors {
+model User {
   id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(255)
-  password  String   @db.Text
+  username  String   @unique
+  password  String   // bcrypt hashed
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  posts     Post[]
+  
+  @@map("authors")
 }
 ```
 
-### Posts
+**Purpose**: Admin users who can create/edit content.
 
-Posts are blog entries created manually or automatically from saved web pages:
+**Relationships**:
+- One-to-many with Post (one user has many posts)
+
+**Usage**:
+```typescript
+// Find user for authentication
+const user = await prisma.user.findUnique({
+  where: { username: 'admin' }
+})
+
+// Create new admin user
+const user = await prisma.user.create({
+  data: {
+    username: 'newadmin',
+    password: await bcrypt.hash('password', 10)
+  }
+})
+```
+
+### Post (table: `posts`)
 
 ```prisma
-model posts {
+model Post {
   id        Int      @id @default(autoincrement())
-  title     String   @db.VarChar(400)
+  title     String
   body      String   @db.Text
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  @@map("posts")
 }
 ```
 
-### Stocks
+**Purpose**: Blog posts with markdown content.
 
-Stocks are web pages saved by the browser extension for inclusion in automatic posts:
+**Relationships**:
+- Many-to-one with User (many posts belong to one user)
+
+**Usage**:
+```typescript
+// List all posts with author
+const posts = await prisma.post.findMany({
+  include: { author: true },
+  orderBy: { createdAt: 'desc' }
+})
+
+// Create post
+const post = await prisma.post.create({
+  data: {
+    title: 'New Post',
+    body: '# Content here',
+    authorId: 1
+  }
+})
+
+// Update post
+const post = await prisma.post.update({
+  where: { id: 1 },
+  data: { title: 'Updated Title' }
+})
+
+// Delete post
+await prisma.post.delete({ where: { id: 1 } })
+```
+
+### Stock (table: `stocks`)
 
 ```prisma
-model stocks {
+model Stock {
   id        Int      @id @default(autoincrement())
-  pageTitle String   @db.Text
-  url       String   @db.Text
+  title     String
+  url       String
+  createdAt DateTime @default(now())
+  
+  @@map("stocks")
+}
+```
+
+**Purpose**: Temporary storage for bookmarked URLs. These are aggregated into a daily post by the cron job (see [server/cron.ts](mdc:server/cron.ts)).
+
+**Usage**:
+```typescript
+// Browser extension creates stock
+const stock = await prisma.stock.create({
+  data: {
+    title: 'Interesting Article',
+    url: 'https://example.com/article'
+  }
+})
+
+// Cron job aggregates and deletes
+const stocks = await prisma.stock.findMany()
+await prisma.$transaction(async (tx) => {
+  // Create post from stocks
+  await tx.post.create({ data: { /* aggregated data */ } })
+  // Delete all stocks
+  await tx.stock.deleteMany()
+})
+```
+
+### Tweet (table: `tweet`)
+
+```prisma
+model Tweet {
+  id        Int      @id @default(autoincrement())
+  tweet     String   @db.VarChar(280)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  @@map("tweet")
 }
 ```
 
-### Tweets
+**Purpose**: Twitter-like short messages (280 char limit).
 
-Tweets are short messages that can be created and displayed:
+**Usage**:
+```typescript
+// Create tweet
+const tweet = await prisma.tweet.create({
+  data: { tweet: 'Short message here' }
+})
 
-```prisma
-model tweet {
-  id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  text        String        @db.Text
-  attachments attachment[]
-}
-```
-
-### Attachments
-
-Attachments are files or media attached to tweets:
-
-```prisma
-model attachment {
-  id       Int    @id @default(autoincrement())
-  url      String @db.Text
-  tweetId  Int
-  tweet    tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
-}
+// List tweets
+const tweets = await prisma.tweet.findMany({
+  orderBy: { createdAt: 'desc' },
+  take: 20
+})
 ```
 
 ## Database Operations
 
-Database operations are performed through the Prisma client:
+### Migrations
 
-- Client initialization in [server/prisma.ts](mdc:server/prisma.ts)
-- Database seeding in [prisma/seed.ts](mdc:prisma/seed.ts)
-- Migrations in [prisma/migrations](mdc:prisma/migrations)
+```bash
+# Development: create migration
+pnpm db:migrate:dev
 
-## Database Scripts
+# Production: apply migrations
+pnpm db:migrate:deploy
 
-Common database operations can be run through npm scripts:
+# Reset database (dev only)
+pnpm db:reset
+```
 
-- `pnpm db:reset`: Reset the database (drop and recreate all tables)
-- `pnpm db:truncate`: Truncate all tables without dropping them
-- `pnpm db:migrate:dev`: Create a new migration
-- `pnpm db:migrate:deploy`: Apply migrations
+### Prisma Client Generation
+
+After schema changes:
+
+```bash
+pnpm prisma generate
+```
+
+This regenerates TypeScript types in `node_modules/.prisma/client/`.
+
+### Seeding
+
+[prisma/seed.ts](mdc:prisma/seed.ts) provides initial data:
+
+```typescript
+import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcryptjs'
+
+const prisma = new PrismaClient()
+
+async function main() {
+  // Create admin user
+  const admin = await prisma.user.upsert({
+    where: { username: 'admin' },
+    update: {},
+    create: {
+      username: 'admin',
+      password: await bcrypt.hash('admin123', 10)
+    }
+  })
+  
+  // Create sample post
+  await prisma.post.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      title: 'Welcome to NSX',
+      body: '# Hello World\n\nThis is the first post.',
+      authorId: admin.id
+    }
+  })
+}
+
+main()
+```
+
+Run with:
+```bash
+pnpm prisma db seed
+```
+
+### Transactions
+
+Use transactions for operations that must succeed or fail together:
+
+```typescript
+// Multiple operations atomically
+await prisma.$transaction(async (tx) => {
+  const post = await tx.post.create({ data: postData })
+  await tx.stock.deleteMany()
+  await tx.tweet.create({ data: { tweet: `New post: ${post.title}` } })
+  return post
+})
+```
+
+### Prisma Client Singleton
+
+[server/prisma.ts](mdc:server/prisma.ts):
+
+```typescript
+import { PrismaClient } from '@prisma/client'
+
+export const prisma = new PrismaClient()
+```
+
+Import this in routes:
+```typescript
+import { prisma } from '../prisma'
+```
+
+## Type Extensions
+
+[@types/prisma.d.ts](mdc:@types/prisma.d.ts) extends generated types:
+
+```typescript
+import type { User, Post, Stock, Tweet } from '@prisma/client'
+
+// Re-export with extensions
+export type { User, Post, Stock, Tweet }
+
+// Additional utility types
+export type PostWithAuthor = Post & {
+  author: User
+}
+
+export type CreatePostInput = Pick<Post, 'title' | 'body'>
+```
+
+## Prisma Studio
+
+Visual database browser:
+
+```bash
+pnpm prisma studio
+```
+
+Opens GUI at http://localhost:5555 to:
+- Browse data
+- Edit records
+- Run queries
+- View relationships
+
+## Query Patterns
+
+### Pagination
+
+```typescript
+const posts = await prisma.post.findMany({
+  skip: (page - 1) * pageSize,
+  take: pageSize,
+  orderBy: { createdAt: 'desc' }
+})
+
+const totalCount = await prisma.post.count()
+```
+
+### Filtering
+
+```typescript
+const posts = await prisma.post.findMany({
+  where: {
+    title: { contains: 'search term' },
+    createdAt: { gte: new Date('2024-01-01') }
+  }
+})
+```
+
+### Relations
+
+```typescript
+// Include related data
+const post = await prisma.post.findUnique({
+  where: { id: 1 },
+  include: { author: true }
+})
+
+// Select specific fields
+const post = await prisma.post.findUnique({
+  where: { id: 1 },
+  select: {
+    id: true,
+    title: true,
+    author: { select: { username: true } }
+  }
+})
+```
+
+### Aggregation
+
+```typescript
+const stats = await prisma.post.aggregate({
+  _count: true,
+  _max: { createdAt: true }
+})
+```
+
+## Performance Optimization
+
+1. **Use select/include judiciously** - Don't fetch unnecessary data
+2. **Add indexes** for frequently queried fields
+3. **Use pagination** for large datasets
+4. **Batch operations** with `createMany`, `updateMany`, `deleteMany`
+5. **Connection pooling** - Prisma handles this automatically
+
+## Backup & Restore
+
+```bash
+# Backup
+./scripts/backup
+
+# Restore
+./scripts/restore [backup-file]
+```
+
+These scripts use `mysqldump` and `mysql` CLI tools.

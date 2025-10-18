@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 300px;
+}
+
+#popup {
+  width: 100%;
+  margin: 8px;
+}
+
+main {
+  width: 500px;
+  height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row1 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  padding-top: 6px;
+  font-size: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.checkbox {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.row2 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.comment {
+  font-family: inherit;
+  font-size: 18px;
+  margin-right: 8px;
+  resize: none;
+}
+
+.twitter-btn {
+  font-size: 20px;
+  line-height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 220px;
+  background: #1a8cd8;
+  color: white;
+  padding: 0 12px;
+  text-decoration: none;
+  border-radius: 30px;
+}
+
+.result {
+  width: 100%;
+  min-height: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: baseline;
+  color: #ea580c;
+  font-size: 32px;
+}
