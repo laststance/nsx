@@ -179,8 +179,9 @@ export class ExtensionFixtures {
 
 /**
  * Helper function to wait for backend API to be ready
+ * Increased maxAttempts from 10 to 15 for CI reliability
  */
-export async function waitForBackendReady(maxAttempts = 10): Promise<boolean> {
+export async function waitForBackendReady(maxAttempts = 15): Promise<boolean> {
   const requestContext = await playwrightRequest.newContext()
   try {
     for (let i = 0; i < maxAttempts; i++) {

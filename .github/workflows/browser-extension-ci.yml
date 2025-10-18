@@ -95,12 +95,39 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Start Express server
+      - name: Start MySQL with Docker Compose
         run: |
           cd ../
           docker compose up -d
+          echo "Waiting for MySQL to be ready..."
+          for i in {1..30}; do
+            if docker compose exec -T db mysqladmin ping -h localhost -uroot -prootpass --silent; then
+              echo "✓ MySQL is ready"
+              break
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 2
+          done
+
+      - name: Create .env file
+        run: cp ../.env.e2e ../.env
+
+      - name: Set up database with Prisma
+        run: |
+          cd ../
+          echo "Running database migrations and seeding..."
+          PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=1 pnpm db:reset
+          echo "✓ Database setup complete"
+        env:
+          DATABASE_URL: mysql://root:rootpass@127.0.0.1:3306/digital
+
+      - name: Start Express server
+        run: |
+          cd ../
           nohup pnpm server:start > server.log 2>&1 &
-          sleep 10
+          sleep 15
+        env:
+          DATABASE_URL: mysql://root:rootpass@127.0.0.1:3306/digital
 
       - name: Run Playwright tests (with virtual display)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" pnpm test
