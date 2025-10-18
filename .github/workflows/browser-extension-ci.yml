@@ -96,7 +96,11 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Start Express server
-        run: cd ../ && docker compose up -d && nohup pnpm server:start
+        run: |
+          cd ../
+          docker compose up -d
+          nohup pnpm server:start > server.log 2>&1 &
+          sleep 10
 
       - name: Run Playwright tests (with virtual display)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" pnpm test
