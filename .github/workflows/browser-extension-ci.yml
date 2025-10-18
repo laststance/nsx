@@ -108,6 +108,9 @@ jobs:
             echo "Waiting for MySQL... ($i/30)"
             sleep 2
           done
+          # Additional wait for MySQL to fully stabilize for persistent connections
+          echo "Waiting for MySQL to fully stabilize..."
+          sleep 10
 
       - name: Create .env file
         run: cp ../.env.e2e ../.env
