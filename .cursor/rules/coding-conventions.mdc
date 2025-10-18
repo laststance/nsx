@@ -1,0 +1,254 @@
+---
+alwaysApply: true
+---
+
+# Coding Conventions
+
+## Core Principles
+
+1. **Readability over performance** - Code should be clear and maintainable
+2. **Type safety first** - Use TypeScript strictly, prefer Zod for runtime validation
+3. **Apple HIG principles** - Follow Human Interface Guidelines for UI/UX
+4. **Automation** - Leverage linting, CI/CD, and type checking
+
+## TypeScript Rules
+
+### Type Definitions
+
+- Use **Indexed Access Types** over primitives:
+
+```typescript
+// ✅ Good - Derives from source of truth
+export type ShowAppSettingResponse =
+  operations['showAppSetting']['responses'][200]['content']['application/json']
+
+// ❌ Bad - Duplicates information
+export type ShowAppSettingResponse = {
+  setting: string
+}
+```
+
+- Add **docstrings** to all functions and classes
+- Write comments that **non-programmers can understand**
+
+```typescript
+/**
+ * Aggregates all stocked URLs into a single daily blog post.
+ * Runs automatically at midnight JST via cron job.
+ * Deletes all stocks after successful post creation.
+ */
+export async function createDailyPost() {
+  // Implementation
+}
+```
+
+### Type Safety
+
+- Never use `any` - use `unknown` and type guards instead
+- Use utility functions like [assertIsDefined](mdc:lib/assertIsDefined.ts) and [assertCast](mdc:lib/assertCast.ts)
+- Leverage Prisma-generated types from [prisma.d.ts](mdc:@types/prisma.d.ts)
+
+## Code Organization
+
+### File Structure
+
+- **One component per file** (exception: tightly coupled sub-components)
+- **Co-locate tests** with implementation files (`.test.ts` suffix)
+- **Co-locate stories** with components (`.stories.tsx` suffix)
+- **Export utilities** from index files for clean imports
+
+### Naming Conventions
+
+- **PascalCase**: Components, Types, Interfaces, Classes
+- **camelCase**: Variables, functions, methods
+- **UPPER_SNAKE_CASE**: Constants, environment variables
+- **kebab-case**: File names for non-component files
+
+```typescript
+// Components
+export const UserProfile: React.FC = () => {}
+
+// Types
+export type PostResponse = {}
+
+// Functions
+export function fetchUserData() {}
+
+// Constants
+export const API_BASE_URL = process.env.VITE_API_ENDPOINT
+```
+
+## React Conventions
+
+### Component Structure
+
+```tsx
+import type { FC } from 'react'
+
+interface Props {
+  title: string
+  onSubmit: (data: FormData) => void
+}
+
+/**
+ * Displays a form for creating new blog posts.
+ * Validates input client-side before submission.
+ */
+export const PostForm: FC<Props> = ({ title, onSubmit }) => {
+  // Hooks first
+  const [state, setState] = useState()
+  const dispatch = useDispatch()
+  
+  // Event handlers
+  const handleSubmit = () => {}
+  
+  // Render
+  return <form>{/* JSX */}</form>
+}
+```
+
+### State Management
+
+- Use **Redux Toolkit** for global state (see [src/redux/](mdc:src/redux/))
+- Use **RTK Query** for API calls (defined in slice files)
+- Use **local state** (useState) for UI-only state
+- Use **React Router** for navigation state
+
+### Styling
+
+- Use **TailwindCSS** utility classes
+- Follow **4/8 grid system** (spacing: 4, 8, 12, 16, 20, 24px)
+- Support **light/dark modes** with Tailwind's dark: modifier
+- Minimum tap target: **44×44px** (accessibility)
+
+```tsx
+// ✅ Good - Tailwind with accessibility
+<button className="px-4 py-3 min-h-[44px] min-w-[44px] rounded-lg bg-blue-500 dark:bg-blue-600">
+  Submit
+</button>
+
+// ❌ Bad - Inline styles, no accessibility consideration
+<button style={{ padding: '5px', background: 'blue' }}>
+  Submit
+</button>
+```
+
+## Backend Conventions
+
+### Express Routes
+
+- Use **modular router files** in [server/routes/](mdc:server/routes/)
+- Apply **authentication middleware** to protected routes
+- Return **consistent error responses**
+
+```typescript
+// server/routes/post.ts
+router.post('/posts', authenticate, async (req, res) => {
+  try {
+    const post = await prisma.post.create({ data: req.body })
+    res.json(post)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+```
+
+### Database (Prisma)
+
+- Use **transactions** for multi-step operations
+- Leverage **generated types** from Prisma Client
+- Write **migrations** for schema changes (never manually edit DB)
+
+```typescript
+// ✅ Good - Type-safe transaction
+const result = await prisma.$transaction(async (tx) => {
+  const post = await tx.post.create({ data: postData })
+  await tx.stock.deleteMany()
+  return post
+})
+
+// ❌ Bad - Multiple separate operations (race conditions)
+const post = await prisma.post.create({ data: postData })
+await prisma.stock.deleteMany()
+```
+
+## Testing Conventions
+
+### Unit Tests (Vitest)
+
+- Test **public API only** (not implementation details)
+- Use **React Testing Library** for components
+- Mock **external dependencies** (API calls, etc.)
+
+```typescript
+import { render, screen } from '@testing-library/react'
+import { PostList } from './PostList'
+
+describe('PostList', () => {
+  it('displays posts when data is provided', () => {
+    render(<PostList posts={mockPosts} />)
+    expect(screen.getByText('First Post')).toBeInTheDocument()
+  })
+})
+```
+
+### E2E Tests (Playwright)
+
+- **Build with `pnpm build:e2e`** before running tests
+- Use `--reporter=list` for clear output
+- **Never use `--debug`** (blocks automation)
+- Test **user flows**, not individual functions
+
+```typescript
+// e2e/admin/post-crud.spec.ts
+test('admin can create a new post', async ({ page }) => {
+  await page.goto('/dashboard/posts/new')
+  await page.fill('[name="title"]', 'New Post')
+  await page.fill('[name="body"]', 'Content here')
+  await page.click('button[type="submit"]')
+  
+  await expect(page).toHaveURL(/\/dashboard\/posts\/\d+/)
+  await expect(page.locator('h1')).toContainText('New Post')
+})
+```
+
+## Error Handling
+
+### Frontend
+
+- Use **try-catch** with Redux Toolkit Query error handling
+- Display **user-friendly error messages**
+- Log errors to **Sentry** (via VITE_SENTRY_DNS)
+
+### Backend
+
+- Return **appropriate HTTP status codes**
+- Log errors with **context** using [Logger](mdc:server/lib/Logger.ts)
+- Never expose **stack traces** in production
+
+```typescript
+try {
+  const post = await prisma.post.findUnique({ where: { id } })
+  if (!post) {
+    return res.status(404).json({ error: 'Post not found' })
+  }
+  res.json(post)
+} catch (error) {
+  Logger.error('Failed to fetch post', { id, error })
+  res.status(500).json({ error: 'Internal server error' })
+}
+```
+
+## Git Workflow
+
+- **Never force push** to main/master
+- **Never skip hooks** (--no-verify)
+- Run **`pnpm validate`** before committing
+- Write **descriptive commit messages**
+
+## Browser Extension Conventions
+
+- Use **WXT framework** APIs (see [wxt.config.ts](mdc:browser-extension/wxt.config.ts))
+- Test with **multiple browsers** (Chrome, Firefox, Edge)
+- Follow **manifest v3** standards
+- Isolate extension code in [browser-extension/](mdc:browser-extension/) workspace

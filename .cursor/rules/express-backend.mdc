@@ -1,0 +1,407 @@
+---
+globs: server/**/*.ts
+---
+
+# Express Backend Guidelines
+
+## Architecture Overview
+
+NSX backend is an Express server with Prisma ORM, JWT authentication, and RESTful APIs.
+
+## Key Files
+
+- [server/index.ts](mdc:server/index.ts) - Express server entry point
+- [server/api.ts](mdc:server/api.ts) - API route registration
+- [server/auth.ts](mdc:server/auth.ts) - JWT authentication middleware
+- [server/cron.ts](mdc:server/cron.ts) - Cron jobs (daily post aggregation)
+- [server/prisma.ts](mdc:server/prisma.ts) - Prisma client singleton
+
+## Server Configuration
+
+### Development
+- Port: 4000
+- Hot reload: nodemon
+- Start: `pnpm server:start`
+
+### Production
+- Port: 443 (HTTPS)
+- Process manager: PM2 (see [ecosystem.config.js](mdc:ecosystem.config.js))
+- Serves static frontend from `build/`
+
+### Entry Point
+
+```typescript
+// server/index.ts
+import express from 'express'
+import { api } from './api'
+
+const app = express()
+const PORT = process.env.PORT || 4000
+
+// Middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// API routes
+app.use('/api', api)
+
+// Serve static frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('build'))
+  app.get('*', (req, res) => {
+    res.sendFile('build/index.html')
+  })
+}
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
+```
+
+## API Routes
+
+All routes are modular and registered in [server/api.ts](mdc:server/api.ts):
+
+### Route Files
+
+- [server/routes/post.ts](mdc:server/routes/post.ts) - Post CRUD operations
+- [server/routes/tweet.ts](mdc:server/routes/tweet.ts) - Tweet operations
+- [server/routes/stock.ts](mdc:server/routes/stock.ts) - Stock (bookmark) operations
+- [server/routes/user.ts](mdc:server/routes/user.ts) - Authentication (login/logout)
+- [server/routes/translate.ts](mdc:server/routes/translate.ts) - Translation service
+- [server/routes/bluesky.ts](mdc:server/routes/bluesky.ts) - Bluesky integration
+
+### Route Pattern
+
+```typescript
+// server/routes/post.ts
+import { Router } from 'express'
+import { authenticate } from '../auth'
+import { prisma } from '../prisma'
+
+const router = Router()
+
+// Public route - no authentication
+router.get('/posts', async (req, res) => {
+  try {
+    const posts = await prisma.post.findMany({
+      orderBy: { createdAt: 'desc' }
+    })
+    res.json(posts)
+  } catch (error) {
+    Logger.error('Failed to fetch posts', { error })
+    res.status(500).json({ error: 'Failed to fetch posts' })
+  }
+})
+
+// Protected route - requires authentication
+router.post('/posts', authenticate, async (req, res) => {
+  try {
+    const { title, body } = req.body
+    const post = await prisma.post.create({
+      data: { title, body, authorId: req.userId }
+    })
+    res.status(201).json(post)
+  } catch (error) {
+    Logger.error('Failed to create post', { error })
+    res.status(500).json({ error: 'Failed to create post' })
+  }
+})
+
+export default router
+```
+
+## Authentication
+
+### JWT Implementation
+
+[server/auth.ts](mdc:server/auth.ts) provides JWT middleware:
+
+```typescript
+import jwt from 'jsonwebtoken'
+import { JWT } from './lib/JWT'
+
+/**
+ * Authentication middleware that verifies JWT token.
+ * Attaches userId to request object if valid.
+ */
+export const authenticate = (req, res, next) => {
+  const token = req.cookies.jwt
+  
+  if (!token) {
+    return res.status(401).json({ error: 'Authentication required' })
+  }
+  
+  try {
+    const decoded = JWT.verify(token)
+    req.userId = decoded.userId
+    next()
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid or expired token' })
+  }
+}
+```
+
+### Login/Logout Flow
+
+```typescript
+// server/routes/user.ts
+import bcrypt from 'bcryptjs'
+import { JWT } from '../lib/JWT'
+
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body
+  
+  const user = await prisma.user.findUnique({ where: { username } })
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid credentials' })
+  }
+  
+  const isValid = await bcrypt.compare(password, user.password)
+  if (!isValid) {
+    return res.status(401).json({ error: 'Invalid credentials' })
+  }
+  
+  // Create JWT token
+  const token = JWT.sign({ userId: user.id })
+  
+  // Set HTTP-only cookie
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  })
+  
+  res.json({ user: { id: user.id, username: user.username } })
+})
+
+router.post('/logout', (req, res) => {
+  res.clearCookie('jwt')
+  res.json({ success: true })
+})
+```
+
+### JWT Utilities
+
+[server/lib/JWT.ts](mdc:server/lib/JWT.ts) provides:
+- `JWT.sign(payload)` - Create token
+- `JWT.verify(token)` - Verify and decode token
+
+Uses `ACCESS_TOKEN_SECRET` environment variable.
+
+## Database (Prisma)
+
+### Prisma Client
+
+[server/prisma.ts](mdc:server/prisma.ts) exports singleton instance:
+
+```typescript
+import { PrismaClient } from '@prisma/client'
+
+export const prisma = new PrismaClient()
+```
+
+### Models
+
+See [prisma/schema.prisma](mdc:prisma/schema.prisma):
+
+- **User** (table: `authors`) - Admin users with username/password
+- **Post** (table: `posts`) - Blog posts with title/body/author
+- **Stock** (table: `stocks`) - Bookmarked URLs to aggregate daily
+- **Tweet** - Twitter-like short posts
+
+### Database Operations
+
+```typescript
+// Create
+const post = await prisma.post.create({
+  data: { title, body, authorId }
+})
+
+// Read with relations
+const post = await prisma.post.findUnique({
+  where: { id },
+  include: { author: true }
+})
+
+// Update
+const post = await prisma.post.update({
+  where: { id },
+  data: { title, body }
+})
+
+// Delete
+await prisma.post.delete({ where: { id } })
+
+// Transaction
+await prisma.$transaction(async (tx) => {
+  const post = await tx.post.create({ data: postData })
+  await tx.stock.deleteMany()
+  return post
+})
+```
+
+## Cron Jobs
+
+[server/cron.ts](mdc:server/cron.ts) runs scheduled tasks:
+
+```typescript
+import { CronJob } from 'cron'
+import { prisma } from './prisma'
+
+/**
+ * Daily job that aggregates all stocked URLs into a single post.
+ * Runs at midnight JST (00:00 Asia/Tokyo).
+ */
+export const postReadlist = new CronJob(
+  '0 0 * * *', // Cron expression
+  async () => {
+    const stocks = await prisma.stock.findMany()
+    
+    if (stocks.length === 0) return
+    
+    const title = `${stocks[0].title} etc...`
+    const body = stocks
+      .map(s => `[${s.title}](${s.url})`)
+      .join('\n')
+    
+    await prisma.$transaction(async (tx) => {
+      await tx.post.create({ data: { title, body } })
+      await tx.stock.deleteMany()
+    })
+  },
+  null,
+  true, // Start immediately
+  'Asia/Tokyo'
+)
+```
+
+Cron jobs are initialized when [server/index.ts](mdc:server/index.ts) imports the file.
+
+## Logging
+
+[server/lib/Logger.ts](mdc:server/lib/Logger.ts) provides structured logging:
+
+```typescript
+import { Logger } from './lib/Logger'
+
+// Info logging
+Logger.info('Server started', { port: 4000 })
+
+// Error logging with context
+Logger.error('Failed to create post', { 
+  error: error.message, 
+  userId, 
+  postData 
+})
+
+// Debug logging (development only)
+Logger.debug('Processing request', { body: req.body })
+```
+
+## Error Handling
+
+### Standard Error Response
+
+```typescript
+try {
+  // Operation
+  const result = await someOperation()
+  res.json(result)
+} catch (error) {
+  Logger.error('Operation failed', { error, context })
+  res.status(500).json({ 
+    error: 'Operation failed',
+    // In development: include details
+    ...(process.env.NODE_ENV === 'development' && { details: error.message })
+  })
+}
+```
+
+### HTTP Status Codes
+
+- `200` - Success
+- `201` - Created (POST success)
+- `400` - Bad request (validation error)
+- `401` - Unauthorized (authentication required)
+- `403` - Forbidden (authenticated but not authorized)
+- `404` - Not found
+- `500` - Internal server error
+
+## Environment Variables
+
+Backend-only variables (not prefixed with `VITE_`):
+
+- `DATABASE_URL` - MySQL connection string
+- `ACCESS_TOKEN_SECRET` - JWT signing secret
+- `NODE_ENV` - 'development' or 'production'
+- `PORT` - Server port (default 4000)
+
+## Testing
+
+### Unit Tests
+
+```typescript
+// server/lib/JWT.test.ts
+import { describe, it, expect } from 'vitest'
+import { JWT } from './JWT'
+
+describe('JWT', () => {
+  it('signs and verifies tokens', () => {
+    const payload = { userId: 1 }
+    const token = JWT.sign(payload)
+    const decoded = JWT.verify(token)
+    expect(decoded.userId).toBe(1)
+  })
+  
+  it('throws on invalid token', () => {
+    expect(() => JWT.verify('invalid')).toThrow()
+  })
+})
+```
+
+### API Testing (E2E)
+
+See [e2e/admin/](mdc:e2e/admin/) for Playwright tests that test the full stack.
+
+## Production Deployment
+
+### Build
+
+```bash
+pnpm server:build  # Compiles to server_build/
+```
+
+### PM2 Process Management
+
+[ecosystem.config.js](mdc:ecosystem.config.js):
+
+```javascript
+module.exports = {
+  apps: [{
+    name: 'server',
+    script: 'server_build/server/index.js',
+    env: { NODE_ENV: 'production' }
+  }]
+}
+```
+
+Commands:
+```bash
+pm2 start ecosystem.config.js
+pm2 restart ecosystem.config.js
+pm2 logs server
+pm2 status
+```
+
+## Security Best Practices
+
+1. **Password Hashing**: Use bcrypt with salt rounds ≥ 10
+2. **JWT Storage**: HTTP-only cookies, not localStorage
+3. **Input Validation**: Validate all request bodies
+4. **SQL Injection**: Prevented by Prisma (parameterized queries)
+5. **HTTPS**: Required in production (Let's Encrypt)
+6. **CORS**: Configure appropriately for frontend domain
+7. **Rate Limiting**: Consider adding express-rate-limit
+8. **Secrets**: Never commit `.env` files

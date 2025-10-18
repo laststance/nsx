@@ -1,0 +1,503 @@
+---
+globs: server/routes/**/*,src/redux/api/**/*
+description: API endpoints and specifications
+---
+
+# API Specification
+
+## API Documentation
+
+OpenAPI 3.0 specification: [openapi_v3.json](mdc:openapi_v3.json)
+
+## Base Configuration
+
+- **Base URL (dev)**: `http://localhost:4000/api`
+- **Base URL (prod)**: `https://nsx.malloc.tokyo/api`
+- **Authentication**: JWT via HTTP-only cookie
+- **Content-Type**: `application/json`
+
+## Authentication
+
+### POST /api/login
+
+**Purpose**: Authenticate user and receive JWT token.
+
+**Request**:
+```json
+{
+  "username": "admin",
+  "password": "password"
+}
+```
+
+**Response** (200):
+```json
+{
+  "user": {
+    "id": 1,
+    "username": "admin"
+  }
+}
+```
+
+**Sets Cookie**:
+```
+jwt=<token>; HttpOnly; Secure; SameSite=Strict; Max-Age=604800
+```
+
+**Errors**:
+- 401: Invalid credentials
+
+**Implementation**: [server/routes/user.ts](mdc:server/routes/user.ts)
+
+### POST /api/logout
+
+**Purpose**: Clear JWT cookie and log out.
+
+**Response** (200):
+```json
+{
+  "success": true
+}
+```
+
+**Implementation**: [server/routes/user.ts](mdc:server/routes/user.ts)
+
+### GET /api/me
+
+**Purpose**: Get current authenticated user.
+
+**Authentication**: Required
+
+**Response** (200):
+```json
+{
+  "id": 1,
+  "username": "admin",
+  "createdAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Errors**:
+- 401: Not authenticated
+
+**Implementation**: [server/routes/user.ts](mdc:server/routes/user.ts)
+
+## Posts API
+
+### GET /api/posts
+
+**Purpose**: List all blog posts.
+
+**Authentication**: Not required
+
+**Query Parameters**:
+- `page` (number): Page number (default: 1)
+- `limit` (number): Items per page (default: 10)
+- `search` (string): Search in title/body
+
+**Response** (200):
+```json
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Post Title",
+      "body": "# Markdown content",
+      "authorId": 1,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "author": {
+        "id": 1,
+        "username": "admin"
+      }
+    }
+  ],
+  "total": 42,
+  "page": 1,
+  "pageSize": 10
+}
+```
+
+**Implementation**: [server/routes/post.ts](mdc:server/routes/post.ts)
+
+### GET /api/posts/:id
+
+**Purpose**: Get single post by ID.
+
+**Authentication**: Not required
+
+**Response** (200):
+```json
+{
+  "id": 1,
+  "title": "Post Title",
+  "body": "# Markdown content",
+  "authorId": 1,
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "author": {
+    "id": 1,
+    "username": "admin"
+  }
+}
+```
+
+**Errors**:
+- 404: Post not found
+
+**Implementation**: [server/routes/post.ts](mdc:server/routes/post.ts)
+
+### POST /api/posts
+
+**Purpose**: Create new post.
+
+**Authentication**: Required
+
+**Request**:
+```json
+{
+  "title": "New Post Title",
+  "body": "# Markdown content here"
+}
+```
+
+**Response** (201):
+```json
+{
+  "id": 2,
+  "title": "New Post Title",
+  "body": "# Markdown content here",
+  "authorId": 1,
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Errors**:
+- 400: Validation error
+- 401: Not authenticated
+
+**Implementation**: [server/routes/post.ts](mdc:server/routes/post.ts)
+
+### PUT /api/posts/:id
+
+**Purpose**: Update existing post.
+
+**Authentication**: Required
+
+**Request**:
+```json
+{
+  "title": "Updated Title",
+  "body": "# Updated content"
+}
+```
+
+**Response** (200):
+```json
+{
+  "id": 1,
+  "title": "Updated Title",
+  "body": "# Updated content",
+  "authorId": 1,
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T12:00:00.000Z"
+}
+```
+
+**Errors**:
+- 400: Validation error
+- 401: Not authenticated
+- 404: Post not found
+
+**Implementation**: [server/routes/post.ts](mdc:server/routes/post.ts)
+
+### DELETE /api/posts/:id
+
+**Purpose**: Delete post.
+
+**Authentication**: Required
+
+**Response** (204): No content
+
+**Errors**:
+- 401: Not authenticated
+- 404: Post not found
+
+**Implementation**: [server/routes/post.ts](mdc:server/routes/post.ts)
+
+## Tweets API
+
+### GET /api/tweets
+
+**Purpose**: List tweets.
+
+**Authentication**: Not required
+
+**Query Parameters**:
+- `page` (number): Page number (default: 1)
+- `limit` (number): Items per page (default: 20)
+
+**Response** (200):
+```json
+{
+  "tweets": [
+    {
+      "id": 1,
+      "tweet": "Short message here",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "total": 15,
+  "page": 1,
+  "pageSize": 20
+}
+```
+
+**Implementation**: [server/routes/tweet.ts](mdc:server/routes/tweet.ts)
+
+### POST /api/tweets
+
+**Purpose**: Create tweet.
+
+**Authentication**: Required
+
+**Request**:
+```json
+{
+  "tweet": "Short message (max 280 chars)"
+}
+```
+
+**Response** (201):
+```json
+{
+  "id": 2,
+  "tweet": "Short message (max 280 chars)",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Errors**:
+- 400: Tweet too long (> 280 chars)
+- 401: Not authenticated
+
+**Implementation**: [server/routes/tweet.ts](mdc:server/routes/tweet.ts)
+
+### DELETE /api/tweets/:id
+
+**Purpose**: Delete tweet.
+
+**Authentication**: Required
+
+**Response** (204): No content
+
+**Errors**:
+- 401: Not authenticated
+- 404: Tweet not found
+
+**Implementation**: [server/routes/tweet.ts](mdc:server/routes/tweet.ts)
+
+## Stocks API
+
+### GET /api/stocks
+
+**Purpose**: List bookmarked URLs.
+
+**Authentication**: Required
+
+**Response** (200):
+```json
+{
+  "stocks": [
+    {
+      "id": 1,
+      "title": "Interesting Article",
+      "url": "https://example.com/article",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+**Implementation**: [server/routes/stock.ts](mdc:server/routes/stock.ts)
+
+### POST /api/stocks
+
+**Purpose**: Create stock (bookmark URL).
+
+**Authentication**: Not required (used by browser extension)
+
+**Request**:
+```json
+{
+  "title": "Article Title",
+  "url": "https://example.com/article"
+}
+```
+
+**Response** (201):
+```json
+{
+  "id": 2,
+  "title": "Article Title",
+  "url": "https://example.com/article",
+  "createdAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Errors**:
+- 400: Invalid URL or missing title
+
+**Implementation**: [server/routes/stock.ts](mdc:server/routes/stock.ts)
+
+### DELETE /api/stocks/:id
+
+**Purpose**: Delete stock.
+
+**Authentication**: Required
+
+**Response** (204): No content
+
+**Errors**:
+- 401: Not authenticated
+- 404: Stock not found
+
+**Implementation**: [server/routes/stock.ts](mdc:server/routes/stock.ts)
+
+## Translation API
+
+### POST /api/translate
+
+**Purpose**: Translate text (uses external service).
+
+**Authentication**: Required
+
+**Request**:
+```json
+{
+  "text": "Hello world",
+  "from": "en",
+  "to": "ja"
+}
+```
+
+**Response** (200):
+```json
+{
+  "translatedText": "こんにちは世界"
+}
+```
+
+**Errors**:
+- 400: Invalid language codes
+- 401: Not authenticated
+- 500: Translation service error
+
+**Implementation**: [server/routes/translate.ts](mdc:server/routes/translate.ts)
+
+## Bluesky API
+
+### POST /api/bluesky/post
+
+**Purpose**: Post to Bluesky social network.
+
+**Authentication**: Required
+
+**Request**:
+```json
+{
+  "text": "Message to post on Bluesky"
+}
+```
+
+**Response** (201):
+```json
+{
+  "uri": "at://did:plc:xyz/app.bsky.feed.post/abc123",
+  "cid": "bafyreiabc123"
+}
+```
+
+**Errors**:
+- 400: Invalid post content
+- 401: Not authenticated
+- 500: Bluesky API error
+
+**Implementation**: [server/routes/bluesky.ts](mdc:server/routes/bluesky.ts)
+
+## Frontend API Integration (RTK Query)
+
+### API Slices
+
+Frontend API calls are handled by Redux Toolkit Query:
+
+- [src/redux/api/postsApi.ts](mdc:src/redux/api/postsApi.ts)
+- [src/redux/api/tweetsApi.ts](mdc:src/redux/api/tweetsApi.ts)
+- [src/redux/api/stocksApi.ts](mdc:src/redux/api/stocksApi.ts)
+- [src/redux/api/userApi.ts](mdc:src/redux/api/userApi.ts)
+
+### Example Usage
+
+```typescript
+import { useGetPostsQuery, useCreatePostMutation } from '@/redux/api/postsApi'
+
+export const PostList: FC = () => {
+  // Automatic caching and refetching
+  const { data, isLoading, error, refetch } = useGetPostsQuery({ page: 1, limit: 10 })
+  const [createPost, { isLoading: isCreating }] = useCreatePostMutation()
+  
+  const handleCreate = async () => {
+    try {
+      await createPost({ title: 'New', body: 'Content' }).unwrap()
+      // Automatically refetches posts
+    } catch (err) {
+      console.error('Failed:', err)
+    }
+  }
+  
+  return <div>{/* Render posts */}</div>
+}
+```
+
+## Error Responses
+
+All errors follow consistent format:
+
+```json
+{
+  "error": "Human-readable error message"
+}
+```
+
+### HTTP Status Codes
+
+- `200` - Success
+- `201` - Created
+- `204` - No Content (successful deletion)
+- `400` - Bad Request (validation error)
+- `401` - Unauthorized (authentication required)
+- `403` - Forbidden (authenticated but not authorized)
+- `404` - Not Found
+- `500` - Internal Server Error
+
+## Rate Limiting
+
+Currently no rate limiting implemented. Consider adding for production:
+
+- `express-rate-limit` middleware
+- Redis-backed rate limiting for distributed systems
+
+## CORS
+
+Development: Vite proxy handles CORS
+Production: Backend serves frontend, no CORS needed
+
+## API Versioning
+
+Currently no versioning. For future:
+- URL versioning: `/api/v2/posts`
+- Header versioning: `Accept: application/vnd.nsx.v2+json`
