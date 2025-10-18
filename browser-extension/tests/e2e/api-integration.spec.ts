@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * API Integration E2E Tests
  * Tests extension integration with backend API

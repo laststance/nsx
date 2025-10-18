@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck - TypeScript incorrectly detects TDZ violations in mock setup
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
