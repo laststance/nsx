@@ -96,7 +96,7 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Start Express server
-        run: cd ../ && docker compose up -d && nohup npm run dev
+        run: cd ../ && docker compose up -d && nohup pnpm server:start
 
       - name: Run Playwright tests (with virtual display)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" pnpm test
@@ -124,7 +124,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.20.0'
-          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
