@@ -110,3 +110,18 @@ All environment variables are prefixed with `VITE_` for frontend access:
 ### Browser Extension Integration
 
 NSX works with a separate browser extension (nsx-browser-extension) to automatically capture and post web pages that users read.
+
+**Browser Extension Details:**
+
+- **Location**: `/browser-extension` directory
+- **Framework**: WXT (Next-generation web extension framework)
+- **Support**: Chrome/Edge (Manifest V3)
+- **Tech Stack**: React 19 + TypeScript + Tailwind CSS
+- **Testing**: Playwright (E2E) + Vitest (unit tests):
+
+📖 **See [browser-extension/README.md](./browser-extension/README.md) for complete documentation**, including:
+
+- Installation and development setup
+- Building and testing instructions
+- Project structure and architecture
+- API integration details
