@@ -403,7 +403,7 @@ ISC License - See LICENSE file for details
 
 ## 👤 Author
 
-**Debdut Karmakar** - iawaiponly@gmail.com
+Ryota Murakami <dojce1048@gmail.com> (https://github.com/ryota-murakami)
 
 ---
 
