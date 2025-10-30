@@ -13,8 +13,8 @@ importers:
   .:
     dependencies:
       '@atproto/api':
-        specifier: ^0.17.6
-        version: 0.17.6
+        specifier: ^0.17.7
+        version: 0.17.7
       '@headlessui/react':
         specifier: ^1.7.19
         version: 1.7.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -155,8 +155,8 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)(webpack@5.102.1(esbuild@0.25.11))
       '@redocly/cli':
-        specifier: ^2.8.0
-        version: 2.8.0(@opentelemetry/api@1.9.0)(ajv@8.17.1)(core-js@3.46.0)
+        specifier: ^2.9.0
+        version: 2.9.0(@opentelemetry/api@1.9.0)(ajv@8.17.1)(core-js@3.46.0)
       '@storybook/addon-a11y':
         specifier: ^9.0.16
         version: 9.1.13(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(prettier@3.6.2)(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))
@@ -272,8 +272,8 @@ importers:
         specifier: ^7.0.1
         version: 7.0.1(eslint@9.38.0(jiti@2.6.1))
       eslint-plugin-storybook:
-        specifier: 10.0.1
-        version: 10.0.1(eslint@9.38.0(jiti@2.6.1))(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(prettier@3.6.2)(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript@5.9.3)
+        specifier: 10.0.2
+        version: 10.0.2(eslint@9.38.0(jiti@2.6.1))(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(prettier@3.6.2)(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript@5.9.3)
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -517,8 +517,8 @@ packages:
   '@asamuzakjp/nwsapi@2.3.9':
     resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
 
-  '@atproto/api@0.17.6':
-    resolution: {integrity: sha512-0iYCD8+LOsHjHjwJcqGPfJN/h4b+IpU3GjOV0TSLk0XdCaxpHBKNu3wgCJVst4DhVjXcgsr2qQoRZ3Jja2LupA==}
+  '@atproto/api@0.17.7':
+    resolution: {integrity: sha512-V+OJBZq9chcrD21xk1bUa6oc5DSKfQj5DmUPf5rmZncqL1w9ZEbS38H5cMyqqdhfgo2LWeDRdZHD0rvNyJsIaw==}
 
   '@atproto/common-web@0.4.3':
     resolution: {integrity: sha512-nRDINmSe4VycJzPo6fP/hEltBcULFxt9Kw7fQk6405FyAWZiTluYHlXOnU7GkQfeUK44OENG1qFTBcmCJ7e8pg==}
@@ -1426,27 +1426,27 @@ packages:
   '@redocly/ajv@8.11.3':
     resolution: {integrity: sha512-4P3iZse91TkBiY+Dx5DUgxQ9GXkVJf++cmI0MOyLDxV9b5MUBI4II6ES8zA5JCbO72nKAJxWrw4PUPW+YP3ZDQ==}
 
-  '@redocly/cli@2.8.0':
-    resolution: {integrity: sha512-Q0/IF0V5amwIdRei/pAA/bMqXErfuWcBOG1KkKoJs9fxDTmbb54Z1qazBhBo5e6U04Sz4GjHOsNF5jR/kByipw==}
+  '@redocly/cli@2.9.0':
+    resolution: {integrity: sha512-kcvaRYTjm8AtWamctBEcBsR3GHeTkjBF9DndVN/4Xpren3bIjezPFS58iBXjDQuj3sOkGdFEC74p3C0LJV2S2A==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
     hasBin: true
 
   '@redocly/config@0.22.2':
     resolution: {integrity: sha512-roRDai8/zr2S9YfmzUfNhKjOF0NdcOIqF7bhf4MVC5UxpjIysDjyudvlAiVbpPHp3eDRWbdzUgtkK1a7YiDNyQ==}
 
-  '@redocly/config@0.31.0':
-    resolution: {integrity: sha512-KPm2v//zj7qdGvClX0YqRNLQ9K7loVJWFEIceNxJIYPXP4hrhNvOLwjmxIkdkai0SdqYqogR2yjM/MjF9/AGdQ==}
+  '@redocly/config@0.36.2':
+    resolution: {integrity: sha512-gwIjFOzyq9bdJCdtEHDMf2hEJ9hHXUHkY1U3IPWyZmRoFcibzlpXOLrT0xVgnn10IEttMwD+SZtZBE593yDXsw==}
 
   '@redocly/openapi-core@1.34.5':
     resolution: {integrity: sha512-0EbE8LRbkogtcCXU7liAyC00n9uNG9hJ+eMyHFdUsy9lB/WGqnEBgwjA9q2cyzAVcdTkQqTBBU1XePNnN3OijA==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
-  '@redocly/openapi-core@2.8.0':
-    resolution: {integrity: sha512-DynoBVRk47TanYWp5E8gTPuvC/n18Jq+CtbESLlq7i6WE4iBtxL1hd+dgkn8z7aZRGpb1eMqBR+QNL8gMVIxBw==}
+  '@redocly/openapi-core@2.9.0':
+    resolution: {integrity: sha512-tYmPVajO4utT5rNNSGoYAQQD/VKV05NMlLzdOMkHeYanK9OA0ejClwTwThK2CfTWxqyzpDMKs6EyMfOJXgO5ag==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
-  '@redocly/respect-core@2.8.0':
-    resolution: {integrity: sha512-s1fd1WR9WcZk7j42t+wqSJQxb5wMUBHTtCGJtWP6UVDWJPwWaZTExesKRLvrCBfSaKvulpCsAzmETM5/XukoDA==}
+  '@redocly/respect-core@2.9.0':
+    resolution: {integrity: sha512-CvjidHkMso3O0Mm5hqsZE2pZLYuGmOMZPvZhVzszo6S6Q9ZD8bYEjqROtvHIAmhqH0HPh5G+1ip5uK4W0gLMTQ==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
 
   '@reduxjs/toolkit@2.9.2':
@@ -3780,11 +3780,11 @@ packages:
     resolution: {integrity: sha512-DNPHFGCA0/hZIsfODbeLZqaGY/+q3vgtshF85r+YWDNCQ2apd9PNs/zL6ttKm0nD1IFwvxyg3YOTI7FHl4unrw==}
     engines: {node: '>=0.10.0'}
 
-  eslint-plugin-storybook@10.0.1:
-    resolution: {integrity: sha512-HIn+G2WSNNPY+ZUemXpXTB7PB7v63RiMtJwUMTmqGnPfP1o2bL4wWRIBKbS8tZbi1LSX6R6X4/AFUVg17rTzQQ==}
+  eslint-plugin-storybook@10.0.2:
+    resolution: {integrity: sha512-Xy4ezGvPDB/auQikmS60o0e4LTs6fvrBzXNPAJAyZeqNjAzXehHTISJABlThCAzr96+j+SASL0msNvsQWgF1Lg==}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^10.0.1
+      storybook: ^10.0.2
 
   eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
@@ -5425,6 +5425,10 @@ packages:
     resolution: {integrity: sha512-IPZ167aShDZZUMdRk66cyQAW3qr0WzbHkPdMYa8bzZhlHhO3jALbKdxcaak7W9FfT2rZNpQuUu4Od7ILEpXSaw==}
     engines: {node: 20 || >=22}
 
+  minimatch@10.1.1:
+    resolution: {integrity: sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ==}
+    engines: {node: 20 || >=22}
+
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
 
@@ -6726,9 +6730,6 @@ packages:
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
-  set-cookie-parser@2.7.1:
-    resolution: {integrity: sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ==}
-
   set-cookie-parser@2.7.2:
     resolution: {integrity: sha512-oeM1lpU/UvhTxw+g3cIfxXHyJRc/uidd3yK1P242gzHds0udQBYzs3y8j4gCCW+ZJ7ad0yctld8RYO+bdurlvw==}
 
@@ -7974,7 +7975,7 @@ snapshots:
 
   '@asamuzakjp/nwsapi@2.3.9': {}
 
-  '@atproto/api@0.17.6':
+  '@atproto/api@0.17.7':
     dependencies:
       '@atproto/common-web': 0.4.3
       '@atproto/lexicon': 0.5.1
@@ -8913,14 +8914,14 @@ snapshots:
       require-from-string: 2.0.2
       uri-js-replace: 1.0.1
 
-  '@redocly/cli@2.8.0(@opentelemetry/api@1.9.0)(ajv@8.17.1)(core-js@3.46.0)':
+  '@redocly/cli@2.9.0(@opentelemetry/api@1.9.0)(ajv@8.17.1)(core-js@3.46.0)':
     dependencies:
       '@opentelemetry/exporter-trace-otlp-http': 0.202.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.34.0
-      '@redocly/openapi-core': 2.8.0(ajv@8.17.1)
-      '@redocly/respect-core': 2.8.0(ajv@8.17.1)
+      '@redocly/openapi-core': 2.9.0(ajv@8.17.1)
+      '@redocly/respect-core': 2.9.0(ajv@8.17.1)
       abort-controller: 3.0.0
       chokidar: 3.6.0
       colorette: 1.4.0
@@ -8936,7 +8937,7 @@ snapshots:
       react-dom: 19.2.0(react@19.2.0)
       redoc: 2.5.1(core-js@3.46.0)(mobx@6.15.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(styled-components@6.1.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
       semver: 7.7.3
-      set-cookie-parser: 2.7.1
+      set-cookie-parser: 2.7.2
       simple-websocket: 9.1.0
       styled-components: 6.1.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       undici: 6.22.0
@@ -8953,7 +8954,7 @@ snapshots:
 
   '@redocly/config@0.22.2': {}
 
-  '@redocly/config@0.31.0':
+  '@redocly/config@0.36.2':
     dependencies:
       json-schema-to-ts: 2.7.2
 
@@ -8971,10 +8972,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@redocly/openapi-core@2.8.0(ajv@8.17.1)':
+  '@redocly/openapi-core@2.9.0(ajv@8.17.1)':
     dependencies:
       '@redocly/ajv': 8.11.3
-      '@redocly/config': 0.31.0
+      '@redocly/config': 0.36.2
       ajv-formats: 2.1.1(ajv@8.17.1)
       colorette: 1.4.0
       js-levenshtein: 1.1.6
@@ -8985,12 +8986,12 @@ snapshots:
     transitivePeerDependencies:
       - ajv
 
-  '@redocly/respect-core@2.8.0(ajv@8.17.1)':
+  '@redocly/respect-core@2.9.0(ajv@8.17.1)':
     dependencies:
       '@faker-js/faker': 7.6.0
       '@noble/hashes': 1.8.0
       '@redocly/ajv': 8.11.2
-      '@redocly/openapi-core': 2.8.0(ajv@8.17.1)
+      '@redocly/openapi-core': 2.9.0(ajv@8.17.1)
       better-ajv-errors: 1.2.0(ajv@8.17.1)
       colorette: 2.0.20
       json-pointer: 0.6.2
@@ -11592,7 +11593,7 @@ snapshots:
       natural-compare: 1.4.0
       requireindex: 1.2.0
 
-  eslint-plugin-storybook@10.0.1(eslint@9.38.0(jiti@2.6.1))(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(prettier@3.6.2)(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript@5.9.3):
+  eslint-plugin-storybook@10.0.2(eslint@9.38.0(jiti@2.6.1))(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(prettier@3.6.2)(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript@5.9.3):
     dependencies:
       '@typescript-eslint/utils': 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.38.0(jiti@2.6.1)
@@ -12149,7 +12150,7 @@ snapshots:
     dependencies:
       foreground-child: 3.3.1
       jackspeak: 4.1.1
-      minimatch: 10.0.3
+      minimatch: 10.1.1
       minipass: 7.1.2
       package-json-from-dist: 1.0.1
       path-scurry: 2.0.0
@@ -13563,6 +13564,10 @@ snapshots:
     dependencies:
       '@isaacs/brace-expansion': 5.0.0
 
+  minimatch@10.1.1:
+    dependencies:
+      '@isaacs/brace-expansion': 5.0.0
+
   minimatch@3.1.2:
     dependencies:
       brace-expansion: 1.1.12
@@ -13822,7 +13827,7 @@ snapshots:
       oas-kit-common: 1.0.8
       reftools: 1.1.9
       yaml: 1.10.2
-      yargs: 17.7.2
+      yargs: 17.0.1
 
   oas-schema-walker@1.1.5: {}
 
@@ -15116,8 +15121,6 @@ snapshots:
 
   set-blocking@2.0.0: {}
 
-  set-cookie-parser@2.7.1: {}
-
   set-cookie-parser@2.7.2: {}
 
   set-function-length@1.2.2:
@@ -15573,7 +15576,7 @@ snapshots:
       oas-validator: 5.0.8
       reftools: 1.1.9
       yaml: 1.10.2
-      yargs: 17.7.2
+      yargs: 17.0.1
     transitivePeerDependencies:
       - encoding
 
