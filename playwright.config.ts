@@ -72,8 +72,9 @@ export default defineConfig({
     {
       name: 'Backend',
       command: 'pnpm server:start',
+      url: 'http://localhost:4000/api/user_count',
       timeout: 120 * 1000,
-      reuseExistingServer: true,
+      reuseExistingServer: !process.env.CI,
       env: {
         ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET!,
         OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
