@@ -21,6 +21,18 @@ export const userAccountValidator = z.object({
 })
 
 /**
+ * Profile Update Data (optional fields for partial updates)
+ */
+export const updateProfileValidator = z
+  .object({
+    name: nameSchema.optional(),
+    password: passwordSchema.optional(),
+  })
+  .refine((data) => data.name || data.password, {
+    message: 'At least one field (name or password) must be provided',
+  })
+
+/**
  * Post Data
  */
 export const titleSchema = z
