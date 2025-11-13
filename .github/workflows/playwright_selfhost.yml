@@ -40,8 +40,6 @@ jobs:
           echo "✓ Database reset and seeded successfully"
       - name: install Playwright browsers
         run: pnpm exec playwright install
-      - name: Build Frontend App
-        run: pnpm build:e2e
       - name: Run Playwright tests
         run: pnpm exec playwright test self-host.spec.ts
       - uses: actions/upload-artifact@v4
