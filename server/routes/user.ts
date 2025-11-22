@@ -197,4 +197,58 @@ router.patch('/hover-color-preference', async (req: Request, res: Response) => {
   }
 })
 
+router.patch('/profile', async (req: Request, res: Response) => {
+  const token = req.cookies.token as JWTtoken
+
+  if (!token) {
+    res.status(401).json({ error: 'No token found' })
+    return
+  }
+
+  try {
+    const decoded = verifyAccessToken(token)
+    const { name, password } = req.body
+
+    // Validate that at least one field is being updated
+    if (!name && !password) {
+      res
+        .status(400)
+        .json({
+          error: 'At least one field (name or password) must be provided',
+        })
+      return
+    }
+
+    // Prepare update data
+    const updateData: { name?: string; password?: string } = {}
+
+    if (name) {
+      updateData.name = name
+    }
+
+    if (password) {
+      // Hash the new password
+      const salt = await bcrypt.genSalt(10)
+      updateData.password = await bcrypt.hash(password, salt)
+    }
+
+    // Update user in database
+    const user = await prisma.user.update({
+      where: { id: decoded.id },
+      data: updateData,
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    })
+
+    res.status(200).json(user)
+  } catch (error) {
+    Logger.error(error)
+    res.status(500).json({ error: 'Failed to update profile' })
+  }
+})
+
 export default router

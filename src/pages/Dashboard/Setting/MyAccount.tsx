@@ -2,32 +2,97 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import React, { memo, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import type { FieldValues } from 'react-hook-form'
+import { useSelector } from 'react-redux'
 
 import Button from '@/src/components/Button'
 import Input from '@/src/components/Input/Input'
+import { selectUser, updateProfile } from '@/src/redux/adminSlice'
 import {
   useGetHoverColorPreferenceQuery,
   useUpdateHoverColorPreferenceMutation,
+  useUpdateProfileMutation,
 } from '@/src/redux/API'
 import { enqueSnackbar } from '@/src/redux/snackbarSlice'
 import { dispatch } from '@/src/redux/store'
 
-import { userAccountValidator } from '../../../../validator'
+import { updateProfileValidator } from '../../../../validator'
 
-const mockOnSubmit = (v: any) => console.log(v)
 interface FormInput extends FieldValues {
-  name: User['name']
-  password: string
+  name?: User['name']
+  password?: string
 }
 
 const MyAccount: React.FC = memo(() => {
+  const currentUser = useSelector(selectUser)
+  const [updateProfileMutation, { isLoading: isUpdatingProfile }] =
+    useUpdateProfileMutation()
+
   const {
     formState: { errors },
     handleSubmit,
     register,
+    setValue,
   } = useForm<FormInput>({
-    resolver: zodResolver(userAccountValidator),
+    resolver: zodResolver(updateProfileValidator),
   })
+
+  // Load current user name into form
+  useEffect(() => {
+    if (currentUser.name) {
+      setValue('name', currentUser.name)
+    }
+  }, [currentUser.name, setValue])
+
+  const onSubmit = async (data: FormInput) => {
+    try {
+      // Prepare update data (only include fields that are filled and changed)
+      const updateData: { name?: string; password?: string } = {}
+
+      // Only include name if it's changed
+      if (data.name && data.name.trim() && data.name !== currentUser.name) {
+        updateData.name = data.name
+      }
+
+      // Only include password if it's provided
+      if (data.password && data.password.trim()) {
+        updateData.password = data.password
+      }
+
+      // Check if there's anything to update
+      if (Object.keys(updateData).length === 0) {
+        dispatch(
+          enqueSnackbar({
+            color: 'green',
+            message: 'No changes to save',
+          }),
+        )
+        return
+      }
+
+      const result = await updateProfileMutation(updateData).unwrap()
+
+      // Update Redux state with new user data
+      dispatch(updateProfile(result))
+
+      // Clear password field after successful update
+      setValue('password', '')
+
+      dispatch(
+        enqueSnackbar({
+          color: 'green',
+          message: 'Profile updated successfully',
+        }),
+      )
+    } catch (error) {
+      console.error('Failed to update profile:', error)
+      dispatch(
+        enqueSnackbar({
+          color: 'red',
+          message: 'Failed to update profile',
+        }),
+      )
+    }
+  }
 
   const { data: preferenceData, isLoading: isLoadingPreference } =
     useGetHoverColorPreferenceQuery()
@@ -77,7 +142,7 @@ const MyAccount: React.FC = memo(() => {
       </h1>
       <form
         className="mx-auto w-full max-w-sm"
-        onSubmit={handleSubmit(mockOnSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-6 md:flex md:items-center">
           <div className="md:w-1/3">
@@ -112,7 +177,7 @@ const MyAccount: React.FC = memo(() => {
           <div className="md:w-2/3">
             <Input
               type="password"
-              placeholder="password"
+              placeholder="leave blank to keep current"
               reactHookFormParams={{
                 name: 'password',
                 fieldError: errors['password'],
@@ -157,8 +222,13 @@ const MyAccount: React.FC = memo(() => {
         <div className="md:flex md:items-center">
           <div className="md:w-1/3"></div>
           <div className="md:w-2/3">
-            <Button type="submit" variant="secondary" data-testid="submit-btn">
-              Submit
+            <Button
+              type="submit"
+              variant="secondary"
+              data-testid="submit-btn"
+              disabled={isUpdatingProfile}
+            >
+              {isUpdatingProfile ? 'Saving...' : 'Submit'}
             </Button>
           </div>
         </div>
