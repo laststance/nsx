@@ -160,7 +160,7 @@
     "validate": "./scripts/validate",
     "show:api:docs": "redocly preview-docs openapi_v3.json",
     "db:hashgen": "node server/db/scripts/passhashgen.js",
-    "db:reset": "prisma migrate reset --force",
+    "db:reset": "prisma migrate reset --force && prisma db seed",
     "db:truncate": "cross-env SKIP_SEED=true prisma migrate reset --force",
     "db:migrate:dev": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
