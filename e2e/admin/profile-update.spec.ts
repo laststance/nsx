@@ -108,6 +108,10 @@ test.describe('Profile Update', () => {
     await page.getByTestId('logout-link').click()
     await page.waitForLoadState('networkidle')
 
+    // Navigate to home to ensure clean state after logout
+    await page.goto('http://localhost:3010')
+    await page.waitForLoadState('networkidle')
+
     // Try login with old password (should fail)
     await page.keyboard.press('x')
     await page.getByTestId('login-link').click()
@@ -175,6 +179,10 @@ test.describe('Profile Update', () => {
     // Logout
     await page.keyboard.press('x')
     await page.getByTestId('logout-link').click()
+    await page.waitForLoadState('networkidle')
+
+    // Navigate to home to ensure clean state after logout
+    await page.goto('http://localhost:3010')
     await page.waitForLoadState('networkidle')
 
     // Login with new credentials
