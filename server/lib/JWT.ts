@@ -1,9 +1,19 @@
-import type { User } from '@prisma/client'
 import type { CookieOptions } from 'express'
 import jwt, { type JwtPayload, TokenExpiredError } from 'jsonwebtoken'
 
+import type { User } from '../../generated/prisma/client'
+
+/**
+ * Extended User type that represents the user returned from Prisma with extensions.
+ * The Prisma extension converts createdAt and updatedAt from Date to string.
+ */
+type ExtendedUser = Omit<User, 'createdAt' | 'updatedAt'> & {
+  createdAt: Date | string
+  updatedAt: Date | string
+}
+
 // Generate Access Token
-export function generateAccessToken(user: User) {
+export function generateAccessToken(user: ExtendedUser) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, {
     expiresIn: '7d',
   })

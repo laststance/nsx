@@ -1,6 +1,15 @@
-import { PrismaClient } from '@prisma/client'
+import 'dotenv/config'
+import { PrismaMariaDb } from '@prisma/adapter-mariadb'
+import { PrismaClient } from '../generated/prisma/client'
 
-const prisma = new PrismaClient()
+// Skip seeding when SKIP_SEED environment variable is set (Prisma v7 replacement for --skip-seed)
+if (process.env.SKIP_SEED === 'true') {
+  console.log('Skipping seed due to SKIP_SEED=true')
+  process.exit(0)
+}
+
+const adapter = new PrismaMariaDb(process.env.DATABASE_URL!)
+const prisma = new PrismaClient({ adapter })
 
 /**
  * Seeds the database with initial data for posts, users, and tweets.

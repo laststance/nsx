@@ -19,6 +19,7 @@ describe('JWT Functions', () => {
         password: 'hashed',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        useLegacyHoverColors: false,
       }
 
       const token = generateAccessToken(user)
@@ -42,6 +43,7 @@ describe('JWT Functions', () => {
         password: 'hashed',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        useLegacyHoverColors: false,
       }
 
       const token = generateAccessToken(user)
@@ -76,6 +78,7 @@ describe('JWT Functions', () => {
         password: 'hashed',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        useLegacyHoverColors: false,
       }
 
       const token = generateAccessToken(user)

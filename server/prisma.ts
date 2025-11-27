@@ -1,7 +1,14 @@
-import { PrismaClient } from '@prisma/client'
+import 'dotenv/config'
 
-// Instantiate the client
-const originalPrisma = new PrismaClient()
+import { PrismaMariaDb } from '@prisma/adapter-mariadb'
+
+import { PrismaClient } from '../generated/prisma/client'
+
+// Create the MariaDB adapter with connection URL
+const adapter = new PrismaMariaDb(process.env.DATABASE_URL!)
+
+// Instantiate the client with adapter
+const originalPrisma = new PrismaClient({ adapter })
 
 // Use Prisma Extensions to add more type-safe extensions
 // This is reflected in TypeScript type definitions
