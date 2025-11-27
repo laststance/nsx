@@ -489,6 +489,63 @@ importers:
         specifier: ^0.20.11
         version: 0.20.11(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.3)(terser@5.44.1)(tsx@4.20.6)(yaml@2.8.1)
 
+  server:
+    dependencies:
+      '@atproto/api':
+        specifier: ^0.18.3
+        version: 0.18.3
+      '@prisma/adapter-mariadb':
+        specifier: 7.0.1
+        version: 7.0.1
+      '@prisma/client':
+        specifier: 7.0.1
+        version: 7.0.1(prisma@7.0.1(@types/react@19.2.7)(magicast@0.3.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(typescript@5.9.3)
+      bcrypt:
+        specifier: ^6.0.0
+        version: 6.0.0
+      body-parser:
+        specifier: ^2.2.1
+        version: 2.2.1
+      chalk:
+        specifier: ^4.1.2
+        version: 4.1.2
+      compression:
+        specifier: ^1.8.1
+        version: 1.8.1
+      cookie-parser:
+        specifier: ^1.4.7
+        version: 1.4.7
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
+      cron:
+        specifier: ^4.3.4
+        version: 4.3.4
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.2.3
+      express:
+        specifier: ^5.1.0
+        version: 5.1.0
+      http-errors:
+        specifier: ^2.0.1
+        version: 2.0.1
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
+      morgan:
+        specifier: ^1.10.1
+        version: 1.10.1
+      mysql2:
+        specifier: ^3.15.3
+        version: 3.15.3
+      openai:
+        specifier: ^6.9.1
+        version: 6.9.1(ws@8.18.3)(zod@4.1.13)
+      prisma:
+        specifier: ^7.0.1
+        version: 7.0.1(@types/react@19.2.7)(magicast@0.3.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
+
 packages:
 
   '@1natsu/wait-element@4.1.2':
