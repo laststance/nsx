@@ -1,7 +1,21 @@
+import 'dotenv/config'
+import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 import { PrismaClient } from '@prisma/client'
 
-// Instantiate the client
-const originalPrisma = new PrismaClient()
+// Parse DATABASE_URL for adapter configuration
+const databaseUrl = process.env.DATABASE_URL || ''
+const url = new URL(databaseUrl.replace('mysql://', 'http://'))
+const adapter = new PrismaMariaDb({
+  host: url.hostname,
+  port: parseInt(url.port, 10) || 3306,
+  user: url.username,
+  password: url.password,
+  database: url.pathname.slice(1), // Remove leading /
+  connectionLimit: 5,
+})
+
+// Instantiate the client with adapter
+const originalPrisma = new PrismaClient({ adapter })
 
 // Use Prisma Extensions to add more type-safe extensions
 // This is reflected in TypeScript type definitions

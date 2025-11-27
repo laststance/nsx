@@ -40,7 +40,7 @@ jobs:
           DATABASE_URL: mysql://root:rootpass@127.0.0.1:3306/digital
         run: |
           echo "Setting up database schema and seeding..."
-          PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=1 pnpm prisma migrate reset --force --skip-generate
+          PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=1 pnpm prisma migrate reset --force
           echo "✓ Database reset and seeded successfully"
       - name: install Playwright browsers
         run: pnpm exec playwright install

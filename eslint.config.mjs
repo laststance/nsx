@@ -10,6 +10,7 @@ export default defineConfig([
       'build/**',
       'server_build/**',
       'prisma/**',
+      'generated/**',
       'storybook-static/**',
       'coverage/**',
       'public/mockServiceWorker.js',

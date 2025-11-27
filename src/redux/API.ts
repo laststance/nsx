@@ -241,6 +241,15 @@ export const API = createApi({
         body: { useLegacyHoverColors },
       }),
     }),
+    updateProfile: builder.mutation<User, { name?: string; password?: string }>(
+      {
+        query: (profileData) => ({
+          method: 'PATCH',
+          url: 'profile',
+          body: profileData,
+        }),
+      },
+    ),
   }),
 })
 
@@ -257,4 +266,5 @@ export const {
   usePostToBlueSkyMutation,
   useGetHoverColorPreferenceQuery,
   useUpdateHoverColorPreferenceMutation,
+  useUpdateProfileMutation,
 } = API

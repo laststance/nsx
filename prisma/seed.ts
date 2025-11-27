@@ -1,6 +1,20 @@
+import 'dotenv/config'
 import { PrismaClient } from '@prisma/client'
+import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 
-const prisma = new PrismaClient()
+// Parse DATABASE_URL for adapter configuration
+const databaseUrl = process.env.DATABASE_URL || ''
+const url = new URL(databaseUrl.replace('mysql://', 'http://'))
+const adapter = new PrismaMariaDb({
+  host: url.hostname,
+  port: parseInt(url.port, 10) || 3306,
+  user: url.username,
+  password: url.password,
+  database: url.pathname.slice(1),
+  connectionLimit: 5,
+})
+
+const prisma = new PrismaClient({ adapter })
 
 /**
  * Seeds the database with initial data for posts, users, and tweets.
