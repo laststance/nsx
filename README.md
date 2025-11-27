@@ -25,11 +25,11 @@
 
 Auto post of web page list you read that day.
 
-Used in combination with [nsx-browser-extension](https://github.com/laststance/nsx-browser-extension).
+Used in combination with the [browser-extension](./browser-extension/) (included in this monorepo).
 
 # Prerequisites
 
-- Node.js v20.x.x
+- Node.js v22.x.x (managed via Volta)
 - pnpm
 
 #### Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
@@ -118,20 +118,50 @@ GitHub Actions Workflow
        │ 1. Checkout code
        │ 2. Setup Node.js & pnpm
        │ 3. Install dependencies
-       │ 4. Build frontend & backend
+       │ 4. Build frontend (Vite) & backend (TypeScript)
+       │ 5. pnpm deploy: Package server with backend-only deps
        ▼
    Build Artifacts
+   (build/, server_build/, node_modules/, prisma/)
        │
        │ Upload via SCP
        ▼
 DigitalOcean Server
        │
        │ 1. Create .env from secrets
-       │ 2. Install production dependencies
-       │ 3. PM2 restart
+       │ 2. Run Prisma migrations
+       │ 3. PM2 restart (NO pnpm install needed!)
        ▼
 Running Application (https://nsx.malloc.tokyo/)
 ```
+
+> **Note**: Production server does NOT run `pnpm install`. All backend dependencies are pre-packaged in CI using `pnpm deploy`, reducing server load and deployment time.
+
+## Adding Server Dependencies
+
+When adding a new package that the server needs at runtime:
+
+```bash
+# 1. Add to root (for development)
+pnpm add <package-name>
+
+# 2. Also add to server workspace (for production deployment)
+pnpm --filter=@nsx/server add <package-name>
+```
+
+**Why both?**
+
+| Location              | Purpose     | When Used                              |
+| --------------------- | ----------- | -------------------------------------- |
+| `package.json` (root) | Development | Running `nodemon` locally              |
+| `server/package.json` | Production  | `pnpm deploy` packages only these deps |
+
+> 💡 **pnpm workspace behavior**: Individual packages don't have their own `node_modules`. All packages share the root `node_modules`. Only `pnpm deploy` creates an isolated `node_modules` for production deployment.
+
+**Frontend-only packages** (React, UI libraries, etc.):
+
+- Add to root `package.json` only
+- No need to add to `server/package.json`
 
 ## Utility Scripts
 
