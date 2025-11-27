@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { defineConfig, env } from 'prisma/config'
+import { defineConfig } from 'prisma/config'
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
@@ -7,6 +7,10 @@ export default defineConfig({
     seed: 'tsx prisma/seed.ts',
   },
   datasource: {
-    url: env('DATABASE_URL'),
+    // Use process.env directly with fallback for CI environments
+    // where DATABASE_URL is not available during prisma generate
+    url:
+      process.env.DATABASE_URL ||
+      'mysql://placeholder:placeholder@localhost:3306/placeholder',
   },
 })
