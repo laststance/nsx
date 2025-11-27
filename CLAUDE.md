@@ -1,127 +1,190 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 ## Rules
 
-- never remove browser-extension from pnpm workspace.
+- Never remove browser-extension from pnpm workspace.
+- Node.js version: 22.20.0 (managed via Volta)
 
 ## Development Commands
 
-### Frontend Development
+### Quick Start
 
-- `pnpm start` - Start development server (frontend on port 3010)
-- `pnpm build` - Build production frontend
-- `pnpm build:e2e` - Build for E2E testing environment
-- `pnpm preview` - Preview production build
+```bash
+cp .env.sample .env
+docker-compose up -d
+pnpm install
+pnpm db:reset
+pnpm server:start    # Terminal 1: Backend on port 4000
+pnpm start           # Terminal 2: Frontend on port 3010
+```
 
-### Backend Development
+Default login: `John Doe` / `popcoon`
 
-- `pnpm server:start` - Start backend server with nodemon (port 4000)
-- `pnpm server:build` - Build TypeScript backend to server_build/
+### Frontend
 
-### Testing & Quality
+- `pnpm start` - Dev server (port 3010)
+- `pnpm build` - Production build
+- `pnpm build:e2e` - E2E test build
 
-- `pnpm test` - Run unit tests with Vitest
-- `pnpm lint` - Run ESLint
-- `pnpm typecheck` - Run TypeScript compiler checks
-- `pnpm validate` - Run all validation checks (tests, lint, typecheck, build) in parallel
-- `pnpm playwright` - Run E2E tests (requires `pnpm build:e2e` first)
-- `pnpm playwright:ui` - Run Playwright tests with UI
+### Backend
+
+- `pnpm server:start` - Start with nodemon (port 4000)
+- `pnpm server:build` - Build to server_build/
+
+### Testing
+
+```bash
+# Unit tests
+pnpm test                    # Run all unit tests
+pnpm test -- path/to/file    # Run single test file
+
+# E2E tests (requires pnpm build:e2e first)
+pnpm playwright              # Run all E2E tests
+pnpm playwright:ui           # Interactive UI mode
+pnpm playwright -- --grep "test name"  # Run specific test
+```
+
+### Quality Checks
+
+- `pnpm lint` - ESLint
+- `pnpm typecheck` - TypeScript checks
+- `pnpm validate` - All checks in parallel (tests, lint, typecheck, build)
 
 ### Database
 
-- `pnpm db:reset` - Reset database with migrations and seed
-- `pnpm db:migrate:dev` - Run migrations in development
-- `pnpm db:migrate:deploy` - Run migrations in production
-- `pnpm prisma generate` - Regenerate Prisma client after schema changes
-- `pnpm prisma studio` - Open Prisma Studio for database GUI
-
-### Storybook
-
-- `pnpm storybook` - Start Storybook development server
-- `pnpm build-storybook` - Build Storybook for production
+- `pnpm db:reset` - Reset with migrations and seed
+- `pnpm db:migrate:dev` - Run migrations
+- `pnpm prisma generate` - Regenerate client after schema changes
+- `pnpm prisma studio` - Database GUI
 
 ## Architecture Overview
 
-### Full-Stack Structure
+NSX is a personal blog/reading tracker with auto-posting from browser extension.
 
-NSX is a React + Express application for auto-posting web pages read daily. The project uses:
+### Tech Stack
 
-- **Frontend**: React 19 + Vite + Redux Toolkit + TailwindCSS
-- **Backend**: Express + Prisma + MySQL
+- **Frontend**: React 19 + Vite + Redux Toolkit (RTK Query) + TailwindCSS
+- **Backend**: Express 5 + Prisma + MySQL
 - **Testing**: Vitest (unit) + Playwright (E2E) + Storybook
-- **Production**: PM2 + Docker + HTTPS
+- **Deployment**: PM2 + Docker + HTTPS
+
+### Project Structure
+
+```
+/src              # React frontend
+  /redux          # State management (RTK Query API + slices)
+  /pages          # Route components
+  /components     # Reusable UI components
+  /router         # AuthRouter for protected routes
+/server           # Express backend
+  /routes         # API route handlers (post, user, stock, tweet, bluesky, translate)
+/@types           # Shared TypeScript definitions (Req.*, Res.*, domain types)
+/prisma           # Database schema and migrations
+/e2e              # Playwright E2E tests
+/browser-extension # WXT-based Chrome extension (separate workspace package)
+```
 
 ### Key Architectural Patterns
 
-#### Monorepo Structure
+#### API Layer
 
-- `/src` - React frontend application
-- `/server` - Express backend API
-- `/e2e` - Playwright end-to-end tests
-- `/@types` - Shared TypeScript definitions
-- `/prisma` - Database schema and migrations
+RTK Query handles all API calls with auto-caching and invalidation. Defined in `src/redux/API.ts`:
 
-#### Frontend Architecture
+- Tag-based cache invalidation (`Posts`, `Tweets`)
+- Auto-generated hooks: `useFetchPostListQuery`, `useCreatePostMutation`, etc.
+- 401 responses trigger automatic logout and redirect
 
-- **State Management**: Redux Toolkit with RTK Query for API calls
-- **Routing**: React Router v7 with nested routes under `/dashboard` protected by AuthRouter
-- **UI Components**: Component library in `/src/components` with Storybook stories
-- **Styling**: TailwindCSS with component-based architecture
+#### Routing
 
-#### Backend Architecture
+React Router v7 with protected dashboard routes:
 
-- **API Structure**: Express router in `/server/routes` with modular route files
-- **Database**: Prisma ORM with MySQL, models include User (authors table), Post (posts table), Stock (stocks table), and tweet
-- **Authentication**: JWT-based auth with bcrypt password hashing
-- **Environment Separation**: Development (port 4000) vs Production (HTTPS port 443)
+```
+/                    # Public index
+/post/:postId        # Public post view
+/login               # Authentication
+/dashboard           # Protected (AuthRouter)
+  /create            # Create post
+  /edit/:postId      # Edit post
+  /tweet             # Tweet management
+  /settings/*        # User settings
+```
 
-#### Development Workflow
+#### Type Sharing
 
-The project uses dual-server development:
+Global types in `/@types/` are auto-available (no imports needed):
 
-1. Frontend dev server (Vite) on port 3010 with proxy to backend
-2. Backend dev server (nodemon) on port 4000
-3. Hot reload for both frontend and backend changes
+- `User`, `Post`, `Stock` - Domain models
+- `Req.Login`, `Req.CreatePost` - Request payloads
+- `Res.PostList`, `Res.Login` - Response shapes
 
-#### Production Deployment
+#### Backend Routes
 
-- Frontend builds to `/build` directory
-- Backend compiles to `/server_build`
-- PM2 serves compiled backend which also serves static frontend files
-- HTTPS with Let's Encrypt certificates
+Express routes in `/server/routes/`:
+
+- `post.ts` - CRUD for posts, handles stock conversion
+- `user.ts` - Auth (login/signup/logout), profile, user count
+- `stock.ts` - Browser extension saves here
+- `tweet.ts` - Tweet management with Bluesky posting
+- `translate.ts` - OpenAI translation
+- `bluesky.ts` - Bluesky social posting
+
+### Dual-Server Development
+
+Frontend (Vite) proxies `/api/*` to backend (Express):
+
+- Frontend: http://localhost:3010
+- Backend: http://localhost:4000
+- API calls use `VITE_API_ENDPOINT` environment variable
+
+### Browser Extension
+
+Located in `/browser-extension/` as a pnpm workspace package:
+
+- Framework: WXT (Manifest V3)
+- Captures web pages and posts to `/api/posts` endpoint
+- Run `cd browser-extension && pnpm dev` for extension development
+- See `browser-extension/README.md` for details
+
+### Database Models (Prisma)
+
+- `User` (authors table) - Auth users with settings
+- `Post` (posts table) - Blog posts
+- `Stock` (stocks table) - Captured pages from extension
+- `tweet` - Tweet storage with attachments
 
 ### Environment Variables
 
-All environment variables are prefixed with `VITE_` for frontend access:
+Required in `.env`:
 
-- `VITE_API_ENDPOINT` - Backend API URL
-- `VITE_APP_TITLE`, `VITE_APP_DESCRIPTION` - App metadata
-- `VITE_SENTRY_DNS`, `VITE_GA_MEASUREMENT_ID` - Analytics
-- `ACCESS_TOKEN_SECRET` - JWT secret (backend only)
-- `DATABASE_URL` - MySQL connection string
+| Variable               | Description      |
+| ---------------------- | ---------------- |
+| `VITE_API_ENDPOINT`    | Backend API URL  |
+| `VITE_APP_TITLE`       | App title        |
+| `VITE_APP_DESCRIPTION` | App description  |
+| `ACCESS_TOKEN_SECRET`  | JWT secret       |
+| `DATABASE_URL`         | MySQL connection |
 
-### Testing Strategy
+Optional:
 
-- **Unit Tests**: Vitest with React Testing Library for component testing
-- **E2E Tests**: Playwright with separate build pipeline (`build:e2e`)
-- **Visual Tests**: Storybook with Chromatic integration
-- **Validation Pipeline**: All tests, linting, and type checking run via `pnpm validate`
+| Variable                                | Description          |
+| --------------------------------------- | -------------------- |
+| `OPENAI_API_KEY`                        | Translation features |
+| `BLUESKY_USERNAME` / `BLUESKY_PASSWORD` | Social posting       |
+| `VITE_SENTRY_DNS`                       | Error tracking       |
+| `VITE_GA_MEASUREMENT_ID`                | Analytics            |
 
-### Browser Extension Integration
+### Production
 
-NSX works with a separate browser extension (nsx-browser-extension) to automatically capture and post web pages that users read.
+```bash
+pm2 start ecosystem.config.js    # Start
+pm2 restart ecosystem.config.js  # Restart
+pm2 stop 0                       # Stop
+```
 
-**Browser Extension Details:**
+Deploy scripts in `/scripts/`:
 
-- **Location**: `/browser-extension` directory
-- **Framework**: WXT (Next-generation web extension framework)
-- **Support**: Chrome/Edge (Manifest V3)
-- **Tech Stack**: React 19 + TypeScript + Tailwind CSS
-- **Testing**: Playwright (E2E) + Vitest (unit tests):
-
-📖 **See [browser-extension/README.md](./browser-extension/README.md) for complete documentation**, including:
-
-- Installation and development setup
-- Building and testing instructions
-- Project structure and architecture
-- API integration details
+- `./scripts/deploy` - Deploy to production
+- `./scripts/backup` - Database backup
+- `./scripts/restore backup.sql` - Database restore
