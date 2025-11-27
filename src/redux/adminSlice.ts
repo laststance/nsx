@@ -26,6 +26,9 @@ export const adminSlice = createSlice({
       state.login = true
       state.author = action.payload
     },
+    updateProfile: (state, action: PayloadAction<User>) => {
+      state.author = action.payload
+    },
     logout: (state) => {
       state.login = false
       state.author = initialState.author
@@ -38,6 +41,6 @@ export const selectLogin = (state: RootState): AdminState['login'] =>
 export const selectUser = (state: RootState): AdminState['author'] =>
   state.admin.author
 
-export const { login, logout } = adminSlice.actions
+export const { login, updateProfile, logout } = adminSlice.actions
 
 export default adminSlice.reducer
