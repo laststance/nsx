@@ -41,16 +41,18 @@ jobs:
       - name: Build backend
         run: pnpm server:build
 
+      - name: Deploy server package with dependencies
+        run: pnpm --filter=@nsx/server --prod deploy --legacy .deploy-server
+
       - name: Create artifact
         run: |
           mkdir -p deploy
           cp -r build/ deploy/
           cp -r server_build/ deploy/
-          cp -r prisma/ deploy/          
+          cp -r .deploy-server/node_modules/ deploy/
+          cp -r prisma/ deploy/
           cp ecosystem.config.js deploy/
           cp compose.yml deploy/
-          cp package.json deploy/
-          cp pnpm-lock.yaml deploy/
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -80,7 +82,7 @@ jobs:
           strip_components: 1
           debug: true
 
-      - name: Setup .env and install dependencies
+      - name: Setup .env and restart server
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -95,8 +97,6 @@ jobs:
             BLUESKY_USERNAME=${{ secrets.BLUESKY_USERNAME }}
             BLUESKY_PASSWORD=${{ secrets.BLUESKY_PASSWORD }}
             EOL
-            pnpm install --prod
-            pnpm prisma migrate deploy
-            sudo pm2 status
-            sudo pm2 delete ecosystem.config.js
+            ./node_modules/.bin/prisma migrate deploy
+            sudo pm2 delete ecosystem.config.js || true
             sudo pm2 start ecosystem.config.js
