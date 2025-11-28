@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "project": "nsx",
+    "generated": "2025-11-28",
+    "node": "22.20.0",
+    "description": "Auto-posting personal blog/reading tracker with browser extension"
+  },
+  "stack": {
+    "frontend": ["react@19", "vite@7", "redux-toolkit@2.11", "tailwindcss@4"],
+    "backend": ["express@5", "prisma@7", "mysql2"],
+    "testing": ["vitest", "playwright", "storybook@9"],
+    "extension": "wxt"
+  },
+  "structure": {
+    "src": {
+      "pages": [
+        "Index",
+        "Post",
+        "Login",
+        "Signup",
+        "About",
+        "Dashboard",
+        "Dashboard/Create",
+        "Dashboard/Edit",
+        "Dashboard/Tweet",
+        "Dashboard/Setting"
+      ],
+      "components": [
+        "ArrowButton",
+        "Button",
+        "ErrorBoundary",
+        "icons",
+        "Input",
+        "Layout",
+        "Loading",
+        "Pagination",
+        "PostDate",
+        "RTKQueryErrorMessages",
+        "Search",
+        "Sidebar",
+        "SnackBar",
+        "Spinner",
+        "Textarea",
+        "ToggleTheme",
+        "TweetCard"
+      ],
+      "redux": ["API.ts", "slices/"],
+      "hooks": ["useIsomorphicEffect", "useUpdateEffect"]
+    },
+    "server": {
+      "routes": ["post", "user", "stock", "tweet", "bluesky", "translate"],
+      "lib": ["JWT", "Logger"]
+    },
+    "prisma": {
+      "models": ["User", "Post", "Stock", "tweet", "attachment"]
+    },
+    "browser-extension": {
+      "dirs": ["background", "popup", "content", "option", "lib"]
+    }
+  },
+  "api": {
+    "posts": {
+      "GET /post_list": "paginated list",
+      "GET /post/:id": "single post",
+      "POST /create": "create post",
+      "POST /update": "update post",
+      "DELETE /post/:id": "delete post"
+    },
+    "user": {
+      "POST /login": "JWT auth",
+      "GET /logout": "clear session",
+      "POST /signup": "registration",
+      "GET /user_count": "total users",
+      "PATCH /profile": "update profile",
+      "GET /hover-color-preference": "get UI pref",
+      "PATCH /hover-color-preference": "set UI pref"
+    },
+    "stock": {
+      "GET /stocklist": "saved pages",
+      "POST /push_stock": "save page",
+      "DELETE /stock/:id": "remove saved"
+    },
+    "tweet": {
+      "GET /": "all tweets",
+      "GET /tweet_list": "paginated",
+      "POST /": "create tweet",
+      "DELETE /:id": "delete"
+    }
+  },
+  "routes": {
+    "/": "Index",
+    "/post/:postId": "Post",
+    "/login": "Login",
+    "/signup": "Signup",
+    "/about": "About",
+    "/dashboard": "Dashboard (protected)",
+    "/dashboard/create": "Create post",
+    "/dashboard/edit/:postId": "Edit post",
+    "/dashboard/tweet": "Tweet management",
+    "/dashboard/settings/*": "Settings"
+  },
+  "scripts": {
+    "dev": ["pnpm start", "pnpm server:start"],
+    "test": ["pnpm test", "pnpm playwright"],
+    "quality": ["pnpm lint", "pnpm typecheck"],
+    "db": ["pnpm db:reset", "pnpm db:migrate:dev"],
+    "deploy": ["pnpm build", "pnpm server:build", "pnpm deploy"]
+  },
+  "env": {
+    "required": ["VITE_API_ENDPOINT", "ACCESS_TOKEN_SECRET", "DATABASE_URL"],
+    "optional": [
+      "OPENAI_API_KEY",
+      "BLUESKY_USERNAME",
+      "BLUESKY_PASSWORD",
+      "VITE_SENTRY_DNS",
+      "VITE_GA_MEASUREMENT_ID"
+    ]
+  },
+  "types": {
+    "@types/request.d.ts": "Req.* request payloads",
+    "@types/response.d.ts": "Res.* response shapes",
+    "@types/app.d.ts": "User, Post, Stock domain models",
+    "@types/prisma.d.ts": "Prisma extensions",
+    "@types/utility.d.ts": "Helper types"
+  },
+  "e2e": [
+    "authentication",
+    "login-logout",
+    "post-crud",
+    "tweet-crud",
+    "tweet-pagination",
+    "profile-update",
+    "visitor",
+    "self-host",
+    "hover-color"
+  ]
+}

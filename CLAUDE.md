@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+💡 Must Read PROJECT_INDEX.md at session start for instant context instead of exploring the codebase.
 
 ## Rules
 
