@@ -71,6 +71,15 @@ jobs:
           name: build-files
           path: deploy
 
+      - name: Clean old node_modules on server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo rm -rf ${{ secrets.REMOTE_DIR }}/node_modules || true
+
       - name: Deploy to server
         uses: appleboy/scp-action@v1
         with:
@@ -80,7 +89,6 @@ jobs:
           source: 'deploy/*'
           target: ${{ secrets.REMOTE_DIR }}
           strip_components: 1
-          overwrite: true
           debug: true
 
       - name: Setup .env and restart server
