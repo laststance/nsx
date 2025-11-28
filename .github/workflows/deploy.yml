@@ -53,12 +53,14 @@ jobs:
           cp -r prisma/ deploy/
           cp ecosystem.config.js deploy/
           cp compose.yml deploy/
+          # Create tar archive for efficient transfer
+          tar -czf deploy.tar.gz -C deploy .
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-files
-          path: deploy/
+          path: deploy.tar.gz
 
   deploy:
     needs: build
@@ -69,16 +71,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-files
-          path: deploy
-
-      - name: Clean old node_modules on server
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            sudo rm -rf ${{ secrets.REMOTE_DIR }}/node_modules || true
+          path: .
 
       - name: Deploy to server
         uses: appleboy/scp-action@v1
@@ -86,12 +79,11 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: 'deploy/*'
-          target: ${{ secrets.REMOTE_DIR }}
-          strip_components: 1
+          source: 'deploy.tar.gz'
+          target: '/tmp'
           debug: true
 
-      - name: Setup .env and restart server
+      - name: Extract and restart server
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -99,13 +91,27 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ${{ secrets.REMOTE_DIR }}
-            cat > .env << EOL
+            # Backup .env if exists
+            [ -f .env ] && cp .env /tmp/.env.backup || true
+            # Clean target directory
+            sudo rm -rf ${{ secrets.REMOTE_DIR }}/* || true
+            # Extract tar archive
+            tar -xzf /tmp/deploy.tar.gz -C ${{ secrets.REMOTE_DIR }}
+            # Restore .env
+            [ -f /tmp/.env.backup ] && mv /tmp/.env.backup .env || true
+            # Create .env if not exists
+            if [ ! -f .env ]; then
+              cat > .env << EOL
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
             OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
             BLUESKY_USERNAME=${{ secrets.BLUESKY_USERNAME }}
             BLUESKY_PASSWORD=${{ secrets.BLUESKY_PASSWORD }}
             EOL
+            fi
+            # Run migrations and restart
             ./node_modules/.bin/prisma migrate deploy
             sudo pm2 delete ecosystem.config.js || true
             sudo pm2 start ecosystem.config.js
+            # Cleanup
+            rm -f /tmp/deploy.tar.gz
