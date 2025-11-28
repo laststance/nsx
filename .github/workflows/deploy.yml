@@ -51,6 +51,7 @@ jobs:
           cp -r server_build/ deploy/
           cp -r .deploy-server/node_modules/ deploy/
           cp -r prisma/ deploy/
+          cp package.json deploy/
           cp ecosystem.config.js deploy/
           cp compose.yml deploy/
           # Create tar archive for efficient transfer
