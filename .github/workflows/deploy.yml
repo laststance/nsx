@@ -80,7 +80,7 @@ jobs:
           source: 'deploy/*'
           target: ${{ secrets.REMOTE_DIR }}
           strip_components: 1
-          rm: true
+          overwrite: true
           debug: true
 
       - name: Setup .env and restart server
