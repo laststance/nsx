@@ -1,7 +1,7 @@
 import path from 'node:path'
 
-import { inspectorServer } from '@react-dev-inspector/vite-plugin'
 import react from '@vitejs/plugin-react'
+import { codeInspectorPlugin } from 'code-inspector-plugin'
 import { defineConfig } from 'vite'
 import EnvironmentPlugin from 'vite-plugin-environment'
 
@@ -33,12 +33,12 @@ export default defineConfig({
     sourcemap: true,
   },
   plugins: [
-    inspectorServer(),
-    react({
-      babel: {
-        plugins: ['@react-dev-inspector/babel-plugin'],
-      },
+    codeInspectorPlugin({
+      bundler: 'vite',
+      hotKeys: ['altKey'], // Alt key only to trigger inspector
+      showSwitch: false,
     }),
+    react(),
     EnvironmentPlugin([
       'VITE_APP_TITLE',
       'VITE_APP_DESCRIPTION',

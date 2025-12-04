@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/react'
-import { Inspector } from 'react-dev-inspector'
 import { createRoot } from 'react-dom/client'
 import GA4 from 'react-ga4'
 import type {
@@ -75,9 +74,4 @@ if (process.env.NODE_ENV === 'production') {
   onLCP(sendToGoogleAnalytics)
 }
 
-createRoot(document.getElementById('root')!).render(
-  <>
-    <Inspector keys={['Ctrl', 'Shift', 'Command', 'C']} />
-    <App />
-  </>,
-)
+createRoot(document.getElementById('root')!).render(<App />)
