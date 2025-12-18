@@ -17,7 +17,7 @@
   "lint-staged": {
     "*": "prettier --ignore-unknown --write",
     "*.{js,ts,jsx,tsx,cjs,mjs}": [
-      "eslint -c eslint.config.mjs --fix"
+      "eslint -c eslint.config.mjs --fix --max-warnings=0"
     ]
   },
   "dependencies": {
