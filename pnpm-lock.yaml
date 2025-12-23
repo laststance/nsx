@@ -151,8 +151,8 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
       '@laststance/react-next-eslint-plugin':
-        specifier: ^1.1.0
-        version: 1.1.0(eslint@9.39.2(jiti@2.6.1))
+        specifier: ^1.2.1
+        version: 1.2.1(eslint@9.39.2(jiti@2.6.1))
       '@playwright/test':
         specifier: ^1.57.0
         version: 1.57.0
@@ -1307,8 +1307,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@laststance/react-next-eslint-plugin@1.1.0':
-    resolution: {integrity: sha512-BHGAYH5YAQ/t4AZsaZwdz1CR0Tbwu5d56ruBASRKmoI1ohh7sPzebC5/4++/EqzphCjSRteuTiOZ0WcI8Np+Tw==}
+  '@laststance/react-next-eslint-plugin@1.2.1':
+    resolution: {integrity: sha512-vrkHYbckZfAmgRMM/eDD5bQKnziGH0wZqiZR/Wrkjc0qiyf5Vctyhpjo82hXVTylM+Dt0pmSxIOeuYP/KchVyw==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       eslint: '>=9.0.0'
@@ -7769,6 +7769,10 @@ packages:
     resolution: {integrity: sha512-c5EGNOiyxxV5qmTtAB7rbiXxi1ooX1pQKMLX/MIabJjRA0SJBQOjKF+KSVfHkr9U1cADPon0mRiVe/riyaiDUA==}
     engines: {node: '>=10.13.0'}
 
+  watchpack@2.5.0:
+    resolution: {integrity: sha512-e6vZvY6xboSwLz2GD36c16+O/2Z6fKvIf4pOXptw2rY9MVwE/TXc6RGqxD3I3x0a28lwBY7DE+76uTPSsBrrCA==}
+    engines: {node: '>=10.13.0'}
+
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
 
@@ -8729,7 +8733,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@laststance/react-next-eslint-plugin@1.1.0(eslint@9.39.2(jiti@2.6.1))':
+  '@laststance/react-next-eslint-plugin@1.2.1(eslint@9.39.2(jiti@2.6.1))':
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
 
@@ -16239,6 +16243,11 @@ snapshots:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
 
+  watchpack@2.5.0:
+    dependencies:
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
@@ -16346,7 +16355,7 @@ snapshots:
       schema-utils: 4.3.3
       tapable: 2.3.0
       terser-webpack-plugin: 5.3.16(esbuild@0.27.2)(webpack@5.103.0(esbuild@0.27.2))
-      watchpack: 2.4.4
+      watchpack: 2.5.0
       webpack-sources: 3.3.3
     transitivePeerDependencies:
       - '@swc/core'
