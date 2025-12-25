@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, FC, ChangeEvent } from 'react'
 
 import { setBookmarkedIcon } from '../../lib/setBookmarkIcon'
 
@@ -10,11 +10,19 @@ export interface PopupState {
   url: string
 }
 
-function App() {
+/**
+ * Main popup component for NSX extension
+ * Allows users to bookmark the current page and share on Twitter
+ */
+const App: FC = () => {
   const state = useGetPageInfo()
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState<string>('')
 
-  const onCheckedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /**
+   * Handles checkbox toggle to save current page
+   * Sends page data to backend, updates icon, and shows success message
+   */
+  const onCheckedHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.checked) return
 
     // Updated to use Vite's import.meta.env instead of process.env
@@ -26,9 +34,12 @@ function App() {
         url: state.url.replace(/\/$/, ''),
       })
       .then(() => {
+        const resultElement = document.querySelector('.result')
+        if (!resultElement) return
+
         const span = document.createElement('span')
         span.innerHTML = 'Success!'
-        document.querySelector('.result')!.appendChild(span)
+        resultElement.appendChild(span)
 
         const fadeInEffect = new KeyframeEffect(
           span,
@@ -63,10 +74,13 @@ function App() {
           }
         }, 1000)
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
+        const resultElement = document.querySelector('.result')
+        if (!resultElement) return
+
         const span = document.createElement('span')
         span.innerHTML = 'Failed...'
-        document.querySelector('.result')!.appendChild(span)
+        resultElement.appendChild(span)
         setTimeout(() => {
           span.remove()
         }, 1000)
@@ -92,7 +106,7 @@ function App() {
       <section className="row2">
         <textarea
           className="comment"
-          onBlur={(e) => setComment(e.target.value)}
+          onBlur={(e): void => setComment(e.currentTarget.value)}
           cols={60}
           rows={2}
         />
@@ -102,10 +116,11 @@ function App() {
           href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
             state.url.replace(/\/$/, ''),
           )}&text=${encodeURIComponent(comment)}`}
+          rel="noreferrer"
         >
           tweet
         </a>
-        <div className="result"></div>
+        <div className="result" />
       </section>
     </main>
   )

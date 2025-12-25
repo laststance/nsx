@@ -1,4 +1,10 @@
-export async function getCurrentTab() {
+/**
+ * Gets the currently active tab from the browser
+ * Filters out extension and system pages
+ * Returns the most recently accessed browser tab
+ * @returns The active tab or fallback tab, undefined if no tabs available
+ */
+export async function getCurrentTab(): Promise<chrome.tabs.Tab | undefined> {
   // For popup extensions, try to get the active tab from the window
   // that was focused when the popup opened
   const [tab] = await chrome.tabs.query({
@@ -14,8 +20,8 @@ export async function getCurrentTab() {
   // Fallback: Get all tabs, filter out extension pages, and return most recent
   const allTabs = await chrome.tabs.query({})
   const browserTabs = allTabs.filter(
-    (t) =>
-      t.url &&
+    (t): t is chrome.tabs.Tab =>
+      t.url !== undefined &&
       !t.url.startsWith('chrome-extension://') &&
       !t.url.startsWith('chrome://') &&
       !t.url.startsWith('about:'),

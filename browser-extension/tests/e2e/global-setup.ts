@@ -14,7 +14,11 @@ import { existsSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-async function globalSetup() {
+/**
+ * Playwright globalSetup hook - runs once before all tests
+ * Sets up the extension build and verifies backend connectivity
+ */
+async function globalSetup(): Promise<void> {
   console.log('\n🔧 Setting up WXT Extension E2E test environment...\n')
 
   const currentDir = path.dirname(fileURLToPath(import.meta.url))
@@ -47,11 +51,6 @@ async function globalSetup() {
       '⏳ Waiting for backend server (started by Playwright webServer)...',
     )
     console.log('   Backend will be available at http://localhost:4000\n')
-
-    return {
-      extensionPath: extensionOutput,
-      setupComplete: true,
-    }
   } catch (error) {
     console.error('❌ Extension setup failed:', error)
     throw error
