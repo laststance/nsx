@@ -85,7 +85,7 @@ importers:
         version: 3.16.0
       openai:
         specifier: ^6.15.0
-        version: 6.15.0(ws@8.18.3)(zod@4.3.2)
+        version: 6.15.0(ws@8.18.3)(zod@4.3.4)
       pm2:
         specifier: ^6.0.14
         version: 6.0.14
@@ -138,8 +138,8 @@ importers:
         specifier: ^5.0.3
         version: 5.1.0
       zod:
-        specifier: ^4.3.2
-        version: 4.3.2
+        specifier: ^4.3.4
+        version: 4.3.4
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^4.1.3
@@ -151,8 +151,8 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
       '@laststance/react-next-eslint-plugin':
-        specifier: ^1.2.1
-        version: 1.2.1(eslint@9.39.2(jiti@2.6.1))
+        specifier: ^1.2.3
+        version: 1.2.3(eslint@9.39.2(jiti@2.6.1))
       '@playwright/test':
         specifier: ^1.57.0
         version: 1.57.0
@@ -543,7 +543,7 @@ importers:
         version: 3.16.0
       openai:
         specifier: ^6.15.0
-        version: 6.15.0(ws@8.18.3)(zod@4.3.2)
+        version: 6.15.0(ws@8.18.3)(zod@4.3.4)
       prisma:
         specifier: ^7.2.0
         version: 7.2.0(@types/react@19.2.7)(magicast@0.3.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
@@ -1320,8 +1320,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@laststance/react-next-eslint-plugin@1.2.1':
-    resolution: {integrity: sha512-vrkHYbckZfAmgRMM/eDD5bQKnziGH0wZqiZR/Wrkjc0qiyf5Vctyhpjo82hXVTylM+Dt0pmSxIOeuYP/KchVyw==}
+  '@laststance/react-next-eslint-plugin@1.2.3':
+    resolution: {integrity: sha512-89yl/LAPr6F0gJFSMGejebe8TkgMOJLNSFiYRvi7h4Pvr4qdqt558sNjh5+qaoxLvQiPgCKKZGCZMnK4+IkNYQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       eslint: '>=9.0.0'
@@ -8018,8 +8018,8 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.3.2:
-    resolution: {integrity: sha512-b8L8yn4rIVfiXyHAmnr52/ZEpDumlT0bmxiq3Ws1ybrinhflGpt12Hvv54kYnEsGPRs6o/Ka3/ppA2OWY21IVg==}
+  zod@4.3.4:
+    resolution: {integrity: sha512-Zw/uYiiyF6pUT1qmKbZziChgNPRu+ZRneAsMUDU6IwmXdWt5JwcUfy2bvLOCUtz5UniaN/Zx5aFttZYbYc7O/A==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -8705,7 +8705,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@laststance/react-next-eslint-plugin@1.2.1(eslint@9.39.2(jiti@2.6.1))':
+  '@laststance/react-next-eslint-plugin@1.2.3(eslint@9.39.2(jiti@2.6.1))':
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
 
@@ -11737,8 +11737,8 @@ snapshots:
       '@babel/parser': 7.28.5
       eslint: 9.39.2(jiti@2.6.1)
       hermes-parser: 0.25.1
-      zod: 4.3.2
-      zod-validation-error: 4.0.2(zod@4.3.2)
+      zod: 4.3.4
+      zod-validation-error: 4.0.2(zod@4.3.4)
     transitivePeerDependencies:
       - supports-color
 
@@ -12981,7 +12981,7 @@ snapshots:
       smol-toml: 1.6.0
       strip-json-comments: 5.0.3
       typescript: 5.9.3
-      zod: 4.3.2
+      zod: 4.3.4
 
   ky@1.14.1: {}
 
@@ -14009,10 +14009,10 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@6.15.0(ws@8.18.3)(zod@4.3.2):
+  openai@6.15.0(ws@8.18.3)(zod@4.3.4):
     optionalDependencies:
       ws: 8.18.3
-      zod: 4.3.2
+      zod: 4.3.4
 
   openapi-sampler@1.6.2:
     dependencies:
@@ -14561,7 +14561,7 @@ snapshots:
       formdata-node: 6.0.3
       listr2: 8.3.3
       ofetch: 1.5.1
-      zod: 4.3.2
+      zod: 4.3.4
 
   punycode@2.3.1: {}
 
@@ -16557,12 +16557,12 @@ snapshots:
       async: 3.2.6
       jszip: 3.10.1
 
-  zod-validation-error@4.0.2(zod@4.3.2):
+  zod-validation-error@4.0.2(zod@4.3.4):
     dependencies:
-      zod: 4.3.2
+      zod: 4.3.4
 
   zod@3.25.76: {}
 
-  zod@4.3.2: {}
+  zod@4.3.4: {}
 
   zwitch@2.0.4: {}
