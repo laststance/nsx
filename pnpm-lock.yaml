@@ -15,8 +15,8 @@ importers:
   .:
     dependencies:
       '@atproto/api':
-        specifier: ^0.18.9
-        version: 0.18.9
+        specifier: ^0.18.10
+        version: 0.18.10
       '@headlessui/react':
         specifier: ^1.7.19
         version: 1.7.19(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -494,8 +494,8 @@ importers:
   server:
     dependencies:
       '@atproto/api':
-        specifier: ^0.18.9
-        version: 0.18.9
+        specifier: ^0.18.10
+        version: 0.18.10
       '@prisma/adapter-mariadb':
         specifier: 7.2.0
         version: 7.2.0
@@ -582,17 +582,17 @@ packages:
   '@asamuzakjp/nwsapi@2.3.9':
     resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
 
-  '@atproto/api@0.18.9':
-    resolution: {integrity: sha512-ft+0+sczS0qsoxwjqO1VhCXSNG792QEr+uQ91OCc36DTa3sPtaTPL7yNOVTDyEHaYDfp8tYN4v+Pq5/bzz3EpA==}
+  '@atproto/api@0.18.10':
+    resolution: {integrity: sha512-q23wreAGhktrMLepulvljZWHsUOrTIDwhU3gr/uSX3R1TZIZ3i4SxQZVlMqaQHpNJ/5Xj8J1hozkwVpaOX37eA==}
 
-  '@atproto/common-web@0.4.8':
-    resolution: {integrity: sha512-2YDVTYAXmd8UStebscDglisrxT5q7qt+0Fbf2zpkOITeNEEXCeTcoE0X369/ssdPtiw4CMq2rGHDH003SO7bdQ==}
+  '@atproto/common-web@0.4.10':
+    resolution: {integrity: sha512-TLDZSgSKzT8ZgOrBrTGK87J1CXve9TEuY6NVVUBRkOMzRRtQzpFb9/ih5WVS/hnaWVvE30CfuyaetRoma+WKNw==}
 
-  '@atproto/lex-data@0.0.4':
-    resolution: {integrity: sha512-ziWY8R4wJ0NGDSlt+gzPxMsIh1DXFeLt+lsBoVc6wPaJamCxngwWAxONuQ3p9oRE6zR/gXsCOdtZAH5yjWW5ag==}
+  '@atproto/lex-data@0.0.6':
+    resolution: {integrity: sha512-MBNB4ghRJQzuXK1zlUPljpPbQcF1LZ5dzxy274KqPt4p3uPuRw0mHjgcCoWzRUNBQC685WMQR4IN9DHtsnG57A==}
 
-  '@atproto/lex-json@0.0.4':
-    resolution: {integrity: sha512-BTBnRZUW7XFCbJnuSMvUZSLXYP6RK/RdTg68sySoK+Hg0A5k43uniA7xtFhJFZCfZ96brl3k/ykdVh76LizQ8Q==}
+  '@atproto/lex-json@0.0.6':
+    resolution: {integrity: sha512-EILnN5cditPvf+PCNjXt7reMuzjugxAL1fpSzmzJbEMGMUwxOf5pPWxRsaA/M3Boip4NQZ+6DVrPOGUMlnqceg==}
 
   '@atproto/lexicon@0.6.0':
     resolution: {integrity: sha512-5veb8aD+J5M0qszLJ+73KSFsFrJBgAY/nM1TSAJvGY7fNc9ZAT+PSUlmIyrdye9YznAZ07yktalls/TwNV7cHQ==}
@@ -8048,9 +8048,9 @@ snapshots:
 
   '@asamuzakjp/nwsapi@2.3.9': {}
 
-  '@atproto/api@0.18.9':
+  '@atproto/api@0.18.10':
     dependencies:
-      '@atproto/common-web': 0.4.8
+      '@atproto/common-web': 0.4.10
       '@atproto/lexicon': 0.6.0
       '@atproto/syntax': 0.4.2
       '@atproto/xrpc': 0.7.7
@@ -8059,13 +8059,13 @@ snapshots:
       tlds: 1.261.0
       zod: 3.25.76
 
-  '@atproto/common-web@0.4.8':
+  '@atproto/common-web@0.4.10':
     dependencies:
-      '@atproto/lex-data': 0.0.4
-      '@atproto/lex-json': 0.0.4
+      '@atproto/lex-data': 0.0.6
+      '@atproto/lex-json': 0.0.6
       zod: 3.25.76
 
-  '@atproto/lex-data@0.0.4':
+  '@atproto/lex-data@0.0.6':
     dependencies:
       '@atproto/syntax': 0.4.2
       multiformats: 9.9.0
@@ -8073,14 +8073,14 @@ snapshots:
       uint8arrays: 3.0.0
       unicode-segmenter: 0.14.5
 
-  '@atproto/lex-json@0.0.4':
+  '@atproto/lex-json@0.0.6':
     dependencies:
-      '@atproto/lex-data': 0.0.4
+      '@atproto/lex-data': 0.0.6
       tslib: 2.8.1
 
   '@atproto/lexicon@0.6.0':
     dependencies:
-      '@atproto/common-web': 0.4.8
+      '@atproto/common-web': 0.4.10
       '@atproto/syntax': 0.4.2
       iso-datestring-validator: 2.2.2
       multiformats: 9.9.0
