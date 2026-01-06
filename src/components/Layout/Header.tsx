@@ -18,7 +18,7 @@ const Header = memo(() => (
           📝
         </span>
       </p>
-      <div className="ml-[-50px] flex space-x-2 sm:ml-[50px] sm:grow sm:justify-end">
+      <div className="-ml-12.5 flex space-x-2 sm:ml-[50px] sm:grow sm:justify-end">
         <div className="flex-initial">
           <Link to="/about">
             <div className="text-color-secondary text-lg hover:text-gray-300 dark:hover:text-gray-500">
