@@ -426,7 +426,7 @@ importers:
         version: 4.0.18(vitest@4.0.18)
       '@wxt-dev/module-react':
         specifier: ^1.1.5
-        version: 1.1.5(vite@7.3.1(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(wxt@0.20.15(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+        version: 1.1.5(vite@7.3.1(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(wxt@0.20.16(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       autoprefixer:
         specifier: ^10.4.24
         version: 10.4.24(postcss@8.5.6)
@@ -488,8 +488,8 @@ importers:
         specifier: ^0.12.0
         version: 0.12.0
       wxt:
-        specifier: ^0.20.15
-        version: 0.20.15(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+        specifier: ^0.20.16
+        version: 0.20.16(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
 
   server:
     dependencies:
@@ -3120,6 +3120,10 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
+  balanced-match@4.0.2:
+    resolution: {integrity: sha512-x0K50QvKQ97fdEz2kPehIerj+YTeptKF9hyYkKf6egnwmMWAkADiO0QCzSp0R5xN8FTZgYaBfSaue46Ej62nMg==}
+    engines: {node: 20 || >=22}
+
   baseline-browser-mapping@2.9.19:
     resolution: {integrity: sha512-ipDqC8FrAl/76p2SSWKSI+H9tFwm7vYqXQrItCuiVPt26Km0jS+NzSsBWAaBusvSbQcfJG+JitdMm+wZAgTYqg==}
     hasBin: true
@@ -3175,6 +3179,10 @@ packages:
 
   brace-expansion@2.0.2:
     resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
+
+  brace-expansion@5.0.2:
+    resolution: {integrity: sha512-Pdk8c9poy+YhOgVWw1JNN22/HcivgKWwpxKq04M/jTmHyCZn12WPJebZxdjSa5TmBqISrUSgNYU3eRORljfCCw==}
+    engines: {node: 20 || >=22}
 
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
@@ -3361,8 +3369,8 @@ packages:
   citty@0.1.6:
     resolution: {integrity: sha512-tskPPKEs8D2KPafUypv2gxwJP8h/OaJmC82QQGGDQcHvXX43xF2VDACcJVmZ0EuSxkpO9Kc4MlrA3q0+FG58AQ==}
 
-  citty@0.2.0:
-    resolution: {integrity: sha512-8csy5IBFI2ex2hTVpaHN2j+LNE199AgiI7y4dMintrr8i0lQiFn+0AWMZrWdHKIgMOer65f8IThysYhoReqjWA==}
+  citty@0.2.1:
+    resolution: {integrity: sha512-kEV95lFBhQgtogAPlQfJJ0WGVSokvLr/UEoFPiKKOXF7pl98HfUVUD0ejsuTCld/9xH9vogSywZ5KqHzXrZpqg==}
 
   classnames@2.5.1:
     resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
@@ -5690,6 +5698,10 @@ packages:
 
   minimatch@10.1.2:
     resolution: {integrity: sha512-fu656aJ0n2kcXwsnwnv9g24tkU5uSmOlTjd6WyyaKm2Z+h1qmY6bAjrcaIxF/BslFqbZ8UBtbJi7KgQOZD2PTw==}
+    engines: {node: 20 || >=22}
+
+  minimatch@10.2.0:
+    resolution: {integrity: sha512-ugkC31VaVg9cF0DFVoADH12k6061zNZkZON+aX8AWsR9GhPcErkcMBceb6znR8wLERM2AkkOxy2nWRLpT9Jq5w==}
     engines: {node: 20 || >=22}
 
   minimatch@3.1.2:
@@ -8060,8 +8072,8 @@ packages:
     resolution: {integrity: sha512-g/eziiSUNBSsdDJtCLB8bdYEUMj4jR7AGeUo96p/3dTafgjHhpF4RiCFPiRILwjQoDXx5MqkBr4fwWtR3Ky4Wg==}
     engines: {node: '>=20'}
 
-  wxt@0.20.15:
-    resolution: {integrity: sha512-qsAGBkr8B/hwqcSdzW+ozGAITgu5gF4PApMp9hHKeN5am/hb8ixCMa40MPDCJZLNl7sAijODfD2K7+GHwaeW2A==}
+  wxt@0.20.16:
+    resolution: {integrity: sha512-yB+lDM6g7Bh4STbuDhUdYACQShxKvpMH0Rgi8RFUiqLCqScZn5X4ZVxa5IQ9NQl0NvftErSCFocQ8mWg5Bse/w==}
     hasBin: true
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
@@ -8758,7 +8770,7 @@ snapshots:
     dependencies:
       '@eslint/object-schema': 3.0.1
       debug: 4.4.3(supports-color@5.5.0)
-      minimatch: 10.1.2
+      minimatch: 10.2.0
     transitivePeerDependencies:
       - supports-color
 
@@ -10535,10 +10547,10 @@ snapshots:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
 
-  '@wxt-dev/module-react@1.1.5(vite@7.3.1(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(wxt@0.20.15(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))':
+  '@wxt-dev/module-react@1.1.5(vite@7.3.1(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(wxt@0.20.16(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@vitejs/plugin-react': 5.1.4(vite@7.3.1(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
-      wxt: 0.20.15(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+      wxt: 0.20.16(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
       - vite
@@ -10874,6 +10886,10 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
+  balanced-match@4.0.2:
+    dependencies:
+      jackspeak: 4.2.3
+
   baseline-browser-mapping@2.9.19: {}
 
   basic-auth@2.0.1:
@@ -10945,6 +10961,10 @@ snapshots:
   brace-expansion@2.0.2:
     dependencies:
       balanced-match: 1.0.2
+
+  brace-expansion@5.0.2:
+    dependencies:
+      balanced-match: 4.0.2
 
   braces@3.0.3:
     dependencies:
@@ -11157,7 +11177,7 @@ snapshots:
     dependencies:
       consola: 3.4.2
 
-  citty@0.2.0: {}
+  citty@0.2.1: {}
 
   classnames@2.5.1: {}
 
@@ -12530,14 +12550,14 @@ snapshots:
     dependencies:
       foreground-child: 3.3.1
       jackspeak: 4.2.3
-      minimatch: 10.1.2
+      minimatch: 10.2.0
       minipass: 7.1.2
       package-json-from-dist: 1.0.1
       path-scurry: 2.0.1
 
   glob@13.0.0:
     dependencies:
-      minimatch: 10.1.2
+      minimatch: 10.2.0
       minipass: 7.1.2
       path-scurry: 2.0.1
 
@@ -13909,6 +13929,10 @@ snapshots:
     dependencies:
       '@isaacs/brace-expansion': 5.0.1
 
+  minimatch@10.2.0:
+    dependencies:
+      brace-expansion: 5.0.2
+
   minimatch@3.1.2:
     dependencies:
       brace-expansion: 1.1.12
@@ -14146,7 +14170,7 @@ snapshots:
 
   nypm@0.6.5:
     dependencies:
-      citty: 0.2.0
+      citty: 0.2.1
       pathe: 2.0.3
       tinyexec: 1.0.2
 
@@ -16693,7 +16717,7 @@ snapshots:
       is-wsl: 3.1.0
       powershell-utils: 0.1.0
 
-  wxt@0.20.15(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2):
+  wxt@0.20.16(@types/node@25.2.3)(eslint@10.0.0(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.55.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2):
     dependencies:
       '@1natsu/wait-element': 4.1.2
       '@aklinker1/rollup-plugin-visualizer': 5.12.0(rollup@4.55.1)
@@ -16724,7 +16748,7 @@ snapshots:
       jszip: 3.10.1
       linkedom: 0.18.12
       magicast: 0.5.2
-      minimatch: 10.1.2
+      minimatch: 10.2.0
       nano-spawn: 2.0.0
       normalize-path: 3.0.0
       nypm: 0.6.5
