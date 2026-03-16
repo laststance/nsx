@@ -77,7 +77,7 @@ tweet.delete(
   '/:id',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id = parseInt(req.params.id, 10)
+      const id = parseInt(String(req.params.id), 10)
       await prisma.tweet.delete({ where: { id } })
 
       res.status(200).json({ message: 'Tweet deleted successfully' })

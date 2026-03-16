@@ -15,8 +15,8 @@ export default defineConfig({
     outDir: 'build',
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: [
+        manualChunks(id) {
+          const vendorPackages = [
             '@sentry/react',
             'react-hook-form',
             'react-helmet',
@@ -26,7 +26,12 @@ export default defineConfig({
             'remark-breaks',
             'remark-gfm',
             'react-spinners',
-          ], // put react and react-dom into a 'vendor' chunk
+          ]
+          if (
+            vendorPackages.some((pkg) => id.includes(`node_modules/${pkg}`))
+          ) {
+            return 'vendor'
+          }
         },
       },
     },

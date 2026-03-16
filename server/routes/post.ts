@@ -10,7 +10,7 @@ const router: Router = express.Router()
 router.get('/post/:id', async (req: Request, res: Response) => {
   try {
     const post = await prisma.post.findFirst({
-      where: { id: parseInt(req.params.id, 10) },
+      where: { id: parseInt(String(req.params.id), 10) },
     })
 
     res.status(200).json(post)
@@ -32,7 +32,9 @@ router.delete(
   isAuthorized,
   async (req: Request, res: Response) => {
     try {
-      await prisma.post.delete({ where: { id: parseInt(req.params.id, 10) } })
+      await prisma.post.delete({
+        where: { id: parseInt(String(req.params.id), 10) },
+      })
       res.status(200).json({ message: 'Delete Successful!' })
     } catch (error: unknown) {
       if (error instanceof Error) {

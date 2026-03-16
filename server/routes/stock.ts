@@ -33,7 +33,9 @@ router.get('/stocklist', async (_req, res) => {
 
 router.delete('/stock/:id', isAuthorized, async (req, res) => {
   try {
-    await prisma.stock.delete({ where: { id: parseInt(req.params.id, 10) } })
+    await prisma.stock.delete({
+      where: { id: parseInt(String(req.params.id), 10) },
+    })
     res.status(200).json({ message: 'Delete Successful!' })
   } catch (error: unknown) {
     if (error instanceof Error) {
