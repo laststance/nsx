@@ -1,6 +1,7 @@
 {
-  "$shema": "https://json.schemastore.org/tsconfig.json",
+  "$schema": "https://json.schemastore.org/tsconfig.json",
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "types": ["vitest/globals", "@testing-library/jest-dom", "@types/chrome"],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
