@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Load password from .env if not set in environment
+if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+  ENV_FILE="$SCRIPT_DIR/../.env"
+  if [ -f "$ENV_FILE" ]; then
+    MYSQL_ROOT_PASSWORD=$(grep -E '^MYSQL_ROOT_PASSWORD=' "$ENV_FILE" | cut -d'=' -f2-)
+  fi
+fi
+
+if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+  echo "Error: MYSQL_ROOT_PASSWORD is not set. Set it in .env or export it." >&2
+  exit 1
+fi
+
 BACKUP_FILE=$1
 USER="root"
 HOST="nsx.malloc.tokyo"
@@ -14,6 +28,6 @@ fi
 scp ${BACKUP_FILE} ${USER}@${HOST}:${REMOTE_DIR}/
 
 # Restore database on remote server
-ssh ${USER}@${HOST} "docker exec -i nsx-db-1 mysql -u root -prootpass digital < ${REMOTE_DIR}/$(basename ${BACKUP_FILE})"
+ssh ${USER}@${HOST} "docker exec -i nsx-db-1 mysql -u root -p${MYSQL_ROOT_PASSWORD} digital < ${REMOTE_DIR}/$(basename ${BACKUP_FILE})"
 
 echo "Remote server database restore completed"

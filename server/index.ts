@@ -1,3 +1,5 @@
+import './env' // Must be first — populates process.env before other modules
+
 import fs from 'node:fs'
 import https from 'node:https'
 import path from 'node:path'
@@ -16,13 +18,6 @@ import Logger from './lib/Logger'
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
 const isProd = env === 'production'
-// .env file path resolve different between dev and production.
-// dev: projectRoot/.env production: projectRoot/server_build/.env
-require('dotenv').config({
-  path: isProd
-    ? path.join(__dirname, './../../.env')
-    : path.join(__dirname, '../.env'),
-})
 
 Cron.readList.start()
 
@@ -58,16 +53,19 @@ if (isDev) {
     res.sendFile(path.join(__dirname, './../../build/index.html'))
   })
 
+  const sslDomain = process.env.SSL_DOMAIN || 'nsx.malloc.tokyo'
+  const sslBase =
+    process.env.SSL_BASE_PATH || `/etc/letsencrypt/live/${sslDomain}`
   const privateKey = fs.readFileSync(
-    '/etc/letsencrypt/live/nsx.malloc.tokyo/privkey.pem',
+    process.env.SSL_KEY_PATH || `${sslBase}/privkey.pem`,
     'utf-8',
   )
   const certificate = fs.readFileSync(
-    '/etc/letsencrypt/live/nsx.malloc.tokyo/cert.pem',
+    process.env.SSL_CERT_PATH || `${sslBase}/cert.pem`,
     'utf-8',
   )
   const ca = fs.readFileSync(
-    '/etc/letsencrypt/live/nsx.malloc.tokyo/chain.pem',
+    process.env.SSL_CA_PATH || `${sslBase}/chain.pem`,
     'utf-8',
   )
 

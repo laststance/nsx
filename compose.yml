@@ -11,7 +11,7 @@ services:
     expose:
       - '3306'
     environment:
-      MYSQL_ROOT_PASSWORD: 'rootpass'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
       MYSQL_DATABASE: 'digital'
-      MYSQL_USER: 'strength'
-      MYSQL_PASSWORD: 'password'
+      MYSQL_USER: ${MYSQL_USER:-strength}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}

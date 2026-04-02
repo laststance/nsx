@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Load password from .env if not set in environment
+if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+  ENV_FILE="$SCRIPT_DIR/../.env"
+  if [ -f "$ENV_FILE" ]; then
+    MYSQL_ROOT_PASSWORD=$(grep -E '^MYSQL_ROOT_PASSWORD=' "$ENV_FILE" | cut -d'=' -f2-)
+  fi
+fi
+
+if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+  echo "Error: MYSQL_ROOT_PASSWORD is not set. Set it in .env or export it." >&2
+  exit 1
+fi
+
 USER="root"
 HOST="nsx.malloc.tokyo"
 REMOTE_DIR="/home/deploy/nsx/"
@@ -8,7 +22,7 @@ MYSQL_DATABASE_NAME="digital"
 BACKUP_FILE_NAME="backup_$(date +%Y%m%d).sql"
 
 # SSH into the remote server and execute the docker command to create a MySQL backup
-ssh ${USER}@${HOST} "docker exec ${DOCKER_CONTAINER_NAME} /usr/bin/mysqldump -u root -prootpass ${MYSQL_DATABASE_NAME} > ${REMOTE_DIR}/${BACKUP_FILE_NAME}"
+ssh ${USER}@${HOST} "docker exec ${DOCKER_CONTAINER_NAME} /usr/bin/mysqldump -u root -p${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE_NAME} > ${REMOTE_DIR}/${BACKUP_FILE_NAME}"
 
 # SCP the backup file to your local machine
 scp ${USER}@${HOST}:${REMOTE_DIR}/${BACKUP_FILE_NAME} .
