@@ -1,1 +1,1 @@
-export function assertCast<T>(v: any): asserts v is T {}
+export function assertCast<T>(_v: any): asserts _v is T {}
