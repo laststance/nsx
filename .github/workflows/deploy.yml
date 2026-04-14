@@ -98,8 +98,10 @@ jobs:
             cd ${{ secrets.REMOTE_DIR }}
             # Backup .env if exists
             [ -f .env ] && cp .env /tmp/.env.backup || true
-            # Clean target directory
-            sudo rm -rf ${{ secrets.REMOTE_DIR }}/* || true
+            # Clean target directory (never remove top-level `run/` — compose.prod binds
+            # ./run/mysqld:/var/run/mysqld; deleting and recreating `run` orphans the mount inode
+            # so host socketPath and prisma/pm2 would break until manual db recreate).
+            sudo find "${{ secrets.REMOTE_DIR }}" -mindepth 1 -maxdepth 1 ! -name 'run' -exec rm -rf {} + 2>/dev/null || true
             # Extract tar archive
             tar -xzf /tmp/deploy.tar.gz -C ${{ secrets.REMOTE_DIR }}
             mkdir -p run/mysqld
