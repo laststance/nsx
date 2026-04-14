@@ -1,9 +1,12 @@
 # Production: named data volume, no host TCP publish, Unix socket exposed on the host for PM2.
+# Pin Docker volume name to `nsx_mysql_data` (legacy compose used key `mysql_data` → that name).
+# A bare key `nsx_mysql_data` would create `nsx_nsx_mysql_data` and mount an empty store.
 services:
   db:
     volumes:
-      - nsx_mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
       - ./run/mysqld:/var/run/mysqld
 
 volumes:
-  nsx_mysql_data:
+  mysql_data:
+    name: nsx_mysql_data
