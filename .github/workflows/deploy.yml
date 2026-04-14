@@ -55,6 +55,9 @@ jobs:
           cp package.json deploy/
           cp ecosystem.config.js deploy/
           cp compose.yml deploy/
+          cp compose.prod.yml deploy/
+          mkdir -p deploy/run/mysqld
+          cp run/mysqld/.gitkeep deploy/run/mysqld/
           # Create tar archive for efficient transfer
           tar -czf deploy.tar.gz -C deploy .
 
@@ -99,6 +102,7 @@ jobs:
             sudo rm -rf ${{ secrets.REMOTE_DIR }}/* || true
             # Extract tar archive
             tar -xzf /tmp/deploy.tar.gz -C ${{ secrets.REMOTE_DIR }}
+            mkdir -p run/mysqld
             # Restore .env
             [ -f /tmp/.env.backup ] && mv /tmp/.env.backup .env || true
             # Create .env if not exists

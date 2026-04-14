@@ -1,0 +1,7 @@
+# Local development and CI: publishes MySQL on localhost:3306 and uses a bind-mounted data dir.
+services:
+  db:
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./data/mysql:/var/lib/mysql

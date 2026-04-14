@@ -15,6 +15,10 @@ storybook-static
 # Docker Volumes
 data
 
+# MySQL Unix socket at runtime (keep run/mysqld/.gitkeep)
+run/mysqld/*
+!run/mysqld/.gitkeep
+
 # dependencies
 /node_modules
 /.pnp

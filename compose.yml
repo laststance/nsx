@@ -1,13 +1,14 @@
 #yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+# Base stack (no host port publish). Use:
+#   Local / CI: docker compose -f compose.yml -f compose.dev.yml up -d
+#   Production: docker compose -f compose.yml -f compose.prod.yml up -d
 services:
   db:
     image: mysql:8.1
-    volumes:
-      - ./data/mysql:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    restart: always
-    ports:
-      - '3306:3306'
+    restart: unless-stopped
+    networks:
+      - nsx_internal
     expose:
       - '3306'
     environment:
@@ -15,3 +16,23 @@ services:
       MYSQL_DATABASE: 'digital'
       MYSQL_USER: ${MYSQL_USER:-strength}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'mysqladmin ping -h localhost -uroot -p"$$MYSQL_ROOT_PASSWORD" --silent || exit 1',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+    mem_limit: 1g
+
+networks:
+  nsx_internal:
+    driver: bridge

@@ -98,10 +98,10 @@ jobs:
       - name: Start MySQL with Docker Compose
         run: |
           cd ../
-          docker compose up -d
+          docker compose -f compose.yml -f compose.dev.yml up -d
           echo "Waiting for MySQL to be ready..."
           for i in {1..30}; do
-            if docker compose exec -T db mysqladmin ping -h localhost -uroot -prootpass --silent; then
+            if docker compose -f compose.yml -f compose.dev.yml exec -T db mysqladmin ping -h localhost -uroot -prootpass --silent; then
               echo "✓ MySQL is ready"
               break
             fi

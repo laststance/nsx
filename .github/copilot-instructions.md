@@ -17,7 +17,7 @@ Execute these commands in sequence to set up a fresh development environment:
 2. **Environment setup**: `cp .env.sample .env`
    - Creates local environment file with development defaults.
 
-3. **Start database**: `docker compose up -d`
+3. **Start database**: `docker compose -f compose.yml -f compose.dev.yml up -d`
    - Starts MySQL 8.1 database in Docker container.
    - First run takes ~30 seconds (image download). Set timeout to 120+ seconds.
    - Subsequent runs take ~5 seconds.
@@ -152,7 +152,8 @@ After making changes, ALWAYS run through these validation steps:
 - `server/tsconfig.json` - Backend TypeScript configuration
 - `playwright.config.ts` - E2E test configuration
 - `prisma/schema.prisma` - Database schema
-- `compose.yml` - Docker MySQL database
+- `compose.yml` + `compose.dev.yml` - Docker MySQL (dev: port 3306 + bind mount)
+- `compose.yml` + `compose.prod.yml` - production MySQL (named volume, Unix socket on host, no published port)
 - `.env` - Environment variables (copy from `.env.sample`)
 
 ### Environment Variables
@@ -176,7 +177,7 @@ All frontend env vars are prefixed with `VITE_`:
 ### Common Issues
 
 - **"Port already in use"**: Stop existing dev servers with Ctrl+C
-- **Database connection error**: Ensure `docker compose up -d` completed
+- **Database connection error**: Ensure `docker compose -f compose.yml -f compose.dev.yml up -d` completed (dev) or prod stack + `DATABASE_URL` `socketPath` is correct
 - **Playwright fails**: Run `pnpm build:e2e` first and stop dev servers
 - **Missing dependencies**: Run `pnpm install` again
 - **Build errors**: Check TypeScript types with `pnpm typecheck`

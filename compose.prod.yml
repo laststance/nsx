@@ -1,0 +1,9 @@
+# Production: named data volume, no host TCP publish, Unix socket exposed on the host for PM2.
+services:
+  db:
+    volumes:
+      - nsx_mysql_data:/var/lib/mysql
+      - ./run/mysqld:/var/run/mysqld
+
+volumes:
+  nsx_mysql_data:

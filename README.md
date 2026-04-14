@@ -40,7 +40,7 @@ Used in combination with the [browser-extension](./browser-extension/) (included
 1. `cd nsx`
 1. `pnpm install`
 1. `cp .env.sample .env`
-1. `docker-compose up -d`
+1. `docker compose -f compose.yml -f compose.dev.yml up -d`
 1. `pnpm db:reset`
 1. `pnpm validate`
 1. `pnpm server:start`
@@ -98,7 +98,7 @@ pm2 ps -a                        // Show all processes
 1. `source ~/.bashrc` && `volta install node`
 1. `pnpm`
 1. install docker on Ubuntu https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository
-1. docker compose up -d
+1. `docker compose -f compose.yml -f compose.prod.yml up -d` (MySQL has no host port; PM2 uses `DATABASE_URL` with `socketPath` — see `.env.sample`)
 1. pnpm db:migrate
 1. touch .env.prod
 1. npm i -g pm2
