@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import type { Request, Response, Router, RequestHandler } from 'express'
 import express from 'express'
+import rateLimit from 'express-rate-limit'
 
 import {
   generateAccessToken,
@@ -11,6 +12,18 @@ import Logger from '../lib/Logger'
 import { prisma } from '../prisma'
 
 const router: Router = express.Router()
+
+const LOGIN_WINDOW_MS = 15 * 60 * 1000
+const LOGIN_MAX_ATTEMPTS = 5
+const loginLimiter = rateLimit({
+  windowMs: LOGIN_WINDOW_MS,
+  max: LOGIN_MAX_ATTEMPTS,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: 'Too many login attempts, please try again after 15 minutes.',
+  },
+})
 
 interface SignupRequest {
   name: string
@@ -70,32 +83,36 @@ const signupHandler: RequestHandler = async (req, res) => {
 
 router.post('/signup', signupHandler)
 
-router.post('/login', async ({ body }: Request, res: Response) => {
-  const user = await prisma.user.findFirst({
-    where: { name: body.name },
-  })
-  if (user) {
-    const isValidPassword = await bcrypt.compare(body.password, user.password)
+router.post(
+  '/login',
+  loginLimiter,
+  async ({ body }: Request, res: Response) => {
+    const user = await prisma.user.findFirst({
+      where: { name: body.name },
+    })
+    if (user) {
+      const isValidPassword = await bcrypt.compare(body.password, user.password)
 
-    if (isValidPassword) {
-      const token: JWTtoken = generateAccessToken(user)
-      res.cookie('token', token, getCookieOptions(token))
-      // Return user without password
-      res.status(200).json({
-        id: user.id,
-        name: user.name,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      })
+      if (isValidPassword) {
+        const token: JWTtoken = generateAccessToken(user)
+        res.cookie('token', token, getCookieOptions(token))
+        // Return user without password
+        res.status(200).json({
+          id: user.id,
+          name: user.name,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+        })
+      } else {
+        Logger.warn('Invalid Password')
+        res.status(200).json({ failed: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
+      }
     } else {
-      Logger.warn('Invalid Password')
-      res.status(200).json({ failed: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
+      Logger.warn('User does not exist')
+      res.status(200).json({ failed: 'User does not exist' }) // this also bad practice in real world product Same reason.
     }
-  } else {
-    Logger.warn('User does not exist')
-    res.status(200).json({ failed: 'User does not exist' }) // this also bad practice in real world product Same reason.
-  }
-})
+  },
+)
 
 router.get('/logout', (_req: Request, res: Response<Res.Logout>) => {
   res.cookie('token', '', { expires: new Date() })

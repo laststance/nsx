@@ -1,8 +1,21 @@
 import express from 'express'
 import type { Router } from 'express'
+import rateLimit from 'express-rate-limit'
 import OpenAI from 'openai'
 
 const router: Router = express.Router()
+
+const ONE_MINUTE_MS = 60 * 1000
+const TRANSLATE_MAX_REQUESTS = 10
+const translateLimiter = rateLimit({
+  windowMs: ONE_MINUTE_MS,
+  max: TRANSLATE_MAX_REQUESTS,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: 'Too many translation requests, please try again after 1 minute.',
+  },
+})
 
 // Lazy initialization for OpenAI client to allow server start without API key
 let openaiClient: OpenAI | null = null
@@ -29,7 +42,7 @@ const isJapanese = (text: string): boolean => {
 }
 
 // POST /api/translate
-router.post('/translate', async (req, res) => {
+router.post('/translate', translateLimiter, async (req, res) => {
   try {
     const { text } = req.body
 
