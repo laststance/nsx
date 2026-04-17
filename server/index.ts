@@ -49,15 +49,17 @@ app.use(
 
 const FIFTEEN_MINUTES_MS = 15 * 60 * 1000
 const GLOBAL_RATE_LIMIT_MAX = 100
-app.use(
-  rateLimit({
-    windowMs: FIFTEEN_MINUTES_MS,
-    max: GLOBAL_RATE_LIMIT_MAX,
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: { error: 'Too many requests, please try again later.' },
-  }),
-)
+if (isProd) {
+  app.use(
+    rateLimit({
+      windowMs: FIFTEEN_MINUTES_MS,
+      max: GLOBAL_RATE_LIMIT_MAX,
+      standardHeaders: true,
+      legacyHeaders: false,
+      message: { error: 'Too many requests, please try again later.' },
+    }),
+  )
+}
 
 const corsOrigin =
   process.env.CORS_ORIGIN || (isProd ? 'https://nsx.malloc.tokyo' : '*')

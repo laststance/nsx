@@ -15,15 +15,18 @@ const router: Router = express.Router()
 
 const LOGIN_WINDOW_MS = 15 * 60 * 1000
 const LOGIN_MAX_ATTEMPTS = 5
-const loginLimiter = rateLimit({
-  windowMs: LOGIN_WINDOW_MS,
-  max: LOGIN_MAX_ATTEMPTS,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    error: 'Too many login attempts, please try again after 15 minutes.',
-  },
-})
+const isProd = process.env.NODE_ENV === 'production'
+const loginLimiter: RequestHandler = isProd
+  ? rateLimit({
+      windowMs: LOGIN_WINDOW_MS,
+      max: LOGIN_MAX_ATTEMPTS,
+      standardHeaders: true,
+      legacyHeaders: false,
+      message: {
+        error: 'Too many login attempts, please try again after 15 minutes.',
+      },
+    })
+  : (_req, _res, next) => next()
 
 interface SignupRequest {
   name: string
