@@ -41,8 +41,10 @@ jobs:
       - name: Build backend
         run: pnpm server:build
 
+      # `pnpm deploy --legacy` does not use the workspace lockfile and re-resolves deps,
+      # so minimum-release-age would block any package published within that window.
       - name: Deploy server package with dependencies
-        run: pnpm --filter=@nsx/server --prod deploy --legacy .deploy-server
+        run: pnpm --config.minimum-release-age=0 --filter=@nsx/server --prod deploy --legacy .deploy-server
 
       - name: Create artifact
         run: |
