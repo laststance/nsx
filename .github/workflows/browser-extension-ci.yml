@@ -95,6 +95,11 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
+      # Must run before `docker compose up` because compose.yml uses ${MYSQL_*:?err}
+      # and reads the project root .env for variable interpolation.
+      - name: Create .env file
+        run: cp ../.env.e2e ../.env
+
       - name: Start MySQL with Docker Compose
         run: |
           cd ../
@@ -111,9 +116,6 @@ jobs:
           # Additional wait for MySQL to fully stabilize for persistent connections
           echo "Waiting for MySQL to fully stabilize..."
           sleep 10
-
-      - name: Create .env file
-        run: cp ../.env.e2e ../.env
 
       - name: Set up database with Prisma
         run: |
