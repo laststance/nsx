@@ -1,3 +1,31 @@
 packages:
   - browser-extension
   - server
+
+# Use hoisted node_modules for deployment compatibility
+# This creates a flat node_modules structure like npm/yarn
+# Required because pnpm's symlink structure breaks during tar/scp transfers
+nodeLinker: hoisted
+
+# Supply-chain security (migrated from .npmrc 2026-05-07)
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - next
+  - react
+  - react-dom
+  - '@types/react'
+  - '@types/react-dom'
+  - typescript
+  - vite
+  - vitest
+  - '@vitejs/plugin-react'
+  - eslint
+  - prettier
+  - tailwindcss
+  - '@tanstack/react-query'
+  - zod
+  - react-hook-form
+  - eslint-config-ts-prefixer
+  - '@laststance/redux-storage-middleware'
+  - '@laststance/react-next-eslint-plugin'
+verifyStoreIntegrity: true
