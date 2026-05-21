@@ -208,3 +208,39 @@ This script uploads a local backup file to the production server and restores th
 ```
 
 The validate script runs tests, linting, type checking, and build in parallel to ensure code quality.
+
+### SSL Certificate Renewal Hooks
+
+Express binds port 80 (HTTP→HTTPS redirect) and 443 (HTTPS) and loads the Let's Encrypt cert at startup with `fs.readFileSync` (see `server/index.ts`). Because certbot uses the `standalone` authenticator, it also needs port 80 for the ACME challenge — so PM2 must stop before each renewal and start after. The repo ships `pre`/`post` hook scripts that automate this:
+
+```
+scripts/letsencrypt-hooks/
+├── pre/stop-pm2.sh    # certbot pre-hook: pm2 stop server (frees port 80)
+└── post/start-pm2.sh  # certbot post-hook: pm2 start server (always runs, even on renewal failure)
+```
+
+**Deploy to a fresh production server (run once):**
+
+```bash
+scp scripts/letsencrypt-hooks/pre/stop-pm2.sh \
+    scripts/letsencrypt-hooks/post/start-pm2.sh \
+    nsx.malloc.tokyo:/tmp/
+
+ssh nsx.malloc.tokyo 'sudo mv /tmp/stop-pm2.sh /etc/letsencrypt/renewal-hooks/pre/ && \
+  sudo mv /tmp/start-pm2.sh /etc/letsencrypt/renewal-hooks/post/ && \
+  sudo chown root:root /etc/letsencrypt/renewal-hooks/{pre/stop-pm2.sh,post/start-pm2.sh} && \
+  sudo chmod 755 /etc/letsencrypt/renewal-hooks/{pre/stop-pm2.sh,post/start-pm2.sh} && \
+  sudo certbot renew --dry-run'
+```
+
+The final `--dry-run` exercises the full loop (pre → simulated renewal → post) without consuming a Let's Encrypt rate-limit slot.
+
+**Manual renewal (recovery, if hooks are missing):**
+
+```bash
+ssh nsx.malloc.tokyo 'pm2 stop server'
+ssh nsx.malloc.tokyo 'sudo certbot renew --non-interactive'
+ssh nsx.malloc.tokyo 'pm2 start server'
+```
+
+> **Note**: `pnpm deploy` only rsyncs `build/`, `server_build/`, and `ecosystem.config.js`. It does NOT update `/etc/letsencrypt/renewal-hooks/`. Re-run the deploy step above if the hook scripts change.
