@@ -7,15 +7,61 @@ import { prisma } from '../prisma'
 
 const router: Router = express.Router()
 
+const DUPLICATE_STOCK_MESSAGE = 'Already exists'
+
+/**
+ * Normalizes stock URLs so popup and backend duplicate checks compare the same value.
+ * @param url - The incoming URL value from request body or query string.
+ * @returns
+ * - When url is a string: the URL without one trailing slash
+ * - When url is missing or not a string: an empty string
+ * @example
+ * normalizeStockUrl('https://example.com/') // => 'https://example.com'
+ */
+const normalizeStockUrl = (url: unknown): string => {
+  if (typeof url !== 'string') return ''
+
+  return url.replace(/\/$/, '')
+}
+
+/**
+ * Finds whether a normalized URL is already in the stock table.
+ * @param url - The normalized URL to check.
+ * @returns Whether a matching stock row exists.
+ * @example
+ * await stockUrlExists('https://example.com') // => false
+ */
+const stockUrlExists = async (url: string): Promise<boolean> => {
+  const existingStock = await prisma.stock.findFirst({
+    where: { url },
+  })
+
+  return Boolean(existingStock)
+}
+
 router.post(
   '/push_stock',
   async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body
+    const normalizedUrl = normalizeStockUrl(body.url)
+
     try {
+      // Missing URLs cannot be compared, so reject before touching the database.
+      if (!normalizedUrl) {
+        res.status(400).json({ message: 'URL is required' })
+        return
+      }
+
+      // A duplicate page should look saved in the extension instead of creating a row.
+      if (await stockUrlExists(normalizedUrl)) {
+        res.status(409).json({ message: DUPLICATE_STOCK_MESSAGE })
+        return
+      }
+
       const stock = await prisma.stock.create({
         data: {
           pageTitle: body.pageTitle,
-          url: body.url,
+          url: normalizedUrl,
         },
       })
       res.status(201).json(stock)
@@ -29,6 +75,23 @@ router.post(
 router.get('/stocklist', async (_req, res) => {
   const stockList = await prisma.stock.findMany()
   res.status(200).json(stockList)
+})
+
+router.get('/stock/exists', async (req, res, next) => {
+  const normalizedUrl = normalizeStockUrl(req.query.url)
+
+  try {
+    // The popup needs a concrete URL to answer whether this page is already saved.
+    if (!normalizedUrl) {
+      res.status(400).json({ message: 'URL is required' })
+      return
+    }
+
+    res.status(200).json({ exists: await stockUrlExists(normalizedUrl) })
+  } catch (error) {
+    Logger.error(error)
+    next(error)
+  }
 })
 
 router.delete('/stock/:id', isAuthorized, async (req, res) => {

@@ -19,6 +19,10 @@ export type ExtensionTestFixtures = {
   extensionId: string
 }
 
+type OpenPopupOptions = {
+  stockExists?: boolean
+}
+
 export const test = base.extend<ExtensionTestFixtures>({
   // Override context to use persistent context with extension loaded
   context: async (
@@ -70,13 +74,28 @@ export const test = base.extend<ExtensionTestFixtures>({
 export { expect } from '@playwright/test'
 
 /**
- * Helper to open extension popup
+ * Opens the extension popup with a deterministic stock existence response.
+ * @param context - The persistent browser context with the extension loaded.
+ * @param extensionId - The loaded extension ID from the service worker URL.
+ * @param options - Optional popup API fixtures, defaulting stock existence to false.
+ * @returns The popup page after the React root is ready.
+ * @example
+ * await openPopup(context, extensionId, { stockExists: true })
  */
 export async function openPopup(
   context: BrowserContext,
   extensionId: string,
+  options: OpenPopupOptions = {},
 ): Promise<Page> {
   const popupPage = await context.newPage()
+  await popupPage.route('**/api/stock/exists**', (route) => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ exists: options.stockExists ?? false }),
+    })
+  })
+
   await popupPage.goto(`chrome-extension://${extensionId}/popup.html`)
   await popupPage.waitForLoadState('domcontentloaded')
 
