@@ -189,6 +189,31 @@ test.describe('API request validation', () => {
       ],
     })
   })
+
+  test('rejects duplicate signup names with a conflict response', async ({
+    page,
+  }) => {
+    // Arrange
+    const duplicateSignupPayload = {
+      name: 'John Doe',
+      password: 'popcoon',
+    }
+
+    // Act
+    const signupResponse = await page
+      .context()
+      .request.post(`${API_BASE_URL}/signup`, {
+        data: duplicateSignupPayload,
+      })
+    const signupBody = (await signupResponse.json()) as Res.Error
+
+    // Assert
+    expect(signupResponse.status()).toBe(409)
+    expect(signupBody).toEqual({
+      error: 'Username already exists',
+      code: 'USERNAME_ALREADY_EXISTS',
+    })
+  })
 })
 
 test.afterAll(async () => {
