@@ -57,18 +57,33 @@ pass: `popcoon`
 
 These are stored in `.env` and evaluated at build time.
 
-| Variable Name          | Description                                      | Required |
-| ---------------------- | ------------------------------------------------ | -------- |
-| VITE_APP_TITLE         | Application title displayed in the UI            | Yes      |
-| VITE_APP_DESCRIPTION   | Application description for meta tags            | Yes      |
-| VITE_API_ENDPOINT      | Backend API endpoint URL                         | Yes      |
-| VITE_SENTRY_DNS        | Sentry DSN for error tracking (optional)         | No       |
-| VITE_GA_MEASUREMENT_ID | Google Analytics measurement ID (optional)       | No       |
-| ACCESS_TOKEN_SECRET    | Secret key for JWT token generation              | Yes      |
-| DATABASE_URL           | MySQL database connection string                 | Yes      |
-| OPENAI_API_KEY         | OpenAI API key for translation features          | No       |
-| BLUESKY_USERNAME       | Bluesky account username for posting integration | No       |
-| BLUESKY_PASSWORD       | Bluesky account password for posting integration | No       |
+| Variable Name             | Description                                                          | Required |
+| ------------------------- | -------------------------------------------------------------------- | -------- |
+| VITE_APP_TITLE            | Application title displayed in the UI                                | Yes      |
+| VITE_APP_DESCRIPTION      | Application description for meta tags                                | Yes      |
+| VITE_API_ENDPOINT         | Backend API endpoint URL                                             | Yes      |
+| VITE_SENTRY_DSN           | Browser Sentry DSN for frontend error tracking                       | No       |
+| VITE_SENTRY_DNS           | Deprecated typo kept for backward compatibility; use VITE_SENTRY_DSN | No       |
+| VITE_SENTRY_RELEASE       | Browser Sentry release, usually the deployed Git SHA                 | No       |
+| VITE_GA_MEASUREMENT_ID    | Google Analytics measurement ID (optional)                           | No       |
+| ACCESS_TOKEN_SECRET       | Secret key for JWT token generation                                  | Yes      |
+| DATABASE_URL              | MySQL database connection string                                     | Yes      |
+| SENTRY_DSN                | Backend Sentry DSN for Express error tracking                        | No       |
+| SENTRY_RELEASE            | Backend Sentry release, usually the deployed Git SHA                 | No       |
+| SENTRY_TRACES_SAMPLE_RATE | Backend Sentry trace sample rate from 0 to 1                         | No       |
+| LOG_LEVEL                 | JSON logger level (`debug`, `info`, `warn`, `error`)                 | No       |
+| OPENAI_API_KEY            | OpenAI API key for translation features                              | No       |
+| BLUESKY_USERNAME          | Bluesky account username for posting integration                     | No       |
+| BLUESKY_PASSWORD          | Bluesky account password for posting integration                     | No       |
+
+## Observability
+
+- Health check: `GET /api/health` returns `200` with DB status or `503` when MySQL is unreachable.
+- Metrics: `GET /api/metrics` exposes Prometheus text metrics including Node.js defaults and HTTP request duration/counts.
+- Logs: backend logs are JSON through pino and include `requestId`, route, status, and duration. PM2 still writes them to `logs/server-out.log` and `logs/server-error.log`.
+- Sentry: set `SENTRY_DSN` for Express errors and `VITE_SENTRY_DSN` for browser errors. Set `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` in GitHub Actions to upload Vite source maps during `pnpm build`.
+- Uptime alerting: configure an external monitor such as UptimeRobot or Better Stack against `https://nsx.malloc.tokyo/api/health` with email/Slack/Discord alerts.
+- PM2 resource alerting: use `pm2 monit`, `pm2 install pm2-server-monit`, or pm2.io, and keep `max_memory_restart: 512M` in `ecosystem.config.js` as the restart guard.
 
 ## Playwright
 

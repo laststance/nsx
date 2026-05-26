@@ -2,6 +2,7 @@ import express from 'express'
 import type { Router } from 'express'
 
 import blueskyRoute from './routes/bluesky'
+import healthRoute from './routes/health'
 import postRoute from './routes/post'
 import stockRoute from './routes/stock'
 import translateRoute from './routes/translate'
@@ -10,6 +11,7 @@ import userRoute from './routes/user'
 
 const router: Router = express.Router()
 
+router.use(healthRoute)
 // TODO: Refactor /tweet style
 router.use(postRoute)
 // TODO: Refactor /tweet style

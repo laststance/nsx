@@ -2,6 +2,8 @@ import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 
 import { PrismaClient } from '../generated/prisma/client'
 
+import Logger from './lib/Logger'
+
 // Create the MariaDB adapter with connection URL
 const adapter = new PrismaMariaDb(process.env.DATABASE_URL!)
 
@@ -24,7 +26,7 @@ const prisma = originalPrisma.$extends({
             }
             return data.createdAt as string
           } catch (error) {
-            console.error('Error converting createdAt:', error)
+            Logger.error('Error converting createdAt', { error })
             return data.createdAt as string
           }
         },
@@ -39,7 +41,7 @@ const prisma = originalPrisma.$extends({
             }
             return data.updatedAt as string
           } catch (error) {
-            console.error('Error converting updatedAt:', error)
+            Logger.error('Error converting updatedAt', { error })
             return data.updatedAt as string
           }
         },

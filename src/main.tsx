@@ -11,20 +11,35 @@ import { onCLS, onINP, onLCP } from 'web-vitals/attribution'
 import App from './App'
 import type { EventParams } from './vite-env'
 
+const REPLAYS_ON_ERROR_SAMPLE_RATE = 1.0
+const REPLAYS_SESSION_SAMPLE_RATE = 0.1
+
+/**
+ * Reads the Sentry DSN while preserving the previous misspelled env variable.
+ * @returns Configured browser DSN, or an empty string when Sentry is disabled.
+ * @example getFrontendSentryDsn()
+ */
+const getFrontendSentryDsn = (): string => {
+  return process.env.VITE_SENTRY_DSN || process.env.VITE_SENTRY_DNS || ''
+}
+
 if (process.env.NODE_ENV === 'production') {
-  Sentry.init({
-    dsn: process.env.VITE_SENTRY_DNS,
+  const sentryDsn = getFrontendSentryDsn()
 
-    integrations: [Sentry.replayIntegration()],
+  if (sentryDsn) {
+    Sentry.init({
+      dsn: sentryDsn,
+      environment: process.env.NODE_ENV,
+      integrations: [Sentry.replayIntegration()],
+      release: process.env.VITE_SENTRY_RELEASE,
 
-    // If the entire session is not sampled, use the below sample rate to sample
-    // sessions when an error occurs.
-    replaysOnErrorSampleRate: 1.0,
+      // Capture the full session whenever a production error occurs.
+      replaysOnErrorSampleRate: REPLAYS_ON_ERROR_SAMPLE_RATE,
 
-    // This sets the sample rate to be 10%. You may want this to be 100% while
-    // in development and sample at a lower rate in production
-    replaysSessionSampleRate: 0.1,
-  })
+      // Keep baseline replay sampling low enough for production traffic.
+      replaysSessionSampleRate: REPLAYS_SESSION_SAMPLE_RATE,
+    })
+  }
 
   GA4.initialize(process.env.VITE_GA_MEASUREMENT_ID as string)
   function sendToGoogleAnalytics({

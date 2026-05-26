@@ -6,7 +6,9 @@ interface ImportMetaEnv {
   readonly VITE_APP_DESCRIPTION: string
   readonly VITE_APP_TITLE: string
   readonly VITE_GA_MEASUREMENT_ID: string
+  readonly VITE_SENTRY_DSN: string
   readonly VITE_SENTRY_DNS: string
+  readonly VITE_SENTRY_RELEASE: string
   readonly ACCESS_TOKEN_SECRET: string
   readonly DATABASE_URL: string
   // Which browser vite dev server open
