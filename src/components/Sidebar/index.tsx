@@ -1,12 +1,16 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import React, { memo } from 'react'
+import React, { memo, useRef } from 'react'
 
 import TweetLink from '@/src/components/Sidebar/TweetLink'
 
 import { useIsomorphicEffect } from '../../hooks/useIsomorphicEffect'
 import { selectLogin } from '../../redux/adminSlice'
 import { useAppSelector } from '../../redux/hooks'
-import { selectSidebarOpen, toggleSidebar } from '../../redux/sidebarSlice'
+import {
+  closeSidebar,
+  selectSidebarOpen,
+  toggleSidebar,
+} from '../../redux/sidebarSlice'
 import { dispatch } from '../../redux/store'
 
 import CreateLink from './CreateLink'
@@ -15,6 +19,43 @@ import LoginLink from './LoginLink'
 import LogoutLink from './LogoutLink'
 import { onCloseHander } from './onCloseHander'
 import SettingLink from './SettingLink'
+
+const FOCUSABLE_SIDEBAR_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',')
+
+/**
+ * Returns keyboard-focusable elements inside the open sidebar.
+ * @param container - The sidebar root element that owns focus while open.
+ * @returns
+ * - When mounted: focusable descendants in DOM order
+ * - When unmounted: an empty array
+ * @example
+ * getFocusableElements(document.querySelector('aside')) // => [HTMLAnchorElement, HTMLButtonElement]
+ */
+const getFocusableElements = (container: HTMLElement | null): HTMLElement[] => {
+  if (!container) return []
+
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(FOCUSABLE_SIDEBAR_SELECTOR),
+  ).filter(isVisibleFocusableElement)
+}
+
+/**
+ * Keeps hidden or inert nodes out of manual focus trap cycling.
+ * @param element - A candidate element matched by the focusable selector.
+ * @returns Whether the element can currently receive keyboard focus.
+ * @example
+ * isVisibleFocusableElement(document.createElement('button')) // => true
+ */
+const isVisibleFocusableElement = (element: HTMLElement): boolean => {
+  return Boolean(element.offsetParent || element.getClientRects().length)
+}
 
 /**
  * Toggles the sidebar from the global shortcut used by the admin flows.
@@ -37,6 +78,8 @@ const keypressListener = (event: KeyboardEvent) => {
 const Sidebar: React.FC = memo(() => {
   const open = useAppSelector(selectSidebarOpen)
   const login = useAppSelector(selectLogin)
+  const sidebarRef = useRef<HTMLElement>(null)
+  const previouslyFocusedElementRef = useRef<HTMLElement | null>(null)
 
   useIsomorphicEffect(() => {
     window.document.addEventListener('keyup', keypressListener)
@@ -45,6 +88,62 @@ const Sidebar: React.FC = memo(() => {
       window.document.removeEventListener('keyup', keypressListener)
     }
   }, [])
+
+  useIsomorphicEffect(() => {
+    // Focus management is only active while the dialog markup exists.
+    if (!open) return undefined
+
+    const activeElement = window.document.activeElement
+    previouslyFocusedElementRef.current =
+      activeElement instanceof HTMLElement ? activeElement : null
+
+    const [firstFocusableElement] = getFocusableElements(sidebarRef.current)
+    firstFocusableElement?.focus()
+
+    return () => {
+      // Restore focus to the opener when the sidebar unmounts after close.
+      if (previouslyFocusedElementRef.current?.isConnected) {
+        previouslyFocusedElementRef.current.focus()
+      }
+    }
+  }, [open])
+
+  const handleSidebarKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      dispatch(closeSidebar())
+      return
+    }
+
+    // Only Tab needs wrapping; all other keys keep their native behavior.
+    if (event.key !== 'Tab') return
+
+    const focusableElements = getFocusableElements(sidebarRef.current)
+    const [firstFocusableElement] = focusableElements
+    const lastFocusableElement = focusableElements.at(-1)
+
+    if (!firstFocusableElement || !lastFocusableElement) {
+      event.preventDefault()
+      return
+    }
+
+    if (
+      event.shiftKey &&
+      window.document.activeElement === firstFocusableElement
+    ) {
+      event.preventDefault()
+      lastFocusableElement.focus()
+      return
+    }
+
+    if (
+      !event.shiftKey &&
+      window.document.activeElement === lastFocusableElement
+    ) {
+      event.preventDefault()
+      firstFocusableElement.focus()
+    }
+  }
 
   // Keep the closed state out of the DOM so keyboard users do not tab into hidden links.
   if (!open) return null
@@ -55,11 +154,13 @@ const Sidebar: React.FC = memo(() => {
       aria-modal="true"
       className="relative z-40"
       role="dialog"
+      onKeyDown={handleSidebarKeyDown}
     >
       <div className="bg-opacity-75 fixed inset-0 bg-gray-600" />
 
       <div className="fixed inset-0 z-40 flex" onClick={onCloseHander}>
         <aside
+          ref={sidebarRef}
           className="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800 pt-5 pb-4"
           onClick={(event) => {
             // Prevent clicks inside the drawer from bubbling to the backdrop close handler.
