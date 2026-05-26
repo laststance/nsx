@@ -12,22 +12,30 @@ import cors from 'cors'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
-import morgan from 'morgan'
 
 import router from './api'
 import { Cron } from './cron'
 import Logger from './lib/Logger'
+import {
+  initializeMetrics,
+  requestMonitoringMiddleware,
+} from './lib/monitoring'
+import { requestContextMiddleware } from './lib/requestContext'
+import { setupSentryErrorHandler } from './lib/sentry'
 
 const env = process.env.NODE_ENV || 'development'
 const isDev = env === 'development'
 const isProd = env === 'production'
 
+initializeMetrics()
 Cron.readList.start()
 
 /**
  Express Setup
  */
 const app = express()
+
+app.use(requestContextMiddleware)
 
 // --- Security middleware ---
 app.use(
@@ -73,9 +81,10 @@ app.use(
 app.disable('x-powered-by')
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(morgan('combined'))
+app.use(requestMonitoringMiddleware)
 app.use(compression())
 app.use('/api', router)
+setupSentryErrorHandler(app)
 /**
  DEV Server
  */

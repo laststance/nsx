@@ -30,10 +30,17 @@ jobs:
           echo "VITE_APP_TITLE=${{ secrets.VITE_APP_TITLE }}" >> .env.prod
           echo "VITE_APP_DESCRIPTION=${{ secrets.VITE_APP_DESCRIPTION }}" >> .env.prod
           echo "VITE_API_ENDPOINT=${{ secrets.VITE_API_ENDPOINT }}" >> .env.prod
+          echo "VITE_SENTRY_DSN=${{ secrets.VITE_SENTRY_DSN }}" >> .env.prod
           echo "VITE_SENTRY_DNS=${{ secrets.VITE_SENTRY_DNS }}" >> .env.prod
+          echo "VITE_SENTRY_RELEASE=${{ github.sha }}" >> .env.prod
           echo "VITE_GA_MEASUREMENT_ID=${{ secrets.VITE_GA_MEASUREMENT_ID }}" >> .env.prod
 
       - name: Build frontend
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_RELEASE: ${{ github.sha }}
         run: |
           pnpm build
           rm -rf build/mockServiceWorker.js
@@ -119,6 +126,23 @@ jobs:
             BLUESKY_PASSWORD=${{ secrets.BLUESKY_PASSWORD }}
             EOL
             fi
+            cat > /tmp/nsx_observability.env << EOL
+            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            SENTRY_RELEASE=${{ github.sha }}
+            SENTRY_TRACES_SAMPLE_RATE=${{ vars.SENTRY_TRACES_SAMPLE_RATE }}
+            LOG_LEVEL=${{ vars.LOG_LEVEL }}
+            EOL
+            while IFS='=' read -r key value; do
+              [ -z "$key" ] && continue
+              [ -z "$value" ] && continue
+              escaped_value=$(printf '%s' "$value" | sed 's/[\/&]/\\&/g')
+              if grep -q "^${key}=" .env; then
+                sed -i "s/^${key}=.*/${key}=${escaped_value}/" .env
+              else
+                printf '%s=%s\n' "$key" "$value" >> .env
+              fi
+            done < /tmp/nsx_observability.env
+            rm -f /tmp/nsx_observability.env
             # Run migrations and restart
             ./node_modules/.bin/prisma migrate deploy
             sudo pm2 delete ecosystem.config.js || true

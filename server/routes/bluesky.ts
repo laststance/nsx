@@ -3,6 +3,7 @@ import express from 'express'
 import type { Router } from 'express'
 
 import { isAuthorized } from '../auth'
+import Logger from '../lib/Logger'
 import {
   blueskyPostBodySchema,
   type BlueskyPostBody,
@@ -77,7 +78,7 @@ router.post(
         message: 'Successfully posted to BlueSky',
       })
     } catch (error) {
-      console.error('BlueSky post error:', error)
+      Logger.error('BlueSky post error', { error })
 
       // Reset authentication state on auth errors
       if (
