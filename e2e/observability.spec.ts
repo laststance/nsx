@@ -41,4 +41,24 @@ test.describe('observability endpoints', () => {
     )
     expect(metrics).toContain('nsx_http_request_duration_seconds_bucket')
   })
+
+  test('/api/health replaces unsafe request ID headers', async ({
+    request,
+  }) => {
+    // Arrange
+    const unsafeRequestId = 'trace.with.dot'
+
+    // Act
+    const response = await request.get('/api/health', {
+      headers: {
+        'x-request-id': unsafeRequestId,
+      },
+    })
+    const responseRequestId = response.headers()['x-request-id']
+
+    // Assert
+    expect(response.status()).toBe(200)
+    expect(responseRequestId).not.toBe(unsafeRequestId)
+    expect(responseRequestId).toMatch(/^[A-Za-z0-9_-]+$/)
+  })
 })

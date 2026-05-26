@@ -126,7 +126,7 @@ jobs:
             BLUESKY_PASSWORD=${{ secrets.BLUESKY_PASSWORD }}
             EOL
             fi
-            cat > /tmp/nsx_observability.env << EOL
+            cat > /tmp/nsx_observability.env <<'EOL'
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
             SENTRY_RELEASE=${{ github.sha }}
             SENTRY_TRACES_SAMPLE_RATE=${{ vars.SENTRY_TRACES_SAMPLE_RATE }}

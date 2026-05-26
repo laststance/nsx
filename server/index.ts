@@ -84,7 +84,6 @@ app.use(cookieParser())
 app.use(requestMonitoringMiddleware)
 app.use(compression())
 app.use('/api', router)
-setupSentryErrorHandler(app)
 /**
  DEV Server
  */
@@ -145,3 +144,5 @@ if (isDev) {
   Logger.error('process.env.NODE_ENV is not defined <development|production>')
   process.exit(1)
 }
+
+setupSentryErrorHandler(app)
