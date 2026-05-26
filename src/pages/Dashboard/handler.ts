@@ -12,8 +12,8 @@ export function handleDelete(
   return async function (): Promise<void> {
     const res = await dispatch(API.endpoints.deletePost.initiate({ id }))
 
-    if (isSuccess(res) && 'data' in res) {
-      dispatch(enqueSnackbar({ color: 'green', message: res.data?.message! }))
+    if (isSuccess(res)) {
+      dispatch(enqueSnackbar({ color: 'green', message: 'Delete Successful!' }))
       refetch()
     }
   }

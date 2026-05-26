@@ -68,7 +68,7 @@ export const API = createApi({
       }),
     }),
 
-    deletePost: builder.mutation<Res.DeletePost, { id: Post['id'] }>({
+    deletePost: builder.mutation<void, { id: Post['id'] }>({
       invalidatesTags: (_result, _error, { id }) => [{ id, type: 'Posts' }],
       query: ({ id }) => ({
         method: 'DELETE',
@@ -76,7 +76,7 @@ export const API = createApi({
       }),
     }),
 
-    deleteStock: builder.mutation<Res.DeleteStock, { id: Stock['id'] }>({
+    deleteStock: builder.mutation<void, { id: Stock['id'] }>({
       query: ({ id }) => ({
         method: 'DELETE',
         url: `stock/${id}/`,
@@ -126,7 +126,7 @@ export const API = createApi({
 
     logoutRequest: builder.mutation<Res.Logout, void>({
       query: () => ({
-        method: 'GET',
+        method: 'POST',
         url: 'logout',
       }),
     }),
@@ -187,7 +187,7 @@ export const API = createApi({
       invalidatesTags: (result, _error) =>
         result ? [{ type: 'Tweets', id: 'LIST' }] : [],
     }),
-    deleteTweet: builder.mutation<{ message: string }, number>({
+    deleteTweet: builder.mutation<void, number>({
       query: (id: number) => ({
         method: 'DELETE',
         url: `tweet/${id}`,

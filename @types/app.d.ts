@@ -46,6 +46,7 @@ declare type JWTtoken = string
 
 declare interface AuthenticatedUser extends User {
   password: string
+  sessionVersion: number
   useLegacyHoverColors: boolean
 }
 

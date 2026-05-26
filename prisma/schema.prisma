@@ -12,12 +12,13 @@ model User {
   name                 String         @db.VarChar(255)
   createdAt            DateTime       @default(now())
   password             String         @db.Text
+  sessionVersion       Int            @default(0)
   updatedAt            DateTime       @updatedAt
   useLegacyHoverColors Boolean        @default(false)
   posts                Post[]
   refreshTokens        RefreshToken[]
   stocks               Stock[]
-  tweets               tweet[]
+  tweets               Tweet[]
 
   @@map("authors")
 }
@@ -48,7 +49,7 @@ model Stock {
   @@map("stocks")
 }
 
-model tweet {
+model Tweet {
   id          Int          @id @default(autoincrement())
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -58,13 +59,14 @@ model tweet {
   user        User         @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@index([userId])
+  @@map("tweet")
 }
 
 model attachment {
   id      Int    @id @default(autoincrement())
   url     String @db.Text
   tweetId Int
-  tweet   tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  tweet   Tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
 }
 
 model RefreshToken {

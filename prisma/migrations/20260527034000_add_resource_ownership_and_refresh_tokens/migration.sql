@@ -15,6 +15,9 @@ CREATE TABLE `refresh_tokens` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AlterTable
+ALTER TABLE `authors` ADD COLUMN `sessionVersion` INTEGER NOT NULL DEFAULT 0;
+
+-- AlterTable
 ALTER TABLE `posts` ADD COLUMN `authorId` INTEGER NULL;
 
 -- AlterTable
@@ -24,16 +27,32 @@ ALTER TABLE `stocks` ADD COLUMN `userId` INTEGER NULL;
 ALTER TABLE `tweet` ADD COLUMN `userId` INTEGER NULL;
 
 -- Backfill existing personal content to the first account before enforcing ownership.
+SET @fallback_author_id = (SELECT `id` FROM `authors` ORDER BY `id` ASC LIMIT 1);
+SET @owned_content_count = (
+    (SELECT COUNT(*) FROM `posts`) +
+    (SELECT COUNT(*) FROM `stocks`) +
+    (SELECT COUNT(*) FROM `tweet`)
+);
+
+-- Abort explicitly if legacy owned content exists but no author can own it.
+CREATE TEMPORARY TABLE `_nsx_author_backfill_guard` (`id` INTEGER NOT NULL);
+INSERT INTO `_nsx_author_backfill_guard` (`id`)
+SELECT CASE
+    WHEN @fallback_author_id IS NULL AND @owned_content_count > 0 THEN NULL
+    ELSE 0
+END;
+DROP TEMPORARY TABLE `_nsx_author_backfill_guard`;
+
 UPDATE `posts`
-SET `authorId` = (SELECT `id` FROM `authors` ORDER BY `id` ASC LIMIT 1)
+SET `authorId` = @fallback_author_id
 WHERE `authorId` IS NULL;
 
 UPDATE `stocks`
-SET `userId` = (SELECT `id` FROM `authors` ORDER BY `id` ASC LIMIT 1)
+SET `userId` = @fallback_author_id
 WHERE `userId` IS NULL;
 
 UPDATE `tweet`
-SET `userId` = (SELECT `id` FROM `authors` ORDER BY `id` ASC LIMIT 1)
+SET `userId` = @fallback_author_id
 WHERE `userId` IS NULL;
 
 -- AlterTable

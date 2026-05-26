@@ -6,6 +6,7 @@ import {
   generateAccessToken,
   getTokenExpiration,
   getCookieOptions,
+  getRefreshCookieOptions,
 } from './JWT'
 
 // Mock environment variable
@@ -20,6 +21,7 @@ describe('JWT Functions', () => {
         id: 1,
         name: 'Test User',
         password: 'hashed',
+        sessionVersion: 0,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         useLegacyHoverColors: false,
@@ -32,6 +34,12 @@ describe('JWT Functions', () => {
       // Assert
       expect(decoded).toBeTruthy()
       expect(decoded.exp).toBeTruthy()
+      expect(decoded).toMatchObject({
+        kind: 'access',
+        sessionVersion: 0,
+        sub: '1',
+      })
+      expect(decoded.password).toBeUndefined()
 
       const expectedExp = Math.floor(Date.now() / 1000) + 60 * 60
       expect(decoded.exp).toBeGreaterThanOrEqual(expectedExp - 10)
@@ -46,6 +54,7 @@ describe('JWT Functions', () => {
         id: 1,
         name: 'Test User',
         password: 'hashed',
+        sessionVersion: 0,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         useLegacyHoverColors: false,
@@ -58,6 +67,12 @@ describe('JWT Functions', () => {
       // Assert
       expect(decoded).toBeTruthy()
       expect(decoded.exp).toBeTruthy()
+      expect(decoded).toMatchObject({
+        kind: 'refresh',
+        sessionVersion: 0,
+        sub: '1',
+      })
+      expect(decoded.password).toBeUndefined()
 
       const expectedExp = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60
       expect(decoded.exp).toBeGreaterThanOrEqual(expectedExp - 10)
@@ -72,6 +87,7 @@ describe('JWT Functions', () => {
         id: 1,
         name: 'Test User',
         password: 'hashed',
+        sessionVersion: 0,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         useLegacyHoverColors: false,
@@ -110,6 +126,7 @@ describe('JWT Functions', () => {
         id: 1,
         name: 'Test User',
         password: 'hashed',
+        sessionVersion: 0,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         useLegacyHoverColors: false,
@@ -145,6 +162,30 @@ describe('JWT Functions', () => {
 
       // Assert
       expect(options.maxAge).toBe(0)
+    })
+
+    it('uses strict sameSite for refresh cookies', () => {
+      // Arrange
+      const user = {
+        id: 1,
+        name: 'Test User',
+        password: 'hashed',
+        sessionVersion: 0,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        useLegacyHoverColors: false,
+      }
+
+      // Act
+      const token = generateRefreshToken(user)
+      const options = getRefreshCookieOptions(token)
+
+      // Assert
+      expect(options.httpOnly).toBe(true)
+      expect(options.secure).toBe(false)
+      expect(options.sameSite).toBe('strict')
+      expect(options.maxAge).toBeGreaterThan(7 * 24 * 60 * 60 * 1000 - 10000)
+      expect(options.maxAge).toBeLessThan(7 * 24 * 60 * 60 * 1000 + 10000)
     })
   })
 })

@@ -1,5 +1,9 @@
 import type { CookieOptions } from 'express'
-import jwt, { type JwtPayload, TokenExpiredError } from 'jsonwebtoken'
+import jwt, {
+  JsonWebTokenError,
+  type JwtPayload,
+  TokenExpiredError,
+} from 'jsonwebtoken'
 
 import type { User } from '../../generated/prisma/client'
 
@@ -7,6 +11,13 @@ export const ACCESS_TOKEN_COOKIE_NAME = 'token'
 export const REFRESH_TOKEN_COOKIE_NAME = 'refreshToken'
 export const ACCESS_TOKEN_EXPIRES_IN = '1h'
 export const REFRESH_TOKEN_EXPIRES_IN = '7d'
+
+type TokenKind = 'access' | 'refresh'
+export type AuthTokenPayload = JwtPayload & {
+  kind: TokenKind
+  sessionVersion: number
+  sub: string
+}
 
 /**
  * Extended User type that represents the user returned from Prisma with extensions.
@@ -20,8 +31,8 @@ type ExtendedUser = Omit<User, 'createdAt' | 'updatedAt'> & {
 /**
  * Returns the secret used to sign refresh tokens.
  *
- * Called when issuing or verifying refresh cookies; falls back to the access
- * token secret so existing environments keep working until configured.
+ * Called when issuing or verifying refresh cookies; token-kind validation keeps
+ * refresh cookies from being accepted by the access-token verifier.
  *
  * @returns Refresh-token signing secret.
  * @example getRefreshTokenSecret()
@@ -34,6 +45,55 @@ const getRefreshTokenSecret = (): string => {
 }
 
 /**
+ * Builds the minimal JWT payload shared by access and refresh tokens.
+ *
+ * Called before signing so password hashes and other user fields never leave
+ * the server in a readable JWT body.
+ *
+ * @param user - Authenticated user whose ID/version should be represented.
+ * @param kind - Token kind enforced by the verifier.
+ * @returns Minimal token claims safe to store in HTTP-only cookies.
+ * @example buildTokenPayload(user, 'access')
+ */
+const buildTokenPayload = (
+  user: ExtendedUser,
+  kind: TokenKind,
+): Omit<AuthTokenPayload, keyof JwtPayload> => {
+  return {
+    kind,
+    sessionVersion: user.sessionVersion,
+    sub: String(user.id),
+  }
+}
+
+/**
+ * Verifies that a decoded JWT has the expected token kind.
+ *
+ * Called by access and refresh verifiers so refresh tokens cannot be replayed
+ * as access tokens even if environments share a secret.
+ *
+ * @param payload - Decoded JWT payload from `jsonwebtoken`.
+ * @param kind - Expected token kind for the current verifier.
+ * @returns Payload narrowed to the auth-token shape.
+ * @example assertTokenKind(payload, 'refresh')
+ */
+const assertTokenKind = (
+  payload: string | JwtPayload,
+  kind: TokenKind,
+): AuthTokenPayload => {
+  if (
+    typeof payload === 'string' ||
+    payload.kind !== kind ||
+    typeof payload.sub !== 'string' ||
+    typeof payload.sessionVersion !== 'number'
+  ) {
+    throw new JsonWebTokenError(`Invalid ${kind} token`)
+  }
+
+  return payload as AuthTokenPayload
+}
+
+/**
  * Generate the short-lived access token stored in the `token` cookie.
  *
  * Called by login, signup, and refresh rotation after a user is authenticated.
@@ -43,9 +103,13 @@ const getRefreshTokenSecret = (): string => {
  * @example generateAccessToken(user)
  */
 export function generateAccessToken(user: ExtendedUser): JWTtoken {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, {
-    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
-  })
+  return jwt.sign(
+    buildTokenPayload(user, 'access'),
+    process.env.ACCESS_TOKEN_SECRET as string,
+    {
+      expiresIn: ACCESS_TOKEN_EXPIRES_IN,
+    },
+  )
 }
 
 /**
@@ -59,7 +123,7 @@ export function generateAccessToken(user: ExtendedUser): JWTtoken {
  * @example generateRefreshToken(user)
  */
 export function generateRefreshToken(user: ExtendedUser): JWTtoken {
-  return jwt.sign(user, getRefreshTokenSecret(), {
+  return jwt.sign(buildTokenPayload(user, 'refresh'), getRefreshTokenSecret(), {
     expiresIn: REFRESH_TOKEN_EXPIRES_IN,
   })
 }
@@ -76,12 +140,12 @@ export function getTokenExpiration(token: string): Date {
 }
 
 // Verify Access Token
-export function verifyAccessToken(token: string): JwtPayload {
+export function verifyAccessToken(token: string): AuthTokenPayload {
   try {
-    return jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET as string,
-    ) as JwtPayload
+    return assertTokenKind(
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string),
+      'access',
+    )
   } catch (error) {
     // Explicitly handle expiration errors
     if (error instanceof TokenExpiredError) {
@@ -102,8 +166,8 @@ export function verifyAccessToken(token: string): JwtPayload {
  * @returns Verified JWT payload.
  * @example verifyRefreshToken(refreshToken)
  */
-export function verifyRefreshToken(token: string): JwtPayload {
-  return jwt.verify(token, getRefreshTokenSecret()) as JwtPayload
+export function verifyRefreshToken(token: string): AuthTokenPayload {
+  return assertTokenKind(jwt.verify(token, getRefreshTokenSecret()), 'refresh')
 }
 
 export function deleteJWTattribute(payload: JwtPayload) {
@@ -142,5 +206,8 @@ export function getCookieOptions(token: string): CookieOptions {
  * @example getRefreshCookieOptions(refreshToken)
  */
 export function getRefreshCookieOptions(token: string): CookieOptions {
-  return getCookieOptions(token)
+  return {
+    ...getCookieOptions(token),
+    sameSite: 'strict',
+  }
 }

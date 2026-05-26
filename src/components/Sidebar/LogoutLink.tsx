@@ -16,11 +16,9 @@ export async function handleLogout(
   e.preventDefault()
   const response = await dispatch(API.endpoints.logoutRequest.initiate())
 
-  if (isSuccess(response) && 'data' in response) {
+  if (isSuccess(response)) {
     dispatch(logout())
-    dispatch(
-      enqueSnackbar({ color: 'green', message: response.data?.message! }),
-    )
+    dispatch(enqueSnackbar({ color: 'green', message: 'Logout Successful' }))
     if (navigate) navigate('/')
   }
 }

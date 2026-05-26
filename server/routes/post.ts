@@ -69,7 +69,7 @@ router.delete(
       const authorId = req.authenticatedUser?.id
 
       if (!authorId) {
-        res.status(401).json({ message: 'No token found' })
+        res.status(401).json({ error: 'No token found' })
         return
       }
 
@@ -77,19 +77,19 @@ router.delete(
 
       // Missing and forbidden are separated so clients can show the right state.
       if (ownership === 'missing') {
-        res.status(404).json({ message: 'Post not found' })
+        res.status(404).json({ error: 'Post not found' })
         return
       }
 
       if (ownership === 'forbidden') {
-        res.status(403).json({ message: 'Forbidden' })
+        res.status(403).json({ error: 'Forbidden' })
         return
       }
 
       await prisma.post.delete({
         where: { id: postId },
       })
-      res.status(200).json({ message: 'Delete Successful!' })
+      res.status(204).send()
     } catch (error: unknown) {
       if (error instanceof Error) {
         Logger.error(error)
@@ -198,7 +198,7 @@ router.post(
       const authorId = req.authenticatedUser?.id
 
       if (!authorId) {
-        res.status(401).json({ message: 'No token found' })
+        res.status(401).json({ error: 'No token found' })
         return
       }
 
@@ -206,12 +206,12 @@ router.post(
 
       // Only the post owner can update title/body.
       if (ownership === 'missing') {
-        res.status(404).json({ message: 'Post not found' })
+        res.status(404).json({ error: 'Post not found' })
         return
       }
 
       if (ownership === 'forbidden') {
-        res.status(403).json({ message: 'Forbidden' })
+        res.status(403).json({ error: 'Forbidden' })
         return
       }
 

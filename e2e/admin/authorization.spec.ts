@@ -86,7 +86,9 @@ test.describe('API authorization', () => {
         },
       },
     )
+    expect(stockResponse.status()).toBe(201)
     const stock = (await stockResponse.json()) as Stock
+    expect(stock.id).toBeDefined()
 
     // Act
     const postDeleteResponse = await rexContext.request.delete(
@@ -100,13 +102,12 @@ test.describe('API authorization', () => {
     )
 
     // Assert
-    expect(stockResponse.status()).toBe(201)
     expect(postDeleteResponse.status()).toBe(403)
-    expect(await postDeleteResponse.json()).toEqual({ message: 'Forbidden' })
+    expect(await postDeleteResponse.json()).toEqual({ error: 'Forbidden' })
     expect(stockDeleteResponse.status()).toBe(403)
-    expect(await stockDeleteResponse.json()).toEqual({ message: 'Forbidden' })
+    expect(await stockDeleteResponse.json()).toEqual({ error: 'Forbidden' })
     expect(tweetDeleteResponse.status()).toBe(403)
-    expect(await tweetDeleteResponse.json()).toEqual({ message: 'Forbidden' })
+    expect(await tweetDeleteResponse.json()).toEqual({ error: 'Forbidden' })
 
     await johnContext.close()
     await rexContext.close()

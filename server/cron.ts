@@ -38,13 +38,15 @@ async function postReadlist() {
       body += `[${stock.pageTitle}](${stock.url})  \n\n`
     }
 
-    await prisma.post.create({
-      data: {
-        authorId: userId,
-        title: title,
-        body: body,
-      },
-    })
-    await prisma.stock.deleteMany({ where: { userId } })
+    await prisma.$transaction([
+      prisma.post.create({
+        data: {
+          authorId: userId,
+          title,
+          body,
+        },
+      }),
+      prisma.stock.deleteMany({ where: { userId } }),
+    ])
   }
 }

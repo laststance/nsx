@@ -201,10 +201,16 @@ router.post(
   },
 )
 
-router.get('/logout', async (req: Request, res: Response<Res.Logout>) => {
-  await revokeRefreshToken(req.cookies.refreshToken as JWTtoken | undefined)
-  clearAuthCookies(res)
-  res.status(200).json({ message: 'Logout Successful' })
+router.post('/logout', async (req: Request, res: Response<Res.Logout>) => {
+  try {
+    await revokeRefreshToken(req.cookies.refreshToken as JWTtoken | undefined)
+  } catch (error) {
+    Logger.error(error)
+  } finally {
+    clearAuthCookies(res)
+  }
+
+  res.status(200).json({ success: true })
 })
 
 const validateHandler: RequestHandler = async (req: Request, res: Response) => {
@@ -218,6 +224,7 @@ const validateHandler: RequestHandler = async (req: Request, res: Response) => {
   const {
     password: _password,
     useLegacyHoverColors: _useLegacy,
+    sessionVersion: _sessionVersion,
     ...user
   } = session.user
   res.status(200).json({ valid: true, user })
@@ -297,7 +304,11 @@ router.patch(
       const { name, password } = req.body as UpdateProfileBody
 
       // Prepare update data
-      const updateData: { name?: string; password?: string } = {}
+      const updateData: {
+        name?: string
+        password?: string
+        sessionVersion?: { increment: number }
+      } = {}
 
       if (name) {
         updateData.name = name
@@ -307,6 +318,7 @@ router.patch(
         // Hash the new password
         const salt = await bcrypt.genSalt(10)
         updateData.password = await bcrypt.hash(password, salt)
+        updateData.sessionVersion = { increment: 1 }
       }
 
       // Update user in database
@@ -317,19 +329,21 @@ router.patch(
           id: true,
           name: true,
           password: true,
+          sessionVersion: true,
           createdAt: true,
           updatedAt: true,
           useLegacyHoverColors: true,
         },
       })
 
-      if (password) {
+      if (password || user.name !== session.user.name) {
         await issueAuthCookies(res, user)
       }
 
       const {
         password: _password,
         useLegacyHoverColors: _useLegacy,
+        sessionVersion: _sessionVersion,
         ...responseUser
       } = user
       res.status(200).json(responseUser)

@@ -1,16 +1,13 @@
 import { createHash } from 'node:crypto'
 
 import type { Request, Response } from 'express'
-import {
-  JsonWebTokenError,
-  TokenExpiredError,
-  type JwtPayload,
-} from 'jsonwebtoken'
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 
 import { prisma } from '../prisma'
 
 import {
   ACCESS_TOKEN_COOKIE_NAME,
+  type AuthTokenPayload,
   REFRESH_TOKEN_COOKIE_NAME,
   generateAccessToken,
   generateRefreshToken,
@@ -32,6 +29,7 @@ const SESSION_USER_SELECT = {
   id: true,
   name: true,
   password: true,
+  sessionVersion: true,
   createdAt: true,
   updatedAt: true,
   useLegacyHoverColors: true,
@@ -78,12 +76,12 @@ const isJwtVerificationError = (error: unknown): boolean => {
  * @example getTokenIdentity(payload)
  */
 const getTokenIdentity = (
-  payload: JwtPayload,
-): { id: number; password: string } | null => {
-  if (typeof payload.id !== 'number') return null
-  if (typeof payload.password !== 'string') return null
+  payload: AuthTokenPayload,
+): { id: number; sessionVersion: number } | null => {
+  const id = Number(payload.sub)
+  if (!Number.isInteger(id)) return null
 
-  return { id: payload.id, password: payload.password }
+  return { id, sessionVersion: payload.sessionVersion }
 }
 
 /**
@@ -97,7 +95,7 @@ const getTokenIdentity = (
  * @example await findUserForTokenPayload(decoded)
  */
 const findUserForTokenPayload = async (
-  payload: JwtPayload,
+  payload: AuthTokenPayload,
 ): Promise<AuthenticatedSessionUser | null> => {
   const identity = getTokenIdentity(payload)
   if (!identity) return null
@@ -106,7 +104,7 @@ const findUserForTokenPayload = async (
     select: SESSION_USER_SELECT,
     where: {
       id: identity.id,
-      password: identity.password,
+      sessionVersion: identity.sessionVersion,
     },
   })
 }
@@ -222,16 +220,6 @@ const rotateRefreshSession = async (
 
   const decoded = verifyRefreshToken(refreshToken)
   const tokenHash = hashRefreshToken(refreshToken)
-  const storedToken = await prisma.refreshToken.findFirst({
-    where: {
-      tokenHash,
-      revokedAt: null,
-      expiresAt: { gt: new Date() },
-    },
-  })
-
-  if (!storedToken) return null
-
   const user = await findUserForTokenPayload(decoded)
   if (!user) {
     await revokeRefreshToken(refreshToken)
@@ -241,20 +229,27 @@ const rotateRefreshSession = async (
   const accessToken = generateAccessToken(user)
   const nextRefreshToken = generateRefreshToken(user)
 
-  // Rotation is atomic so the old refresh token cannot remain active.
-  await prisma.$transaction([
-    prisma.refreshToken.updateMany({
-      where: { tokenHash, revokedAt: null },
+  // Rotation is atomic and single-use; replays cannot mint a successor token.
+  const rotated = await prisma.$transaction(async (tx) => {
+    const { count } = await tx.refreshToken.updateMany({
+      where: { tokenHash, revokedAt: null, expiresAt: { gt: new Date() } },
       data: { revokedAt: new Date() },
-    }),
-    prisma.refreshToken.create({
+    })
+
+    if (count !== 1) return false
+
+    await tx.refreshToken.create({
       data: {
         tokenHash: hashRefreshToken(nextRefreshToken),
         userId: user.id,
         expiresAt: getTokenExpiration(nextRefreshToken),
       },
-    }),
-  ])
+    })
+
+    return true
+  })
+
+  if (!rotated) return null
 
   res.cookie(
     ACCESS_TOKEN_COOKIE_NAME,

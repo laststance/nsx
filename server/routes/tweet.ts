@@ -2,6 +2,7 @@ import type { Request, Response, Router, NextFunction } from 'express'
 import express from 'express'
 
 import { isAuthorized } from '../auth'
+import Logger from '../lib/Logger'
 import {
   createTweetBodySchema,
   type CreateTweetBody,
@@ -59,6 +60,7 @@ tweet.get(
 
       res.status(200).json(tweets)
     } catch (error) {
+      Logger.error(error)
       next(error)
     }
   },
@@ -112,6 +114,7 @@ tweet.get(
       })
       res.status(200).json({ tweetList, total })
     } catch (error) {
+      Logger.error(error)
       next(error)
     }
   },
@@ -135,6 +138,7 @@ tweet.post(
 
       res.status(201).json(tweet)
     } catch (error) {
+      Logger.error(error)
       next(error)
     }
   },
@@ -149,7 +153,7 @@ tweet.delete(
       const userId = req.authenticatedUser?.id
 
       if (!userId) {
-        res.status(401).json({ message: 'No token found' })
+        res.status(401).json({ error: 'No token found' })
         return
       }
 
@@ -157,19 +161,20 @@ tweet.delete(
 
       // Only the tweet owner can remove a tweet.
       if (ownership === 'missing') {
-        res.status(404).json({ message: 'Tweet not found' })
+        res.status(404).json({ error: 'Tweet not found' })
         return
       }
 
       if (ownership === 'forbidden') {
-        res.status(403).json({ message: 'Forbidden' })
+        res.status(403).json({ error: 'Forbidden' })
         return
       }
 
       await prisma.tweet.delete({ where: { id } })
 
-      res.status(200).json({ message: 'Tweet deleted successfully' })
+      res.status(204).send()
     } catch (error) {
+      Logger.error(error)
       next(error)
     }
   },

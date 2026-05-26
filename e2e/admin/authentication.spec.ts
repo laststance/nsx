@@ -8,8 +8,6 @@ import { test } from '../helper'
 
 const exec = util.promisify(execCb)
 const API_BASE_URL = 'http://localhost:4000/api'
-const JOHN_DOE_PASSWORD_HASH =
-  '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC'
 
 test.beforeAll(async () => {
   await exec('PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=yes pnpm db:reset')
@@ -102,16 +100,20 @@ test.describe('JWT Expiration', () => {
     expect(originalTokenCookie).toBeTruthy()
     expect(originalRefreshCookie).toBeTruthy()
 
+    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
+    if (!accessTokenSecret) {
+      throw new Error(
+        'ACCESS_TOKEN_SECRET must be set for admin refresh-rotation E2E',
+      )
+    }
+
     const expiredAccessToken = jwt.sign(
       {
-        id: 1,
-        name: 'John Doe',
-        password: JOHN_DOE_PASSWORD_HASH,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        useLegacyHoverColors: false,
+        kind: 'access',
+        sessionVersion: 0,
+        sub: '1',
       },
-      process.env.ACCESS_TOKEN_SECRET!,
+      accessTokenSecret,
       { expiresIn: '-1s' },
     )
 

@@ -157,15 +157,20 @@ router.post(
 )
 
 router.get('/stocklist', isAuthorized, async (req, res) => {
-  const userId = req.authenticatedUser?.id
+  try {
+    const userId = req.authenticatedUser?.id
 
-  if (!userId) {
-    res.status(401).json({ error: 'No token found' })
-    return
+    if (!userId) {
+      res.status(401).json({ error: 'No token found' })
+      return
+    }
+
+    const stockList = await prisma.stock.findMany({ where: { userId } })
+    res.status(200).json(stockList)
+  } catch (error) {
+    Logger.error(error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
-
-  const stockList = await prisma.stock.findMany({ where: { userId } })
-  res.status(200).json(stockList)
 })
 
 router.get('/stock/exists', isAuthorized, async (req, res, next) => {
@@ -199,7 +204,7 @@ router.delete('/stock/:id', isAuthorized, async (req, res) => {
     const userId = req.authenticatedUser?.id
 
     if (!userId) {
-      res.status(401).json({ message: 'No token found' })
+      res.status(401).json({ error: 'No token found' })
       return
     }
 
@@ -207,19 +212,19 @@ router.delete('/stock/:id', isAuthorized, async (req, res) => {
 
     // Delete is allowed only for the user who saved the page.
     if (ownership === 'missing') {
-      res.status(404).json({ message: 'Stock not found' })
+      res.status(404).json({ error: 'Stock not found' })
       return
     }
 
     if (ownership === 'forbidden') {
-      res.status(403).json({ message: 'Forbidden' })
+      res.status(403).json({ error: 'Forbidden' })
       return
     }
 
     await prisma.stock.delete({
       where: { id: stockId },
     })
-    res.status(200).json({ message: 'Delete Successful!' })
+    res.status(204).send()
   } catch (error: unknown) {
     if (error instanceof Error) {
       Logger.error(error)
