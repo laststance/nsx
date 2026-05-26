@@ -20,6 +20,8 @@ const AUTHENTICATION_SERVICE_ERROR_MESSAGE =
   'Authentication service temporarily unavailable'
 const DUMMY_PASSWORD_HASH =
   '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC'
+const INVALID_LOGIN_REQUEST_CODE = 'VALIDATION_ERROR'
+const INVALID_LOGIN_REQUEST_MESSAGE = 'Invalid request body'
 const LOGIN_WINDOW_MS = 15 * 60 * 1000
 const LOGIN_MAX_ATTEMPTS = 5
 const isProd = process.env.NODE_ENV === 'production'
@@ -89,6 +91,25 @@ const sendAuthenticationFailure = (
   })
 }
 
+/**
+ * Sends the public validation response for malformed login requests.
+ *
+ * Called by `/api/login` after the dummy bcrypt comparison has run, so invalid
+ * bodies still avoid a cheap early exit while using the correct HTTP status.
+ *
+ * @param res - Express response used to return the validation error payload.
+ * @returns Nothing; the response is completed with status 400.
+ * @example sendInvalidLoginRequest(res)
+ */
+const sendInvalidLoginRequest = (
+  res: Response<Res.Login | Res.AuthError | Res.Error>,
+): void => {
+  res.status(400).json({
+    error: INVALID_LOGIN_REQUEST_MESSAGE,
+    code: INVALID_LOGIN_REQUEST_CODE,
+  })
+}
+
 router.get(
   '/user_count',
   async (_req: Request, res: Response<Res.GetUserCount>) => {
@@ -153,14 +174,14 @@ router.post(
     const password = normalizeLoginPassword(body?.password)
 
     try {
-      // Malformed login bodies use the same public response as bad credentials.
+      // Malformed bodies still run bcrypt but return the validation status.
       if (!(name && password)) {
         await bcrypt.compare(
           password || 'missing-password',
           DUMMY_PASSWORD_HASH,
         )
-        Logger.warn('Failed login attempt')
-        sendAuthenticationFailure(res)
+        Logger.warn('Invalid login payload')
+        sendInvalidLoginRequest(res)
         return
       }
 
