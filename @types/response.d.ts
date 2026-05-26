@@ -5,6 +5,12 @@ declare namespace Res {
     code: 'AUTHENTICATION_FAILED'
   }
 
+  declare type ValidationIssue = {
+    field: string
+    message: string
+    code: string
+  }
+
   /**
    * POST /api/login
    */
@@ -58,5 +64,6 @@ declare namespace Res {
   declare type Error = {
     error: string
     code?: string
+    details?: Res.ValidationIssue[]
   }
 }

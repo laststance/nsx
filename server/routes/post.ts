@@ -3,6 +3,13 @@ import express from 'express'
 
 import { isAuthorized } from '../auth'
 import Logger from '../lib/Logger'
+import {
+  createPostBodySchema,
+  type CreatePostBody,
+  type UpdatePostBody,
+  updatePostBodySchema,
+} from '../lib/requestSchemas'
+import { validateBody } from '../lib/validateRequest'
 import { prisma } from '../prisma'
 
 const router: Router = express.Router()
@@ -98,38 +105,44 @@ router.get(
   },
 )
 
-router.post('/create', isAuthorized, async (req: Request, res: Response) => {
-  const { title, body } = req.body
-  try {
-    const post = await prisma.post.create({
-      data: {
-        title: title,
-        body: body,
-      },
-    })
-    res.status(201).json(post)
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      Logger.error(error)
-      res.status(500).json({ error: error.message })
-    } else {
-      Logger.error(error)
-      res.status(500).json({
-        error: `something wrong: ${JSON.stringify(error)}`,
+router.post(
+  '/create',
+  isAuthorized,
+  validateBody(createPostBodySchema),
+  async (req: Request, res: Response) => {
+    const { title, body } = req.body as CreatePostBody
+    try {
+      const post = await prisma.post.create({
+        data: {
+          title: title,
+          body: body,
+        },
       })
+      res.status(201).json(post)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Logger.error(error)
+        res.status(500).json({ error: error.message })
+      } else {
+        Logger.error(error)
+        res.status(500).json({
+          error: `something wrong: ${JSON.stringify(error)}`,
+        })
+      }
     }
-  }
-})
+  },
+)
 
 router.post(
   '/update',
   isAuthorized,
+  validateBody(updatePostBodySchema),
   async (req: Request, res: Response, next: NextFunction) => {
-    const body = req.body
+    const body = req.body as UpdatePostBody
     try {
       await prisma.post.update({
         data: { title: body.title, body: body.body },
-        where: { id: parseInt(body.id, 10) },
+        where: { id: body.id },
       })
 
       res.status(200).json({ message: 'Successfully Updated!' })

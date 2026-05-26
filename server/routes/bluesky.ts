@@ -2,6 +2,12 @@ import { BskyAgent, RichText } from '@atproto/api'
 import express from 'express'
 import type { Router } from 'express'
 
+import {
+  blueskyPostBodySchema,
+  type BlueskyPostBody,
+} from '../lib/requestSchemas'
+import { validateBody } from '../lib/validateRequest'
+
 const router: Router = express.Router()
 
 // Initialize BlueSky agent
@@ -41,61 +47,53 @@ const ensureAuthenticated = async (): Promise<void> => {
 }
 
 // POST /api/bluesky/post
-router.post('/bluesky/post', async (req, res) => {
-  try {
-    const { text } = req.body
+router.post(
+  '/bluesky/post',
+  validateBody(blueskyPostBodySchema),
+  async (req, res) => {
+    try {
+      const { text } = req.body as BlueskyPostBody
 
-    if (!text || typeof text !== 'string') {
-      return res
-        .status(400)
-        .json({ error: 'Text is required and must be a string' })
+      // Ensure we're authenticated
+      await ensureAuthenticated()
+
+      // Create rich text with automatic facet detection
+      const richText = new RichText({ text })
+      await richText.detectFacets(agent)
+
+      // Create the post
+      const postResult = await agent.post({
+        text: richText.text,
+        facets: richText.facets,
+        createdAt: new Date().toISOString(),
+      })
+
+      res.json({
+        success: true,
+        postUri: postResult.uri,
+        postCid: postResult.cid,
+        message: 'Successfully posted to BlueSky',
+      })
+    } catch (error) {
+      console.error('BlueSky post error:', error)
+
+      // Reset authentication state on auth errors
+      if (
+        error instanceof Error &&
+        (error.message.includes('authentication') ||
+          error.message.includes('unauthorized') ||
+          error.message.includes('invalid'))
+      ) {
+        authState.isAuthenticated = false
+      }
+
+      res.status(500).json({
+        error: 'Failed to post to BlueSky',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      })
     }
-
-    if (text.length > 300) {
-      return res
-        .status(400)
-        .json({ error: 'Text must be 300 characters or less' })
-    }
-
-    // Ensure we're authenticated
-    await ensureAuthenticated()
-
-    // Create rich text with automatic facet detection
-    const richText = new RichText({ text })
-    await richText.detectFacets(agent)
-
-    // Create the post
-    const postResult = await agent.post({
-      text: richText.text,
-      facets: richText.facets,
-      createdAt: new Date().toISOString(),
-    })
-
-    res.json({
-      success: true,
-      postUri: postResult.uri,
-      postCid: postResult.cid,
-      message: 'Successfully posted to BlueSky',
-    })
-  } catch (error) {
-    console.error('BlueSky post error:', error)
-
-    // Reset authentication state on auth errors
-    if (
-      error instanceof Error &&
-      (error.message.includes('authentication') ||
-        error.message.includes('unauthorized') ||
-        error.message.includes('invalid'))
-    ) {
-      authState.isAuthenticated = false
-    }
-
-    res.status(500).json({
-      error: 'Failed to post to BlueSky',
-      details: error instanceof Error ? error.message : 'Unknown error',
-    })
-  }
-})
+  },
+)
 
 // GET /api/bluesky/status - Check authentication status
 router.get('/bluesky/status', async (req, res) => {

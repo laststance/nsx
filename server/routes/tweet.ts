@@ -1,6 +1,11 @@
 import type { Request, Response, Router, NextFunction } from 'express'
 import express from 'express'
 
+import {
+  createTweetBodySchema,
+  type CreateTweetBody,
+} from '../lib/requestSchemas'
+import { validateBody } from '../lib/validateRequest'
 import { prisma } from '../prisma'
 
 const tweet: Router = express.Router()
@@ -62,16 +67,20 @@ tweet.get(
   },
 )
 
-tweet.post('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { text } = req.body
-    const tweet = await prisma.tweet.create({ data: { text } })
+tweet.post(
+  '/',
+  validateBody(createTweetBodySchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { text } = req.body as CreateTweetBody
+      const tweet = await prisma.tweet.create({ data: { text } })
 
-    res.status(201).json(tweet)
-  } catch (error) {
-    next(error)
-  }
-})
+      res.status(201).json(tweet)
+    } catch (error) {
+      next(error)
+    }
+  },
+)
 
 tweet.delete(
   '/:id',
