@@ -134,7 +134,7 @@ export const handlers = [
     return HttpResponse.json([])
   }),
   http.post('http://*/logout', async () => {
-    return HttpResponse.json([])
+    return HttpResponse.json({ success: true })
   }),
   http.post('http://*/create', async () => {
     return HttpResponse.json([])
@@ -155,7 +155,7 @@ export const handlers = [
     return HttpResponse.json([])
   }),
   http.post('http://*/api/logout', async () => {
-    return HttpResponse.json([])
+    return HttpResponse.json({ success: true })
   }),
   http.delete('http://*/api/post/:id', async () => {
     return HttpResponse.json([])
