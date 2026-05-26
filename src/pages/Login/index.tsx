@@ -8,7 +8,6 @@ import Button from '@/src/components/Button'
 import Input from '@/src/components/Input/Input'
 import Layout from '@/src/components/Layout'
 
-import { assertCast } from '../../../lib/assertCast'
 import { userAccountValidator } from '../../../validator'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
@@ -20,6 +19,8 @@ interface FormInput extends FieldValues {
   name: User['name']
   password: string
 }
+
+const LOGIN_FAILED_MESSAGE = 'Invalid credentials'
 
 const Login: React.FC = memo(() => {
   const navigate = useNavigate()
@@ -37,13 +38,15 @@ const Login: React.FC = memo(() => {
       name: data.name,
       password: data.password,
     })
+
+    // Login failures are intentionally generic to avoid account discovery.
+    if ('error' in res && res.error) {
+      dispatch(enqueSnackbar({ color: 'red', message: LOGIN_FAILED_MESSAGE }))
+      return
+    }
+
     if (isSuccess(res) && 'data' in res) {
       const data = res.data
-      if ('failed' in data) {
-        assertCast<Res.failedMessage>(data)
-        dispatch(enqueSnackbar({ color: 'red', message: data.failed }))
-        return // missing username or pass, onemore time!
-      }
 
       // Login SuccessFul!
       dispatch(login(data))

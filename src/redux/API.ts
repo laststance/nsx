@@ -19,6 +19,21 @@ const baseQuery = fetchBaseQuery({
   },
 })
 
+/**
+ * Detects requests where a 401 is expected to be handled by the caller.
+ *
+ * Called from the shared RTK Query base query before dispatching a logout, so
+ * failed login attempts can show a form error instead of redirecting home.
+ *
+ * @param args - RTK Query request argument passed to `fetchBaseQuery`.
+ * @returns True when the request targets the login endpoint.
+ * @example isLoginRequest({ url: 'login' }) // true
+ */
+const isLoginRequest = (args: string | FetchArgs): boolean => {
+  const url = typeof args === 'string' ? args : args.url
+  return url === 'login' || url.endsWith('/login')
+}
+
 const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -26,8 +41,8 @@ const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   const result = await baseQuery(args, api, extraOptions)
 
-  // Handle 401 unauthorized responses
-  if (result.error && result.error.status === 401) {
+  // Failed login stays on the login form; other 401 responses end the session.
+  if (result.error && result.error.status === 401 && !isLoginRequest(args)) {
     // Dispatch logout action to update Redux state
     api.dispatch(logout())
 

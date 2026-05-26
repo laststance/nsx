@@ -24,10 +24,9 @@ test.describe('Profile Update', () => {
     await page.getByTestId('submit-btn').click()
     const loginResponse = await loginResponsePromise
 
+    expect(loginResponse.status()).toBe(200)
     const responseBody = await loginResponse.json()
-    if (responseBody.failed) {
-      throw new Error(`Login failed: ${responseBody.failed}`)
-    }
+    expect(responseBody.name).toBe('John Doe')
 
     await page.waitForLoadState('networkidle')
 
@@ -64,7 +63,7 @@ test.describe('Profile Update', () => {
     await expect(nameInput).toHaveValue('Jane Smith')
   })
 
-  test('should update password successfully and verify login with new password', async ({
+  test('updates password and rejects the old password after logout', async ({
     page,
   }) => {
     // Login with original credentials
@@ -112,28 +111,37 @@ test.describe('Profile Update', () => {
     await page.goto('http://localhost:3010')
     await page.waitForLoadState('networkidle')
 
-    // Try login with old password (should fail)
+    // Arrange
     await page.keyboard.press('x')
     await page.getByTestId('login-link').click()
     await page.getByTestId('name-input').fill('John Doe')
     await page.getByTestId('password-input').fill('popcoon')
-
     const failedLoginPromise = page.waitForResponse('**/login')
+
+    // Act
     await page.getByTestId('submit-btn').click()
     const failedLoginResponse = await failedLoginPromise
     const failedBody = await failedLoginResponse.json()
-    expect(failedBody.failed).toBeTruthy()
 
-    // Login with new password (should succeed)
+    // Assert
+    expect(failedLoginResponse.status()).toBe(401)
+    expect(failedBody).toEqual({
+      error: 'Invalid credentials',
+      code: 'AUTHENTICATION_FAILED',
+    })
+
+    // Arrange
     await page.getByTestId('name-input').fill('John Doe')
     await page.getByTestId('password-input').fill('newpassword123')
-
     const successLoginPromise = page.waitForResponse('**/login')
+
+    // Act
     await page.getByTestId('submit-btn').click()
     const successLoginResponse = await successLoginPromise
     const successBody = await successLoginResponse.json()
 
-    expect(successBody.failed).toBeUndefined()
+    // Assert
+    expect(successLoginResponse.status()).toBe(200)
     expect(successBody.name).toBe('John Doe')
 
     await page.waitForLoadState('networkidle')
@@ -196,7 +204,7 @@ test.describe('Profile Update', () => {
     const loginResponse = await loginResponsePromise
     const loginBody = await loginResponse.json()
 
-    expect(loginBody.failed).toBeUndefined()
+    expect(loginResponse.status()).toBe(200)
     expect(loginBody.name).toBe('Alice Johnson')
 
     await page.waitForLoadState('networkidle')

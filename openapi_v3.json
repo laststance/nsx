@@ -157,14 +157,27 @@
             "description": "OK",
             "content": {
               "application/json": {
+                "schema": { "$ref": "#/components/schemas/Author" }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "failed": {
+                    "error": {
                       "type": "string",
-                      "example": "User does not exist"
+                      "example": "Invalid credentials"
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "AUTHENTICATION_FAILED"
                     }
-                  }
+                  },
+                  "required": ["error", "code"]
                 }
               }
             }
