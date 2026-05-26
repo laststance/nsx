@@ -1,6 +1,7 @@
 import type { Request, Response, Router, NextFunction } from 'express'
 import express from 'express'
 
+import { isAuthorized } from '../auth'
 import {
   createTweetBodySchema,
   type CreateTweetBody,
@@ -69,6 +70,7 @@ tweet.get(
 
 tweet.post(
   '/',
+  isAuthorized,
   validateBody(createTweetBodySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

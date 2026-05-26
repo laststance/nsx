@@ -9,7 +9,6 @@ import Layout from '@/src/components/Layout'
 import Textarea from '@/src/components/Textarea/Textarea'
 
 import { createPostFormValidator } from '../../../../validator'
-import { selectUser } from '../../../redux/adminSlice'
 import { API } from '../../../redux/API'
 import { selectBody, selectTitle } from '../../../redux/draftSlice'
 import type { FormInput } from '../../../redux/draftSlice'
@@ -23,7 +22,6 @@ const Create: React.FC = memo(() => {
   const [createPost, { isLoading }] = API.endpoints.createPost.useMutation()
   const title = useAppSelector(selectTitle)
   const body = useAppSelector(selectBody)
-  const user = useAppSelector(selectUser)
   const {
     formState: { errors },
     handleSubmit,
@@ -37,7 +35,7 @@ const Create: React.FC = memo(() => {
       <section className="w-[70%]">
         <form
           onSubmit={handleSubmit(async () =>
-            onSubmit(createPost, title, body, user, navigate),
+            onSubmit(createPost, title, body, navigate),
           )}
         >
           <Input

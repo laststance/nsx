@@ -214,19 +214,19 @@ export const API = createApi({
         isTranslated: boolean
         originalText?: string
       },
-      string
+      { text: string; from: string; to: string }
     >({
-      query: (text: string) => ({
+      query: (payload) => ({
         method: 'POST',
         url: 'translate',
-        body: { text },
+        body: payload,
       }),
     }),
     postToBlueSky: builder.mutation<
       {
         success: boolean
-        postUri: string
-        postCid: string
+        uri: string
+        cid: string
         message: string
       },
       string

@@ -99,6 +99,35 @@ test.describe('API request validation', () => {
         },
       ],
     })
+
+    // Arrange
+    const invalidTranslatePayload = {
+      from: 'ja',
+      text: 'a'.repeat(5_001),
+      to: 'en',
+    }
+
+    // Act
+    const translateResponse = await page
+      .context()
+      .request.post(`${API_BASE_URL}/translate`, {
+        data: invalidTranslatePayload,
+      })
+    const translateBody = (await translateResponse.json()) as Res.Error
+
+    // Assert
+    expect(translateResponse.status()).toBe(400)
+    expect(translateBody).toEqual({
+      error: 'Validation failed',
+      code: 'VALIDATION_ERROR',
+      details: [
+        {
+          field: 'text',
+          message: 'Text is too long',
+          code: 'too_big',
+        },
+      ],
+    })
   })
 
   test('rejects invalid public integration bodies with structured details', async ({
@@ -128,33 +157,6 @@ test.describe('API request validation', () => {
           field: 'password',
           message: 'Password must be at least 7 characters long',
           code: 'too_small',
-        },
-      ],
-    })
-
-    // Arrange
-    const invalidTranslatePayload = {
-      text: 'a'.repeat(5_001),
-    }
-
-    // Act
-    const translateResponse = await page
-      .context()
-      .request.post(`${API_BASE_URL}/translate`, {
-        data: invalidTranslatePayload,
-      })
-    const translateBody = (await translateResponse.json()) as Res.Error
-
-    // Assert
-    expect(translateResponse.status()).toBe(400)
-    expect(translateBody).toEqual({
-      error: 'Validation failed',
-      code: 'VALIDATION_ERROR',
-      details: [
-        {
-          field: 'text',
-          message: 'Text is too long',
-          code: 'too_big',
         },
       ],
     })

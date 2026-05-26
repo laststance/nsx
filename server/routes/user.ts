@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import type { Request, Response, Router, RequestHandler } from 'express'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 
 import {
   generateAccessToken,
@@ -92,6 +93,35 @@ const sendAuthenticationFailure = (
     error: AUTHENTICATION_FAILED_MESSAGE,
     code: AUTHENTICATION_FAILED_CODE,
   })
+}
+
+/**
+ * Detects token verification failures thrown by `verifyAccessToken`.
+ *
+ * Called by PATCH handlers so invalid cookies return 401 instead of being
+ * misclassified as server failures.
+ *
+ * @param error - Unknown error thrown while verifying a cookie token.
+ * @returns Whether the error is an authentication failure.
+ * @example isTokenVerificationError(new JsonWebTokenError('jwt malformed'))
+ */
+const isTokenVerificationError = (error: unknown): boolean => {
+  return (
+    error instanceof TokenExpiredError || error instanceof JsonWebTokenError
+  )
+}
+
+/**
+ * Sends the shared response for invalid or expired cookie tokens.
+ *
+ * Called by account-setting PATCH endpoints after token verification fails.
+ *
+ * @param res - Express response used to return the 401 payload.
+ * @returns Nothing; the response is completed with status 401.
+ * @example sendInvalidTokenResponse(res)
+ */
+const sendInvalidTokenResponse = (res: Response<Res.Error>): void => {
+  res.status(401).json({ error: 'Invalid or expired token' })
 }
 
 router.get(
@@ -296,6 +326,11 @@ router.patch(
       res.status(200).json({ useLegacyHoverColors: user.useLegacyHoverColors })
     } catch (error) {
       Logger.error(error)
+      if (isTokenVerificationError(error)) {
+        sendInvalidTokenResponse(res)
+        return
+      }
+
       res.status(500).json({ error: 'Failed to update hover color preference' })
     }
   },
@@ -344,6 +379,11 @@ router.patch(
       res.status(200).json(user)
     } catch (error) {
       Logger.error(error)
+      if (isTokenVerificationError(error)) {
+        sendInvalidTokenResponse(res)
+        return
+      }
+
       res.status(500).json({ error: 'Failed to update profile' })
     }
   },

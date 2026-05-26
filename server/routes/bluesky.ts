@@ -2,6 +2,7 @@ import { BskyAgent, RichText } from '@atproto/api'
 import express from 'express'
 import type { Router } from 'express'
 
+import { isAuthorized } from '../auth'
 import {
   blueskyPostBodySchema,
   type BlueskyPostBody,
@@ -49,6 +50,7 @@ const ensureAuthenticated = async (): Promise<void> => {
 // POST /api/bluesky/post
 router.post(
   '/bluesky/post',
+  isAuthorized,
   validateBody(blueskyPostBodySchema),
   async (req, res) => {
     try {
@@ -70,8 +72,8 @@ router.post(
 
       res.json({
         success: true,
-        postUri: postResult.uri,
-        postCid: postResult.cid,
+        uri: postResult.uri,
+        cid: postResult.cid,
         message: 'Successfully posted to BlueSky',
       })
     } catch (error) {

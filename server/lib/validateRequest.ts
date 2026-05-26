@@ -3,11 +3,7 @@ import type { ZodIssue, ZodType } from 'zod'
 
 import Logger from './Logger'
 
-interface ValidationIssue {
-  field: string
-  message: string
-  code: string
-}
+type ValidationIssue = Res.ValidationIssue
 
 /**
  * Formats a Zod issue path into a stable response field name.
@@ -59,7 +55,7 @@ export const validateBody =
     // Invalid client input returns a structured 400 without reaching Prisma.
     if (!result.success) {
       const details = formatValidationIssues(result.error.issues)
-      Logger.warn('Request body validation failed', JSON.stringify(details))
+      Logger.warn('Request body validation failed', { details })
       res.status(400).json({
         error: 'Validation failed',
         code: 'VALIDATION_ERROR',

@@ -3,6 +3,8 @@ import type { RequestHandler, Router } from 'express'
 import rateLimit from 'express-rate-limit'
 import OpenAI from 'openai'
 
+import { isAuthorized } from '../auth'
+import Logger from '../lib/Logger'
 import { translateBodySchema, type TranslateBody } from '../lib/requestSchemas'
 import { validateBody } from '../lib/validateRequest'
 
@@ -52,6 +54,7 @@ const isJapanese = (text: string): boolean => {
 router.post(
   '/translate',
   translateLimiter,
+  isAuthorized,
   validateBody(translateBodySchema),
   async (req, res) => {
     try {
@@ -93,11 +96,23 @@ router.post(
         originalText: text,
       })
     } catch (error) {
-      console.error('Translation error:', error)
-      res.status(500).json({
+      Logger.error('Translation error', { error })
+      const responseBody: Res.Error = {
         error: 'Translation failed',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      })
+      }
+
+      // Internal provider details are only exposed during local development.
+      if (process.env.NODE_ENV === 'development') {
+        responseBody.details = [
+          {
+            field: 'text',
+            message: error instanceof Error ? error.message : 'Unknown error',
+            code: 'TRANSLATION_ERROR',
+          },
+        ]
+      }
+
+      res.status(500).json(responseBody)
     }
   },
 )

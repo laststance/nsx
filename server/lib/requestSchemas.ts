@@ -5,6 +5,7 @@ const POST_BODY_MAX_LENGTH = 50_000
 const PROFILE_NAME_MAX_LENGTH = 255
 const STOCK_TITLE_MAX_LENGTH = 1_000
 const STOCK_URL_MAX_LENGTH = 2_048
+const LANGUAGE_CODE_MAX_LENGTH = 16
 const TRANSLATE_TEXT_MAX_LENGTH = 5_000
 const TWEET_TEXT_MAX_LENGTH = 280
 const BLUESKY_TEXT_MAX_LENGTH = 300
@@ -38,7 +39,6 @@ const passwordSchema = z
 
 export const createPostBodySchema = z
   .object({
-    author: z.unknown().optional(),
     body: requiredText('Body', POST_BODY_MAX_LENGTH),
     title: requiredText('Title', POST_TITLE_MAX_LENGTH),
   })
@@ -46,7 +46,6 @@ export const createPostBodySchema = z
 
 export const updatePostBodySchema = z
   .object({
-    author: z.unknown().optional(),
     body: requiredText('Body', POST_BODY_MAX_LENGTH),
     id: z.coerce.number().int().positive(),
     title: requiredText('Title', POST_TITLE_MAX_LENGTH),
@@ -111,7 +110,9 @@ export const createTweetBodySchema = z
 
 export const translateBodySchema = z
   .object({
+    from: requiredText('From language code', LANGUAGE_CODE_MAX_LENGTH),
     text: requiredText('Text', TRANSLATE_TEXT_MAX_LENGTH),
+    to: requiredText('To language code', LANGUAGE_CODE_MAX_LENGTH),
   })
   .strict()
 

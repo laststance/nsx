@@ -1,7 +1,6 @@
 import type { ChangeEvent } from 'react'
 import type { NavigateFunction } from 'react-router'
 
-import type { AdminState } from '../../../redux/adminSlice'
 import type { API } from '../../../redux/API'
 import type { DraftState } from '../../../redux/draftSlice'
 import { updateBody, updateTitle, clearDraft } from '../../../redux/draftSlice'
@@ -23,12 +22,10 @@ export async function onSubmit(
   createPost: ReturnType<typeof API.endpoints.createPost.useMutation>[0],
   title: DraftState['title'],
   body: DraftState['body'],
-  author: AdminState['author'],
   navigate: NavigateFunction,
 ) {
   const post = await createPost({
     title,
-    author,
     body,
   })
   // @TODO Rewrite mutation error handling flow
