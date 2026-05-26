@@ -1,11 +1,14 @@
 // API Response Parameters
 declare namespace Res {
-  // Use to when user failed something within intended aplication behavior e.g. failed login by miss type password
-  declare type failedMessage = { failed: string }
+  declare type AuthError = {
+    error: 'Invalid credentials'
+    code: 'AUTHENTICATION_FAILED'
+  }
+
   /**
    * POST /api/login
    */
-  declare type Login = User | Res.failedMessag
+  declare type Login = User
 
   /**
    * POST: /api/signup
@@ -54,5 +57,6 @@ declare namespace Res {
    */
   declare type Error = {
     error: string
+    code?: string
   }
 }

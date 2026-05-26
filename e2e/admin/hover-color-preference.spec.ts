@@ -26,10 +26,9 @@ test.describe('Hover Color Preference Toggle', () => {
     await page.getByTestId('submit-btn').click()
     const loginResponse = await loginResponsePromise
 
+    expect(loginResponse.status()).toBe(200)
     const responseBody = await loginResponse.json()
-    if (responseBody.failed) {
-      throw new Error(`Login failed: ${responseBody.failed}`)
-    }
+    expect(responseBody.name).toBe('John Doe')
 
     await page.waitForLoadState('networkidle')
 

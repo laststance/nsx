@@ -13,6 +13,15 @@ import { prisma } from '../prisma'
 
 const router: Router = express.Router()
 
+const AUTHENTICATION_FAILED_CODE = 'AUTHENTICATION_FAILED'
+const AUTHENTICATION_FAILED_MESSAGE = 'Invalid credentials'
+const AUTHENTICATION_SERVICE_ERROR_CODE = 'AUTHENTICATION_SERVICE_ERROR'
+const AUTHENTICATION_SERVICE_ERROR_MESSAGE =
+  'Authentication service temporarily unavailable'
+const DUMMY_PASSWORD_HASH =
+  '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC'
+const INVALID_LOGIN_REQUEST_CODE = 'VALIDATION_ERROR'
+const INVALID_LOGIN_REQUEST_MESSAGE = 'Invalid request body'
 const LOGIN_WINDOW_MS = 15 * 60 * 1000
 const LOGIN_MAX_ATTEMPTS = 5
 const isProd = process.env.NODE_ENV === 'production'
@@ -31,6 +40,74 @@ const loginLimiter: RequestHandler = isProd
 interface SignupRequest {
   name: string
   password: string
+}
+
+/**
+ * Converts a submitted login name into the database lookup value.
+ *
+ * Called only by the login endpoint before querying Prisma, so malformed
+ * bodies are handled like any other failed credential attempt.
+ *
+ * @param name - Raw `req.body.name` value from the login form.
+ * @returns Trimmed user name, or an empty string when the value is invalid.
+ * @example normalizeLoginName(' John Doe ') // 'John Doe'
+ */
+const normalizeLoginName = (name: unknown): string => {
+  if (typeof name !== 'string') return ''
+  return name.trim()
+}
+
+/**
+ * Converts a submitted login password into the bcrypt comparison value.
+ *
+ * Called only by the login endpoint, and intentionally keeps whitespace
+ * because passwords can legally contain leading or trailing spaces.
+ *
+ * @param password - Raw `req.body.password` value from the login form.
+ * @returns Password string, or an empty string when the value is invalid.
+ * @example normalizeLoginPassword(' secret ') // ' secret '
+ */
+const normalizeLoginPassword = (password: unknown): string => {
+  if (typeof password !== 'string') return ''
+  return password
+}
+
+/**
+ * Sends the public login failure response shared by every credential failure.
+ *
+ * Called by `/api/login` whenever the username is unknown, the password is
+ * wrong, or the submitted body is malformed.
+ *
+ * @param res - Express response used to return the failed login payload.
+ * @returns Nothing; the response is completed with status 401.
+ * @example sendAuthenticationFailure(res)
+ */
+const sendAuthenticationFailure = (
+  res: Response<Res.Login | Res.AuthError | Res.Error>,
+): void => {
+  res.status(401).json({
+    error: AUTHENTICATION_FAILED_MESSAGE,
+    code: AUTHENTICATION_FAILED_CODE,
+  })
+}
+
+/**
+ * Sends the public validation response for malformed login requests.
+ *
+ * Called by `/api/login` after the dummy bcrypt comparison has run, so invalid
+ * bodies still avoid a cheap early exit while using the correct HTTP status.
+ *
+ * @param res - Express response used to return the validation error payload.
+ * @returns Nothing; the response is completed with status 400.
+ * @example sendInvalidLoginRequest(res)
+ */
+const sendInvalidLoginRequest = (
+  res: Response<Res.Login | Res.AuthError | Res.Error>,
+): void => {
+  res.status(400).json({
+    error: INVALID_LOGIN_REQUEST_MESSAGE,
+    code: INVALID_LOGIN_REQUEST_CODE,
+  })
 }
 
 router.get(
@@ -89,30 +166,53 @@ router.post('/signup', signupHandler)
 router.post(
   '/login',
   loginLimiter,
-  async ({ body }: Request, res: Response) => {
-    const user = await prisma.user.findFirst({
-      where: { name: body.name },
-    })
-    if (user) {
-      const isValidPassword = await bcrypt.compare(body.password, user.password)
+  async (
+    { body }: Request,
+    res: Response<Res.Login | Res.AuthError | Res.Error>,
+  ) => {
+    const name = normalizeLoginName(body?.name)
+    const password = normalizeLoginPassword(body?.password)
 
-      if (isValidPassword) {
-        const token: JWTtoken = generateAccessToken(user)
-        res.cookie('token', token, getCookieOptions(token))
-        // Return user without password
-        res.status(200).json({
-          id: user.id,
-          name: user.name,
-          createdAt: user.createdAt,
-          updatedAt: user.updatedAt,
-        })
-      } else {
-        Logger.warn('Invalid Password')
-        res.status(200).json({ failed: 'Invalid Password' }) // this is bad practice in real world product. Because 'Invalid Password' imply exists user that you input at the moment.
+    try {
+      // Malformed bodies still run bcrypt but return the validation status.
+      if (!(name && password)) {
+        await bcrypt.compare(
+          password || 'missing-password',
+          DUMMY_PASSWORD_HASH,
+        )
+        Logger.warn('Invalid login payload')
+        sendInvalidLoginRequest(res)
+        return
       }
-    } else {
-      Logger.warn('User does not exist')
-      res.status(200).json({ failed: 'User does not exist' }) // this also bad practice in real world product Same reason.
+
+      const user = await prisma.user.findFirst({
+        where: { name },
+      })
+      const passwordHash = user?.password ?? DUMMY_PASSWORD_HASH
+      const isValidPassword = await bcrypt.compare(password, passwordHash)
+
+      // Unknown users and wrong passwords must be indistinguishable to callers.
+      if (!(user && isValidPassword)) {
+        Logger.warn('Failed login attempt')
+        sendAuthenticationFailure(res)
+        return
+      }
+
+      const token: JWTtoken = generateAccessToken(user)
+      res.cookie('token', token, getCookieOptions(token))
+      // Return user without password.
+      res.status(200).json({
+        id: user.id,
+        name: user.name,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      })
+    } catch (error) {
+      Logger.error(error)
+      res.status(500).json({
+        error: AUTHENTICATION_SERVICE_ERROR_MESSAGE,
+        code: AUTHENTICATION_SERVICE_ERROR_CODE,
+      })
     }
   },
 )

@@ -8,7 +8,6 @@ import Button from '@/src/components/Button'
 import Input from '@/src/components/Input/Input'
 import Layout from '@/src/components/Layout'
 
-import { assertCast } from '../../../lib/assertCast'
 import { userAccountValidator } from '../../../validator'
 import { login } from '../../redux/adminSlice'
 import { API } from '../../redux/API'
@@ -19,6 +18,50 @@ import { dispatch } from '../../redux/store'
 interface FormInput extends FieldValues {
   name: User['name']
   password: string
+}
+
+const LOGIN_FAILED_MESSAGE = 'Invalid credentials'
+const LOGIN_SERVICE_ERROR_MESSAGE =
+  'Authentication service temporarily unavailable'
+
+/**
+ * Checks whether an unknown RTK Query error value can be inspected by key.
+ *
+ * Called only by the login error formatter before reading response metadata.
+ *
+ * @param value - Unknown value returned from RTK Query.
+ * @returns True when the value is a non-null object.
+ * @example isRecord({ status: 401 }) // true
+ */
+const isRecord = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === 'object' && value !== null
+}
+
+/**
+ * Converts RTK Query login failures into user-facing snackbar text.
+ *
+ * Called by `onSubmit` after `loginReqest` returns an error result; credential
+ * failures stay generic while service failures keep a distinct message.
+ *
+ * @param error - RTK Query error object from the login mutation.
+ * @returns Message safe to show in the login snackbar.
+ * @example getLoginErrorMessage({ status: 401, data: { code: 'AUTHENTICATION_FAILED' } })
+ */
+const getLoginErrorMessage = (error: unknown): string => {
+  const errorRecord = isRecord(error) ? error : null
+  const errorData = isRecord(errorRecord?.data) ? errorRecord.data : null
+
+  // Only explicit credential failures use the account-safe generic message.
+  if (
+    errorRecord?.status === 401 &&
+    errorData?.code === 'AUTHENTICATION_FAILED'
+  ) {
+    return LOGIN_FAILED_MESSAGE
+  }
+
+  // Server-side auth outages should not look like bad credentials.
+  if (typeof errorData?.error === 'string') return errorData.error
+  return LOGIN_SERVICE_ERROR_MESSAGE
 }
 
 const Login: React.FC = memo(() => {
@@ -37,13 +80,21 @@ const Login: React.FC = memo(() => {
       name: data.name,
       password: data.password,
     })
+
+    // Login failures are intentionally generic to avoid account discovery.
+    if ('error' in res && res.error) {
+      console.error('Login request failed:', res.error)
+      dispatch(
+        enqueSnackbar({
+          color: 'red',
+          message: getLoginErrorMessage(res.error),
+        }),
+      )
+      return
+    }
+
     if (isSuccess(res) && 'data' in res) {
       const data = res.data
-      if ('failed' in data) {
-        assertCast<Res.failedMessage>(data)
-        dispatch(enqueSnackbar({ color: 'red', message: data.failed }))
-        return // missing username or pass, onemore time!
-      }
 
       // Login SuccessFul!
       dispatch(login(data))

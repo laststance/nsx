@@ -78,10 +78,9 @@ test.describe('JWT Expiration', () => {
     const response = await responsePromise
 
     // Check if login was successful
+    expect(response.status()).toBe(200)
     const responseBody = await response.json()
-    if (responseBody.failed) {
-      throw new Error(`Login failed: ${responseBody.failed}`)
-    }
+    expect(responseBody.name).toBe('John Doe')
 
     // Wait for navigation and verify login
     await page.waitForLoadState('networkidle')
@@ -133,10 +132,9 @@ test.describe('JWT Expiration', () => {
     const loginResponse = await loginResponsePromise
 
     // Check if login was successful
+    expect(loginResponse.status()).toBe(200)
     const responseBody = await loginResponse.json()
-    if (responseBody.failed) {
-      throw new Error(`Login failed: ${responseBody.failed}`)
-    }
+    expect(responseBody.name).toBe('John Doe')
 
     // Wait for navigation and verify login
     await page.waitForLoadState('networkidle')
