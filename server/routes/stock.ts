@@ -8,6 +8,9 @@ import { prisma } from '../prisma'
 const router: Router = express.Router()
 
 const DUPLICATE_STOCK_MESSAGE = 'Already exists'
+const INVALID_URL_MESSAGE = 'URL is invalid'
+const TITLE_REQUIRED_MESSAGE = 'Title is required'
+const URL_REQUIRED_MESSAGE = 'URL is required'
 
 /**
  * Normalizes stock URLs so popup and backend duplicate checks compare the same value.
@@ -21,7 +24,36 @@ const DUPLICATE_STOCK_MESSAGE = 'Already exists'
 const normalizeStockUrl = (url: unknown): string => {
   if (typeof url !== 'string') return ''
 
-  return url.replace(/\/$/, '')
+  return url.trim().replace(/\/$/, '')
+}
+
+/**
+ * Normalizes stock titles so empty or whitespace-only values are rejected.
+ * @param title - The incoming page title value from the request body.
+ * @returns The trimmed page title, or an empty string for invalid input.
+ * @example
+ * normalizeStockTitle(' Example ') // => 'Example'
+ */
+const normalizeStockTitle = (title: unknown): string => {
+  if (typeof title !== 'string') return ''
+
+  return title.trim()
+}
+
+/**
+ * Checks URL syntax before saving extension-submitted pages.
+ * @param url - The normalized URL string to validate.
+ * @returns Whether the URL can be parsed by the platform URL parser.
+ * @example
+ * isValidStockUrl('https://example.com') // => true
+ */
+const isValidStockUrl = (url: string): boolean => {
+  try {
+    new globalThis.URL(url)
+    return true
+  } catch {
+    return false
+  }
 }
 
 /**
@@ -43,24 +75,35 @@ router.post(
   '/push_stock',
   async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body
+    const pageTitle = normalizeStockTitle(body.pageTitle ?? body.title)
     const normalizedUrl = normalizeStockUrl(body.url)
 
     try {
-      // Missing URLs cannot be compared, so reject before touching the database.
+      // Missing inputs are rejected before touching the database.
       if (!normalizedUrl) {
-        res.status(400).json({ message: 'URL is required' })
+        res.status(400).json({ error: URL_REQUIRED_MESSAGE })
+        return
+      }
+
+      if (!pageTitle) {
+        res.status(400).json({ error: TITLE_REQUIRED_MESSAGE })
+        return
+      }
+
+      if (!isValidStockUrl(normalizedUrl)) {
+        res.status(400).json({ error: INVALID_URL_MESSAGE })
         return
       }
 
       // A duplicate page should look saved in the extension instead of creating a row.
       if (await stockUrlExists(normalizedUrl)) {
-        res.status(409).json({ message: DUPLICATE_STOCK_MESSAGE })
+        res.status(409).json({ error: DUPLICATE_STOCK_MESSAGE })
         return
       }
 
       const stock = await prisma.stock.create({
         data: {
-          pageTitle: body.pageTitle,
+          pageTitle,
           url: normalizedUrl,
         },
       })
@@ -83,7 +126,7 @@ router.get('/stock/exists', async (req, res, next) => {
   try {
     // The popup needs a concrete URL to answer whether this page is already saved.
     if (!normalizedUrl) {
-      res.status(400).json({ message: 'URL is required' })
+      res.status(400).json({ error: URL_REQUIRED_MESSAGE })
       return
     }
 

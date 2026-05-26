@@ -5,11 +5,13 @@ import { setBookmarkedIcon } from '../../lib/setBookmarkIcon'
 
 import {
   ALREADY_EXISTS_MESSAGE,
+  DEFAULT_API_ENDPOINT,
   FAILED_MESSAGE,
   FEEDBACK_CLEAR_DELAY_MS,
   SUCCESS_MESSAGE,
 } from './constants'
 import { useGetPageInfo } from './useGetPageInfo'
+import { buildPushStockApiUrl } from './utils/buildPushStockApiUrl'
 import { buildStockExistsUrl } from './utils/buildStockExistsUrl'
 import { isConflictResponse } from './utils/isConflictResponse'
 import { normalizePopupUrl } from './utils/normalizePopupUrl'
@@ -56,9 +58,11 @@ const App: FC = () => {
   const normalizedUrl = normalizePopupUrl(state.url)
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL
+    const pushStockApiUrl = buildPushStockApiUrl(
+      import.meta.env.VITE_API_ENDPOINT || DEFAULT_API_ENDPOINT,
+    )
 
-    if (!apiUrl || !normalizedUrl) {
+    if (!normalizedUrl) {
       setStockSaveState(INITIAL_STOCK_SAVE_STATE)
       return undefined
     }
@@ -66,7 +70,9 @@ const App: FC = () => {
     let isRequestCanceled = false
 
     axios
-      .get<StockExistsResponse>(buildStockExistsUrl(apiUrl, normalizedUrl))
+      .get<StockExistsResponse>(
+        buildStockExistsUrl(pushStockApiUrl, normalizedUrl),
+      )
       .then(({ data }) => {
         if (isRequestCanceled) return
 
@@ -128,8 +134,10 @@ const App: FC = () => {
       return
     }
 
-    // Updated to use Vite's import.meta.env instead of process.env
-    const apiUrl = import.meta.env.VITE_API_URL
+    // Vite injects the shared endpoint during builds; E2E falls back to localhost.
+    const pushStockApiUrl = buildPushStockApiUrl(
+      import.meta.env.VITE_API_ENDPOINT || DEFAULT_API_ENDPOINT,
+    )
     setStockSaveState((currentState) => ({
       ...currentState,
       isChecked: true,
@@ -145,7 +153,7 @@ const App: FC = () => {
     }
 
     axios
-      .post(apiUrl, {
+      .post(pushStockApiUrl, {
         pageTitle: state.pageTitle,
         url: normalizedUrl,
       })
