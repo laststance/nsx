@@ -1,93 +1,183 @@
 import axios from 'axios'
-import React, { useState, FC, ChangeEvent } from 'react'
+import React, { useEffect, useState, type ChangeEvent, type FC } from 'react'
 
 import { setBookmarkedIcon } from '../../lib/setBookmarkIcon'
 
+import {
+  ALREADY_EXISTS_MESSAGE,
+  DEFAULT_API_ENDPOINT,
+  FAILED_MESSAGE,
+  FEEDBACK_CLEAR_DELAY_MS,
+  SUCCESS_MESSAGE,
+} from './constants'
 import { useGetPageInfo } from './useGetPageInfo'
+import { buildPushStockApiUrl } from './utils/buildPushStockApiUrl'
+import { buildStockExistsUrl } from './utils/buildStockExistsUrl'
+import { isConflictResponse } from './utils/isConflictResponse'
+import { normalizePopupUrl } from './utils/normalizePopupUrl'
 
 export interface PopupState {
   pageTitle: string
   url: string
 }
 
+interface StockExistsResponse {
+  exists: boolean
+}
+
+type FeedbackMessage =
+  | ''
+  | typeof ALREADY_EXISTS_MESSAGE
+  | typeof FAILED_MESSAGE
+  | typeof SUCCESS_MESSAGE
+
+type StockSaveState = {
+  feedbackMessage: FeedbackMessage
+  isAlreadySaved: boolean
+  isChecked: boolean
+}
+
+const INITIAL_STOCK_SAVE_STATE: StockSaveState = {
+  feedbackMessage: '',
+  isAlreadySaved: false,
+  isChecked: false,
+}
+
 /**
- * Main popup component for NSX extension
- * Allows users to bookmark the current page and share on Twitter
+ * Renders the NSX extension popup and coordinates duplicate-aware page saves.
+ * @returns The popup UI for saving the current tab and composing a tweet.
+ * @example
+ * <App />
  */
 const App: FC = () => {
   const state = useGetPageInfo()
   const [comment, setComment] = useState<string>('')
+  const [stockSaveState, setStockSaveState] = useState<StockSaveState>(
+    INITIAL_STOCK_SAVE_STATE,
+  )
+  const normalizedUrl = normalizePopupUrl(state.url)
 
-  /**
-   * Handles checkbox toggle to save current page
-   * Sends page data to backend, updates icon, and shows success message
-   */
-  const onCheckedHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-    if (!e.target.checked) return
+  useEffect(() => {
+    const pushStockApiUrl = buildPushStockApiUrl(
+      import.meta.env.VITE_API_ENDPOINT || DEFAULT_API_ENDPOINT,
+    )
 
-    // Updated to use Vite's import.meta.env instead of process.env
-    const apiUrl = import.meta.env.VITE_API_URL
+    if (!normalizedUrl) {
+      setStockSaveState(INITIAL_STOCK_SAVE_STATE)
+      return undefined
+    }
+
+    let isRequestCanceled = false
 
     axios
-      .post(apiUrl, {
+      .get<StockExistsResponse>(
+        buildStockExistsUrl(pushStockApiUrl, normalizedUrl),
+      )
+      .then(({ data }) => {
+        if (isRequestCanceled) return
+
+        setStockSaveState({
+          feedbackMessage: data.exists ? ALREADY_EXISTS_MESSAGE : '',
+          isAlreadySaved: data.exists,
+          isChecked: data.exists,
+        })
+
+        if (data.exists) setBookmarkedIcon()
+      })
+      .catch(() => {
+        if (isRequestCanceled) return
+
+        // Existence check failures should not block saving a new page.
+        setStockSaveState(INITIAL_STOCK_SAVE_STATE)
+      })
+
+    return () => {
+      isRequestCanceled = true
+    }
+  }, [normalizedUrl])
+
+  /**
+   * Shows a temporary result message after save attempts complete.
+   * @param message - The feedback text to display in the result area.
+   * @returns Nothing; React state controls when the message appears and clears.
+   * @example
+   * showTemporaryFeedback(SUCCESS_MESSAGE)
+   */
+  const showTemporaryFeedback = (message: FeedbackMessage): void => {
+    setStockSaveState((currentState) => ({
+      ...currentState,
+      feedbackMessage: message,
+    }))
+
+    window.setTimeout(() => {
+      setStockSaveState((currentState) =>
+        currentState.feedbackMessage === message
+          ? { ...currentState, feedbackMessage: '' }
+          : currentState,
+      )
+    }, FEEDBACK_CLEAR_DELAY_MS)
+  }
+
+  /**
+   * Saves the current page when the popup checkbox is checked.
+   * @param event - The checkbox change event from the popup UI.
+   * @returns Nothing; API responses update checkbox, icon, and feedback state.
+   * @example
+   * onCheckedHandler(event)
+   */
+  const onCheckedHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+    if (!event.target.checked) {
+      setStockSaveState((currentState) => ({
+        ...currentState,
+        isChecked: false,
+      }))
+      return
+    }
+
+    // Vite injects the shared endpoint during builds; E2E falls back to localhost.
+    const pushStockApiUrl = buildPushStockApiUrl(
+      import.meta.env.VITE_API_ENDPOINT || DEFAULT_API_ENDPOINT,
+    )
+    setStockSaveState((currentState) => ({
+      ...currentState,
+      isChecked: true,
+    }))
+
+    if (stockSaveState.isAlreadySaved) {
+      setStockSaveState((currentState) => ({
+        ...currentState,
+        feedbackMessage: ALREADY_EXISTS_MESSAGE,
+      }))
+      setBookmarkedIcon()
+      return
+    }
+
+    axios
+      .post(pushStockApiUrl, {
         pageTitle: state.pageTitle,
-        url: state.url.replace(/\/$/, ''),
+        url: normalizedUrl,
       })
       .then(() => {
-        const resultElement = document.querySelector('.result')
-        if (!resultElement) return
-
-        const span = document.createElement('span')
-        span.innerHTML = 'Success!'
-        resultElement.appendChild(span)
-
-        const fadeInEffect = new KeyframeEffect(
-          span,
-          [{ opacity: '0' }, { opacity: '1' }],
-          {
-            duration: 100,
-            fill: 'forwards',
-          },
-        )
-
-        const fadeInAnimation = new Animation(fadeInEffect, document.timeline)
-        fadeInAnimation.play()
-
-        setTimeout(() => {
-          const fadeOutEffect = new KeyframeEffect(
-            span,
-            [{ opacity: '1' }, { opacity: '0' }],
-            {
-              duration: 100,
-              fill: 'forwards',
-            },
-          )
-
-          const fadeOutAnimation = new Animation(
-            fadeOutEffect,
-            document.timeline,
-          )
-          fadeOutAnimation.play()
-
-          fadeOutAnimation.onfinish = () => {
-            span.remove()
-          }
-        }, 1000)
-      })
-      .catch((err: unknown) => {
-        const resultElement = document.querySelector('.result')
-        if (!resultElement) return
-
-        const span = document.createElement('span')
-        span.innerHTML = 'Failed...'
-        resultElement.appendChild(span)
-        setTimeout(() => {
-          span.remove()
-        }, 1000)
-        console.error(JSON.stringify(err))
-      })
-      .then(() => {
+        showTemporaryFeedback(SUCCESS_MESSAGE)
         setBookmarkedIcon()
+      })
+      .catch((error: unknown) => {
+        if (isConflictResponse(error)) {
+          setStockSaveState({
+            feedbackMessage: ALREADY_EXISTS_MESSAGE,
+            isAlreadySaved: true,
+            isChecked: true,
+          })
+          setBookmarkedIcon()
+          return
+        }
+
+        setStockSaveState((currentState) => ({
+          ...currentState,
+          isChecked: false,
+        }))
+        showTemporaryFeedback(FAILED_MESSAGE)
+        console.error(JSON.stringify(error))
       })
   }
 
@@ -99,6 +189,13 @@ const App: FC = () => {
         </div>
         <input
           className="checkbox"
+          aria-label={
+            stockSaveState.isAlreadySaved
+              ? 'Already Exists'
+              : 'Save current page to NSX'
+          }
+          checked={stockSaveState.isChecked}
+          disabled={stockSaveState.isAlreadySaved || !normalizedUrl}
           type="checkbox"
           onChange={onCheckedHandler}
         />
@@ -120,7 +217,11 @@ const App: FC = () => {
         >
           tweet
         </a>
-        <div className="result" />
+        <div className="result">
+          {stockSaveState.feedbackMessage ? (
+            <span>{stockSaveState.feedbackMessage}</span>
+          ) : null}
+        </div>
       </section>
     </main>
   )

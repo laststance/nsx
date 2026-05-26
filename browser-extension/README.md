@@ -202,8 +202,8 @@ No manual configuration required!
 Create a `.env` file in the browser-extension directory:
 
 ```env
-# Backend API URL
-VITE_API_URL=http://localhost:4000/api/posts
+# Backend API endpoint
+VITE_API_ENDPOINT=http://localhost:4000/api/
 
 # Optional: Analytics
 VITE_SENTRY_DNS=your-sentry-dsn

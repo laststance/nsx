@@ -102,6 +102,76 @@ test.describe('Extension Popup UI Tests', () => {
     await popupPage.close()
   })
 
+  test('already stocked page disables save checkbox and shows feedback', async ({
+    context,
+    extensionId,
+    page,
+  }) => {
+    // Arrange
+    const backendReady = await waitForBackendReady()
+    expect(backendReady).toBe(true)
+
+    await page.goto(TestPages.example.url)
+    await page.waitForLoadState('domcontentloaded')
+
+    // Act
+    const popupPage = await openPopup(context, extensionId, {
+      stockExists: true,
+    })
+
+    // Assert
+    const checkbox = popupPage.locator('.checkbox')
+    await expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeDisabled()
+    await expect(popupPage.locator('.result')).toContainText('Already Exists')
+
+    await popupPage.close()
+  })
+
+  test('duplicate save response keeps checkbox checked and shows feedback', async ({
+    context,
+    extensionId,
+    page,
+  }) => {
+    // Arrange
+    const backendReady = await waitForBackendReady()
+    expect(backendReady).toBe(true)
+
+    await page.goto(TestPages.example.url)
+    await page.waitForLoadState('domcontentloaded')
+
+    const popupPage = await context.newPage()
+    await popupPage.route('**/api/stock/exists**', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ exists: false }),
+      })
+    })
+    await popupPage.route('**/api/push_stock', (route) => {
+      route.fulfill({
+        status: 409,
+        contentType: 'application/json',
+        body: JSON.stringify({ message: 'Already exists' }),
+      })
+    })
+
+    await popupPage.goto(`chrome-extension://${extensionId}/popup.html`)
+    await popupPage.waitForLoadState('domcontentloaded')
+    await popupPage.waitForSelector('#popup', { timeout: 5000 })
+
+    // Act
+    const checkbox = popupPage.locator('.checkbox')
+    await checkbox.check()
+
+    // Assert
+    await expect(checkbox).toBeChecked()
+    await expect(checkbox).toBeDisabled()
+    await expect(popupPage.locator('.result')).toContainText('Already Exists')
+
+    await popupPage.close()
+  })
+
   // Skipped: Success message not appearing - See https://plane.so (NSX-81)
   test.skip('saves page on checkbox click and shows success message', async ({
     context,

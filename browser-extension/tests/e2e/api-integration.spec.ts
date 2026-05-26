@@ -164,8 +164,8 @@ test.describe('Extension API Integration Tests', () => {
     await popupPage.close()
   })
 
-  // Skipped: VITE_API_URL not being built into extension - See https://plane.so (NSX-80)
-  test.skip('uses correct VITE_API_URL from environment', async ({
+  // Skipped: VITE_API_ENDPOINT not being built into extension - See https://plane.so (NSX-80)
+  test.skip('uses correct VITE_API_ENDPOINT from environment', async ({
     context,
     extensionId,
     page,
