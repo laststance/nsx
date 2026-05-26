@@ -121,6 +121,8 @@ const isTokenVerificationError = (error: unknown): boolean => {
  * @example sendInvalidTokenResponse(res)
  */
 const sendInvalidTokenResponse = (res: Response<Res.Error>): void => {
+  // Expire the rejected session cookie so clients stop replaying it.
+  res.cookie('token', '', { expires: new Date() })
   res.status(401).json({ error: 'Invalid or expired token' })
 }
 

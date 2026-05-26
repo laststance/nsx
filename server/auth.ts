@@ -43,7 +43,9 @@ export const isAuthorized = async (
       return next()
     } else {
       Logger.info(`decripted: ${JSON.stringify(decripted)}`)
-      res.status(403).json({ error: "User doesn't exist." })
+      // A stale session must be treated as logged out so the client can re-authenticate.
+      res.cookie('token', '', { expires: new Date() })
+      res.status(401).json({ error: 'Invalid or expired token' })
       return
     }
   } catch (error) {
@@ -54,7 +56,7 @@ export const isAuthorized = async (
       error instanceof TokenExpiredError ||
       error instanceof JsonWebTokenError
     ) {
-      Logger.warn('Invalid or expired token')
+      Logger.info('Invalid or expired token')
       // Clear cookie
       res.cookie('token', '', { expires: new Date() })
       res.status(401).json({ error: 'Invalid or expired token' })

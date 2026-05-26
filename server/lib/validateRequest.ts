@@ -55,7 +55,7 @@ export const validateBody =
     // Invalid client input returns a structured 400 without reaching Prisma.
     if (!result.success) {
       const details = formatValidationIssues(result.error.issues)
-      Logger.warn('Request body validation failed', { details })
+      Logger.info('Request body validation failed', { details })
       res.status(400).json({
         error: 'Validation failed',
         code: 'VALIDATION_ERROR',
