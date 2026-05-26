@@ -85,6 +85,21 @@ These are stored in `.env` and evaluated at build time.
 - Uptime alerting: configure an external monitor such as UptimeRobot or Better Stack against `https://nsx.malloc.tokyo/api/health` with email/Slack/Discord alerts.
 - PM2 resource alerting: use `pm2 monit`, `pm2 install pm2-server-monit`, or pm2.io, and keep `max_memory_restart: 512M` in `ecosystem.config.js` as the restart guard.
 
+## API v1 Contract
+
+Legacy `/api/*` endpoints are kept for the current SPA. New integrations should use the versioned `/api/v1/*` endpoints, which always return a response envelope:
+
+```json
+{
+  "success": true,
+  "data": {},
+  "timestamp": "2026-05-27T00:00:00.000Z",
+  "requestId": "request_123"
+}
+```
+
+Errors use the same shape with `success: false`, `error`, and `code`, and never expose stack traces or raw internal exception messages. API metadata is available at `GET /api/v1/openapi.json`.
+
 ## Playwright
 
 I'm using [Playwright](https://playwright.dev/) for E2E testing.  

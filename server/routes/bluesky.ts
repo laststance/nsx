@@ -92,7 +92,6 @@ router.post(
 
       res.status(500).json({
         error: 'Failed to post to BlueSky',
-        details: error instanceof Error ? error.message : 'Unknown error',
       })
     }
   },
@@ -113,9 +112,9 @@ router.get('/bluesky/status', async (req, res) => {
           : null,
     })
   } catch (error) {
+    Logger.error('BlueSky status error', { error })
     res.status(500).json({
       error: 'Failed to check status',
-      details: error instanceof Error ? error.message : 'Unknown error',
     })
   }
 })
