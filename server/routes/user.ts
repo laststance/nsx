@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import type { Request, Response, Router, RequestHandler } from 'express'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 
 import {
   generateAccessToken,
@@ -9,6 +10,16 @@ import {
   verifyAccessToken,
 } from '../lib/JWT'
 import Logger from '../lib/Logger'
+import {
+  hoverColorPreferenceBodySchema,
+  type HoverColorPreferenceBody,
+  loginBodySchema,
+  signupBodySchema,
+  type SignupBody,
+  updateProfileBodySchema,
+  type UpdateProfileBody,
+} from '../lib/requestSchemas'
+import { formatValidationIssues, validateBody } from '../lib/validateRequest'
 import { prisma } from '../prisma'
 
 const router: Router = express.Router()
@@ -20,8 +31,6 @@ const AUTHENTICATION_SERVICE_ERROR_MESSAGE =
   'Authentication service temporarily unavailable'
 const DUMMY_PASSWORD_HASH =
   '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC'
-const INVALID_LOGIN_REQUEST_CODE = 'VALIDATION_ERROR'
-const INVALID_LOGIN_REQUEST_MESSAGE = 'Invalid request body'
 const LOGIN_WINDOW_MS = 15 * 60 * 1000
 const LOGIN_MAX_ATTEMPTS = 5
 const isProd = process.env.NODE_ENV === 'production'
@@ -36,11 +45,6 @@ const loginLimiter: RequestHandler = isProd
       },
     })
   : (_req, _res, next) => next()
-
-interface SignupRequest {
-  name: string
-  password: string
-}
 
 /**
  * Converts a submitted login name into the database lookup value.
@@ -75,8 +79,8 @@ const normalizeLoginPassword = (password: unknown): string => {
 /**
  * Sends the public login failure response shared by every credential failure.
  *
- * Called by `/api/login` whenever the username is unknown, the password is
- * wrong, or the submitted body is malformed.
+ * Called by `/api/login` whenever the username is unknown or the password is
+ * wrong.
  *
  * @param res - Express response used to return the failed login payload.
  * @returns Nothing; the response is completed with status 401.
@@ -92,22 +96,34 @@ const sendAuthenticationFailure = (
 }
 
 /**
- * Sends the public validation response for malformed login requests.
+ * Detects token verification failures thrown by `verifyAccessToken`.
  *
- * Called by `/api/login` after the dummy bcrypt comparison has run, so invalid
- * bodies still avoid a cheap early exit while using the correct HTTP status.
+ * Called by PATCH handlers so invalid cookies return 401 instead of being
+ * misclassified as server failures.
  *
- * @param res - Express response used to return the validation error payload.
- * @returns Nothing; the response is completed with status 400.
- * @example sendInvalidLoginRequest(res)
+ * @param error - Unknown error thrown while verifying a cookie token.
+ * @returns Whether the error is an authentication failure.
+ * @example isTokenVerificationError(new JsonWebTokenError('jwt malformed'))
  */
-const sendInvalidLoginRequest = (
-  res: Response<Res.Login | Res.AuthError | Res.Error>,
-): void => {
-  res.status(400).json({
-    error: INVALID_LOGIN_REQUEST_MESSAGE,
-    code: INVALID_LOGIN_REQUEST_CODE,
-  })
+const isTokenVerificationError = (error: unknown): boolean => {
+  return (
+    error instanceof TokenExpiredError || error instanceof JsonWebTokenError
+  )
+}
+
+/**
+ * Sends the shared response for invalid or expired cookie tokens.
+ *
+ * Called by account-setting PATCH endpoints after token verification fails.
+ *
+ * @param res - Express response used to return the 401 payload.
+ * @returns Nothing; the response is completed with status 401.
+ * @example sendInvalidTokenResponse(res)
+ */
+const sendInvalidTokenResponse = (res: Response<Res.Error>): void => {
+  // Expire the rejected session cookie so clients stop replaying it.
+  res.cookie('token', '', { expires: new Date() })
+  res.status(401).json({ error: 'Invalid or expired token' })
 }
 
 router.get(
@@ -119,15 +135,7 @@ router.get(
 )
 
 const signupHandler: RequestHandler = async (req, res) => {
-  const body = req.body as SignupRequest
-  if (!(body?.name && body?.password)) {
-    Logger.warn('Empty Post Content. Might be data not formatted properly.')
-    res.status(400).json({
-      error: 'Empty Post Content. Might be data not formatted properly.',
-    })
-    return
-  }
-
+  const body = req.body as SignupBody
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(body.password, salt)
 
@@ -161,7 +169,7 @@ const signupHandler: RequestHandler = async (req, res) => {
   }
 }
 
-router.post('/signup', signupHandler)
+router.post('/signup', validateBody(signupBodySchema), signupHandler)
 
 router.post(
   '/login',
@@ -170,18 +178,27 @@ router.post(
     { body }: Request,
     res: Response<Res.Login | Res.AuthError | Res.Error>,
   ) => {
-    const name = normalizeLoginName(body?.name)
-    const password = normalizeLoginPassword(body?.password)
+    const parsedBody = loginBodySchema.safeParse(body)
+    const name = parsedBody.success
+      ? parsedBody.data.name
+      : normalizeLoginName(body?.name)
+    const password = parsedBody.success
+      ? parsedBody.data.password
+      : normalizeLoginPassword(body?.password)
 
     try {
       // Malformed bodies still run bcrypt but return the validation status.
-      if (!(name && password)) {
+      if (!parsedBody.success) {
         await bcrypt.compare(
           password || 'missing-password',
           DUMMY_PASSWORD_HASH,
         )
         Logger.warn('Invalid login payload')
-        sendInvalidLoginRequest(res)
+        res.status(400).json({
+          error: 'Validation failed',
+          code: 'VALIDATION_ERROR',
+          details: formatValidationIssues(parsedBody.error.issues),
+        })
         return
       }
 
@@ -285,88 +302,93 @@ router.get('/hover-color-preference', async (req: Request, res: Response) => {
   }
 })
 
-router.patch('/hover-color-preference', async (req: Request, res: Response) => {
-  const token = req.cookies.token as JWTtoken
+router.patch(
+  '/hover-color-preference',
+  validateBody(hoverColorPreferenceBodySchema),
+  async (req: Request, res: Response) => {
+    const token = req.cookies.token as JWTtoken
 
-  if (!token) {
-    res.status(401).json({ error: 'No token found' })
-    return
-  }
-
-  try {
-    const decoded = verifyAccessToken(token)
-    const { useLegacyHoverColors } = req.body
-
-    if (typeof useLegacyHoverColors !== 'boolean') {
-      res.status(400).json({ error: 'useLegacyHoverColors must be a boolean' })
+    if (!token) {
+      res.status(401).json({ error: 'No token found' })
       return
     }
 
-    const user = await prisma.user.update({
-      where: { id: decoded.id },
-      data: { useLegacyHoverColors },
-      select: {
-        useLegacyHoverColors: true,
-      },
-    })
+    try {
+      const decoded = verifyAccessToken(token)
+      const { useLegacyHoverColors } = req.body as HoverColorPreferenceBody
 
-    res.status(200).json({ useLegacyHoverColors: user.useLegacyHoverColors })
-  } catch (error) {
-    Logger.error(error)
-    res.status(500).json({ error: 'Failed to update hover color preference' })
-  }
-})
-
-router.patch('/profile', async (req: Request, res: Response) => {
-  const token = req.cookies.token as JWTtoken
-
-  if (!token) {
-    res.status(401).json({ error: 'No token found' })
-    return
-  }
-
-  try {
-    const decoded = verifyAccessToken(token)
-    const { name, password } = req.body
-
-    // Validate that at least one field is being updated
-    if (!name && !password) {
-      res.status(400).json({
-        error: 'At least one field (name or password) must be provided',
+      const user = await prisma.user.update({
+        where: { id: decoded.id },
+        data: { useLegacyHoverColors },
+        select: {
+          useLegacyHoverColors: true,
+        },
       })
+
+      res.status(200).json({ useLegacyHoverColors: user.useLegacyHoverColors })
+    } catch (error) {
+      Logger.error(error)
+      if (isTokenVerificationError(error)) {
+        sendInvalidTokenResponse(res)
+        return
+      }
+
+      res.status(500).json({ error: 'Failed to update hover color preference' })
+    }
+  },
+)
+
+router.patch(
+  '/profile',
+  validateBody(updateProfileBodySchema),
+  async (req: Request, res: Response) => {
+    const token = req.cookies.token as JWTtoken
+
+    if (!token) {
+      res.status(401).json({ error: 'No token found' })
       return
     }
 
-    // Prepare update data
-    const updateData: { name?: string; password?: string } = {}
+    try {
+      const decoded = verifyAccessToken(token)
+      const { name, password } = req.body as UpdateProfileBody
 
-    if (name) {
-      updateData.name = name
+      // Prepare update data
+      const updateData: { name?: string; password?: string } = {}
+
+      if (name) {
+        updateData.name = name
+      }
+
+      if (password) {
+        // Hash the new password
+        const salt = await bcrypt.genSalt(10)
+        updateData.password = await bcrypt.hash(password, salt)
+      }
+
+      // Update user in database
+      const user = await prisma.user.update({
+        where: { id: decoded.id },
+        data: updateData,
+        select: {
+          id: true,
+          name: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      })
+
+      res.status(200).json(user)
+    } catch (error) {
+      Logger.error(error)
+      if (isTokenVerificationError(error)) {
+        sendInvalidTokenResponse(res)
+        return
+      }
+
+      res.status(500).json({ error: 'Failed to update profile' })
     }
-
-    if (password) {
-      // Hash the new password
-      const salt = await bcrypt.genSalt(10)
-      updateData.password = await bcrypt.hash(password, salt)
-    }
-
-    // Update user in database
-    const user = await prisma.user.update({
-      where: { id: decoded.id },
-      data: updateData,
-      select: {
-        id: true,
-        name: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    })
-
-    res.status(200).json(user)
-  } catch (error) {
-    Logger.error(error)
-    res.status(500).json({ error: 'Failed to update profile' })
-  }
-})
+  },
+)
 
 export default router

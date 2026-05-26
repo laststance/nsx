@@ -40,7 +40,11 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
 
   const handleTranslate = async () => {
     try {
-      const result = await translateText(tweet.text).unwrap()
+      const result = await translateText({
+        text: tweet.text,
+        from: 'ja',
+        to: 'en',
+      }).unwrap()
 
       if (result.isTranslated) {
         // Create a new tweet with the translated text

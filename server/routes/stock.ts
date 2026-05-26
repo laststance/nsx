@@ -3,6 +3,8 @@ import express from 'express'
 
 import { isAuthorized } from '../auth'
 import Logger from '../lib/Logger'
+import { pushStockBodySchema, type PushStockBody } from '../lib/requestSchemas'
+import { validateBody } from '../lib/validateRequest'
 import { prisma } from '../prisma'
 
 const router: Router = express.Router()
@@ -73,8 +75,9 @@ const stockUrlExists = async (url: string): Promise<boolean> => {
 
 router.post(
   '/push_stock',
+  validateBody(pushStockBodySchema),
   async (req: Request, res: Response, next: NextFunction) => {
-    const body = req.body
+    const body = req.body as PushStockBody
     const pageTitle = normalizeStockTitle(body.pageTitle ?? body.title)
     const normalizedUrl = normalizeStockUrl(body.url)
 

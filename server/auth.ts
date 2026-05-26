@@ -1,17 +1,33 @@
 import type { Request, Response, NextFunction } from 'express'
-import createError from 'http-errors'
-import { TokenExpiredError } from 'jsonwebtoken'
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 
 import { verifyAccessToken } from './lib/JWT'
 import Logger from './lib/Logger'
 import { prisma } from './prisma'
 
+/**
+ * Verifies the cookie JWT before protected API route handlers run.
+ *
+ * Mounted as Express middleware on write operations and external-provider
+ * actions that require a logged-in user.
+ *
+ * @param req - Express request containing the `token` cookie.
+ * @param res - Express response used for authentication failures.
+ * @param next - Express continuation callback for authorized requests.
+ * @returns Nothing; either calls `next()` or completes the response.
+ * @example router.post('/tweet', isAuthorized, handler)
+ */
 export const isAuthorized = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   const token = req.cookies.token as JWTtoken
+
+  if (!token) {
+    res.status(401).json({ error: 'No token found' })
+    return
+  }
 
   try {
     const decripted = verifyAccessToken(token) as User & { password: string }
@@ -26,18 +42,24 @@ export const isAuthorized = async (
       // Verified
       return next()
     } else {
-      Logger.info(`decripted: ${JSON.stringify(decripted)}`)
-      return next(createError(403, "User doesn't exist."))
+      Logger.info('Stale session rejected', { userId: decripted.id })
+      // A stale session must be treated as logged out so the client can re-authenticate.
+      res.cookie('token', '', { expires: new Date() })
+      res.status(401).json({ error: 'Invalid or expired token' })
+      return
     }
   } catch (error) {
     Logger.error('failed jwt.verify()')
 
     // Expired path
-    if (error instanceof TokenExpiredError) {
-      Logger.warn('Token expired')
+    if (
+      error instanceof TokenExpiredError ||
+      error instanceof JsonWebTokenError
+    ) {
+      Logger.info('Invalid or expired token')
       // Clear cookie
       res.cookie('token', '', { expires: new Date() })
-      next(createError(401, 'Token expired. Please login again.'))
+      res.status(401).json({ error: 'Invalid or expired token' })
       return
     }
 
@@ -46,6 +68,6 @@ export const isAuthorized = async (
 
     // Clear cookie
     res.cookie('token', '', { expires: new Date() })
-    return next(createError(500, 'Database Connection Error'))
+    res.status(500).json({ error: 'Database Connection Error' })
   }
 }
