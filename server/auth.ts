@@ -42,7 +42,7 @@ export const isAuthorized = async (
       // Verified
       return next()
     } else {
-      Logger.info(`decripted: ${JSON.stringify(decripted)}`)
+      Logger.info('Stale session rejected', { userId: decripted.id })
       // A stale session must be treated as logged out so the client can re-authenticate.
       res.cookie('token', '', { expires: new Date() })
       res.status(401).json({ error: 'Invalid or expired token' })
