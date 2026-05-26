@@ -8,14 +8,10 @@ import PaginationButtonGroup from '@/src/components/Pagination/ButtonGroup'
 import usePagination from '@/src/components/Pagination/usePagination'
 import RTKQueryErrorMessages from '@/src/components/RTKQueryErrorMessages/RTKQueryErrorMessages'
 
-import { selectUser } from '../../redux/adminSlice'
-import { useAppSelector } from '../../redux/hooks'
-
 import DashboardPostRow from './DashboardPostRow'
 
 const Dashboard: React.FC = memo(() => {
   const { data, error, isLoading, page, refetch, totalPage } = usePagination(10)
-  const user = useAppSelector(selectUser)
 
   if (error) {
     return <RTKQueryErrorMessages error={error} />
@@ -39,7 +35,6 @@ const Dashboard: React.FC = memo(() => {
                 key={i}
                 post={post}
                 index={i}
-                author={user}
                 refetch={refetch}
               />
             )

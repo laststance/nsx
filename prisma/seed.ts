@@ -263,17 +263,9 @@ async function main() {
     },
   ]
   /*
-   * Post Seed
-   */
-  for (const post of posts) {
-    await prisma.post.create({
-      data: post,
-    })
-  }
-  /*
    * User Seed
    */
-  await prisma.user.create({
+  const primaryUser = await prisma.user.create({
     data: {
       name: 'John Doe',
       // hash of 'popcoon',
@@ -287,6 +279,17 @@ async function main() {
       password: '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC',
     },
   })
+  /*
+   * Post Seed
+   */
+  for (const post of posts) {
+    await prisma.post.create({
+      data: {
+        ...post,
+        authorId: primaryUser.id,
+      },
+    })
+  }
   /*
    * Tweet Seed
    */
@@ -369,7 +372,10 @@ async function main() {
   ]
   for (const tweet of tweets) {
     await prisma.tweet.create({
-      data: tweet,
+      data: {
+        ...tweet,
+        userId: primaryUser.id,
+      },
     })
   }
 }

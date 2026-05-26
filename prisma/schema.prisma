@@ -8,23 +8,31 @@ datasource db {
 }
 
 model User {
-  id                    Int      @id @default(autoincrement())
-  name                  String   @db.VarChar(255)
-  createdAt             DateTime @default(now())
-  password              String   @db.Text
-  updatedAt             DateTime @updatedAt
-  useLegacyHoverColors  Boolean  @default(false)
+  id                   Int            @id @default(autoincrement())
+  name                 String         @db.VarChar(255)
+  createdAt            DateTime       @default(now())
+  password             String         @db.Text
+  sessionVersion       Int            @default(0)
+  updatedAt            DateTime       @updatedAt
+  useLegacyHoverColors Boolean        @default(false)
+  posts                Post[]
+  refreshTokens        RefreshToken[]
+  stocks               Stock[]
+  tweets               Tweet[]
 
   @@map("authors")
 }
 
 model Post {
   id        Int      @id @default(autoincrement())
+  authorId  Int
   title     String   @db.VarChar(400)
   body      String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Restrict)
 
+  @@index([authorId])
   @@map("posts")
 }
 
@@ -34,21 +42,44 @@ model Stock {
   pageTitle String   @db.Text
   updatedAt DateTime @updatedAt
   url       String   @db.Text
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 
+  @@index([userId])
   @@map("stocks")
 }
 
-model tweet {
-  id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  text        String        @db.Text
+model Tweet {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  text        String       @db.Text
+  userId      Int
   attachments attachment[]
+  user        User         @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([userId])
+  @@map("tweet")
 }
 
 model attachment {
-  id       Int    @id @default(autoincrement())
-  url      String @db.Text
-  tweetId  Int
-  tweet    tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  id      Int    @id @default(autoincrement())
+  url     String @db.Text
+  tweetId Int
+  tweet   Tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+}
+
+model RefreshToken {
+  id        Int       @id @default(autoincrement())
+  tokenHash String    @unique @db.Char(64)
+  userId    Int
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
 }

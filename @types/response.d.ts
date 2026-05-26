@@ -46,17 +46,17 @@ declare namespace Res {
    * Deletre /api/:id
    */
   declare interface DeletePost {
-    message: 'Delete Successful!'
+    success: true
   }
 
   // POST: /api/logout
   declare interface Logout {
-    message: 'Logout Successful'
+    success: true
   }
 
   // DELETE /api/stock/:id
   declare interface DeleteStock {
-    message: 'Delete Successful!'
+    success: true
   }
   /**
    * API Reqest/Response body types

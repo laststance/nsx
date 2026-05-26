@@ -133,8 +133,8 @@ export const handlers = [
   http.post('http://*/login', async () => {
     return HttpResponse.json([])
   }),
-  http.get('http://*/logout', async () => {
-    return HttpResponse.json([])
+  http.post('http://*/logout', async () => {
+    return HttpResponse.json({ success: true })
   }),
   http.post('http://*/create', async () => {
     return HttpResponse.json([])
@@ -154,8 +154,8 @@ export const handlers = [
   http.post('http://*/api/login', async () => {
     return HttpResponse.json([])
   }),
-  http.get('http://*/api/logout', async () => {
-    return HttpResponse.json([])
+  http.post('http://*/api/logout', async () => {
+    return HttpResponse.json({ success: true })
   }),
   http.delete('http://*/api/post/:id', async () => {
     return HttpResponse.json([])

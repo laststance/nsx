@@ -16,7 +16,7 @@ declare module '@prisma/client' {
     updatedAt: string
   }
 
-  export interface tweet {
+  export interface Tweet {
     createdAt: string
     updatedAt: string
   }

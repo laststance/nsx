@@ -63,18 +63,48 @@ const isValidStockUrl = (url: string): boolean => {
  * @param url - The normalized URL to check.
  * @returns Whether a matching stock row exists.
  * @example
- * await stockUrlExists('https://example.com') // => false
+ * await stockUrlExists('https://example.com', 1) // => false
  */
-const stockUrlExists = async (url: string): Promise<boolean> => {
+const stockUrlExists = async (
+  url: string,
+  userId: number,
+): Promise<boolean> => {
   const existingStock = await prisma.stock.findFirst({
-    where: { url },
+    where: { url, userId },
   })
 
   return Boolean(existingStock)
 }
 
+/**
+ * Checks whether the authenticated user owns a stock row before deletion.
+ *
+ * Called by the stock delete endpoint to prevent one user from consuming or
+ * removing another user's saved page.
+ *
+ * @param stockId - Stock ID from the route parameter.
+ * @param userId - Authenticated user ID from the session cookie.
+ * @returns Ownership status for response mapping.
+ * @example await getStockOwnershipStatus(1, 1)
+ */
+const getStockOwnershipStatus = async (
+  stockId: number,
+  userId: number,
+): Promise<'allowed' | 'forbidden' | 'missing'> => {
+  const stock = await prisma.stock.findUnique({
+    select: { userId: true },
+    where: { id: stockId },
+  })
+
+  if (!stock) return 'missing'
+  if (stock.userId !== userId) return 'forbidden'
+
+  return 'allowed'
+}
+
 router.post(
   '/push_stock',
+  isAuthorized,
   validateBody(pushStockBodySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body as PushStockBody
@@ -82,6 +112,13 @@ router.post(
     const normalizedUrl = normalizeStockUrl(body.url)
 
     try {
+      const userId = req.authenticatedUser?.id
+
+      if (!userId) {
+        res.status(401).json({ error: 'No token found' })
+        return
+      }
+
       // Missing inputs are rejected before touching the database.
       if (!normalizedUrl) {
         res.status(400).json({ error: URL_REQUIRED_MESSAGE })
@@ -99,7 +136,7 @@ router.post(
       }
 
       // A duplicate page should look saved in the extension instead of creating a row.
-      if (await stockUrlExists(normalizedUrl)) {
+      if (await stockUrlExists(normalizedUrl, userId)) {
         res.status(409).json({ error: DUPLICATE_STOCK_MESSAGE })
         return
       }
@@ -108,6 +145,7 @@ router.post(
         data: {
           pageTitle,
           url: normalizedUrl,
+          userId,
         },
       })
       res.status(201).json(stock)
@@ -118,13 +156,31 @@ router.post(
   },
 )
 
-router.get('/stocklist', async (_req, res) => {
-  const stockList = await prisma.stock.findMany()
-  res.status(200).json(stockList)
+router.get('/stocklist', isAuthorized, async (req, res) => {
+  try {
+    const userId = req.authenticatedUser?.id
+
+    if (!userId) {
+      res.status(401).json({ error: 'No token found' })
+      return
+    }
+
+    const stockList = await prisma.stock.findMany({ where: { userId } })
+    res.status(200).json(stockList)
+  } catch (error) {
+    Logger.error(error)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
 })
 
-router.get('/stock/exists', async (req, res, next) => {
+router.get('/stock/exists', isAuthorized, async (req, res, next) => {
   const normalizedUrl = normalizeStockUrl(req.query.url)
+  const userId = req.authenticatedUser?.id
+
+  if (!userId) {
+    res.status(401).json({ error: 'No token found' })
+    return
+  }
 
   try {
     // The popup needs a concrete URL to answer whether this page is already saved.
@@ -133,7 +189,9 @@ router.get('/stock/exists', async (req, res, next) => {
       return
     }
 
-    res.status(200).json({ exists: await stockUrlExists(normalizedUrl) })
+    res
+      .status(200)
+      .json({ exists: await stockUrlExists(normalizedUrl, userId) })
   } catch (error) {
     Logger.error(error)
     next(error)
@@ -142,10 +200,31 @@ router.get('/stock/exists', async (req, res, next) => {
 
 router.delete('/stock/:id', isAuthorized, async (req, res) => {
   try {
+    const stockId = parseInt(String(req.params.id), 10)
+    const userId = req.authenticatedUser?.id
+
+    if (!userId) {
+      res.status(401).json({ error: 'No token found' })
+      return
+    }
+
+    const ownership = await getStockOwnershipStatus(stockId, userId)
+
+    // Delete is allowed only for the user who saved the page.
+    if (ownership === 'missing') {
+      res.status(404).json({ error: 'Stock not found' })
+      return
+    }
+
+    if (ownership === 'forbidden') {
+      res.status(403).json({ error: 'Forbidden' })
+      return
+    }
+
     await prisma.stock.delete({
-      where: { id: parseInt(String(req.params.id), 10) },
+      where: { id: stockId },
     })
-    res.status(200).json({ message: 'Delete Successful!' })
+    res.status(204).send()
   } catch (error: unknown) {
     if (error instanceof Error) {
       Logger.error(error)
