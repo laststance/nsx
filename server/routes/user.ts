@@ -3,6 +3,7 @@ import type { Request, Response, Router, RequestHandler } from 'express'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 
+import { Prisma } from '../../generated/prisma/client'
 import {
   authenticateRequestSession,
   clearAuthCookies,
@@ -29,6 +30,8 @@ const AUTHENTICATION_FAILED_MESSAGE = 'Invalid credentials'
 const AUTHENTICATION_SERVICE_ERROR_CODE = 'AUTHENTICATION_SERVICE_ERROR'
 const AUTHENTICATION_SERVICE_ERROR_MESSAGE =
   'Authentication service temporarily unavailable'
+const USERNAME_ALREADY_EXISTS_CODE = 'USERNAME_ALREADY_EXISTS'
+const USERNAME_ALREADY_EXISTS_MESSAGE = 'Username already exists'
 const DUMMY_PASSWORD_HASH =
   '$2b$10$PDIcmRmxvgVeIaa/c9AWiu4wRQD7EwBjczFqVDjgMtsj4.To0W5aC'
 const LOGIN_WINDOW_MS = 15 * 60 * 1000
@@ -95,6 +98,23 @@ const sendAuthenticationFailure = (
   })
 }
 
+/**
+ * Detects database unique-constraint failures from Prisma writes.
+ *
+ * Called after signup create races so the API keeps the same conflict response
+ * as the pre-create username check.
+ *
+ * @param error - Unknown value caught from Prisma.
+ * @returns True when Prisma reports a duplicate-key write.
+ * @example isUniqueConstraintError(error)
+ */
+const isUniqueConstraintError = (error: unknown): boolean => {
+  return (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === 'P2002'
+  )
+}
+
 router.get(
   '/user_count',
   async (_req: Request, res: Response<Res.GetUserCount>) => {
@@ -105,10 +125,25 @@ router.get(
 
 const signupHandler: RequestHandler = async (req, res) => {
   const body = req.body as SignupBody
-  const salt = await bcrypt.genSalt(10)
-  const hash = await bcrypt.hash(body.password, salt)
 
   try {
+    const existingUser = await prisma.user.findUnique({
+      select: { id: true },
+      where: { name: body.name },
+    })
+
+    // Usernames are unique at the database layer, so conflict before hashing.
+    if (existingUser) {
+      res.status(409).json({
+        error: USERNAME_ALREADY_EXISTS_MESSAGE,
+        code: USERNAME_ALREADY_EXISTS_CODE,
+      })
+      return
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(body.password, salt)
+
     const user = await prisma.user.create({
       data: {
         name: body.name,
@@ -125,6 +160,14 @@ const signupHandler: RequestHandler = async (req, res) => {
       updatedAt: user.updatedAt,
     })
   } catch (error: unknown) {
+    if (isUniqueConstraintError(error)) {
+      res.status(409).json({
+        error: USERNAME_ALREADY_EXISTS_MESSAGE,
+        code: USERNAME_ALREADY_EXISTS_CODE,
+      })
+      return
+    }
+
     if (error instanceof Error) {
       Logger.error(error)
       res.status(500).json({ error: error.message })
@@ -170,7 +213,7 @@ router.post(
         return
       }
 
-      const user = await prisma.user.findFirst({
+      const user = await prisma.user.findUnique({
         where: { name },
       })
       const passwordHash = user?.password ?? DUMMY_PASSWORD_HASH

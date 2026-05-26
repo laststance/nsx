@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id                   Int            @id @default(autoincrement())
-  name                 String         @db.VarChar(255)
+  name                 String         @unique @db.VarChar(255)
   createdAt            DateTime       @default(now())
   password             String         @db.Text
   sessionVersion       Int            @default(0)
@@ -20,6 +20,8 @@ model User {
   stocks               Stock[]
   tweets               Tweet[]
 
+  @@index([createdAt, id])
+  @@index([updatedAt])
   @@map("authors")
 }
 
@@ -33,6 +35,9 @@ model Post {
   author    User     @relation(fields: [authorId], references: [id], onDelete: Restrict)
 
   @@index([authorId])
+  @@index([createdAt, id])
+  @@index([title])
+  @@index([updatedAt])
   @@map("posts")
 }
 
@@ -46,6 +51,9 @@ model Stock {
   user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@index([userId])
+  @@index([userId, createdAt, id])
+  @@index([userId, url(length: 191)])
+  @@index([updatedAt])
   @@map("stocks")
 }
 
@@ -59,6 +67,8 @@ model Tweet {
   user        User         @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@index([userId])
+  @@index([userId, createdAt, id])
+  @@index([updatedAt])
   @@map("tweet")
 }
 
@@ -67,6 +77,8 @@ model attachment {
   url     String @db.Text
   tweetId Int
   tweet   Tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  @@index([tweetId])
 }
 
 model RefreshToken {
