@@ -2,13 +2,13 @@ import bcrypt from 'bcrypt'
 import type { Request, Response, Router, RequestHandler } from 'express'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
-import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 
 import {
-  generateAccessToken,
-  getCookieOptions,
-  verifyAccessToken,
-} from '../lib/JWT'
+  authenticateRequestSession,
+  clearAuthCookies,
+  issueAuthCookies,
+  revokeRefreshToken,
+} from '../lib/authSession'
 import Logger from '../lib/Logger'
 import {
   hoverColorPreferenceBodySchema,
@@ -95,37 +95,6 @@ const sendAuthenticationFailure = (
   })
 }
 
-/**
- * Detects token verification failures thrown by `verifyAccessToken`.
- *
- * Called by PATCH handlers so invalid cookies return 401 instead of being
- * misclassified as server failures.
- *
- * @param error - Unknown error thrown while verifying a cookie token.
- * @returns Whether the error is an authentication failure.
- * @example isTokenVerificationError(new JsonWebTokenError('jwt malformed'))
- */
-const isTokenVerificationError = (error: unknown): boolean => {
-  return (
-    error instanceof TokenExpiredError || error instanceof JsonWebTokenError
-  )
-}
-
-/**
- * Sends the shared response for invalid or expired cookie tokens.
- *
- * Called by account-setting PATCH endpoints after token verification fails.
- *
- * @param res - Express response used to return the 401 payload.
- * @returns Nothing; the response is completed with status 401.
- * @example sendInvalidTokenResponse(res)
- */
-const sendInvalidTokenResponse = (res: Response<Res.Error>): void => {
-  // Expire the rejected session cookie so clients stop replaying it.
-  res.cookie('token', '', { expires: new Date() })
-  res.status(401).json({ error: 'Invalid or expired token' })
-}
-
 router.get(
   '/user_count',
   async (_req: Request, res: Response<Res.GetUserCount>) => {
@@ -147,8 +116,7 @@ const signupHandler: RequestHandler = async (req, res) => {
       },
     })
 
-    const token: JWTtoken = generateAccessToken(user)
-    res.cookie('token', token, getCookieOptions(token))
+    await issueAuthCookies(res, user)
     // Return user without password
     res.status(201).json({
       id: user.id,
@@ -193,7 +161,7 @@ router.post(
           password || 'missing-password',
           DUMMY_PASSWORD_HASH,
         )
-        Logger.warn('Invalid login payload')
+        Logger.info('Invalid login payload')
         res.status(400).json({
           error: 'Validation failed',
           code: 'VALIDATION_ERROR',
@@ -210,13 +178,12 @@ router.post(
 
       // Unknown users and wrong passwords must be indistinguishable to callers.
       if (!(user && isValidPassword)) {
-        Logger.warn('Failed login attempt')
+        Logger.info('Failed login attempt')
         sendAuthenticationFailure(res)
         return
       }
 
-      const token: JWTtoken = generateAccessToken(user)
-      res.cookie('token', token, getCookieOptions(token))
+      await issueAuthCookies(res, user)
       // Return user without password.
       res.status(200).json({
         id: user.id,
@@ -234,61 +201,44 @@ router.post(
   },
 )
 
-router.get('/logout', (_req: Request, res: Response<Res.Logout>) => {
-  res.cookie('token', '', { expires: new Date() })
+router.get('/logout', async (req: Request, res: Response<Res.Logout>) => {
+  await revokeRefreshToken(req.cookies.refreshToken as JWTtoken | undefined)
+  clearAuthCookies(res)
   res.status(200).json({ message: 'Logout Successful' })
 })
 
 const validateHandler: RequestHandler = async (req: Request, res: Response) => {
-  const token = req.cookies.token as JWTtoken
+  const session = await authenticateRequestSession(req, res)
 
-  if (!token) {
-    res.status(401).json({ valid: false, message: 'No token found' })
+  if (!session.ok) {
+    res.status(session.status).json({ valid: false, message: session.message })
     return
   }
 
-  try {
-    const decoded = verifyAccessToken(token)
-    const user = await prisma.user.findFirst({
-      select: {
-        id: true,
-        name: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-      where: { id: decoded.id },
-    })
-
-    if (user) {
-      res.status(200).json({ valid: true, user })
-    } else {
-      res.cookie('token', '', { expires: new Date() })
-      res.status(401).json({ valid: false, message: 'User not found' })
-    }
-  } catch {
-    // Clear invalid token
-    res.cookie('token', '', { expires: new Date() })
-    res.status(401).json({ valid: false, message: 'Invalid or expired token' })
-  }
+  const {
+    password: _password,
+    useLegacyHoverColors: _useLegacy,
+    ...user
+  } = session.user
+  res.status(200).json({ valid: true, user })
 }
 
 router.get('/validate', validateHandler)
 
 router.get('/hover-color-preference', async (req: Request, res: Response) => {
-  const token = req.cookies.token as JWTtoken
+  const session = await authenticateRequestSession(req, res)
 
-  if (!token) {
-    res.status(401).json({ error: 'No token found' })
+  if (!session.ok) {
+    res.status(session.status).json({ error: session.message })
     return
   }
 
   try {
-    const decoded = verifyAccessToken(token)
     const user = await prisma.user.findFirst({
       select: {
         useLegacyHoverColors: true,
       },
-      where: { id: decoded.id },
+      where: { id: session.user.id },
     })
 
     if (user) {
@@ -306,19 +256,18 @@ router.patch(
   '/hover-color-preference',
   validateBody(hoverColorPreferenceBodySchema),
   async (req: Request, res: Response) => {
-    const token = req.cookies.token as JWTtoken
+    const session = await authenticateRequestSession(req, res)
 
-    if (!token) {
-      res.status(401).json({ error: 'No token found' })
+    if (!session.ok) {
+      res.status(session.status).json({ error: session.message })
       return
     }
 
     try {
-      const decoded = verifyAccessToken(token)
       const { useLegacyHoverColors } = req.body as HoverColorPreferenceBody
 
       const user = await prisma.user.update({
-        where: { id: decoded.id },
+        where: { id: session.user.id },
         data: { useLegacyHoverColors },
         select: {
           useLegacyHoverColors: true,
@@ -328,11 +277,6 @@ router.patch(
       res.status(200).json({ useLegacyHoverColors: user.useLegacyHoverColors })
     } catch (error) {
       Logger.error(error)
-      if (isTokenVerificationError(error)) {
-        sendInvalidTokenResponse(res)
-        return
-      }
-
       res.status(500).json({ error: 'Failed to update hover color preference' })
     }
   },
@@ -342,15 +286,14 @@ router.patch(
   '/profile',
   validateBody(updateProfileBodySchema),
   async (req: Request, res: Response) => {
-    const token = req.cookies.token as JWTtoken
+    const session = await authenticateRequestSession(req, res)
 
-    if (!token) {
-      res.status(401).json({ error: 'No token found' })
+    if (!session.ok) {
+      res.status(session.status).json({ error: session.message })
       return
     }
 
     try {
-      const decoded = verifyAccessToken(token)
       const { name, password } = req.body as UpdateProfileBody
 
       // Prepare update data
@@ -368,24 +311,30 @@ router.patch(
 
       // Update user in database
       const user = await prisma.user.update({
-        where: { id: decoded.id },
+        where: { id: session.user.id },
         data: updateData,
         select: {
           id: true,
           name: true,
+          password: true,
           createdAt: true,
           updatedAt: true,
+          useLegacyHoverColors: true,
         },
       })
 
-      res.status(200).json(user)
-    } catch (error) {
-      Logger.error(error)
-      if (isTokenVerificationError(error)) {
-        sendInvalidTokenResponse(res)
-        return
+      if (password) {
+        await issueAuthCookies(res, user)
       }
 
+      const {
+        password: _password,
+        useLegacyHoverColors: _useLegacy,
+        ...responseUser
+      } = user
+      res.status(200).json(responseUser)
+    } catch (error) {
+      Logger.error(error)
       res.status(500).json({ error: 'Failed to update profile' })
     }
   },

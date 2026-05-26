@@ -63,6 +63,7 @@ export const tweetSchema = z.object({
   text: z.string().min(1),
   createdAt: z.string(),
   updatedAt: z.string(),
+  userId: z.number(),
 })
 
 export type Tweet = z.infer<typeof tweetSchema>

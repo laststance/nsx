@@ -1,9 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
-import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 
-import { verifyAccessToken } from './lib/JWT'
+import { authenticateRequestSession } from './lib/authSession'
 import Logger from './lib/Logger'
-import { prisma } from './prisma'
 
 /**
  * Verifies the cookie JWT before protected API route handlers run.
@@ -22,52 +20,18 @@ export const isAuthorized = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const token = req.cookies.token as JWTtoken
-
-  if (!token) {
-    res.status(401).json({ error: 'No token found' })
-    return
-  }
-
   try {
-    const decripted = verifyAccessToken(token) as User & { password: string }
-    const user = await prisma.user.findFirst({
-      where: {
-        id: decripted.id,
-        password: decripted.password,
-      },
-    })
-    // JWT user exist
-    if (user) {
-      // Verified
-      return next()
-    } else {
-      Logger.info('Stale session rejected', { userId: decripted.id })
-      // A stale session must be treated as logged out so the client can re-authenticate.
-      res.cookie('token', '', { expires: new Date() })
-      res.status(401).json({ error: 'Invalid or expired token' })
+    const session = await authenticateRequestSession(req, res)
+
+    if (!session.ok) {
+      res.status(session.status).json({ error: session.message })
       return
     }
+
+    req.authenticatedUser = session.user
+    return next()
   } catch (error) {
-    Logger.error('failed jwt.verify()')
-
-    // Expired path
-    if (
-      error instanceof TokenExpiredError ||
-      error instanceof JsonWebTokenError
-    ) {
-      Logger.info('Invalid or expired token')
-      // Clear cookie
-      res.cookie('token', '', { expires: new Date() })
-      res.status(401).json({ error: 'Invalid or expired token' })
-      return
-    }
-
-    Logger.error('Database Connection Error')
     Logger.error(error)
-
-    // Clear cookie
-    res.cookie('token', '', { expires: new Date() })
-    res.status(500).json({ error: 'Database Connection Error' })
+    res.status(500).json({ error: 'Authentication failed' })
   }
 }

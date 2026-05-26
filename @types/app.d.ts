@@ -11,6 +11,7 @@ declare interface User {
 
 declare interface Post {
   id: number
+  authorId: number
   title: string
   body: string
   createdAt: string
@@ -25,13 +26,33 @@ declare interface Stock {
   pageTitle: string
   updatedAt: string
   url: string
+  userId: number
 }
 
 declare type StockList = Stock[]
+
+declare interface Tweet {
+  id: number
+  text: string
+  createdAt: string
+  updatedAt: string
+  userId: number
+}
 
 /**
  * Authentication
  */
 declare type JWTtoken = string
 
-declare type JWTpayload = User // Password is already omitted from User type
+declare interface AuthenticatedUser extends User {
+  password: string
+  useLegacyHoverColors: boolean
+}
+
+declare type JWTpayload = AuthenticatedUser
+
+declare namespace Express {
+  export interface Request {
+    authenticatedUser?: AuthenticatedUser
+  }
+}

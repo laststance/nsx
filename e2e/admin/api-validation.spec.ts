@@ -130,8 +130,8 @@ test.describe('API request validation', () => {
     })
   })
 
-  test('rejects invalid public integration bodies with structured details', async ({
-    page,
+  test('rejects invalid integration bodies with structured details', async ({
+    authenticated: page,
   }) => {
     // Arrange
     const invalidSignupPayload = {

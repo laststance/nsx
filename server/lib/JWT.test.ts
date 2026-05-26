@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import { describe, it, expect, vi } from 'vitest'
 
 import {
+  generateRefreshToken,
   generateAccessToken,
   getTokenExpiration,
   getCookieOptions,
@@ -9,10 +10,12 @@ import {
 
 // Mock environment variable
 vi.stubEnv('ACCESS_TOKEN_SECRET', 'test-secret')
+vi.stubEnv('REFRESH_TOKEN_SECRET', 'test-refresh-secret')
 
 describe('JWT Functions', () => {
   describe('generateAccessToken', () => {
-    it('should generate a token with 7 day expiration', () => {
+    it('sets access tokens to expire after one hour', () => {
+      // Arrange
       const user = {
         id: 1,
         name: 'Test User',
@@ -22,21 +25,49 @@ describe('JWT Functions', () => {
         useLegacyHoverColors: false,
       }
 
+      // Act
       const token = generateAccessToken(user)
       const decoded = jwt.decode(token) as any
 
+      // Assert
       expect(decoded).toBeTruthy()
       expect(decoded.exp).toBeTruthy()
 
-      // Check that expiration is approximately 7 days from now
+      const expectedExp = Math.floor(Date.now() / 1000) + 60 * 60
+      expect(decoded.exp).toBeGreaterThanOrEqual(expectedExp - 10)
+      expect(decoded.exp).toBeLessThanOrEqual(expectedExp + 10)
+    })
+  })
+
+  describe('generateRefreshToken', () => {
+    it('sets refresh tokens to expire after seven days', () => {
+      // Arrange
+      const user = {
+        id: 1,
+        name: 'Test User',
+        password: 'hashed',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        useLegacyHoverColors: false,
+      }
+
+      // Act
+      const token = generateRefreshToken(user)
+      const decoded = jwt.decode(token) as any
+
+      // Assert
+      expect(decoded).toBeTruthy()
+      expect(decoded.exp).toBeTruthy()
+
       const expectedExp = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60
-      expect(decoded.exp).toBeGreaterThanOrEqual(expectedExp - 10) // Allow 10 second variance
+      expect(decoded.exp).toBeGreaterThanOrEqual(expectedExp - 10)
       expect(decoded.exp).toBeLessThanOrEqual(expectedExp + 10)
     })
   })
 
   describe('getTokenExpiration', () => {
-    it('should extract expiration date from JWT token', () => {
+    it('extracts expiration date from a signed access token', () => {
+      // Arrange
       const user = {
         id: 1,
         name: 'Test User',
@@ -46,32 +77,35 @@ describe('JWT Functions', () => {
         useLegacyHoverColors: false,
       }
 
+      // Act
       const token = generateAccessToken(user)
       const expiration = getTokenExpiration(token)
 
-      // Should be approximately 7 days from now
-      const expectedDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+      // Assert
+      const expectedDate = new Date(Date.now() + 60 * 60 * 1000)
       const timeDiff = Math.abs(expiration.getTime() - expectedDate.getTime())
 
-      // Allow 10 second variance
       expect(timeDiff).toBeLessThan(10000)
     })
 
-    it('should return default expiration for invalid token', () => {
+    it('defaults invalid token expiration to one hour', () => {
+      // Arrange
       const invalidToken = 'invalid.token.here'
+
+      // Act
       const expiration = getTokenExpiration(invalidToken)
 
-      // Should be approximately 7 days from now
-      const expectedDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+      // Assert
+      const expectedDate = new Date(Date.now() + 60 * 60 * 1000)
       const timeDiff = Math.abs(expiration.getTime() - expectedDate.getTime())
 
-      // Allow 10 second variance
       expect(timeDiff).toBeLessThan(10000)
     })
   })
 
   describe('getCookieOptions', () => {
-    it('should return cookie options with correct expiration', () => {
+    it('aligns the cookie lifetime with the access token lifetime', () => {
+      // Arrange
       const user = {
         id: 1,
         name: 'Test User',
@@ -81,33 +115,35 @@ describe('JWT Functions', () => {
         useLegacyHoverColors: false,
       }
 
+      // Act
       const token = generateAccessToken(user)
       const options = getCookieOptions(token)
 
+      // Assert
       expect(options.httpOnly).toBe(true)
-      expect(options.secure).toBe(true)
-      expect(options.sameSite).toBe('none')
+      expect(options.secure).toBe(false)
+      expect(options.sameSite).toBe('lax')
       expect(options.expires).toBeInstanceOf(Date)
       expect(options.maxAge).toBeGreaterThan(0)
 
-      // maxAge should be approximately 7 days in milliseconds
-      const expectedMaxAge = 7 * 24 * 60 * 60 * 1000
-      expect(options.maxAge).toBeGreaterThan(expectedMaxAge - 10000) // Allow 10 second variance
+      const expectedMaxAge = 60 * 60 * 1000
+      expect(options.maxAge).toBeGreaterThan(expectedMaxAge - 10000)
       expect(options.maxAge).toBeLessThan(expectedMaxAge + 10000)
     })
 
-    it('should handle expired tokens gracefully', () => {
-      // Create a token that's already expired
+    it('sets zero maxAge for expired tokens', () => {
+      // Arrange
       const expiredPayload = {
         id: 1,
         name: 'Test User',
-        exp: Math.floor(Date.now() / 1000) - 3600, // Expired 1 hour ago
+        exp: Math.floor(Date.now() / 1000) - 3600,
       }
 
+      // Act
       const expiredToken = jwt.sign(expiredPayload, 'test-secret')
       const options = getCookieOptions(expiredToken)
 
-      // maxAge should be 0 for expired tokens
+      // Assert
       expect(options.maxAge).toBe(0)
     })
   })

@@ -7,31 +7,28 @@ import type { UsePagenationResult } from '@/src/components/Pagination/usePaginat
 import { handleDelete } from './handler'
 
 interface Props {
-  author: User
   index: number
   post: Post
   refetch: UsePagenationResult['refetch']
 }
 
-const EditButtonGroup: React.FC<Props> = memo(
-  ({ author, index, post, refetch }) => {
-    return (
-      <div className="flex w-full justify-end space-x-2">
-        <Link to={`/dashboard/edit/${post.id}`}>
-          <Button variant="inverse">Edit</Button>
-        </Link>
-        <Button
-          onClick={handleDelete(post.id, author, refetch)}
-          variant="danger"
-          data-testid={`delete-btn-${index + 1}`}
-          className="h-[42px]"
-        >
-          Delete
-        </Button>
-      </div>
-    )
-  },
-)
+const EditButtonGroup: React.FC<Props> = memo(({ index, post, refetch }) => {
+  return (
+    <div className="flex w-full justify-end space-x-2">
+      <Link to={`/dashboard/edit/${post.id}`}>
+        <Button variant="inverse">Edit</Button>
+      </Link>
+      <Button
+        onClick={handleDelete(post.id, refetch)}
+        variant="danger"
+        data-testid={`delete-btn-${index + 1}`}
+        className="h-[42px]"
+      >
+        Delete
+      </Button>
+    </div>
+  )
+})
 EditButtonGroup.displayName = 'EditButtonGroup'
 
 export default EditButtonGroup

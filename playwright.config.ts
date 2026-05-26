@@ -77,6 +77,8 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       env: {
         ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET!,
+        REFRESH_TOKEN_SECRET:
+          process.env.REFRESH_TOKEN_SECRET ?? process.env.ACCESS_TOKEN_SECRET!,
         OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
         BLUESKY_USERNAME: process.env.BLUESKY_USERNAME!,
         BLUESKY_PASSWORD: process.env.BLUESKY_PASSWORD!,
