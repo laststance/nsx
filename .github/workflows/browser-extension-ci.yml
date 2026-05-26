@@ -7,12 +7,26 @@ on:
       - feature/**
     paths:
       - 'browser-extension/**'
+      # Extension E2E boots the root backend, so backend dependency changes must run it.
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'server/**'
+      - 'prisma/**'
+      - '.env.e2e'
+      - 'compose*.yml'
       - '.github/workflows/browser-extension-ci.yml'
   pull_request:
     branches:
       - main
     paths:
       - 'browser-extension/**'
+      # Extension E2E boots the root backend, so backend dependency changes must run it.
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'server/**'
+      - 'prisma/**'
+      - '.env.e2e'
+      - 'compose*.yml'
       - '.github/workflows/browser-extension-ci.yml'
 
 defaults:
@@ -179,11 +193,12 @@ jobs:
 
       - name: Display build info
         run: |
-          echo "Browser: ${{ matrix.browser }}"
+          echo "Browser: chromium"
           echo "Build output:"
           ls -lh .output/
-          if [ -f .output/*.zip ]; then
-            unzip -l .output/*.zip | head -20
+          zip_file="$(find .output -maxdepth 1 -name '*.zip' -print -quit)"
+          if [ -n "$zip_file" ]; then
+            unzip -l "$zip_file" | head -20
           fi
 
   build-summary:
