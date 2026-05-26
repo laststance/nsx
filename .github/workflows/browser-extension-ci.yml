@@ -197,9 +197,11 @@ jobs:
           echo "Build output:"
           ls -lh .output/
           zip_file="$(find .output -maxdepth 1 -name '*.zip' -print -quit)"
-          if [ -n "$zip_file" ]; then
-            unzip -l "$zip_file" | head -20
+          if [ -z "$zip_file" ]; then
+            echo "❌ No extension ZIP found in .output/"
+            exit 1
           fi
+          unzip -l "$zip_file" | head -20
 
   build-summary:
     name: Build Summary
