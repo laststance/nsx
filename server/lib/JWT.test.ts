@@ -72,11 +72,35 @@ describe('JWT Functions', () => {
         sessionVersion: 0,
         sub: '1',
       })
+      expect(decoded.jti).toEqual(expect.any(String))
       expect(decoded.password).toBeUndefined()
 
       const expectedExp = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60
       expect(decoded.exp).toBeGreaterThanOrEqual(expectedExp - 10)
       expect(decoded.exp).toBeLessThanOrEqual(expectedExp + 10)
+    })
+
+    it('uses unique token IDs so same-second refresh rotations do not collide', () => {
+      // Arrange
+      const user = {
+        id: 1,
+        name: 'Test User',
+        password: 'hashed',
+        sessionVersion: 0,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        useLegacyHoverColors: false,
+      }
+
+      // Act
+      const firstToken = generateRefreshToken(user)
+      const secondToken = generateRefreshToken(user)
+      const firstDecoded = jwt.decode(firstToken) as any
+      const secondDecoded = jwt.decode(secondToken) as any
+
+      // Assert
+      expect(secondToken).not.toBe(firstToken)
+      expect(secondDecoded.jti).not.toBe(firstDecoded.jti)
     })
   })
 

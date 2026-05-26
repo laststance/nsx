@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto'
+
 import type { CookieOptions } from 'express'
 import jwt, {
   JsonWebTokenError,
@@ -45,10 +47,11 @@ const getRefreshTokenSecret = (): string => {
 }
 
 /**
- * Builds the minimal JWT payload shared by access and refresh tokens.
+ * Builds the minimal user JWT payload shared by access and refresh tokens.
  *
  * Called before signing so password hashes and other user fields never leave
- * the server in a readable JWT body.
+ * the server in a readable JWT body; refresh-token uniqueness is added with
+ * the standard `jti` claim during signing.
  *
  * @param user - Authenticated user whose ID/version should be represented.
  * @param kind - Token kind enforced by the verifier.
@@ -125,6 +128,8 @@ export function generateAccessToken(user: ExtendedUser): JWTtoken {
 export function generateRefreshToken(user: ExtendedUser): JWTtoken {
   return jwt.sign(buildTokenPayload(user, 'refresh'), getRefreshTokenSecret(), {
     expiresIn: REFRESH_TOKEN_EXPIRES_IN,
+    // Same-second refresh rotations need unique token strings for DB hashes.
+    jwtid: randomUUID(),
   })
 }
 
