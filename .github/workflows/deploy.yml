@@ -3,9 +3,11 @@ name: Deploy
 on:
   push:
     branches: [main]
-  pull_request:
-    types: [closed]
-    branches: [main]
+
+# Keep production deploys serialized so remote staging and rollback paths never race.
+concurrency:
+  group: deploy-production-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -14,15 +16,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: >
-      (
-        github.event_name == 'pull_request' &&
-        github.event.pull_request.merged == true &&
-        github.event.pull_request.user.login != 'dependabot[bot]'
-      ) || (
-        github.event_name == 'push' &&
-        github.actor != 'dependabot[bot]' &&
-        !(contains(github.event.head_commit.message, 'Merge pull request') && contains(github.event.head_commit.message, '/dependabot/'))
-      )
+      github.actor != 'dependabot[bot]' &&
+      !(contains(github.event.head_commit.message, 'Merge pull request') && contains(github.event.head_commit.message, '/dependabot/'))
 
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
@@ -136,7 +131,7 @@ jobs:
 
             remote_dir="$NSX_REMOTE_DIR"
             remote_archive="/tmp/deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz"
-            staging_dir="/tmp/nsx-deploy-${{ github.sha }}"
+            staging_dir="/tmp/nsx-deploy-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}"
             rollback_dir="${remote_dir%/}.rollback"
             health_url="https://nsx.malloc.tokyo/api/health"
             deployment_applied="false"
