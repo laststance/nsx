@@ -226,15 +226,8 @@ router.delete('/stock/:id', isAuthorized, async (req, res) => {
     })
     res.status(204).send()
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      Logger.error(error)
-      res.status(500).json({ message: error.message })
-    } else {
-      Logger.error(error)
-      res
-        .status(500)
-        .json({ message: `someting wrong: ${JSON.stringify(error)}` })
-    }
+    Logger.error(error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
 })
 

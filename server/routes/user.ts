@@ -30,6 +30,7 @@ const AUTHENTICATION_FAILED_MESSAGE = 'Invalid credentials'
 const AUTHENTICATION_SERVICE_ERROR_CODE = 'AUTHENTICATION_SERVICE_ERROR'
 const AUTHENTICATION_SERVICE_ERROR_MESSAGE =
   'Authentication service temporarily unavailable'
+const INTERNAL_SERVER_ERROR_MESSAGE = 'Internal Server Error'
 const USERNAME_ALREADY_EXISTS_CODE = 'USERNAME_ALREADY_EXISTS'
 const USERNAME_ALREADY_EXISTS_MESSAGE = 'Username already exists'
 const DUMMY_PASSWORD_HASH =
@@ -170,12 +171,10 @@ const signupHandler: RequestHandler = async (req, res) => {
 
     if (error instanceof Error) {
       Logger.error(error)
-      res.status(500).json({ error: error.message })
+      res.status(500).json({ error: INTERNAL_SERVER_ERROR_MESSAGE })
     } else {
       Logger.error(error)
-      res.status(500).json({
-        error: `something wrong: ${JSON.stringify(error)}`,
-      })
+      res.status(500).json({ error: INTERNAL_SERVER_ERROR_MESSAGE })
     }
   }
 }

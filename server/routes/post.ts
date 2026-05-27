@@ -14,6 +14,8 @@ import { prisma } from '../prisma'
 
 const router: Router = express.Router()
 
+const INTERNAL_SERVER_ERROR_RESPONSE = { error: 'Internal Server Error' }
+
 /**
  * Checks whether the authenticated user owns a post before mutation.
  *
@@ -42,20 +44,35 @@ const getPostOwnershipStatus = async (
 
 router.get('/post/:id', async (req: Request, res: Response) => {
   try {
+    const rawPostId = String(req.params.id)
+
+    // Reject mixed values like "123abc" before Prisma receives an ID.
+    if (!/^[1-9]\d*$/.test(rawPostId)) {
+      res.status(400).json({
+        code: 'VALIDATION_ERROR',
+        error: 'Post id must be a number',
+      })
+      return
+    }
+    const postId = parseInt(rawPostId, 10)
+
     const post = await prisma.post.findFirst({
-      where: { id: parseInt(String(req.params.id), 10) },
+      where: { id: postId },
     })
+
+    if (!post) {
+      res.status(404).json({ error: 'Post not found' })
+      return
+    }
 
     res.status(200).json(post)
   } catch (error: unknown) {
     if (error instanceof Error) {
       Logger.error(error)
-      res.status(500).json({ error: error.message })
+      res.status(500).json(INTERNAL_SERVER_ERROR_RESPONSE)
     } else {
       Logger.error(error)
-      res.status(500).json({
-        error: `something wrong: ${JSON.stringify(error)}`,
-      })
+      res.status(500).json(INTERNAL_SERVER_ERROR_RESPONSE)
     }
   }
 })
@@ -91,15 +108,8 @@ router.delete(
       })
       res.status(204).send()
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        Logger.error(error)
-        res.status(500).json({ message: error.message })
-      } else {
-        Logger.error(error)
-        res
-          .status(500)
-          .json({ message: `someting wrong: ${JSON.stringify(error)}` })
-      }
+      Logger.error(error)
+      res.status(500).json(INTERNAL_SERVER_ERROR_RESPONSE)
     }
   },
 )
@@ -141,12 +151,10 @@ router.get(
     } catch (error: unknown) {
       if (error instanceof Error) {
         Logger.error(error)
-        res.status(500).json({ error: error.message })
+        res.status(500).json(INTERNAL_SERVER_ERROR_RESPONSE)
       } else {
         Logger.error(error)
-        res.status(500).json({
-          error: `something wrong: ${JSON.stringify(error)}`,
-        })
+        res.status(500).json(INTERNAL_SERVER_ERROR_RESPONSE)
       }
     }
   },
@@ -177,12 +185,10 @@ router.post(
     } catch (error: unknown) {
       if (error instanceof Error) {
         Logger.error(error)
-        res.status(500).json({ error: error.message })
+        res.status(500).json(INTERNAL_SERVER_ERROR_RESPONSE)
       } else {
         Logger.error(error)
-        res.status(500).json({
-          error: `something wrong: ${JSON.stringify(error)}`,
-        })
+        res.status(500).json(INTERNAL_SERVER_ERROR_RESPONSE)
       }
     }
   },

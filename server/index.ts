@@ -15,6 +15,7 @@ import helmet from 'helmet'
 
 import router from './api'
 import { Cron } from './cron'
+import { apiErrorHandler } from './lib/apiResponses'
 import Logger from './lib/Logger'
 import {
   initializeMetrics,
@@ -84,6 +85,7 @@ app.use(cookieParser())
 app.use(requestMonitoringMiddleware)
 app.use(compression())
 app.use('/api', router)
+app.use('/api', apiErrorHandler)
 /**
  DEV Server
  */

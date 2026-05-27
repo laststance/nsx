@@ -8,9 +8,11 @@ import stockRoute from './routes/stock'
 import translateRoute from './routes/translate'
 import tweet from './routes/tweet'
 import userRoute from './routes/user'
+import v1Route from './routes/v1'
 
 const router: Router = express.Router()
 
+router.use(v1Route)
 router.use(healthRoute)
 // TODO: Refactor /tweet style
 router.use(postRoute)
