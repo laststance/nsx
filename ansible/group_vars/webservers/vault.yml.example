@@ -1,0 +1,21 @@
+---
+# Copy this file to ansible/group_vars/webservers/vault.yml, replace every value,
+# then encrypt it with: ansible-vault encrypt ansible/group_vars/webservers/vault.yml
+vault_deploy_authorized_keys:
+  - "ssh-ed25519 AAAA... raphtalia"
+vault_deploy_password_hash: "$y$j9T$replace-with-mkpasswd-output"
+
+vault_certbot_email: admin@malloc.tokyo
+vault_access_token_secret: replace-access-token-secret
+vault_refresh_token_secret: replace-refresh-token-secret
+vault_mysql_root_password: replace-root-password
+vault_mysql_user: strength
+vault_mysql_password: replace-app-password
+
+vault_backup_gpg_recipient: backup@nsx
+vault_backup_offsite_rsync_target: backup@example.com:/srv/backups/nsx
+vault_backup_alert_webhook_url: ""
+
+vault_sentry_dsn: ""
+vault_vite_sentry_dsn: ""
+vault_ga_measurement_id: ""

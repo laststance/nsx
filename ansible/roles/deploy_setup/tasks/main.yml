@@ -1,102 +1,499 @@
 ---
-# Set locale configuration
-- name: Set locale to UTF-8
-  shell: |
-    apt-get update
-    apt-get install -y locales
-    locale-gen en_US.UTF-8
-    update-locale LANG=en_US.UTF-8
-  environment:
-    DEBIAN_FRONTEND: noninteractive
-
-# Install required packages
-- name: Install required packages
-  apt:
+# Base system: keep the OS predictable before application-specific work starts.
+- name: Ensure base apt packages are present
+  become: true
+  ansible.builtin.apt:
     name:
-      - git
-      - curl
+      - acl
       - build-essential
+      - ca-certificates
+      - curl
+      - fail2ban
+      - git
+      - gnupg
+      - libcap2-bin
+      - locales
+      - logrotate
+      - mysql-client
+      - python3-apt
       - python3-pip
+      - rsync
+      - snapd
+      - sudo
+      - unattended-upgrades
+      - ufw
+      - unzip
     state: present
     update_cache: true
+    cache_valid_time: 3600
 
-# Install Node.js
-- name: Install Node.js repository
-  shell: |
-    curl -fsSL https://deb.nodesource.com/setup_{{ node_version }} | bash -
-  args:
-    creates: /etc/apt/sources.list.d/nodesource.list
+- name: Set server timezone
+  become: true
+  ansible.builtin.command: 'timedatectl set-timezone {{ timezone }}'
+  changed_when: false
 
-- name: Install Node.js
-  apt:
-    name: nodejs
+- name: Generate UTF-8 locale
+  become: true
+  ansible.builtin.command: 'locale-gen {{ locale_name }}'
+  changed_when: false
+
+- name: Persist default locale
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/default/locale
+    content: |
+      LANG={{ locale_name }}
+      LC_ALL={{ locale_name }}
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Check whether swap file already exists
+  become: true
+  ansible.builtin.stat:
+    path: '{{ swap_file }}'
+  register: nsx_swap_file
+
+- name: Allocate swap file
+  become: true
+  ansible.builtin.command: 'fallocate -l {{ swap_size }} {{ swap_file }}'
+  when: not nsx_swap_file.stat.exists
+  changed_when: true
+
+- name: Lock down swap file permissions
+  become: true
+  ansible.builtin.file:
+    path: '{{ swap_file }}'
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Format swap file when newly created
+  become: true
+  ansible.builtin.command: 'mkswap {{ swap_file }}'
+  when: not nsx_swap_file.stat.exists
+  changed_when: true
+
+- name: Enable swap immediately
+  become: true
+  ansible.builtin.command: 'swapon {{ swap_file }}'
+  when: not nsx_swap_file.stat.exists
+  changed_when: true
+
+- name: Persist swap mount in fstab
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    line: '{{ swap_file }} none swap sw 0 0'
     state: present
 
-# Install PM2
-- name: Install PM2 globally
-  npm:
-    name: pm2
-    global: true
-    state: present
-
-# Create deploy user
-- name: Create deploy user
-  user:
+# Security: create deploy user before disabling direct root/password SSH.
+- name: Create deploy user with sudo group access
+  become: true
+  ansible.builtin.user:
     name: '{{ deploy_user }}'
     shell: /bin/bash
     groups: sudo
     append: true
     create_home: true
+    password: '{{ vault_deploy_password_hash | default(omit) }}'
 
-# Create SSH configuration directory
-- name: Create .ssh directory for deploy user
-  file:
+- name: Create deploy SSH directory
+  become: true
+  ansible.builtin.file:
     path: '/home/{{ deploy_user }}/.ssh'
     state: directory
     owner: '{{ deploy_user }}'
     group: '{{ deploy_user }}'
-    mode: 0700
+    mode: '0700'
 
-# Generate deployment key
-- name: Generate SSH key for GitHub Actions
-  openssh_keypair:
-    path: /root/github-actions-deploy
-    type: ed25519
-    comment: 'github-actions-deploy'
-    mode: 0600
+- name: Install deploy authorized SSH keys
+  become: true
+  ansible.builtin.lineinfile:
+    path: '/home/{{ deploy_user }}/.ssh/authorized_keys'
+    line: '{{ item }}'
+    create: true
+    owner: '{{ deploy_user }}'
+    group: '{{ deploy_user }}'
+    mode: '0600'
+    state: present
+  loop: '{{ deploy_authorized_keys }}'
+  when: deploy_authorized_keys | length > 0
 
-# Configure public key
-- name: Add public key to deploy user's authorized_keys
-  authorized_key:
-    user: '{{ deploy_user }}'
-    key: "{{ lookup('file', '/root/github-actions-deploy.pub') }}"
+- name: Check deploy authorized_keys before SSH hardening
+  become: true
+  ansible.builtin.stat:
+    path: '/home/{{ deploy_user }}/.ssh/authorized_keys'
+  register: deploy_authorized_keys_file
+
+- name: Refuse to harden SSH before deploy key access exists
+  ansible.builtin.assert:
+    that:
+      - deploy_authorized_keys_file.stat.exists
+    fail_msg: 'Add vault_deploy_authorized_keys or pre-create /home/{{ deploy_user }}/.ssh/authorized_keys before disabling root/password SSH.'
+
+- name: Harden SSH daemon configuration
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/ssh/sshd_config.d/99-nsx-hardening.conf
+    content: |
+      PermitRootLogin no
+      PasswordAuthentication no
+      KbdInteractiveAuthentication no
+      ChallengeResponseAuthentication no
+      PubkeyAuthentication yes
+      X11Forwarding no
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart ssh
+
+- name: Validate SSH daemon configuration
+  become: true
+  ansible.builtin.command: sshd -t
+  changed_when: false
+
+- name: Allow SSH through UFW
+  become: true
+  ansible.builtin.command: ufw allow OpenSSH
+  register: ufw_ssh
+  changed_when: "'Rule added' in ufw_ssh.stdout"
+
+- name: Allow HTTP for certificate issuance
+  become: true
+  ansible.builtin.command: ufw allow 80/tcp
+  register: ufw_http
+  changed_when: "'Rule added' in ufw_http.stdout"
+
+- name: Allow HTTPS for production traffic
+  become: true
+  ansible.builtin.command: ufw allow 443/tcp
+  register: ufw_https
+  changed_when: "'Rule added' in ufw_https.stdout"
+
+- name: Set default deny incoming firewall policy
+  become: true
+  ansible.builtin.command: ufw default deny incoming
+  changed_when: false
+
+- name: Enable UFW
+  become: true
+  ansible.builtin.command: ufw --force enable
+  changed_when: false
+
+- name: Configure fail2ban for sshd
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/fail2ban/jail.d/nsx-sshd.local
+    content: |
+      [sshd]
+      enabled = true
+      maxretry = 5
+      bantime = 1h
+      findtime = 10m
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart fail2ban
+
+- name: Enable unattended upgrades
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    content: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Unattended-Upgrade "1";
+    owner: root
+    group: root
+    mode: '0644'
+
+# Docker and database: production compose exposes MySQL only through a Unix socket.
+- name: Install Docker and Compose plugin from Ubuntu packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - docker.io
+      - docker-compose-v2
+    state: present
+    update_cache: true
+
+- name: Enable Docker service
+  become: true
+  ansible.builtin.systemd_service:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Add deploy user to docker group
+  become: true
+  ansible.builtin.user:
+    name: '{{ deploy_user }}'
+    groups: docker
+    append: true
+
+# Node.js: use a signed APT repository instead of executing a remote setup script.
+- name: Download NodeSource signing key
+  become: true
+  ansible.builtin.get_url:
+    url: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+    dest: /tmp/nodesource-repo.gpg.key
+    mode: '0644'
+
+- name: Install NodeSource keyring
+  become: true
+  ansible.builtin.command: gpg --dearmor -o /usr/share/keyrings/nodesource.gpg /tmp/nodesource-repo.gpg.key
+  args:
+    creates: /usr/share/keyrings/nodesource.gpg
+
+- name: Add NodeSource APT repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: 'deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ node_major_version }}.x nodistro main'
+    filename: nodesource
+    state: present
+    update_cache: true
+
+- name: Install Node.js
+  become: true
+  ansible.builtin.apt:
+    name: nodejs
     state: present
 
-# Create application directory
-- name: Create application directory
-  file:
-    path: '{{ app_dir }}'
+- name: Enable corepack
+  become: true
+  ansible.builtin.command: corepack enable
+  changed_when: false
+
+- name: Activate pinned pnpm version
+  become: true
+  ansible.builtin.command: 'corepack prepare pnpm@{{ pnpm_version }} --activate'
+  changed_when: false
+
+- name: Install PM2 globally
+  become: true
+  ansible.builtin.command: 'npm install -g pm2@{{ pm2_version }}'
+  register: pm2_install
+  changed_when: "'added' in pm2_install.stdout or 'changed' in pm2_install.stdout"
+
+- name: Allow Node.js to bind HTTPS port 443
+  become: true
+  ansible.builtin.shell: "setcap 'cap_net_bind_service=+ep' $(readlink -f $(command -v node))"
+  changed_when: false
+
+# Let's Encrypt: snap certbot owns renewal, cron is explicit so the setup is auditable.
+- name: Enable snapd socket
+  become: true
+  ansible.builtin.systemd_service:
+    name: snapd.socket
+    enabled: true
+    state: started
+
+- name: Install snap core
+  become: true
+  ansible.builtin.command: snap install core
+  register: snap_core
+  failed_when: snap_core.rc != 0 and 'already installed' not in snap_core.stderr
+  changed_when: "'installed' in snap_core.stdout"
+
+- name: Refresh snap core
+  become: true
+  ansible.builtin.command: snap refresh core
+  changed_when: false
+
+- name: Install certbot from snap
+  become: true
+  ansible.builtin.command: snap install --classic certbot
+  args:
+    creates: /snap/bin/certbot
+
+- name: Link certbot into /usr/bin
+  become: true
+  ansible.builtin.file:
+    src: /snap/bin/certbot
+    dest: /usr/bin/certbot
+    state: link
+    force: true
+
+- name: Check production certificate
+  become: true
+  ansible.builtin.stat:
+    path: '/etc/letsencrypt/live/{{ app_domain }}/fullchain.pem'
+  register: production_certificate
+
+- name: Issue Let's Encrypt certificate
+  become: true
+  ansible.builtin.command: 'certbot certonly --standalone --non-interactive --agree-tos -m {{ certbot_email }} -d {{ app_domain }}'
+  when:
+    - certbot_enabled | bool
+    - not production_certificate.stat.exists
+
+- name: Install certbot renewal cron
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/cron.d/nsx-certbot-renew
+    content: |
+      SHELL=/bin/bash
+      PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+      17 3 * * * root certbot renew --quiet --deploy-hook "sudo -iu {{ deploy_user }} pm2 restart server --update-env"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Limit retained snap revisions
+  become: true
+  ansible.builtin.command: snap set system refresh.retain=2
+  changed_when: false
+
+# Application: clone, generate .env from vault, build, migrate, and start PM2.
+- name: Create application directories
+  become: true
+  ansible.builtin.file:
+    path: '{{ item }}'
     state: directory
     owner: '{{ deploy_user }}'
     group: '{{ deploy_user }}'
-    mode: 0755
+    mode: '0755'
+  loop:
+    - '{{ app_dir }}'
+    - '{{ app_dir }}/logs'
+    - '{{ app_dir }}/run'
+    - '{{ app_dir }}/run/mysqld'
+    - '{{ app_dir }}/backups'
 
-# Configure PM2 auto-startup
-- name: Setup PM2 startup
-  shell: 'pm2 startup systemd -u {{ deploy_user }} --hp /home/{{ deploy_user }}'
+- name: Clone NSX repository
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.git:
+    repo: '{{ app_repo_url }}'
+    dest: '{{ app_dir }}'
+    version: '{{ app_version }}'
+    update: true
+
+- name: Render production environment from Ansible Vault variables
+  become: true
+  ansible.builtin.template:
+    src: env.j2
+    dest: '{{ app_dir }}/.env'
+    owner: '{{ deploy_user }}'
+    group: '{{ deploy_user }}'
+    mode: '0600'
+
+- name: Start MySQL with production compose
+  become: true
+  ansible.builtin.command: docker compose -f compose.yml -f compose.prod.yml up -d db
   args:
-    creates: /etc/systemd/system/pm2-{{ deploy_user }}.service
+    chdir: '{{ app_dir }}'
+  changed_when: false
 
-- name: Ensure PM2 service is enabled
-  systemd:
+- name: Install application dependencies
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.command: pnpm install --frozen-lockfile
+  args:
+    chdir: '{{ app_dir }}'
+  environment:
+    CI: 'true'
+
+- name: Apply Prisma migrations
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.command: pnpm db:migrate:deploy
+  args:
+    chdir: '{{ app_dir }}'
+
+- name: Build frontend assets
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.command: pnpm build
+  args:
+    chdir: '{{ app_dir }}'
+
+- name: Build Express server bundle
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.command: pnpm server:build
+  args:
+    chdir: '{{ app_dir }}'
+
+- name: Configure PM2 startup service
+  become: true
+  ansible.builtin.command: 'pm2 startup systemd -u {{ deploy_user }} --hp /home/{{ deploy_user }}'
+  args:
+    creates: '/etc/systemd/system/pm2-{{ deploy_user }}.service'
+
+- name: Enable PM2 service
+  become: true
+  ansible.builtin.systemd_service:
     name: 'pm2-{{ deploy_user }}'
     enabled: true
     daemon_reload: true
 
-# Display important information
-- name: Display important information
-  debug:
-    msg:
-      - 'Server setup completed!'
-      - 'Copy the following private key to GitHub Secrets (DEPLOY_KEY):'
-      - "{{ lookup('file', '/root/github-actions-deploy') }}"
+- name: Start or reload NSX with PM2
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.command: pm2 startOrReload ecosystem.config.js --env production --update-env
+  args:
+    chdir: '{{ app_dir }}'
+  environment:
+    PM2_HOME: '/home/{{ deploy_user }}/.pm2'
+
+- name: Save PM2 process list
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.command: pm2 save
+  environment:
+    PM2_HOME: '/home/{{ deploy_user }}/.pm2'
+
+- name: Install PM2 log rotation module
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.shell: 'pm2 describe pm2-logrotate >/dev/null 2>&1 || pm2 install pm2-logrotate'
+  environment:
+    PM2_HOME: '/home/{{ deploy_user }}/.pm2'
+  changed_when: false
+
+- name: Configure PM2 log rotation max size
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.command: pm2 set pm2-logrotate:max_size 10M
+  environment:
+    PM2_HOME: '/home/{{ deploy_user }}/.pm2'
+  changed_when: false
+
+- name: Configure PM2 log rotation retention
+  become: true
+  become_user: '{{ deploy_user }}'
+  ansible.builtin.command: pm2 set pm2-logrotate:retain 14
+  environment:
+    PM2_HOME: '/home/{{ deploy_user }}/.pm2'
+  changed_when: false
+
+- name: Install backup cron
+  become: true
+  ansible.builtin.command: ./scripts/install-backup-cron
+  args:
+    chdir: '{{ app_dir }}'
+  when: backup_cron_enabled | bool
+
+# Monitoring: bound local logs before they can fill the host disk.
+- name: Create journald override directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/systemd/journald.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Limit journald disk usage
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/systemd/journald.conf.d/99-nsx.conf
+    content: |
+      [Journal]
+      SystemMaxUse=500M
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart journald

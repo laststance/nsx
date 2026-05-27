@@ -1,12 +1,25 @@
 ---
-- name: Setup Deploy Environment
+- name: Provision NSX production server
   hosts: webservers
-  become: true
+  gather_facts: true
   vars:
     deploy_user: deploy
     app_name: nsx
-    app_dir: /home/{{ deploy_user }}/{{ app_name }}
-    node_version: 20.x
+    app_domain: nsx.malloc.tokyo
+    app_dir: '/home/{{ deploy_user }}/{{ app_name }}'
+    app_repo_url: https://github.com/laststance/nsx.git
+    app_version: main
+    node_major_version: 24
+    pnpm_version: 10.33.0
+    pm2_version: '7'
+    swap_file: /swapfile
+    swap_size: 2G
+    timezone: Asia/Tokyo
+    locale_name: en_US.UTF-8
+    certbot_email: "{{ vault_certbot_email | default('admin@malloc.tokyo') }}"
+    deploy_authorized_keys: '{{ vault_deploy_authorized_keys | default([]) }}'
+    certbot_enabled: true
+    backup_cron_enabled: true
 
   roles:
     - deploy_setup
