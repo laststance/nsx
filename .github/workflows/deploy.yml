@@ -230,6 +230,26 @@ jobs:
               fi
             }
 
+            capture_rollback_artifacts() {
+              set +e
+              rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$remote_dir"/ "$rollback_dir"/
+              rollback_status=$?
+              set -e
+
+              if [ "$rollback_status" -eq 0 ]; then
+                return 0
+              fi
+
+              if [ "$rollback_status" -eq 24 ]; then
+                # Exit 24 means rsync saw a transient file disappear; the deploy can still proceed.
+                echo "::warning::Rollback capture saw vanished files; continuing with best-effort rollback artifacts"
+                return 0
+              fi
+
+              echo "::warning::Rollback capture failed with rsync exit ${rollback_status}; continuing without rollback"
+              return 1
+            }
+
             fail_deployment() {
               message="$1"
               echo "::error::$message"
@@ -249,8 +269,9 @@ jobs:
             tar -xzf "$remote_archive" -C "$staging_dir" || fail_deployment "Failed to extract deployment artifact"
 
             if [ -d "$remote_dir/build" ] || [ -d "$remote_dir/server_build" ]; then
-              rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$remote_dir"/ "$rollback_dir"/ || fail_deployment "Failed to capture rollback artifacts"
-              rollback_ready="true"
+              if capture_rollback_artifacts; then
+                rollback_ready="true"
+              fi
             else
               echo "::warning::No previous deployment artifacts found; rollback will be unavailable"
             fi
