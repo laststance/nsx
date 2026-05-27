@@ -294,6 +294,10 @@ jobs:
               ./node_modules/.bin/prisma migrate deploy
             ) || fail_deployment "Prisma migration failed; PM2 restart skipped"
 
+            # Prisma may touch generated client files during migration; re-extract a clean artifact before rsync.
+            find "$staging_dir" -mindepth 1 -delete || fail_deployment "Failed to clear migration staging directory"
+            tar -xzf "$remote_archive" -C "$staging_dir" || fail_deployment "Failed to re-extract clean deployment artifact"
+
             rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$staging_dir"/ "$remote_dir"/ || fail_deployment "Failed to sync deployment artifact"
             deployment_applied="true"
 
