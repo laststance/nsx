@@ -14,7 +14,7 @@ if [ -f "$ENV_FILE" ]; then
 fi
 
 BACKUP_FILE="${1:-}"
-RESTORE_SSH_TARGET="${RESTORE_SSH_TARGET:-nsx.malloc.tokyo}"
+RESTORE_SSH_TARGET="${RESTORE_SSH_TARGET:-}"
 BACKUP_DOCKER_CONTAINER="${BACKUP_DOCKER_CONTAINER:-nsx-db-1}"
 BACKUP_DATABASE_NAME="${BACKUP_DATABASE_NAME:-digital}"
 MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-}"
@@ -48,6 +48,23 @@ restore_stream() {
   esac
 }
 
+create_remote_defaults_file() {
+  # Send credentials over SSH stdin, then keep them in a mode-0600 MySQL option file.
+  # shellcheck disable=SC2029
+  printf '[client]\nuser=root\npassword=%s\n' "$MYSQL_ROOT_PASSWORD" |
+    ssh "$RESTORE_SSH_TARGET" \
+      "docker exec -i ${quoted_container} sh -c 'umask 077; defaults_file=\"\$(mktemp /tmp/nsx-restore-client.XXXXXX.cnf)\"; cat > \"\$defaults_file\"; printf \"%s\n\" \"\$defaults_file\"'"
+}
+
+cleanup_remote_defaults_file() {
+  if [ -n "${remote_defaults_file:-}" ]; then
+    quoted_defaults_file="$(shell_single_quote "$remote_defaults_file")"
+    # shellcheck disable=SC2029
+    ssh "$RESTORE_SSH_TARGET" \
+      "docker exec ${quoted_container} rm -f ${quoted_defaults_file}" >/dev/null 2>&1 || true
+  fi
+}
+
 if [ -z "$BACKUP_FILE" ]; then
   usage
   exit 1
@@ -63,13 +80,20 @@ if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
   exit 1
 fi
 
-quoted_password="$(shell_single_quote "$MYSQL_ROOT_PASSWORD")"
+if [ -z "$RESTORE_SSH_TARGET" ]; then
+  echo "Error: RESTORE_SSH_TARGET is not set. Export the exact host before restoring." >&2
+  exit 1
+fi
+
 quoted_container="$(shell_single_quote "$BACKUP_DOCKER_CONTAINER")"
 quoted_database="$(shell_single_quote "$BACKUP_DATABASE_NAME")"
+remote_defaults_file="$(create_remote_defaults_file)"
+quoted_defaults_file="$(shell_single_quote "$remote_defaults_file")"
+trap cleanup_remote_defaults_file EXIT
 
 # shellcheck disable=SC2029
 restore_stream |
   ssh "$RESTORE_SSH_TARGET" \
-    "docker exec -e MYSQL_PWD=${quoted_password} -i ${quoted_container} mysql -uroot ${quoted_database}"
+    "docker exec -i ${quoted_container} mysql --defaults-file=${quoted_defaults_file} ${quoted_database}"
 
 echo "Remote database restore completed from ${BACKUP_FILE}"

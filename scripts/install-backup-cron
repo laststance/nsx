@@ -7,14 +7,56 @@ BACKUP_RUN_USER="${BACKUP_RUN_USER:-deploy}"
 CRON_FILE="${CRON_FILE:-/etc/cron.d/nsx-backup}"
 BACKUP_LOG_FILE="${BACKUP_LOG_FILE:-$APP_DIR/logs/backup.log}"
 
-if ! command -v sudo >/dev/null 2>&1; then
-  echo "Error: sudo is required to install ${CRON_FILE}." >&2
+if command -v sudo >/dev/null 2>&1; then
+  SUDO="sudo"
+elif [ "$(id -u)" -eq 0 ]; then
+  SUDO=""
+else
+  echo "Error: run as root or install sudo to write ${CRON_FILE}." >&2
   exit 1
 fi
 
-sudo install -d -o "$BACKUP_RUN_USER" -g "$BACKUP_RUN_USER" "$APP_DIR/logs"
+run_as_root() {
+  if [ -n "$SUDO" ]; then
+    "$SUDO" "$@"
+  else
+    "$@"
+  fi
+}
 
-sudo tee "$CRON_FILE" >/dev/null <<EOF
+require_safe_path() {
+  label="$1"
+  value="$2"
+
+  # Cron values are not shell-quoted, so reject separators and control bytes.
+  case "$value" in
+    "" | *[!A-Za-z0-9_./-]*)
+      echo "Error: ${label} must contain only letters, numbers, /, ., _, or -." >&2
+      exit 1
+      ;;
+  esac
+}
+
+require_safe_cron_user() {
+  value="$1"
+
+  # The cron user field must remain a single safe token.
+  case "$value" in
+    "" | *[!A-Za-z0-9_.@-]*)
+      echo "Error: BACKUP_RUN_USER must contain only letters, numbers, ., _, @, or -." >&2
+      exit 1
+      ;;
+  esac
+}
+
+require_safe_path "APP_DIR" "$APP_DIR"
+require_safe_path "BACKUP_LOG_FILE" "$BACKUP_LOG_FILE"
+require_safe_path "CRON_FILE" "$CRON_FILE"
+require_safe_cron_user "$BACKUP_RUN_USER"
+
+run_as_root install -d -o "$BACKUP_RUN_USER" -g "$BACKUP_RUN_USER" "$APP_DIR/logs"
+
+run_as_root tee "$CRON_FILE" >/dev/null <<EOF
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -22,5 +64,5 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 0 3 * * * ${BACKUP_RUN_USER} cd ${APP_DIR} && ./scripts/backup >> ${BACKUP_LOG_FILE} 2>&1
 EOF
 
-sudo chmod 0644 "$CRON_FILE"
+run_as_root chmod 0644 "$CRON_FILE"
 echo "Installed NSX backup cron at ${CRON_FILE}"

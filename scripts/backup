@@ -135,6 +135,12 @@ verify_dump_restore() {
   verify_database_identifier="$(quote_identifier "$verify_database")"
   source_database_literal="$(quote_string "$BACKUP_DATABASE_NAME")"
 
+  # Always remove the temporary database, even when restore verification exits early.
+  cleanup_verify_database() {
+    mysql_exec -e "DROP DATABASE IF EXISTS ${verify_database_identifier};" || true
+  }
+  trap cleanup_verify_database RETURN
+
   log "Verifying backup by restoring into ${verify_database}"
   mysql_exec -e "DROP DATABASE IF EXISTS ${verify_database_identifier}; CREATE DATABASE ${verify_database_identifier};"
   gunzip -c "$dump_file" |
@@ -142,19 +148,22 @@ verify_dump_restore() {
 
   tables="$(mysql_exec -N -B -e "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = ${source_database_literal} AND TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME;")"
 
-  for table_name in $tables; do
+  # Read table names line-by-line so unusual names with spaces still verify correctly.
+  while IFS= read -r table_name; do
+    [ -n "$table_name" ] || continue
+
     table_identifier="$(quote_identifier "$table_name")"
     source_count="$(mysql_exec -N -B -e "SELECT COUNT(*) FROM ${source_database_identifier}.${table_identifier};")"
     verify_count="$(mysql_exec -N -B -e "SELECT COUNT(*) FROM ${verify_database_identifier}.${table_identifier};")"
 
     if [ "$source_count" != "$verify_count" ]; then
-      mysql_exec -e "DROP DATABASE IF EXISTS ${verify_database_identifier};" || true
       printf 'Error: verification mismatch for %s: source=%s restored=%s\n' "$table_name" "$source_count" "$verify_count" >&2
-      exit 1
+      return 1
     fi
-  done
+  done <<< "$tables"
 
-  mysql_exec -e "DROP DATABASE IF EXISTS ${verify_database_identifier};"
+  cleanup_verify_database
+  trap - RETURN
   log "Restore verification passed for $(printf '%s\n' "$tables" | wc -l | tr -d ' ') tables"
 }
 

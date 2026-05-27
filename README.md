@@ -234,7 +234,9 @@ Required production backup settings:
 MYSQL_ROOT_PASSWORD=...
 BACKUP_GPG_RECIPIENT=backup@nsx
 BACKUP_OFFSITE_RSYNC_TARGET=backup@example.com:/srv/backups/nsx
-BACKUP_ALERT_WEBHOOK_URL=https://hooks.slack.com/services/...
+
+# Optional: needed only when failure/success webhook alerts are desired.
+# BACKUP_ALERT_WEBHOOK_URL=https://hooks.slack.com/services/...
 ```
 
 ### Database Restore
@@ -244,7 +246,7 @@ BACKUP_ALERT_WEBHOOK_URL=https://hooks.slack.com/services/...
 ./scripts/restore backups/daily/nsx-daily-20260527T030000+0900.sql.gz.gpg
 ```
 
-The restore script decrypts/decompresses locally when needed, then streams SQL into the production MySQL Docker container over SSH. Set `RESTORE_SSH_TARGET` when restoring to a non-default host.
+The restore script decrypts/decompresses locally when needed, then streams SQL into the production MySQL Docker container over SSH. Set `RESTORE_SSH_TARGET` explicitly before every restore so the target host is never guessed.
 
 ### Code Validation
 
