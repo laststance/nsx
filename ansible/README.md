@@ -18,8 +18,8 @@ Create encrypted production secrets before running the playbook:
 
 ```bash
 cp group_vars/webservers/vault.yml.example group_vars/webservers/vault.yml
-ansible-vault edit group_vars/webservers/vault.yml
 ansible-vault encrypt group_vars/webservers/vault.yml
+ansible-vault edit group_vars/webservers/vault.yml
 ```
 
 Required vault values include JWT secrets, MySQL passwords, deploy SSH public keys, certbot email, backup GPG recipient, and offsite rsync target. The role renders `/home/deploy/nsx/.env` from these vault variables with mode `0600`.
@@ -41,7 +41,7 @@ The playbook intentionally uses task-level `become: true` only for privileged sy
 ## Coverage
 
 - Base system: apt cache/packages, timezone, locale, swap, unattended upgrades
-- Security: deploy user, key-only SSH, root SSH disabled, UFW, fail2ban
+- Security: deploy user, limited sudoers group, key-only SSH, root SSH disabled, UFW, fail2ban
 - Docker: Docker Engine package, Compose v2, production MySQL compose stack
 - Runtime: NodeSource signed APT repo, corepack pnpm, PM2, pm2-logrotate
 - TLS: certbot via snap, initial certificate, explicit renewal cron

@@ -4,6 +4,7 @@
   gather_facts: true
   vars:
     deploy_user: deploy
+    deploy_sudo_group: deploy_sudo
     app_name: nsx
     app_domain: nsx.malloc.tokyo
     app_dir: '/home/{{ deploy_user }}/{{ app_name }}'

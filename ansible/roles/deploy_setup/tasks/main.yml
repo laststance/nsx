@@ -88,15 +88,43 @@
     state: present
 
 # Security: create deploy user before disabling direct root/password SSH.
-- name: Create deploy user with sudo group access
+- name: Create limited deploy sudo group
+  become: true
+  ansible.builtin.group:
+    name: '{{ deploy_sudo_group }}'
+    state: present
+
+- name: Create deploy user with limited sudo group access
   become: true
   ansible.builtin.user:
     name: '{{ deploy_user }}'
     shell: /bin/bash
-    groups: sudo
+    groups: '{{ deploy_sudo_group }}'
     append: true
     create_home: true
     password: '{{ vault_deploy_password_hash | default(omit) }}'
+
+- name: Install limited deploy sudoers policy
+  become: true
+  ansible.builtin.copy:
+    dest: '/etc/sudoers.d/{{ deploy_sudo_group }}'
+    content: |
+      Defaults:%{{ deploy_sudo_group }} env_reset
+      Defaults:%{{ deploy_sudo_group }} secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+      Cmnd_Alias NSX_PROVISIONING = \
+        /usr/bin/apt, /usr/bin/apt-get, /usr/bin/dpkg, \
+        /usr/bin/timedatectl, /usr/sbin/locale-gen, \
+        /usr/bin/fallocate, /usr/sbin/mkswap, /usr/sbin/swapon, \
+        /usr/bin/install, /usr/bin/mkdir, /usr/bin/chmod, /usr/bin/chown, /usr/bin/chgrp, /usr/bin/cp, /usr/bin/rm, /usr/bin/tee, \
+        /usr/sbin/sshd, /usr/sbin/ufw, /usr/sbin/service, /usr/bin/systemctl, \
+        /usr/bin/docker, /usr/libexec/docker/cli-plugins/docker-compose, /usr/bin/gpg, \
+        /usr/bin/npm, /usr/bin/node, /usr/bin/corepack, /usr/bin/setcap, \
+        /usr/bin/snap, /snap/bin/certbot, /usr/bin/certbot, /usr/bin/pm2
+      %{{ deploy_sudo_group }} ALL=(root) PASSWD: NSX_PROVISIONING
+    owner: root
+    group: root
+    mode: '0440'
+    validate: 'visudo -cf %s'
 
 - name: Create deploy SSH directory
   become: true
@@ -130,7 +158,8 @@
   ansible.builtin.assert:
     that:
       - deploy_authorized_keys_file.stat.exists
-    fail_msg: 'Add vault_deploy_authorized_keys or pre-create /home/{{ deploy_user }}/.ssh/authorized_keys before disabling root/password SSH.'
+      - deploy_authorized_keys_file.stat.size | int > 0
+    fail_msg: 'Add vault_deploy_authorized_keys or pre-create a non-empty /home/{{ deploy_user }}/.ssh/authorized_keys before disabling root/password SSH.'
 
 - name: Harden SSH daemon configuration
   become: true
