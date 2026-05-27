@@ -144,10 +144,26 @@ jobs:
 
             cleanup() {
               if [ -d "$staging_dir" ]; then
-                find "$staging_dir" -mindepth 1 -delete 2>/dev/null || true
-                rmdir "$staging_dir" 2>/dev/null || true
+                case "$staging_dir" in
+                  /tmp/nsx-deploy-*) rm -rf "$staging_dir" ;;
+                  *) echo "::warning::Skipped cleanup for unexpected staging path: $staging_dir" ;;
+                esac
               fi
               rm -f "$remote_archive"
+            }
+
+            reset_staging_dir() {
+              case "$staging_dir" in
+                /tmp/nsx-deploy-*) ;;
+                *)
+                  echo "::error::Refusing to reset unexpected staging path: $staging_dir"
+                  return 1
+                  ;;
+              esac
+
+              # Recreate staging wholesale because node_modules hardlinks can make find -delete race itself.
+              rm -rf "$staging_dir" || return 1
+              mkdir -p "$staging_dir" || return 1
             }
 
             require_command() {
@@ -271,7 +287,8 @@ jobs:
             require_command rsync
             require_command tar
 
-            mkdir -p "$remote_dir" "$staging_dir" "$rollback_dir" "$remote_dir/run/mysqld" "$remote_dir/logs" || fail_deployment "Failed to prepare deployment directories"
+            mkdir -p "$remote_dir" "$rollback_dir" "$remote_dir/run/mysqld" "$remote_dir/logs" || fail_deployment "Failed to prepare deployment directories"
+            reset_staging_dir || fail_deployment "Failed to prepare staging directory"
             tar -xzf "$remote_archive" -C "$staging_dir" || fail_deployment "Failed to extract deployment artifact"
 
             if [ -d "$remote_dir/build" ] || [ -d "$remote_dir/server_build" ]; then
@@ -322,7 +339,7 @@ jobs:
             ) || fail_deployment "Prisma migration failed; PM2 restart skipped"
 
             # Prisma may touch generated client files during migration; re-extract a clean artifact before rsync.
-            find "$staging_dir" -mindepth 1 -delete || fail_deployment "Failed to clear migration staging directory"
+            reset_staging_dir || fail_deployment "Failed to clear migration staging directory"
             tar -xzf "$remote_archive" -C "$staging_dir" || fail_deployment "Failed to re-extract clean deployment artifact"
 
             rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$staging_dir"/ "$remote_dir"/ || fail_deployment "Failed to sync deployment artifact"
