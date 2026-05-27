@@ -250,6 +250,11 @@ jobs:
               return 1
             }
 
+            run_prisma_cli() {
+              # Run Prisma through Node so deploys do not depend on executable bits in unpacked artifacts.
+              node ./node_modules/prisma/build/index.js "$@"
+            }
+
             fail_deployment() {
               message="$1"
               echo "::error::$message"
@@ -262,6 +267,7 @@ jobs:
 
             require_command curl
             require_command find
+            require_command node
             require_command rsync
             require_command tar
 
@@ -297,7 +303,7 @@ jobs:
               cd "$staging_dir"
               # Pending migrations make `status` non-zero, but drift/failed states should stop before deploy.
               set +e
-              migration_status_output=$(./node_modules/.bin/prisma migrate status 2>&1)
+              migration_status_output=$(run_prisma_cli migrate status 2>&1)
               migration_status_code=$?
               set -e
               printf '%s\n' "$migration_status_output"
@@ -309,10 +315,10 @@ jobs:
                   *)
                     echo "::error::Prisma migration status reported an unsafe state"
                     exit "$migration_status_code"
-                    ;;
-                esac
+                  ;;
+              esac
               fi
-              ./node_modules/.bin/prisma migrate deploy
+              run_prisma_cli migrate deploy
             ) || fail_deployment "Prisma migration failed; PM2 restart skipped"
 
             # Prisma may touch generated client files during migration; re-extract a clean artifact before rsync.
