@@ -132,7 +132,7 @@ pm2 ps -a                        // Show all processes
 1. `source ~/.bashrc` && `volta install node`
 1. `pnpm`
 1. install docker on Ubuntu https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository
-1. `docker compose -f compose.yml -f compose.prod.yml up -d` (MySQL has no host port; PM2 uses `DATABASE_URL` with `socketPath` — see `.env.sample`)
+1. `docker compose -f compose.yml -f compose.prod.yml up -d` (MySQL has no host port; PM2 runtime uses `DATABASE_URL` with `socketPath`, and Prisma CLI normalizes it for migrations — see `.env.sample`)
 1. pnpm db:migrate
 1. touch .env.prod
 1. npm i -g pm2
