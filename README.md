@@ -57,24 +57,28 @@ pass: `popcoon`
 
 These are stored in `.env` and evaluated at build time.
 
-| Variable Name             | Description                                                          | Required |
-| ------------------------- | -------------------------------------------------------------------- | -------- |
-| VITE_APP_TITLE            | Application title displayed in the UI                                | Yes      |
-| VITE_APP_DESCRIPTION      | Application description for meta tags                                | Yes      |
-| VITE_API_ENDPOINT         | Backend API endpoint URL                                             | Yes      |
-| VITE_SENTRY_DSN           | Browser Sentry DSN for frontend error tracking                       | No       |
-| VITE_SENTRY_DNS           | Deprecated typo kept for backward compatibility; use VITE_SENTRY_DSN | No       |
-| VITE_SENTRY_RELEASE       | Browser Sentry release, usually the deployed Git SHA                 | No       |
-| VITE_GA_MEASUREMENT_ID    | Google Analytics measurement ID (optional)                           | No       |
-| ACCESS_TOKEN_SECRET       | Secret key for JWT token generation                                  | Yes      |
-| DATABASE_URL              | MySQL database connection string                                     | Yes      |
-| SENTRY_DSN                | Backend Sentry DSN for Express error tracking                        | No       |
-| SENTRY_RELEASE            | Backend Sentry release, usually the deployed Git SHA                 | No       |
-| SENTRY_TRACES_SAMPLE_RATE | Backend Sentry trace sample rate from 0 to 1                         | No       |
-| LOG_LEVEL                 | JSON logger level (`debug`, `info`, `warn`, `error`)                 | No       |
-| OPENAI_API_KEY            | OpenAI API key for translation features                              | No       |
-| BLUESKY_USERNAME          | Bluesky account username for posting integration                     | No       |
-| BLUESKY_PASSWORD          | Bluesky account password for posting integration                     | No       |
+| Variable Name               | Description                                                          | Required |
+| --------------------------- | -------------------------------------------------------------------- | -------- |
+| VITE_APP_TITLE              | Application title displayed in the UI                                | Yes      |
+| VITE_APP_DESCRIPTION        | Application description for meta tags                                | Yes      |
+| VITE_API_ENDPOINT           | Backend API endpoint URL                                             | Yes      |
+| VITE_SENTRY_DSN             | Browser Sentry DSN for frontend error tracking                       | No       |
+| VITE_SENTRY_DNS             | Deprecated typo kept for backward compatibility; use VITE_SENTRY_DSN | No       |
+| VITE_SENTRY_RELEASE         | Browser Sentry release, usually the deployed Git SHA                 | No       |
+| VITE_GA_MEASUREMENT_ID      | Google Analytics measurement ID (optional)                           | No       |
+| ACCESS_TOKEN_SECRET         | Secret key for JWT token generation                                  | Yes      |
+| DATABASE_URL                | MySQL database connection string                                     | Yes      |
+| SENTRY_DSN                  | Backend Sentry DSN for Express error tracking                        | No       |
+| SENTRY_RELEASE              | Backend Sentry release, usually the deployed Git SHA                 | No       |
+| SENTRY_TRACES_SAMPLE_RATE   | Backend Sentry trace sample rate from 0 to 1                         | No       |
+| LOG_LEVEL                   | JSON logger level (`debug`, `info`, `warn`, `error`)                 | No       |
+| OPENAI_API_KEY              | OpenAI API key for translation features                              | No       |
+| BLUESKY_USERNAME            | Bluesky account username for posting integration                     | No       |
+| BLUESKY_PASSWORD            | Bluesky account password for posting integration                     | No       |
+| MYSQL_ROOT_PASSWORD         | MySQL root password used by Docker Compose and backup jobs           | Yes      |
+| BACKUP_GPG_RECIPIENT        | GPG public-key recipient for encrypted production backups            | Prod     |
+| BACKUP_OFFSITE_RSYNC_TARGET | Offsite rsync target such as `backup@example.com:/srv/backups/nsx`   | Prod     |
+| BACKUP_ALERT_WEBHOOK_URL    | Slack/Discord-compatible webhook called when backup fails            | Prod     |
 
 ## Observability
 
@@ -215,20 +219,32 @@ The deploy script uses rsync to upload build artifacts to the production server.
 ### Database Backup
 
 ```bash
-# Create a database backup and download it to your local machine
+# Create, verify, encrypt, rotate, and offsite-sync a production backup
 ./scripts/backup
+
+# Install the daily 03:00 cron entry on the production server
+./scripts/install-backup-cron
 ```
 
-This script connects to the production server, creates a MySQL database dump from the Docker container, and downloads it to your local machine.
+The backup job is designed to run on the production server. It dumps MySQL from the Docker container, restores the dump into a temporary verification database, encrypts the verified dump with GPG, keeps 7 daily / 4 weekly / 3 monthly backups, syncs encrypted backups to `BACKUP_OFFSITE_RSYNC_TARGET`, and sends `BACKUP_ALERT_WEBHOOK_URL` on failure.
+
+Required production backup settings:
+
+```bash
+MYSQL_ROOT_PASSWORD=...
+BACKUP_GPG_RECIPIENT=backup@nsx
+BACKUP_OFFSITE_RSYNC_TARGET=backup@example.com:/srv/backups/nsx
+BACKUP_ALERT_WEBHOOK_URL=https://hooks.slack.com/services/...
+```
 
 ### Database Restore
 
 ```bash
-# Restore a database from a backup file
-./scripts/restore backup_20240101.sql
+# Restore a database from a plain, gzipped, or encrypted backup file
+./scripts/restore backups/daily/nsx-daily-20260527T030000+0900.sql.gz.gpg
 ```
 
-This script uploads a local backup file to the production server and restores the database from it.
+The restore script decrypts/decompresses locally when needed, then streams SQL into the production MySQL Docker container over SSH. Set `RESTORE_SSH_TARGET` when restoring to a non-default host.
 
 ### Code Validation
 

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+APP_DIR="${APP_DIR:-/home/deploy/nsx}"
+BACKUP_RUN_USER="${BACKUP_RUN_USER:-deploy}"
+CRON_FILE="${CRON_FILE:-/etc/cron.d/nsx-backup}"
+BACKUP_LOG_FILE="${BACKUP_LOG_FILE:-$APP_DIR/logs/backup.log}"
+
+if ! command -v sudo >/dev/null 2>&1; then
+  echo "Error: sudo is required to install ${CRON_FILE}." >&2
+  exit 1
+fi
+
+sudo install -d -o "$BACKUP_RUN_USER" -g "$BACKUP_RUN_USER" "$APP_DIR/logs"
+
+sudo tee "$CRON_FILE" >/dev/null <<EOF
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# NSX encrypted database backup. Runs daily at 03:00 server time.
+0 3 * * * ${BACKUP_RUN_USER} cd ${APP_DIR} && ./scripts/backup >> ${BACKUP_LOG_FILE} 2>&1
+EOF
+
+sudo chmod 0644 "$CRON_FILE"
+echo "Installed NSX backup cron at ${CRON_FILE}"
