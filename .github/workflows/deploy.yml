@@ -77,6 +77,7 @@ jobs:
           cp ecosystem.config.js deploy/
           cp compose.yml deploy/
           cp compose.prod.yml deploy/
+          cp -r scripts/ deploy/
           mkdir -p deploy/run/mysqld
           cp run/mysqld/.gitkeep deploy/run/mysqld/
           # Create tar archive for efficient transfer

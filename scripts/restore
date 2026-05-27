@@ -1,12 +1,78 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Load password from .env if not set in environment
-if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
-  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-  ENV_FILE="$SCRIPT_DIR/../.env"
-  if [ -f "$ENV_FILE" ]; then
-    MYSQL_ROOT_PASSWORD=$(grep -E '^MYSQL_ROOT_PASSWORD=' "$ENV_FILE" | cut -d'=' -f2-)
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+APP_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+ENV_FILE="${ENV_FILE:-$APP_ROOT/.env}"
+
+if [ -f "$ENV_FILE" ]; then
+  set -a
+  # shellcheck source=/dev/null
+  source "$ENV_FILE"
+  set +a
+fi
+
+BACKUP_FILE="${1:-}"
+RESTORE_SSH_TARGET="${RESTORE_SSH_TARGET:-}"
+BACKUP_DOCKER_CONTAINER="${BACKUP_DOCKER_CONTAINER:-nsx-db-1}"
+BACKUP_DATABASE_NAME="${BACKUP_DATABASE_NAME:-digital}"
+MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-}"
+
+usage() {
+  echo "Usage: ./scripts/restore <backup.sql|backup.sql.gz|backup.sql.gz.gpg>" >&2
+}
+
+shell_single_quote() {
+  printf "'%s'" "$(printf '%s' "$1" | sed "s/'/'\\\\''/g")"
+}
+
+restore_stream() {
+  case "$BACKUP_FILE" in
+    *.sql.gz.gpg | *.gz.gpg)
+      gpg --batch --decrypt "$BACKUP_FILE" | gunzip -c
+      ;;
+    *.sql.gpg)
+      gpg --batch --decrypt "$BACKUP_FILE"
+      ;;
+    *.sql.gz | *.gz)
+      gunzip -c "$BACKUP_FILE"
+      ;;
+    *.sql)
+      cat "$BACKUP_FILE"
+      ;;
+    *)
+      echo "Error: unsupported backup extension: $BACKUP_FILE" >&2
+      exit 1
+      ;;
+  esac
+}
+
+create_remote_defaults_file() {
+  # Send credentials over SSH stdin, then keep them in a mode-0600 MySQL option file.
+  # shellcheck disable=SC2029
+  printf '[client]\nuser=root\npassword=%s\n' "$MYSQL_ROOT_PASSWORD" |
+    ssh "$RESTORE_SSH_TARGET" \
+      "docker exec -i ${quoted_container} sh -c 'umask 077; defaults_file=\"\$(mktemp /tmp/nsx-restore-client.XXXXXX.cnf)\"; cat > \"\$defaults_file\"; printf \"%s\n\" \"\$defaults_file\"'"
+}
+
+cleanup_remote_defaults_file() {
+  if [ -n "${remote_defaults_file:-}" ]; then
+    quoted_defaults_file="$(shell_single_quote "$remote_defaults_file")"
+    # shellcheck disable=SC2029
+    ssh "$RESTORE_SSH_TARGET" \
+      "docker exec ${quoted_container} rm -f ${quoted_defaults_file}" >/dev/null 2>&1 || true
   fi
+}
+
+if [ -z "$BACKUP_FILE" ]; then
+  usage
+  exit 1
+fi
+
+if [ ! -f "$BACKUP_FILE" ]; then
+  echo "Error: backup file not found: $BACKUP_FILE" >&2
+  exit 1
 fi
 
 if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
@@ -14,20 +80,20 @@ if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
   exit 1
 fi
 
-BACKUP_FILE=$1
-USER="root"
-HOST="nsx.malloc.tokyo"
-REMOTE_DIR="/home/deploy/nsx/"
-
-if [ -z "$BACKUP_FILE" ]; then
-  echo "Usage: ./scripts/restore <backup file name>"
+if [ -z "$RESTORE_SSH_TARGET" ]; then
+  echo "Error: RESTORE_SSH_TARGET is not set. Export the exact host before restoring." >&2
   exit 1
 fi
 
-# Transfer backup file to remote server
-scp ${BACKUP_FILE} ${USER}@${HOST}:${REMOTE_DIR}/
+quoted_container="$(shell_single_quote "$BACKUP_DOCKER_CONTAINER")"
+quoted_database="$(shell_single_quote "$BACKUP_DATABASE_NAME")"
+remote_defaults_file="$(create_remote_defaults_file)"
+quoted_defaults_file="$(shell_single_quote "$remote_defaults_file")"
+trap cleanup_remote_defaults_file EXIT
 
-# Restore database on remote server
-ssh ${USER}@${HOST} "docker exec -i nsx-db-1 mysql -u root -p${MYSQL_ROOT_PASSWORD} digital < ${REMOTE_DIR}/$(basename ${BACKUP_FILE})"
+# shellcheck disable=SC2029
+restore_stream |
+  ssh "$RESTORE_SSH_TARGET" \
+    "docker exec -i ${quoted_container} mysql --defaults-file=${quoted_defaults_file} ${quoted_database}"
 
-echo "Remote server database restore completed"
+echo "Remote database restore completed from ${BACKUP_FILE}"

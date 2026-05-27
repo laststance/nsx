@@ -1,30 +1,260 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Load password from .env if not set in environment
-if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
-  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-  ENV_FILE="$SCRIPT_DIR/../.env"
-  if [ -f "$ENV_FILE" ]; then
-    MYSQL_ROOT_PASSWORD=$(grep -E '^MYSQL_ROOT_PASSWORD=' "$ENV_FILE" | cut -d'=' -f2-)
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+APP_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+ENV_FILE="${ENV_FILE:-$APP_ROOT/.env}"
+
+if [ -f "$ENV_FILE" ]; then
+  set -a
+  # shellcheck source=/dev/null
+  source "$ENV_FILE"
+  set +a
+fi
+
+BACKUP_ROOT="${BACKUP_ROOT:-$APP_ROOT/backups}"
+BACKUP_DATABASE_NAME="${BACKUP_DATABASE_NAME:-digital}"
+BACKUP_DOCKER_CONTAINER="${BACKUP_DOCKER_CONTAINER:-nsx-db-1}"
+BACKUP_GPG_RECIPIENT="${BACKUP_GPG_RECIPIENT:-}"
+BACKUP_OFFSITE_RSYNC_TARGET="${BACKUP_OFFSITE_RSYNC_TARGET:-}"
+BACKUP_REQUIRE_OFFSITE="${BACKUP_REQUIRE_OFFSITE:-1}"
+BACKUP_ALERT_WEBHOOK_URL="${BACKUP_ALERT_WEBHOOK_URL:-}"
+BACKUP_ALERT_ON_SUCCESS="${BACKUP_ALERT_ON_SUCCESS:-0}"
+BACKUP_DAILY_KEEP="${BACKUP_DAILY_KEEP:-7}"
+BACKUP_WEEKLY_KEEP="${BACKUP_WEEKLY_KEEP:-4}"
+BACKUP_MONTHLY_KEEP="${BACKUP_MONTHLY_KEEP:-3}"
+BACKUP_WEEKLY_DAY="${BACKUP_WEEKLY_DAY:-7}"
+BACKUP_MONTHLY_DAY="${BACKUP_MONTHLY_DAY:-01}"
+MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-}"
+
+BACKUP_TIMESTAMP="$(date +%Y%m%dT%H%M%S%z)"
+BACKUP_DATE="$(date +%Y%m%d)"
+BACKUP_WEEK="$(date +%G-W%V)"
+BACKUP_MONTH="$(date +%Y-%m)"
+RUN_TMP_DIR="$BACKUP_ROOT/tmp/$BACKUP_TIMESTAMP"
+
+log() {
+  printf '[%s] %s\n' "$(date -Is)" "$*"
+}
+
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+send_alert() {
+  message="$1"
+
+  if [ -z "$BACKUP_ALERT_WEBHOOK_URL" ]; then
+    return 0
   fi
-fi
 
-if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
-  echo "Error: MYSQL_ROOT_PASSWORD is not set. Set it in .env or export it." >&2
-  exit 1
-fi
+  escaped_message="$(json_escape "$message")"
+  curl -fsS --connect-timeout 5 --max-time 10 \
+    -H 'Content-Type: application/json' \
+    -d "{\"text\":\"${escaped_message}\"}" \
+    "$BACKUP_ALERT_WEBHOOK_URL" >/dev/null || true
+}
 
-USER="root"
-HOST="nsx.malloc.tokyo"
-REMOTE_DIR="/home/deploy/nsx/"
-DOCKER_CONTAINER_NAME="nsx-db-1"
-MYSQL_DATABASE_NAME="digital"
-BACKUP_FILE_NAME="backup_$(date +%Y%m%d).sql"
+cleanup() {
+  if [ -d "$RUN_TMP_DIR" ]; then
+    rm -rf "$RUN_TMP_DIR"
+  fi
+}
 
-# SSH into the remote server and execute the docker command to create a MySQL backup
-ssh ${USER}@${HOST} "docker exec ${DOCKER_CONTAINER_NAME} /usr/bin/mysqldump -u root -p${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE_NAME} > ${REMOTE_DIR}/${BACKUP_FILE_NAME}"
+handle_failure() {
+  exit_code=$?
+  line_number="${1:-unknown}"
+  cleanup
+  send_alert "NSX database backup failed on $(hostname) at line ${line_number} with exit code ${exit_code}."
+  exit "$exit_code"
+}
 
-# SCP the backup file to your local machine
-scp ${USER}@${HOST}:${REMOTE_DIR}/${BACKUP_FILE_NAME} .
-ssh ${USER}@${HOST} "rm -f ${REMOTE_DIR}/*.sql"
-echo "MySQL backup has been created and downloaded to the current directory."
+trap 'handle_failure "$LINENO"' ERR
+trap cleanup EXIT
+
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || {
+    printf 'Error: required command is missing: %s\n' "$1" >&2
+    exit 1
+  }
+}
+
+require_config() {
+  name="$1"
+  value="$2"
+
+  if [ -z "$value" ]; then
+    printf 'Error: %s is required.\n' "$name" >&2
+    exit 1
+  fi
+}
+
+quote_identifier() {
+  # shellcheck disable=SC2016
+  printf '`%s`' "$(printf '%s' "$1" | sed 's/`/``/g')"
+}
+
+quote_string() {
+  printf "'%s'" "$(printf '%s' "$1" | sed "s/'/''/g")"
+}
+
+mysql_exec() {
+  docker exec "$BACKUP_DOCKER_CONTAINER" mysql -uroot "-p${MYSQL_ROOT_PASSWORD}" "$@"
+}
+
+create_directories() {
+  mkdir -p \
+    "$BACKUP_ROOT/daily" \
+    "$BACKUP_ROOT/weekly" \
+    "$BACKUP_ROOT/monthly" \
+    "$BACKUP_ROOT/tmp" \
+    "$RUN_TMP_DIR"
+  chmod 700 "$BACKUP_ROOT" "$BACKUP_ROOT/tmp" "$RUN_TMP_DIR"
+}
+
+dump_database() {
+  output_file="$1"
+
+  log "Dumping ${BACKUP_DATABASE_NAME} from ${BACKUP_DOCKER_CONTAINER}"
+  docker exec "$BACKUP_DOCKER_CONTAINER" mysqldump \
+    -uroot \
+    "-p${MYSQL_ROOT_PASSWORD}" \
+    --single-transaction \
+    --routines \
+    --triggers \
+    --events \
+    "$BACKUP_DATABASE_NAME" |
+    gzip -c > "$output_file"
+}
+
+verify_dump_restore() {
+  dump_file="$1"
+  verify_database="nsx_backup_verify_${BACKUP_DATE}_$$"
+  source_database_identifier="$(quote_identifier "$BACKUP_DATABASE_NAME")"
+  verify_database_identifier="$(quote_identifier "$verify_database")"
+  source_database_literal="$(quote_string "$BACKUP_DATABASE_NAME")"
+
+  # Always remove the temporary database, even when restore verification exits early.
+  cleanup_verify_database() {
+    mysql_exec -e "DROP DATABASE IF EXISTS ${verify_database_identifier};" || true
+  }
+  trap cleanup_verify_database RETURN
+
+  log "Verifying backup by restoring into ${verify_database}"
+  mysql_exec -e "DROP DATABASE IF EXISTS ${verify_database_identifier}; CREATE DATABASE ${verify_database_identifier};"
+  gunzip -c "$dump_file" |
+    docker exec -i "$BACKUP_DOCKER_CONTAINER" mysql -uroot "-p${MYSQL_ROOT_PASSWORD}" "$verify_database"
+
+  tables="$(mysql_exec -N -B -e "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = ${source_database_literal} AND TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME;")"
+
+  # Read table names line-by-line so unusual names with spaces still verify correctly.
+  while IFS= read -r table_name; do
+    [ -n "$table_name" ] || continue
+
+    table_identifier="$(quote_identifier "$table_name")"
+    source_count="$(mysql_exec -N -B -e "SELECT COUNT(*) FROM ${source_database_identifier}.${table_identifier};")"
+    verify_count="$(mysql_exec -N -B -e "SELECT COUNT(*) FROM ${verify_database_identifier}.${table_identifier};")"
+
+    if [ "$source_count" != "$verify_count" ]; then
+      printf 'Error: verification mismatch for %s: source=%s restored=%s\n' "$table_name" "$source_count" "$verify_count" >&2
+      return 1
+    fi
+  done <<< "$tables"
+
+  cleanup_verify_database
+  trap - RETURN
+  log "Restore verification passed for $(printf '%s\n' "$tables" | wc -l | tr -d ' ') tables"
+}
+
+encrypt_backup() {
+  input_file="$1"
+  output_file="$2"
+
+  log "Encrypting backup for ${BACKUP_GPG_RECIPIENT}"
+  gpg --batch --yes --trust-model always \
+    --encrypt \
+    --recipient "$BACKUP_GPG_RECIPIENT" \
+    --output "$output_file" \
+    "$input_file"
+  chmod 600 "$output_file"
+}
+
+copy_rotation_tiers() {
+  daily_file="$1"
+  weekly_file="$BACKUP_ROOT/weekly/nsx-weekly-${BACKUP_WEEK}.sql.gz.gpg"
+  monthly_file="$BACKUP_ROOT/monthly/nsx-monthly-${BACKUP_MONTH}.sql.gz.gpg"
+
+  if [ "$(date +%u)" = "$BACKUP_WEEKLY_DAY" ]; then
+    cp "$daily_file" "$weekly_file"
+    chmod 600 "$weekly_file"
+    log "Updated weekly backup ${weekly_file}"
+  fi
+
+  if [ "$(date +%d)" = "$BACKUP_MONTHLY_DAY" ]; then
+    cp "$daily_file" "$monthly_file"
+    chmod 600 "$monthly_file"
+    log "Updated monthly backup ${monthly_file}"
+  fi
+}
+
+prune_backups() {
+  target_dir="$1"
+  keep_count="$2"
+
+  find "$target_dir" -maxdepth 1 -type f -name '*.sql.gz.gpg' |
+    sort -r |
+    awk -v keep_count="$keep_count" 'NR > keep_count' |
+    while IFS= read -r old_backup; do
+      log "Pruning old backup ${old_backup}"
+      rm -f "$old_backup"
+    done
+}
+
+sync_offsite() {
+  if [ -z "$BACKUP_OFFSITE_RSYNC_TARGET" ]; then
+    if [ "$BACKUP_REQUIRE_OFFSITE" = "1" ]; then
+      printf 'Error: BACKUP_OFFSITE_RSYNC_TARGET is required when BACKUP_REQUIRE_OFFSITE=1.\n' >&2
+      exit 1
+    fi
+
+    log "Skipping offsite sync because BACKUP_REQUIRE_OFFSITE=0"
+    return 0
+  fi
+
+  log "Syncing encrypted backups to ${BACKUP_OFFSITE_RSYNC_TARGET}"
+  rsync -az --delete --exclude='/tmp/' "$BACKUP_ROOT"/ "$BACKUP_OFFSITE_RSYNC_TARGET"/
+}
+
+main() {
+  require_command curl
+  require_command docker
+  require_command gpg
+  require_command gzip
+  require_command rsync
+  require_command sed
+  require_config MYSQL_ROOT_PASSWORD "$MYSQL_ROOT_PASSWORD"
+  require_config BACKUP_GPG_RECIPIENT "$BACKUP_GPG_RECIPIENT"
+
+  create_directories
+
+  temp_dump="$RUN_TMP_DIR/nsx-${BACKUP_TIMESTAMP}.sql.gz"
+  daily_backup="$BACKUP_ROOT/daily/nsx-daily-${BACKUP_TIMESTAMP}.sql.gz.gpg"
+
+  dump_database "$temp_dump"
+  verify_dump_restore "$temp_dump"
+  encrypt_backup "$temp_dump" "$daily_backup"
+  copy_rotation_tiers "$daily_backup"
+  prune_backups "$BACKUP_ROOT/daily" "$BACKUP_DAILY_KEEP"
+  prune_backups "$BACKUP_ROOT/weekly" "$BACKUP_WEEKLY_KEEP"
+  prune_backups "$BACKUP_ROOT/monthly" "$BACKUP_MONTHLY_KEEP"
+  sync_offsite
+
+  log "Backup completed: ${daily_backup}"
+
+  if [ "$BACKUP_ALERT_ON_SUCCESS" = "1" ]; then
+    send_alert "NSX database backup succeeded on $(hostname): ${daily_backup}"
+  fi
+}
+
+main "$@"
