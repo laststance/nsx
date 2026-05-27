@@ -214,6 +214,26 @@ test.describe('API request validation', () => {
       code: 'USERNAME_ALREADY_EXISTS',
     })
   })
+
+  test('rejects partially numeric post IDs before fetching posts', async ({
+    page,
+  }) => {
+    // Arrange
+    const partiallyNumericPostEndpoint = `${API_BASE_URL}/post/123abc`
+
+    // Act
+    const postResponse = await page
+      .context()
+      .request.get(partiallyNumericPostEndpoint)
+    const postBody = (await postResponse.json()) as Res.Error
+
+    // Assert
+    expect(postResponse.status()).toBe(400)
+    expect(postBody).toEqual({
+      code: 'VALIDATION_ERROR',
+      error: 'Post id must be a number',
+    })
+  })
 })
 
 test.afterAll(async () => {

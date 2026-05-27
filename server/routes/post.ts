@@ -44,15 +44,17 @@ const getPostOwnershipStatus = async (
 
 router.get('/post/:id', async (req: Request, res: Response) => {
   try {
-    const postId = parseInt(String(req.params.id), 10)
+    const rawPostId = String(req.params.id)
 
-    if (!Number.isInteger(postId)) {
+    // Reject mixed values like "123abc" before Prisma receives an ID.
+    if (!/^[1-9]\d*$/.test(rawPostId)) {
       res.status(400).json({
         code: 'VALIDATION_ERROR',
         error: 'Post id must be a number',
       })
       return
     }
+    const postId = parseInt(rawPostId, 10)
 
     const post = await prisma.post.findFirst({
       where: { id: postId },
