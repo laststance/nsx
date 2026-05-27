@@ -39,6 +39,9 @@ run/mysqld/*
 .env.test.local
 .env.production.local
 
+# Ansible Vault secrets (keep *.example files tracked)
+ansible/group_vars/**/vault.yml
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
