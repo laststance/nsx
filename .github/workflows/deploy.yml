@@ -7,6 +7,9 @@ on:
     types: [closed]
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,18 +25,27 @@ jobs:
       )
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - uses: ./.github/actions/prepare
       - name: Setup Frontend Environment Variables
+        env:
+          VITE_API_ENDPOINT: ${{ secrets.VITE_API_ENDPOINT }}
+          VITE_APP_DESCRIPTION: ${{ secrets.VITE_APP_DESCRIPTION }}
+          VITE_APP_TITLE: ${{ secrets.VITE_APP_TITLE }}
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
+          VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
+          VITE_SENTRY_RELEASE: ${{ github.sha }}
         run: |
-          touch .env.prod
-          echo "VITE_APP_TITLE=${{ secrets.VITE_APP_TITLE }}" >> .env.prod
-          echo "VITE_APP_DESCRIPTION=${{ secrets.VITE_APP_DESCRIPTION }}" >> .env.prod
-          echo "VITE_API_ENDPOINT=${{ secrets.VITE_API_ENDPOINT }}" >> .env.prod
-          echo "VITE_SENTRY_DSN=${{ secrets.VITE_SENTRY_DSN }}" >> .env.prod
-          echo "VITE_SENTRY_DNS=${{ secrets.VITE_SENTRY_DNS }}" >> .env.prod
-          echo "VITE_SENTRY_RELEASE=${{ github.sha }}" >> .env.prod
-          echo "VITE_GA_MEASUREMENT_ID=${{ secrets.VITE_GA_MEASUREMENT_ID }}" >> .env.prod
+          {
+            printf '%s=%s\n' "VITE_APP_TITLE" "$VITE_APP_TITLE"
+            printf '%s=%s\n' "VITE_APP_DESCRIPTION" "$VITE_APP_DESCRIPTION"
+            printf '%s=%s\n' "VITE_API_ENDPOINT" "$VITE_API_ENDPOINT"
+            printf '%s=%s\n' "VITE_SENTRY_DSN" "$VITE_SENTRY_DSN"
+            printf '%s=%s\n' "VITE_SENTRY_DNS" "$VITE_SENTRY_DNS"
+            printf '%s=%s\n' "VITE_SENTRY_RELEASE" "$VITE_SENTRY_RELEASE"
+            printf '%s=%s\n' "VITE_GA_MEASUREMENT_ID" "$VITE_GA_MEASUREMENT_ID"
+          } > .env.prod
 
       - name: Build frontend
         env:
@@ -43,7 +55,7 @@ jobs:
           SENTRY_RELEASE: ${{ github.sha }}
         run: |
           pnpm build
-          rm -rf build/mockServiceWorker.js
+          rm -f build/mockServiceWorker.js
 
       - name: Build backend
         run: pnpm server:build
@@ -68,84 +80,252 @@ jobs:
           mkdir -p deploy/run/mysqld
           cp run/mysqld/.gitkeep deploy/run/mysqld/
           # Create tar archive for efficient transfer
-          tar -czf deploy.tar.gz -C deploy .
+          tar -czf "deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz" -C deploy .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: build-files
-          path: deploy.tar.gz
+          path: deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
 
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: build-files
           path: .
 
       - name: Deploy to server
-        uses: appleboy/scp-action@v1
+        uses: appleboy/scp-action@ff85246acaad7bdce478db94a363cd2bf7c90345
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: 'deploy.tar.gz'
+          source: 'deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz'
           target: '/tmp'
           debug: true
 
       - name: Extract and restart server
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
+        env:
+          NSX_ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          NSX_BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+          NSX_BLUESKY_USERNAME: ${{ secrets.BLUESKY_USERNAME }}
+          NSX_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NSX_LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+          NSX_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          NSX_REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+          NSX_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          NSX_SENTRY_RELEASE: ${{ github.sha }}
+          NSX_SENTRY_TRACES_SAMPLE_RATE: ${{ vars.SENTRY_TRACES_SAMPLE_RATE }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: NSX_ACCESS_TOKEN_SECRET,NSX_BLUESKY_PASSWORD,NSX_BLUESKY_USERNAME,NSX_DATABASE_URL,NSX_LOG_LEVEL,NSX_OPENAI_API_KEY,NSX_REMOTE_DIR,NSX_SENTRY_DSN,NSX_SENTRY_RELEASE,NSX_SENTRY_TRACES_SAMPLE_RATE
           script: |
-            cd ${{ secrets.REMOTE_DIR }}
-            # Backup .env if exists
-            [ -f .env ] && cp .env /tmp/.env.backup || true
-            # Clean target directory (never remove top-level `run/` — compose.prod binds
-            # ./run/mysqld:/var/run/mysqld; deleting and recreating `run` orphans the mount inode
-            # so host socketPath and prisma/pm2 would break until manual db recreate).
-            sudo find "${{ secrets.REMOTE_DIR }}" -mindepth 1 -maxdepth 1 ! -name 'run' -exec rm -rf {} + 2>/dev/null || true
-            # Extract tar archive
-            tar -xzf /tmp/deploy.tar.gz -C ${{ secrets.REMOTE_DIR }}
-            mkdir -p run/mysqld
-            # Restore .env
-            [ -f /tmp/.env.backup ] && mv /tmp/.env.backup .env || true
-            # Create .env if not exists
-            if [ ! -f .env ]; then
-              cat > .env << EOL
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
-            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-            BLUESKY_USERNAME=${{ secrets.BLUESKY_USERNAME }}
-            BLUESKY_PASSWORD=${{ secrets.BLUESKY_PASSWORD }}
-            EOL
-            fi
-            cat > /tmp/nsx_observability.env <<'EOL'
-            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-            SENTRY_RELEASE=${{ github.sha }}
-            SENTRY_TRACES_SAMPLE_RATE=${{ vars.SENTRY_TRACES_SAMPLE_RATE }}
-            LOG_LEVEL=${{ vars.LOG_LEVEL }}
-            EOL
-            while IFS='=' read -r key value; do
-              [ -z "$key" ] && continue
-              [ -z "$value" ] && continue
-              escaped_value=$(printf '%s' "$value" | sed 's/[\/&]/\\&/g')
-              if grep -q "^${key}=" .env; then
-                sed -i "s/^${key}=.*/${key}=${escaped_value}/" .env
-              else
-                printf '%s=%s\n' "$key" "$value" >> .env
+            set -eu
+
+            remote_dir="$NSX_REMOTE_DIR"
+            remote_archive="/tmp/deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz"
+            staging_dir="/tmp/nsx-deploy-${{ github.sha }}"
+            rollback_dir="${remote_dir%/}.rollback"
+            health_url="https://nsx.malloc.tokyo/api/health"
+            deployment_applied="false"
+            rollback_ready="false"
+
+            cleanup() {
+              if [ -d "$staging_dir" ]; then
+                find "$staging_dir" -mindepth 1 -delete 2>/dev/null || true
+                rmdir "$staging_dir" 2>/dev/null || true
               fi
-            done < /tmp/nsx_observability.env
-            rm -f /tmp/nsx_observability.env
-            # Run migrations and restart
-            ./node_modules/.bin/prisma migrate deploy
-            sudo pm2 delete ecosystem.config.js || true
-            sudo pm2 start ecosystem.config.js
-            # Cleanup
-            rm -f /tmp/deploy.tar.gz
+              rm -f "$remote_archive"
+            }
+
+            require_command() {
+              command -v "$1" >/dev/null 2>&1 || {
+                echo "::error::Required command is missing: $1"
+                cleanup
+                exit 1
+              }
+            }
+
+            quote_env_value() {
+              value="$1"
+              printf '%s' "$value" | sed ':a;N;$!ba;s/\\/\\\\/g; s/"/\\"/g; s/\n/\\n/g'
+            }
+
+            write_env_line() {
+              key="$1"
+              value="$2"
+              escaped_value=$(quote_env_value "$value") || return 1
+              printf '%s="%s"\n' "$key" "$escaped_value"
+            }
+
+            set_env_value() {
+              key="$1"
+              value="$2"
+
+              # Empty optional deploy variables should not erase existing production values.
+              if [ -z "$value" ]; then
+                return 0
+              fi
+
+              temp_env_file=$(mktemp "$remote_dir/.env.XXXXXX") || return 1
+              awk -v env_key="$key" 'index($0, env_key "=") != 1 { print }' "$remote_dir/.env" > "$temp_env_file" || {
+                rm -f "$temp_env_file"
+                return 1
+              }
+              write_env_line "$key" "$value" >> "$temp_env_file" || {
+                rm -f "$temp_env_file"
+                return 1
+              }
+              chmod 600 "$temp_env_file" || {
+                rm -f "$temp_env_file"
+                return 1
+              }
+              mv "$temp_env_file" "$remote_dir/.env"
+            }
+
+            verify_deployment() {
+              attempt=1
+              while [ "$attempt" -le 5 ]; do
+                status=$(curl -s --connect-timeout 5 --max-time 10 -o /dev/null -w "%{http_code}" "$health_url" || printf '000')
+                if [ "$status" = "200" ]; then
+                  echo "Health check passed with status 200"
+                  return 0
+                fi
+                echo "Health check attempt ${attempt} failed with status ${status}"
+                attempt=$((attempt + 1))
+                sleep 5
+              done
+              return 1
+            }
+
+            rollback_deployment() {
+              echo "::warning::Rolling back to previous deployment artifacts"
+              if [ "$rollback_ready" != "true" ]; then
+                echo "::error::Rollback skipped because no previous artifacts were captured"
+                return 1
+              fi
+
+              rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$rollback_dir"/ "$remote_dir"/
+              cd "$remote_dir"
+              if sudo pm2 describe server >/dev/null 2>&1; then
+                sudo pm2 reload ecosystem.config.js --update-env
+              else
+                sudo pm2 start ecosystem.config.js
+              fi
+              if ! verify_deployment; then
+                echo "::error::Rollback health check failed"
+                return 1
+              fi
+            }
+
+            fail_deployment() {
+              message="$1"
+              echo "::error::$message"
+              if [ "$deployment_applied" = "true" ]; then
+                rollback_deployment || true
+              fi
+              cleanup
+              exit 1
+            }
+
+            require_command curl
+            require_command find
+            require_command rsync
+            require_command tar
+
+            mkdir -p "$remote_dir" "$staging_dir" "$rollback_dir" "$remote_dir/run/mysqld" "$remote_dir/logs" || fail_deployment "Failed to prepare deployment directories"
+            tar -xzf "$remote_archive" -C "$staging_dir" || fail_deployment "Failed to extract deployment artifact"
+
+            if [ -d "$remote_dir/build" ] || [ -d "$remote_dir/server_build" ]; then
+              rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$remote_dir"/ "$rollback_dir"/ || fail_deployment "Failed to capture rollback artifacts"
+              rollback_ready="true"
+            else
+              echo "::warning::No previous deployment artifacts found; rollback will be unavailable"
+            fi
+
+            if [ ! -f "$remote_dir/.env" ]; then
+              {
+                write_env_line "DATABASE_URL" "$NSX_DATABASE_URL"
+                write_env_line "ACCESS_TOKEN_SECRET" "$NSX_ACCESS_TOKEN_SECRET"
+                write_env_line "OPENAI_API_KEY" "$NSX_OPENAI_API_KEY"
+                write_env_line "BLUESKY_USERNAME" "$NSX_BLUESKY_USERNAME"
+                write_env_line "BLUESKY_PASSWORD" "$NSX_BLUESKY_PASSWORD"
+              } > "$remote_dir/.env" || fail_deployment "Failed to create production .env"
+              chmod 600 "$remote_dir/.env" || fail_deployment "Failed to secure production .env"
+            fi
+
+            set_env_value "SENTRY_DSN" "$NSX_SENTRY_DSN"
+            set_env_value "SENTRY_RELEASE" "$NSX_SENTRY_RELEASE"
+            set_env_value "SENTRY_TRACES_SAMPLE_RATE" "$NSX_SENTRY_TRACES_SAMPLE_RATE"
+            set_env_value "LOG_LEVEL" "$NSX_LOG_LEVEL"
+            cp "$remote_dir/.env" "$staging_dir/.env" || fail_deployment "Failed to stage production .env for Prisma"
+
+            (
+              cd "$staging_dir"
+              # Pending migrations make `status` non-zero, but drift/failed states should stop before deploy.
+              set +e
+              migration_status_output=$(./node_modules/.bin/prisma migrate status 2>&1)
+              migration_status_code=$?
+              set -e
+              printf '%s\n' "$migration_status_output"
+              if [ "$migration_status_code" -ne 0 ]; then
+                case "$migration_status_output" in
+                  *"not yet been applied"* | *"pending migrations"*)
+                    echo "::notice::Pending Prisma migrations detected; migrate deploy will apply them"
+                    ;;
+                  *)
+                    echo "::error::Prisma migration status reported an unsafe state"
+                    exit "$migration_status_code"
+                    ;;
+                esac
+              fi
+              ./node_modules/.bin/prisma migrate deploy
+            ) || fail_deployment "Prisma migration failed; PM2 restart skipped"
+
+            rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$staging_dir"/ "$remote_dir"/ || fail_deployment "Failed to sync deployment artifact"
+            deployment_applied="true"
+
+            cd "$remote_dir"
+            mkdir -p run/mysqld logs || fail_deployment "Failed to recreate runtime directories"
+            if sudo pm2 describe server >/dev/null 2>&1; then
+              sudo pm2 reload ecosystem.config.js --update-env || fail_deployment "PM2 reload failed"
+            else
+              sudo pm2 start ecosystem.config.js || fail_deployment "PM2 start failed"
+            fi
+            sudo pm2 save || fail_deployment "PM2 save failed"
+
+            sleep 5
+            verify_deployment || fail_deployment "Deployment health check failed"
+            cleanup
+
+      - name: Report deploy status
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          state="failure"
+          description="Production deployment failed"
+          if [ "$JOB_STATUS" = "success" ]; then
+            state="success"
+            description="Production deployment succeeded"
+          fi
+
+          curl -fsSL \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
+            -d "{\"state\":\"${state}\",\"context\":\"deploy/production\",\"description\":\"${description}\",\"target_url\":\"https://nsx.malloc.tokyo/\"}"
