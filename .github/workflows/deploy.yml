@@ -80,8 +80,8 @@ jobs:
           cp -r scripts/ deploy/
           mkdir -p deploy/run/mysqld
           cp run/mysqld/.gitkeep deploy/run/mysqld/
-          # Create tar archive for efficient transfer
-          tar -czf "deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz" -C deploy .
+          # Store hard-linked dependencies as regular files so remote tar can extract into empty staging.
+          tar --hard-dereference -czf "deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz" -C deploy .
 
       - name: Upload build artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
