@@ -20,3 +20,18 @@ updates:
       # @atproto/api 0.20.x is ESM-only and breaks this CJS Express server.
       - dependency-name: '@atproto/api'
         versions: ['0.20.x']
+
+  # Track GitHub Actions versions (checkout/setup-node/upload-artifact, the
+  # SHA-pinned ssh/scp/download-artifact actions, and the local composite
+  # action) so v4->v5 / Node 24 runtime bumps and SHA refreshes land as PRs
+  # instead of silently going stale. npm-only Dependabot left these unmanaged.
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    open-pull-requests-limit: 10
+    # Bundle all action bumps into one PR, mirroring the npm group above.
+    groups:
+      github-actions:
+        patterns:
+          - '*'
