@@ -20,7 +20,7 @@ jobs:
       !(contains(github.event.head_commit.message, 'Merge pull request') && contains(github.event.head_commit.message, '/dependabot/'))
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: ./.github/actions/prepare
       - name: Setup Frontend Environment Variables
         env:
@@ -79,7 +79,7 @@ jobs:
           tar --hard-dereference -czf "deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz" -C deploy .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: build-files
           path: deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz
@@ -93,7 +93,7 @@ jobs:
 
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: build-files
           path: .
