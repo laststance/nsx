@@ -5,15 +5,22 @@ import { setBookmarkedIcon } from '../../lib/setBookmarkIcon'
 
 import {
   ALREADY_EXISTS_MESSAGE,
+  CONNECT_PROMPT_MESSAGE,
+  CONNECTED_MESSAGE,
   DEFAULT_API_ENDPOINT,
   FAILED_MESSAGE,
   FEEDBACK_CLEAR_DELAY_MS,
+  RECONNECT_PROMPT_MESSAGE,
   SUCCESS_MESSAGE,
 } from './constants'
 import { useGetPageInfo } from './useGetPageInfo'
+import { usePersonalAccessToken } from './usePersonalAccessToken'
 import { buildPushStockApiUrl } from './utils/buildPushStockApiUrl'
 import { buildStockExistsUrl } from './utils/buildStockExistsUrl'
+import { buildStockRequestConfig } from './utils/buildStockRequestConfig'
 import { isConflictResponse } from './utils/isConflictResponse'
+import { isUnauthorizedResponse } from './utils/isUnauthorizedResponse'
+import { logStockRequestError } from './utils/logStockRequestError'
 import { normalizePopupUrl } from './utils/normalizePopupUrl'
 
 export interface PopupState {
@@ -45,12 +52,26 @@ const INITIAL_STOCK_SAVE_STATE: StockSaveState = {
 
 /**
  * Renders the NSX extension popup and coordinates duplicate-aware page saves.
- * @returns The popup UI for saving the current tab and composing a tweet.
+ *
+ * Authenticates stock reads/writes with a pasted Personal Access Token (Bearer header); the save
+ * checkbox stays usable whether or not a token is connected, and a rejected token (401) reveals an
+ * additive reconnect prompt without blocking the existing flow.
+ * @returns The popup UI for connecting a token, saving the current tab, and composing a tweet.
  * @example
  * <App />
  */
 const App: FC = () => {
   const state = useGetPageInfo()
+  const {
+    token,
+    isLoading: isTokenLoading,
+    needsReconnect,
+    inputToken,
+    setInputToken,
+    connect,
+    disconnect,
+    markRejected,
+  } = usePersonalAccessToken()
   const [comment, setComment] = useState<string>('')
   const [stockSaveState, setStockSaveState] = useState<StockSaveState>(
     INITIAL_STOCK_SAVE_STATE,
@@ -58,6 +79,9 @@ const App: FC = () => {
   const normalizedUrl = normalizePopupUrl(state.url)
 
   useEffect(() => {
+    // Wait until the stored token is known so the existence check carries the Bearer header.
+    if (isTokenLoading) return undefined
+
     const pushStockApiUrl = buildPushStockApiUrl(
       import.meta.env.VITE_API_ENDPOINT || DEFAULT_API_ENDPOINT,
     )
@@ -72,6 +96,7 @@ const App: FC = () => {
     axios
       .get<StockExistsResponse>(
         buildStockExistsUrl(pushStockApiUrl, normalizedUrl),
+        buildStockRequestConfig(token),
       )
       .then(({ data }) => {
         if (isRequestCanceled) return
@@ -84,8 +109,11 @@ const App: FC = () => {
 
         if (data.exists) setBookmarkedIcon()
       })
-      .catch(() => {
+      .catch((error: unknown) => {
         if (isRequestCanceled) return
+
+        // A rejected stored token (revoked/expired) surfaces the reconnect prompt.
+        if (token && isUnauthorizedResponse(error)) markRejected()
 
         // Existence check failures should not block saving a new page.
         setStockSaveState(INITIAL_STOCK_SAVE_STATE)
@@ -94,7 +122,7 @@ const App: FC = () => {
     return () => {
       isRequestCanceled = true
     }
-  }, [normalizedUrl])
+  }, [normalizedUrl, token, isTokenLoading, markRejected])
 
   /**
    * Shows a temporary result message after save attempts complete.
@@ -153,10 +181,14 @@ const App: FC = () => {
     }
 
     axios
-      .post(pushStockApiUrl, {
-        pageTitle: state.pageTitle,
-        url: normalizedUrl,
-      })
+      .post(
+        pushStockApiUrl,
+        {
+          pageTitle: state.pageTitle,
+          url: normalizedUrl,
+        },
+        buildStockRequestConfig(token),
+      )
       .then(() => {
         showTemporaryFeedback(SUCCESS_MESSAGE)
         setBookmarkedIcon()
@@ -172,17 +204,76 @@ const App: FC = () => {
           return
         }
 
+        // A rejected stored token reveals the reconnect prompt without hiding the Failed result.
+        if (token && isUnauthorizedResponse(error)) markRejected()
+
         setStockSaveState((currentState) => ({
           ...currentState,
           isChecked: false,
         }))
         showTemporaryFeedback(FAILED_MESSAGE)
-        console.error(JSON.stringify(error))
+        logStockRequestError(error)
       })
   }
 
+  // Show the paste panel before connecting, or after a stored token is rejected.
+  const shouldShowPastePanel = !token || needsReconnect
+
   return (
     <main>
+      {shouldShowPastePanel ? (
+        <section className="pat-connect" data-testid="pat-connect-panel">
+          <label className="pat-connect-label" htmlFor="pat-input">
+            {CONNECT_PROMPT_MESSAGE}
+          </label>
+          <input
+            id="pat-input"
+            className="pat-input"
+            data-testid="pat-input"
+            type="password"
+            value={inputToken}
+            placeholder="nsx_pat_…"
+            aria-label="NSX extension token"
+            onChange={(event): void => setInputToken(event.target.value)}
+          />
+          <button
+            type="button"
+            className="pat-connect-btn"
+            data-testid="pat-connect-btn"
+            disabled={inputToken.trim().length === 0}
+            onClick={(): void => {
+              void connect()
+            }}
+          >
+            Connect
+          </button>
+        </section>
+      ) : (
+        <section className="pat-connected" data-testid="pat-connected-status">
+          <span className="pat-connected-label">{CONNECTED_MESSAGE}</span>
+          <button
+            type="button"
+            className="pat-disconnect-btn"
+            data-testid="pat-disconnect-btn"
+            onClick={(): void => {
+              void disconnect()
+            }}
+          >
+            Disconnect
+          </button>
+        </section>
+      )}
+
+      {needsReconnect ? (
+        <p
+          role="alert"
+          className="pat-reconnect-notice"
+          data-testid="pat-reconnect-notice"
+        >
+          {RECONNECT_PROMPT_MESSAGE}
+        </p>
+      ) : null}
+
       <section className="row1">
         <div className="title">
           {state.pageTitle.length ? state.pageTitle : ''}

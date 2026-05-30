@@ -1,9 +1,14 @@
 dist
 node_modules
 output
+.output
 .wxt
 tmp
 .env*
+# Shared, non-secret build config (public API origins) must ship so CI/prod builds
+# inject VITE_API_ENDPOINT instead of falling back to the localhost default (E3/NSX-80).
+!.env.development
+!.env.production
 .idea
 test-results/
 coverage/

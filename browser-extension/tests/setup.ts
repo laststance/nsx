@@ -1,9 +1,8 @@
-import * as matchers from '@testing-library/jest-dom/matchers'
+// Registers jest-dom matchers AND augments Vitest's `expect` types
+// (toBeInTheDocument, toBeEnabled, …) so component tests type-check under tsc.
+import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
-import { expect, afterEach, vi } from 'vitest'
-
-// Extend Vitest matchers with jest-dom
-expect.extend(matchers)
+import { afterEach, vi } from 'vitest'
 
 // Cleanup after each test
 afterEach(() => {
