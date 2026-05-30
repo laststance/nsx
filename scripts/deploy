@@ -1,24 +1,91 @@
 #!/bin/bash
+#
+# Deploy NSX build artifacts to production and apply any pending Prisma migrations.
+#
+# Why migrations run here: the host PM2 process serves the bundled Express artifact
+# (server_build), but the database schema lives outside that bundle. `pnpm server:build`
+# bundles the generated Prisma *client* into server_build (it is a relative import, so
+# esbuild's --packages=external does not externalize it), yet the actual table changes
+# still have to be applied to MySQL. This mirrors .github/workflows/deploy.yml so the
+# manual deploy path carries the same migration safety net as the GitHub Actions path.
+#
+# Usage: deploy [-s] [-f]
+#   -s        server only  (migrate + server_build + ecosystem.config.js)
+#   -f        frontend only (build; no schema to migrate)
+#   no flag   full deploy   (migrate + build + server_build + ecosystem.config.js)
+#
+# After this script finishes, restart the server:
+#   ssh nsx.malloc.tokyo 'pm2 restart server'
 
-LOCAL_ROOT=$(cd $(dirname $0)/..; pwd)
+set -euo pipefail
+
+LOCAL_ROOT=$(cd "$(dirname "$0")/.." && pwd)
+REMOTE_HOST=nsx.malloc.tokyo
 REMOTE_ROOT=/home/deploy/nsx/
 
 usage() { echo "Usage: $0 [-s] [-f]" 1>&2; exit 1; }
 
+# Ship migration SQL + schema, then apply it on the host BEFORE new server code lands,
+# so a failed migration never precedes a PM2 restart. Runs for every server-touching
+# deploy (-s and the default path); skipped for -f because the SPA has no schema.
+run_remote_migrations() {
+    # The generated client is already bundled into server_build, so only the migration
+    # files + schema + prisma config need to reach the host — no remote `prisma generate`.
+    rsync -avzhc "$LOCAL_ROOT/prisma" "$REMOTE_HOST:$REMOTE_ROOT"
+    rsync -avzhc "$LOCAL_ROOT/prisma.config.ts" "$REMOTE_HOST:$REMOTE_ROOT"
+
+    # Production login shell is fish, so force bash for the remote migration snippet.
+    ssh "$REMOTE_HOST" 'bash -s' <<'REMOTE'
+set -euo pipefail
+cd /home/deploy/nsx
+# Invoke the repo-pinned Prisma CLI exactly as .github/workflows/deploy.yml does.
+run_prisma_cli() { node ./node_modules/prisma/build/index.js "$@"; }
+
+# `migrate status` exits non-zero when migrations are pending; that case is expected and
+# falls through to `migrate deploy`. Any other non-zero state means drift/failure → abort
+# before the operator restarts PM2, so broken code never runs against an unmigrated DB.
+set +e
+status_output=$(run_prisma_cli migrate status 2>&1)
+status_code=$?
+set -e
+printf '%s\n' "$status_output"
+if [ "$status_code" -ne 0 ]; then
+    case "$status_output" in
+        *"not yet been applied"*|*"pending migrations"*)
+            echo "Pending migrations detected; applying with migrate deploy" ;;
+        *)
+            echo "ERROR: prisma migrate status reported an unsafe state; aborting before PM2 restart" >&2
+            exit "$status_code" ;;
+    esac
+fi
+
+# Apply pending migrations. A no-op that exits 0 when the schema is already up to date.
+run_prisma_cli migrate deploy
+REMOTE
+}
+
 while getopts ":sf" opt; do
     case "${opt}" in
         s)
-            rsync -avzhc $LOCAL_ROOT/server_build nsx.malloc.tokyo:$REMOTE_ROOT
-            rsync -avzhc $LOCAL_ROOT/ecosystem.config.js nsx.malloc.tokyo:$REMOTE_ROOT
+            # Server-only deploy: migrate first, then ship the Express bundle + PM2 config.
+            run_remote_migrations
+            rsync -avzhc "$LOCAL_ROOT/server_build" "$REMOTE_HOST:$REMOTE_ROOT"
+            rsync -avzhc "$LOCAL_ROOT/ecosystem.config.js" "$REMOTE_HOST:$REMOTE_ROOT"
             exit 0
             ;;
         f)
-            rsync -avzhc $LOCAL_ROOT/build nsx.malloc.tokyo:$REMOTE_ROOT
+            # Frontend-only deploy: static SPA assets, no database schema involved.
+            rsync -avzhc "$LOCAL_ROOT/build" "$REMOTE_HOST:$REMOTE_ROOT"
             exit 0
+            ;;
+        *)
+            usage
             ;;
     esac
 done
 
-rsync -avzhc $LOCAL_ROOT/build nsx.malloc.tokyo:$REMOTE_ROOT
-rsync -avzhc $LOCAL_ROOT/server_build nsx.malloc.tokyo:$REMOTE_ROOT
-rsync -avzhc $LOCAL_ROOT/ecosystem.config.js nsx.malloc.tokyo:$REMOTE_ROOT
+# Full deploy: migrate before shipping new server code, then push every artifact.
+run_remote_migrations
+rsync -avzhc "$LOCAL_ROOT/build" "$REMOTE_HOST:$REMOTE_ROOT"
+rsync -avzhc "$LOCAL_ROOT/server_build" "$REMOTE_HOST:$REMOTE_ROOT"
+rsync -avzhc "$LOCAL_ROOT/ecosystem.config.js" "$REMOTE_HOST:$REMOTE_ROOT"
