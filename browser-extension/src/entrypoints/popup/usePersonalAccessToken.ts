@@ -40,13 +40,18 @@ export const usePersonalAccessToken = (): PersonalAccessTokenState => {
   const [inputToken, setInputToken] = useState<string>('')
 
   // Read the stored token once on mount; the guard avoids a setState after unmount.
+  // .finally clears isLoading even if the storage read rejects, so a failed read
+  // can't pin isLoading=true and stall App's existence-check effect forever.
   useEffect(() => {
     let isActive = true
-    readStoredPatToken().then((storedToken) => {
-      if (!isActive) return
-      setToken(storedToken)
-      setIsLoading(false)
-    })
+    readStoredPatToken()
+      .then((storedToken) => {
+        if (!isActive) return
+        setToken(storedToken)
+      })
+      .finally(() => {
+        if (isActive) setIsLoading(false)
+      })
     return () => {
       isActive = false
     }

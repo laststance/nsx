@@ -179,6 +179,17 @@ test.describe('Extension API Integration Tests', () => {
 
     const popupPage = await openPopup(context, extensionId)
 
+    // Stub the save POST so it succeeds without a connected PAT; this test never
+    // pastes a token, so the real /api/push_stock would 401 (auth added in this PR)
+    // and verifySuccessMessage would always be false — masking a failed save.
+    await popupPage.route('**/api/push_stock**', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true }),
+      })
+    })
+
     // Monitor API calls
     let apiUrl: string | null = null
     popupPage.on('request', async (request) => {
@@ -191,7 +202,9 @@ test.describe('Extension API Integration Tests', () => {
     const checkbox = popupPage.locator('.checkbox')
     await checkbox.check()
 
-    await verifySuccessMessage(popupPage)
+    // Assert the save actually succeeded so the URL checks below run on a real save.
+    const success = await verifySuccessMessage(popupPage)
+    expect(success).toBe(true)
 
     // Verify URL points to correct backend
     expect(apiUrl).not.toBeNull()

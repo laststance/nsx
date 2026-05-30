@@ -351,7 +351,9 @@ const extractBearerToken = (
 ): string | null => {
   if (typeof authorizationHeader !== 'string') return null
 
-  const bearerMatch = authorizationHeader.match(/^Bearer (.+)$/)
+  // Case-insensitive scheme + flexible whitespace per RFC 7235 (auth-scheme is
+  // case-insensitive), so 'bearer nsx_pat_...' and extra spaces still parse.
+  const bearerMatch = authorizationHeader.match(/^Bearer\s+(.+)$/i)
   if (!bearerMatch) return null
 
   const rawToken = bearerMatch[1].trim()

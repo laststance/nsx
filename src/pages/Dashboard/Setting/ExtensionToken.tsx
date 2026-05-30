@@ -67,8 +67,17 @@ const ExtensionToken: React.FC = memo(() => {
 
   const handleCopy = async () => {
     if (!mintedToken) return
-    await navigator.clipboard.writeText(mintedToken.token)
-    setDidCopy(true)
+    // clipboard.writeText rejects in insecure contexts / when permission is denied,
+    // and navigator.clipboard can be undefined; degrade to a manual-copy prompt since
+    // the raw token is shown only once and an unhandled rejection would lose feedback.
+    try {
+      await navigator.clipboard.writeText(mintedToken.token)
+      setDidCopy(true)
+    } catch {
+      setActionError(
+        'Could not copy automatically. Please copy the token manually.',
+      )
+    }
   }
 
   const handleDismissReveal = () => {
@@ -141,6 +150,7 @@ const ExtensionToken: React.FC = memo(() => {
             value={name}
             onChange={(event) => setName(event.target.value)}
             placeholder="Token name (e.g. Chrome extension)"
+            aria-label="Token name"
             data-testid="token-name-input"
             className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
           />
