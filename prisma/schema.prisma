@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  id                   Int            @id @default(autoincrement())
-  name                 String         @unique @db.VarChar(255)
-  createdAt            DateTime       @default(now())
-  password             String         @db.Text
-  sessionVersion       Int            @default(0)
-  updatedAt            DateTime       @updatedAt
-  useLegacyHoverColors Boolean        @default(false)
+  id                   Int                   @id @default(autoincrement())
+  name                 String                @unique @db.VarChar(255)
+  createdAt            DateTime              @default(now())
+  password             String                @db.Text
+  sessionVersion       Int                   @default(0)
+  updatedAt            DateTime              @updatedAt
+  useLegacyHoverColors Boolean               @default(false)
   posts                Post[]
   refreshTokens        RefreshToken[]
+  personalAccessTokens PersonalAccessToken[]
   stocks               Stock[]
   tweets               Tweet[]
 
@@ -94,4 +95,21 @@ model RefreshToken {
   @@index([userId])
   @@index([expiresAt])
   @@map("refresh_tokens")
+}
+
+model PersonalAccessToken {
+  id          Int       @id @default(autoincrement())
+  tokenHash   String    @unique @db.Char(64) // sha256 hex of "nsx_pat_<raw>"
+  tokenSuffix String    @db.Char(4) // last 4 chars of raw token, for masked list (hash can't reveal it)
+  name        String    @db.VarChar(255) // human label, e.g. "Chrome extension"
+  userId      Int
+  lastUsedAt  DateTime?
+  expiresAt   DateTime? // null = non-expiring (default for this single-scope PAT)
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("personal_access_tokens")
 }

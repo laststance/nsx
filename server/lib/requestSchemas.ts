@@ -3,6 +3,7 @@ import { z } from 'zod'
 const POST_TITLE_MAX_LENGTH = 400
 const POST_BODY_MAX_LENGTH = 50_000
 const PROFILE_NAME_MAX_LENGTH = 255
+const PAT_NAME_MAX_LENGTH = 255
 const STOCK_TITLE_MAX_LENGTH = 1_000
 const STOCK_URL_MAX_LENGTH = 2_048
 const LANGUAGE_CODE_MAX_LENGTH = 16
@@ -102,6 +103,12 @@ export const pushStockBodySchema = z
     path: ['pageTitle'],
   })
 
+export const mintPersonalAccessTokenBodySchema = z
+  .object({
+    name: requiredText('Token name', PAT_NAME_MAX_LENGTH),
+  })
+  .strict()
+
 export const createTweetBodySchema = z
   .object({
     text: requiredText('Tweet text', TWEET_TEXT_MAX_LENGTH),
@@ -131,6 +138,9 @@ export type HoverColorPreferenceBody = z.output<
   typeof hoverColorPreferenceBodySchema
 >
 export type PushStockBody = z.output<typeof pushStockBodySchema>
+export type MintPersonalAccessTokenBody = z.output<
+  typeof mintPersonalAccessTokenBodySchema
+>
 export type CreateTweetBody = z.output<typeof createTweetBodySchema>
 export type TranslateBody = z.output<typeof translateBodySchema>
 export type BlueskyPostBody = z.output<typeof blueskyPostBodySchema>

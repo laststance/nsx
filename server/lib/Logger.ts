@@ -16,18 +16,31 @@ const REDACTED_LOG_PATHS = [
   'token',
   'accessToken',
   'refreshToken',
+  // PAT raw values must never reach logs (E5): the Bearer header arrives under the
+  // lowercased `authorization`, but defend the uppercase + PAT-specific key shapes too.
+  'Authorization',
+  'rawToken',
+  'pat',
+  'personalAccessToken',
   'headers.authorization',
+  'headers.Authorization',
   'headers.cookie',
   'req.headers.authorization',
+  'req.headers.Authorization',
   'req.headers.cookie',
   'body.password',
   'body.token',
   'body.accessToken',
   'body.refreshToken',
+  'body.rawToken',
+  'body.personalAccessToken',
   '*.password',
   '*.token',
   '*.accessToken',
   '*.refreshToken',
+  '*.rawToken',
+  '*.pat',
+  '*.personalAccessToken',
 ]
 
 /**
