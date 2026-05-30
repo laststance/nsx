@@ -164,8 +164,9 @@ test.describe('Extension API Integration Tests', () => {
     await popupPage.close()
   })
 
-  // Skipped: VITE_API_ENDPOINT not being built into extension - See https://plane.so (NSX-80)
-  test.skip('uses correct VITE_API_ENDPOINT from environment', async ({
+  // NSX-80 fixed: .env.{development,production} now set VITE_API_ENDPOINT (origin only),
+  // which WXT/Vite injects into the build so buildPushStockApiUrl targets the real backend.
+  test('uses correct VITE_API_ENDPOINT from environment', async ({
     context,
     extensionId,
     page,
@@ -177,6 +178,17 @@ test.describe('Extension API Integration Tests', () => {
     await page.waitForLoadState('domcontentloaded')
 
     const popupPage = await openPopup(context, extensionId)
+
+    // Stub the save POST so it succeeds without a connected PAT; this test never
+    // pastes a token, so the real /api/push_stock would 401 (auth added in this PR)
+    // and verifySuccessMessage would always be false — masking a failed save.
+    await popupPage.route('**/api/push_stock**', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true }),
+      })
+    })
 
     // Monitor API calls
     let apiUrl: string | null = null
@@ -190,7 +202,9 @@ test.describe('Extension API Integration Tests', () => {
     const checkbox = popupPage.locator('.checkbox')
     await checkbox.check()
 
-    await verifySuccessMessage(popupPage)
+    // Assert the save actually succeeded so the URL checks below run on a real save.
+    const success = await verifySuccessMessage(popupPage)
+    expect(success).toBe(true)
 
     // Verify URL points to correct backend
     expect(apiUrl).not.toBeNull()

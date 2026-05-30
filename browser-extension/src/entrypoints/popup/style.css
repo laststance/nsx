@@ -13,9 +13,66 @@ body {
 
 main {
   width: 500px;
-  height: 80px;
+  min-height: 80px;
   display: flex;
   flex-wrap: wrap;
+}
+
+/* Personal Access Token connect / reconnect panel (additive; sits above the save rows). */
+.pat-connect,
+.pat-connected {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+}
+
+.pat-connect-label {
+  flex-shrink: 0;
+  color: #6b7280;
+}
+
+.pat-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 4px 6px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+}
+
+.pat-connect-btn,
+.pat-disconnect-btn {
+  flex-shrink: 0;
+  font-size: 13px;
+  padding: 4px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #f9fafb;
+  cursor: pointer;
+}
+
+.pat-connect-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pat-connected-label {
+  flex: 1 1 auto;
+  color: #16a34a;
+  font-weight: 500;
+}
+
+.pat-reconnect-notice {
+  width: 100%;
+  margin: 0 0 6px;
+  color: #dc2626;
+  font-size: 13px;
 }
 
 .row1 {

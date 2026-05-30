@@ -36,16 +36,16 @@ const SESSION_USER_SELECT = {
 } as const
 
 /**
- * Hashes a refresh token before it is stored or looked up.
+ * Hashes a bearer credential (refresh token or PAT) before it is stored or looked up.
  *
- * Called by refresh-token persistence so raw bearer credentials never live in
- * the database.
+ * Shared by refresh-token persistence and personal-access-token mint/verify so raw
+ * credentials never live in the database; both store and compare on the digest only.
  *
- * @param token - Raw refresh token cookie value.
+ * @param token - Raw bearer credential (refresh-token cookie value or `nsx_pat_<raw>`).
  * @returns SHA-256 hex digest of the token.
- * @example hashRefreshToken(refreshToken)
+ * @example hashToken(refreshToken)
  */
-const hashRefreshToken = (token: string): string => {
+export const hashToken = (token: string): string => {
   return createHash('sha256').update(token).digest('hex')
 }
 
@@ -140,7 +140,7 @@ const storeRefreshToken = async (
 ): Promise<void> => {
   await prisma.refreshToken.create({
     data: {
-      tokenHash: hashRefreshToken(refreshToken),
+      tokenHash: hashToken(refreshToken),
       userId,
       expiresAt: getTokenExpiration(refreshToken),
     },
@@ -163,7 +163,7 @@ export const revokeRefreshToken = async (
 
   await prisma.refreshToken.updateMany({
     where: {
-      tokenHash: hashRefreshToken(refreshToken),
+      tokenHash: hashToken(refreshToken),
       revokedAt: null,
     },
     data: { revokedAt: new Date() },
@@ -219,7 +219,7 @@ const rotateRefreshSession = async (
   if (!refreshToken) return null
 
   const decoded = verifyRefreshToken(refreshToken)
-  const tokenHash = hashRefreshToken(refreshToken)
+  const tokenHash = hashToken(refreshToken)
   const user = await findUserForTokenPayload(decoded)
   if (!user) {
     await revokeRefreshToken(refreshToken)
@@ -240,7 +240,7 @@ const rotateRefreshSession = async (
 
     await tx.refreshToken.create({
       data: {
-        tokenHash: hashRefreshToken(nextRefreshToken),
+        tokenHash: hashToken(nextRefreshToken),
         userId: user.id,
         expiresAt: getTokenExpiration(nextRefreshToken),
       },
@@ -330,4 +330,92 @@ export const authenticateRequestSession = async (
         ? 'Invalid or expired token'
         : 'No token found',
   }
+}
+
+/**
+ * Extracts the raw bearer token from an `Authorization` header value.
+ *
+ * Called by PAT stock-write auth before hashing, so a missing or malformed header
+ * fails closed as unauthenticated (401) instead of throwing (500) — the U6 guard.
+ *
+ * @param authorizationHeader - Raw `Authorization` header (`Bearer <token>`) or undefined.
+ * @returns
+ * - The trimmed token when the header is a non-empty `Bearer <token>`
+ * - null when the header is missing, not a Bearer scheme, or carries an empty token
+ * @example
+ * extractBearerToken('Bearer nsx_pat_abc') // => 'nsx_pat_abc'
+ * extractBearerToken('Basic xyz')          // => null
+ */
+const extractBearerToken = (
+  authorizationHeader: string | undefined,
+): string | null => {
+  if (typeof authorizationHeader !== 'string') return null
+
+  // Case-insensitive scheme + flexible whitespace per RFC 7235 (auth-scheme is
+  // case-insensitive), so 'bearer nsx_pat_...' and extra spaces still parse.
+  const bearerMatch = authorizationHeader.match(/^Bearer\s+(.+)$/i)
+  if (!bearerMatch) return null
+
+  const rawToken = bearerMatch[1].trim()
+  return rawToken.length > 0 ? rawToken : null
+}
+
+/**
+ * Authenticates a stock-write request that presents a Personal Access Token.
+ *
+ * Called by the `authenticateStockRequest` middleware whenever an `Authorization`
+ * header is present. Validates the PAT in a single atomic query (not revoked, not
+ * expired) and hydrates the full session user in the same round-trip. It NEVER reads
+ * or clears auth cookies, so an invalid PAT cannot evict the owner's browser session
+ * (the U5 confused-deputy guard).
+ *
+ * @param authorizationHeader - Raw `Authorization` header value (`Bearer nsx_pat_<raw>`).
+ * @returns
+ * - `{ ok: true, user }` with the fully-hydrated owner when the PAT is valid
+ * - `{ ok: false, status: 401, message }` when the header is malformed, or the PAT is
+ *   unknown, revoked, or expired
+ * @example await authenticateStockPatToken(req.headers.authorization)
+ */
+export const authenticateStockPatToken = async (
+  authorizationHeader: string | undefined,
+): Promise<AuthSessionResult> => {
+  const rawToken = extractBearerToken(authorizationHeader)
+  if (!rawToken) {
+    return {
+      ok: false,
+      status: 401,
+      message: 'Invalid or missing access token',
+    }
+  }
+
+  const now = new Date()
+  // Single atomic validity check: unknown / revoked / expired all collapse to
+  // "no row" -> 401. The owner is hydrated in the same query (E4 full session user).
+  const personalAccessToken = await prisma.personalAccessToken.findFirst({
+    where: {
+      tokenHash: hashToken(rawToken),
+      revokedAt: null,
+      OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
+    },
+    select: { id: true, user: { select: SESSION_USER_SELECT } },
+  })
+
+  if (!personalAccessToken) {
+    return { ok: false, status: 401, message: 'Invalid or expired token' }
+  }
+
+  // Best-effort last-used bookkeeping, kept as a separate write so it never widens
+  // the atomic validation query above. Wrapped in try/catch so a transient write
+  // failure can't turn an already-successful authentication into a 500 — the PAT is
+  // valid regardless of whether we managed to stamp `lastUsedAt`.
+  try {
+    await prisma.personalAccessToken.update({
+      where: { id: personalAccessToken.id },
+      data: { lastUsedAt: now },
+    })
+  } catch (error) {
+    Logger.error(error)
+  }
+
+  return { ok: true, user: personalAccessToken.user }
 }

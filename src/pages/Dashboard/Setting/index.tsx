@@ -1,6 +1,7 @@
 import {
   CreditCardIcon,
   BuildingOfficeIcon,
+  KeyIcon,
   UserIcon,
   UsersIcon,
 } from '@heroicons/react/24/solid'
@@ -11,6 +12,7 @@ import { Link, Routes, Route, Outlet, useLocation } from 'react-router'
 
 import Layout from '@/src/components/Layout'
 
+import ExtensionToken from './ExtensionToken'
 import MyAccount from './MyAccount'
 
 const TabRouterContainer: React.FC<ComponentProps<'section'>> = ({
@@ -24,6 +26,7 @@ const TabRouterContainer: React.FC<ComponentProps<'section'>> = ({
 
 const tabs = [
   { name: 'My Account', icon: UserIcon, path: 'my-account' },
+  { name: 'Extension Token', icon: KeyIcon, path: 'extension-token' },
   { name: 'Company', icon: BuildingOfficeIcon, path: 'company' },
   { name: 'Team Members', icon: UsersIcon, path: 'team-member' },
   { name: 'Billing', icon: CreditCardIcon, path: 'billing' },
@@ -66,6 +69,7 @@ const Setting: React.FC = memo(() => {
         <Route path="/" element={<TabRouterContainer />}>
           <Route index element={<MyAccount />} />
           <Route path="my-account" element={<MyAccount />} />
+          <Route path="extension-token" element={<ExtensionToken />} />
           <Route path="company" element={<h1>Company</h1>} />
           <Route path="team-member" element={<h1>Team Member</h1>} />
           <Route path="billing" element={<h1>Billing</h1>} />

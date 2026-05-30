@@ -3,6 +3,7 @@ import type { Router } from 'express'
 
 import blueskyRoute from './routes/bluesky'
 import healthRoute from './routes/health'
+import personalAccessTokenRoute from './routes/personalAccessToken'
 import postRoute from './routes/post'
 import stockRoute from './routes/stock'
 import translateRoute from './routes/translate'
@@ -20,6 +21,7 @@ router.use(postRoute)
 router.use(userRoute)
 // TODO: Refactor /tweet style
 router.use(stockRoute)
+router.use(personalAccessTokenRoute)
 router.use('/tweet', tweet)
 router.use(translateRoute)
 router.use(blueskyRoute)

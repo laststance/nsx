@@ -55,7 +55,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
 export const API = createApi({
   reducerPath: 'RTK_Query',
-  tagTypes: ['Posts', 'Tweets'],
+  tagTypes: ['Posts', 'Tweets', 'PersonalAccessTokens'],
   keepUnusedDataFor: 30,
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
@@ -257,6 +257,34 @@ export const API = createApi({
         }),
       },
     ),
+    getPersonalAccessTokens: builder.query<Res.PersonalAccessTokenList, void>({
+      providesTags: ['PersonalAccessTokens'],
+      query: () => ({
+        method: 'GET',
+        url: 'personal_access_token/list',
+      }),
+    }),
+    mintPersonalAccessToken: builder.mutation<
+      Res.MintPersonalAccessToken,
+      { name: string }
+    >({
+      invalidatesTags: ['PersonalAccessTokens'],
+      query: (body) => ({
+        method: 'POST',
+        url: 'personal_access_token',
+        body,
+      }),
+    }),
+    revokePersonalAccessToken: builder.mutation<
+      Res.RevokePersonalAccessToken,
+      { id: number }
+    >({
+      invalidatesTags: ['PersonalAccessTokens'],
+      query: ({ id }) => ({
+        method: 'DELETE',
+        url: `personal_access_token/${id}`,
+      }),
+    }),
   }),
 })
 
@@ -274,4 +302,7 @@ export const {
   useGetHoverColorPreferenceQuery,
   useUpdateHoverColorPreferenceMutation,
   useUpdateProfileMutation,
+  useGetPersonalAccessTokensQuery,
+  useMintPersonalAccessTokenMutation,
+  useRevokePersonalAccessTokenMutation,
 } = API

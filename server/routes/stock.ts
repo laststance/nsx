@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction, Router } from 'express'
 import express from 'express'
 
-import { isAuthorized } from '../auth'
+import { authenticateStockRequest, isAuthorized } from '../auth'
 import Logger from '../lib/Logger'
 import { pushStockBodySchema, type PushStockBody } from '../lib/requestSchemas'
 import { validateBody } from '../lib/validateRequest'
@@ -104,7 +104,8 @@ const getStockOwnershipStatus = async (
 
 router.post(
   '/push_stock',
-  isAuthorized,
+  // PAT (extension) or cookie (web) auth; validateBody stays second (E8).
+  authenticateStockRequest,
   validateBody(pushStockBodySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body as PushStockBody
@@ -173,30 +174,35 @@ router.get('/stocklist', isAuthorized, async (req, res) => {
   }
 })
 
-router.get('/stock/exists', isAuthorized, async (req, res, next) => {
-  const normalizedUrl = normalizeStockUrl(req.query.url)
-  const userId = req.authenticatedUser?.id
+// PAT-accepting so the popup's on-open duplicate check reaches "connected" (E9).
+router.get(
+  '/stock/exists',
+  authenticateStockRequest,
+  async (req, res, next) => {
+    const normalizedUrl = normalizeStockUrl(req.query.url)
+    const userId = req.authenticatedUser?.id
 
-  if (!userId) {
-    res.status(401).json({ error: 'No token found' })
-    return
-  }
-
-  try {
-    // The popup needs a concrete URL to answer whether this page is already saved.
-    if (!normalizedUrl) {
-      res.status(400).json({ error: URL_REQUIRED_MESSAGE })
+    if (!userId) {
+      res.status(401).json({ error: 'No token found' })
       return
     }
 
-    res
-      .status(200)
-      .json({ exists: await stockUrlExists(normalizedUrl, userId) })
-  } catch (error) {
-    Logger.error(error)
-    next(error)
-  }
-})
+    try {
+      // The popup needs a concrete URL to answer whether this page is already saved.
+      if (!normalizedUrl) {
+        res.status(400).json({ error: URL_REQUIRED_MESSAGE })
+        return
+      }
+
+      res
+        .status(200)
+        .json({ exists: await stockUrlExists(normalizedUrl, userId) })
+    } catch (error) {
+      Logger.error(error)
+      next(error)
+    }
+  },
+)
 
 router.delete('/stock/:id', isAuthorized, async (req, res) => {
   try {
