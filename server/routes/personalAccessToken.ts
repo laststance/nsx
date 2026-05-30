@@ -174,11 +174,14 @@ export const revokePersonalAccessTokenHandler = async (
       return
     }
 
-    const tokenId = Number.parseInt(String(req.params.id), 10)
-    if (!Number.isInteger(tokenId)) {
+    // Require a purely-numeric id. Number.parseInt('5abc', 10) === 5 would silently
+    // treat a malformed id as token 5, contradicting the 400-for-non-numeric contract.
+    const rawTokenId = String(req.params.id)
+    if (!/^\d+$/.test(rawTokenId)) {
       res.status(400).json({ error: INVALID_TOKEN_ID_MESSAGE })
       return
     }
+    const tokenId = Number.parseInt(rawTokenId, 10)
 
     // Ownership check is scoped by userId so one account can't revoke another's token.
     const existing = await prisma.personalAccessToken.findFirst({

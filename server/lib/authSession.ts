@@ -403,11 +403,17 @@ export const authenticateStockPatToken = async (
   }
 
   // Best-effort last-used bookkeeping, kept as a separate write so it never widens
-  // the atomic validation query above.
-  await prisma.personalAccessToken.update({
-    where: { id: personalAccessToken.id },
-    data: { lastUsedAt: now },
-  })
+  // the atomic validation query above. Wrapped in try/catch so a transient write
+  // failure can't turn an already-successful authentication into a 500 — the PAT is
+  // valid regardless of whether we managed to stamp `lastUsedAt`.
+  try {
+    await prisma.personalAccessToken.update({
+      where: { id: personalAccessToken.id },
+      data: { lastUsedAt: now },
+    })
+  } catch (error) {
+    Logger.error(error)
+  }
 
   return { ok: true, user: personalAccessToken.user }
 }

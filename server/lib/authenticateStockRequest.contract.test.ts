@@ -159,6 +159,24 @@ describe('authenticateStockRequest', () => {
     expect(updateArgs.data.lastUsedAt).toBeInstanceOf(Date)
   })
 
+  it('still authenticates the request when the best-effort lastUsedAt write fails', async () => {
+    // Arrange — the PAT is valid, but the post-auth lastUsedAt bookkeeping write
+    // throws (transient DB hiccup). Authentication already succeeded, so the request
+    // must still pass through instead of collapsing into a 500.
+    findPatMock.mockResolvedValue({ id: 11, user: FULL_SESSION_USER } as never)
+    updatePatMock.mockRejectedValue(new Error('transient write failure'))
+    const req = buildRequest(`Bearer ${VALID_RAW_TOKEN}`)
+    const res = buildResponse()
+    const next = vi.fn() as NextFunction
+
+    // Act
+    await authenticateStockRequest(req, res, next)
+
+    // Assert — request proceeds; a post-auth bookkeeping failure never surfaces as 500.
+    expect(next).toHaveBeenCalledOnce()
+    expect(res.status).not.toHaveBeenCalled()
+  })
+
   it('falls back to the existing cookie session when no Authorization header is present', async () => {
     // Arrange — no Authorization header and no auth cookies.
     const req = buildRequest(undefined, {})

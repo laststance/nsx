@@ -197,4 +197,21 @@ describe('revokePersonalAccessTokenHandler', () => {
     expect(res.json).toHaveBeenCalledWith({ id: 5, revokedAt })
     expect(updateMock).not.toHaveBeenCalled()
   })
+
+  it('rejects a non-numeric id with trailing characters as 400 before any DB lookup', async () => {
+    // Arrange — "5abc" would parse to 5 under Number.parseInt; the guard must reject it.
+    const req = {
+      authenticatedUser: { id: OWNER_ID },
+      params: { id: '5abc' },
+    } as unknown as Request
+    const res = buildResponse()
+
+    // Act
+    await revokePersonalAccessTokenHandler(req, res)
+
+    // Assert — 400, and the malformed id never reaches the database.
+    expect(res.status).toHaveBeenCalledWith(400)
+    expect(findFirstMock).not.toHaveBeenCalled()
+    expect(updateMock).not.toHaveBeenCalled()
+  })
 })
