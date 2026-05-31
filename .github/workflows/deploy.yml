@@ -228,7 +228,9 @@ jobs:
                 return 1
               fi
 
-              rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$rollback_dir"/ "$remote_dir"/
+              # Anchored excludes ('/'-prefixed) protect only the top-level .env/logs/run, so
+              # --delete can still prune stale nested node_modules (see artifact-sync rsync, exit 23).
+              rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' "$rollback_dir"/ "$remote_dir"/
               cd "$remote_dir"
               if sudo pm2 describe server >/dev/null 2>&1; then
                 sudo pm2 reload ecosystem.config.js --update-env
@@ -243,7 +245,9 @@ jobs:
 
             capture_rollback_artifacts() {
               set +e
-              rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$remote_dir"/ "$rollback_dir"/
+              # Anchored excludes ('/'-prefixed) protect only the top-level .env/logs/run, so
+              # --delete can still prune stale nested node_modules (see artifact-sync rsync, exit 23).
+              rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' "$remote_dir"/ "$rollback_dir"/
               rollback_status=$?
               set -e
 
@@ -337,7 +341,10 @@ jobs:
             reset_staging_dir || fail_deployment "Failed to clear migration staging directory"
             tar -xzf "$remote_archive" -C "$staging_dir" || fail_deployment "Failed to re-extract clean deployment artifact"
 
-            rsync -a --delete --exclude='.env' --exclude='logs/' --exclude='run/' "$staging_dir"/ "$remote_dir"/ || fail_deployment "Failed to sync deployment artifact"
+            # Anchor excludes with a leading '/' so they shield ONLY top-level runtime state
+            # (.env, logs/, run/). Unanchored patterns also matched deep node_modules dirs
+            # named logs/, protecting stale nested @sentry trees from --delete → rsync exit 23.
+            rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' "$staging_dir"/ "$remote_dir"/ || fail_deployment "Failed to sync deployment artifact"
             deployment_applied="true"
 
             cd "$remote_dir"
