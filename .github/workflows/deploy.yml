@@ -228,9 +228,9 @@ jobs:
                 return 1
               fi
 
-              # Anchored excludes ('/'-prefixed) protect only the top-level .env/logs/run, so
-              # --delete can still prune stale nested node_modules (see artifact-sync rsync, exit 23).
-              rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' "$rollback_dir"/ "$remote_dir"/
+              # Anchored excludes ('/'-prefixed) protect top-level .env/logs/run plus the root-owned
+              # node_modules/.cache the non-root rsync can't delete (see artifact-sync rsync, exit 23).
+              rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' --exclude='/node_modules/.cache/' "$rollback_dir"/ "$remote_dir"/
               cd "$remote_dir"
               if sudo pm2 describe server >/dev/null 2>&1; then
                 sudo pm2 reload ecosystem.config.js --update-env
@@ -245,9 +245,9 @@ jobs:
 
             capture_rollback_artifacts() {
               set +e
-              # Anchored excludes ('/'-prefixed) protect only the top-level .env/logs/run, so
-              # --delete can still prune stale nested node_modules (see artifact-sync rsync, exit 23).
-              rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' "$remote_dir"/ "$rollback_dir"/
+              # Anchored excludes ('/'-prefixed) protect top-level .env/logs/run plus the root-owned
+              # node_modules/.cache the non-root rsync can't delete (see artifact-sync rsync, exit 23).
+              rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' --exclude='/node_modules/.cache/' "$remote_dir"/ "$rollback_dir"/
               rollback_status=$?
               set -e
 
@@ -344,7 +344,9 @@ jobs:
             # Anchor excludes with a leading '/' so they shield ONLY top-level runtime state
             # (.env, logs/, run/). Unanchored patterns also matched deep node_modules dirs
             # named logs/, protecting stale nested @sentry trees from --delete → rsync exit 23.
-            rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' "$staging_dir"/ "$remote_dir"/ || fail_deployment "Failed to sync deployment artifact"
+            # /node_modules/.cache/ holds jiti's compiled prisma.config cache. A manual root deploy
+            # writes it root-owned, so this non-root Actions rsync can't --delete it → exit 23; skip it.
+            rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' --exclude='/node_modules/.cache/' "$staging_dir"/ "$remote_dir"/ || fail_deployment "Failed to sync deployment artifact"
             deployment_applied="true"
 
             cd "$remote_dir"
