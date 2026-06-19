@@ -11,7 +11,7 @@ jobs:
       - uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: 'Asia/Tokyo'
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/prepare
       - name: Create .env file for tests
         run: cp .env.test .env

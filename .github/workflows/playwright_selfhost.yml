@@ -27,7 +27,7 @@ jobs:
           - ./my.cnf:/etc/mysql/conf.d/my.cnf
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/prepare
       - name: Create .env file
         run: cp .env.e2e .env
