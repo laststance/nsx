@@ -7,10 +7,14 @@ runs:
     # Use corepack (bundled with Node) instead of pnpm/action-setup to avoid flaky SSL downloads from codeload.github.com.
     - uses: actions/setup-node@v4
       with:
-        cache: pnpm
         node-version: '22'
     - run: corepack enable
       shell: bash
+    # pnpm must be on PATH before setup-node can configure the pnpm dependency cache.
+    - uses: actions/setup-node@v4
+      with:
+        cache: pnpm
+        node-version: '22'
     - run: |
         pnpm install --no-frozen-lockfile
         pnpm prisma generate
