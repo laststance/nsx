@@ -23,6 +23,9 @@ updates:
       # Vite 8.1.x (Rolldown) breaks MSW checkGlobals() in Storybook/Chromatic builds.
       - dependency-name: 'vite'
         versions: ['8.1.x']
+      # TypeScript 7 removed the compiler API that typescript-eslint still needs.
+      - dependency-name: 'typescript'
+        versions: ['7.x']
 
   # Track GitHub Actions versions (checkout/setup-node/upload-artifact, the
   # SHA-pinned ssh/scp/download-artifact actions, and the local composite
