@@ -1,16 +1,14 @@
 import type { Preview } from '@storybook/react-vite'
 
-import { initialize, mswDecorator } from 'msw-storybook-addon'
+import { mswLoader } from 'msw-storybook-addon/csf3'
 
 import { Provider as ReduxStoreProvider } from 'react-redux'
 import { store } from '../src/redux/store'
 import { handlers } from '../mocks/handlers'
 import '../src/global.css'
 
-// Initialize MSW
-initialize()
-
 const preview: Preview = {
+  loaders: [mswLoader()],
   parameters: {
     msw: { handlers: [...handlers] },
     controls: {
@@ -28,7 +26,6 @@ const preview: Preview = {
     },
   },
   decorators: [
-    mswDecorator,
     (Story) => (
       <ReduxStoreProvider store={store}>
         <Story />
