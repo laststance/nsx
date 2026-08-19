@@ -55,10 +55,12 @@ jobs:
       - name: Build backend
         run: pnpm server:build
 
-      # `pnpm deploy --legacy` does not use the workspace lockfile and re-resolves deps,
-      # so minimum-release-age would block any package published within that window.
+      # `pnpm pm deploy` is required because package.json has a `deploy` script
+      # (rsync helper). pnpm 11 runs that script for `pnpm deploy` instead of
+      # the built-in packager. `--legacy` re-resolves without the lockfile, so
+      # minimum-release-age would block any package published within that window.
       - name: Deploy server package with dependencies
-        run: pnpm --config.minimum-release-age=0 --filter=@nsx/server --prod deploy --legacy .deploy-server
+        run: pnpm --config.minimum-release-age=0 --filter=@nsx/server --prod pm deploy --legacy .deploy-server
 
       - name: Create artifact
         run: |

@@ -29,3 +29,33 @@ minimumReleaseAgeExclude:
   - '@laststance/redux-storage-middleware'
   - '@laststance/react-next-eslint-plugin'
 verifyStoreIntegrity: true
+
+# pnpm 11 reads these from this file only — package.json#pnpm is ignored.
+# @wxt-dev/storage@1.2.5 was published with @wxt-dev/browser@workspace:^;
+# without this override, install fails with ERR_PNPM_WORKSPACE_PKG_NOT_FOUND.
+overrides:
+  '@wxt-dev/browser': '0.1.4'
+  '@wxt-dev/storage': '1.2.5'
+  react: '^19.2.1'
+  react-dom: '^19.2.1'
+
+# Replaces package.json#pnpm.onlyBuiltDependencies (removed in pnpm 11).
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  '@sentry/cli': true
+  '@swc/core': true
+  '@tailwindcss/oxide': true
+  bcrypt: true
+  core-js: true
+  dtrace-provider: true
+  esbuild: true
+  msw: true
+  # Optional native helper of code-inspector-plugin; was never in the old allowlist.
+  node-pty: false
+  node-sass: true
+  oxc-resolver: true
+  prisma: true
+  protobufjs: true
+  spawn-sync: true
+  unrs-resolver: true
