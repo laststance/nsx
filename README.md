@@ -259,7 +259,9 @@ The validate script runs tests, linting, type checking, and build in parallel to
 
 ### SSL Certificate Renewal Hooks
 
-Express binds port 80 (HTTP→HTTPS redirect) and 443 (HTTPS) and loads the Let's Encrypt cert at startup with `fs.readFileSync` (see `server/index.ts`). Because certbot uses the `standalone` authenticator, it also needs port 80 for the ACME challenge — so PM2 must stop before each renewal and start after. The repo ships `pre`/`post` hook scripts that automate this:
+Express binds port 80 (HTTP→HTTPS redirect) and 443 (HTTPS) and loads the Let's Encrypt cert at startup with `fs.readFileSync` (see `server/index.ts`). Because certbot uses the `standalone` authenticator, it also needs port 80 for the ACME challenge — so PM2 must stop before each renewal and start after. The repo ships `pre`/`post` hook scripts that automate this.
+
+The scripts pin `HOME=/root` and `PM2_HOME=/root/.pm2`. Snap's `certbot.renew` timer does not use root's home, so an unpinned `pm2` command would stop a different (empty) daemon and leave Express on port 80.
 
 ```
 scripts/letsencrypt-hooks/
@@ -278,10 +280,10 @@ ssh nsx.malloc.tokyo 'sudo mv /tmp/stop-pm2.sh /etc/letsencrypt/renewal-hooks/pr
   sudo mv /tmp/start-pm2.sh /etc/letsencrypt/renewal-hooks/post/ && \
   sudo chown root:root /etc/letsencrypt/renewal-hooks/{pre/stop-pm2.sh,post/start-pm2.sh} && \
   sudo chmod 755 /etc/letsencrypt/renewal-hooks/{pre/stop-pm2.sh,post/start-pm2.sh} && \
-  sudo certbot renew --dry-run'
+  sudo certbot renew --dry-run --no-random-sleep-on-renew'
 ```
 
-The final `--dry-run` exercises the full loop (pre → simulated renewal → post) without consuming a Let's Encrypt rate-limit slot.
+The final `--dry-run` exercises the full loop (pre → simulated renewal → post) without consuming a Let's Encrypt rate-limit slot. `--no-random-sleep-on-renew` skips the snap timer's multi-minute delay.
 
 **Manual renewal (recovery, if hooks are missing):**
 
