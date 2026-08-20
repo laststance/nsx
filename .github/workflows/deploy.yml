@@ -57,10 +57,12 @@ jobs:
 
       # `pnpm pm deploy` is required because package.json has a `deploy` script
       # (rsync helper). pnpm 11 runs that script for `pnpm deploy` instead of
-      # the built-in packager. `--legacy` re-resolves without the lockfile, so
-      # minimum-release-age would block any package published within that window.
+      # the built-in packager. `pm` must follow `pnpm` immediately; global flags
+      # before `pm` (e.g. `--prod`) are parsed as script options and fail.
+      # `--legacy` re-resolves without the lockfile, so minimum-release-age would
+      # block any package published within that window.
       - name: Deploy server package with dependencies
-        run: pnpm --config.minimum-release-age=0 --filter=@nsx/server --prod pm deploy --legacy .deploy-server
+        run: pnpm pm --config.minimum-release-age=0 --filter=@nsx/server deploy --legacy --prod .deploy-server
 
       - name: Create artifact
         run: |
