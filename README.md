@@ -259,9 +259,9 @@ The validate script runs tests, linting, type checking, and build in parallel to
 
 ### SSL Certificate Renewal Hooks
 
-Express binds port 80 (HTTP→HTTPS redirect) and 443 (HTTPS) and loads the Let's Encrypt cert at startup with `fs.readFileSync` (see `server/index.ts`). Because certbot uses the `standalone` authenticator, it also needs port 80 for the ACME challenge — so PM2 must stop before each renewal and start after. The repo ships `pre`/`post` hook scripts that automate this.
+Express binds port 80 (HTTP→HTTPS redirect) and 443 (HTTPS) and loads the Let's Encrypt cert at startup with `fs.readFileSync` (see `server/index.ts`). certbot `standalone` also needs port 80, so PM2 must stop before renewal and start after.
 
-The scripts pin `HOME=/root` and `PM2_HOME=/root/.pm2`. Snap's `certbot.renew` timer does not use root's home, so an unpinned `pm2` command would stop a different (empty) daemon and leave Express on port 80.
+Linux TLS setup is owned by Ansible (`ansible/README.md`). Do not scp hooks by hand. `pnpm deploy` does not update `/etc/letsencrypt/`.
 
 ```
 scripts/letsencrypt-hooks/
@@ -269,28 +269,21 @@ scripts/letsencrypt-hooks/
 └── post/start-pm2.sh  # certbot post-hook: pm2 start server (always runs, even on renewal failure)
 ```
 
-**Deploy to a fresh production server (run once):**
+**Install or update hooks (existing host):**
 
 ```bash
-scp scripts/letsencrypt-hooks/pre/stop-pm2.sh \
-    scripts/letsencrypt-hooks/post/start-pm2.sh \
-    nsx.malloc.tokyo:/tmp/
-
-ssh nsx.malloc.tokyo 'sudo mv /tmp/stop-pm2.sh /etc/letsencrypt/renewal-hooks/pre/ && \
-  sudo mv /tmp/start-pm2.sh /etc/letsencrypt/renewal-hooks/post/ && \
-  sudo chown root:root /etc/letsencrypt/renewal-hooks/{pre/stop-pm2.sh,post/start-pm2.sh} && \
-  sudo chmod 755 /etc/letsencrypt/renewal-hooks/{pre/stop-pm2.sh,post/start-pm2.sh} && \
-  sudo certbot renew --dry-run --no-random-sleep-on-renew'
+cd ansible
+ansible-playbook playbook.yml --tags certbot --ask-vault-pass --ask-become-pass
 ```
 
-The final `--dry-run` exercises the full loop (pre → simulated renewal → post) without consuming a Let's Encrypt rate-limit slot. `--no-random-sleep-on-renew` skips the snap timer's multi-minute delay.
+This writes `/etc/letsencrypt/renewal-hooks/pm2.env` (`certbot_pm2_home`, default `/root/.pm2` for the live root-owned PM2), copies the hook scripts, and removes the old `/etc/cron.d/nsx-certbot-renew`. Snap's `certbot.renew` timer is the only renewer.
 
-**Manual renewal (recovery, if hooks are missing):**
+**Fresh host:** run the full playbook. See `ansible/README.md`.
+
+**Manual renewal (recovery only):**
 
 ```bash
 ssh nsx.malloc.tokyo 'pm2 stop server'
-ssh nsx.malloc.tokyo 'sudo certbot renew --non-interactive'
+ssh nsx.malloc.tokyo 'sudo certbot renew --non-interactive --no-random-sleep-on-renew'
 ssh nsx.malloc.tokyo 'pm2 start server'
 ```
-
-> **Note**: `pnpm deploy` only rsyncs `build/`, `server_build/`, and `ecosystem.config.js`. It does NOT update `/etc/letsencrypt/renewal-hooks/`. Re-run the deploy step above if the hook scripts change.

@@ -20,6 +20,9 @@
     certbot_email: "{{ vault_certbot_email | default('admin@malloc.tokyo') }}"
     deploy_authorized_keys: '{{ vault_deploy_authorized_keys | default([]) }}'
     certbot_enabled: true
+    # Live production PM2 is root-owned (Actions deploy uses sudo pm2).
+    # A host that stays on the deploy-user daemon should use /home/{{ deploy_user }}/.pm2.
+    certbot_pm2_home: /root/.pm2
     backup_cron_enabled: true
 
   roles:

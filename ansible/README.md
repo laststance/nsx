@@ -34,6 +34,9 @@ ansible-playbook playbook.yml -u root --ask-vault-pass
 
 # Normal idempotent maintenance run after deploy SSH works.
 ansible-playbook playbook.yml --ask-vault-pass --ask-become-pass
+
+# Existing host: install certbot PM2 hooks and drop the obsolete renew cron only.
+ansible-playbook playbook.yml --tags certbot --ask-vault-pass --ask-become-pass
 ```
 
 The playbook intentionally uses task-level `become: true` only for privileged system changes. Application checkout, dependency install, build, and PM2 process management run as `deploy`.
@@ -44,7 +47,31 @@ The playbook intentionally uses task-level `become: true` only for privileged sy
 - Security: deploy user, limited sudoers group, key-only SSH, root SSH disabled, UFW, fail2ban
 - Docker: Docker Engine package, Compose v2, production MySQL compose stack
 - Runtime: NodeSource signed APT repo, corepack pnpm, PM2, pm2-logrotate
-- TLS: certbot via snap, initial certificate, explicit renewal cron
+- TLS: certbot via snap, initial certificate, PM2 pre/post renewal hooks, no extra cron
 - Application: git clone, vault-backed `.env`, pnpm install, Prisma migrate, frontend/server build, PM2 start
 - Monitoring: journald `SystemMaxUse=500M`, snap retain limit
 - Backup: encrypted backup cron installed by `scripts/install-backup-cron`
+
+## TLS renewal
+
+Snap's `certbot.renew` timer is the only renewer. The playbook installs directory hooks so standalone can bind port 80:
+
+| Path                                               | Role                                                   |
+| -------------------------------------------------- | ------------------------------------------------------ |
+| `/etc/letsencrypt/renewal-hooks/pm2.env`           | `HOME` + `PM2_HOME` for the live PM2 daemon            |
+| `/etc/letsencrypt/renewal-hooks/pre/stop-pm2.sh`   | `pm2 stop server`, then fail if port 80 is still taken |
+| `/etc/letsencrypt/renewal-hooks/post/start-pm2.sh` | `pm2 start server` even when renewal fails             |
+
+`certbot_pm2_home` defaults to `/root/.pm2` because the live host's Express is root-owned (`sudo pm2` from GitHub Actions). A host that stays on the deploy-user daemon should set `certbot_pm2_home: /home/{{ deploy_user }}/.pm2`.
+
+The old `/etc/cron.d/nsx-certbot-renew` (`pm2 restart` deploy-hook) is removed. It did not free port 80 and raced the snap timer.
+
+After changing hooks on an existing host:
+
+```bash
+cd ansible
+ansible-playbook playbook.yml --tags certbot --ask-vault-pass --ask-become-pass
+ssh nsx.malloc.tokyo 'certbot renew --dry-run --no-random-sleep-on-renew'
+```
+
+`--dry-run` stops PM2 for the ACME simulation, then the post-hook starts it again.

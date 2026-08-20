@@ -4,8 +4,17 @@
 # would talk to a different (empty) PM2 daemon and leave production listening.
 set -euo pipefail
 
-export HOME=/root
-export PM2_HOME=/root/.pm2
+PM2_HOOK_ENV=/etc/letsencrypt/renewal-hooks/pm2.env
+if [ -f "$PM2_HOOK_ENV" ]; then
+  # Ansible writes HOME and PM2_HOME for the live PM2 daemon.
+  set -a
+  # shellcheck disable=SC1091
+  . "$PM2_HOOK_ENV"
+  set +a
+fi
+
+export HOME="${HOME:-/root}"
+export PM2_HOME="${PM2_HOME:-/root/.pm2}"
 
 HTTP_PORT=80
 PM2_STOP_WAIT_SECONDS=3
