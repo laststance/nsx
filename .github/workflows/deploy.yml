@@ -55,14 +55,12 @@ jobs:
       - name: Build backend
         run: pnpm server:build
 
-      # `pnpm pm deploy` is required because package.json has a `deploy` script
-      # (rsync helper). pnpm 11 runs that script for `pnpm deploy` instead of
-      # the built-in packager. `pm` must follow `pnpm` immediately; global flags
-      # before `pm` (e.g. `--prod`) are parsed as script options and fail.
+      # Root `deploy:sync` (rsync helper) was renamed from `deploy` because pnpm 11
+      # treats `pnpm deploy` as the built-in packager, not a lifecycle script.
       # `--legacy` re-resolves without the lockfile, so minimum-release-age would
       # block any package published within that window.
       - name: Deploy server package with dependencies
-        run: pnpm pm --config.minimum-release-age=0 --filter=@nsx/server deploy --legacy --prod .deploy-server
+        run: pnpm --config.minimum-release-age=0 --filter=@nsx/server --prod deploy --legacy .deploy-server
 
       - name: Create artifact
         run: |
@@ -137,9 +135,38 @@ jobs:
             remote_archive="/tmp/deploy-${{ github.run_id }}-${{ github.run_attempt }}.tar.gz"
             staging_dir="/tmp/nsx-deploy-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}"
             rollback_dir="${remote_dir%/}.rollback"
-            health_url="https://nsx.malloc.tokyo/api/health"
+            health_url="https://127.0.0.1/api/health"
+            health_host="nsx.malloc.tokyo"
+            health_check_attempts=6
+            health_check_retry_delay_seconds=5
+            post_restart_wait_seconds=10
             deployment_applied="false"
             rollback_ready="false"
+
+            dump_pm2_diagnostics() {
+              echo "::group::PM2 diagnostics"
+              sudo pm2 status || true
+              sudo pm2 describe server || true
+              if [ -f "$remote_dir/logs/server-error.log" ]; then
+                echo "--- server-error.log (last 50 lines) ---"
+                tail -n 50 "$remote_dir/logs/server-error.log" || true
+              fi
+              if [ -f "$remote_dir/logs/server-out.log" ]; then
+                echo "--- server-out.log (last 50 lines) ---"
+                tail -n 50 "$remote_dir/logs/server-out.log" || true
+              fi
+              echo "::endgroup::"
+            }
+
+            reload_server_process() {
+              cd "$remote_dir"
+              if sudo pm2 describe server >/dev/null 2>&1; then
+                # restart (not reload) resets unstable restart counters after crash loops.
+                sudo pm2 restart ecosystem.config.js --update-env
+              else
+                sudo pm2 start ecosystem.config.js
+              fi
+            }
 
             cleanup() {
               if [ -d "$staging_dir" ]; then
@@ -212,16 +239,25 @@ jobs:
 
             verify_deployment() {
               attempt=1
-              while [ "$attempt" -le 5 ]; do
-                status=$(curl -s --connect-timeout 5 --max-time 10 -o /dev/null -w "%{http_code}" "$health_url" || printf '000')
+              while [ "$attempt" -le "$health_check_attempts" ]; do
+                status=$(
+                  curl -sk \
+                    --connect-timeout 5 \
+                    --max-time 10 \
+                    -H "Host: ${health_host}" \
+                    -o /dev/null \
+                    -w "%{http_code}" \
+                    "$health_url" || printf '000'
+                )
                 if [ "$status" = "200" ]; then
                   echo "Health check passed with status 200"
                   return 0
                 fi
                 echo "Health check attempt ${attempt} failed with status ${status}"
                 attempt=$((attempt + 1))
-                sleep 5
+                sleep "$health_check_retry_delay_seconds"
               done
+              dump_pm2_diagnostics
               return 1
             }
 
@@ -235,12 +271,7 @@ jobs:
               # Anchored excludes ('/'-prefixed) protect top-level .env/logs/run plus the root-owned
               # node_modules/.cache the non-root rsync can't delete (see artifact-sync rsync, exit 23).
               rsync -a --delete --exclude='/.env' --exclude='/logs/' --exclude='/run/' --exclude='/node_modules/.cache/' "$rollback_dir"/ "$remote_dir"/
-              cd "$remote_dir"
-              if sudo pm2 describe server >/dev/null 2>&1; then
-                sudo pm2 reload ecosystem.config.js --update-env
-              else
-                sudo pm2 start ecosystem.config.js
-              fi
+              reload_server_process
               if ! verify_deployment; then
                 echo "::error::Rollback health check failed"
                 return 1
@@ -355,14 +386,10 @@ jobs:
 
             cd "$remote_dir"
             mkdir -p run/mysqld logs || fail_deployment "Failed to recreate runtime directories"
-            if sudo pm2 describe server >/dev/null 2>&1; then
-              sudo pm2 reload ecosystem.config.js --update-env || fail_deployment "PM2 reload failed"
-            else
-              sudo pm2 start ecosystem.config.js || fail_deployment "PM2 start failed"
-            fi
+            reload_server_process || fail_deployment "PM2 restart failed"
             sudo pm2 save || fail_deployment "PM2 save failed"
 
-            sleep 5
+            sleep "$post_restart_wait_seconds"
             verify_deployment || fail_deployment "Deployment health check failed"
             cleanup
 

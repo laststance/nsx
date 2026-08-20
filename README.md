@@ -291,4 +291,4 @@ ssh nsx.malloc.tokyo 'sudo certbot renew --non-interactive'
 ssh nsx.malloc.tokyo 'pm2 start server'
 ```
 
-> **Note**: `pnpm deploy` only rsyncs `build/`, `server_build/`, and `ecosystem.config.js`. It does NOT update `/etc/letsencrypt/renewal-hooks/`. Re-run the deploy step above if the hook scripts change.
+> **Note**: `pnpm deploy:sync` only rsyncs `build/`, `server_build/`, and `ecosystem.config.js`. It does NOT update `/etc/letsencrypt/renewal-hooks/`. Re-run the deploy step above if the hook scripts change.
