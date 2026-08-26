@@ -164,7 +164,7 @@ describe('revokePersonalAccessTokenHandler', () => {
 
   it('responds 404 for a token that is unknown or owned by someone else', async () => {
     // Arrange
-    findFirstMock.mockResolvedValue(null as never)
+    findFirstMock.mockResolvedValue(null)
     const req = {
       authenticatedUser: { id: OWNER_ID },
       params: { id: '999' },
