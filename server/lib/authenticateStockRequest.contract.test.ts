@@ -195,7 +195,7 @@ describe('authenticateStockRequest', () => {
 
   it('responds 401 without clearing auth cookies when the Bearer PAT is invalid or revoked', async () => {
     // Arrange — a Bearer PAT that matches no active row, alongside live auth cookies.
-    findPatMock.mockResolvedValue(null as never)
+    findPatMock.mockResolvedValue(null)
     const req = buildRequest(`Bearer ${VALID_RAW_TOKEN}`, {
       accessToken: 'owner-access-cookie',
       refreshToken: 'owner-refresh-cookie',
