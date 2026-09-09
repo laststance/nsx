@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { buildStockExistsUrl } from '@/entrypoints/popup/utils/buildStockExistsUrl'
 
 describe('buildStockExistsUrl', () => {
-  it('routes popup duplicate checks to the stock exists endpoint', () => {
+  test('routes popup duplicate checks to the stock exists endpoint', () => {
     // Arrange
     const pushStockApiUrl = 'https://nsx.malloc.tokyo/api/push_stock'
     const currentTabUrl = 'https://example.com/articles?id=1&tag=react'
@@ -17,7 +17,7 @@ describe('buildStockExistsUrl', () => {
     )
   })
 
-  it('normalizes a trailing slash before the duplicate lookup', () => {
+  test('normalizes a trailing slash before the duplicate lookup', () => {
     // Arrange
     const pushStockApiUrl = 'http://localhost:4000/api/push_stock/'
     const currentTabUrl = 'https://example.com/'

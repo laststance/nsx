@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { normalizePopupUrl } from '@/entrypoints/popup/utils/normalizePopupUrl'
 
 describe('normalizePopupUrl', () => {
-  it('treats a trailing slash URL as the same stocked page', () => {
+  test('treats a trailing slash URL as the same stocked page', () => {
     // Arrange
     const currentTabUrl = 'https://example.com/'
 
@@ -14,7 +14,7 @@ describe('normalizePopupUrl', () => {
     expect(normalizedUrl).toBe('https://example.com')
   })
 
-  it('keeps a URL without trailing slash unchanged', () => {
+  test('keeps a URL without trailing slash unchanged', () => {
     // Arrange
     const currentTabUrl = 'https://example.com/articles?id=1'
 

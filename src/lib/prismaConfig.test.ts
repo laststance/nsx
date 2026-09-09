@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { normalizeDatabaseUrlForPrismaCli } from '../../prisma.config'
 
 describe('normalizeDatabaseUrlForPrismaCli', () => {
-  it('uses Prisma socket query when the production runtime URL contains socketPath', () => {
+  test('uses Prisma socket query when the production runtime URL contains socketPath', () => {
     // Arrange
     const databaseUrl =
       'mysql://root:secret@localhost/digital?socketPath=/home/deploy/nsx/run/mysqld/mysqld.sock'
@@ -17,7 +17,7 @@ describe('normalizeDatabaseUrlForPrismaCli', () => {
     )
   })
 
-  it('keeps a TCP database URL unchanged when no socketPath query exists', () => {
+  test('keeps a TCP database URL unchanged when no socketPath query exists', () => {
     // Arrange
     const databaseUrl = 'mysql://root:secret@127.0.0.1:3306/digital'
 
@@ -30,7 +30,7 @@ describe('normalizeDatabaseUrlForPrismaCli', () => {
     )
   })
 
-  it('uses the schema-parse placeholder when DATABASE_URL is missing', () => {
+  test('uses the schema-parse placeholder when DATABASE_URL is missing', () => {
     // Arrange
     const databaseUrl = undefined
 

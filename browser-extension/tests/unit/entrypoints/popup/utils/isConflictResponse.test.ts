@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { isConflictResponse } from '@/entrypoints/popup/utils/isConflictResponse'
 
 describe('isConflictResponse', () => {
-  it('shows duplicate feedback for HTTP 409 axios responses', () => {
+  test('shows duplicate feedback for HTTP 409 axios responses', () => {
     // Arrange
     const error = {
       isAxiosError: true,
@@ -17,7 +17,7 @@ describe('isConflictResponse', () => {
     expect(isDuplicateResponse).toBe(true)
   })
 
-  it('keeps generic failure feedback for non-conflict axios responses', () => {
+  test('keeps generic failure feedback for non-conflict axios responses', () => {
     // Arrange
     const error = {
       isAxiosError: true,

@@ -2,7 +2,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 
 import App from '@/entrypoints/popup/App'
 
@@ -42,7 +42,7 @@ beforeEach(() => {
 })
 
 describe('Extension popup token connection', () => {
-  it('shows the paste panel and hides connected status when no token is stored', async () => {
+  test('shows the paste panel and hides connected status when no token is stored', async () => {
     // Arrange
     ;(chrome.storage.local.get as any).mockResolvedValue({})
     stubActiveTab()
@@ -55,7 +55,7 @@ describe('Extension popup token connection', () => {
     expect(screen.queryByTestId('pat-connected-status')).not.toBeInTheDocument()
   })
 
-  it('persists the pasted token to chrome.storage.local and reveals the connected state', async () => {
+  test('persists the pasted token to chrome.storage.local and reveals the connected state', async () => {
     // Arrange
     ;(chrome.storage.local.get as any).mockResolvedValue({})
     stubActiveTab()
@@ -76,7 +76,7 @@ describe('Extension popup token connection', () => {
     ).toBeInTheDocument()
   })
 
-  it('attaches the token as a Bearer Authorization header on the save request', async () => {
+  test('attaches the token as a Bearer Authorization header on the save request', async () => {
     // Arrange
     ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
     ;(axios.post as any).mockResolvedValue({ data: {} })
@@ -97,7 +97,7 @@ describe('Extension popup token connection', () => {
     )
   })
 
-  it('prompts to reconnect when the saved token is rejected with 401 on save', async () => {
+  test('prompts to reconnect when the saved token is rejected with 401 on save', async () => {
     // Arrange
     ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
     ;(axios.post as any).mockRejectedValue({

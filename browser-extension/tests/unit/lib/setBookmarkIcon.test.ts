@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 
 import { setBookmarkedIcon } from '@/lib/setBookmarkIcon'
 import { setDefaultIcon } from '@/lib/setDefaultIcon'
@@ -11,7 +11,7 @@ describe('Icon Management Functions', () => {
   })
 
   describe('setBookmarkedIcon', () => {
-    it('should send correct message to runtime', () => {
+    test('should send correct message to runtime', () => {
       setBookmarkedIcon()
 
       expect(chrome.runtime.sendMessage).toHaveBeenCalledWith({
@@ -20,7 +20,7 @@ describe('Icon Management Functions', () => {
       })
     })
 
-    it('should send message with bookmarked icon path', () => {
+    test('should send message with bookmarked icon path', () => {
       setBookmarkedIcon()
 
       const call = vi.mocked(chrome.runtime.sendMessage).mock.calls[0][0]
@@ -30,14 +30,14 @@ describe('Icon Management Functions', () => {
       )
     })
 
-    it('should send message with setIcon action', () => {
+    test('should send message with setIcon action', () => {
       setBookmarkedIcon()
 
       const call = vi.mocked(chrome.runtime.sendMessage).mock.calls[0][0]
       expect(call).toHaveProperty('action', 'setIcon')
     })
 
-    it('should be callable multiple times', () => {
+    test('should be callable multiple times', () => {
       setBookmarkedIcon()
       setBookmarkedIcon()
       setBookmarkedIcon()
@@ -47,7 +47,7 @@ describe('Icon Management Functions', () => {
   })
 
   describe('setDefaultIcon', () => {
-    it('should send correct message to runtime', () => {
+    test('should send correct message to runtime', () => {
       setDefaultIcon()
 
       expect(chrome.runtime.sendMessage).toHaveBeenCalledWith({
@@ -56,21 +56,21 @@ describe('Icon Management Functions', () => {
       })
     })
 
-    it('should send message with default icon path', () => {
+    test('should send message with default icon path', () => {
       setDefaultIcon()
 
       const call = vi.mocked(chrome.runtime.sendMessage).mock.calls[0][0]
       expect(call).toHaveProperty('path', '../assets/images/logo.png')
     })
 
-    it('should send message with setIcon action', () => {
+    test('should send message with setIcon action', () => {
       setDefaultIcon()
 
       const call = vi.mocked(chrome.runtime.sendMessage).mock.calls[0][0]
       expect(call).toHaveProperty('action', 'setIcon')
     })
 
-    it('should be callable multiple times', () => {
+    test('should be callable multiple times', () => {
       setDefaultIcon()
       setDefaultIcon()
       setDefaultIcon()
@@ -80,7 +80,7 @@ describe('Icon Management Functions', () => {
   })
 
   describe('Icon toggling behavior', () => {
-    it('should allow toggling between bookmarked and default icons', () => {
+    test('should allow toggling between bookmarked and default icons', () => {
       setBookmarkedIcon()
       setDefaultIcon()
       setBookmarkedIcon()

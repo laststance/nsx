@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 
 import TestRenderer from '@/src/lib/TestRenderer'
 import { API } from '@/src/redux/API'
@@ -32,7 +32,7 @@ beforeEach(() => {
 })
 
 describe('ExtensionToken settings section', () => {
-  it('reveals the freshly minted raw token once after generating', async () => {
+  test('reveals the freshly minted raw token once after generating', async () => {
     // Arrange
     respondWithTokenList([])
     server.use(
@@ -62,7 +62,7 @@ describe('ExtensionToken settings section', () => {
     )
   })
 
-  it('copies the revealed token to the clipboard and confirms inline', async () => {
+  test('copies the revealed token to the clipboard and confirms inline', async () => {
     // Arrange
     respondWithTokenList([])
     server.use(
@@ -100,7 +100,7 @@ describe('ExtensionToken settings section', () => {
     expect(await screen.findByText('Copied!')).toBeInTheDocument()
   })
 
-  it('lists existing tokens masked as nsx_pat_…suffix, never the raw value', async () => {
+  test('lists existing tokens masked as nsx_pat_…suffix, never the raw value', async () => {
     // Arrange
     respondWithTokenList([
       {
@@ -123,7 +123,7 @@ describe('ExtensionToken settings section', () => {
     expect(screen.queryByTestId('revealed-token')).not.toBeInTheDocument()
   })
 
-  it('keeps the form and its input when generation fails with a 5xx', async () => {
+  test('keeps the form and its input when generation fails with a 5xx', async () => {
     // Arrange
     respondWithTokenList([])
     server.use(

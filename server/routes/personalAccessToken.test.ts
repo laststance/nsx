@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, test, expect, vi, beforeEach } from 'vitest'
 
 import { hashToken } from '../lib/authSession'
 import { prisma } from '../prisma'
@@ -47,7 +47,7 @@ beforeEach(() => {
 })
 
 describe('mintPersonalAccessTokenHandler', () => {
-  it('returns a freshly generated raw token once and stores only its hash', async () => {
+  test('returns a freshly generated raw token once and stores only its hash', async () => {
     // Arrange
     createMock.mockResolvedValue({
       id: 1,
@@ -82,7 +82,7 @@ describe('mintPersonalAccessTokenHandler', () => {
     expect(createArgs.data.userId).toBe(OWNER_ID)
   })
 
-  it('responds 401 when there is no authenticated session', async () => {
+  test('responds 401 when there is no authenticated session', async () => {
     // Arrange
     const req = { body: { name: 'x' } } as unknown as Request
     const res = buildResponse()
@@ -97,7 +97,7 @@ describe('mintPersonalAccessTokenHandler', () => {
 })
 
 describe('listPersonalAccessTokensHandler', () => {
-  it('returns the masked token list without ever selecting the hash', async () => {
+  test('returns the masked token list without ever selecting the hash', async () => {
     // Arrange
     findManyMock.mockResolvedValue([
       {
@@ -133,7 +133,7 @@ describe('listPersonalAccessTokensHandler', () => {
 })
 
 describe('revokePersonalAccessTokenHandler', () => {
-  it('sets revokedAt and returns it for an owned, active token', async () => {
+  test('sets revokedAt and returns it for an owned, active token', async () => {
     // Arrange
     findFirstMock.mockResolvedValue({ id: 5, revokedAt: null } as never)
     const revokedAt = new Date('2026-05-30T12:00:00.000Z')
@@ -162,7 +162,7 @@ describe('revokePersonalAccessTokenHandler', () => {
     expect(res.json).toHaveBeenCalledWith({ id: 5, revokedAt })
   })
 
-  it('responds 404 for a token that is unknown or owned by someone else', async () => {
+  test('responds 404 for a token that is unknown or owned by someone else', async () => {
     // Arrange
     findFirstMock.mockResolvedValue(null)
     const req = {
@@ -179,7 +179,7 @@ describe('revokePersonalAccessTokenHandler', () => {
     expect(updateMock).not.toHaveBeenCalled()
   })
 
-  it('is idempotent: re-revoking returns the existing timestamp without a second write', async () => {
+  test('is idempotent: re-revoking returns the existing timestamp without a second write', async () => {
     // Arrange
     const revokedAt = new Date('2026-05-01T00:00:00.000Z')
     findFirstMock.mockResolvedValue({ id: 5, revokedAt } as never)
@@ -198,7 +198,7 @@ describe('revokePersonalAccessTokenHandler', () => {
     expect(updateMock).not.toHaveBeenCalled()
   })
 
-  it('rejects a non-numeric id with trailing characters as 400 before any DB lookup', async () => {
+  test('rejects a non-numeric id with trailing characters as 400 before any DB lookup', async () => {
     // Arrange — "5abc" would parse to 5 under Number.parseInt; the guard must reject it.
     const req = {
       authenticatedUser: { id: OWNER_ID },

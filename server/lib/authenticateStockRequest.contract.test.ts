@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, test, expect, vi, beforeEach } from 'vitest'
 
 import { authenticateStockRequest } from '../auth'
 import { prisma } from '../prisma'
@@ -69,7 +69,7 @@ beforeEach(() => {
 })
 
 describe('authenticateStockRequest', () => {
-  it('authenticates a stock write when a valid Bearer PAT is supplied', async () => {
+  test('authenticates a stock write when a valid Bearer PAT is supplied', async () => {
     // Arrange
     findPatMock.mockResolvedValue({ id: 11, user: FULL_SESSION_USER } as never)
     updatePatMock.mockResolvedValue({} as never)
@@ -85,7 +85,7 @@ describe('authenticateStockRequest', () => {
     expect(res.status).not.toHaveBeenCalled()
   })
 
-  it('hydrates req.authenticatedUser with the full session-user shape for a PAT request', async () => {
+  test('hydrates req.authenticatedUser with the full session-user shape for a PAT request', async () => {
     // Arrange
     findPatMock.mockResolvedValue({ id: 11, user: FULL_SESSION_USER } as never)
     updatePatMock.mockResolvedValue({} as never)
@@ -108,7 +108,7 @@ describe('authenticateStockRequest', () => {
     })
   })
 
-  it('validates the PAT in a single atomic query that excludes revoked and expired tokens', async () => {
+  test('validates the PAT in a single atomic query that excludes revoked and expired tokens', async () => {
     // Arrange
     findPatMock.mockResolvedValue({ id: 11, user: FULL_SESSION_USER } as never)
     updatePatMock.mockResolvedValue({} as never)
@@ -138,7 +138,7 @@ describe('authenticateStockRequest', () => {
     expect(findArgs.select.user).toBeTruthy()
   })
 
-  it('updates lastUsedAt after a successful PAT authentication', async () => {
+  test('updates lastUsedAt after a successful PAT authentication', async () => {
     // Arrange
     findPatMock.mockResolvedValue({ id: 11, user: FULL_SESSION_USER } as never)
     updatePatMock.mockResolvedValue({} as never)
@@ -159,7 +159,7 @@ describe('authenticateStockRequest', () => {
     expect(updateArgs.data.lastUsedAt).toBeInstanceOf(Date)
   })
 
-  it('still authenticates the request when the best-effort lastUsedAt write fails', async () => {
+  test('still authenticates the request when the best-effort lastUsedAt write fails', async () => {
     // Arrange — the PAT is valid, but the post-auth lastUsedAt bookkeeping write
     // throws (transient DB hiccup). Authentication already succeeded, so the request
     // must still pass through instead of collapsing into a 500.
@@ -177,7 +177,7 @@ describe('authenticateStockRequest', () => {
     expect(res.status).not.toHaveBeenCalled()
   })
 
-  it('falls back to the existing cookie session when no Authorization header is present', async () => {
+  test('falls back to the existing cookie session when no Authorization header is present', async () => {
     // Arrange — no Authorization header and no auth cookies.
     const req = buildRequest(undefined, {})
     const res = buildResponse()
@@ -193,7 +193,7 @@ describe('authenticateStockRequest', () => {
     expect(res.json).toHaveBeenCalledWith({ error: 'No token found' })
   })
 
-  it('responds 401 without clearing auth cookies when the Bearer PAT is invalid or revoked', async () => {
+  test('responds 401 without clearing auth cookies when the Bearer PAT is invalid or revoked', async () => {
     // Arrange — a Bearer PAT that matches no active row, alongside live auth cookies.
     findPatMock.mockResolvedValue(null)
     const req = buildRequest(`Bearer ${VALID_RAW_TOKEN}`, {
@@ -212,7 +212,7 @@ describe('authenticateStockRequest', () => {
     expect(res.cookie).not.toHaveBeenCalled()
   })
 
-  it('responds 401 rather than 500 when the Authorization header is malformed', async () => {
+  test('responds 401 rather than 500 when the Authorization header is malformed', async () => {
     // Arrange — a header that is present but not a usable Bearer token.
     const req = buildRequest('NotBearer whatever')
     const res = buildResponse()

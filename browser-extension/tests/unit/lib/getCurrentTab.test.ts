@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck - TypeScript incorrectly detects TDZ violations in mock setup
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
+import { describe, test, expect, beforeEach, vi, afterEach } from 'vitest'
 
 import { getCurrentTab } from '@/lib/getCurrentTab'
 
@@ -20,7 +20,7 @@ describe('getCurrentTab', () => {
     vi.clearAllMocks()
   })
 
-  it('should return the current active tab when available', async () => {
+  test('should return the current active tab when available', async () => {
     const mockTab = createMockTab({
       url: 'https://example.com',
       title: 'Example Page',
@@ -37,7 +37,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(mockTab)
   })
 
-  it('should return undefined when no tabs found', async () => {
+  test('should return undefined when no tabs found', async () => {
     ;(chrome.tabs.query as any).mockResolvedValue([])
 
     const result = await getCurrentTab()
@@ -45,7 +45,7 @@ describe('getCurrentTab', () => {
     expect(result).toBeUndefined()
   })
 
-  it('should use fallback when active tab is extension page', async () => {
+  test('should use fallback when active tab is extension page', async () => {
     const extensionTab = createMockTab({
       url: 'chrome-extension://abcd1234/popup.html',
       active: true,
@@ -68,7 +68,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(browserTab)
   })
 
-  it('should filter out chrome-extension:// URLs', async () => {
+  test('should filter out chrome-extension:// URLs', async () => {
     const extensionTab = createMockTab({
       url: 'chrome-extension://abc123/popup.html',
     })
@@ -86,7 +86,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(validTab)
   })
 
-  it('should return chrome:// tab if it is the active tab', async () => {
+  test('should return chrome:// tab if it is the active tab', async () => {
     // Note: The function only filters chrome-extension:// URLs, not chrome:// or about:
     // This matches the actual implementation behavior
     const chromeTab = createMockTab({
@@ -102,7 +102,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(chromeTab)
   })
 
-  it('should return about: tab if it is the active tab', async () => {
+  test('should return about: tab if it is the active tab', async () => {
     // Note: The function only filters chrome-extension:// URLs, not chrome:// or about:
     // This matches the actual implementation behavior
     const aboutTab = createMockTab({
@@ -118,7 +118,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(aboutTab)
   })
 
-  it('should sort browser tabs by lastAccessed and return most recent', async () => {
+  test('should sort browser tabs by lastAccessed and return most recent', async () => {
     const extensionTab = createMockTab({
       url: 'chrome-extension://abc/popup.html',
       active: true,
@@ -143,7 +143,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(newerTab)
   })
 
-  it('should handle tabs without lastAccessed property', async () => {
+  test('should handle tabs without lastAccessed property', async () => {
     const extensionTab = createMockTab({
       url: 'chrome-extension://abc/popup.html',
       active: true,
@@ -163,7 +163,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(tabWithoutAccess)
   })
 
-  it('should handle tabs without URL', async () => {
+  test('should handle tabs without URL', async () => {
     const extensionTab = createMockTab({
       url: 'chrome-extension://abc/popup.html',
       active: true,
@@ -188,7 +188,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(validTab)
   })
 
-  it('should return first tab from allTabs if no valid browser tabs found', async () => {
+  test('should return first tab from allTabs if no valid browser tabs found', async () => {
     const extensionTab = createMockTab({
       url: 'chrome-extension://abc/popup.html',
       active: true,
@@ -208,7 +208,7 @@ describe('getCurrentTab', () => {
     expect(result).toEqual(extensionTab)
   })
 
-  it('should handle query errors gracefully', async () => {
+  test('should handle query errors gracefully', async () => {
     ;(chrome.tabs.query as any).mockRejectedValueOnce(
       new Error('Tabs permission denied'),
     )

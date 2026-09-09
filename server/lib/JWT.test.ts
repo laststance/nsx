@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 
 import {
   generateRefreshToken,
@@ -15,7 +15,7 @@ vi.stubEnv('REFRESH_TOKEN_SECRET', 'test-refresh-secret')
 
 describe('JWT Functions', () => {
   describe('generateAccessToken', () => {
-    it('sets access tokens to expire after one hour', () => {
+    test('sets access tokens to expire after one hour', () => {
       // Arrange
       const user = {
         id: 1,
@@ -48,7 +48,7 @@ describe('JWT Functions', () => {
   })
 
   describe('generateRefreshToken', () => {
-    it('sets refresh tokens to expire after seven days', () => {
+    test('sets refresh tokens to expire after seven days', () => {
       // Arrange
       const user = {
         id: 1,
@@ -80,7 +80,7 @@ describe('JWT Functions', () => {
       expect(decoded.exp).toBeLessThanOrEqual(expectedExp + 10)
     })
 
-    it('uses unique token IDs so same-second refresh rotations do not collide', () => {
+    test('uses unique token IDs so same-second refresh rotations do not collide', () => {
       // Arrange
       const user = {
         id: 1,
@@ -105,7 +105,7 @@ describe('JWT Functions', () => {
   })
 
   describe('getTokenExpiration', () => {
-    it('extracts expiration date from a signed access token', () => {
+    test('extracts expiration date from a signed access token', () => {
       // Arrange
       const user = {
         id: 1,
@@ -128,7 +128,7 @@ describe('JWT Functions', () => {
       expect(timeDiff).toBeLessThan(10000)
     })
 
-    it('defaults invalid token expiration to one hour', () => {
+    test('defaults invalid token expiration to one hour', () => {
       // Arrange
       const invalidToken = 'invalid.token.here'
 
@@ -144,7 +144,7 @@ describe('JWT Functions', () => {
   })
 
   describe('getCookieOptions', () => {
-    it('aligns the cookie lifetime with the access token lifetime', () => {
+    test('aligns the cookie lifetime with the access token lifetime', () => {
       // Arrange
       const user = {
         id: 1,
@@ -172,7 +172,7 @@ describe('JWT Functions', () => {
       expect(options.maxAge).toBeLessThan(expectedMaxAge + 10000)
     })
 
-    it('sets zero maxAge for expired tokens', () => {
+    test('sets zero maxAge for expired tokens', () => {
       // Arrange
       const expiredPayload = {
         id: 1,
@@ -188,7 +188,7 @@ describe('JWT Functions', () => {
       expect(options.maxAge).toBe(0)
     })
 
-    it('uses strict sameSite for refresh cookies', () => {
+    test('uses strict sameSite for refresh cookies', () => {
       // Arrange
       const user = {
         id: 1,

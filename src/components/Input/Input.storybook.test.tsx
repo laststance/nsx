@@ -1,7 +1,7 @@
 import { composeStories } from '@storybook/react-vite'
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 
 import * as stories from './Input.stories'
 
@@ -10,7 +10,7 @@ const { Default, WithError, EmailType, PasswordType } = composeStories(stories)
 
 describe('Input Component Stories', () => {
   describe('Default Input', () => {
-    it('renders default input with correct attributes', () => {
+    test('renders default input with correct attributes', () => {
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
 
@@ -19,7 +19,7 @@ describe('Input Component Stories', () => {
       expect(input).toHaveAttribute('placeholder', 'Emily')
     })
 
-    it('accepts text input', async () => {
+    test('accepts text input', async () => {
       const user = userEvent.setup()
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
@@ -30,7 +30,7 @@ describe('Input Component Stories', () => {
       expect(input).toHaveValue('John Doe')
     })
 
-    it('handles focus and blur events', async () => {
+    test('handles focus and blur events', async () => {
       const user = userEvent.setup()
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
@@ -42,7 +42,7 @@ describe('Input Component Stories', () => {
       expect(input).not.toHaveFocus()
     })
 
-    it('has correct default styling', () => {
+    test('has correct default styling', () => {
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
 
@@ -55,7 +55,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Input with Error', () => {
-    it('renders error state with correct styling', () => {
+    test('renders error state with correct styling', () => {
       render(<WithError />)
       const input = screen.getByPlaceholderText('Required field')
 
@@ -63,7 +63,7 @@ describe('Input Component Stories', () => {
       expect(input).toHaveClass('border-red-300', 'text-red-900')
     })
 
-    it('displays error message', () => {
+    test('displays error message', () => {
       render(<WithError />)
       const errorMessage = screen.getByText('firstName is required')
 
@@ -71,7 +71,7 @@ describe('Input Component Stories', () => {
       expect(errorMessage).toHaveClass('text-red-600')
     })
 
-    it('shows error icon', () => {
+    test('shows error icon', () => {
       // SVG with aria-hidden="true" won't be found by role, so use class selector
       const { container } = render(<WithError />)
       const errorIcon = container.querySelector('svg[aria-hidden="true"]')
@@ -80,7 +80,7 @@ describe('Input Component Stories', () => {
       expect(errorIcon).toHaveClass('text-red-500')
     })
 
-    it('has proper error styling structure', () => {
+    test('has proper error styling structure', () => {
       render(<WithError />)
       const input = screen.getByPlaceholderText('Required field')
       const errorMessage = screen.getByText('firstName is required')
@@ -91,7 +91,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Email Input Type', () => {
-    it('renders email input with correct type', () => {
+    test('renders email input with correct type', () => {
       render(<EmailType />)
       const input = screen.getByPlaceholderText('user@example.com')
 
@@ -99,7 +99,7 @@ describe('Input Component Stories', () => {
       expect(input).toHaveAttribute('type', 'email')
     })
 
-    it('accepts email input', async () => {
+    test('accepts email input', async () => {
       const user = userEvent.setup()
       render(<EmailType />)
       const input = screen.getByPlaceholderText('user@example.com')
@@ -110,7 +110,7 @@ describe('Input Component Stories', () => {
       expect(input).toHaveValue('test@example.com')
     })
 
-    it('has appropriate placeholder for email', () => {
+    test('has appropriate placeholder for email', () => {
       render(<EmailType />)
       const input = screen.getByPlaceholderText('user@example.com')
 
@@ -119,7 +119,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Password Input Type', () => {
-    it('renders password input with correct type', () => {
+    test('renders password input with correct type', () => {
       render(<PasswordType />)
       const input = screen.getByPlaceholderText('Enter password')
 
@@ -127,7 +127,7 @@ describe('Input Component Stories', () => {
       expect(input).toHaveAttribute('type', 'password')
     })
 
-    it('accepts password input', async () => {
+    test('accepts password input', async () => {
       const user = userEvent.setup()
       render(<PasswordType />)
       const input = screen.getByPlaceholderText('Enter password')
@@ -139,7 +139,7 @@ describe('Input Component Stories', () => {
       expect(input).toBeInTheDocument()
     })
 
-    it('has appropriate placeholder for password', () => {
+    test('has appropriate placeholder for password', () => {
       render(<PasswordType />)
       const input = screen.getByPlaceholderText('Enter password')
 
@@ -148,7 +148,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Input Types Coverage', () => {
-    it('covers different input types', () => {
+    test('covers different input types', () => {
       const inputTypes = [
         { story: Default, expectedType: 'text', placeholder: 'Emily' },
         {
@@ -175,7 +175,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Input Event Handling', () => {
-    it('prevents event propagation on keyup', () => {
+    test('prevents event propagation on keyup', () => {
       const globalHandler = vi.fn()
       document.addEventListener('keyup', globalHandler)
 
@@ -190,7 +190,7 @@ describe('Input Component Stories', () => {
       document.removeEventListener('keyup', globalHandler)
     })
 
-    it('handles keyboard input correctly', async () => {
+    test('handles keyboard input correctly', async () => {
       const user = userEvent.setup()
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
@@ -201,7 +201,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Input Accessibility', () => {
-    it('supports keyboard navigation', () => {
+    test('supports keyboard navigation', () => {
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
 
@@ -209,7 +209,7 @@ describe('Input Component Stories', () => {
       expect(input).toHaveFocus()
     })
 
-    it('has proper ARIA attributes for error state', () => {
+    test('has proper ARIA attributes for error state', () => {
       const { container } = render(<WithError />)
       const input = screen.getByPlaceholderText('Required field')
       const errorMessage = screen.getByText('firstName is required')
@@ -222,7 +222,7 @@ describe('Input Component Stories', () => {
       expect(errorIcon).toHaveAttribute('aria-hidden', 'true')
     })
 
-    it('provides proper focus outline', () => {
+    test('provides proper focus outline', () => {
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
 
@@ -231,7 +231,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Input Styling States', () => {
-    it('has correct normal state styling', () => {
+    test('has correct normal state styling', () => {
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
 
@@ -247,7 +247,7 @@ describe('Input Component Stories', () => {
       )
     })
 
-    it('has correct error state styling', () => {
+    test('has correct error state styling', () => {
       render(<WithError />)
       const input = screen.getByPlaceholderText('Required field')
 
@@ -258,7 +258,7 @@ describe('Input Component Stories', () => {
       )
     })
 
-    it('has correct focus styling classes', () => {
+    test('has correct focus styling classes', () => {
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
 
@@ -267,7 +267,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Input Container Structure', () => {
-    it('has proper container structure', () => {
+    test('has proper container structure', () => {
       const { container } = render(<Default />)
       const inputContainer = container.querySelector(
         '.relative.mt-1.rounded-md.shadow-xs',
@@ -276,7 +276,7 @@ describe('Input Component Stories', () => {
       expect(inputContainer).toBeInTheDocument()
     })
 
-    it('includes error icon container when there is an error', () => {
+    test('includes error icon container when there is an error', () => {
       const { container } = render(<WithError />)
       const errorIconContainer = container.querySelector(
         '.pointer-events-none.absolute.inset-y-0.right-0',
@@ -287,7 +287,7 @@ describe('Input Component Stories', () => {
   })
 
   describe('Input React Hook Form Integration', () => {
-    it('integrates with React Hook Form register', () => {
+    test('integrates with React Hook Form register', () => {
       render(<Default />)
       const input = screen.getByPlaceholderText('Emily')
 
@@ -295,7 +295,7 @@ describe('Input Component Stories', () => {
       expect(input).toHaveAttribute('name', 'firstName')
     })
 
-    it('displays validation errors from React Hook Form', () => {
+    test('displays validation errors from React Hook Form', () => {
       render(<WithError />)
 
       const errorMessage = screen.getByText('firstName is required')

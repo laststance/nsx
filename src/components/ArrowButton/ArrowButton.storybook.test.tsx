@@ -1,6 +1,6 @@
 import { composeStories } from '@storybook/react-vite'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 
 import * as stories from './ArrowButton.stories'
 
@@ -9,7 +9,7 @@ const { Right, Left, Disabled, WithCustomProps } = composeStories(stories)
 
 describe('ArrowButton Component Stories', () => {
   describe('Right Arrow Button', () => {
-    it('renders right arrow button with correct styling', () => {
+    test('renders right arrow button with correct styling', () => {
       render(<Right />)
       const button = screen.getByRole('button')
 
@@ -22,7 +22,7 @@ describe('ArrowButton Component Stories', () => {
       )
     })
 
-    it('calls onClick handler when clicked', () => {
+    test('calls onClick handler when clicked', () => {
       const handleClick = vi.fn()
       render(<Right onClick={handleClick} />)
 
@@ -32,7 +32,7 @@ describe('ArrowButton Component Stories', () => {
       expect(handleClick).toHaveBeenCalledTimes(1)
     })
 
-    it('displays right arrow icon', () => {
+    test('displays right arrow icon', () => {
       render(<Right />)
       const button = screen.getByRole('button')
 
@@ -43,7 +43,7 @@ describe('ArrowButton Component Stories', () => {
   })
 
   describe('Left Arrow Button', () => {
-    it('renders left arrow button with correct styling', () => {
+    test('renders left arrow button with correct styling', () => {
       render(<Left />)
       const button = screen.getByRole('button')
 
@@ -51,7 +51,7 @@ describe('ArrowButton Component Stories', () => {
       expect(button).toHaveClass('h-10', 'w-14', 'rounded-sm')
     })
 
-    it('displays left arrow icon', () => {
+    test('displays left arrow icon', () => {
       render(<Left />)
       const button = screen.getByRole('button')
 
@@ -61,7 +61,7 @@ describe('ArrowButton Component Stories', () => {
   })
 
   describe('Disabled Arrow Button', () => {
-    it('renders disabled button with correct attributes', () => {
+    test('renders disabled button with correct attributes', () => {
       render(<Disabled />)
       const button = screen.getByRole('button')
 
@@ -73,7 +73,7 @@ describe('ArrowButton Component Stories', () => {
       )
     })
 
-    it('does not call onClick when disabled', () => {
+    test('does not call onClick when disabled', () => {
       const handleClick = vi.fn()
       render(<Disabled onClick={handleClick} />)
 
@@ -85,7 +85,7 @@ describe('ArrowButton Component Stories', () => {
   })
 
   describe('Arrow Button with Custom Props', () => {
-    it('supports custom aria-label', () => {
+    test('supports custom aria-label', () => {
       render(<WithCustomProps />)
       const button = screen.getByRole('button', { name: 'Previous page' })
 
@@ -93,14 +93,14 @@ describe('ArrowButton Component Stories', () => {
       expect(button).toHaveAttribute('aria-label', 'Previous page')
     })
 
-    it('supports custom data-testid', () => {
+    test('supports custom data-testid', () => {
       render(<WithCustomProps />)
       const button = screen.getByTestId('nav-previous')
 
       expect(button).toBeInTheDocument()
     })
 
-    it('is clickable with custom props', () => {
+    test('is clickable with custom props', () => {
       const handleClick = vi.fn()
       render(<WithCustomProps onClick={handleClick} />)
 
@@ -112,7 +112,7 @@ describe('ArrowButton Component Stories', () => {
   })
 
   describe('Arrow Button Direction Coverage', () => {
-    it('covers both arrow directions', () => {
+    test('covers both arrow directions', () => {
       const directions = [
         { story: Right, direction: 'right' },
         { story: Left, direction: 'left' },
@@ -131,7 +131,7 @@ describe('ArrowButton Component Stories', () => {
   })
 
   describe('Arrow Button Styling', () => {
-    it('has consistent base styling across variants', () => {
+    test('has consistent base styling across variants', () => {
       const stories = [Right, Left, Disabled]
 
       stories.forEach((Story) => {
@@ -153,7 +153,7 @@ describe('ArrowButton Component Stories', () => {
       })
     })
 
-    it('applies hover classes correctly', () => {
+    test('applies hover classes correctly', () => {
       render(<Right />)
       const button = screen.getByRole('button')
 
@@ -164,7 +164,7 @@ describe('ArrowButton Component Stories', () => {
       )
     })
 
-    it('applies focus classes correctly', () => {
+    test('applies focus classes correctly', () => {
       render(<Right />)
       const button = screen.getByRole('button')
 
@@ -173,7 +173,7 @@ describe('ArrowButton Component Stories', () => {
   })
 
   describe('Arrow Button Accessibility', () => {
-    it('supports keyboard navigation', () => {
+    test('supports keyboard navigation', () => {
       render(<Right />)
       const button = screen.getByRole('button')
 
@@ -181,7 +181,7 @@ describe('ArrowButton Component Stories', () => {
       expect(button).toHaveFocus()
     })
 
-    it('supports keyboard activation', () => {
+    test('supports keyboard activation', () => {
       const handleClick = vi.fn()
       render(<Right onClick={handleClick} />)
 
@@ -193,7 +193,7 @@ describe('ArrowButton Component Stories', () => {
       expect(button).toBeInTheDocument()
     })
 
-    it('works with screen readers', () => {
+    test('works with screen readers', () => {
       render(<WithCustomProps />)
       const button = screen.getByRole('button', { name: 'Previous page' })
 
@@ -203,7 +203,7 @@ describe('ArrowButton Component Stories', () => {
   })
 
   describe('Arrow Button Performance', () => {
-    it('renders efficiently with minimal re-renders', () => {
+    test('renders efficiently with minimal re-renders', () => {
       const { rerender } = render(<Right />)
       const button = screen.getByRole('button')
 
@@ -216,7 +216,7 @@ describe('ArrowButton Component Stories', () => {
   })
 
   describe('Arrow Button Event Handling', () => {
-    it('handles multiple click events', () => {
+    test('handles multiple click events', () => {
       const handleClick = vi.fn()
       render(<Right onClick={handleClick} />)
 
@@ -229,7 +229,7 @@ describe('ArrowButton Component Stories', () => {
       expect(handleClick).toHaveBeenCalledTimes(3)
     })
 
-    it('supports custom event handlers', () => {
+    test('supports custom event handlers', () => {
       const handleMouseEnter = vi.fn()
       const handleMouseLeave = vi.fn()
 

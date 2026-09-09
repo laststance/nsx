@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { buildPushStockApiUrl } from '@/entrypoints/popup/utils/buildPushStockApiUrl'
 
 describe('buildPushStockApiUrl', () => {
-  it('uses the localhost backend fallback endpoint for extension E2E saves', () => {
+  test('uses the localhost backend fallback endpoint for extension E2E saves', () => {
     // Arrange
     const apiEndpoint = 'http://localhost:4000'
 
@@ -14,7 +14,7 @@ describe('buildPushStockApiUrl', () => {
     expect(pushStockApiUrl).toBe('http://localhost:4000/api/push_stock')
   })
 
-  it('keeps the existing api path when the shared endpoint includes it', () => {
+  test('keeps the existing api path when the shared endpoint includes it', () => {
     // Arrange
     const apiEndpoint = 'https://nsx.malloc.tokyo/api/'
 

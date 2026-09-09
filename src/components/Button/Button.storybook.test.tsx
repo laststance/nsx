@@ -1,6 +1,6 @@
 import { composeStories } from '@storybook/react-vite'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 
 import * as stories from './Button.stories'
 
@@ -10,7 +10,7 @@ const { Primary, Secondary, Inverse, Danger, Loading, Disabled, Sizes } =
 
 describe('Button Component Stories', () => {
   describe('Primary Button', () => {
-    it('renders primary button with correct styling', () => {
+    test('renders primary button with correct styling', () => {
       render(<Primary />)
       const button = screen.getByRole('button', { name: 'Primary Color' })
 
@@ -18,7 +18,7 @@ describe('Button Component Stories', () => {
       expect(button).toHaveClass('bg-green-500', 'text-white')
     })
 
-    it('calls onClick handler when clicked', () => {
+    test('calls onClick handler when clicked', () => {
       const handleClick = vi.fn()
       render(<Primary onClick={handleClick} />)
 
@@ -30,7 +30,7 @@ describe('Button Component Stories', () => {
   })
 
   describe('Secondary Button', () => {
-    it('renders secondary button with blue styling', () => {
+    test('renders secondary button with blue styling', () => {
       render(<Secondary />)
       const button = screen.getByRole('button', { name: 'Secondary Color' })
 
@@ -40,7 +40,7 @@ describe('Button Component Stories', () => {
   })
 
   describe('Inverse Button', () => {
-    it('renders inverse button with border and green text', () => {
+    test('renders inverse button with border and green text', () => {
       render(<Inverse />)
       const button = screen.getByRole('button', { name: 'Inverse Color' })
 
@@ -55,7 +55,7 @@ describe('Button Component Stories', () => {
   })
 
   describe('Danger Button', () => {
-    it('renders danger button with red styling', () => {
+    test('renders danger button with red styling', () => {
       render(<Danger />)
       const button = screen.getByRole('button', { name: 'Danger Color' })
 
@@ -65,7 +65,7 @@ describe('Button Component Stories', () => {
   })
 
   describe('Loading Button', () => {
-    it('renders loading button with spinner', () => {
+    test('renders loading button with spinner', () => {
       render(<Loading />)
       const button = screen.getByRole('button', { name: /Loading.*Button/ })
       const spinner = screen.getByTestId('loading')
@@ -75,7 +75,7 @@ describe('Button Component Stories', () => {
       expect(button).toHaveTextContent('Loading Button')
     })
 
-    it('shows spinner and button text simultaneously', () => {
+    test('shows spinner and button text simultaneously', () => {
       render(<Loading />)
 
       // Both spinner and text should be present
@@ -85,7 +85,7 @@ describe('Button Component Stories', () => {
   })
 
   describe('Disabled Button', () => {
-    it('renders disabled button with correct attributes', () => {
+    test('renders disabled button with correct attributes', () => {
       render(<Disabled />)
       const button = screen.getByRole('button', { name: 'Disabled Button' })
 
@@ -97,7 +97,7 @@ describe('Button Component Stories', () => {
       )
     })
 
-    it('does not call onClick when disabled', () => {
+    test('does not call onClick when disabled', () => {
       const handleClick = vi.fn()
       render(<Disabled onClick={handleClick} />)
 
@@ -109,7 +109,7 @@ describe('Button Component Stories', () => {
   })
 
   describe('Button Sizes', () => {
-    it('renders all three button sizes', () => {
+    test('renders all three button sizes', () => {
       render(<Sizes />)
 
       const smallButton = screen.getByRole('button', { name: 'Small' })
@@ -121,7 +121,7 @@ describe('Button Component Stories', () => {
       expect(largeButton).toHaveClass('py-3', 'px-8', 'text-lg')
     })
 
-    it('all buttons are clickable', () => {
+    test('all buttons are clickable', () => {
       const handleClick = vi.fn()
       render(<Sizes />)
 
@@ -136,7 +136,7 @@ describe('Button Component Stories', () => {
   })
 
   describe('Button Variants Coverage', () => {
-    it('covers all button variants', () => {
+    test('covers all button variants', () => {
       const variants = [
         { story: Primary, expectedClass: 'bg-green-500' },
         { story: Secondary, expectedClass: 'bg-blue-500' },
@@ -154,7 +154,7 @@ describe('Button Component Stories', () => {
   })
 
   describe('Button Accessibility', () => {
-    it('supports keyboard navigation', () => {
+    test('supports keyboard navigation', () => {
       render(<Primary />)
       const button = screen.getByRole('button', { name: 'Primary Color' })
 
@@ -162,7 +162,7 @@ describe('Button Component Stories', () => {
       expect(button).toHaveFocus()
     })
 
-    it('supports custom aria attributes', () => {
+    test('supports custom aria attributes', () => {
       render(<Primary aria-label="Custom label" />)
       const button = screen.getByRole('button', { name: 'Custom label' })
 
@@ -171,14 +171,14 @@ describe('Button Component Stories', () => {
   })
 
   describe('Button Types', () => {
-    it('supports different button types', () => {
+    test('supports different button types', () => {
       render(<Primary type="submit" />)
       const button = screen.getByRole('button', { name: 'Primary Color' })
 
       expect(button).toHaveAttribute('type', 'submit')
     })
 
-    it('defaults to button type', () => {
+    test('defaults to button type', () => {
       render(<Primary />)
       const button = screen.getByRole('button', { name: 'Primary Color' })
 
