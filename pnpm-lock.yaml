@@ -22,7 +22,7 @@ importers:
         version: 2.2.0(react@19.3.0)
       '@hookform/resolvers':
         specifier: ^5.9.1
-        version: 5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(effect@3.20.0)(react-hook-form@7.88.0(react@19.3.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.6.4)
+        version: 5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(effect@3.20.0)(react-hook-form@7.88.0(react@19.3.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.6.5)
       '@prisma/adapter-mariadb':
         specifier: 7.10.0
         version: 7.10.0
@@ -75,8 +75,8 @@ importers:
         specifier: ^9.0.3
         version: 9.0.3
       lucide-react:
-        specifier: ^1.45.0
-        version: 1.45.0(react@19.3.0)
+        specifier: ^1.46.0
+        version: 1.46.0(react@19.3.0)
       morgan:
         specifier: ^1.12.1
         version: 1.12.1(supports-color@5.5.0)
@@ -85,7 +85,7 @@ importers:
         version: 3.24.4(@types/node@26.5.1)
       openai:
         specifier: ^7.15.0
-        version: 7.15.0(undici@8.9.0)(ws@8.21.3)(zod@4.6.4)
+        version: 7.15.0(undici@8.9.0)(ws@8.21.3)(zod@4.6.5)
       pino:
         specifier: 10.3.1
         version: 10.3.1
@@ -144,8 +144,8 @@ importers:
         specifier: ^6.2.1
         version: 6.2.1
       zod:
-        specifier: ^4.6.4
-        version: 4.6.4
+        specifier: ^4.6.5
+        version: 4.6.5
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^5.1.2
@@ -163,8 +163,8 @@ importers:
         specifier: ^1.63.0
         version: 1.63.0
       '@redocly/cli':
-        specifier: ^2.52.1
-        version: 2.52.1
+        specifier: ^2.53.0
+        version: 2.53.0
       '@sentry/vite-plugin':
         specifier: 5.4.0
         version: 5.4.0(rollup@4.60.1)(supports-color@5.5.0)(webpack@5.106.1(@swc/core@1.15.47)(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.28))
@@ -2024,8 +2024,8 @@ packages:
       '@types/react':
         optional: true
 
-  '@redocly/cli@2.52.1':
-    resolution: {integrity: sha512-gwfx1WelVDHU/cw+GkpLV9+xksOI3obJGgL1nUVrAFUyXNDxM+aifXDUZk7BfbOIpF69Sea2ant0cOqbQfg/KQ==}
+  '@redocly/cli@2.53.0':
+    resolution: {integrity: sha512-lMtzH4YF2RFW5+pV9oSlkoj2MkvTSAceV6/Qgn7l56PwzEWM1To62qWjlCWaZcMr9AxOpvWuS0XoE942Mzug3A==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
     hasBin: true
 
@@ -6016,8 +6016,8 @@ packages:
     resolution: {integrity: sha512-5J9ysMYUpYIg9RF2vJpy9SinEmSviFSe0GyPpCQ4L5QSkLAgeLXlTAOu2ZwWUU5m+0SBl6gUU1R1ZQB3aKypfA==}
     engines: {bun: '>=1.0.0', deno: '>=1.30.0', node: '>=8.0.0'}
 
-  lucide-react@1.45.0:
-    resolution: {integrity: sha512-yH1ubCAduho9UR7oJhRXIQXogksRILBiTuZC4/bQIGeB9JOkxMlSuEHyyZpo1Z3S0yWJO2KTSUZbjiNvVxeOUw==}
+  lucide-react@1.46.0:
+    resolution: {integrity: sha512-Bv+FZXgZPrxc/NCl1e7JJVQFLdiCxYgxNVhqoV7X0p6I8ADJo8DxBnK1auH0fZz4AmqOJ3jgneL4f1i8LJQRAA==}
     peerDependencies:
       react: ^19.2.1
 
@@ -8553,9 +8553,6 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.6.4:
-    resolution: {integrity: sha512-AXSD6hvGdvRjajG/l1cC+d6IrhH+sjmPKtYeQdJIK8MFJl3LyClzS+o/YsVC+zQZPupAaeH5skwwm8YqYH7BqA==}
-
   zod@4.6.5:
     resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
 
@@ -9297,7 +9294,7 @@ snapshots:
     dependencies:
       react: 19.3.0
 
-  '@hookform/resolvers@5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(effect@3.20.0)(react-hook-form@7.88.0(react@19.3.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.6.4)':
+  '@hookform/resolvers@5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(effect@3.20.0)(react-hook-form@7.88.0(react@19.3.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.6.5)':
     dependencies:
       '@standard-schema/utils': 0.3.0
       react-hook-form: 7.88.0(react@19.3.0)
@@ -9307,7 +9304,7 @@ snapshots:
       ajv-formats: 2.1.1(ajv@8.20.0)
       effect: 3.20.0
       valibot: 1.4.2(typescript@6.0.3)
-      zod: 4.6.4
+      zod: 4.6.5
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -9937,7 +9934,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
 
-  '@redocly/cli@2.52.1': {}
+  '@redocly/cli@2.53.0': {}
 
   '@reduxjs/toolkit@2.12.0(react-redux@9.3.0(@types/react@19.3.0)(react@19.3.0)(redux@5.0.1))(react@19.3.0)':
     dependencies:
@@ -13164,8 +13161,8 @@ snapshots:
       '@babel/parser': 7.29.2
       eslint: 10.10.0(jiti@2.7.0)(supports-color@10.2.2)
       hermes-parser: 0.25.1
-      zod: 4.6.4
-      zod-validation-error: 4.0.2(zod@4.6.4)
+      zod: 4.6.5
+      zod-validation-error: 4.0.2(zod@4.6.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -13175,8 +13172,8 @@ snapshots:
       '@babel/parser': 7.29.2
       eslint: 10.10.0(jiti@2.7.0)(supports-color@5.5.0)
       hermes-parser: 0.25.1
-      zod: 4.6.4
-      zod-validation-error: 4.0.2(zod@4.6.4)
+      zod: 4.6.5
+      zod-validation-error: 4.0.2(zod@4.6.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -14637,7 +14634,7 @@ snapshots:
 
   lru.min@1.1.5: {}
 
-  lucide-react@1.45.0(react@19.3.0):
+  lucide-react@1.46.0(react@19.3.0):
     dependencies:
       react: 19.3.0
 
@@ -15357,12 +15354,6 @@ snapshots:
       define-lazy-prop: 2.0.0
       is-docker: 2.2.1
       is-wsl: 2.2.0
-
-  openai@7.15.0(undici@8.9.0)(ws@8.21.3)(zod@4.6.4):
-    optionalDependencies:
-      undici: 8.9.0
-      ws: 8.21.3
-      zod: 4.6.4
 
   openai@7.15.0(undici@8.9.0)(ws@8.21.3)(zod@4.6.5):
     optionalDependencies:
@@ -17666,13 +17657,11 @@ snapshots:
       async: 3.2.6
       jszip: 3.10.1
 
-  zod-validation-error@4.0.2(zod@4.6.4):
+  zod-validation-error@4.0.2(zod@4.6.5):
     dependencies:
-      zod: 4.6.4
+      zod: 4.6.5
 
   zod@3.25.76: {}
-
-  zod@4.6.4: {}
 
   zod@4.6.5: {}
 
