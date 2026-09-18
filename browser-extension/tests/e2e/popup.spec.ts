@@ -172,8 +172,7 @@ test.describe('Extension Popup UI Tests', () => {
     await popupPage.close()
   })
 
-  // Skipped: Success message not appearing - See https://plane.so (NSX-81)
-  test.skip('saves page on checkbox click and shows success message', async ({
+  test('saves page on checkbox click and shows success message', async ({
     context,
     extensionId,
     page,
@@ -185,6 +184,15 @@ test.describe('Extension Popup UI Tests', () => {
     await page.waitForLoadState('domcontentloaded')
 
     const popupPage = await openPopup(context, extensionId)
+
+    // Tokenless saves 401 since PAT auth (#3784); stub a 201 so this covers the success UI.
+    await popupPage.route('**/api/push_stock', (route) => {
+      route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 1 }),
+      })
+    })
 
     // Monitor API calls
     const apiCalls: Array<any> = []
@@ -293,8 +301,7 @@ test.describe('Extension Popup UI Tests', () => {
     await popupPage.close()
   })
 
-  // Skipped: Success message not appearing - See https://plane.so (NSX-81)
-  test.skip('success message fades in and out', async ({
+  test('hides the success message about a second after saving', async ({
     context,
     extensionId,
     page,
@@ -306,6 +313,15 @@ test.describe('Extension Popup UI Tests', () => {
     await page.waitForLoadState('domcontentloaded')
 
     const popupPage = await openPopup(context, extensionId)
+
+    // Tokenless saves 401 since PAT auth (#3784); stub a 201 so this covers the success UI.
+    await popupPage.route('**/api/push_stock', (route) => {
+      route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 1 }),
+      })
+    })
 
     // Click checkbox to trigger save
     const checkbox = popupPage.locator('.checkbox')

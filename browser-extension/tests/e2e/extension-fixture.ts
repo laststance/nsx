@@ -9,7 +9,9 @@ import { fileURLToPath } from 'url'
 import {
   test as base,
   chromium,
+  expect,
   request as playwrightRequest,
+  type APIRequestContext,
   type BrowserContext,
   type Page,
 } from '@playwright/test'
@@ -19,8 +21,13 @@ export type ExtensionTestFixtures = {
   extensionId: string
 }
 
+/** Mint-response fields the PAT specs use; a local mirror of {@link Res.MintPersonalAccessToken}, which this package's tsconfig can't see. */
+type MintedPersonalAccessToken = { id: number; token: string }
+
 type OpenPopupOptions = {
   stockExists?: boolean
+  // false lets the popup's token-authenticated duplicate check reach the real backend.
+  stubStockExists?: boolean
 }
 
 export const test = base.extend<ExtensionTestFixtures>({
@@ -77,10 +84,11 @@ export { expect } from '@playwright/test'
  * Opens the extension popup with a deterministic stock existence response.
  * @param context - The persistent browser context with the extension loaded.
  * @param extensionId - The loaded extension ID from the service worker URL.
- * @param options - Optional popup API fixtures, defaulting stock existence to false.
+ * @param options - Optional popup API fixtures, defaulting stock existence to false; `stubStockExists: false` hits the real backend.
  * @returns The popup page after the React root is ready.
  * @example
  * await openPopup(context, extensionId, { stockExists: true })
+ * await openPopup(context, extensionId, { stubStockExists: false })
  */
 export async function openPopup(
   context: BrowserContext,
@@ -88,13 +96,16 @@ export async function openPopup(
   options: OpenPopupOptions = {},
 ): Promise<Page> {
   const popupPage = await context.newPage()
-  await popupPage.route('**/api/stock/exists**', (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({ exists: options.stockExists ?? false }),
+  // Real-backend PAT specs opt out so the Bearer duplicate check is exercised, not faked.
+  if (options.stubStockExists !== false) {
+    await popupPage.route('**/api/stock/exists**', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ exists: options.stockExists ?? false }),
+      })
     })
-  })
+  }
 
   await popupPage.goto(`chrome-extension://${extensionId}/popup.html`)
   await popupPage.waitForLoadState('domcontentloaded')
@@ -130,6 +141,50 @@ export async function waitForBackendReady(maxAttempts = 10): Promise<boolean> {
   } finally {
     await requestContext.dispose()
   }
+}
+
+/**
+ * Mints a real PAT as the seeded owner, because the mint endpoint only accepts a web cookie session; used by the PAT specs.
+ * @param request - Playwright API context; it keeps the login cookies so {@link revokePersonalAccessToken} can reuse them.
+ * @returns The token id (for revoking) and the raw `nsx_pat_…` value that the web UI shows only once.
+ * @example
+ * const { id, token } = await mintPersonalAccessToken(request)
+ */
+export async function mintPersonalAccessToken(
+  request: APIRequestContext,
+): Promise<MintedPersonalAccessToken> {
+  // Seeded owner from prisma/seed.ts, the same account the web e2e logs in as.
+  const loginResponse = await request.post('http://localhost:4000/api/login', {
+    data: { name: 'John Doe', password: 'popcoon' },
+  })
+  expect(loginResponse.status()).toBe(200)
+
+  const mintResponse = await request.post(
+    'http://localhost:4000/api/personal_access_token',
+    { data: { name: 'Playwright e2e' } },
+  )
+  expect(mintResponse.status()).toBe(201)
+
+  const mintedToken: MintedPersonalAccessToken = await mintResponse.json()
+  return mintedToken
+}
+
+/**
+ * Revokes a PAT through the owner's cookie session so the extension holds a rejected token; used by the reconnect spec.
+ * @param request - The API context that ran {@link mintPersonalAccessToken}; its login cookies authorize the revoke.
+ * @param id - The token id returned by {@link mintPersonalAccessToken}.
+ * @returns Nothing; the test fails unless the server confirms the revoke.
+ * @example
+ * await revokePersonalAccessToken(request, id)
+ */
+export async function revokePersonalAccessToken(
+  request: APIRequestContext,
+  id: number,
+): Promise<void> {
+  const revokeResponse = await request.delete(
+    `http://localhost:4000/api/personal_access_token/${id}`,
+  )
+  expect(revokeResponse.status()).toBe(200)
 }
 
 /**
