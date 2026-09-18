@@ -6,7 +6,7 @@
 import { test, expect } from './extension-fixture'
 import {
   openPopup,
-  recordRequestedIconPaths,
+  recordIconUpdates,
   TestPages,
   waitForBackendReady,
   verifySuccessMessage,
@@ -38,8 +38,8 @@ test.describe('Extension Icon State Tests', () => {
       })
     })
 
-    // setIcon leaves no DOM state, so observe the icon the popup requests from the background worker.
-    const readRequestedIconPaths = await recordRequestedIconPaths(context)
+    // setIcon leaves no DOM state, so observe the icons the background worker applies.
+    const readIconUpdates = await recordIconUpdates(context)
 
     // Save page
     const checkbox = popupPage.locator('.checkbox')
@@ -49,10 +49,10 @@ test.describe('Extension Icon State Tests', () => {
     const success = await verifySuccessMessage(popupPage)
     expect(success).toBe(true)
 
-    // A successful save asks the background worker for the bookmarked icon.
+    // A successful save makes Chrome show the bookmarked icon.
     await expect
-      .poll(readRequestedIconPaths)
-      .toEqual(['../assets/images/logo-bookmarked.png'])
+      .poll(readIconUpdates)
+      .toEqual(['/images/logo-bookmarked.png -> ok'])
 
     await popupPage.close()
   })
@@ -77,32 +77,50 @@ test.describe('Extension Icon State Tests', () => {
     expect(sw.url()).toContain('background.js')
   })
 
-  test('icon state persists across popup opens', async ({
+  test('reopening the popup on a saved page shows the bookmarked icon', async ({
     context,
     extensionId,
     page,
   }) => {
+    // Arrange
     const backendReady = await waitForBackendReady()
     expect(backendReady).toBe(true)
 
     await page.goto(TestPages.example.url)
     await page.waitForLoadState('domcontentloaded')
 
-    // Open popup and save
-    let popupPage = await openPopup(context, extensionId)
-    const checkbox = popupPage.locator('.checkbox')
-    await checkbox.check()
-    await verifySuccessMessage(popupPage)
-    await popupPage.close()
+    // Save the page from a first popup.
+    const firstPopupPage = await openPopup(context, extensionId)
+    // Tokenless saves 401 since PAT auth (#3784); stub a 201 so the save succeeds.
+    await firstPopupPage.route('**/api/push_stock', (route) => {
+      route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 1 }),
+      })
+    })
+    await firstPopupPage.locator('.checkbox').check()
+    const success = await verifySuccessMessage(firstPopupPage)
+    expect(success).toBe(true)
+    await firstPopupPage.close()
 
-    // Open popup again
-    popupPage = await openPopup(context, extensionId)
+    const readIconUpdates = await recordIconUpdates(context)
 
-    // Popup should still work normally
-    const appRoot = popupPage.locator('#popup')
-    await expect(appRoot).toBeVisible()
+    // Act — the reopened popup's duplicate check now reports the page as saved.
+    const reopenedPopupPage = await openPopup(context, extensionId, {
+      stockExists: true,
+    })
 
-    await popupPage.close()
+    // Assert
+    // Opening the popup as a tab also fires the tab-switch reset in tests, so check the icon Chrome ends on.
+    await expect
+      .poll(async () => (await readIconUpdates()).at(-1))
+      .toBe('/images/logo-bookmarked.png -> ok')
+    await expect(
+      reopenedPopupPage.getByRole('checkbox', { name: 'Already Exists' }),
+    ).toBeChecked()
+
+    await reopenedPopupPage.close()
   })
 
   test('tab switch resets icon to default', async ({
@@ -110,30 +128,42 @@ test.describe('Extension Icon State Tests', () => {
     extensionId,
     page,
   }) => {
+    // Arrange
     const backendReady = await waitForBackendReady()
     expect(backendReady).toBe(true)
 
     await page.goto(TestPages.example.url)
     await page.waitForLoadState('domcontentloaded')
 
-    // Open popup and save on first tab
     const popupPage = await openPopup(context, extensionId)
-    const checkbox = popupPage.locator('.checkbox')
-    await checkbox.check()
-    await verifySuccessMessage(popupPage)
-    await popupPage.close()
+    // Tokenless saves 401 since PAT auth (#3784); stub a 201 so the save succeeds.
+    await popupPage.route('**/api/push_stock', (route) => {
+      route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 1 }),
+      })
+    })
+    const readIconUpdates = await recordIconUpdates(context)
+    await popupPage.locator('.checkbox').check()
+    const success = await verifySuccessMessage(popupPage)
+    expect(success).toBe(true)
+    // Start from the bookmarked icon, or a "reset" to default would prove nothing.
+    await expect
+      .poll(readIconUpdates)
+      .toEqual(['/images/logo-bookmarked.png -> ok'])
 
-    // Open new tab
+    // Act
     const newTab = await context.newPage()
-    await newTab.goto(TestPages.github.url)
-    await newTab.waitForLoadState('domcontentloaded')
+    await newTab.bringToFront()
 
-    // Background script should reset icon on tab change
-    // Verify by checking background script is still responsive
-    const serviceWorkers = context.serviceWorkers()
-    expect(serviceWorkers.length).toBeGreaterThan(0)
+    // Assert
+    await expect
+      .poll(async () => (await readIconUpdates()).at(-1))
+      .toBe('/images/logo.png -> ok')
 
     await newTab.close()
+    await popupPage.close()
   })
 
   test('multiple saves do not break icon state', async ({
@@ -159,8 +189,8 @@ test.describe('Extension Icon State Tests', () => {
       })
     })
 
-    // setIcon leaves no DOM state, so observe the icon the popup requests from the background worker.
-    const readRequestedIconPaths = await recordRequestedIconPaths(context)
+    // setIcon leaves no DOM state, so observe the icons the background worker applies.
+    const readIconUpdates = await recordIconUpdates(context)
 
     // Save multiple times
     for (let i = 0; i < 3; i++) {
@@ -177,13 +207,13 @@ test.describe('Extension Icon State Tests', () => {
       await popupPage.waitForTimeout(1500)
     }
 
-    // Each of the three saves requests the bookmarked icon again.
+    // Each of the three saves makes Chrome show the bookmarked icon again.
     await expect
-      .poll(readRequestedIconPaths)
+      .poll(readIconUpdates)
       .toEqual([
-        '../assets/images/logo-bookmarked.png',
-        '../assets/images/logo-bookmarked.png',
-        '../assets/images/logo-bookmarked.png',
+        '/images/logo-bookmarked.png -> ok',
+        '/images/logo-bookmarked.png -> ok',
+        '/images/logo-bookmarked.png -> ok',
       ])
 
     // Popup should still be functional

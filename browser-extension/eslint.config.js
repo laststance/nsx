@@ -45,6 +45,8 @@ export default [
         HTMLInputElement: 'readonly',
         Animation: 'readonly',
         KeyframeEffect: 'readonly',
+        AbortController: 'readonly',
+        AbortSignal: 'readonly',
 
         // Browser Extension API globals
         chrome: 'readonly',

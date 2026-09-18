@@ -16,7 +16,7 @@ describe('Icon Management Functions', () => {
 
       expect(chrome.runtime.sendMessage).toHaveBeenCalledWith({
         action: 'setIcon',
-        path: '../assets/images/logo-bookmarked.png',
+        path: '/images/logo-bookmarked.png',
       })
     })
 
@@ -24,10 +24,7 @@ describe('Icon Management Functions', () => {
       setBookmarkedIcon()
 
       const call = vi.mocked(chrome.runtime.sendMessage).mock.calls[0][0]
-      expect(call).toHaveProperty(
-        'path',
-        '../assets/images/logo-bookmarked.png',
-      )
+      expect(call).toHaveProperty('path', '/images/logo-bookmarked.png')
     })
 
     test('should send message with setIcon action', () => {
@@ -52,7 +49,7 @@ describe('Icon Management Functions', () => {
 
       expect(chrome.runtime.sendMessage).toHaveBeenCalledWith({
         action: 'setIcon',
-        path: '../assets/images/logo.png',
+        path: '/images/logo.png',
       })
     })
 
@@ -60,7 +57,7 @@ describe('Icon Management Functions', () => {
       setDefaultIcon()
 
       const call = vi.mocked(chrome.runtime.sendMessage).mock.calls[0][0]
-      expect(call).toHaveProperty('path', '../assets/images/logo.png')
+      expect(call).toHaveProperty('path', '/images/logo.png')
     })
 
     test('should send message with setIcon action', () => {
@@ -90,9 +87,9 @@ describe('Icon Management Functions', () => {
       const calls = (chrome.runtime.sendMessage as any).mock.calls as Array<
         [{ path: string }]
       >
-      expect(calls[0]?.[0]?.path).toBe('../assets/images/logo-bookmarked.png')
-      expect(calls[1]?.[0]?.path).toBe('../assets/images/logo.png')
-      expect(calls[2]?.[0]?.path).toBe('../assets/images/logo-bookmarked.png')
+      expect(calls[0]?.[0]?.path).toBe('/images/logo-bookmarked.png')
+      expect(calls[1]?.[0]?.path).toBe('/images/logo.png')
+      expect(calls[2]?.[0]?.path).toBe('/images/logo-bookmarked.png')
     })
   })
 })
