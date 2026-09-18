@@ -19,7 +19,7 @@ test.describe('Extension Personal Access Token flow', () => {
     request,
   }) => {
     // Arrange
-    const { token } = await mintPersonalAccessToken(request)
+    const { id, token } = await mintPersonalAccessToken(request)
     // A fresh URL per run keeps a persistent local DB from answering 409 Already Exists.
     await page.goto(`https://example.com/?nsx-pat-e2e=${Date.now()}`)
     await page.waitForLoadState('domcontentloaded')
@@ -41,10 +41,11 @@ test.describe('Extension Personal Access Token flow', () => {
     await popupPage.locator('.checkbox').check()
 
     // Assert
-    await expect(popupPage.getByTestId('pat-connected-status')).toBeVisible()
+    // Success! clears after FEEDBACK_CLEAR_DELAY_MS (1s), so check it before the stable connected state.
     await expect(
       popupPage.locator('.result').getByText('Success!'),
     ).toBeVisible()
+    await expect(popupPage.getByTestId('pat-connected-status')).toBeVisible()
 
     // Reopening proves the save persisted: the token-authenticated duplicate check now finds it.
     await popupPage.close()
@@ -56,6 +57,9 @@ test.describe('Extension Personal Access Token flow', () => {
     ).toBeVisible()
     await expect(reopenedPopup.locator('.checkbox')).toBeChecked()
     await expect(reopenedPopup.locator('.checkbox')).toBeDisabled()
+
+    // Cleanup: revoke so re-runs against a persistent local DB don't leave live tokens behind.
+    await revokePersonalAccessToken(request, id)
   })
 
   test('asks to reconnect when the pasted token is revoked on the web', async ({
