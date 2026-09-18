@@ -1,5 +1,11 @@
 import axios from 'axios'
-import React, { useEffect, useState, type ChangeEvent, type FC } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FC,
+} from 'react'
 
 import { setBookmarkedIcon } from '../../lib/setBookmarkIcon'
 
@@ -76,6 +82,8 @@ const App: FC = () => {
   const [stockSaveState, setStockSaveState] = useState<StockSaveState>(
     INITIAL_STOCK_SAVE_STATE,
   )
+  // Lets a save abort the in-flight existence check, whose late reply would reset the save result.
+  const existenceCheckAbortControllerRef = useRef<AbortController | null>(null)
   const normalizedUrl = normalizePopupUrl(state.url)
 
   useEffect(() => {
@@ -91,15 +99,19 @@ const App: FC = () => {
       return undefined
     }
 
-    let isRequestCanceled = false
+    const existenceCheckAbortController = new AbortController()
+    existenceCheckAbortControllerRef.current = existenceCheckAbortController
 
     axios
       .get<StockExistsResponse>(
         buildStockExistsUrl(pushStockApiUrl, normalizedUrl),
-        buildStockRequestConfig(token),
+        {
+          ...buildStockRequestConfig(token),
+          signal: existenceCheckAbortController.signal,
+        },
       )
       .then(({ data }) => {
-        if (isRequestCanceled) return
+        if (existenceCheckAbortController.signal.aborted) return
 
         setStockSaveState({
           feedbackMessage: data.exists ? ALREADY_EXISTS_MESSAGE : '',
@@ -110,7 +122,8 @@ const App: FC = () => {
         if (data.exists) setBookmarkedIcon()
       })
       .catch((error: unknown) => {
-        if (isRequestCanceled) return
+        // Aborted by cleanup or a save: the reply is stale, so the current state wins.
+        if (existenceCheckAbortController.signal.aborted) return
 
         // A rejected stored token (revoked/expired) surfaces the reconnect prompt.
         if (token && isUnauthorizedResponse(error)) markRejected()
@@ -120,7 +133,7 @@ const App: FC = () => {
       })
 
     return () => {
-      isRequestCanceled = true
+      existenceCheckAbortController.abort()
     }
   }, [normalizedUrl, token, isTokenLoading, markRejected])
 
@@ -179,6 +192,9 @@ const App: FC = () => {
       setBookmarkedIcon()
       return
     }
+
+    // The save supersedes a still-pending existence check; its "not saved" reply would erase Success!.
+    existenceCheckAbortControllerRef.current?.abort()
 
     axios
       .post(

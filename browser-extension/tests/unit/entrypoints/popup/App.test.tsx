@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import { describe, test, expect, beforeEach, vi } from 'vitest'
@@ -118,5 +118,43 @@ describe('Extension popup token connection', () => {
       await screen.findByTestId('pat-reconnect-notice'),
     ).toBeInTheDocument()
     expect(screen.getByTestId('pat-connect-panel')).toBeInTheDocument()
+  })
+})
+
+describe('Extension popup save result', () => {
+  test('keeps Success! and the checked box when the on-open existence check answers after the save', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
+    ;(axios.post as any).mockResolvedValue({ data: {} })
+    let answerExistenceCheck: (response: {
+      data: { exists: boolean }
+    }) => void = () => {}
+    ;(axios.get as any).mockImplementation(
+      (_url: string, config: { signal?: AbortSignal }) =>
+        new Promise((resolve, reject) => {
+          answerExistenceCheck = resolve
+          // Like real axios, an aborted request rejects with CanceledError.
+          config.signal?.addEventListener('abort', () => {
+            reject(new axios.CanceledError())
+          })
+        }),
+    )
+    stubActiveTab()
+    const user = userEvent.setup()
+    render(<App />)
+    const saveCheckbox = await screen.findByRole('checkbox')
+    // The existence check started on open is still in flight when the user saves.
+    await waitFor(() => expect(axios.get).toHaveBeenCalledTimes(1))
+    await user.click(saveCheckbox)
+    expect(await screen.findByText('Success!')).toBeVisible()
+
+    // Act — the existence check answers "not saved" only after the save succeeded.
+    await act(async () => {
+      answerExistenceCheck({ data: { exists: false } })
+    })
+
+    // Assert
+    expect(screen.getByText('Success!')).toBeVisible()
+    expect(saveCheckbox).toBeChecked()
   })
 })
