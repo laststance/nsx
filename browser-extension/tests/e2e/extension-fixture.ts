@@ -9,18 +9,26 @@ import { fileURLToPath } from 'url'
 import {
   test as base,
   chromium,
+  expect,
   request as playwrightRequest,
+  type APIRequestContext,
   type BrowserContext,
   type Page,
 } from '@playwright/test'
 
+/** Mint-response fields the PAT specs use; a local mirror of {@link Res.MintPersonalAccessToken}, which this package's tsconfig can't see. */
+type MintedPersonalAccessToken = { id: number; token: string }
+
 export type ExtensionTestFixtures = {
   context: BrowserContext
   extensionId: string
+  personalAccessToken: MintedPersonalAccessToken
 }
 
 type OpenPopupOptions = {
   stockExists?: boolean
+  // false lets the popup's token-authenticated duplicate check reach the real backend.
+  stubStockExists?: boolean
 }
 
 export const test = base.extend<ExtensionTestFixtures>({
@@ -69,6 +77,14 @@ export const test = base.extend<ExtensionTestFixtures>({
 
     await registerFixture(extensionId)
   },
+
+  // Mints a real PAT per test; teardown revokes it even when the test fails, so no live token outlives the run.
+  personalAccessToken: async ({ request }, registerFixture) => {
+    const mintedToken = await mintPersonalAccessToken(request)
+    await registerFixture(mintedToken)
+    // Revoke is idempotent, so specs that already revoked their token still pass teardown.
+    await revokePersonalAccessToken(request, mintedToken.id)
+  },
 })
 
 export { expect } from '@playwright/test'
@@ -77,10 +93,11 @@ export { expect } from '@playwright/test'
  * Opens the extension popup with a deterministic stock existence response.
  * @param context - The persistent browser context with the extension loaded.
  * @param extensionId - The loaded extension ID from the service worker URL.
- * @param options - Optional popup API fixtures, defaulting stock existence to false.
- * @returns The popup page after the React root is ready.
+ * @param options - Optional popup API fixtures, defaulting stock existence to false; `stubStockExists: false` hits the real backend.
+ * @returns The popup page once its on-open duplicate check has answered, so the save state is settled.
  * @example
  * await openPopup(context, extensionId, { stockExists: true })
+ * await openPopup(context, extensionId, { stubStockExists: false })
  */
 export async function openPopup(
   context: BrowserContext,
@@ -88,19 +105,30 @@ export async function openPopup(
   options: OpenPopupOptions = {},
 ): Promise<Page> {
   const popupPage = await context.newPage()
-  await popupPage.route('**/api/stock/exists**', (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({ exists: options.stockExists ?? false }),
+  // Real-backend PAT specs opt out so the Bearer duplicate check is exercised, not faked.
+  if (options.stubStockExists !== false) {
+    await popupPage.route('**/api/stock/exists**', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ exists: options.stockExists ?? false }),
+      })
     })
-  })
+  }
+
+  // #popup is static HTML, so it can't signal readiness. The on-open duplicate check resets
+  // save state when it lands; wait for it so a fast save click can't race it and erase Success!.
+  const initialDuplicateCheck = popupPage.waitForResponse(
+    '**/api/stock/exists**',
+    { timeout: 5000 },
+  )
 
   await popupPage.goto(`chrome-extension://${extensionId}/popup.html`)
   await popupPage.waitForLoadState('domcontentloaded')
 
   // Wait for popup container to be ready
   await popupPage.waitForSelector('#popup', { timeout: 5000 })
+  await initialDuplicateCheck
 
   return popupPage
 }
@@ -130,6 +158,78 @@ export async function waitForBackendReady(maxAttempts = 10): Promise<boolean> {
   } finally {
     await requestContext.dispose()
   }
+}
+
+/**
+ * Mints a real PAT as the seeded owner, because the mint endpoint only accepts a web cookie session; called by the `personalAccessToken` fixture.
+ * @param request - Playwright API context; it keeps the login cookies so {@link revokePersonalAccessToken} can reuse them.
+ * @returns The token id (for revoking) and the raw `nsx_pat_…` value that the web UI shows only once.
+ * @example
+ * const { id, token } = await mintPersonalAccessToken(request)
+ */
+async function mintPersonalAccessToken(
+  request: APIRequestContext,
+): Promise<MintedPersonalAccessToken> {
+  // Seeded owner from prisma/seed.ts, the same account the web e2e logs in as.
+  const loginResponse = await request.post('http://localhost:4000/api/login', {
+    data: { name: 'John Doe', password: 'popcoon' },
+  })
+  expect(loginResponse.status()).toBe(200)
+
+  const mintResponse = await request.post(
+    'http://localhost:4000/api/personal_access_token',
+    { data: { name: 'Playwright e2e' } },
+  )
+  expect(mintResponse.status()).toBe(201)
+
+  const mintedToken: MintedPersonalAccessToken = await mintResponse.json()
+  return mintedToken
+}
+
+/**
+ * Revokes a PAT through the owner's cookie session; used by the reconnect spec and the `personalAccessToken` fixture teardown.
+ * @param request - The API context that ran {@link mintPersonalAccessToken}; its login cookies authorize the revoke.
+ * @param id - The token id returned by {@link mintPersonalAccessToken}.
+ * @returns Nothing; the test fails unless the server confirms the revoke.
+ * @example
+ * await revokePersonalAccessToken(request, id)
+ */
+export async function revokePersonalAccessToken(
+  request: APIRequestContext,
+  id: number,
+): Promise<void> {
+  const revokeResponse = await request.delete(
+    `http://localhost:4000/api/personal_access_token/${id}`,
+  )
+  expect(revokeResponse.status()).toBe(200)
+}
+
+/**
+ * Records the popup's setIcon messages in the background worker, because Chrome exposes no getter for the action icon; used by the icon-state specs.
+ * @param context - The persistent browser context whose extension service worker receives the popup's messages.
+ * @returns A reader that resolves to every icon path the popup requested since recording started.
+ * @example
+ * const readRequestedIconPaths = await recordRequestedIconPaths(context)
+ * await expect.poll(readRequestedIconPaths).toEqual(['../assets/images/logo-bookmarked.png'])
+ */
+export async function recordRequestedIconPaths(
+  context: BrowserContext,
+): Promise<() => Promise<string[]>> {
+  const [serviceWorker] = context.serviceWorkers()
+  await serviceWorker.evaluate(() => {
+    const requestedIconPaths: string[] = []
+    Reflect.set(globalThis, 'requestedIconPaths', requestedIconPaths)
+    // A second onMessage listener sees the same messages as the background's own setIcon handler.
+    chrome.runtime.onMessage.addListener(
+      (message: { action?: string; path?: string }) => {
+        if (message.action === 'setIcon' && message.path) {
+          requestedIconPaths.push(message.path)
+        }
+      },
+    )
+  })
+  return () =>
+    serviceWorker.evaluate(() => Reflect.get(globalThis, 'requestedIconPaths'))
 }
 
 /**

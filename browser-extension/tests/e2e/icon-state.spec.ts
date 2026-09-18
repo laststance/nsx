@@ -6,14 +6,14 @@
 import { test, expect } from './extension-fixture'
 import {
   openPopup,
+  recordRequestedIconPaths,
   TestPages,
   waitForBackendReady,
   verifySuccessMessage,
 } from './extension-fixture'
 
 test.describe('Extension Icon State Tests', () => {
-  // Skipped: Success message not appearing - See https://plane.so (NSX-81)
-  test.skip('icon changes after successful save', async ({
+  test('icon changes after successful save', async ({
     context,
     extensionId,
     page,
@@ -29,6 +29,18 @@ test.describe('Extension Icon State Tests', () => {
     // Open popup
     const popupPage = await openPopup(context, extensionId)
 
+    // Tokenless saves 401 since PAT auth (#3784); stub a 201 so this covers the success UI.
+    await popupPage.route('**/api/push_stock', (route) => {
+      route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 1 }),
+      })
+    })
+
+    // setIcon leaves no DOM state, so observe the icon the popup requests from the background worker.
+    const readRequestedIconPaths = await recordRequestedIconPaths(context)
+
     // Save page
     const checkbox = popupPage.locator('.checkbox')
     await checkbox.check()
@@ -37,15 +49,10 @@ test.describe('Extension Icon State Tests', () => {
     const success = await verifySuccessMessage(popupPage)
     expect(success).toBe(true)
 
-    // Note: Direct icon state verification in Playwright is challenging
-    // because browser.action.setIcon() doesn't expose state in DOM.
-    // We verify the flow works by checking:
-    // 1. Save succeeds ✓
-    // 2. Success message appears ✓
-    // 3. setBookmarkedIcon() is called (implicit in App.tsx flow)
-
-    // Indirect verification: background script should have processed setIcon message
-    // This is tested by the fact that the save completed without errors
+    // A successful save asks the background worker for the bookmarked icon.
+    await expect
+      .poll(readRequestedIconPaths)
+      .toEqual(['../assets/images/logo-bookmarked.png'])
 
     await popupPage.close()
   })
@@ -129,8 +136,7 @@ test.describe('Extension Icon State Tests', () => {
     await newTab.close()
   })
 
-  // Skipped: Success message not appearing - See https://plane.so (NSX-81)
-  test.skip('multiple saves do not break icon state', async ({
+  test('multiple saves do not break icon state', async ({
     context,
     extensionId,
     page,
@@ -143,6 +149,18 @@ test.describe('Extension Icon State Tests', () => {
 
     // Open popup
     const popupPage = await openPopup(context, extensionId)
+
+    // Tokenless saves 401 since PAT auth (#3784); stub a 201 so this covers the success UI.
+    await popupPage.route('**/api/push_stock', (route) => {
+      route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 1 }),
+      })
+    })
+
+    // setIcon leaves no DOM state, so observe the icon the popup requests from the background worker.
+    const readRequestedIconPaths = await recordRequestedIconPaths(context)
 
     // Save multiple times
     for (let i = 0; i < 3; i++) {
@@ -158,6 +176,15 @@ test.describe('Extension Icon State Tests', () => {
       // Wait for animation to complete
       await popupPage.waitForTimeout(1500)
     }
+
+    // Each of the three saves requests the bookmarked icon again.
+    await expect
+      .poll(readRequestedIconPaths)
+      .toEqual([
+        '../assets/images/logo-bookmarked.png',
+        '../assets/images/logo-bookmarked.png',
+        '../assets/images/logo-bookmarked.png',
+      ])
 
     // Popup should still be functional
     const appRoot = popupPage.locator('#popup')

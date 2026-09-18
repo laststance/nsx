@@ -15,8 +15,7 @@ import {
 } from './extension-fixture'
 
 test.describe('Extension API Integration Tests', () => {
-  // Skipped: Success message not appearing - See https://plane.so (NSX-81)
-  test.skip('sends correct payload to backend API', async ({
+  test('sends correct payload to backend API', async ({
     context,
     extensionId,
     page,
@@ -31,6 +30,15 @@ test.describe('Extension API Integration Tests', () => {
 
     // Open popup
     const popupPage = await openPopup(context, extensionId)
+
+    // Tokenless saves 401 since PAT auth (#3784); stub a 201 so this covers the success UI.
+    await popupPage.route('**/api/push_stock', (route) => {
+      route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 1 }),
+      })
+    })
 
     // Monitor API calls
     let capturedPayload: any = null
@@ -47,8 +55,9 @@ test.describe('Extension API Integration Tests', () => {
     const checkbox = popupPage.locator('.checkbox')
     await checkbox.check()
 
-    // Wait for API call
-    await verifySuccessMessage(popupPage)
+    // Assert the save succeeded so the payload checks below run on a completed save.
+    const success = await verifySuccessMessage(popupPage)
+    expect(success).toBe(true)
 
     // Verify payload
     expect(capturedPayload).not.toBeNull()
@@ -60,8 +69,7 @@ test.describe('Extension API Integration Tests', () => {
     await popupPage.close()
   })
 
-  // Skipped: Success message not appearing - See https://plane.so (NSX-81)
-  test.skip('handles 200 OK response correctly', async ({
+  test('handles 200 OK response correctly', async ({
     context,
     extensionId,
     page,
@@ -290,8 +298,7 @@ test.describe('Extension API Integration Tests', () => {
     expect(response.ok()).toBe(true)
   })
 
-  // Skipped: Success message not appearing - See https://plane.so (NSX-81)
-  test.skip('multiple concurrent API calls', async ({
+  test('multiple concurrent API calls', async ({
     context,
     extensionId,
     page,
@@ -309,6 +316,17 @@ test.describe('Extension API Integration Tests', () => {
     await newTab.goto(TestPages.github.url)
     await newTab.waitForLoadState('domcontentloaded')
     const popup2 = await openPopup(context, extensionId)
+
+    // Tokenless saves 401 since PAT auth (#3784); stub a 201 on each popup so this covers the success UI.
+    for (const popup of [popup1, popup2]) {
+      await popup.route('**/api/push_stock', (route) => {
+        route.fulfill({
+          status: 201,
+          contentType: 'application/json',
+          body: JSON.stringify({ id: 1 }),
+        })
+      })
+    }
 
     // Save from both popups simultaneously
     const checkbox1 = popup1.locator('.checkbox')
