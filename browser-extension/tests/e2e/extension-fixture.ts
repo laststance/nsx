@@ -94,7 +94,7 @@ export { expect } from '@playwright/test'
  * @param context - The persistent browser context with the extension loaded.
  * @param extensionId - The loaded extension ID from the service worker URL.
  * @param options - Optional popup API fixtures, defaulting stock existence to false; `stubStockExists: false` hits the real backend.
- * @returns The popup page after the React root is ready.
+ * @returns The popup page once its on-open duplicate check has answered, so the save state is settled.
  * @example
  * await openPopup(context, extensionId, { stockExists: true })
  * await openPopup(context, extensionId, { stubStockExists: false })
@@ -116,11 +116,19 @@ export async function openPopup(
     })
   }
 
+  // #popup is static HTML, so it can't signal readiness. The on-open duplicate check resets
+  // save state when it lands; wait for it so a fast save click can't race it and erase Success!.
+  const initialDuplicateCheck = popupPage.waitForResponse(
+    '**/api/stock/exists**',
+    { timeout: 5000 },
+  )
+
   await popupPage.goto(`chrome-extension://${extensionId}/popup.html`)
   await popupPage.waitForLoadState('domcontentloaded')
 
   // Wait for popup container to be ready
   await popupPage.waitForSelector('#popup', { timeout: 5000 })
+  await initialDuplicateCheck
 
   return popupPage
 }
