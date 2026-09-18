@@ -364,13 +364,15 @@ test.describe('Extension Popup UI Tests', () => {
       })
     })
 
-    // Click checkbox
+    // Click checkbox. A failed save unchecks the box again; click() because check() fails if that revert lands before it verifies.
     const checkbox = popupPage.locator('.checkbox')
-    await checkbox.check()
+    await checkbox.click()
 
     // Wait for error message
     const error = await verifyErrorMessage(popupPage)
     expect(error).toBe(true)
+    // The failed save leaves the page unsaved.
+    await expect(checkbox).not.toBeChecked()
 
     await popupPage.close()
   })

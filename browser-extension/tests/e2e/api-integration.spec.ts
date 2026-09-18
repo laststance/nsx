@@ -124,13 +124,15 @@ test.describe('Extension API Integration Tests', () => {
       })
     })
 
-    // Save page
+    // Save page. A failed save unchecks the box again; click() because check() fails if that revert lands before it verifies.
     const checkbox = popupPage.locator('.checkbox')
-    await checkbox.check()
+    await checkbox.click()
 
     // Should show error message
     const error = await verifyErrorMessage(popupPage)
     expect(error).toBe(true)
+    // The failed save leaves the page unsaved.
+    await expect(checkbox).not.toBeChecked()
 
     await popupPage.close()
   })
@@ -244,13 +246,15 @@ test.describe('Extension API Integration Tests', () => {
       })
     })
 
-    // Save page
+    // Save page. A failed save unchecks the box again; click() because check() fails if that revert lands before it verifies.
     const checkbox = popupPage.locator('.checkbox')
-    await checkbox.check()
+    await checkbox.click()
 
     // Should show error message
     const error = await verifyErrorMessage(popupPage)
     expect(error).toBe(true)
+    // The failed save leaves the page unsaved.
+    await expect(checkbox).not.toBeChecked()
 
     await popupPage.close()
   })
@@ -277,13 +281,15 @@ test.describe('Extension API Integration Tests', () => {
       })
     })
 
-    // Save page
+    // Save page. A failed save unchecks the box again; click() because check() fails if that revert lands before it verifies.
     const checkbox = popupPage.locator('.checkbox')
-    await checkbox.check()
+    await checkbox.click()
 
     // Should show error message
     const error = await verifyErrorMessage(popupPage)
     expect(error).toBe(true)
+    // The failed save leaves the page unsaved.
+    await expect(checkbox).not.toBeChecked()
 
     await popupPage.close()
   })
