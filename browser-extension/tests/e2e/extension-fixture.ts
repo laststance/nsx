@@ -116,8 +116,8 @@ export async function openPopup(
     })
   }
 
-  // #popup is static HTML, so it can't signal readiness. The on-open duplicate check resets
-  // save state when it lands; wait for it so a fast save click can't race it and erase Success!.
+  // #popup is static HTML, so it can't signal readiness. The on-open duplicate check is the
+  // popup's last startup request; wait for its answer so every spec starts from settled save state.
   const initialDuplicateCheck = popupPage.waitForResponse(
     '**/api/stock/exists**',
     { timeout: 5000 },
@@ -205,31 +205,38 @@ export async function revokePersonalAccessToken(
 }
 
 /**
- * Records the popup's setIcon messages in the background worker, because Chrome exposes no getter for the action icon; used by the icon-state specs.
- * @param context - The persistent browser context whose extension service worker receives the popup's messages.
- * @returns A reader that resolves to every icon path the popup requested since recording started.
+ * Records each toolbar icon the background worker sets and whether Chrome could load it, because Chrome exposes no getter for the action icon; used by the icon-state specs.
+ * @param context - The persistent browser context whose extension service worker sets the icons.
+ * @returns A reader resolving to one `<path> -> ok` (or `<path> -> <load error>`) entry per setIcon call since recording started.
  * @example
- * const readRequestedIconPaths = await recordRequestedIconPaths(context)
- * await expect.poll(readRequestedIconPaths).toEqual(['../assets/images/logo-bookmarked.png'])
+ * const readIconUpdates = await recordIconUpdates(context)
+ * await expect.poll(readIconUpdates).toEqual(['/images/logo-bookmarked.png -> ok'])
  */
-export async function recordRequestedIconPaths(
+export async function recordIconUpdates(
   context: BrowserContext,
 ): Promise<() => Promise<string[]>> {
   const [serviceWorker] = context.serviceWorkers()
   await serviceWorker.evaluate(() => {
-    const requestedIconPaths: string[] = []
-    Reflect.set(globalThis, 'requestedIconPaths', requestedIconPaths)
-    // A second onMessage listener sees the same messages as the background's own setIcon handler.
-    chrome.runtime.onMessage.addListener(
-      (message: { action?: string; path?: string }) => {
-        if (message.action === 'setIcon' && message.path) {
-          requestedIconPaths.push(message.path)
-        }
+    const iconUpdates: string[] = []
+    Reflect.set(globalThis, 'iconUpdates', iconUpdates)
+    const applyIcon = chrome.action.setIcon.bind(chrome.action)
+    // The background looks setIcon up per call, so this wrapper sees popup-requested and tab-switch icons alike.
+    Reflect.set(
+      chrome.action,
+      'setIcon',
+      (details: chrome.action.TabIconDetails) => {
+        const iconApplied = applyIcon(details)
+        iconApplied.then(
+          () => iconUpdates.push(`${details.path} -> ok`),
+          (error: Error) =>
+            iconUpdates.push(`${details.path} -> ${error.message}`),
+        )
+        return iconApplied
       },
     )
   })
   return () =>
-    serviceWorker.evaluate(() => Reflect.get(globalThis, 'requestedIconPaths'))
+    serviceWorker.evaluate(() => Reflect.get(globalThis, 'iconUpdates'))
 }
 
 /**

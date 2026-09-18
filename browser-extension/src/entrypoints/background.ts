@@ -1,3 +1,5 @@
+import { DEFAULT_ICON_PATH } from '../lib/constants'
+
 type SetIconMessage = {
   action: 'setIcon'
   path: string
@@ -24,6 +26,6 @@ export default defineBackground(() => {
 
   // Reset icon when tab changes
   browser.tabs.onActivated.addListener(() => {
-    browser.action.setIcon({ path: '/images/logo.png' })
+    browser.action.setIcon({ path: DEFAULT_ICON_PATH })
   })
 })
