@@ -5,7 +5,6 @@
 
 import {
   expect,
-  mintPersonalAccessToken,
   openPopup,
   revokePersonalAccessToken,
   test,
@@ -16,10 +15,10 @@ test.describe('Extension Personal Access Token flow', () => {
     context,
     extensionId,
     page,
-    request,
+    personalAccessToken,
   }) => {
     // Arrange
-    const { id, token } = await mintPersonalAccessToken(request)
+    const { token } = personalAccessToken
     // A fresh URL per run keeps a persistent local DB from answering 409 Already Exists.
     await page.goto(`https://example.com/?nsx-pat-e2e=${Date.now()}`)
     await page.waitForLoadState('domcontentloaded')
@@ -57,19 +56,17 @@ test.describe('Extension Personal Access Token flow', () => {
     ).toBeVisible()
     await expect(reopenedPopup.locator('.checkbox')).toBeChecked()
     await expect(reopenedPopup.locator('.checkbox')).toBeDisabled()
-
-    // Cleanup: revoke so re-runs against a persistent local DB don't leave live tokens behind.
-    await revokePersonalAccessToken(request, id)
   })
 
   test('asks to reconnect when the pasted token is revoked on the web', async ({
     context,
     extensionId,
     page,
+    personalAccessToken,
     request,
   }) => {
     // Arrange
-    const { id, token } = await mintPersonalAccessToken(request)
+    const { id, token } = personalAccessToken
     await page.goto(`https://example.com/?nsx-pat-e2e=${Date.now()}`)
     await page.waitForLoadState('domcontentloaded')
     const popupPage = await openPopup(context, extensionId, {

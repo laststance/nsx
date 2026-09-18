@@ -16,13 +16,14 @@ import {
   type Page,
 } from '@playwright/test'
 
+/** Mint-response fields the PAT specs use; a local mirror of {@link Res.MintPersonalAccessToken}, which this package's tsconfig can't see. */
+type MintedPersonalAccessToken = { id: number; token: string }
+
 export type ExtensionTestFixtures = {
   context: BrowserContext
   extensionId: string
+  personalAccessToken: MintedPersonalAccessToken
 }
-
-/** Mint-response fields the PAT specs use; a local mirror of {@link Res.MintPersonalAccessToken}, which this package's tsconfig can't see. */
-type MintedPersonalAccessToken = { id: number; token: string }
 
 type OpenPopupOptions = {
   stockExists?: boolean
@@ -75,6 +76,14 @@ export const test = base.extend<ExtensionTestFixtures>({
     const extensionId = serviceWorker.url().split('/')[2]
 
     await registerFixture(extensionId)
+  },
+
+  // Mints a real PAT per test; teardown revokes it even when the test fails, so no live token outlives the run.
+  personalAccessToken: async ({ request }, registerFixture) => {
+    const mintedToken = await mintPersonalAccessToken(request)
+    await registerFixture(mintedToken)
+    // Revoke is idempotent, so specs that already revoked their token still pass teardown.
+    await revokePersonalAccessToken(request, mintedToken.id)
   },
 })
 
@@ -144,13 +153,13 @@ export async function waitForBackendReady(maxAttempts = 10): Promise<boolean> {
 }
 
 /**
- * Mints a real PAT as the seeded owner, because the mint endpoint only accepts a web cookie session; used by the PAT specs.
+ * Mints a real PAT as the seeded owner, because the mint endpoint only accepts a web cookie session; called by the `personalAccessToken` fixture.
  * @param request - Playwright API context; it keeps the login cookies so {@link revokePersonalAccessToken} can reuse them.
  * @returns The token id (for revoking) and the raw `nsx_pat_…` value that the web UI shows only once.
  * @example
  * const { id, token } = await mintPersonalAccessToken(request)
  */
-export async function mintPersonalAccessToken(
+async function mintPersonalAccessToken(
   request: APIRequestContext,
 ): Promise<MintedPersonalAccessToken> {
   // Seeded owner from prisma/seed.ts, the same account the web e2e logs in as.
@@ -170,7 +179,7 @@ export async function mintPersonalAccessToken(
 }
 
 /**
- * Revokes a PAT through the owner's cookie session so the extension holds a rejected token; used by the reconnect spec.
+ * Revokes a PAT through the owner's cookie session; used by the reconnect spec and the `personalAccessToken` fixture teardown.
  * @param request - The API context that ran {@link mintPersonalAccessToken}; its login cookies authorize the revoke.
  * @param id - The token id returned by {@link mintPersonalAccessToken}.
  * @returns Nothing; the test fails unless the server confirms the revoke.
@@ -185,6 +194,34 @@ export async function revokePersonalAccessToken(
     `http://localhost:4000/api/personal_access_token/${id}`,
   )
   expect(revokeResponse.status()).toBe(200)
+}
+
+/**
+ * Records the popup's setIcon messages in the background worker, because Chrome exposes no getter for the action icon; used by the icon-state specs.
+ * @param context - The persistent browser context whose extension service worker receives the popup's messages.
+ * @returns A reader that resolves to every icon path the popup requested since recording started.
+ * @example
+ * const readRequestedIconPaths = await recordRequestedIconPaths(context)
+ * await expect.poll(readRequestedIconPaths).toEqual(['../assets/images/logo-bookmarked.png'])
+ */
+export async function recordRequestedIconPaths(
+  context: BrowserContext,
+): Promise<() => Promise<string[]>> {
+  const [serviceWorker] = context.serviceWorkers()
+  await serviceWorker.evaluate(() => {
+    const requestedIconPaths: string[] = []
+    Reflect.set(globalThis, 'requestedIconPaths', requestedIconPaths)
+    // A second onMessage listener sees the same messages as the background's own setIcon handler.
+    chrome.runtime.onMessage.addListener(
+      (message: { action?: string; path?: string }) => {
+        if (message.action === 'setIcon' && message.path) {
+          requestedIconPaths.push(message.path)
+        }
+      },
+    )
+  })
+  return () =>
+    serviceWorker.evaluate(() => Reflect.get(globalThis, 'requestedIconPaths'))
 }
 
 /**
