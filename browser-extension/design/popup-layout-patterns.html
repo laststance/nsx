@@ -1,0 +1,2547 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NSX popup — レイアウトと書体 30 パターン</title>
+    <!-- Inter / Geist previews only: base64 @font-face rules, because Chrome blocks font files loaded from a file:// page. -->
+    <link rel="stylesheet" href="popup-layout-patterns.fonts.css" />
+    <style>
+      /* Design exploration only: self-contained mock of the extension popup, no build step, no network. */
+      :root {
+        color-scheme: dark;
+        --page-bg: #0c0d10;
+        --panel-bg: #15171c;
+        --panel-ring: oklch(1 0 0 / 0.08);
+        --text: #e8eaed;
+        --text-muted: #9aa0a6;
+        --accent: #1d9bf0;
+        --ease: cubic-bezier(0.2, 0, 0, 1);
+        --window-frame: #46474a;
+        /* 1 = real speed, 10 = the 10% slow-motion review speed. */
+        --slow: 1;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-padding-top: 132px;
+      }
+
+      body {
+        margin: 0;
+        background: var(--page-bg);
+        color: var(--text);
+        font-family: system-ui, 'Hiragino Sans', sans-serif;
+        line-height: 1.6;
+      }
+
+      body.is-slow {
+        --slow: 10;
+      }
+
+      /* ---------- Page chrome ---------- */
+      .page-header,
+      .page-section {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .page-header {
+        padding-top: 48px;
+        padding-bottom: 20px;
+      }
+
+      .eyebrow {
+        margin: 0 0 6px;
+        color: var(--text-muted);
+        font-size: 13px;
+        letter-spacing: 0.02em;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.3;
+        font-weight: 650;
+        text-wrap: balance;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 19px;
+        line-height: 1.4;
+        font-weight: 650;
+        text-wrap: balance;
+      }
+
+      .lead {
+        max-width: 84ch;
+        margin: 12px 0 0;
+        color: var(--text-muted);
+        font-size: 15px;
+        text-wrap: pretty;
+      }
+
+      .lead strong,
+      .fix-list strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .fix-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 6px 28px;
+        max-width: 1100px;
+        margin: 16px 0 0;
+        padding: 0;
+        list-style: none;
+        color: var(--text-muted);
+        font-size: 13.5px;
+      }
+
+      .fix-list li {
+        display: flex;
+        gap: 8px;
+        text-wrap: pretty;
+      }
+
+      .fix-list li::before {
+        content: counter(fix);
+        counter-increment: fix;
+        flex: none;
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        border-radius: 50%;
+        background: oklch(1 0 0 / 0.08);
+        color: var(--text);
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 18px;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .fix-list {
+        counter-reset: fix;
+      }
+
+      /* ---------- Sticky controls ---------- */
+      .controls {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-block: 1px solid var(--panel-ring);
+        background: color-mix(in oklab, var(--page-bg) 86%, transparent);
+        backdrop-filter: blur(14px);
+      }
+
+      .controls-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 10px 24px;
+      }
+
+      .control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .control-label {
+        flex: none;
+        color: var(--text-muted);
+        font-size: 12px;
+      }
+
+      .segmented {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+        padding: 2px;
+        border-radius: 9px;
+        background: oklch(1 0 0 / 0.06);
+      }
+
+      .segmented button {
+        position: relative;
+        border: 0;
+        border-radius: 7px;
+        padding: 4px 10px;
+        background: transparent;
+        color: var(--text-muted);
+        font: inherit;
+        font-size: 12.5px;
+        line-height: 18px;
+        white-space: nowrap;
+        cursor: pointer;
+        transition-property: background-color, color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .segmented button:hover {
+        color: var(--text);
+      }
+
+      .segmented button:active {
+        scale: 0.96;
+      }
+
+      .segmented button[aria-pressed='true'] {
+        background: oklch(1 0 0 / 0.14);
+        color: var(--text);
+      }
+
+      .segmented button.is-action {
+        color: #6ee7a8;
+      }
+
+      .segmented button:focus-visible,
+      .card-replay:focus-visible,
+      .group-nav a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Groups and cards ---------- */
+      .group-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .group-nav a {
+        border-radius: 999px;
+        padding: 4px 12px;
+        background: oklch(1 0 0 / 0.06);
+        color: var(--text);
+        font-size: 13px;
+        text-decoration: none;
+        transition: background-color 150ms ease-out;
+      }
+
+      .group-nav a:hover {
+        background: oklch(1 0 0 / 0.12);
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+        gap: 20px;
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 8px 24px 40px;
+      }
+
+      .group-head {
+        grid-column: 1 / -1;
+        margin-top: 28px;
+      }
+
+      .group-head p {
+        max-width: 84ch;
+        margin: 4px 0 0;
+        color: var(--text-muted);
+        font-size: 14px;
+        text-wrap: pretty;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-width: 0;
+        border-radius: 16px;
+        padding: 16px;
+        background: var(--panel-bg);
+        box-shadow: 0 0 0 1px var(--panel-ring);
+      }
+
+      .card.is-star {
+        box-shadow:
+          0 0 0 1px oklch(0.8 0.15 160 / 0.45),
+          0 0 0 4px oklch(0.8 0.15 160 / 0.08);
+      }
+
+      .card-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .card-num {
+        color: var(--text-muted);
+        font: 600 13px/1 Menlo, Monaco, monospace;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .card-name {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 650;
+      }
+
+      .card-star {
+        border-radius: 999px;
+        padding: 1px 8px;
+        background: oklch(0.8 0.15 160 / 0.16);
+        color: #6ee7a8;
+        font-size: 11.5px;
+        font-weight: 600;
+      }
+
+      .card-replay {
+        position: relative;
+        margin-left: auto;
+        border: 0;
+        border-radius: 7px;
+        padding: 3px 10px;
+        background: oklch(1 0 0 / 0.07);
+        color: var(--text-muted);
+        font: inherit;
+        font-size: 12px;
+        cursor: pointer;
+        transition-property: background-color, color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .card-replay::after {
+        content: '';
+        position: absolute;
+        inset: -8px -4px;
+      }
+
+      .card-replay:hover {
+        background: oklch(1 0 0 / 0.13);
+        color: var(--text);
+      }
+
+      .card-replay:active {
+        scale: 0.96;
+      }
+
+      .card-concept {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 13.5px;
+        text-wrap: pretty;
+      }
+
+      .specs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .specs li {
+        border-radius: 6px;
+        padding: 1px 8px;
+        background: oklch(1 0 0 / 0.05);
+        color: var(--text-muted);
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ---------- Mock shell: Chrome toolbar + popup window ---------- */
+      .mock {
+        overflow: hidden;
+        border-radius: 10px;
+        background: #1b1c1f;
+        box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.06);
+      }
+
+      .toolbar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        height: 30px;
+        padding: 0 18px;
+        background: #2a2b2f;
+      }
+
+      .toolbar-pill {
+        flex: 1 1 auto;
+        max-width: 55%;
+        height: 16px;
+        margin-right: auto;
+        border-radius: 999px;
+        background: #1f2023;
+      }
+
+      /* Same static cue the real extension gives: the toolbar bookmark turns green once the page is saved. */
+      .toolbar-ext {
+        display: grid;
+        place-items: center;
+        color: #9aa0a6;
+        transition: color 200ms ease-out;
+      }
+
+      .mock.is-saved .toolbar-ext {
+        color: #7ddc9a;
+      }
+
+      .toolbar-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #3c3d41;
+      }
+
+      .stage {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 18px 24px;
+      }
+
+      /* Chrome draws the popup window as a square; only the corner wedges of this frame color show. */
+      .win {
+        background: var(--window-frame);
+        box-shadow:
+          0 0 0 1px var(--window-frame),
+          0 16px 40px rgb(0 0 0 / 0.55);
+      }
+
+      /* ---------- Popup: tokens ---------- */
+      .pop {
+        --ink: #0f1419;
+        --ink-2: #536471;
+        --ink-3: #6b7a86;
+        --line: #cfd9de;
+        --hairline: #eff3f4;
+        --surface-2: #f7f9f9;
+        /* Small text needs the darker green: #16a34a is 3.3:1 on white, #15803d is 5.0:1. */
+        --green: #15803d;
+        --green-fill: #16a34a;
+        --green-tint: #e6f6ec;
+        --red: #c81e2b;
+        --amber: #8a5300;
+        --x-black: #0f1419;
+        --x-black-hover: #272c30;
+        --x-black-active: #3a4046;
+        --focus: #1d9bf0;
+        --check-fill: var(--green-fill);
+        /* Concentric radii: card radius = control radius + card padding. */
+        --r-control: 6px;
+        --pad: 10px;
+        --r-card: calc(var(--r-control) + var(--pad));
+        --w: 500px;
+        --check: 18px;
+        --btn-h: 36px;
+        --btn-font: 15px;
+        --font-ui: system-ui, 'Hiragino Sans', sans-serif;
+        --font-title: var(--font-ui);
+        --font-meta: var(--font-ui);
+        /* X's Chirp is proprietary; its documented fallback is the system font, bold. */
+        --font-x: system-ui, 'Hiragino Sans', sans-serif;
+        --title-size: 15px;
+        --title-weight: 600;
+        --title-tracking: -0.011em;
+        --title-leading: 20px;
+        --body-size: 14px;
+        --meta-size: 12px;
+        --meta-weight: 500;
+        --meta-tracking: 0;
+
+        color-scheme: light;
+        width: calc(var(--w) + var(--pad) * 2);
+        padding: var(--pad);
+        border-radius: var(--r-card);
+        background: #fff;
+        color: var(--ink);
+        font-family: var(--font-ui);
+        font-size: var(--body-size);
+        line-height: 20px;
+        text-align: left;
+      }
+
+      .pop :where(button, input, textarea) {
+        margin: 0;
+        font: inherit;
+        color: inherit;
+      }
+
+      .pop :where(button) {
+        border: 0;
+        padding: 0;
+        background: none;
+        cursor: pointer;
+      }
+
+      /* ---------- Popup: status slot (top-left) ---------- */
+      .status {
+        position: relative;
+        display: block;
+        height: 16px;
+        color: var(--ink-2);
+        font-family: var(--font-meta);
+        font-size: var(--meta-size);
+        font-weight: var(--meta-weight);
+        line-height: 16px;
+        letter-spacing: var(--meta-tracking);
+      }
+
+      /* Both layers stay mounted so the message can fade out as well as in. */
+      .status-layer {
+        position: absolute;
+        inset: 0 auto 0 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        max-width: 100%;
+        white-space: nowrap;
+        transition-property: opacity, translate, filter;
+        transition-timing-function: ease-out;
+      }
+
+      .status-idle {
+        transition-duration: calc(240ms * var(--slow));
+      }
+
+      .status-idle > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .status-msg {
+        opacity: 0;
+        translate: 0 4px;
+        filter: blur(4px);
+        font-weight: 600;
+        pointer-events: none;
+        /* Exit is shorter and softer than the enter. */
+        transition-duration: calc(150ms * var(--slow));
+      }
+
+      .mock.msg-on .status-idle {
+        opacity: 0;
+        translate: 0 -4px;
+        filter: blur(4px);
+        transition-duration: calc(150ms * var(--slow));
+      }
+
+      .mock.msg-on .status-msg {
+        opacity: 1;
+        translate: 0 0;
+        filter: blur(0);
+        pointer-events: auto;
+        transition-duration: calc(240ms * var(--slow));
+      }
+
+      .mock.tone-ok .status-msg {
+        color: var(--green);
+      }
+
+      .mock.tone-bad .status-msg {
+        color: var(--red);
+      }
+
+      .mock.tone-warn .status-msg {
+        color: var(--amber);
+      }
+
+      .status-msg .i {
+        display: none;
+        flex: none;
+      }
+
+      .mock.tone-ok .status-msg .i-check,
+      .mock.tone-bad .status-msg .i-cross,
+      .mock.tone-warn .status-msg .i-warn {
+        display: block;
+      }
+
+      .status-link {
+        position: relative;
+        color: inherit;
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .status-link:empty {
+        display: none;
+      }
+
+      .status-link::after {
+        content: '';
+        position: absolute;
+        inset: -8px -6px;
+      }
+
+      /* ---------- Popup: shared parts ---------- */
+      .title {
+        display: block;
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        color: var(--ink);
+        font-family: var(--font-title);
+        font-size: var(--title-size);
+        font-weight: var(--title-weight);
+        line-height: var(--title-leading);
+        letter-spacing: var(--title-tracking);
+        /* Proportional metrics tighten Japanese punctuation and kana; Latin glyphs are untouched. */
+        font-feature-settings: 'palt' 1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .title.is-clamp2 {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        white-space: normal;
+      }
+
+      .favicon {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: var(--favicon, 14px);
+        height: var(--favicon, 14px);
+        border-radius: calc(var(--favicon, 14px) * 0.24);
+        background: var(--tile-bg, #24292f);
+        color: #fff;
+        font: 700 calc(var(--favicon, 14px) * 0.62) / 1 system-ui, sans-serif;
+        outline: 1px solid oklch(0 0 0 / 0.1);
+        outline-offset: -1px;
+      }
+
+      .favicon.is-round {
+        border-radius: 50%;
+      }
+
+      .check {
+        /* Visible box stays small; the pseudo-element keeps a 40px hit area. */
+        --hit: calc((40px - var(--check)) / 2);
+        appearance: none;
+        position: relative;
+        flex: none;
+        width: var(--check);
+        height: var(--check);
+        border: 1.5px solid #8b98a5;
+        border-radius: calc(var(--check) * 0.28);
+        background: #fff;
+        cursor: pointer;
+        transition-property: background-color, border-color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .check::before {
+        content: '';
+        position: absolute;
+        inset: calc(var(--hit) * -1);
+      }
+
+      /* The check mark stays in the DOM so both directions animate: opacity + scale 0.25 + blur 4px. */
+      .check::after {
+        content: '';
+        position: absolute;
+        inset: -1.5px;
+        background: center / 76% 76% no-repeat
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+        opacity: 0;
+        scale: 0.25;
+        filter: blur(4px);
+        transition-property: opacity, scale, filter;
+        transition-duration: 300ms;
+        transition-timing-function: var(--ease);
+      }
+
+      .check:hover:not(:disabled) {
+        border-color: var(--ink);
+      }
+
+      .check:active:not(:disabled) {
+        scale: 0.96;
+      }
+
+      .check:checked {
+        border-color: var(--check-fill);
+        background: var(--check-fill);
+      }
+
+      .check:checked::after {
+        opacity: 1;
+        scale: 1;
+        filter: blur(0);
+      }
+
+      .check:disabled {
+        cursor: default;
+        opacity: 0.5;
+      }
+
+      .comment {
+        display: block;
+        flex: 1 1 0;
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: var(--r-control);
+        padding: 7px 10px;
+        background: #fff;
+        color: var(--ink);
+        font-size: var(--body-size);
+        line-height: 20px;
+        resize: none;
+        transition: border-color 150ms ease-out;
+      }
+
+      .comment::placeholder {
+        color: var(--ink-3);
+      }
+
+      .comment:hover {
+        border-color: #8b98a5;
+      }
+
+      .comment.is-block {
+        width: 100%;
+      }
+
+      .comment.is-line {
+        height: var(--btn-h);
+        padding: 0 12px;
+      }
+
+      .comment.is-pill {
+        border-radius: 9999px;
+        padding: 0 16px;
+      }
+
+      .comment.is-bare,
+      .comment.is-bare:hover {
+        border: 0;
+        border-radius: 0;
+        padding: 2px 0;
+        font-size: 16px;
+        line-height: 22px;
+      }
+
+      /* X primary button: #0f1419, 15px bold, 36px pill. */
+      .xbtn {
+        position: relative;
+        display: inline-flex;
+        flex: none;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        height: var(--btn-h);
+        border-radius: 9999px;
+        padding: 0 16px;
+        background: var(--x-black);
+        color: #fff;
+        font-family: var(--font-x);
+        font-size: var(--btn-font);
+        font-weight: 700;
+        line-height: 20px;
+        letter-spacing: 0;
+        user-select: none;
+        transition-property: background-color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      /* Vertical-only extension to 40px, so it never reaches the checkbox row above. */
+      .xbtn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 0;
+        left: 0;
+        height: 40px;
+        translate: 0 -50%;
+      }
+
+      .xbtn:hover {
+        background: var(--x-black-hover);
+      }
+
+      .xbtn:active {
+        background: var(--x-black-active);
+        scale: 0.96;
+      }
+
+      /* Optical alignment: icon-side padding = text-side padding - 2px. */
+      .xbtn.has-logo {
+        padding-left: 14px;
+      }
+
+      .xbtn.is-icon {
+        width: var(--btn-h);
+        padding: 0;
+      }
+
+      .xbtn svg {
+        display: block;
+        flex: none;
+      }
+
+      .icon-btn {
+        position: relative;
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 9999px;
+        color: var(--ink-2);
+        transition-property: background-color, color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .icon-btn::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+      }
+
+      .icon-btn:hover,
+      .icon-btn[aria-expanded='true'] {
+        background: rgb(15 20 25 / 0.08);
+        color: var(--ink);
+      }
+
+      .icon-btn:active {
+        scale: 0.96;
+      }
+
+      .save-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--ink);
+        font-size: 13.5px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .mock[data-status='exists'] .save-label,
+      .mock[data-status='off'] .save-label {
+        cursor: default;
+      }
+
+      .domain {
+        overflow: hidden;
+        color: var(--ink-2);
+        font-size: var(--meta-size);
+        line-height: 16px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* One focus treatment for every control in the popup. */
+      .check:focus-visible,
+      .comment:focus-visible,
+      .xbtn:focus-visible,
+      .icon-btn:focus-visible,
+      .save-pill:focus-visible,
+      .status-link:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+
+      .comment.is-bare:focus-visible {
+        outline: none;
+      }
+
+      /* Character ring, as in X's composer. */
+      .ring {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        gap: 6px;
+        color: var(--ink-2);
+        font-size: 12.5px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .ring svg {
+        display: block;
+        rotate: -90deg;
+      }
+
+      .ring-track {
+        fill: none;
+        stroke: var(--hairline);
+        stroke-width: 2;
+      }
+
+      .ring-value {
+        fill: none;
+        stroke: var(--focus);
+        stroke-width: 2;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 150ms ease-out;
+      }
+
+      .ring.is-low .ring-value {
+        stroke: #f59e0b;
+      }
+
+      .ring.is-over .ring-value {
+        stroke: var(--red);
+      }
+
+      .ring.is-over {
+        color: var(--red);
+      }
+
+      /* ---------- Layouts ---------- */
+      .row-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 4px;
+      }
+
+      .row-title.is-top {
+        align-items: flex-start;
+      }
+
+      .row-title.is-top .check {
+        margin-top: calc((var(--title-leading) - var(--check)) / 2);
+      }
+
+      label.row-title {
+        gap: 10px;
+        cursor: pointer;
+      }
+
+      .row-compose {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      /* A one-line field puts the button right under the checkbox; 12px keeps their 40px hit areas apart. */
+      .row-compose.is-line {
+        margin-top: 12px;
+      }
+
+      .row-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .row-footer.has-rule {
+        border-top: 1px solid var(--hairline);
+        padding-top: 10px;
+      }
+
+      .row-footer.is-right {
+        justify-content: flex-end;
+      }
+
+      .footer-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .l-footer .title {
+        margin-top: 4px;
+      }
+
+      .l-footer .comment,
+      .l-savepill .comment {
+        margin-top: 10px;
+      }
+
+      .l-savepill .title {
+        margin-top: 4px;
+      }
+
+      /* 07 Media object */
+      .row-media {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .media-body {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .media-body .title {
+        margin-top: 2px;
+      }
+
+      /* 08 Preview card */
+      .pcard {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-radius: var(--r-control);
+        padding: 8px 10px;
+        background: var(--surface-2);
+      }
+
+      .pcard-body {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .pcard-body .title {
+        margin-top: 3px;
+      }
+
+      /* 10 Status strip: spans the card's top edge and tints green with the message. */
+      .strip {
+        margin: calc(var(--pad) * -1) calc(var(--pad) * -1) 8px;
+        border-radius: var(--r-card) var(--r-card) 0 0;
+        padding: 6px var(--pad);
+        background: var(--surface-2);
+        transition: background-color calc(200ms * var(--slow)) ease-out;
+      }
+
+      .mock.msg-on.tone-ok .strip {
+        background: var(--green-tint);
+      }
+
+      .mock.msg-on.tone-bad .strip {
+        background: #fdecee;
+      }
+
+      .mock.msg-on.tone-warn .strip {
+        background: #fdf3e1;
+      }
+
+      .l-strip .row-title {
+        margin-top: 0;
+      }
+
+      /* 11-15 Composer */
+      .l-composer .comment {
+        margin-top: 6px;
+        width: 100%;
+      }
+
+      .linkcard {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 6px;
+        border: 1px solid var(--line);
+        border-radius: var(--r-control);
+        padding: 8px 10px;
+      }
+
+      .linkcard-body {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .quote {
+        margin-top: 6px;
+        border-left: 2px solid var(--line);
+        padding-left: 10px;
+      }
+
+      .composer-main {
+        display: flex;
+        gap: 10px;
+      }
+
+      .composer-main > .favicon {
+        margin-top: 8px;
+      }
+
+      .composer-col {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      /* 14 Reply thread */
+      .thread {
+        margin-top: 6px;
+      }
+
+      .thread-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .thread-row.is-reply {
+        align-items: flex-start;
+      }
+
+      .thread-body {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .thread-line {
+        width: 2px;
+        height: 12px;
+        margin: 3px 0 3px 15px;
+        border-radius: 1px;
+        background: var(--line);
+      }
+
+      .avatar-me {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--x-black);
+        color: #fff;
+      }
+
+      .thread-row.is-reply .comment {
+        margin-top: 3px;
+      }
+
+      /* 16 One-liner: the comment unfolds on demand. */
+      .row-one {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 4px;
+      }
+
+      .reveal {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition-property: grid-template-rows, opacity;
+        transition-duration: 150ms, 120ms;
+        transition-timing-function: ease-out;
+      }
+
+      .reveal.is-open {
+        grid-template-rows: 1fr;
+        opacity: 1;
+        transition-duration: 240ms, 200ms;
+        transition-timing-function: var(--ease), ease-out;
+      }
+
+      .reveal-inner {
+        min-height: 0;
+        overflow: hidden;
+        margin: 0 -3px -3px;
+        padding: 0 3px 3px;
+      }
+
+      .reveal-inner .comment {
+        margin-top: 8px;
+      }
+
+      /* 17 Inline button: one bordered unit, the pill sits inside it. */
+      .cbox {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+        margin-top: 10px;
+        border: 1px solid var(--line);
+        border-radius: var(--r-control);
+        padding: 5px 5px 5px 10px;
+        transition: border-color 150ms ease-out;
+      }
+
+      .cbox:hover {
+        border-color: #8b98a5;
+      }
+
+      .cbox:focus-within {
+        border-color: var(--focus);
+        outline: 1px solid var(--focus);
+      }
+
+      .cbox .comment.is-bare {
+        padding: 3px 0;
+        font-size: var(--body-size);
+        line-height: 20px;
+      }
+
+      /* 30 Save pill: X's secondary button next to the primary one. */
+      .save-pill {
+        position: relative;
+        display: inline-flex;
+        flex: none;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        height: var(--btn-h);
+        min-width: 76px;
+        border-radius: 9999px;
+        padding: 0 16px;
+        background: #fff;
+        box-shadow: inset 0 0 0 1px var(--line);
+        color: var(--ink);
+        font-family: var(--font-x);
+        font-size: var(--btn-font);
+        font-weight: 700;
+        line-height: 20px;
+        transition-property: background-color, box-shadow, color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .save-pill::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 0;
+        left: 0;
+        height: 40px;
+        translate: 0 -50%;
+      }
+
+      .save-pill:hover:not(:disabled) {
+        background: rgb(15 20 25 / 0.06);
+      }
+
+      .save-pill:active:not(:disabled) {
+        scale: 0.96;
+      }
+
+      .save-pill[aria-pressed='true'] {
+        padding-left: 14px;
+        box-shadow: inset 0 0 0 1px #9fd8b4;
+        color: var(--green);
+      }
+
+      .save-pill:disabled {
+        cursor: default;
+        opacity: 0.6;
+      }
+
+      .save-pill .i-check {
+        display: none;
+      }
+
+      .save-pill[aria-pressed='true'] .i-check {
+        display: block;
+      }
+
+      /* ---------- Type systems (21-28 lock one; the 書体 control applies one everywhere else) ---------- */
+      .f-sfdisplay {
+        --title-size: 17px;
+        --title-weight: 700;
+        --title-tracking: -0.022em;
+        --title-leading: 22px;
+      }
+
+      .f-helvetica {
+        --font-ui: 'Helvetica Neue', 'Hiragino Sans', Helvetica, Arial, sans-serif;
+        --title-size: 15.5px;
+        --title-weight: 500;
+        --title-tracking: -0.006em;
+      }
+
+      .f-avenir {
+        --font-ui: 'Avenir Next', 'Hiragino Sans', sans-serif;
+        --title-size: 16px;
+        --title-tracking: -0.012em;
+        --body-size: 14.5px;
+        --meta-size: 12.5px;
+      }
+
+      .f-charter {
+        --font-title: Charter, 'Iowan Old Style', 'Hiragino Mincho ProN', Georgia, serif;
+        --title-size: 17px;
+        --title-weight: 700;
+        --title-tracking: -0.01em;
+        --title-leading: 22px;
+      }
+
+      /* A Latin-only face first, so Japanese falls through to 游ゴシック instead of system-ui's Hiragino. */
+      .f-yugothic {
+        --font-ui: 'Helvetica Neue', YuGothic, 'Hiragino Sans', sans-serif;
+        --title-weight: 700;
+        --title-tracking: 0;
+      }
+
+      .f-toppan {
+        --font-ui: 'Toppan Bunkyu Gothic', 'Hiragino Sans', sans-serif;
+        --title-size: 15.5px;
+        --title-tracking: 0;
+      }
+
+      .f-tsukushi {
+        --font-ui: 'Tsukushi A Round Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+        --title-size: 15.5px;
+        --title-weight: 700;
+        --title-tracking: 0;
+      }
+
+      .f-inter {
+        --font-ui: 'Inter Variable', 'Hiragino Sans', sans-serif;
+        --title-tracking: -0.014em;
+      }
+
+      .f-geist {
+        --font-ui: 'Geist Variable', 'Hiragino Sans', sans-serif;
+        --title-tracking: -0.02em;
+      }
+
+      /* 09 URL eyebrow in a monospace face; the message keeps the UI face. */
+      .is-mono-idle .status-idle {
+        font-family: Menlo, Monaco, monospace;
+        font-size: 11.5px;
+        font-weight: 400;
+      }
+
+      /* 29 Monochrome: uppercase tracked eyebrow, black check. */
+      .is-mono-chrome {
+        --check-fill: var(--ink);
+      }
+
+      .is-mono-chrome .status-idle {
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      /* ---------- 00 Current popup, for comparison ---------- */
+      .pop.is-before {
+        --pad: 8px;
+        font-family: system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .before-row1 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .before-title {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        font-size: 16px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .before-dot {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        outline: 2px solid #1a8cd8;
+        outline-offset: 2px;
+      }
+
+      .before-dot::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #16a34a;
+        box-shadow: 0 0 0 3px rgb(22 163 74 / 0.18);
+      }
+
+      .pop.is-before .check {
+        --check: 30px;
+        --check-fill: #1a8cd8;
+        border-color: #9ca3af;
+        border-radius: 6px;
+      }
+
+      .before-row2 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .before-comment {
+        flex: 1 1 0;
+        min-width: 0;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        padding: 6px 10px;
+        background: #fff;
+        font-size: 16px;
+        line-height: 1.4;
+        resize: none;
+      }
+
+      .before-tweet {
+        display: flex;
+        flex: 0 0 96px;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        border-radius: 30px;
+        background: #1a8cd8;
+        color: #fff;
+        font-size: 20px;
+      }
+
+      .before-result {
+        display: flex;
+        flex: 0 0 172px;
+        justify-content: center;
+        color: #ea580c;
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* The current popup only fades in; the message disappears abruptly. */
+      .before-result span {
+        opacity: 0;
+      }
+
+      .mock.msg-on .before-result span {
+        opacity: 1;
+        transition: opacity 200ms ease-out;
+      }
+
+      .before-wrap {
+        display: grid;
+        grid-template-columns: minmax(600px, 1fr) minmax(280px, 0.8fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      .before-issues {
+        margin: 0;
+        padding: 0 0 0 20px;
+        color: var(--text-muted);
+        font-size: 13.5px;
+      }
+
+      .before-issues li {
+        margin-bottom: 6px;
+        text-wrap: pretty;
+      }
+
+      .before-issues strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      /* ---------- Appendix: options page ---------- */
+      .appendix {
+        padding-top: 12px;
+        padding-bottom: 40px;
+      }
+
+      .appendix-grid {
+        display: grid;
+        grid-template-columns: minmax(520px, 1.2fr) minmax(280px, 1fr);
+        gap: 20px;
+        align-items: start;
+        margin-top: 16px;
+      }
+
+      .browser {
+        overflow: hidden;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 0 0 1px var(--panel-ring);
+        color: #0f1419;
+        color-scheme: light;
+      }
+
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        background: #2a2b2f;
+      }
+
+      .browser-url {
+        flex: 1 1 auto;
+        overflow: hidden;
+        border-radius: 999px;
+        padding: 3px 12px;
+        background: #1f2023;
+        color: #9aa0a6;
+        font: 12px/18px Menlo, Monaco, monospace;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .options {
+        padding: 28px 32px 32px;
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .options h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .options-sub {
+        margin: 2px 0 20px;
+        color: #536471;
+        font-size: 13px;
+      }
+
+      .options-card {
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow:
+          0 0 0 1px oklch(0 0 0 / 0.08),
+          0 1px 2px -1px oklch(0 0 0 / 0.08),
+          0 2px 4px 0 oklch(0 0 0 / 0.04);
+      }
+
+      .options-card h4 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .options-state {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+        color: #536471;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .options-state::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #aab4bd;
+      }
+
+      .browser.is-connected .options-state {
+        color: #15803d;
+      }
+
+      .browser.is-connected .options-state::before {
+        background: #16a34a;
+      }
+
+      .options-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .options-input {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 36px;
+        border: 1px solid #cfd9de;
+        border-radius: 8px;
+        padding: 0 12px;
+        background: #fff;
+        color: #0f1419;
+        font: 14px/20px Menlo, Monaco, monospace;
+        transition: border-color 150ms ease-out;
+      }
+
+      .options-input:hover {
+        border-color: #8b98a5;
+      }
+
+      .options-btn {
+        position: relative;
+        flex: none;
+        height: 36px;
+        border: 0;
+        border-radius: 9999px;
+        padding: 0 16px;
+        background: #0f1419;
+        color: #fff;
+        font: 700 14px/20px system-ui, sans-serif;
+        cursor: pointer;
+        transition-property: background-color, scale, opacity;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .options-btn:hover:not(:disabled) {
+        background: #272c30;
+      }
+
+      .options-btn:active:not(:disabled) {
+        scale: 0.96;
+      }
+
+      .options-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+      }
+
+      .options-btn.is-secondary {
+        background: #fff;
+        box-shadow: inset 0 0 0 1px #cfd9de;
+        color: #c81e2b;
+      }
+
+      .options-btn.is-secondary:hover:not(:disabled) {
+        background: #fdecee;
+      }
+
+      .options-input:focus-visible,
+      .options-btn:focus-visible {
+        outline: 2px solid #1d9bf0;
+        outline-offset: 2px;
+      }
+
+      .options-help {
+        margin: 12px 0 0;
+        color: #536471;
+        font-size: 13px;
+        text-wrap: pretty;
+      }
+
+      .options-help a {
+        color: #0f1419;
+        font-weight: 600;
+      }
+
+      .browser:not(.is-connected) .when-connected,
+      .browser.is-connected .when-disconnected {
+        display: none;
+      }
+
+      .notes {
+        margin: 0;
+        padding: 0 0 0 20px;
+        color: var(--text-muted);
+        font-size: 13.5px;
+      }
+
+      .notes li {
+        margin-bottom: 6px;
+        text-wrap: pretty;
+      }
+
+      .notes strong,
+      .notes code {
+        color: var(--text);
+      }
+
+      code {
+        font: 0.92em Menlo, Monaco, monospace;
+      }
+
+      /* ---------- Summary ---------- */
+      .summary {
+        padding-bottom: 72px;
+      }
+
+      .picks {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 12px;
+        margin: 16px 0 24px;
+        padding: 0;
+        list-style: none;
+      }
+
+      .picks li {
+        border-radius: 12px;
+        padding: 14px 16px;
+        background: var(--panel-bg);
+        box-shadow: 0 0 0 1px var(--panel-ring);
+        color: var(--text-muted);
+        font-size: 13.5px;
+        text-wrap: pretty;
+      }
+
+      .picks strong {
+        display: block;
+        margin-bottom: 2px;
+        color: var(--text);
+        font-size: 15px;
+        font-weight: 650;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border-radius: 12px;
+        box-shadow: 0 0 0 1px var(--panel-ring);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--panel-ring);
+        padding: 7px 12px;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      th {
+        background: var(--panel-bg);
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      td {
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+      }
+
+      td.is-muted {
+        color: var(--text-muted);
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      td a {
+        color: inherit;
+      }
+
+      @media (max-width: 1100px) {
+        .before-wrap,
+        .appendix-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .status-layer,
+        .strip,
+        .reveal,
+        .check,
+        .check::after,
+        .xbtn,
+        .save-pill,
+        .icon-btn,
+        .toolbar-ext {
+          transition: none;
+        }
+
+        .status-msg,
+        .mock.msg-on .status-idle {
+          translate: none;
+          filter: none;
+        }
+
+        .check:active:not(:disabled),
+        .xbtn:active,
+        .save-pill:active:not(:disabled),
+        .icon-btn:active {
+          scale: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="page-header">
+      <p class="eyebrow">NSX browser extension — popup design exploration</p>
+      <h1>レイアウトと書体 30 パターン</h1>
+      <p class="lead">
+        下の 6 点は <strong>全パターンに反映済み</strong>です。違いは「左上のメッセージ枠をどう使うか」「保存と投稿をどう並べるか」「書体」の
+        3 つ。モックは実際に操作できます（チェックで Success が左上にフェードイン → フェードアウト）。
+        <strong>番号で選んでください。レイアウト（01–20・29–30）× 書体（21–28）の組み合わせも可</strong>で、上のバーの「書体」を切り替えると全レイアウトにその書体が当たります。
+      </p>
+      <ol class="fix-list">
+        <li><span><strong>PAT は Options ページへ。</strong>ポップアップから緑ドットと接続バーを撤去（未接続のときだけ左上に案内）。</span></li>
+        <li><span><strong>Tweet ボタンは X の黒。</strong><code>#0f1419</code>・15px Bold・36px ピル、hover <code>#272c30</code>。</span></li>
+        <li><span><strong>チェックボックスは 16–20px。</strong>見た目だけ小さくし、当たり判定は 40px を維持。</span></li>
+        <li><span><strong>メッセージは左上・12px 前後・緑。</strong>Success はフェードイン → 保持 → フェードアウト、Already Exists は表示し続ける。</span></li>
+        <li><span><strong>ボタンを右端に揃える。</strong>空のままだった 172px の結果欄をなくし、チェックボックスと右端を通す。</span></li>
+        <li><span><strong>書体に階層をつける。</strong>タイトル / 本文 / メタの 3 段階、和文はプロポーショナル詰め（<code>palt</code>）。</span></li>
+      </ol>
+      <nav class="group-nav" aria-label="グループ">
+        <a href="#before">00 現状</a>
+        <a href="#group-A">A 現行を整える 01–05</a>
+        <a href="#group-B">B リンクカード 06–10</a>
+        <a href="#group-C">C X コンポーザー風 11–15</a>
+        <a href="#group-D">D 超コンパクト 16–20</a>
+        <a href="#group-E">E 書体比較 21–28</a>
+        <a href="#group-F">F 別解 29–30</a>
+        <a href="#options">付録 Options</a>
+        <a href="#summary">一覧とおすすめ</a>
+      </nav>
+    </header>
+
+    <div class="controls">
+      <div class="controls-inner">
+        <div class="control">
+          <span class="control-label">状態</span>
+          <div class="segmented" data-control="status">
+            <button type="button" data-value="idle" aria-pressed="true">通常</button>
+            <button type="button" data-action="success" class="is-action">▶ Success を再生</button>
+            <button type="button" data-value="exists" aria-pressed="false">Already Exists</button>
+            <button type="button" data-action="failed">▶ Failed</button>
+            <button type="button" data-value="off" aria-pressed="false">未接続</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="control-label">タイトル</span>
+          <div class="segmented" data-control="sample">
+            <button type="button" data-value="en" aria-pressed="true">English</button>
+            <button type="button" data-value="ja" aria-pressed="false">日本語</button>
+            <button type="button" data-value="long" aria-pressed="false">長い</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="control-label">ボタン</span>
+          <div class="segmented" data-control="label">
+            <button type="button" data-value="auto" aria-pressed="true">パターン既定</button>
+            <button type="button" data-value="tweet" aria-pressed="false">tweet</button>
+            <button type="button" data-value="Tweet" aria-pressed="false">Tweet</button>
+            <button type="button" data-value="Post" aria-pressed="false">Post</button>
+            <button type="button" data-value="xpost" aria-pressed="false">𝕏 Post</button>
+            <button type="button" data-value="x" aria-pressed="false">𝕏</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="control-label">文言</span>
+          <div class="segmented" data-control="copy">
+            <button type="button" data-value="current" aria-pressed="true">Success! / Already Exists</button>
+            <button type="button" data-value="short" aria-pressed="false">Saved / Already saved</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="control-label">書体</span>
+          <div class="segmented" data-control="font">
+            <button type="button" data-value="auto" aria-pressed="true">パターン既定</button>
+            <button type="button" data-value="system" aria-pressed="false">SF Pro</button>
+            <button type="button" data-value="helvetica" aria-pressed="false">Helvetica Neue</button>
+            <button type="button" data-value="avenir" aria-pressed="false">Avenir Next</button>
+            <button type="button" data-value="charter" aria-pressed="false">Charter</button>
+            <button type="button" data-value="yugothic" aria-pressed="false">游ゴシック</button>
+            <button type="button" data-value="toppan" aria-pressed="false">凸版文久</button>
+            <button type="button" data-value="tsukushi" aria-pressed="false">筑紫A丸</button>
+            <button type="button" data-value="inter" aria-pressed="false">Inter</button>
+            <button type="button" data-value="geist" aria-pressed="false">Geist</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="control-label">速度</span>
+          <div class="segmented" data-control="speed">
+            <button type="button" data-value="1" aria-pressed="true">100%</button>
+            <button type="button" data-value="10" aria-pressed="false">10% スロー</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="page-section" id="before" style="padding-top: 28px">
+      <h2>00 現状（比較用）</h2>
+      <div class="before-wrap" style="margin-top: 12px">
+        <article class="card" data-pattern="0">
+          <div class="mock" data-status="idle">
+            <div class="toolbar">
+              <span class="toolbar-pill"></span>
+              <span class="toolbar-ext" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4.2L5 21V4a1 1 0 0 1 1-1z" fill="currentColor" /></svg>
+              </span>
+              <span class="toolbar-dot"></span>
+            </div>
+            <div class="stage">
+              <div class="win">
+                <div class="pop is-before">
+                  <div class="before-row1">
+                    <span class="before-title" data-bind="title"></span>
+                    <span class="before-dot" aria-hidden="true"></span>
+                    <input class="check save-check" type="checkbox" aria-label="Save current page to NSX" />
+                  </div>
+                  <div class="before-row2">
+                    <textarea class="before-comment" rows="2" placeholder="Add a comment…" aria-label="Tweet comment"></textarea>
+                    <span class="before-tweet">tweet</span>
+                    <span class="before-result"><span data-bind="msg"></span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <ol class="before-issues">
+          <li><strong>緑ドット</strong>が常に見え、開いた瞬間にフォーカスリングまで付く → PAT は Options へ。</li>
+          <li><strong>チェックボックス 30px</strong> はタイトル（16px）に対して大きすぎる → 18px 前後。</li>
+          <li><strong>tweet ボタン</strong>が青・20px 細字で、空の結果欄（172px）のせいで行の途中に浮く → X の黒・15px Bold・右端。</li>
+          <li><strong>メッセージ</strong>が右下・22px・オレンジで、消えるときは一瞬 → 左上・12px・緑・フェードアウトあり。</li>
+          <li><strong>書体の階層がない</strong>（全部 16px Regular）→ タイトル / 本文 / メタの 3 段階。</li>
+        </ol>
+      </div>
+    </section>
+
+    <main class="gallery" id="gallery"></main>
+
+    <section class="page-section appendix" id="options">
+      <h2>付録：PAT は Options ページへ</h2>
+      <p class="lead">
+        トークンの貼り付け・接続・切断はここに集約します。ポップアップは接続中なにも出さず、未接続 / トークン失効のときだけ左上に
+        <strong>「Not connected · Open options」</strong>を出します（上のバーの「未接続」で全パターン確認可）。下のモックも操作できます。
+      </p>
+      <div class="appendix-grid">
+        <div class="browser" id="options-mock">
+          <div class="browser-bar">
+            <span class="toolbar-dot"></span><span class="toolbar-dot"></span>
+            <span class="browser-url">chrome-extension://doicakfpmkdmplhfeafmmoecgemngdgf/options.html</span>
+          </div>
+          <div class="options">
+            <h3>Reading List</h3>
+            <p class="options-sub">Options</p>
+            <div class="options-card">
+              <h4>NSX connection</h4>
+              <span class="options-state" id="options-state">Not connected</span>
+              <div class="options-row when-disconnected">
+                <input class="options-input" id="options-token" type="password" placeholder="nsx_pat_…" aria-label="NSX extension token" />
+                <button type="button" class="options-btn" id="options-connect" disabled>Connect</button>
+              </div>
+              <div class="options-row when-connected">
+                <input class="options-input" type="text" value="nsx_pat_••••••••••••3f9a" readonly aria-label="Stored token" />
+                <button type="button" class="options-btn is-secondary" id="options-disconnect">Disconnect</button>
+              </div>
+              <p class="options-help">
+                Generate a token at <a href="#options">nsx.malloc.tokyo → Dashboard → Settings → Extension token</a>. It is shown once;
+                paste it here.
+              </p>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li><strong>開き方は 3 通り：</strong>ツールバーのアイコンを右クリック → 「オプション」／ポップアップ左上の「Open options」／<code>chrome://extensions</code> → 詳細 → 拡張機能のオプション。</li>
+          <li><strong>実装：</strong>WXT の <code>entrypoints/options/</code> を追加し、今の <code>usePersonalAccessToken</code> をそのまま使う。ポップアップ側は <code>chrome.runtime.openOptionsPage()</code> を呼ぶリンクだけになる。</li>
+          <li><strong>消えるもの：</strong>ステータスドット、折りたたみバー、<code>useConnectionBar</code>、貼り付けパネル。ポップアップを開いた瞬間のフォーカスリングもなくなる。</li>
+          <li><strong>注意：</strong>拡張機能の ID が変わらない限り、保存済みトークンはそのまま使える（<code>chrome.storage.local</code> は popup と options で共有）。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page-section summary" id="summary">
+      <h2>おすすめと一覧</h2>
+      <ul class="picks" id="picks"></ul>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>名前</th>
+              <th>グループ</th>
+              <th>書体</th>
+              <th>幅</th>
+              <th>高さ</th>
+              <th>☐</th>
+              <th>ボタン</th>
+              <th>保存の操作</th>
+            </tr>
+          </thead>
+          <tbody id="summary-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <script>
+      /* ---------- Data ---------- */
+      const SAMPLES = {
+        en: {
+          title: 'laststance/nsx: Auto post of web page list you read that day',
+          domain: 'github.com',
+          url: 'github.com/laststance/nsx',
+          glyph: 'G',
+          tile: '#24292f',
+        },
+        ja: {
+          title: 'React 19.2 の新機能まとめ ― Activity と useEffectEvent を試す',
+          domain: 'zenn.dev',
+          url: 'zenn.dev/laststance/articles/react-19-2-activity',
+          glyph: 'Z',
+          tile: '#3ea8ff',
+        },
+        long: {
+          title:
+            'Interruptible animations, enter and exit transitions, and why CSS transitions beat keyframes for interactive state: a field guide for people who ship UI',
+          domain: 'developer.mozilla.org',
+          url: 'developer.mozilla.org/en-US/docs/Web/CSS/CSS_transitions/Using_CSS_transitions',
+          glyph: 'M',
+          tile: '#15141a',
+        },
+      }
+
+      const COPY = {
+        current: { success: 'Success!', exists: 'Already Exists', failed: 'Failed...' },
+        short: { success: 'Saved', exists: 'Already saved', failed: "Couldn't save" },
+      }
+
+      const FONT_LABELS = {
+        system: 'SF Pro (system-ui)',
+        sfdisplay: 'SF Pro 17/700',
+        helvetica: 'Helvetica Neue + ヒラギノ角ゴ',
+        avenir: 'Avenir Next + ヒラギノ角ゴ',
+        charter: 'Charter + ヒラギノ明朝（タイトルのみ）',
+        yugothic: 'Helvetica Neue + 游ゴシック',
+        toppan: '凸版文久ゴシック',
+        tsukushi: '筑紫A丸ゴシック',
+        inter: 'Inter + ヒラギノ角ゴ（要同梱）',
+        geist: 'Geist + ヒラギノ角ゴ（要同梱）',
+      }
+
+      const GROUPS = [
+        {
+          id: 'A',
+          title: 'A. 現行の 2 行構成のまま整える',
+          text: 'いまの「タイトル行 + コメント行」を保ったまま、左上にメッセージ枠を作り、右端を揃える。実装の変更がいちばん小さい。',
+        },
+        {
+          id: 'B',
+          title: 'B. リンクカード',
+          text: 'favicon やドメインで左上に常に意味のある情報を置き、その場所がそのままメッセージ枠になる。何を保存するのかが一目で分かる。',
+        },
+        {
+          id: 'C',
+          title: 'C. X コンポーザー風',
+          text: '投稿を主役にして、X の投稿欄と同じ骨格にする。保存チェックはフッター左へ。ボタン文言は Post が似合う。',
+        },
+        {
+          id: 'D',
+          title: 'D. 超コンパクト',
+          text: 'ポップアップの高さと幅を削る。コメントを 1 行にする、必要なときだけ開く、ボタンを入力欄の中に入れる、など。',
+        },
+        {
+          id: 'E',
+          title: 'E. 書体比較（レイアウトは 01 と同じ）',
+          text: 'この Mac の Chrome で実際に描画できる書体だけを使用。SF Pro Rounded / New York は Chrome では指定できないため除外。Inter と Geist は拡張機能に同梱が必要（各 +30–50KB）。',
+        },
+        {
+          id: 'F',
+          title: 'F. 別解',
+          text: 'チェックボックス以外の保存操作や、配色の方針を変える案。',
+        },
+      ]
+
+      const PATTERNS = [
+        { n: 1, group: 'A', name: 'Eyebrow Classic', layout: 'classic', save: 'チェック（右）',
+          concept: '左上の 1 行をドメイン表示にして、保存時だけ緑の「Success!」にクロスフェード。メッセージで高さが変わらない。チェックとボタンの右端が一直線に揃う。' },
+        { n: 2, group: 'A', name: 'Left Check', layout: 'leftCheck', save: 'チェック（左）',
+          concept: 'チェックボックスをタイトルの左へ。ToDo のように「チェック → タイトル」と読め、タイトル文字もクリックできる。右側はボタンだけになり軽い。' },
+        { n: 3, group: 'A', name: 'Footer Actions', layout: 'footer', save: 'チェック + ラベル',
+          concept: 'タイトルは 2 行まで表示、コメントは全幅。操作はフッターに集約し、左に「Save to NSX」、右に Tweet。何のチェックか文字で分かる。' },
+        { n: 4, group: 'A', name: 'Two-line Title', layout: 'classic', opts: { clamp2: true }, save: 'チェック（右）',
+          concept: '01 のタイトルを 2 行まで折り返す。長い日本語タイトルが切れにくい。チェックボックスは 1 行目の中央に合わせる。' },
+        { n: 5, group: 'A', name: 'Compact 400', layout: 'classic', save: 'チェック（右）',
+          vars: { '--w': '400px', '--pad': '8px', '--check': '16px', '--btn-h': '32px', '--btn-font': '14px', '--title-size': '14px', '--body-size': '13.5px' },
+          concept: '01 を幅 400px・ボタン 32px（X の small）・チェック 16px に詰めた版。ページを隠す面積が約 2 割減る。' },
+
+        { n: 6, group: 'B', name: 'Favicon Eyebrow', layout: 'classic', opts: { favicon: true }, star: true, save: 'チェック（右）',
+          concept: '01 の左上に favicon を足す。保存すると favicon + ドメインが緑のチェック + Success! に入れ替わり、フェードアウト後に元へ戻る。' },
+        { n: 7, group: 'B', name: 'Media Object', layout: 'media', save: 'チェック（右）',
+          concept: '36px の favicon タイルを左に置き、ドメイン / タイトルを 2 段に。ブックマーク一覧の 1 行のように見える。' },
+        { n: 8, group: 'B', name: 'Preview Card', layout: 'pcard', save: 'チェック（カード内）',
+          concept: 'ページ情報を薄いグレーのカードにまとめ、その中でチェック。下段は投稿だけになり「保存」と「投稿」の区切りが明確。' },
+        { n: 9, group: 'B', name: 'Mono URL', layout: 'classic', opts: { idle: 'url', monoIdle: true }, save: 'チェック（右）',
+          concept: '左上を等幅の URL にする開発者ツール寄りの表情。メッセージは UI 書体の緑で出るので、切り替わりがはっきり分かる。' },
+        { n: 10, group: 'B', name: 'Status Strip', layout: 'strip', opts: { favicon: true }, save: 'チェック（右）',
+          concept: 'カード上端いっぱいの細い帯。通常はドメイン、保存時は帯ごと薄い緑に変わる。色面で伝わるので文字が小さくても見落とさない。' },
+
+        { n: 11, group: 'C', name: 'Composer', layout: 'composer', label: 'Post', save: 'チェック + ラベル',
+          concept: '上が大きなコメント欄、下にリンクカード、フッター左に Save to NSX・右に Post。X の投稿画面と同じ順序。' },
+        { n: 12, group: 'C', name: 'Composer + Counter', layout: 'composer', label: 'Post', opts: { counter: true }, save: 'チェック + ラベル',
+          concept: '11 に X と同じ残り文字数リングを追加（280 − URL 23 − 空白 1 − コメント）。数字は等幅数字で揺れない。' },
+        { n: 13, group: 'C', name: 'Avatar Composer', layout: 'composer', label: 'Post', opts: { avatar: true }, save: 'チェック + ラベル',
+          concept: 'favicon をアバターの位置に置く。「このページについて書く」という関係が構図で伝わる。' },
+        { n: 14, group: 'C', name: 'Reply Thread', layout: 'thread', label: 'Post', opts: { counter: true }, save: 'チェック（右）',
+          concept: 'ページを「元ポスト」、コメントを「返信」に見立てて縦線でつなぐ。保存チェックは元ポストの右端。' },
+        { n: 15, group: 'C', name: 'Bare Composer', layout: 'composer', label: 'Post', opts: { quote: true }, save: 'チェック + ラベル',
+          concept: '枠線をほぼなくし、タイトルは引用線つきの 2 行。余白と文字の階層だけで見せるいちばん静かな案。' },
+
+        { n: 16, group: 'D', name: 'One-liner', layout: 'oneLiner', label: 'x', save: 'チェック（左）',
+          concept: '通常は 1 行だけ。吹き出しアイコンでコメント欄が開く。保存だけしたい日がほとんどなら最小の高さで済む。' },
+        { n: 17, group: 'D', name: 'Inline Button', layout: 'inlineButton', save: 'チェック（右）',
+          vars: { '--btn-h': '32px', '--btn-font': '14px' },
+          concept: 'Tweet ボタンをコメント欄の枠の中（右下）に入れて 1 つの部品にする。チャットの入力欄と同じ形で、ボタンが浮かない。' },
+        { n: 18, group: 'D', name: 'Icon-only 𝕏', layout: 'classic', label: 'x', opts: { line: true }, save: 'チェック（右）',
+          concept: 'コメントを 1 行入力にし、ボタンは 𝕏 ロゴだけの 36px 円。行の高さが揃い、コメント欄を最大まで広く取れる。' },
+        { n: 19, group: 'D', name: 'Pill Row', layout: 'classic', opts: { line: true, pill: true }, star: true, save: 'チェック（右）',
+          concept: '1 行のコメント欄もピル形にして Tweet ボタンと同じ高さ・同じ形に。下段が 1 本の帯になり、いちばんバランスが取りやすい。' },
+        { n: 20, group: 'D', name: 'Dense 360', layout: 'leftCheck', opts: { line: true }, save: 'チェック（左）',
+          vars: { '--w': '360px', '--pad': '8px', '--check': '16px', '--btn-h': '32px', '--btn-font': '14px', '--title-size': '14px', '--body-size': '13.5px', '--meta-size': '11.5px' },
+          concept: '幅 360px・左チェック・1 行コメント。ここまで詰めると現状の約半分の面積になる。' },
+
+        { n: 21, group: 'E', name: 'SF Pro 17/700', layout: 'classic', font: 'sfdisplay', lockFont: true, save: 'チェック（右）',
+          concept: 'system-ui のままタイトルを 17px Bold・字間 −0.022em に。見出しとしての存在感が出る。追加コストなし。' },
+        { n: 22, group: 'E', name: 'Helvetica Neue', layout: 'classic', font: 'helvetica', lockFont: true, save: 'チェック（右）',
+          concept: 'Helvetica Neue Medium + ヒラギノ角ゴ。中立で硬質。X の Chirp にいちばん近い骨格で、黒いボタンと相性がよい。' },
+        { n: 23, group: 'E', name: 'Avenir Next', layout: 'classic', font: 'avenir', lockFont: true, save: 'チェック（右）',
+          concept: 'Avenir Next Demi Bold + ヒラギノ角ゴ。幾何学的でやわらかい。x ハイトが低いので各サイズを 0.5–1px 上げてある。' },
+        { n: 24, group: 'E', name: 'Charter Serif', layout: 'classic', font: 'charter', lockFont: true, save: 'チェック（右）',
+          concept: 'タイトルだけセリフ（Charter Bold / ヒラギノ明朝）。「Reading List」という名前に合う読み物の表情。UI 部分はサンセリフのまま。' },
+        { n: 25, group: 'E', name: '游ゴシック', layout: 'classic', font: 'yugothic', lockFont: true, save: 'チェック（右）',
+          concept: '和文を游ゴシック Bold、欧文を Helvetica Neue に。ヒラギノより字面が小さく、行がすっきり見える。' },
+        { n: 26, group: 'E', name: '凸版文久ゴシック', layout: 'classic', font: 'toppan', lockFont: true, save: 'チェック（右）',
+          concept: 'macOS 標準の凸版文久ゴシック DemiBold。和文はくっきり上品。欧文はやや古風なフレア付きになるので、英語タイトルが多いと好みが分かれる。' },
+        { n: 27, group: 'E', name: '筑紫A丸ゴシック', layout: 'classic', font: 'tsukushi', lockFont: true, save: 'チェック（右）',
+          concept: '丸ゴシック。親しみやすい表情で、ピル形のボタンと形が呼応する。SF Pro Rounded は Chrome で使えないためこちらで代替。' },
+        { n: 28, group: 'E', name: 'Inter', layout: 'classic', font: 'inter', lockFont: true, save: 'チェック（右）',
+          concept: 'NSX 本体（nsx.malloc.tokyo）と同じ Inter。Web とポップアップの表情が揃う。拡張機能に同梱が必要（latin 48KB）。' },
+
+        { n: 29, group: 'F', name: 'Geist Monochrome', layout: 'classic', font: 'geist', opts: { monoChrome: true }, save: 'チェック（右・黒）',
+          concept: 'Geist + 黒いチェック + 大文字の小さなドメイン表示。色はメッセージの緑だけ。X の黒に全体を寄せた案（Geist は要同梱 29KB）。' },
+        { n: 30, group: 'F', name: 'Save Pill', layout: 'savePill', save: 'Save ボタン',
+          concept: 'チェックボックスをやめ、X の副ボタン（白地・グレー枠）の「Save」を黒い Tweet の隣に並べる。保存後は緑の「✓ Saved」。ボタン 2 つが右端で揃う。' },
+      ]
+
+      /* ---------- Icons ---------- */
+      const stroke = (paths, cls) =>
+        '<svg class="i ' + cls + '" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>'
+
+      const ICON = {
+        check: stroke('<path d="M3.2 8.6l3 3 6.6-7.2"/>', 'i-check'),
+        cross: stroke('<path d="M4 4l8 8M12 4l-8 8"/>', 'i-cross'),
+        warn: stroke('<path d="M8 3v6M8 12.4v.2"/>', 'i-warn'),
+        xLogo: (size) =>
+          '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+        comment:
+          '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.5A1.5 1.5 0 0 1 19 17h-7l-4.5 3.5V17H5A1.5 1.5 0 0 1 3.5 15.5V7A1.5 1.5 0 0 1 5 5.5z"/></svg>',
+        bookmark:
+          '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4.2L5 21V4a1 1 0 0 1 1-1z" fill="currentColor"/></svg>',
+      }
+
+      /* ---------- Partials ---------- */
+      const favicon = (size, extraClass) =>
+        '<span class="favicon ' + (extraClass || '') + '" style="--favicon:' + size + 'px" data-bind="favicon" aria-hidden="true"></span>'
+
+      const status = (p) => {
+        const opts = p.opts || {}
+        return (
+          '<span class="status" aria-live="polite">' +
+          '<span class="status-layer status-idle">' +
+          (opts.favicon ? favicon(14) : '') +
+          '<span data-bind="' + (opts.idle || 'domain') + '"></span></span>' +
+          '<span class="status-layer status-msg">' + ICON.check + ICON.cross + ICON.warn +
+          '<span data-bind="msg"></span><a class="status-link" href="#options" data-bind="msglink"></a></span>' +
+          '</span>'
+        )
+      }
+
+      const title = (cls) => '<span class="title ' + (cls || '') + '" data-bind="title"></span>'
+
+      const check = () => '<input class="check save-check" type="checkbox" aria-label="Save current page to NSX" />'
+
+      const comment = (p, cls, rows) => {
+        const opts = p.opts || {}
+        if (opts.line) {
+          return (
+            '<input type="text" class="comment is-line ' + (opts.pill ? 'is-pill ' : '') + (cls || '') +
+            '" placeholder="Add a comment…" aria-label="Tweet comment" />'
+          )
+        }
+        return (
+          '<textarea class="comment ' + (cls || '') + '" rows="' + (rows || 2) +
+          '" placeholder="Add a comment…" aria-label="Tweet comment"></textarea>'
+        )
+      }
+
+      const xbtn = () => '<button type="button" class="xbtn" data-bind="label"></button>'
+
+      const composeRow = (p) =>
+        '<div class="row-compose ' + (p.opts && p.opts.line ? 'is-line' : '') + '">' + comment(p) + xbtn() + '</div>'
+
+      const ring = () =>
+        '<span class="ring" data-ring><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle class="ring-track" cx="11" cy="11" r="9"/><circle class="ring-value" cx="11" cy="11" r="9" stroke-dasharray="56.55" stroke-dashoffset="56.55"/></svg><span data-ring-num>256</span></span>'
+
+      /* ---------- Layouts ---------- */
+      const LAYOUTS = {
+        classic: (p) => {
+          const clamp = p.opts && p.opts.clamp2
+          return (
+            status(p) +
+            '<div class="row-title ' + (clamp ? 'is-top' : '') + '">' + title(clamp ? 'is-clamp2' : '') + check() + '</div>' +
+            composeRow(p)
+          )
+        },
+        leftCheck: (p) =>
+          status(p) +
+          '<label class="row-title">' + check() + title() + '</label>' +
+          composeRow(p),
+        footer: (p) =>
+          status(p) + title('is-clamp2') + comment(p, 'is-block') +
+          '<div class="row-footer"><label class="save-label">' + check() + '<span>Save to NSX</span></label>' + xbtn() + '</div>',
+        media: (p) =>
+          '<div class="row-media">' + favicon(36) + '<div class="media-body">' + status(p) + title() + '</div>' + check() + '</div>' +
+          '<div class="row-compose">' + comment(p) + xbtn() + '</div>',
+        pcard: (p) =>
+          '<div class="pcard"><div class="pcard-body">' + status({ opts: { favicon: true } }) + title('is-clamp2') + '</div>' + check() + '</div>' +
+          '<div class="row-compose">' + comment(p) + xbtn() + '</div>',
+        strip: (p) =>
+          '<div class="strip">' + status(p) + '</div>' +
+          '<div class="row-title">' + title() + check() + '</div>' +
+          '<div class="row-compose">' + comment(p) + xbtn() + '</div>',
+        composer: (p) => {
+          const opts = p.opts || {}
+          const page = opts.quote
+            ? '<div class="quote">' + title('is-clamp2') + '<div class="domain" data-bind="domain"></div></div>'
+            : '<div class="linkcard">' + favicon(28) + '<div class="linkcard-body">' + title() + '<div class="domain" data-bind="domain"></div></div></div>'
+          const body = comment(p, 'is-bare') + page
+          return (
+            status({ opts: { idle: 'brand' } }) +
+            (opts.avatar
+              ? '<div class="composer-main">' + favicon(32, 'is-round') + '<div class="composer-col">' + body + '</div></div>'
+              : body) +
+            '<div class="row-footer has-rule"><label class="save-label">' + check() + '<span>Save to NSX</span></label>' +
+            '<div class="footer-right">' + (opts.counter ? ring() : '') + xbtn() + '</div></div>'
+          )
+        },
+        thread: (p) =>
+          status({ opts: { idle: 'brand' } }) +
+          '<div class="thread">' +
+          '<div class="thread-row">' + favicon(32, 'is-round') + '<div class="thread-body">' + title() + '<div class="domain" data-bind="domain"></div></div>' + check() + '</div>' +
+          '<div class="thread-line"></div>' +
+          '<div class="thread-row is-reply"><span class="avatar-me" aria-hidden="true">' + ICON.xLogo(14) + '</span>' + comment(p, 'is-bare') + '</div>' +
+          '</div>' +
+          '<div class="row-footer is-right"><div class="footer-right">' + ring() + xbtn() + '</div></div>',
+        oneLiner: (p) =>
+          status(p) +
+          '<div class="row-one">' + check() + title() +
+          '<button type="button" class="icon-btn" data-reveal aria-expanded="false" aria-label="Add a comment">' + ICON.comment + '</button>' + xbtn() + '</div>' +
+          '<div class="reveal" data-reveal-panel inert><div class="reveal-inner">' + comment(p, 'is-block') + '</div></div>',
+        inlineButton: (p) =>
+          status(p) +
+          '<div class="row-title">' + title() + check() + '</div>' +
+          '<div class="cbox">' + comment(p, 'is-bare') + xbtn() + '</div>',
+        savePill: (p) =>
+          status(p) + title('is-clamp2') + comment(p, 'is-block') +
+          '<div class="row-footer is-right"><div class="footer-right" style="gap:8px">' +
+          '<button type="button" class="save-pill" data-save-pill aria-pressed="false">' + ICON.check + '<span data-save-pill-text>Save</span></button>' + xbtn() + '</div></div>',
+      }
+
+      const LAYOUT_CLASS = {
+        classic: 'l-classic', leftCheck: 'l-left', footer: 'l-footer', media: 'l-media', pcard: 'l-pcard', strip: 'l-strip',
+        composer: 'l-composer', thread: 'l-thread', oneLiner: 'l-one', inlineButton: 'l-inline', savePill: 'l-savepill',
+      }
+
+      /* ---------- Render ---------- */
+      const state = { status: 'idle', sample: 'en', label: 'auto', copy: 'current', font: 'auto' }
+      const timers = new WeakMap()
+      const $$ = (selector, root) => Array.from((root || document).querySelectorAll(selector))
+      const two = (n) => String(n).padStart(2, '0')
+
+      const cardHTML = (p) => {
+        const opts = p.opts || {}
+        const vars = Object.entries(p.vars || {}).map(([key, value]) => key + ':' + value).join(';')
+        const popClass = ['pop', LAYOUT_CLASS[p.layout], opts.monoIdle ? 'is-mono-idle' : '', opts.monoChrome ? 'is-mono-chrome' : ''].join(' ')
+        return (
+          '<article class="card ' + (p.star ? 'is-star' : '') + '" id="p' + two(p.n) + '" data-pattern="' + p.n + '">' +
+          '<header class="card-head"><span class="card-num">' + two(p.n) + '</span><h3 class="card-name">' + p.name + '</h3>' +
+          (p.star ? '<span class="card-star">おすすめ</span>' : '') +
+          '<button type="button" class="card-replay" data-replay>▶ Success</button></header>' +
+          '<p class="card-concept">' + p.concept + '</p>' +
+          '<div class="mock" data-status="idle"><div class="toolbar"><span class="toolbar-pill"></span><span class="toolbar-ext" aria-hidden="true">' + ICON.bookmark + '</span><span class="toolbar-dot"></span></div>' +
+          '<div class="stage"><div class="win"><div class="' + popClass + '" style="' + vars + '">' + LAYOUTS[p.layout](p) + '</div></div></div></div>' +
+          '<ul class="specs" data-specs></ul>' +
+          '</article>'
+        )
+      }
+
+      const gallery = document.getElementById('gallery')
+      gallery.innerHTML = GROUPS.map(
+        (group) =>
+          '<div class="group-head" id="group-' + group.id + '"><h2>' + group.title + '</h2><p>' + group.text + '</p></div>' +
+          PATTERNS.filter((p) => p.group === group.id).map(cardHTML).join(''),
+      ).join('')
+
+      const patternOf = (card) => PATTERNS.find((p) => p.n === Number(card.dataset.pattern))
+      const cards = () => $$('.card[data-pattern]')
+
+      /* ---------- Bindings ---------- */
+      const applySample = (card) => {
+        const sample = SAMPLES[state.sample]
+        $$('[data-bind="title"]', card).forEach((node) => (node.textContent = sample.title))
+        $$('[data-bind="domain"]', card).forEach((node) => (node.textContent = sample.domain))
+        $$('[data-bind="url"]', card).forEach((node) => (node.textContent = sample.url))
+        $$('[data-bind="brand"]', card).forEach((node) => (node.textContent = 'Reading List'))
+        $$('[data-bind="favicon"]', card).forEach((node) => {
+          node.textContent = sample.glyph
+          node.style.setProperty('--tile-bg', sample.tile)
+        })
+      }
+
+      const applyLabel = (card) => {
+        const p = patternOf(card)
+        if (!p) return
+        const mode = state.label === 'auto' ? p.label || 'Tweet' : state.label
+        $$('[data-bind="label"]', card).forEach((button) => {
+          const iconOnly = mode === 'x'
+          const withLogo = mode === 'xpost'
+          button.classList.toggle('is-icon', iconOnly)
+          button.classList.toggle('has-logo', withLogo)
+          button.innerHTML = iconOnly ? ICON.xLogo(16) : withLogo ? ICON.xLogo(14) + '<span>Post</span>' : '<span>' + mode + '</span>'
+          button.setAttribute('aria-label', iconOnly ? 'Post on X' : '')
+          if (!iconOnly) button.removeAttribute('aria-label')
+        })
+      }
+
+      const fontOf = (p) => (p.lockFont || state.font === 'auto' ? p.font || 'system' : state.font)
+
+      const applyFont = (card) => {
+        const p = patternOf(card)
+        if (!p) return
+        const pop = card.querySelector('.pop')
+        Object.keys(FONT_LABELS).forEach((key) => pop.classList.remove('f-' + key))
+        pop.classList.add('f-' + fontOf(p))
+      }
+
+      const renderSpecs = (card) => {
+        const p = patternOf(card)
+        const list = card.querySelector('[data-specs]')
+        if (!p || !list) return
+        const pop = card.querySelector('.pop')
+        const titleStyle = getComputedStyle(card.querySelector('.title'))
+        const checkbox = card.querySelector('.check')
+        const button = card.querySelector('.xbtn')
+        const popBox = pop.getBoundingClientRect()
+        const specs = [
+          '幅 ' + Math.round(popBox.width) + 'px',
+          '高さ ' + Math.round(popBox.height) + 'px',
+          'タイトル ' + parseFloat(titleStyle.fontSize) + 'px / ' + titleStyle.fontWeight,
+          checkbox ? '☐ ' + Math.round(checkbox.getBoundingClientRect().width) + 'px' : '☐ なし',
+          'ボタン ' + Math.round(button.getBoundingClientRect().height) + 'px',
+          '書体 ' + FONT_LABELS[fontOf(p)],
+        ]
+        list.innerHTML = specs.map((spec) => '<li>' + spec + '</li>').join('')
+      }
+
+      /* ---------- State machine ---------- */
+      const slow = () => (document.body.classList.contains('is-slow') ? 10 : 1)
+
+      const clearTimers = (mock) => {
+        ;(timers.get(mock) || []).forEach((id) => clearTimeout(id))
+        timers.set(mock, [])
+      }
+
+      const later = (mock, ms, run) => {
+        const id = setTimeout(run, ms)
+        timers.set(mock, (timers.get(mock) || []).concat(id))
+      }
+
+      const setSaved = (mock, saved) => {
+        mock.classList.toggle('is-saved', saved)
+        $$('.save-check', mock).forEach((box) => (box.checked = saved))
+        $$('[data-save-pill]', mock).forEach((pill) => {
+          pill.setAttribute('aria-pressed', String(saved))
+          pill.querySelector('[data-save-pill-text]').textContent = saved ? 'Saved' : 'Save'
+        })
+      }
+
+      const setDisabled = (mock, disabled) => {
+        $$('.save-check, [data-save-pill]', mock).forEach((control) => (control.disabled = disabled))
+      }
+
+      const showMsg = (mock, tone, text, options) => {
+        const settings = options || {}
+        mock.classList.remove('tone-ok', 'tone-bad', 'tone-warn')
+        mock.classList.add('tone-' + tone, 'msg-on')
+        $$('[data-bind="msg"]', mock).forEach((node) => (node.textContent = text))
+        $$('[data-bind="msglink"]', mock).forEach((node) => (node.textContent = settings.link || ''))
+        // Fade in, hold, then fade out; only the transitions are slowed, not the hold.
+        if (!settings.sticky) later(mock, 240 * slow() + 1300, () => mock.classList.remove('msg-on'))
+      }
+
+      const applyStatus = (mock, status) => {
+        clearTimers(mock)
+        mock.dataset.status = status
+        setSaved(mock, status === 'exists')
+        setDisabled(mock, status === 'exists' || status === 'off')
+        if (status === 'exists') showMsg(mock, 'ok', COPY[state.copy].exists, { sticky: true })
+        else if (status === 'off') showMsg(mock, 'warn', 'Not connected ·', { sticky: true, link: 'Open options' })
+        else mock.classList.remove('msg-on')
+      }
+
+      const play = (mock, kind) => {
+        applyStatus(mock, 'idle')
+        setSaved(mock, true)
+        if (kind === 'success') {
+          showMsg(mock, 'ok', COPY[state.copy].success)
+          return
+        }
+        // A failed save unchecks the box again, as the real popup does.
+        later(mock, 260, () => setSaved(mock, false))
+        showMsg(mock, 'bad', COPY[state.copy].failed)
+      }
+
+      /* ---------- Counter ---------- */
+      const updateRing = (card) => {
+        const field = card.querySelector('.comment')
+        $$('[data-ring]', card).forEach((node) => {
+          // X counts every URL as 23 characters, plus the space that separates it from the text.
+          const remaining = 280 - 23 - 1 - (field ? field.value.length : 0)
+          const used = Math.min(1, Math.max(0, 1 - remaining / 280))
+          node.querySelector('.ring-value').setAttribute('stroke-dashoffset', String(56.55 * (1 - used)))
+          node.querySelector('[data-ring-num]').textContent = String(remaining)
+          node.classList.toggle('is-low', remaining <= 20 && remaining >= 0)
+          node.classList.toggle('is-over', remaining < 0)
+        })
+      }
+
+      /* ---------- Wiring ---------- */
+      const refreshAll = () => {
+        cards().forEach((card) => {
+          applySample(card)
+          applyLabel(card)
+          applyFont(card)
+          updateRing(card)
+        })
+        // Measure after the font swap has laid out.
+        requestAnimationFrame(() => {
+          cards().forEach(renderSpecs)
+          renderSummary()
+        })
+      }
+
+      document.addEventListener('change', (event) => {
+        const box = event.target.closest('.save-check')
+        if (!box) return
+        const mock = box.closest('.mock')
+        if (box.checked) play(mock, 'success')
+        else applyStatus(mock, 'idle')
+      })
+
+      document.addEventListener('input', (event) => {
+        const field = event.target.closest('.comment')
+        if (field) updateRing(field.closest('.card'))
+      })
+
+      document.addEventListener('click', (event) => {
+        const link = event.target.closest('.status-link')
+        if (link) return
+
+        const replay = event.target.closest('[data-replay]')
+        if (replay) play(replay.closest('.card').querySelector('.mock'), 'success')
+
+        const pill = event.target.closest('[data-save-pill]')
+        if (pill) {
+          const mock = pill.closest('.mock')
+          if (pill.getAttribute('aria-pressed') === 'true') applyStatus(mock, 'idle')
+          else play(mock, 'success')
+        }
+
+        const reveal = event.target.closest('[data-reveal]')
+        if (reveal) {
+          const panel = reveal.closest('.pop').querySelector('[data-reveal-panel]')
+          const open = reveal.getAttribute('aria-expanded') !== 'true'
+          reveal.setAttribute('aria-expanded', String(open))
+          panel.classList.toggle('is-open', open)
+          panel.inert = !open
+          if (open) panel.querySelector('.comment').focus({ preventScroll: true })
+        }
+
+        const control = event.target.closest('.segmented button')
+        if (!control) return
+        const group = control.closest('[data-control]').dataset.control
+        const mocks = $$('.mock')
+
+        if (control.dataset.action) {
+          state.status = 'idle'
+          pressOnly(control.closest('.segmented'), 'idle')
+          mocks.forEach((mock) => play(mock, control.dataset.action))
+          return
+        }
+
+        state[group] = control.dataset.value
+        pressOnly(control.closest('.segmented'), control.dataset.value)
+        if (group === 'status') mocks.forEach((mock) => applyStatus(mock, state.status))
+        else if (group === 'speed') document.body.classList.toggle('is-slow', control.dataset.value === '10')
+        else if (group === 'copy') mocks.forEach((mock) => applyStatus(mock, state.status))
+        else refreshAll()
+      })
+
+      function pressOnly(segmented, value) {
+        $$('button[data-value]', segmented).forEach((button) =>
+          button.setAttribute('aria-pressed', String(button.dataset.value === value)),
+        )
+      }
+
+      /* ---------- Options mock ---------- */
+      const optionsMock = document.getElementById('options-mock')
+      const optionsToken = document.getElementById('options-token')
+      const optionsConnect = document.getElementById('options-connect')
+      const optionsState = document.getElementById('options-state')
+
+      optionsToken.addEventListener('input', () => {
+        optionsConnect.disabled = optionsToken.value.trim().length === 0
+      })
+
+      const setConnected = (connected) => {
+        optionsMock.classList.toggle('is-connected', connected)
+        optionsState.textContent = connected ? 'Connected to NSX' : 'Not connected'
+        if (!connected) {
+          optionsToken.value = ''
+          optionsConnect.disabled = true
+        }
+      }
+
+      optionsConnect.addEventListener('click', () => setConnected(true))
+      document.getElementById('options-disconnect').addEventListener('click', () => setConnected(false))
+
+      /* ---------- Summary ---------- */
+      const PICKS = [
+        { n: 6, title: '06 Favicon Eyebrow', text: '変更が小さく、左上が常に意味を持つ。メッセージで高さが動かず、右端も揃う。迷ったらこれ。' },
+        { n: 19, title: '19 Pill Row', text: 'コメントを 1 行で足りると割り切れるなら、下段が 1 本の帯になっていちばん整う。高さも最小クラス。' },
+        { n: 28, title: '書体は既定の SF Pro のままで十分', text: '01–20 の見た目がそれ（階層と字間を整えただけ・追加コストなし）。変えるなら 28 Inter（NSX 本体と統一・+48KB）か、和文重視で 25 游ゴシック。' },
+      ]
+
+      document.getElementById('picks').innerHTML = PICKS.map(
+        (pick) => '<li><strong><a href="#p' + two(pick.n) + '" style="color:inherit">' + pick.title + '</a></strong>' + pick.text + '</li>',
+      ).join('')
+
+      function renderSummary() {
+        const groupName = Object.fromEntries(GROUPS.map((group) => [group.id, group.title.replace(/^.\. /, '')]))
+        document.getElementById('summary-body').innerHTML = PATTERNS.map((p) => {
+          const card = document.getElementById('p' + two(p.n))
+          const popBox = card.querySelector('.pop').getBoundingClientRect()
+          const checkbox = card.querySelector('.check')
+          const button = card.querySelector('.xbtn')
+          return (
+            '<tr><td><a href="#p' + two(p.n) + '">' + two(p.n) + '</a></td><td>' + p.name + (p.star ? ' ★' : '') + '</td>' +
+            '<td class="is-muted">' + p.group + ' ' + groupName[p.group] + '</td>' +
+            '<td class="is-muted">' + FONT_LABELS[fontOf(p)] + '</td>' +
+            '<td>' + Math.round(popBox.width) + '</td><td>' + Math.round(popBox.height) + '</td>' +
+            '<td>' + (checkbox ? Math.round(checkbox.getBoundingClientRect().width) : '—') + '</td>' +
+            '<td>' + Math.round(button.getBoundingClientRect().height) + ' · ' + (button.textContent.trim() || '𝕏') + '</td>' +
+            '<td class="is-muted">' + p.save + '</td></tr>'
+          )
+        }).join('')
+      }
+
+      refreshAll()
+      // Fonts embedded as data URIs still load asynchronously; re-measure once they are ready.
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(refreshAll)
+    </script>
+  </body>
+</html>
