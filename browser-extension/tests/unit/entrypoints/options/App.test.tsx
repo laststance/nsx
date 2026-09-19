@@ -238,6 +238,45 @@ describe('Extension Options token connection', () => {
     expect(screen.queryByText('Connected to NSX')).not.toBeInTheDocument()
   })
 
+  test('offers the paste form when the stored token cannot be read', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockRejectedValue(
+      new Error('Storage read failed'),
+    )
+
+    // Act
+    render(<App />)
+
+    // Assert — not an endless blank card, and no unhandled rejection.
+    expect(await screen.findByText('Not connected')).toBeVisible()
+    expect(screen.getByTestId('pat-input')).toBeVisible()
+  })
+
+  test('stops claiming the old token is connected when it can no longer be read after a change', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
+    render(<App />)
+    await screen.findByText('Connected to NSX')
+    const [[notifyStorageChange]] = (
+      chrome.storage.onChanged.addListener as any
+    ).mock.calls
+    ;(chrome.storage.local.get as any).mockRejectedValue(
+      new Error('Storage read failed'),
+    )
+
+    // Act — another extension page replaced the token, and re-reading it fails.
+    await act(async () => {
+      notifyStorageChange(
+        { nsx_pat: { newValue: `nsx_pat_${'b'.repeat(64)}` } },
+        'local',
+      )
+    })
+
+    // Assert
+    expect(await screen.findByText('Not connected')).toBeVisible()
+    expect(screen.queryByText('nsx_pat_…3f9a')).not.toBeInTheDocument()
+  })
+
   test('ignores storage changes that are not about the token', async () => {
     // Arrange
     ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })

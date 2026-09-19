@@ -47,8 +47,8 @@ export const usePersonalAccessToken = (): PersonalAccessTokenState => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   // Read the stored connection on mount and again whenever another page changes it; the guard avoids
-  // a setState after unmount. .finally clears isLoading even if the storage read rejects, so a failed
-  // read can't pin the status at `loading` and stall the popup's existence-check effect forever.
+  // a setState after unmount. A failed read counts as not connected, and .finally clears isLoading either
+  // way, so the status can't stick at `loading` and stall the popup's existence-check effect forever.
   useEffect(() => {
     let isActive = true
 
@@ -56,6 +56,10 @@ export const usePersonalAccessToken = (): PersonalAccessTokenState => {
       readStoredPatConnection()
         .then((storedConnection) => {
           if (isActive) setConnection(storedConnection)
+        })
+        // A token that can't be read can't be vouched for: after a change, keeping the old one would be stale.
+        .catch(() => {
+          if (isActive) setConnection(NOT_CONNECTED)
         })
         .finally(() => {
           if (isActive) setIsLoading(false)
