@@ -1,0 +1,24 @@
+/* Design tokens shared by the popup and the Options page. Ink, lines and the button black follow X's palette. */
+:root {
+  --nsx-ink: #0f1419;
+  --nsx-ink-muted: #536471;
+  --nsx-ink-faint: #6b7a86;
+  --nsx-line: #cfd9de;
+  --nsx-line-hover: #8b98a5;
+  /* Small text needs the darker green: #16a34a is 3.3:1 on white, #15803d is 5.0:1. */
+  --nsx-success: #15803d;
+  --nsx-success-fill: #16a34a;
+  --nsx-danger: #c81e2b;
+  --nsx-danger-tint: #fdecee;
+  --nsx-warning: #8a5300;
+  --nsx-x-black: #0f1419;
+  --nsx-x-black-hover: #272c30;
+  --nsx-x-black-active: #3a4046;
+  --nsx-focus: #1d9bf0;
+  /* Icon motion (check mark): fast start, long settle. */
+  --nsx-ease: cubic-bezier(0.2, 0, 0, 1);
+  --nsx-radius-control: 6px;
+  /* X's own typeface (Chirp) is proprietary; its documented fallback is the system font. `system-ui`
+     also covers Japanese glyphs on macOS, and Hiragino Sans is the explicit fallback elsewhere. */
+  --nsx-font: system-ui, 'Hiragino Sans', sans-serif;
+}

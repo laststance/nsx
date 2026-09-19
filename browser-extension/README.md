@@ -7,6 +7,7 @@ A modern browser extension for managing reading lists and bookmarking web pages,
 - **📑 Reading List Management**: Save web pages with a single click
 - **🔖 Visual Bookmark Indicators**: Icon changes to reflect bookmark status
 - **🐦 Twitter Integration**: Share pages directly to Twitter with custom comments
+- **🔑 Token Connection**: Connect an NSX Personal Access Token on the Options page; the popup saves with it
 - **🎨 Modern UI**: React-based popup interface with Tailwind CSS styling
 - **🌐 Chrome Support**: Built with WXT framework (Firefox support coming soon)
 - **⚡ Fast Development**: Hot Module Replacement (HMR) for rapid iteration
@@ -117,11 +118,12 @@ pnpm test:debug
 
 Test coverage:
 
-- ✅ **29 E2E tests** covering all critical flows
+- ✅ **35 E2E tests** covering all critical flows
 - Extension loading and service worker initialization
 - Popup UI interactions and form submissions
 - Icon state management and tab switching
 - Backend API integration and error handling
+- Personal Access Token flow: connect and disconnect on the Options page, rejected-token recovery
 
 ### Unit Testing (Vitest)
 
@@ -154,25 +156,37 @@ browser-extension/
 │   ├── entrypoints/          # WXT file-based entrypoints
 │   │   ├── background.ts     # Service worker (MV3)
 │   │   ├── content.ts        # Content script (<all_urls>)
-│   │   └── popup/            # Popup UI entrypoint
-│   │       ├── App.tsx       # React popup component
+│   │   ├── popup/            # Popup UI entrypoint
+│   │   │   ├── App.tsx       # React popup component
+│   │   │   ├── PopupStatus.tsx # Top-left status slot (domain ↔ result message)
+│   │   │   ├── main.tsx      # React render entry
+│   │   │   ├── index.html    # Popup HTML
+│   │   │   ├── style.css     # Tailwind styles
+│   │   │   └── utils/        # One popup helper per file
+│   │   └── options/          # Options page entrypoint (opens in a tab)
+│   │       ├── App.tsx       # Connect / disconnect the NSX token
 │   │       ├── main.tsx      # React render entry
-│   │       ├── index.html    # Popup HTML
+│   │       ├── index.html    # Options HTML (manifest.open_in_tab)
 │   │       └── style.css     # Tailwind styles
 │   ├── lib/                  # Shared utilities
 │   │   ├── getCurrentTab.tsx # Active tab retrieval
-│   │   └── setBookmarkIcon.ts # Icon state management
+│   │   ├── setBookmarkIcon.ts # Icon state management
+│   │   ├── patStorage.ts     # Token + rejected flag in chrome.storage.local
+│   │   ├── usePersonalAccessToken.ts # Token state shared by popup and Options
+│   │   └── openOptionsPage.ts # Opens the Options page from the popup
 │   └── assets/               # Static assets
-│       └── images/           # Extension icons
+│       ├── images/           # Extension icons
+│       └── tokens.css        # Design tokens shared by popup and Options
 ├── tests/
 │   ├── e2e/                  # Playwright E2E tests
 │   │   ├── fixtures.ts       # Test fixtures
 │   │   ├── extension-fixture.ts # Extension loading fixture
 │   │   ├── global-setup.ts   # Pre-test build
 │   │   ├── extension-loading.spec.ts # 4 tests
-│   │   ├── popup.spec.ts     # 11 tests
+│   │   ├── popup.spec.ts     # 13 tests
 │   │   ├── icon-state.spec.ts # 5 tests
-│   │   └── api-integration.spec.ts # 9 tests
+│   │   ├── api-integration.spec.ts # 9 tests
+│   │   └── pat-auth.spec.ts  # 4 tests
 │   └── unit/                 # Vitest unit tests
 │       └── lib/              # Utility function tests
 ├── public/                   # Public assets (copied to build)
@@ -192,6 +206,7 @@ WXT automatically detects entrypoints based on file location and naming:
 - `entrypoints/background.ts` → Background service worker
 - `entrypoints/content.ts` → Content script
 - `entrypoints/popup/` → Popup page with index.html
+- `entrypoints/options/` → Options page with index.html (`manifest.open_in_tab` meta → `options_ui.open_in_tab`)
 
 No manual configuration required!
 
@@ -285,7 +300,7 @@ The extension uses GitHub Actions for continuous integration:
 
 ### E2E Testing
 
-- ✅ 29 Playwright tests with xvfb (virtual display)
+- ✅ 35 Playwright tests with xvfb (virtual display)
 - ✅ Backend server integration
 - ✅ MySQL database connectivity
 
@@ -299,11 +314,17 @@ The extension uses GitHub Actions for continuous integration:
 
 The popup interface includes:
 
+- **Status Slot** (top-left): Shows the page's favicon and domain; cross-fades to `Success!` / `Failed...` for 1.5 seconds after a save, stays on `Already Exists` for a saved page, and shows `Not connected` / `Token rejected` with an **Open options** link while no usable token is stored
 - **Page Title Display**: Shows current page title
-- **Bookmark Checkbox**: Toggle bookmark status
+- **Bookmark Checkbox**: Saves the page; disabled until a token is connected
 - **Comment Textarea**: Add notes before sharing
-- **Twitter Button**: Share to Twitter with custom text
-- **Status Messages**: Success/failure feedback with animations
+- **Tweet Button**: Share to X (Twitter) with custom text
+
+The Options page (`chrome://extensions` → Details → Extension options, or the popup's **Open options** link) includes:
+
+- **Connection State**: `Connected to NSX`, `Not connected`, or `Token rejected`
+- **Token Form**: Paste a token generated at NSX → Dashboard → Settings → Extension token, then **Connect**
+- **Stored Token**: Shown masked (`nsx_pat_…` + last 4 characters) with a **Disconnect** button
 
 ## 🔗 Backend Integration
 

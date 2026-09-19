@@ -95,7 +95,7 @@ export class ExtensionFixtures {
   async verifySuccessMessage(popupPage: Page): Promise<boolean> {
     try {
       // Wait for success message span to appear
-      const successSpan = popupPage.locator('.result span:has-text("Success!")')
+      const successSpan = popupPage.getByRole('status').getByText('Success!')
       await successSpan.waitFor({ state: 'visible', timeout: 3000 })
       return true
     } catch {
@@ -108,7 +108,7 @@ export class ExtensionFixtures {
    */
   async verifyErrorMessage(popupPage: Page): Promise<boolean> {
     try {
-      const errorSpan = popupPage.locator('.result span:has-text("Failed")')
+      const errorSpan = popupPage.getByRole('status').getByText('Failed')
       await errorSpan.waitFor({ state: 'visible', timeout: 3000 })
       return true
     } catch {

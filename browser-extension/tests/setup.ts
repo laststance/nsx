@@ -13,6 +13,7 @@ afterEach(() => {
 const mockBrowser = {
   runtime: {
     sendMessage: vi.fn(),
+    openOptionsPage: vi.fn(),
     onMessage: {
       addListener: vi.fn(),
       removeListener: vi.fn(),
@@ -43,6 +44,10 @@ const mockBrowser = {
     sync: {
       get: vi.fn(),
       set: vi.fn(),
+    },
+    onChanged: {
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
     },
   },
 }

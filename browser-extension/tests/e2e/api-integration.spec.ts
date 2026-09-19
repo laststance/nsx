@@ -165,7 +165,7 @@ test.describe('Extension API Integration Tests', () => {
     await popupPage.waitForTimeout(5000)
 
     // Check if error message appeared
-    const result = popupPage.locator('.result')
+    const result = popupPage.getByRole('status')
     const content = await result.textContent()
 
     // Either empty (still waiting) or has error message
@@ -255,6 +255,15 @@ test.describe('Extension API Integration Tests', () => {
     expect(error).toBe(true)
     // The failed save leaves the page unsaved.
     await expect(checkbox).not.toBeChecked()
+
+    // A 401 means the connected token was rejected: once Failed... fades out, the popup points to Options.
+    await expect(
+      popupPage.getByRole('status').getByText('Token rejected'),
+    ).toBeVisible()
+    await expect(
+      popupPage.getByRole('button', { name: 'Open options' }),
+    ).toBeVisible()
+    await expect(checkbox).toBeDisabled()
 
     await popupPage.close()
   })
