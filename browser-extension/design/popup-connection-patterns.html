@@ -1,0 +1,1814 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NSX popup — 接続状態と Disconnect の見せ方 10 パターン</title>
+    <style>
+      /* Design exploration only: self-contained mock of the extension popup, no build step, no external assets. */
+      :root {
+        color-scheme: dark;
+        --page-bg: #0c0d10;
+        --panel-bg: #15171c;
+        --panel-ring: oklch(1 0 0 / 0.08);
+        --text: #e8eaed;
+        --text-muted: #9aa0a6;
+        --accent: #1a8cd8;
+        --accent-hover: #1577b8;
+        --green: #16a34a;
+        --danger: #b91c1c;
+        --ease: cubic-bezier(0.2, 0, 0, 1);
+        /* Same concentric math as the real popup: card radius = control radius + card padding. */
+        --radius-control: 6px;
+        --card-padding: 8px;
+        --radius-card: calc(var(--radius-control) + var(--card-padding));
+        --window-frame: #46474a;
+        --shadow-border:
+          0 0 0 1px oklch(0 0 0 / 0.08), 0 1px 2px -1px oklch(0 0 0 / 0.08),
+          0 2px 4px 0 oklch(0 0 0 / 0.04);
+        --shadow-border-hover:
+          0 0 0 1px oklch(0 0 0 / 0.12), 0 1px 2px -1px oklch(0 0 0 / 0.1),
+          0 2px 4px 0 oklch(0 0 0 / 0.06);
+        --shadow-pop:
+          0 0 0 1px oklch(0 0 0 / 0.08), 0 4px 10px -2px oklch(0 0 0 / 0.12),
+          0 12px 28px -6px oklch(0 0 0 / 0.2);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        margin: 0;
+        background: var(--page-bg);
+        color: var(--text);
+        font-family:
+          system-ui,
+          -apple-system,
+          'Hiragino Sans',
+          'Noto Sans JP',
+          sans-serif;
+        line-height: 1.6;
+      }
+
+      /* ---------- Page chrome ---------- */
+      .page-header {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 48px 24px 28px;
+      }
+
+      .eyebrow {
+        margin: 0 0 6px;
+        color: var(--text-muted);
+        font-size: 13px;
+        letter-spacing: 0.02em;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.3;
+        font-weight: 650;
+        text-wrap: balance;
+      }
+
+      .lead {
+        max-width: 78ch;
+        margin: 12px 0 0;
+        color: var(--text-muted);
+        font-size: 15px;
+        text-wrap: pretty;
+      }
+
+      .lead strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(584px, 1fr));
+        gap: 24px;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px 40px;
+      }
+
+      /* Panel radius 24 = stage radius 12 + panel padding 12. */
+      .pattern {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 12px;
+        border-radius: 24px;
+        background: var(--panel-bg);
+        box-shadow: 0 0 0 1px var(--panel-ring);
+      }
+
+      .pattern-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 8px 0;
+      }
+
+      .pattern-no {
+        color: var(--text-muted);
+        font-size: 13px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .pattern-name {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 650;
+        line-height: 1.35;
+      }
+
+      .badge {
+        margin-left: auto;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        color: #86efac;
+        background: rgb(22 163 74 / 0.16);
+      }
+
+      .badge--blue {
+        color: #7cc4f5;
+        background: rgb(26 140 216 / 0.18);
+      }
+
+      .notes {
+        display: grid;
+        gap: 6px;
+        margin: 0;
+        padding: 0 8px 8px;
+        font-size: 14px;
+      }
+
+      .notes > div {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        gap: 8px;
+      }
+
+      .notes dt {
+        color: var(--text-muted);
+        font-size: 13px;
+        line-height: 1.75;
+      }
+
+      .notes dd {
+        margin: 0;
+        text-wrap: pretty;
+      }
+
+      .notes code,
+      .compare code,
+      .lead code {
+        padding: 1px 5px;
+        border-radius: 4px;
+        background: oklch(1 0 0 / 0.08);
+        font-size: 0.92em;
+      }
+
+      /* ---------- Stage: a slice of a dark Chrome window ---------- */
+      .stage {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+        border-radius: 12px;
+        background: #0f0f0f;
+      }
+
+      .stage--tall {
+        height: 436px;
+      }
+
+      .toolbar {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        height: 40px;
+        padding: 0 12px;
+        background: #202124;
+        border-bottom: 1px solid oklch(1 0 0 / 0.06);
+      }
+
+      .omnibox {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 26px;
+        padding: 0 12px;
+        border-radius: 13px;
+        background: #2c2d31;
+        color: #9aa0a6;
+        font-size: 12px;
+        line-height: 26px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .tb-icon {
+        position: relative;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: #9aa0a6;
+      }
+
+      .tb-dummy::before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.55;
+      }
+
+      .tb-icon.is-nsx {
+        color: #f28b82;
+        background: oklch(1 0 0 / 0.1);
+        cursor: pointer;
+        transition-property: background-color, color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .tb-icon.is-nsx:hover {
+        background: oklch(1 0 0 / 0.16);
+      }
+
+      .tb-icon.is-nsx:active {
+        scale: 0.96;
+      }
+
+      .tb-icon.is-nsx.is-saved {
+        color: #4ade80;
+      }
+
+      /* 40px hit area for the 28px toolbar icon. */
+      .tb-icon.is-nsx::after {
+        content: '';
+        position: absolute;
+        inset: -6px;
+      }
+
+      .tb-hint {
+        position: absolute;
+        top: 46px;
+        right: 58px;
+        z-index: 1;
+        color: #7cc4f5;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .skeleton {
+        position: absolute;
+        inset: 56px 16px auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .skeleton span {
+        height: 26px;
+        border-radius: 8px;
+        background: #202124;
+      }
+
+      /* Chrome draws the popup window square; the rounded card fills it and the wedges take the frame color. */
+      .window {
+        position: absolute;
+        top: 46px;
+        right: 12px;
+        z-index: 2;
+        border: 1px solid var(--window-frame);
+        background: var(--window-frame);
+        box-shadow: 0 10px 30px rgb(0 0 0 / 0.5);
+        transform-origin: top right;
+        transition-property: opacity, scale;
+        transition-duration: 180ms;
+        transition-timing-function: var(--ease);
+      }
+
+      .window.is-closed {
+        opacity: 0;
+        scale: 0.98;
+        pointer-events: none;
+        transition-duration: 120ms;
+        transition-timing-function: ease-out;
+      }
+
+      .stage-actions {
+        display: flex;
+        gap: 8px;
+        padding: 0 8px;
+      }
+
+      .ghost-btn {
+        position: relative;
+        padding: 5px 12px;
+        border: 0;
+        border-radius: 8px;
+        background: oklch(1 0 0 / 0.06);
+        color: var(--text-muted);
+        font: inherit;
+        font-size: 12.5px;
+        cursor: pointer;
+        transition-property: background-color, color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .ghost-btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 40px;
+        translate: 0 -50%;
+      }
+
+      .ghost-btn:hover {
+        background: oklch(1 0 0 / 0.1);
+        color: var(--text);
+      }
+
+      .ghost-btn:active {
+        scale: 0.96;
+      }
+
+      /* ---------- The popup mock (mirrors src/entrypoints/popup/style.css) ---------- */
+      .card {
+        position: relative;
+        width: 516px;
+        padding: var(--card-padding);
+        border-radius: var(--radius-card);
+        background: #fff;
+        color: #111827;
+        color-scheme: light;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .pmain {
+        display: flex;
+        flex-wrap: wrap;
+        width: 500px;
+      }
+
+      /* Height-animating wrapper: CSS transitions (interruptible), exit shorter than enter. */
+      .reveal {
+        display: grid;
+        grid-template-rows: 0fr;
+        width: 100%;
+        opacity: 0;
+        transition-property: grid-template-rows, opacity;
+        transition-duration: 150ms, 120ms;
+        transition-timing-function: ease-out;
+      }
+
+      .reveal.is-open {
+        grid-template-rows: 1fr;
+        opacity: 1;
+        transition-duration: 240ms, 200ms;
+        transition-timing-function: var(--ease), ease-out;
+      }
+
+      /* Negative margin + padding keeps the buttons' shadow rings from being clipped. */
+      .reveal-inner {
+        min-height: 0;
+        margin: -4px -4px 0;
+        padding: 4px 4px 0;
+        overflow: hidden;
+      }
+
+      .pat-connect,
+      .pat-connected {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 13px;
+      }
+
+      .pat-connect-label {
+        flex: 0 1 200px;
+        color: #6b7280;
+        line-height: 1.35;
+        text-wrap: balance;
+      }
+
+      .pat-input {
+        flex: 1 1 auto;
+        min-width: 0;
+        padding: 5px 8px;
+        border: 1px solid #d1d5db;
+        border-radius: var(--radius-control);
+        background: #fff;
+        color: #111827;
+        font: inherit;
+        font-size: 13px;
+        transition: border-color 150ms ease-out;
+      }
+
+      .pat-input:hover {
+        border-color: #9ca3af;
+      }
+
+      .pat-connected-label {
+        flex: 1 1 auto;
+        color: var(--green);
+        font-weight: 500;
+      }
+
+      .btn {
+        position: relative;
+        flex-shrink: 0;
+        padding: 5px 12px;
+        border: 0;
+        border-radius: var(--radius-control);
+        background: #fff;
+        color: #374151;
+        box-shadow: var(--shadow-border);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition-property: box-shadow, background-color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 40px;
+        translate: 0 -50%;
+      }
+
+      .btn:hover {
+        background: #f9fafb;
+        box-shadow: var(--shadow-border-hover);
+      }
+
+      .btn:active {
+        scale: 0.96;
+      }
+
+      .btn--danger {
+        color: var(--danger);
+      }
+
+      .btn--danger:hover {
+        background: #fef2f2;
+      }
+
+      .btn--block {
+        width: 100%;
+      }
+
+      .row1 {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+      }
+
+      .title {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        font-size: 16px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .checkbox {
+        appearance: none;
+        position: relative;
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        margin: 0;
+        border: 1.5px solid #9ca3af;
+        border-radius: var(--radius-control);
+        background-color: #fff;
+        cursor: pointer;
+        transition-property: background-color, border-color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .checkbox::before {
+        content: '';
+        position: absolute;
+        inset: -5px;
+      }
+
+      .checkbox::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: center / 18px 18px no-repeat
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+        opacity: 0;
+        scale: 0.25;
+        filter: blur(4px);
+        transition-property: opacity, scale, filter;
+        transition-duration: 300ms;
+        transition-timing-function: var(--ease);
+      }
+
+      .checkbox:hover {
+        border-color: #6b7280;
+      }
+
+      .checkbox:active {
+        scale: 0.96;
+      }
+
+      .checkbox:checked {
+        border-color: var(--accent);
+        background-color: var(--accent);
+      }
+
+      .checkbox:checked::after {
+        opacity: 1;
+        scale: 1;
+        filter: blur(0);
+      }
+
+      .row2 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      .comment {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 6px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: var(--radius-control);
+        background: #fff;
+        color: #111827;
+        font: inherit;
+        font-size: 16px;
+        line-height: 1.4;
+        resize: none;
+        transition: border-color 150ms ease-out;
+      }
+
+      .comment:hover {
+        border-color: #9ca3af;
+      }
+
+      .twitter-btn {
+        display: flex;
+        flex: 0 0 96px;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        border-radius: 30px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 20px;
+        line-height: 28px;
+        text-decoration: none;
+        user-select: none;
+        transition-property: background-color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .twitter-btn:hover {
+        background: var(--accent-hover);
+      }
+
+      .twitter-btn:active {
+        scale: 0.96;
+      }
+
+      .result {
+        display: flex;
+        flex: 0 0 172px;
+        align-items: center;
+        justify-content: center;
+        min-height: 1px;
+        color: #ea580c;
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .result span {
+        animation: result-in 200ms ease-out both;
+      }
+
+      @keyframes result-in {
+        from {
+          opacity: 0;
+          translate: 0 4px;
+          filter: blur(4px);
+        }
+      }
+
+      /* ---------- Shared bits used by several patterns ---------- */
+      .dot {
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 3px rgb(22 163 74 / 0.18);
+        transition: box-shadow 150ms ease-out;
+      }
+
+      .dot--sm {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        box-shadow: 0 0 0 2px rgb(22 163 74 / 0.18);
+      }
+
+      /* 28px visual, 40px hit area; 12px row gap keeps it clear of the checkbox's own hit area. */
+      .icon-btn {
+        position: relative;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        border: 0;
+        border-radius: var(--radius-control);
+        background: transparent;
+        color: #6b7280;
+        cursor: pointer;
+        transition-property: background-color, color, scale, opacity, filter;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .icon-btn::after {
+        content: '';
+        position: absolute;
+        inset: -6px;
+      }
+
+      .icon-btn:hover {
+        background: #f3f4f6;
+        color: #111827;
+      }
+
+      .icon-btn:active {
+        scale: 0.96;
+      }
+
+      .icon-btn:hover .dot {
+        box-shadow: 0 0 0 5px rgb(22 163 74 / 0.22);
+      }
+
+      .icon-btn--green,
+      .icon-btn--green:hover {
+        color: var(--green);
+      }
+
+      .icon-btn--danger,
+      .icon-btn--danger:hover {
+        color: var(--danger);
+      }
+
+      .icon-btn--danger:hover {
+        background: #fef2f2;
+      }
+
+      .anchor {
+        position: relative;
+        display: flex;
+        flex-shrink: 0;
+      }
+
+      [data-connected='false'] .when-connected,
+      [data-connected='true'] .when-disconnected {
+        display: none;
+      }
+
+      /* Popovers: enter from 0.96 with --ease, exit shorter with ease-out. */
+      .menu,
+      .popover {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: -6px;
+        z-index: 5;
+        background: #fff;
+        box-shadow: var(--shadow-pop);
+        transform-origin: top right;
+        opacity: 0;
+        scale: 0.96;
+        translate: 0 -4px;
+        pointer-events: none;
+        transition-property: opacity, scale, translate;
+        transition-duration: 120ms;
+        transition-timing-function: ease-out;
+      }
+
+      [data-open='true'] .menu,
+      [data-open='true'] .popover {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+        pointer-events: auto;
+        transition-duration: 200ms;
+        transition-timing-function: var(--ease);
+      }
+
+      /* Menu radius 10 = item radius 6 + menu padding 4. */
+      .menu {
+        min-width: 196px;
+        padding: 4px;
+        border-radius: calc(var(--radius-control) + 4px);
+        font-size: 13px;
+      }
+
+      .menu-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 8px;
+        color: var(--green);
+        font-weight: 500;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+        padding: 6px 8px;
+        border: 0;
+        border-radius: var(--radius-control);
+        background: transparent;
+        color: #374151;
+        font: inherit;
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 100ms ease-out;
+      }
+
+      .menu-item:hover {
+        background: #f3f4f6;
+      }
+
+      .menu-item--danger {
+        color: var(--danger);
+      }
+
+      .menu-item--danger:hover {
+        background: #fef2f2;
+      }
+
+      .menu-sep {
+        height: 1px;
+        margin: 4px 0;
+        background: #e5e7eb;
+      }
+
+      /* Popover radius 14 = button radius 6 + popover padding 8. */
+      .popover {
+        width: 224px;
+        padding: 8px;
+        border-radius: calc(var(--radius-control) + 8px);
+        font-size: 13px;
+      }
+
+      .popover-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--green);
+        font-weight: 500;
+      }
+
+      .popover-sub {
+        margin: 2px 0 8px;
+        color: #6b7280;
+        font-size: 12px;
+        line-height: 1.4;
+        text-wrap: pretty;
+      }
+
+      /* ---------- 02: dot that swaps with the bar ---------- */
+      [data-demo='autohide'][data-open='true'] .dot-btn {
+        opacity: 0;
+        scale: 0.25;
+        filter: blur(4px);
+        pointer-events: none;
+        transition-duration: 300ms;
+        transition-timing-function: var(--ease);
+      }
+
+      /* ---------- 03: status line ---------- */
+      .status-line {
+        position: absolute;
+        top: 0;
+        left: 28px;
+        right: 28px;
+        z-index: 1;
+        height: 14px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .status-line::before {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        border-radius: 3px;
+        background: var(--green);
+        transition-property: opacity, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .status-line:hover::before {
+        scale: 1 1.6;
+      }
+
+      [data-open='true'] .status-line::before {
+        opacity: 0;
+      }
+
+      [data-demo='line'] .pmain {
+        padding-top: 4px;
+      }
+
+      /* ---------- 05: settings view ---------- */
+      .pane {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: var(--card-padding);
+        border-radius: inherit;
+        background: #fff;
+        font-size: 13px;
+        opacity: 0;
+        translate: 8px 0;
+        pointer-events: none;
+        transition-property: opacity, translate;
+        transition-duration: 120ms;
+        transition-timing-function: ease-out;
+      }
+
+      [data-open='true'] .pane {
+        opacity: 1;
+        translate: 0 0;
+        pointer-events: auto;
+        transition-duration: 220ms;
+        transition-timing-function: var(--ease);
+      }
+
+      .pane-head {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .pane-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 10px;
+        border-radius: var(--radius-control);
+        background: #f9fafb;
+      }
+
+      .pane-label {
+        font-weight: 500;
+      }
+
+      .pane-sub {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #6b7280;
+        font-size: 12px;
+      }
+
+      /* ---------- 06: status chip ---------- */
+      .chip {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px 3px 8px;
+        border: 0;
+        border-radius: 999px;
+        background: #fff;
+        color: #374151;
+        box-shadow: var(--shadow-border);
+        font: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition-property: box-shadow, background-color, scale;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .chip::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 40px;
+        translate: 0 -50%;
+      }
+
+      .chip:hover {
+        background: #f9fafb;
+        box-shadow: var(--shadow-border-hover);
+      }
+
+      .chip:active {
+        scale: 0.96;
+      }
+
+      /* ---------- 07: inline two-step confirm (pill radius 8 = icon radius 6 + padding 2) ---------- */
+      .confirm {
+        position: absolute;
+        top: 50%;
+        right: -2px;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding: 2px 2px 2px 10px;
+        border-radius: calc(var(--radius-control) + 2px);
+        background: #fff;
+        box-shadow: var(--shadow-border);
+        font-size: 13px;
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 0;
+        translate: 6px -50%;
+        filter: blur(4px);
+        pointer-events: none;
+        transition-property: opacity, translate, filter;
+        transition-duration: 120ms;
+        transition-timing-function: ease-out;
+      }
+
+      /* Fades the title out under the pill instead of cutting it mid-word. */
+      .confirm::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 100%;
+        bottom: 0;
+        width: 28px;
+        background: linear-gradient(to right, transparent, #fff 80%);
+        pointer-events: none;
+      }
+
+      .confirm-label {
+        margin-right: 4px;
+        color: #374151;
+      }
+
+      [data-open='true'] .confirm {
+        opacity: 1;
+        translate: 0 -50%;
+        filter: blur(0);
+        pointer-events: auto;
+        transition-duration: 220ms;
+        transition-timing-function: var(--ease);
+      }
+
+      [data-demo='confirm'][data-open='true'] .link-btn {
+        opacity: 0;
+        scale: 0.25;
+        filter: blur(4px);
+        pointer-events: none;
+        transition-duration: 300ms;
+        transition-timing-function: var(--ease);
+      }
+
+      /* ---------- 08: quiet footer ---------- */
+      .quiet-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 8px;
+        padding: 6px 2px 0;
+        border-top: 1px solid #f0f1f3;
+        color: #6b7280;
+        font-size: 12px;
+      }
+
+      .quiet-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .text-btn {
+        position: relative;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: #6b7280;
+        font: inherit;
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        text-underline-offset: 3px;
+        cursor: pointer;
+        transition-property: color, text-decoration-color;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+      }
+
+      .text-btn::after {
+        content: '';
+        position: absolute;
+        inset: -8px -10px;
+      }
+
+      .text-btn:hover {
+        color: var(--danger);
+        text-decoration-color: currentColor;
+      }
+
+      /* ---------- 09: native-looking toolbar context menu ---------- */
+      .ctx-menu {
+        position: absolute;
+        top: 38px;
+        right: 46px;
+        z-index: 6;
+        min-width: 210px;
+        padding: 5px;
+        border-radius: 9px;
+        background: #2b2c2f;
+        color: #e8eaed;
+        box-shadow:
+          0 0 0 1px oklch(1 0 0 / 0.1),
+          0 12px 32px rgb(0 0 0 / 0.55);
+        font-size: 13px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 100ms ease-out;
+      }
+
+      [data-open='true'] .ctx-menu {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .ctx-item {
+        display: block;
+        width: 100%;
+        padding: 4px 10px;
+        border: 0;
+        border-radius: 4px;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        text-align: left;
+      }
+
+      button.ctx-item {
+        cursor: pointer;
+      }
+
+      .ctx-item:not(.is-disabled):hover {
+        background: var(--accent);
+      }
+
+      .ctx-item.is-disabled {
+        color: #80868b;
+      }
+
+      .ctx-item--custom {
+        font-weight: 600;
+      }
+
+      .ctx-sep {
+        height: 1px;
+        margin: 5px 8px;
+        background: oklch(1 0 0 / 0.12);
+      }
+
+      /* ---------- 10: options page ---------- */
+      .options-page {
+        position: absolute;
+        inset: 230px 16px 16px;
+        color: var(--text);
+        font-size: 13px;
+      }
+
+      .options-tab {
+        margin-bottom: 8px;
+        color: var(--text-muted);
+        font-size: 12px;
+      }
+
+      /* Options card radius 14 = row radius 6 + padding 8. */
+      .options-card {
+        padding: 8px;
+        border-radius: 14px;
+        background: #1b1d22;
+        box-shadow: 0 0 0 1px oklch(1 0 0 / 0.08);
+      }
+
+      .options-card .pane-row {
+        background: #23262c;
+      }
+
+      .options-card .pane-sub {
+        color: var(--text-muted);
+      }
+
+      .options-card .btn {
+        background: #2c3037;
+        color: #fca5a5;
+        box-shadow: 0 0 0 1px oklch(1 0 0 / 0.1);
+      }
+
+      .options-card .btn:hover {
+        background: #353a42;
+      }
+
+      .options-link {
+        display: inline-block;
+        margin: 8px 10px 2px;
+        color: #7cc4f5;
+        font-size: 12px;
+        text-decoration: none;
+      }
+
+      /* ---------- Comparison ---------- */
+      .compare {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 8px 24px 64px;
+      }
+
+      .compare h2 {
+        margin: 0 0 12px;
+        font-size: 20px;
+        font-weight: 650;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border-radius: 16px;
+        background: var(--panel-bg);
+        box-shadow: 0 0 0 1px var(--panel-ring);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--panel-ring);
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      th {
+        color: var(--text-muted);
+        font-size: 12.5px;
+        font-weight: 600;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      td:first-child {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .pick {
+        margin: 16px 0 0;
+        color: var(--text-muted);
+        font-size: 15px;
+        text-wrap: pretty;
+      }
+
+      .pick strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      /* One focus treatment everywhere. */
+      :is(button, a, input, textarea):focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+
+        :is(.btn, .icon-btn, .chip, .ghost-btn, .checkbox, .twitter-btn, .tb-icon):active {
+          scale: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="page-header">
+      <p class="eyebrow">NSX Reading List extension · popup</p>
+      <h1>接続状態と Disconnect の見せ方 — 10 パターン</h1>
+      <p class="lead">
+        条件は 2 つ:
+        <strong>接続中は「Connected to NSX」バーを出しっぱなしにしない</strong>。でも
+        <strong>Disconnect には辿り着ける</strong>。どのモックも実際に操作できます
+        (保存チェックボックス / Disconnect / Connect / ツールバーの 🔖 で popup の開閉)。角丸は実物と同じ
+        <code>6px</code> + <code>8px</code> = <code>14px</code> です。
+      </p>
+    </header>
+
+    <main class="gallery" id="gallery"></main>
+
+    <section class="compare">
+      <h2>比較</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>パターン</th>
+              <th>接続中の占有</th>
+              <th>見つけやすさ</th>
+              <th>Disconnect まで</th>
+              <th>popup の高さ変化</th>
+              <th>実装</th>
+            </tr>
+          </thead>
+          <tbody id="compare-body"></tbody>
+        </table>
+      </div>
+      <p class="pick">
+        <strong>迷ったら 02 か 01。</strong>02 は「開いた瞬間だけ見えてフェードで畳まれる」ので以前の記憶に一番近く、01
+        はそれを時間制御なしで軽く作れます。<strong>高さを一切変えたくないなら 07</strong>
+        (誤操作防止つき)、<strong>popup を極限まで静かにしたいなら 09</strong> です。
+      </p>
+    </section>
+
+    <script>
+      const TITLE =
+        'ESLint v10 compatibility · Issue #3977 · jsx-eslint/eslint-plugin-react'
+
+      // One icon set: 24 viewBox, 2 stroke rendered at 18px (= 1.5px beside regular-weight text).
+      const icon = (paths, size = 18) =>
+        `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`
+      const ICONS = {
+        more: icon(
+          '<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',
+        ),
+        gear: icon(
+          '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+        ),
+        link: icon(
+          '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+        ),
+        check: icon('<path d="M20 6 9 17l-5-5"/>'),
+        x: icon('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'),
+        back: icon('<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>'),
+        external: icon(
+          '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+          14,
+        ),
+        bookmark:
+          '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>',
+      }
+
+      const BAR = `
+        <div class="reveal" data-reveal="open"><div class="reveal-inner">
+          <section class="pat-connected">
+            <span class="pat-connected-label">Connected to NSX</span>
+            <button type="button" class="btn" data-action="disconnect">Disconnect</button>
+          </section>
+        </div></div>`
+
+      const DOT_BUTTON = `
+        <button type="button" class="icon-btn dot-btn when-connected" data-action="toggle" data-hover-zone
+          aria-expanded="false" aria-label="Connected to NSX — show connection" title="Connected to NSX">
+          <span class="dot"></span>
+        </button>`
+
+      /**
+       * Pattern catalogue: `slots` inject the connected-state UI into the shared popup mock,
+       * `behavior` flags pick the interaction wiring in setupDemo.
+       */
+      const PATTERNS = [
+        {
+          id: 'dot',
+          name: 'ステータスドット → クリックで展開',
+          badge: ['おすすめ', ''],
+          slots: { top: BAR, row1: DOT_BUTTON },
+          notes: {
+            操作: 'タイトル右の緑ドットをクリック → バーがスライドで開く。もう一度クリックか <code>Esc</code> で閉じる。',
+            '👍': '普段は 10px のドットだけ。接続中かどうかは一目で分かる。今のバーをそのまま流用できる。',
+            '👎': 'ドットが押せると気づきにくい (hover のハロー + <code>title</code> で補う)。',
+            実装: '<strong>S</strong> — <code>App.tsx</code> に開閉 state を 1 つ + CSS。',
+          },
+          row: ['ドット 10px', '○', '2 クリック', '開いた時だけ +45px', 'S'],
+        },
+        {
+          id: 'autohide',
+          name: '開いた直後だけ見えて、自動で畳まれるバー',
+          badge: ['記憶に近い', ''],
+          behavior: { autoHide: true, hoverReveal: true },
+          slots: { top: BAR, row1: DOT_BUTTON },
+          notes: {
+            操作: 'popup を開くと 1.6 秒だけバーが見え、フェードで畳まれてドットになる。ドットに hover / focus / クリックで再表示。',
+            '👍': '「つながっている」を毎回確認できて、その後は邪魔にならない。以前の「show/hide にフェード」に一番近い。',
+            '👎': '開くたびに popup の高さが一度変わる。タイマーが絡むのでテストは少し面倒。',
+            実装: '<strong>M</strong> — タイマー + hover / focus の保持。',
+          },
+          row: ['最初の 1.6 秒だけバー', '◎', 'hover → 1 クリック', '開くたびに 1 回', 'M'],
+        },
+        {
+          id: 'line',
+          name: 'ステータスライン (上端 3px)',
+          behavior: { hoverReveal: true },
+          slots: {
+            top: BAR,
+            overlay: `<button type="button" class="status-line when-connected" data-action="toggle" data-hover-zone
+              aria-expanded="false" aria-label="Connected to NSX — show connection"></button>`,
+          },
+          notes: {
+            操作: 'カード上端の緑ラインに hover / クリック → バーに展開。離れると畳まれる。',
+            '👍': '高さをほぼ使わない。状態色がそのままアクセントになる。',
+            '👎': '3px は狙いにくい (当たり判定は 14px)。hover 展開は意図せず開くことがある。',
+            実装: '<strong>S–M</strong> — 01 + hover の意図判定。',
+          },
+          row: ['ライン 3px', '△', 'hover → 1 クリック', '開いた時だけ +45px', 'S–M'],
+        },
+        {
+          id: 'menu',
+          name: '⋯ メニュー',
+          behavior: { closeOnOutside: true },
+          slots: {
+            row1: `<div class="anchor when-connected">
+              <button type="button" class="icon-btn" data-action="toggle" aria-haspopup="menu" aria-expanded="false" aria-label="Connection menu">${ICONS.more}</button>
+              <div class="menu" data-pop role="menu">
+                <div class="menu-status"><span class="dot dot--sm"></span>Connected to NSX</div>
+                <a class="menu-item" role="menuitem" href="#" data-action="noop">Token settings ${ICONS.external}</a>
+                <div class="menu-sep"></div>
+                <button type="button" class="menu-item menu-item--danger" role="menuitem" data-action="disconnect">Disconnect</button>
+              </div>
+            </div>`,
+          },
+          notes: {
+            操作: '⋯ → メニュー (状態 / Token settings ↗ / Disconnect)。外側クリックか <code>Esc</code> で閉じる。',
+            '👍': '定番なので迷わない。あとから項目を足せる。',
+            '👎': 'メニューが popup の高さを超えるので、実機ではウィンドウが伸び縮みする。',
+            実装: '<strong>M</strong> — 外側クリック / Esc / フォーカス管理。',
+          },
+          row: ['アイコン 28px', '○', '2 クリック', 'メニュー分だけ伸びる', 'M'],
+        },
+        {
+          id: 'settings',
+          name: '⚙ 設定ビューに切り替え',
+          slots: {
+            row1: `<button type="button" class="icon-btn when-connected" data-action="toggle" aria-expanded="false" aria-label="Settings">${ICONS.gear}</button>`,
+            overlay: `<div class="pane" data-pop>
+              <div class="pane-head">
+                <button type="button" class="icon-btn" data-action="close" aria-label="Back">${ICONS.back}</button>
+                Settings
+              </div>
+              <div class="pane-row">
+                <div>
+                  <div class="pane-label">NSX</div>
+                  <div class="pane-sub"><span class="dot dot--sm"></span>Connected</div>
+                </div>
+                <button type="button" class="btn btn--danger" data-action="disconnect">Disconnect</button>
+              </div>
+            </div>`,
+          },
+          notes: {
+            操作: '⚙ → popup 全体が Settings ビューにスライド → Disconnect。← で戻る。',
+            '👍': '高さが変わらない。接続以外の設定の置き場にもなる。',
+            '👎': 'ビュー管理が増える。設定が 1 つだけだと大げさ。',
+            実装: '<strong>M</strong> — ビュー切り替え + フォーカスの行き来。',
+          },
+          row: ['アイコン 28px', '○', '2 クリック', 'なし', 'M'],
+        },
+        {
+          id: 'chip',
+          name: 'ステータスチップ + ポップオーバー',
+          behavior: { closeOnOutside: true },
+          slots: {
+            row1: `<div class="anchor when-connected">
+              <button type="button" class="chip" data-action="toggle" aria-expanded="false"><span class="dot dot--sm"></span>NSX</button>
+              <div class="popover" data-pop>
+                <div class="popover-title"><span class="dot dot--sm"></span>Connected to NSX</div>
+                <p class="popover-sub">Checked pages are saved to your reading list.</p>
+                <button type="button" class="btn btn--danger btn--block" data-action="disconnect">Disconnect</button>
+              </div>
+            </div>`,
+          },
+          notes: {
+            操作: '「● NSX」チップ → ポップオーバーに状態と Disconnect。',
+            '👍': '色だけに頼らず文字でも状態が分かる。押せる見た目なので気づきやすい。',
+            '👎': 'タイトル行の幅を 60px ほど使う。ポップオーバーの高さ問題は 04 と同じ。',
+            実装: '<strong>M</strong> — 04 とほぼ同じ。',
+          },
+          row: ['チップ 58px', '◎', '2 クリック', 'ポップオーバー分だけ伸びる', 'M'],
+        },
+        {
+          id: 'confirm',
+          name: 'その場で 2 段階確認 (🔗 → Disconnect? ✓ ✕)',
+          badge: ['高さ不変', 'badge--blue'],
+          behavior: { autoCancelMs: 4000 },
+          slots: {
+            row1: `<div class="anchor when-connected">
+              <button type="button" class="icon-btn icon-btn--green link-btn" data-action="toggle" aria-expanded="false"
+                aria-label="Connected to NSX — disconnect" title="Connected to NSX">${ICONS.link}</button>
+              <div class="confirm" data-pop>
+                <span class="confirm-label">Disconnect?</span>
+                <button type="button" class="icon-btn icon-btn--danger" data-action="disconnect" aria-label="Confirm disconnect">${ICONS.check}</button>
+                <button type="button" class="icon-btn" data-action="close" aria-label="Cancel">${ICONS.x}</button>
+              </div>
+            </div>`,
+          },
+          notes: {
+            操作: '🔗 をクリック → その場で「Disconnect? ✓ ✕」に変形。✓ で切断、✕ か 4 秒で元に戻る。',
+            '👍': '高さが一切変わらない。誤クリックでは切断されない。1 行で完結する。',
+            '👎': '確認中はタイトルの右端が隠れる。',
+            実装: '<strong>S–M</strong> — 開閉 state + 自動キャンセルのタイマー。',
+          },
+          row: ['アイコン 28px', '○', '2 クリック (確認つき)', 'なし', 'S–M'],
+        },
+        {
+          id: 'footer',
+          name: '控えめフッター',
+          slots: {
+            bottom: `<footer class="quiet-footer when-connected">
+              <span class="quiet-status"><span class="dot dot--sm"></span>Connected to NSX</span>
+              <button type="button" class="text-btn" data-action="disconnect">Disconnect</button>
+            </footer>`,
+          },
+          notes: {
+            操作: '最下段に 12px の薄い行。「Disconnect」は hover で赤い下線になる。',
+            '👍': '一番見つけやすく、実装も最小 (バーを下に移して弱めるだけ)。',
+            '👎': '常時表示ではある (視線の終点なので邪魔になりにくい)。高さ +27px。',
+            実装: '<strong>S</strong> — JSX の位置移動 + CSS。',
+          },
+          row: ['行 27px (薄い)', '◎', '1 クリック', '常に +27px', 'S'],
+        },
+        {
+          id: 'context',
+          name: 'ツールバーアイコンの右クリックメニュー',
+          badge: ['最小 UI', 'badge--blue'],
+          behavior: { closeOnOutside: true, contextMenu: true },
+          slots: {},
+          stageExtras: `<span class="tb-hint when-connected">🔖 を右クリック →</span>
+            <div class="ctx-menu" data-pop role="menu">
+              <div class="ctx-item is-disabled">Reading List</div>
+              <div class="ctx-sep"></div>
+              <button type="button" class="ctx-item ctx-item--custom when-connected" role="menuitem" data-action="disconnect">Disconnect NSX</button>
+              <div class="ctx-item">Options</div>
+              <div class="ctx-sep"></div>
+              <div class="ctx-item">Remove from Chrome…</div>
+              <div class="ctx-item">Unpin</div>
+              <div class="ctx-item">Manage extension</div>
+            </div>`,
+          extraActions: `<button type="button" class="ghost-btn" data-action="open-context">右クリックメニューを開く</button>`,
+          notes: {
+            操作: '拡張アイコンを右クリック →「Disconnect NSX」。popup の中には何も出さない。',
+            '👍': 'popup が一番すっきりする。Chrome 標準の場所なので UI を作らなくていい。',
+            '👎': '知らないと見つけられない。<code>contextMenus</code> 権限の追加が必要。e2e で押しにくい。',
+            実装: '<strong>M</strong> — <code>background.ts</code> に <code>chrome.contextMenus</code> (<code>contexts: ["action"]</code>) + manifest。',
+          },
+          row: ['なし', '×', '右クリック → 1 クリック', 'なし', 'M'],
+        },
+        {
+          id: 'options',
+          name: 'Options ページに集約',
+          tall: true,
+          slots: {},
+          stageExtras: `<div class="options-page">
+              <div class="options-tab">Reading List — Options</div>
+              <div class="options-card">
+                <div class="pane-row">
+                  <div>
+                    <div class="pane-label">NSX connection</div>
+                    <div class="pane-sub when-connected"><span class="dot dot--sm"></span>Connected</div>
+                    <div class="pane-sub when-disconnected">Not connected — paste a token in the popup</div>
+                  </div>
+                  <button type="button" class="btn btn--danger when-connected" data-action="disconnect">Disconnect</button>
+                </div>
+                <a class="options-link" href="#" data-action="noop">Get a token ↗</a>
+              </div>
+            </div>`,
+          notes: {
+            操作: '拡張アイコン右クリック → Options (または <code>chrome://extensions</code> → 詳細)。接続の管理はここだけ。',
+            '👍': 'popup は保存と tweet に専念できる。トークンの説明や発行ページへの導線を広く置ける。',
+            '👎': '一番遠い (3 クリック)。entrypoint が 1 つ増える。',
+            実装: '<strong>L</strong> — WXT の <code>entrypoints/options</code> + PAT hook の共有。',
+          },
+          row: ['なし', '△', '3 クリック', 'なし', 'L'],
+        },
+      ]
+
+      const popupTemplate = (pattern) => `
+        <div class="window" data-window>
+          <div class="card">
+            <div class="pmain">
+              ${pattern.slots.top ?? ''}
+              <div class="reveal" data-reveal="disconnected"><div class="reveal-inner">
+                <section class="pat-connect">
+                  <span class="pat-connect-label">Paste your NSX token to save pages from this extension.</span>
+                  <input class="pat-input" type="password" value="nsx_pat_demo_token" aria-label="NSX extension token" />
+                  <button type="button" class="btn" data-action="connect">Connect</button>
+                </section>
+              </div></div>
+              <section class="row1">
+                <div class="title">${TITLE}</div>
+                ${pattern.slots.row1 ?? ''}
+                <input class="checkbox" type="checkbox" aria-label="Save current page to NSX" />
+              </section>
+              <section class="row2">
+                <textarea class="comment" rows="2" placeholder="Add a comment…" aria-label="Tweet comment"></textarea>
+                <a class="twitter-btn" href="#" data-action="noop">tweet</a>
+                <div class="result" data-result></div>
+              </section>
+              ${pattern.slots.bottom ?? ''}
+            </div>
+            ${pattern.slots.overlay ?? ''}
+          </div>
+        </div>`
+
+      const patternTemplate = (pattern, index) => {
+        const no = String(index + 1).padStart(2, '0')
+        const [badgeText, badgeClass] = pattern.badge ?? []
+        const notes = Object.entries(pattern.notes)
+          .map(([term, text]) => `<div><dt>${term}</dt><dd>${text}</dd></div>`)
+          .join('')
+        return `
+          <article class="pattern" data-demo="${pattern.id}" data-connected="true" data-open="false">
+            <div class="pattern-head">
+              <span class="pattern-no">${no}</span>
+              <h2 class="pattern-name">${pattern.name}</h2>
+              ${badgeText ? `<span class="badge ${badgeClass}">${badgeText}</span>` : ''}
+            </div>
+            <div class="stage ${pattern.tall ? 'stage--tall' : ''}">
+              <div class="toolbar">
+                <div class="omnibox">github.com/jsx-eslint/eslint-plugin-react/issues/3977</div>
+                <span class="tb-icon tb-dummy"></span>
+                <button type="button" class="tb-icon is-nsx" data-action="toggle-window" data-context-trigger aria-label="Reading List (toggle popup)">${ICONS.bookmark}</button>
+                <span class="tb-icon tb-dummy"></span>
+              </div>
+              <div class="skeleton" aria-hidden="true">
+                <span style="width: 96px"></span><span style="width: 140px"></span><span style="width: 72px"></span>
+                <span style="width: 180px"></span><span style="width: 110px"></span><span style="width: 60px"></span>
+              </div>
+              ${pattern.stageExtras ?? ''}
+              ${popupTemplate(pattern)}
+            </div>
+            <div class="stage-actions">
+              <button type="button" class="ghost-btn" data-action="reopen">▶ popup を開き直す</button>
+              ${pattern.extraActions ?? ''}
+            </div>
+            <dl class="notes">${notes}</dl>
+          </article>`
+      }
+
+      /**
+       * Wires one pattern card: connect/disconnect state, reveal/popover open state, popup window
+       * open/close, and the save checkbox feedback. Called once per card after the gallery renders.
+       */
+      function setupDemo(root, pattern) {
+        const behavior = pattern.behavior ?? {}
+        const state = { connected: true, open: false, windowOpen: true }
+        const windowEl = root.querySelector('[data-window]')
+        const toolbarIcon = root.querySelector('.tb-icon.is-nsx')
+        const result = root.querySelector('[data-result]')
+        let timers = []
+        let isHoveringZone = false
+
+        const clearTimers = () => {
+          timers.forEach(clearTimeout)
+          timers = []
+        }
+        const later = (callback, delayMs) => {
+          timers.push(setTimeout(callback, delayMs))
+        }
+
+        const render = () => {
+          root.dataset.connected = String(state.connected)
+          root.dataset.open = String(state.open)
+          windowEl.classList.toggle('is-closed', !state.windowOpen)
+          windowEl.inert = !state.windowOpen
+          // Collapsed reveals and closed popovers must not be focusable.
+          root.querySelectorAll('[data-reveal]').forEach((reveal) => {
+            const isOpen =
+              reveal.dataset.reveal === 'disconnected'
+                ? !state.connected
+                : state.connected && state.open
+            reveal.classList.toggle('is-open', isOpen)
+            reveal.inert = !isOpen
+          })
+          root.querySelectorAll('[data-pop]').forEach((pop) => {
+            pop.inert = !(state.connected && state.open)
+          })
+          root.querySelectorAll('[aria-expanded]').forEach((trigger) => {
+            trigger.setAttribute('aria-expanded', String(state.open))
+          })
+        }
+
+        const setOpen = (isOpen) => {
+          clearTimers()
+          state.open = isOpen && state.connected
+          render()
+          // 07: an unanswered "Disconnect?" quietly goes away.
+          if (state.open && behavior.autoCancelMs)
+            later(() => setOpen(false), behavior.autoCancelMs)
+        }
+
+        // 02: show the bar briefly on open, then fold it unless the pointer or focus is on it.
+        const runAutoHide = () => {
+          if (!behavior.autoHide || !state.connected) return
+          setOpen(true)
+          later(() => {
+            const isFocusInside = root
+              .querySelector('[data-reveal="open"]')
+              .contains(document.activeElement)
+            if (!isHoveringZone && !isFocusInside) setOpen(false)
+          }, 1600)
+        }
+
+        const openWindow = () => {
+          state.windowOpen = true
+          render()
+          runAutoHide()
+        }
+
+        root.addEventListener('click', (event) => {
+          const actionEl = event.target.closest('[data-action]')
+          if (!actionEl || !root.contains(actionEl)) return
+          const action = actionEl.dataset.action
+          if (actionEl.tagName === 'A') event.preventDefault()
+
+          if (action === 'toggle') setOpen(!state.open)
+          if (action === 'close') setOpen(false)
+          if (action === 'disconnect') {
+            state.connected = false
+            setOpen(false)
+            // 09 / 10 disconnect from outside the popup: bring it back to show the result.
+            if (!state.windowOpen) openWindow()
+          }
+          if (action === 'connect') {
+            state.connected = true
+            setOpen(false)
+            runAutoHide()
+          }
+          if (action === 'toggle-window') {
+            setOpen(false)
+            if (state.windowOpen) {
+              state.windowOpen = false
+              render()
+            } else openWindow()
+          }
+          if (action === 'reopen') {
+            state.connected = true
+            state.windowOpen = false
+            setOpen(false)
+            later(openWindow, 260)
+          }
+          if (action === 'open-context') openContextMenu()
+        })
+
+        // 09: the real thing is a right-click on the toolbar icon; the popup does not open for it.
+        const openContextMenu = () => {
+          state.windowOpen = false
+          setOpen(true)
+        }
+        if (behavior.contextMenu)
+          toolbarIcon.addEventListener('contextmenu', (event) => {
+            event.preventDefault()
+            openContextMenu()
+          })
+
+        root.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && state.open) setOpen(false)
+        })
+
+        if (behavior.closeOnOutside)
+          document.addEventListener('pointerdown', (event) => {
+            if (!state.open) return
+            const isInsideOwnLayer =
+              root.contains(event.target) &&
+              event.target.closest(
+                '[data-pop], [data-action="toggle"], [data-action="open-context"], [data-context-trigger]',
+              )
+            if (!isInsideOwnLayer) setOpen(false)
+          })
+
+        // 02 / 03: hovering the dot, the line, or the open bar keeps it open; leaving folds it.
+        if (behavior.hoverReveal)
+          root
+            .querySelectorAll('[data-hover-zone], [data-reveal="open"]')
+            .forEach((zone) => {
+              zone.addEventListener('pointerenter', () => {
+                isHoveringZone = true
+                if (state.connected && !state.open) setOpen(true)
+                else clearTimers()
+              })
+              zone.addEventListener('pointerleave', () => {
+                isHoveringZone = false
+                clearTimers()
+                later(() => {
+                  if (!isHoveringZone) setOpen(false)
+                }, 650)
+              })
+            })
+
+        root.querySelector('.checkbox').addEventListener('change', (event) => {
+          const isSaved = event.target.checked
+          toolbarIcon.classList.toggle('is-saved', isSaved)
+          result.innerHTML = isSaved ? '<span>Success!</span>' : ''
+          if (isSaved)
+            setTimeout(() => {
+              result.innerHTML = ''
+            }, 1000)
+        })
+
+        render()
+        runAutoHide()
+      }
+
+      document.getElementById('gallery').innerHTML = PATTERNS.map(patternTemplate).join('')
+      document.getElementById('compare-body').innerHTML = PATTERNS.map(
+        (pattern, index) =>
+          `<tr><td>${String(index + 1).padStart(2, '0')}</td><td>${pattern.name}</td>${pattern.row
+            .map((cell) => `<td>${cell}</td>`)
+            .join('')}</tr>`,
+      ).join('')
+      document
+        .querySelectorAll('[data-demo]')
+        .forEach((root, index) => setupDemo(root, PATTERNS[index]))
+    </script>
+  </body>
+</html>

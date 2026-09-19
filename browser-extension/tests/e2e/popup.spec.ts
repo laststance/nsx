@@ -35,6 +35,10 @@ test.describe('Extension Popup UI Tests', () => {
     const appRoot = popupPage.locator('#popup')
     await expect(appRoot).toBeVisible()
 
+    // Verify the top-left status slot (favicon + domain, or a save / connection message)
+    const status = popupPage.locator('.status')
+    await expect(status).toBeVisible()
+
     // Verify row1 section with title and checkbox
     const row1 = popupPage.locator('.row1')
     await expect(row1).toBeVisible()
@@ -54,9 +58,7 @@ test.describe('Extension Popup UI Tests', () => {
 
     const tweetBtn = popupPage.locator('.twitter-btn')
     await expect(tweetBtn).toBeVisible()
-
-    const result = popupPage.locator('.result')
-    await expect(result).toBeVisible()
+    await expect(tweetBtn).toHaveText('Tweet')
 
     await popupPage.close()
   })
@@ -123,7 +125,9 @@ test.describe('Extension Popup UI Tests', () => {
     const checkbox = popupPage.locator('.checkbox')
     await expect(checkbox).toBeChecked()
     await expect(checkbox).toBeDisabled()
-    await expect(popupPage.locator('.result')).toContainText('Already Exists')
+    await expect(
+      popupPage.getByRole('status').getByText('Already Exists'),
+    ).toBeVisible()
 
     await popupPage.close()
   })
@@ -140,14 +144,7 @@ test.describe('Extension Popup UI Tests', () => {
     await page.goto(TestPages.example.url)
     await page.waitForLoadState('domcontentloaded')
 
-    const popupPage = await context.newPage()
-    await popupPage.route('**/api/stock/exists**', (route) => {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ exists: false }),
-      })
-    })
+    const popupPage = await openPopup(context, extensionId)
     await popupPage.route('**/api/push_stock', (route) => {
       route.fulfill({
         status: 409,
@@ -156,10 +153,6 @@ test.describe('Extension Popup UI Tests', () => {
       })
     })
 
-    await popupPage.goto(`chrome-extension://${extensionId}/popup.html`)
-    await popupPage.waitForLoadState('domcontentloaded')
-    await popupPage.waitForSelector('#popup', { timeout: 5000 })
-
     // Act
     const checkbox = popupPage.locator('.checkbox')
     await checkbox.check()
@@ -167,7 +160,9 @@ test.describe('Extension Popup UI Tests', () => {
     // Assert
     await expect(checkbox).toBeChecked()
     await expect(checkbox).toBeDisabled()
-    await expect(popupPage.locator('.result')).toContainText('Already Exists')
+    await expect(
+      popupPage.getByRole('status').getByText('Already Exists'),
+    ).toBeVisible()
 
     await popupPage.close()
   })
@@ -301,7 +296,7 @@ test.describe('Extension Popup UI Tests', () => {
     await popupPage.close()
   })
 
-  test('hides the success message about a second after saving', async ({
+  test('fades the success message out about 1.5 seconds after saving', async ({
     context,
     extensionId,
     page,
@@ -327,18 +322,22 @@ test.describe('Extension Popup UI Tests', () => {
     const checkbox = popupPage.locator('.checkbox')
     await checkbox.check()
 
-    // Wait for success message to appear
-    const successSpan = popupPage.locator('.result span:has-text("Success!")')
+    // Wait for success message to appear; it takes the place of the page's domain
+    const successSpan = popupPage.getByRole('status').getByText('Success!')
     await successSpan.waitFor({ state: 'visible', timeout: 3000 })
+    const domain = popupPage.getByText('example.com', { exact: true })
+    await expect(domain).toBeHidden()
 
-    // Verify it's visible
+    // Still up one second in: the hold is 1.5 seconds
+    await popupPage.waitForTimeout(1000)
     await expect(successSpan).toBeVisible()
 
-    // Wait for fade out animation (should happen after 1 second)
-    await popupPage.waitForTimeout(1500)
+    // Wait out the rest of the hold and the 150ms fade out
+    await popupPage.waitForTimeout(1000)
 
-    // Message should be gone
-    await expect(successSpan).not.toBeVisible()
+    // Message should be gone, and the domain back
+    await expect(successSpan).toBeHidden()
+    await expect(domain).toBeVisible()
 
     await popupPage.close()
   })
@@ -377,7 +376,7 @@ test.describe('Extension Popup UI Tests', () => {
     await popupPage.close()
   })
 
-  test('result div is empty initially', async ({
+  test('status slot shows the page domain and no message initially', async ({
     context,
     extensionId,
     page,
@@ -390,10 +389,10 @@ test.describe('Extension Popup UI Tests', () => {
 
     const popupPage = await openPopup(context, extensionId)
 
-    const result = popupPage.locator('.result')
-    const content = await result.textContent()
-
-    expect(content?.trim()).toBe('')
+    await expect(popupPage.getByRole('status')).toHaveText('')
+    await expect(
+      popupPage.getByText('example.com', { exact: true }),
+    ).toBeVisible()
 
     await popupPage.close()
   })

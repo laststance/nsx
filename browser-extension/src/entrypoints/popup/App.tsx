@@ -7,29 +7,34 @@ import React, {
   type FC,
 } from 'react'
 
+import { openOptionsPage } from '../../lib/openOptionsPage'
 import { setBookmarkedIcon } from '../../lib/setBookmarkIcon'
+import { usePersonalAccessToken } from '../../lib/usePersonalAccessToken'
 
+import PopupStatus from './PopupStatus'
 import {
   ALREADY_EXISTS_MESSAGE,
-  CONNECT_PROMPT_MESSAGE,
-  CONNECTED_MESSAGE,
   DEFAULT_API_ENDPOINT,
   FAILED_MESSAGE,
   FEEDBACK_CLEAR_DELAY_MS,
-  RECONNECT_PROMPT_MESSAGE,
   SUCCESS_MESSAGE,
 } from './constants'
 import { useGetPageInfo } from './useGetPageInfo'
-import { usePersonalAccessToken } from './usePersonalAccessToken'
 import { buildPushStockApiUrl } from './utils/buildPushStockApiUrl'
 import { buildStockExistsUrl } from './utils/buildStockExistsUrl'
 import { buildStockRequestConfig } from './utils/buildStockRequestConfig'
+import { getDisplayDomain } from './utils/getDisplayDomain'
+import {
+  getPopupStatusMessage,
+  type FeedbackMessage,
+} from './utils/getPopupStatusMessage'
 import { isConflictResponse } from './utils/isConflictResponse'
 import { isUnauthorizedResponse } from './utils/isUnauthorizedResponse'
 import { logStockRequestError } from './utils/logStockRequestError'
 import { normalizePopupUrl } from './utils/normalizePopupUrl'
 
 export interface PopupState {
+  faviconUrl: string
   pageTitle: string
   url: string
 }
@@ -37,12 +42,6 @@ export interface PopupState {
 interface StockExistsResponse {
   exists: boolean
 }
-
-type FeedbackMessage =
-  | ''
-  | typeof ALREADY_EXISTS_MESSAGE
-  | typeof FAILED_MESSAGE
-  | typeof SUCCESS_MESSAGE
 
 type StockSaveState = {
   feedbackMessage: FeedbackMessage
@@ -59,25 +58,16 @@ const INITIAL_STOCK_SAVE_STATE: StockSaveState = {
 /**
  * Renders the NSX extension popup and coordinates duplicate-aware page saves.
  *
- * Authenticates stock reads/writes with a pasted Personal Access Token (Bearer header); the save
- * checkbox stays usable whether or not a token is connected, and a rejected token (401) reveals an
- * additive reconnect prompt without blocking the existing flow.
- * @returns The popup UI for connecting a token, saving the current tab, and composing a tweet.
+ * Authenticates stock reads/writes with the Personal Access Token connected on the Options page (Bearer
+ * header). Without a usable token the save checkbox is disabled and the top-left status slot links to
+ * the Options page; a rejected token (401) is flagged so that page asks for a new one.
+ * @returns The popup UI for saving the current tab and composing a tweet.
  * @example
  * <App />
  */
 const App: FC = () => {
   const state = useGetPageInfo()
-  const {
-    token,
-    isLoading: isTokenLoading,
-    needsReconnect,
-    inputToken,
-    setInputToken,
-    connect,
-    disconnect,
-    markRejected,
-  } = usePersonalAccessToken()
+  const { token, connectionStatus, markRejected } = usePersonalAccessToken()
   const [comment, setComment] = useState<string>('')
   const [stockSaveState, setStockSaveState] = useState<StockSaveState>(
     INITIAL_STOCK_SAVE_STATE,
@@ -87,8 +77,16 @@ const App: FC = () => {
   const normalizedUrl = normalizePopupUrl(state.url)
 
   useEffect(() => {
-    // Wait until the stored token is known so the existence check carries the Bearer header.
-    if (isTokenLoading) return undefined
+    // Only a connected token can answer the existence check; without one the API would just reply 401.
+    // Also waits for the stored token to load.
+    if (connectionStatus !== 'connected') {
+      // A sticky Already Exists would outrank the connection notice and hide its Open options link, so it goes
+      // with the token. Failed... from a save that found the token rejected still fades out on its own.
+      setStockSaveState((currentState) =>
+        currentState.isAlreadySaved ? INITIAL_STOCK_SAVE_STATE : currentState,
+      )
+      return undefined
+    }
 
     const pushStockApiUrl = buildPushStockApiUrl(
       import.meta.env.VITE_API_ENDPOINT || DEFAULT_API_ENDPOINT,
@@ -125,8 +123,8 @@ const App: FC = () => {
         // Aborted by cleanup or a save: the reply is stale, so the current state wins.
         if (existenceCheckAbortController.signal.aborted) return
 
-        // A rejected stored token (revoked/expired) surfaces the reconnect prompt.
-        if (token && isUnauthorizedResponse(error)) markRejected()
+        // A rejected stored token (revoked/expired) surfaces the reconnect notice.
+        if (isUnauthorizedResponse(error)) markRejected()
 
         // Existence check failures should not block saving a new page.
         setStockSaveState(INITIAL_STOCK_SAVE_STATE)
@@ -135,12 +133,12 @@ const App: FC = () => {
     return () => {
       existenceCheckAbortController.abort()
     }
-  }, [normalizedUrl, token, isTokenLoading, markRejected])
+  }, [normalizedUrl, token, connectionStatus, markRejected])
 
   /**
    * Shows a temporary result message after save attempts complete.
-   * @param message - The feedback text to display in the result area.
-   * @returns Nothing; React state controls when the message appears and clears.
+   * @param message - The feedback text to display in the status slot.
+   * @returns Nothing; React state controls when the message fades in and back out.
    * @example
    * showTemporaryFeedback(SUCCESS_MESSAGE)
    */
@@ -220,8 +218,8 @@ const App: FC = () => {
           return
         }
 
-        // A rejected stored token reveals the reconnect prompt without hiding the Failed result.
-        if (token && isUnauthorizedResponse(error)) markRejected()
+        // A rejected stored token brings up the reconnect notice once the Failed result has faded out.
+        if (isUnauthorizedResponse(error)) markRejected()
 
         setStockSaveState((currentState) => ({
           ...currentState,
@@ -232,67 +230,20 @@ const App: FC = () => {
       })
   }
 
-  // Show the paste panel before connecting, or after a stored token is rejected.
-  const shouldShowPastePanel = !token || needsReconnect
-
   return (
     <main>
-      {shouldShowPastePanel ? (
-        <section className="pat-connect" data-testid="pat-connect-panel">
-          <label className="pat-connect-label" htmlFor="pat-input">
-            {CONNECT_PROMPT_MESSAGE}
-          </label>
-          <input
-            id="pat-input"
-            className="pat-input"
-            data-testid="pat-input"
-            type="password"
-            value={inputToken}
-            placeholder="nsx_pat_…"
-            aria-label="NSX extension token"
-            onChange={(event): void => setInputToken(event.target.value)}
-          />
-          <button
-            type="button"
-            className="pat-connect-btn"
-            data-testid="pat-connect-btn"
-            disabled={inputToken.trim().length === 0}
-            onClick={(): void => {
-              void connect()
-            }}
-          >
-            Connect
-          </button>
-        </section>
-      ) : (
-        <section className="pat-connected" data-testid="pat-connected-status">
-          <span className="pat-connected-label">{CONNECTED_MESSAGE}</span>
-          <button
-            type="button"
-            className="pat-disconnect-btn"
-            data-testid="pat-disconnect-btn"
-            onClick={(): void => {
-              void disconnect()
-            }}
-          >
-            Disconnect
-          </button>
-        </section>
-      )}
-
-      {needsReconnect ? (
-        <p
-          role="alert"
-          className="pat-reconnect-notice"
-          data-testid="pat-reconnect-notice"
-        >
-          {RECONNECT_PROMPT_MESSAGE}
-        </p>
-      ) : null}
-
+      <PopupStatus
+        domain={getDisplayDomain(state.url)}
+        faviconUrl={state.faviconUrl}
+        message={getPopupStatusMessage(
+          stockSaveState.feedbackMessage,
+          connectionStatus,
+        )}
+        onOpenOptions={openOptionsPage}
+      />
       <section className="row1">
-        <div className="title">
-          {state.pageTitle.length ? state.pageTitle : ''}
+        <div className="title" title={state.pageTitle}>
+          {state.pageTitle}
         </div>
         <input
           className="checkbox"
@@ -302,7 +253,12 @@ const App: FC = () => {
               : 'Save current page to NSX'
           }
           checked={stockSaveState.isChecked}
-          disabled={stockSaveState.isAlreadySaved || !normalizedUrl}
+          // Saving needs a usable token, which is connected on the Options page.
+          disabled={
+            connectionStatus !== 'connected' ||
+            stockSaveState.isAlreadySaved ||
+            !normalizedUrl
+          }
           type="checkbox"
           onChange={onCheckedHandler}
         />
@@ -310,6 +266,8 @@ const App: FC = () => {
       <section className="row2">
         <textarea
           className="comment"
+          aria-label="Tweet comment"
+          placeholder="Add a comment…"
           onBlur={(e): void => setComment(e.currentTarget.value)}
           cols={60}
           rows={2}
@@ -322,13 +280,8 @@ const App: FC = () => {
           )}&text=${encodeURIComponent(comment)}`}
           rel="noreferrer"
         >
-          tweet
+          Tweet
         </a>
-        <div className="result">
-          {stockSaveState.feedbackMessage ? (
-            <span>{stockSaveState.feedbackMessage}</span>
-          ) : null}
-        </div>
       </section>
     </main>
   )

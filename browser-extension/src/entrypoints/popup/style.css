@@ -1,136 +1,338 @@
 @import 'tailwindcss';
+@import '../../assets/tokens.css';
+
+:root {
+  /* Concentric radii: card radius = control radius + card padding. */
+  --nsx-card-padding: 8px;
+  --nsx-radius-card: calc(var(--nsx-radius-control) + var(--nsx-card-padding));
+  /* Matches the 1px frame Chrome draws around the popup window (light / dark below). */
+  --nsx-window-frame: #dadce0;
+  --nsx-checkbox-size: 18px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nsx-window-frame: #46474a;
+  }
+}
+
+/* Chrome draws the popup window itself as a square and extensions cannot reshape it, so the
+   rounded card fills the window and only the four corner wedges show this frame color. */
+html {
+  background: var(--nsx-window-frame);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 body {
   margin: 0;
   padding: 0;
   min-width: 300px;
+  color: var(--nsx-ink);
+  font-family: var(--nsx-font);
+  font-size: 14px;
+  line-height: 20px;
 }
 
 #popup {
-  width: 100%;
-  margin: 8px;
+  box-sizing: border-box;
+  width: max-content;
+  padding: var(--nsx-card-padding);
+  border-radius: var(--nsx-radius-card);
+  background: #fff;
 }
 
 main {
   width: 500px;
-  min-height: 80px;
-  display: flex;
-  flex-wrap: wrap;
 }
 
-/* Personal Access Token connect / reconnect panel (additive; sits above the save rows). */
-.pat-connect,
-.pat-connected {
-  width: 100%;
-  display: flex;
+/* Top-left status slot: favicon + domain while idle, a small save / connection message otherwise. */
+.status {
+  position: relative;
+  height: 16px;
+  color: var(--nsx-ink-muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+/* Both layers stay mounted and cross-fade, so a message can fade out as well as in. The inline
+   `visibility` from PopupStatus flips only after the 150ms exit, which is shorter and softer than the enter. */
+.status-layer {
+  position: absolute;
+  inset: 0 auto 0 0;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding-bottom: 6px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 13px;
+  gap: 5px;
+  max-width: 100%;
+  white-space: nowrap;
+  opacity: 0;
+  filter: blur(4px);
+  transition-property: opacity, translate, filter, visibility;
+  transition-duration: 150ms, 150ms, 150ms, 0s;
+  transition-delay: 0s, 0s, 0s, 150ms;
+  transition-timing-function: ease-out;
 }
 
-.pat-connect-label {
-  flex-shrink: 0;
-  color: #6b7280;
+/* The idle line leaves upwards and the message comes in from below, like one line pushing the other out. */
+.status-idle {
+  translate: 0 -4px;
 }
 
-.pat-input {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-family: inherit;
-  font-size: 13px;
-  padding: 4px 6px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
+.status-message {
+  translate: 0 4px;
+  font-weight: 600;
 }
 
-.pat-connect-btn,
-.pat-disconnect-btn {
-  flex-shrink: 0;
-  font-size: 13px;
-  padding: 4px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: #f9fafb;
+.status-layer.is-shown {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+  transition-duration: 240ms, 240ms, 240ms, 0s;
+  transition-delay: 0s;
+}
+
+.status-message.tone-success {
+  color: var(--nsx-success);
+}
+
+.status-message.tone-error {
+  color: var(--nsx-danger);
+}
+
+.status-message.tone-warning {
+  color: var(--nsx-warning);
+}
+
+.status-icon {
+  display: block;
+  flex: none;
+}
+
+.status-favicon {
+  display: block;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  /* Pure black at low opacity: a tinted outline would read as dirt on the icon's edge. */
+  outline: 1px solid oklch(0 0 0 / 0.1);
+  outline-offset: -1px;
+}
+
+.status-domain {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-link {
+  position: relative;
+  padding: 0;
+  /* Only rounds the focus ring, which follows the box's radius. */
+  border-radius: 3px;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
   cursor: pointer;
 }
 
-.pat-connect-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pat-connected-label {
-  flex: 1 1 auto;
-  color: #16a34a;
-  font-weight: 500;
-}
-
-.pat-reconnect-notice {
-  width: 100%;
-  margin: 0 0 6px;
-  color: #dc2626;
-  font-size: 13px;
+/* Extends the 16px-tall link to a 40px hit area; upwards it ends at the card edge, downwards above the checkbox's. */
+.status-link::after {
+  content: '';
+  position: absolute;
+  inset: -8px -6px -16px;
 }
 
 .row1 {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
 }
 
 .title {
-  padding-top: 6px;
-  font-size: 16px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.011em;
+  /* Proportional metrics tighten Japanese punctuation and kana; Latin glyphs are untouched. */
+  font-feature-settings: 'palt' 1;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
 }
 
 .checkbox {
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: var(--nsx-checkbox-size);
+  height: var(--nsx-checkbox-size);
+  margin: 0;
+  border: 1.5px solid var(--nsx-line-hover);
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  transition-property: background-color, border-color, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+/* The visible box stays small; this keeps a 40px hit area around it. */
+.checkbox::before {
+  content: '';
+  position: absolute;
+  inset: calc((40px - var(--nsx-checkbox-size)) / -2);
+}
+
+/* Check mark stays in the DOM so both directions animate: opacity + scale 0.25 + blur 4px. */
+.checkbox::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  background: center / 76% 76% no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  opacity: 0;
+  scale: 0.25;
+  filter: blur(4px);
+  transition-property: opacity, scale, filter;
+  transition-duration: 300ms;
+  transition-timing-function: var(--nsx-ease);
+}
+
+.checkbox:hover:not(:disabled) {
+  border-color: var(--nsx-ink);
+}
+
+.checkbox:active:not(:disabled) {
+  scale: 0.96;
+}
+
+.checkbox:checked {
+  border-color: var(--nsx-success-fill);
+  background-color: var(--nsx-success-fill);
+}
+
+.checkbox:checked:hover:not(:disabled) {
+  border-color: var(--nsx-success);
+  background-color: var(--nsx-success);
+}
+
+.checkbox:checked::after {
+  opacity: 1;
+  scale: 1;
+  filter: blur(0);
+}
+
+/* Already saved: still reads as checked, just locked. Not connected: an empty, locked box. */
+.checkbox:disabled {
+  cursor: default;
+  opacity: 0.5;
 }
 
 .row2 {
-  width: 100%;
   display: flex;
   align-items: center;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .comment {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 7px 10px;
+  border: 1px solid var(--nsx-line);
+  border-radius: var(--nsx-radius-control);
+  background: #fff;
+  color: var(--nsx-ink);
   font-family: inherit;
-  font-size: 18px;
-  margin-right: 8px;
+  font-size: 14px;
+  line-height: 20px;
   resize: none;
+  transition-property: border-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
 }
 
+.comment::placeholder {
+  color: var(--nsx-ink-muted);
+}
+
+.comment:hover {
+  border-color: var(--nsx-line-hover);
+}
+
+/* X's primary button: #0f1419, 15px bold, 36px pill. It hugs its label and sits at the row's right edge. */
 .twitter-btn {
-  font-size: 20px;
-  line-height: 28px;
-  display: flex;
+  position: relative;
+  display: inline-flex;
+  flex: none;
   justify-content: center;
   align-items: center;
-  height: 40px;
-  width: 220px;
-  background: #1a8cd8;
-  color: white;
-  padding: 0 12px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 9999px;
+  background: var(--nsx-x-black);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 20px;
   text-decoration: none;
-  border-radius: 30px;
+  user-select: none;
+  transition-property: background-color, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
 }
 
-.result {
-  width: 100%;
-  min-height: 1px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-content: baseline;
-  color: #ea580c;
-  font-size: 32px;
+/* Vertical-only extension to a 40px hit area, so it never reaches the checkbox row above. */
+.twitter-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 40px;
+  translate: 0 -50%;
+}
+
+.twitter-btn:hover {
+  background: var(--nsx-x-black-hover);
+}
+
+.twitter-btn:active {
+  background: var(--nsx-x-black-active);
+  scale: 0.96;
+}
+
+/* One focus treatment for every control. */
+.status-link:focus-visible,
+.checkbox:focus-visible,
+.comment:focus-visible,
+.twitter-btn:focus-visible {
+  outline: 2px solid var(--nsx-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-layer,
+  .checkbox,
+  .checkbox::after,
+  .twitter-btn {
+    transition: none;
+  }
+
+  /* Messages still swap in place; they just stop sliding and blurring. */
+  .status-layer {
+    translate: none;
+    filter: none;
+  }
+
+  .checkbox:active:not(:disabled),
+  .twitter-btn:active {
+    scale: 1;
+  }
 }

@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test'
  *
  * This configuration is specifically designed for testing Chrome extensions built with WXT.
  * Key requirements:
- * - Extensions require non-headless mode
+ * - Extensions load headless only on the `chromium` channel (the default headless shell cannot load them)
  * - Extension must be loaded via --load-extension flag
  * - Backend API server must be running on port 4000
  */
@@ -41,10 +41,10 @@ export default defineConfig({
 
   // Shared settings for all projects
   use: {
-    // IMPORTANT: Browser extensions cannot run in headless mode
-    // For CI, we use xvfb (virtual display) to run headed mode without a real display
-    // This is configured in the CI workflow with xvfb-run
-    headless: false,
+    // Headless by default so a local run never opens windows or steals focus; the extension fixture
+    // passes this (and the project's `channel`) to its own launchPersistentContext call.
+    // Watch a run with `pnpm test --headed` or `pnpm test:debug`.
+    headless: true,
 
     // Collect trace when retrying the failed test
     trace: 'on-first-retry',
@@ -68,7 +68,7 @@ export default defineConfig({
       name: 'chromium-extension',
       use: {
         ...devices['Desktop Chrome'],
-        // IMPORTANT: Extensions require channel: 'chromium' for proper support
+        // IMPORTANT: only the `chromium` channel (new headless mode) can load an extension headless
         channel: 'chromium',
       },
     },

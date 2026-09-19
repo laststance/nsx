@@ -1,0 +1,282 @@
+@import 'tailwindcss';
+@import '../../assets/tokens.css';
+
+:root {
+  /* Concentric radii: card radius = control radius + card padding. */
+  --nsx-card-padding: 16px;
+  --nsx-radius-card: calc(var(--nsx-radius-control) + var(--nsx-card-padding));
+  --nsx-shadow-border:
+    0 0 0 1px oklch(0 0 0 / 0.08), 0 1px 2px -1px oklch(0 0 0 / 0.08),
+    0 2px 4px 0 oklch(0 0 0 / 0.04);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--nsx-ink);
+  font-family: var(--nsx-font);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.options {
+  box-sizing: border-box;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.options-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.options-subtitle {
+  margin: 2px 0 20px;
+  color: var(--nsx-ink-muted);
+  font-size: 13px;
+}
+
+/* Depth comes from a layered shadow instead of a border. */
+.options-card {
+  padding: var(--nsx-card-padding);
+  border-radius: var(--nsx-radius-card);
+  box-shadow: var(--nsx-shadow-border);
+}
+
+.options-card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.011em;
+}
+
+/* State line: the dot's color repeats what the label says, so color is never the only cue. */
+.options-state {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 0;
+  color: var(--nsx-ink-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.options-state::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #aab4bd;
+}
+
+.options-state.is-connected {
+  color: var(--nsx-success);
+}
+
+.options-state.is-connected::before {
+  background: var(--nsx-success-fill);
+}
+
+.options-state.is-rejected {
+  color: var(--nsx-danger);
+}
+
+.options-state.is-rejected::before {
+  background: var(--nsx-danger);
+}
+
+.options-alert {
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  border-radius: var(--nsx-radius-control);
+  background: var(--nsx-danger-tint);
+  color: var(--nsx-danger);
+  font-size: 13px;
+  text-wrap: pretty;
+}
+
+/* The stored-token row and the paste form swap on Connect / Disconnect; each fades in as it mounts. */
+.options-stored,
+.options-form {
+  animation: options-fade-in 150ms ease-out both;
+}
+
+.options-label {
+  display: block;
+  margin-top: 12px;
+  color: var(--nsx-ink-muted);
+  font-size: 13px;
+  text-wrap: pretty;
+}
+
+.options-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.options-label + .options-row {
+  margin-top: 6px;
+}
+
+.options-input,
+.options-token {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--nsx-line);
+  border-radius: var(--nsx-radius-control);
+  color: var(--nsx-ink);
+  font:
+    14px / 34px Menlo,
+    Monaco,
+    monospace;
+}
+
+.options-input {
+  background: #fff;
+  transition-property: border-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+.options-input:hover {
+  border-color: var(--nsx-line-hover);
+}
+
+.options-input::placeholder {
+  color: var(--nsx-ink-muted);
+}
+
+/* A malformed paste turns the field's ring red; the line under it says why nothing was stored. */
+.options-input[aria-invalid='true'] {
+  border-color: var(--nsx-danger);
+}
+
+.options-field-error {
+  margin: 6px 0 0;
+  color: var(--nsx-danger);
+  font-size: 13px;
+  text-wrap: pretty;
+}
+
+/* Read-only: a tinted surface instead of a white field, so it does not invite typing. */
+.options-token {
+  overflow: hidden;
+  background: #f7f9f9;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* X's primary button, like the popup's Tweet button. */
+.options-btn {
+  position: relative;
+  flex: none;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 9999px;
+  background: var(--nsx-x-black);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  cursor: pointer;
+  transition-property: background-color, scale, opacity;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+/* Vertical-only extension of the 36px button to a 40px hit area. */
+.options-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 40px;
+  translate: 0 -50%;
+}
+
+.options-btn:hover:not(:disabled) {
+  background: var(--nsx-x-black-hover);
+}
+
+.options-btn:active:not(:disabled) {
+  background: var(--nsx-x-black-active);
+  scale: 0.96;
+}
+
+.options-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* Disconnect: X's secondary button (white, hairline ring) in the destructive color. */
+.options-btn.is-secondary {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--nsx-line);
+  color: var(--nsx-danger);
+}
+
+.options-btn.is-secondary:hover:not(:disabled),
+.options-btn.is-secondary:active:not(:disabled) {
+  background: var(--nsx-danger-tint);
+}
+
+.options-help {
+  margin: 12px 0 0;
+  color: var(--nsx-ink-muted);
+  font-size: 13px;
+  text-wrap: pretty;
+}
+
+.options-help a {
+  color: var(--nsx-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* One focus treatment for every control. */
+.options-input:focus-visible,
+.options-btn:focus-visible,
+.options-help a:focus-visible {
+  outline: 2px solid var(--nsx-focus);
+  outline-offset: 2px;
+}
+
+@keyframes options-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .options-stored,
+  .options-form {
+    animation: none;
+  }
+
+  .options-input,
+  .options-btn {
+    transition: none;
+  }
+
+  .options-btn:active:not(:disabled) {
+    scale: 1;
+  }
+}
