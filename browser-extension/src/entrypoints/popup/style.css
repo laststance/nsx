@@ -1,5 +1,38 @@
 @import 'tailwindcss';
 
+/* Shared polish tokens: one accent, one easing, and a layered shadow that replaces depth-only borders. */
+:root {
+  --nsx-accent: #1a8cd8;
+  --nsx-accent-hover: #1577b8;
+  --nsx-ease: cubic-bezier(0.2, 0, 0, 1);
+  /* Concentric radii: card radius = control radius + card padding. */
+  --nsx-radius-control: 6px;
+  --nsx-card-padding: 8px;
+  --nsx-radius-card: calc(var(--nsx-radius-control) + var(--nsx-card-padding));
+  /* Matches the 1px frame Chrome draws around the popup window (light / dark below). */
+  --nsx-window-frame: #dadce0;
+  --nsx-shadow-border:
+    0 0 0 1px oklch(0 0 0 / 0.08), 0 1px 2px -1px oklch(0 0 0 / 0.08),
+    0 2px 4px 0 oklch(0 0 0 / 0.04);
+  --nsx-shadow-border-hover:
+    0 0 0 1px oklch(0 0 0 / 0.12), 0 1px 2px -1px oklch(0 0 0 / 0.1),
+    0 2px 4px 0 oklch(0 0 0 / 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nsx-window-frame: #46474a;
+  }
+}
+
+/* Chrome draws the popup window itself as a square and extensions cannot reshape it, so the
+   rounded card fills the window and only the four corner wedges show this frame color. */
+html {
+  background: var(--nsx-window-frame);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -7,8 +40,11 @@ body {
 }
 
 #popup {
-  width: 100%;
-  margin: 8px;
+  box-sizing: border-box;
+  width: max-content;
+  padding: var(--nsx-card-padding);
+  border-radius: var(--nsx-radius-card);
+  background: #fff;
 }
 
 main {
@@ -25,15 +61,50 @@ main {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-bottom: 6px;
-  margin-bottom: 6px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
   border-bottom: 1px solid #e5e7eb;
   font-size: 13px;
 }
 
+/* The paste panel mounts after the async token read and after every disconnect. */
+.pat-connect {
+  animation: popup-fade-in 150ms ease-out both;
+}
+
+/* Collapsible "Connected to NSX" bar: transitions (not keyframes) so a second click mid-fold reverses
+   smoothly; the exit is shorter and softer than the enter. */
+.pat-connected-reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: 100%;
+  opacity: 0;
+  transition-property: grid-template-rows, opacity;
+  transition-duration: 150ms, 120ms;
+  transition-timing-function: ease-out;
+}
+
+.pat-connected-reveal.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition-duration: 240ms, 200ms;
+  transition-timing-function: var(--nsx-ease), ease-out;
+}
+
+/* Negative margin + padding keeps the Disconnect button's shadow ring from being clipped. */
+.pat-connected-reveal-inner {
+  min-height: 0;
+  margin: -4px -4px 0;
+  padding: 4px 4px 0;
+  overflow: hidden;
+}
+
+/* Wraps to two balanced lines so the token input keeps a usable width. */
 .pat-connect-label {
-  flex-shrink: 0;
+  flex: 0 1 200px;
   color: #6b7280;
+  line-height: 1.35;
+  text-wrap: balance;
 }
 
 .pat-input {
@@ -41,20 +112,56 @@ main {
   min-width: 0;
   font-family: inherit;
   font-size: 13px;
-  padding: 4px 6px;
+  padding: 5px 8px;
   border: 1px solid #d1d5db;
-  border-radius: 4px;
+  border-radius: var(--nsx-radius-control);
+  transition-property: border-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+.pat-input:hover {
+  border-color: #9ca3af;
 }
 
 .pat-connect-btn,
 .pat-disconnect-btn {
+  position: relative;
   flex-shrink: 0;
   font-size: 13px;
-  padding: 4px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: #f9fafb;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--nsx-radius-control);
+  color: #374151;
+  background: #fff;
+  box-shadow: var(--nsx-shadow-border);
   cursor: pointer;
+  transition-property: box-shadow, background-color, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+/* Extends the 28px-tall buttons to a 40px hit area; stays clear of the save checkbox below. */
+.pat-connect-btn::after,
+.pat-disconnect-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 40px;
+  translate: 0 -50%;
+}
+
+.pat-connect-btn:hover:not(:disabled),
+.pat-disconnect-btn:hover {
+  background: #f9fafb;
+  box-shadow: var(--nsx-shadow-border-hover);
+}
+
+.pat-connect-btn:active:not(:disabled),
+.pat-disconnect-btn:active {
+  scale: 0.96;
 }
 
 .pat-connect-btn:disabled {
@@ -70,67 +177,271 @@ main {
 
 .pat-reconnect-notice {
   width: 100%;
-  margin: 0 0 6px;
+  margin: 0 0 8px;
+  padding: 6px 10px;
+  border-radius: var(--nsx-radius-control);
   color: #dc2626;
+  background: #fef2f2;
   font-size: 13px;
+  text-wrap: pretty;
+  animation: popup-fade-in 150ms ease-out both;
 }
 
 .row1 {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
 .title {
-  padding-top: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
   font-size: 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
+/* Connection status dot: 28px visual, 40px hit area; the 12px row gap keeps it clear of the checkbox's. */
+.pat-status-dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: var(--nsx-radius-control);
+  background: transparent;
+  cursor: pointer;
+  transition-property: background-color, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+  animation: popup-fade-in 150ms ease-out both;
+}
+
+.pat-status-dot::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 3px rgb(22 163 74 / 0.18);
+  transition: box-shadow 150ms ease-out;
+}
+
+.pat-status-dot::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+}
+
+.pat-status-dot:hover {
+  background: #f3f4f6;
+}
+
+/* The halo grows on hover and stays grown while the bar is open: a static cue besides the motion. */
+.pat-status-dot:hover::before,
+.pat-status-dot[aria-expanded='true']::before {
+  box-shadow: 0 0 0 5px rgb(22 163 74 / 0.22);
+}
+
+.pat-status-dot:active {
+  scale: 0.96;
+}
+
 .checkbox {
+  appearance: none;
+  position: relative;
   flex-shrink: 0;
   width: 30px;
   height: 30px;
+  margin: 0;
+  border: 1.5px solid #9ca3af;
+  border-radius: var(--nsx-radius-control);
+  background-color: #fff;
+  cursor: pointer;
+  transition-property: background-color, border-color, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+/* Extends the 30px box to a 40px hit area. */
+.checkbox::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+}
+
+/* Check mark stays in the DOM so both directions animate: opacity + scale 0.25 + blur 4px. */
+.checkbox::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: center / 18px 18px no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  opacity: 0;
+  scale: 0.25;
+  filter: blur(4px);
+  transition-property: opacity, scale, filter;
+  transition-duration: 300ms;
+  transition-timing-function: var(--nsx-ease);
+}
+
+.checkbox:hover:not(:disabled) {
+  border-color: #6b7280;
+}
+
+.checkbox:active:not(:disabled) {
+  scale: 0.96;
+}
+
+.checkbox:checked {
+  border-color: var(--nsx-accent);
+  background-color: var(--nsx-accent);
+}
+
+.checkbox:checked:hover:not(:disabled) {
+  border-color: var(--nsx-accent-hover);
+  background-color: var(--nsx-accent-hover);
+}
+
+.checkbox:checked::after {
+  opacity: 1;
+  scale: 1;
+  filter: blur(0);
+}
+
+/* Already saved: still reads as checked, just locked. */
+.checkbox:disabled {
+  cursor: default;
+  opacity: 0.55;
 }
 
 .row2 {
   width: 100%;
   display: flex;
   align-items: center;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .comment {
+  flex: 1 1 0;
+  min-width: 0;
   font-family: inherit;
-  font-size: 18px;
-  margin-right: 8px;
+  font-size: 16px;
+  line-height: 1.4;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: var(--nsx-radius-control);
   resize: none;
+  transition-property: border-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+.comment:hover {
+  border-color: #9ca3af;
 }
 
 .twitter-btn {
+  flex: 0 0 96px;
   font-size: 20px;
   line-height: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 40px;
-  width: 220px;
-  background: #1a8cd8;
+  background: var(--nsx-accent);
   color: white;
-  padding: 0 12px;
   text-decoration: none;
   border-radius: 30px;
+  user-select: none;
+  transition-property: background-color, scale;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
 }
 
+.twitter-btn:hover {
+  background: var(--nsx-accent-hover);
+}
+
+.twitter-btn:active {
+  scale: 0.96;
+}
+
+/* Fixed width keeps the comment box from resizing when a message appears. */
 .result {
-  width: 100%;
+  flex: 0 0 172px;
   min-height: 1px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-content: baseline;
   color: #ea580c;
-  font-size: 32px;
+  font-size: 22px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.result span {
+  animation: popup-result-in 200ms ease-out both;
+}
+
+/* One focus treatment for every control. */
+.pat-input:focus-visible,
+.pat-connect-btn:focus-visible,
+.pat-disconnect-btn:focus-visible,
+.pat-status-dot:focus-visible,
+.checkbox:focus-visible,
+.comment:focus-visible,
+.twitter-btn:focus-visible {
+  outline: 2px solid var(--nsx-accent);
+  outline-offset: 2px;
+}
+
+@keyframes popup-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes popup-result-in {
+  from {
+    opacity: 0;
+    translate: 0 4px;
+    filter: blur(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pat-connect,
+  .pat-status-dot,
+  .pat-reconnect-notice,
+  .result span {
+    animation: none;
+  }
+
+  .pat-connected-reveal,
+  .pat-connected-reveal.is-open,
+  .pat-status-dot,
+  .pat-status-dot::before,
+  .pat-connect-btn,
+  .pat-disconnect-btn,
+  .checkbox,
+  .checkbox::after,
+  .twitter-btn {
+    transition: none;
+  }
+
+  .pat-connect-btn:active:not(:disabled),
+  .pat-disconnect-btn:active,
+  .pat-status-dot:active,
+  .checkbox:active:not(:disabled),
+  .twitter-btn:active {
+    scale: 1;
+  }
 }

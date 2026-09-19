@@ -158,3 +158,124 @@ describe('Extension popup save result', () => {
     expect(saveCheckbox).toBeChecked()
   })
 })
+
+describe('Extension popup connection bar', () => {
+  test('keeps the Connected to NSX bar collapsed when the popup opens connected', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
+    stubActiveTab()
+
+    // Act
+    render(<App />)
+
+    // Assert — only the status dot shows; Disconnect stays out of reach.
+    expect(
+      await screen.findByRole('button', { name: 'Connected to NSX' }),
+    ).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      screen.queryByRole('button', { name: 'Disconnect' }),
+    ).not.toBeInTheDocument()
+  })
+
+  test('expands the Connected to NSX bar when the status dot is clicked', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
+    stubActiveTab()
+    const user = userEvent.setup()
+    render(<App />)
+    const statusDot = await screen.findByRole('button', {
+      name: 'Connected to NSX',
+    })
+
+    // Act
+    await user.click(statusDot)
+
+    // Assert
+    expect(statusDot).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('button', { name: 'Disconnect' })).toBeVisible()
+  })
+
+  test('collapses the expanded bar and refocuses the status dot on Escape', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
+    stubActiveTab()
+    const user = userEvent.setup()
+    render(<App />)
+    const statusDot = await screen.findByRole('button', {
+      name: 'Connected to NSX',
+    })
+    await user.click(statusDot)
+    await user.tab()
+
+    // Act
+    await user.keyboard('{Escape}')
+
+    // Assert
+    expect(statusDot).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      screen.queryByRole('button', { name: 'Disconnect' }),
+    ).not.toBeInTheDocument()
+    expect(statusDot).toHaveFocus()
+  })
+
+  test('disconnects from the expanded bar and returns to the paste panel', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
+    stubActiveTab()
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(
+      await screen.findByRole('button', { name: 'Connected to NSX' }),
+    )
+
+    // Act
+    await user.click(screen.getByRole('button', { name: 'Disconnect' }))
+
+    // Assert
+    expect(chrome.storage.local.remove).toHaveBeenCalledWith('nsx_pat')
+    expect(await screen.findByTestId('pat-connect-panel')).toBeVisible()
+    expect(
+      screen.queryByRole('button', { name: 'Connected to NSX' }),
+    ).not.toBeInTheDocument()
+  })
+
+  test('starts collapsed again after reconnecting with the same token', async () => {
+    // Arrange — open the bar, then disconnect from it.
+    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
+    stubActiveTab()
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(
+      await screen.findByRole('button', { name: 'Connected to NSX' }),
+    )
+    await user.click(screen.getByRole('button', { name: 'Disconnect' }))
+    await screen.findByTestId('pat-connect-panel')
+
+    // Act
+    await user.type(screen.getByTestId('pat-input'), RAW_TOKEN)
+    await user.click(screen.getByTestId('pat-connect-btn'))
+
+    // Assert
+    expect(
+      await screen.findByRole('button', { name: 'Connected to NSX' }),
+    ).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      screen.queryByRole('button', { name: 'Disconnect' }),
+    ).not.toBeInTheDocument()
+  })
+
+  test('does not flash the paste panel while the stored token is still loading', () => {
+    // Arrange — the storage read never settles, so the popup stays in its loading state.
+    ;(chrome.storage.local.get as any).mockReturnValue(new Promise(() => {}))
+    stubActiveTab()
+
+    // Act
+    render(<App />)
+
+    // Assert
+    expect(screen.queryByTestId('pat-connect-panel')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Connected to NSX' }),
+    ).not.toBeInTheDocument()
+  })
+})

@@ -42,6 +42,8 @@ export default [
         document: 'readonly',
         navigator: 'readonly',
         console: 'readonly',
+        HTMLElement: 'readonly',
+        HTMLButtonElement: 'readonly',
         HTMLInputElement: 'readonly',
         Animation: 'readonly',
         KeyframeEffect: 'readonly',

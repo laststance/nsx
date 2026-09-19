@@ -92,4 +92,45 @@ test.describe('Extension Personal Access Token flow', () => {
     await expect(reopenedPopup.getByTestId('pat-connect-panel')).toBeVisible()
     await expect(reopenedPopup.getByTestId('pat-connected-status')).toBeHidden()
   })
+
+  test('disconnects from the status dot and stays disconnected after reopening', async ({
+    context,
+    extensionId,
+    page,
+    personalAccessToken,
+  }) => {
+    // Arrange
+    const { token } = personalAccessToken
+    await page.goto(`https://example.com/?nsx-pat-e2e=${Date.now()}`)
+    await page.waitForLoadState('domcontentloaded')
+    const popupPage = await openPopup(context, extensionId, {
+      stubStockExists: false,
+    })
+    await popupPage.getByTestId('pat-input').fill(token)
+    await popupPage.getByTestId('pat-connect-btn').click()
+    const statusDot = popupPage.getByRole('button', {
+      name: 'Connected to NSX',
+    })
+    // While connected only the dot shows: the bar holding Disconnect starts collapsed.
+    await expect(statusDot).toHaveAttribute('aria-expanded', 'false')
+    await expect(
+      popupPage.getByRole('button', { name: 'Disconnect' }),
+    ).toBeHidden()
+
+    // Act
+    await statusDot.click()
+    await popupPage.getByRole('button', { name: 'Disconnect' }).click()
+
+    // Assert
+    await expect(popupPage.getByTestId('pat-connect-panel')).toBeVisible()
+    await expect(popupPage.getByTestId('pat-connected-status')).toBeHidden()
+
+    // Reopening proves the token left chrome.storage.local, not just the React state.
+    await popupPage.close()
+    const reopenedPopup = await openPopup(context, extensionId, {
+      stubStockExists: false,
+    })
+    await expect(reopenedPopup.getByTestId('pat-connect-panel')).toBeVisible()
+    await expect(reopenedPopup.getByTestId('pat-connected-status')).toBeHidden()
+  })
 })

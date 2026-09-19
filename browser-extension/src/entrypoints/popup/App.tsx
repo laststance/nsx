@@ -5,6 +5,7 @@ import React, {
   useState,
   type ChangeEvent,
   type FC,
+  type KeyboardEvent,
 } from 'react'
 
 import { setBookmarkedIcon } from '../../lib/setBookmarkIcon'
@@ -19,6 +20,7 @@ import {
   RECONNECT_PROMPT_MESSAGE,
   SUCCESS_MESSAGE,
 } from './constants'
+import { useConnectionBar } from './useConnectionBar'
 import { useGetPageInfo } from './useGetPageInfo'
 import { usePersonalAccessToken } from './usePersonalAccessToken'
 import { buildPushStockApiUrl } from './utils/buildPushStockApiUrl'
@@ -61,7 +63,8 @@ const INITIAL_STOCK_SAVE_STATE: StockSaveState = {
  *
  * Authenticates stock reads/writes with a pasted Personal Access Token (Bearer header); the save
  * checkbox stays usable whether or not a token is connected, and a rejected token (401) reveals an
- * additive reconnect prompt without blocking the existing flow.
+ * additive reconnect prompt without blocking the existing flow. While connected only a status dot
+ * shows; clicking it unfolds the "Connected to NSX" bar that holds Disconnect.
  * @returns The popup UI for connecting a token, saving the current tab, and composing a tweet.
  * @example
  * <App />
@@ -78,6 +81,9 @@ const App: FC = () => {
     disconnect,
     markRejected,
   } = usePersonalAccessToken()
+  const connectionBar = useConnectionBar()
+  // Escape hands focus back to the dot, because the collapsing bar turns inert under it.
+  const statusDotRef = useRef<HTMLButtonElement | null>(null)
   const [comment, setComment] = useState<string>('')
   const [stockSaveState, setStockSaveState] = useState<StockSaveState>(
     INITIAL_STOCK_SAVE_STATE,
@@ -232,11 +238,29 @@ const App: FC = () => {
       })
   }
 
-  // Show the paste panel before connecting, or after a stored token is rejected.
-  const shouldShowPastePanel = !token || needsReconnect
+  // Connected = a stored token the API has not rejected.
+  const isConnected = token !== null && !needsReconnect
+  // Wait for the stored token before offering the paste panel, or a connected popup opens tall and shrinks.
+  const shouldShowPastePanel = !isTokenLoading && !isConnected
+  const isConnectionBarOpen = isConnected && connectionBar.isOpen
+
+  /**
+   * Folds the open connection bar on Escape and hands focus back to the status dot.
+   * @param event - Keydown bubbling up from anywhere in the popup.
+   * @returns Nothing; with the bar closed the key falls through so Chrome closes the popup as usual.
+   * @example
+   * <main onKeyDown={onKeyDownHandler}>
+   */
+  const onKeyDownHandler = (event: KeyboardEvent<HTMLElement>): void => {
+    if (event.key !== 'Escape' || !isConnectionBarOpen) return
+
+    event.preventDefault()
+    connectionBar.close()
+    statusDotRef.current?.focus()
+  }
 
   return (
-    <main>
+    <main onKeyDown={onKeyDownHandler}>
       {shouldShowPastePanel ? (
         <section className="pat-connect" data-testid="pat-connect-panel">
           <label className="pat-connect-label" htmlFor="pat-input">
@@ -258,27 +282,46 @@ const App: FC = () => {
             data-testid="pat-connect-btn"
             disabled={inputToken.trim().length === 0}
             onClick={(): void => {
+              // Every new connection starts with the bar collapsed, even when the same token is pasted again.
+              connectionBar.close()
               void connect()
             }}
           >
             Connect
           </button>
         </section>
-      ) : (
-        <section className="pat-connected" data-testid="pat-connected-status">
-          <span className="pat-connected-label">{CONNECTED_MESSAGE}</span>
-          <button
-            type="button"
-            className="pat-disconnect-btn"
-            data-testid="pat-disconnect-btn"
-            onClick={(): void => {
-              void disconnect()
-            }}
-          >
-            Disconnect
-          </button>
-        </section>
-      )}
+      ) : null}
+
+      {isConnected ? (
+        // Stays mounted while collapsed so the fold animates both ways; inert keeps Disconnect out of reach.
+        <div
+          id="pat-connected-bar"
+          className={
+            isConnectionBarOpen
+              ? 'pat-connected-reveal is-open'
+              : 'pat-connected-reveal'
+          }
+          aria-hidden={!isConnectionBarOpen}
+          inert={!isConnectionBarOpen}
+        >
+          <div className="pat-connected-reveal-inner">
+            <section className="pat-connected" data-testid="pat-connected-bar">
+              <span className="pat-connected-label">{CONNECTED_MESSAGE}</span>
+              <button
+                type="button"
+                className="pat-disconnect-btn"
+                data-testid="pat-disconnect-btn"
+                onClick={(): void => {
+                  connectionBar.close()
+                  void disconnect()
+                }}
+              >
+                Disconnect
+              </button>
+            </section>
+          </div>
+        </div>
+      ) : null}
 
       {needsReconnect ? (
         <p
@@ -294,6 +337,20 @@ const App: FC = () => {
         <div className="title">
           {state.pageTitle.length ? state.pageTitle : ''}
         </div>
+        {isConnected ? (
+          // The only always-visible sign of the connection; opens the bar that holds Disconnect.
+          <button
+            ref={statusDotRef}
+            type="button"
+            className="pat-status-dot"
+            data-testid="pat-connected-status"
+            aria-controls="pat-connected-bar"
+            aria-expanded={isConnectionBarOpen}
+            aria-label={CONNECTED_MESSAGE}
+            title={CONNECTED_MESSAGE}
+            onClick={connectionBar.toggle}
+          />
+        ) : null}
         <input
           className="checkbox"
           aria-label={
@@ -310,6 +367,8 @@ const App: FC = () => {
       <section className="row2">
         <textarea
           className="comment"
+          aria-label="Tweet comment"
+          placeholder="Add a comment…"
           onBlur={(e): void => setComment(e.currentTarget.value)}
           cols={60}
           rows={2}
