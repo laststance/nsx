@@ -24,7 +24,7 @@ const translateLimiter: RequestHandler = isProd
           'Too many translation requests, please try again after 1 minute.',
       },
     })
-  : (_req, _res, next) => next()
+  : (_req, _res, next): void => next()
 
 // Lazy initialization for OpenAI client to allow server start without API key
 let openaiClient: OpenAI | null = null

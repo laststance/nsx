@@ -122,7 +122,7 @@ function reportReadlistCronFailure(error: unknown): void {
  * @returns Nothing after all pending stock rows are posted and cleared.
  * @example await postReadlist()
  */
-async function postReadlist() {
+async function postReadlist(): Promise<void> {
   Logger.info('Starting daily readlist cron', { job: READLIST_CRON_NAME })
 
   try {

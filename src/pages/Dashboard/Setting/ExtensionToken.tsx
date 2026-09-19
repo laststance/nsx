@@ -48,7 +48,7 @@ const ExtensionToken: React.FC = memo(() => {
 
   const tokens = data?.tokens ?? []
 
-  const handleGenerate = async (event: React.FormEvent) => {
+  const handleGenerate = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault()
     setActionError(null)
     const trimmedName = name.trim()
@@ -65,7 +65,7 @@ const ExtensionToken: React.FC = memo(() => {
     }
   }
 
-  const handleCopy = async () => {
+  const handleCopy = async (): Promise<void> => {
     if (!mintedToken) return
     // clipboard.writeText rejects in insecure contexts / when permission is denied,
     // and navigator.clipboard can be undefined; degrade to a manual-copy prompt since
@@ -80,12 +80,12 @@ const ExtensionToken: React.FC = memo(() => {
     }
   }
 
-  const handleDismissReveal = () => {
+  const handleDismissReveal = (): void => {
     setDidCopy(false)
     resetMint()
   }
 
-  const handleRevoke = async (id: number) => {
+  const handleRevoke = async (id: number): Promise<void> => {
     setActionError(null)
     try {
       await revokeToken({ id }).unwrap()

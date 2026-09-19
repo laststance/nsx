@@ -52,7 +52,10 @@ const buildHealthResponse = (
  * @returns Nothing; sends 200 when healthy and 503 when DB is unreachable.
  * @example GET /api/health
  */
-const getHealth = async (_req: Request, res: Response<HealthResponse>) => {
+const getHealth = async (
+  _req: Request,
+  res: Response<HealthResponse>,
+): Promise<void> => {
   try {
     await prisma.$queryRaw`SELECT 1`
     res.status(200).json(buildHealthResponse('ok'))
@@ -73,7 +76,7 @@ const getHealth = async (_req: Request, res: Response<HealthResponse>) => {
 const getMetrics = async (
   _req: Request,
   res: Response<string | MetricsErrorResponse>,
-) => {
+): Promise<void> => {
   try {
     res.type(getMetricsContentType()).send(await getMetricsPayload())
   } catch (error) {

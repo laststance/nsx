@@ -40,7 +40,7 @@ const mintLimiter: RequestHandler = isProd
         error: 'Too many token requests, please try again after an hour.',
       },
     })
-  : (_req, _res, next) => next()
+  : (_req, _res, next): void => next()
 
 /**
  * Generates a fresh raw Personal Access Token string.

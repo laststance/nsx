@@ -6,7 +6,7 @@ export function handleClick(
   stock: Stock,
   refetch: ReturnType<typeof API.endpoints.getStockList.useQuery>['refetch'],
 ) {
-  return async () => {
+  return async (): Promise<void> => {
     await dispatch(API.endpoints.deleteStock.initiate({ id: stock.id }))
     // refetch stockList
     refetch()

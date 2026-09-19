@@ -38,7 +38,7 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
     ? 'dark:border-amber-400/40 dark:bg-amber-600/75 dark:shadow-amber-500/25 dark:hover:bg-amber-500/85'
     : 'dark:border-blue-300/40 dark:bg-blue-500/75 dark:shadow-blue-400/25 dark:hover:bg-blue-400/85'
 
-  const handleTranslate = async () => {
+  const handleTranslate = async (): Promise<void> => {
     try {
       const result = await translateText({
         text: tweet.text,
@@ -75,7 +75,7 @@ export const TweetCard: React.FC<Props & ComponentProps<'div'>> = ({
     }
   }
 
-  const handleBlueSkyPost = async () => {
+  const handleBlueSkyPost = async (): Promise<void> => {
     try {
       const result = await postToBlueSky(tweet.text).unwrap()
       dispatch(

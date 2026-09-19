@@ -23,7 +23,7 @@ export async function onSubmit(
   title: DraftState['title'],
   body: DraftState['body'],
   navigate: NavigateFunction,
-) {
+): Promise<void> {
   const post = await createPost({
     title,
     body,

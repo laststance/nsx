@@ -12,7 +12,7 @@ export async function onSubmit(
   navigate: NavigateFunction,
   id: Post['id'],
   dispatch: AppDispatch,
-) {
+): Promise<void> {
   const response = await updatePost({
     id: id,
     title: getValues('title'),

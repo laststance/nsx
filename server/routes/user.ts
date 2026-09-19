@@ -48,7 +48,7 @@ const loginLimiter: RequestHandler = isProd
         error: 'Too many login attempts, please try again after 15 minutes.',
       },
     })
-  : (_req, _res, next) => next()
+  : (_req, _res, next): void => next()
 
 /**
  * Converts a submitted login name into the database lookup value.

@@ -34,7 +34,7 @@ const SnackBar: React.FC<React.PropsWithChildren<Props>> = memo(
         dispatch(dequeSnackbar(id))
       }, 5000)
 
-      return () => {
+      return (): void => {
         clearTimeout(timer2Id)
         clearTimeout(timer1Id)
       }

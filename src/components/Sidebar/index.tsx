@@ -64,7 +64,7 @@ const isVisibleFocusableElement = (element: HTMLElement): boolean => {
  * @example
  * keypressListener(new KeyboardEvent('keyup', { key: 'x' }))
  */
-const keypressListener = (event: KeyboardEvent) => {
+const keypressListener = (event: KeyboardEvent): void => {
   // @TODO add (if not while typing in a text input
   if (event.key === 'x') dispatch(toggleSidebar())
 }
@@ -84,7 +84,7 @@ const Sidebar: React.FC = memo(() => {
   useIsomorphicEffect(() => {
     window.document.addEventListener('keyup', keypressListener)
 
-    return () => {
+    return (): void => {
       window.document.removeEventListener('keyup', keypressListener)
     }
   }, [])
@@ -100,7 +100,7 @@ const Sidebar: React.FC = memo(() => {
     const [firstFocusableElement] = getFocusableElements(sidebarRef.current)
     firstFocusableElement?.focus()
 
-    return () => {
+    return (): void => {
       // Restore focus to the opener when the sidebar unmounts after close.
       if (previouslyFocusedElementRef.current?.isConnected) {
         previouslyFocusedElementRef.current.focus()
@@ -108,7 +108,9 @@ const Sidebar: React.FC = memo(() => {
     }
   }, [open])
 
-  const handleSidebarKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+  const handleSidebarKeyDown = (
+    event: React.KeyboardEvent<HTMLElement>,
+  ): void => {
     if (event.key === 'Escape') {
       event.preventDefault()
       dispatch(closeSidebar())
