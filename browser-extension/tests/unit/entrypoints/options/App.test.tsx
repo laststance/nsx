@@ -93,6 +93,33 @@ describe('Extension Options token connection', () => {
     expect(chrome.storage.local.set).not.toHaveBeenCalled()
   })
 
+  test('keeps the pasted token and asks to retry when the browser cannot save it', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({})
+    ;(chrome.storage.local.set as any).mockRejectedValue(
+      new Error('QUOTA_BYTES quota exceeded'),
+    )
+    const user = userEvent.setup()
+    render(<App />)
+    await screen.findByText('Not connected')
+
+    // Act
+    await user.type(screen.getByTestId('pat-input'), RAW_TOKEN)
+    await user.click(screen.getByRole('button', { name: 'Connect' }))
+
+    // Assert — the value itself is fine, so the field is not flagged; Connect stays available for the retry.
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      "Couldn't save the token. Press Connect to try again.",
+    )
+    expect(screen.getByTestId('pat-input')).toHaveValue(RAW_TOKEN)
+    expect(screen.getByTestId('pat-input')).toHaveAttribute(
+      'aria-invalid',
+      'false',
+    )
+    expect(screen.getByText('Not connected')).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Connect' })).toBeEnabled()
+  })
+
   test('withdraws the not-a-token warning once the pasted value is edited', async () => {
     // Arrange
     ;(chrome.storage.local.get as any).mockResolvedValue({})

@@ -162,7 +162,7 @@ body {
   color: var(--nsx-ink-muted);
 }
 
-/* A malformed paste: the field's ring and the message under it both turn red. */
+/* A malformed paste turns the field's ring red; the line under it says why nothing was stored. */
 .options-input[aria-invalid='true'] {
   border-color: var(--nsx-danger);
 }
