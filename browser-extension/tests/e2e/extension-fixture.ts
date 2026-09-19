@@ -33,11 +33,7 @@ type OpenPopupOptions = {
 
 export const test = base.extend<ExtensionTestFixtures>({
   // Override context to use persistent context with extension loaded
-  context: async (
-    // eslint-disable-next-line no-empty-pattern
-    {},
-    applyFixture,
-  ) => {
+  context: async ({ channel, headless }, applyFixture) => {
     // Use development build for testing
     const currentDir = path.dirname(fileURLToPath(import.meta.url))
     const pathToExtension = path.join(
@@ -46,7 +42,10 @@ export const test = base.extend<ExtensionTestFixtures>({
     )
 
     const context = await chromium.launchPersistentContext('', {
-      headless: false, // Extensions require headed mode
+      // Both come from playwright.config.ts: the `chromium` channel is what lets an extension load headless
+      // (the default headless shell cannot), and `--headed` / `--debug` flip `headless` to watch a run.
+      channel,
+      headless,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,

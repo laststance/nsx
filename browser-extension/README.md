@@ -113,7 +113,7 @@ pnpm test:debug
 1. Extension must be built first (`pnpm build`)
 2. Backend server must be running on port 4000
 3. MySQL database must be accessible
-4. Tests run in headed mode (use `xvfb-run` for CI)
+4. Tests run headless by default (no windows, no focus stealing); add `--headed` or use `pnpm test:debug` to watch a run
 
 Test coverage:
 
@@ -359,14 +359,18 @@ pnpm outdated
 3. Verify MySQL is running and accessible
 4. Check database connection in `playwright.config.ts`
 
-### CI Tests Failing on Headless
+### Extension Not Loading in Headless
 
-Extensions require headed mode. CI uses xvfb:
+An extension loads headless only on Playwright's `chromium` channel (new headless mode); the default
+headless shell cannot load one. `tests/e2e/extension-fixture.ts` takes `channel` and `headless` from
+`playwright.config.ts`, so keep `channel: 'chromium'` on the project there.
 
 ```bash
-# Local CI simulation
-xvfb-run --auto-servernum pnpm test
+pnpm test            # headless
+pnpm test --headed   # watch the browser
 ```
+
+CI still wraps the run in `xvfb-run`, which a headless run no longer needs but is unaffected by.
 
 ## 📚 Resources
 
