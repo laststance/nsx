@@ -50,7 +50,7 @@ const ThemeToggle = memo(() => {
     // Skip the document listener while closed so normal page clicks stay untouched.
     if (!isMenuOpen) return undefined
 
-    const handleDocumentMouseDown = (event: MouseEvent) => {
+    const handleDocumentMouseDown = (event: MouseEvent): void => {
       const targetNode = event.target
 
       // Clicking inside the menu should not close it before the option handler runs.
@@ -63,18 +63,20 @@ const ThemeToggle = memo(() => {
 
     document.addEventListener('mousedown', handleDocumentMouseDown)
 
-    return () => {
+    return (): void => {
       document.removeEventListener('mousedown', handleDocumentMouseDown)
     }
   }, [isMenuOpen])
 
-  const handleThemeSelect = (nextTheme: Theme) => {
+  const handleThemeSelect = (nextTheme: Theme): void => {
     updateTheme(nextTheme)
     setIsMenuOpen(false)
     buttonRef.current?.focus()
   }
 
-  const handleMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleMenuKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+  ): void => {
     // Escape mirrors native select dismissal and returns focus to the trigger.
     if (event.key === 'Escape') {
       setIsMenuOpen(false)

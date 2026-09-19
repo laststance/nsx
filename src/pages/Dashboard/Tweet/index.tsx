@@ -39,7 +39,7 @@ export const Tweet: React.FC = () => {
   if (isLoading) return <Loading />
   if (error) return <AppError error={error} />
 
-  const onSubmit = async (data: TweetFormData) => {
+  const onSubmit = async (data: TweetFormData): Promise<void> => {
     const result = await createTweet(data.text)
 
     if (isSuccess(result)) {
@@ -65,7 +65,7 @@ export const Tweet: React.FC = () => {
     }
   }
 
-  const onDelete = async (id: number) => {
+  const onDelete = async (id: number): Promise<void> => {
     const result = await deleteTweet(id)
 
     if (isSuccess(result)) {

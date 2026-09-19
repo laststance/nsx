@@ -49,7 +49,7 @@ export const formatValidationIssues = (
  */
 export const validateBody =
   (schema: ZodType): RequestHandler =>
-  (req, res, next) => {
+  (req, res, next): void => {
     const result = schema.safeParse(req.body)
 
     // Invalid client input returns a structured 400 without reaching Prisma.

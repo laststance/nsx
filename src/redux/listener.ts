@@ -1,6 +1,6 @@
 import type { Theme } from './themeSlice'
 
-export function SwitchLightAndDarkTheme(theme: Theme) {
+export function SwitchLightAndDarkTheme(theme: Theme): void {
   if (
     theme === 'dark' ||
     (theme === 'system' &&

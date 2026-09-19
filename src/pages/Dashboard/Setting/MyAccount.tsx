@@ -43,7 +43,7 @@ const MyAccount: React.FC = memo(() => {
     }
   }, [currentUser.name, setValue])
 
-  const onSubmit = async (data: FormInput) => {
+  const onSubmit = async (data: FormInput): Promise<void> => {
     try {
       // Prepare update data (only include fields that are filled and changed)
       const updateData: { name?: string; password?: string } = {}
@@ -107,7 +107,7 @@ const MyAccount: React.FC = memo(() => {
     }
   }, [preferenceData])
 
-  const handleToggleChange = async () => {
+  const handleToggleChange = async (): Promise<void> => {
     const newValue = !useLegacyColors
     setUseLegacyColors(newValue)
 

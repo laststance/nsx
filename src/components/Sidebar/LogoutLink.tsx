@@ -12,7 +12,7 @@ import { dispatch } from '../../redux/store'
 export async function handleLogout(
   e: React.MouseEvent<HTMLButtonElement>,
   navigate: NavigateFunction | undefined = undefined,
-) {
+): Promise<void> {
   e.preventDefault()
   const response = await dispatch(API.endpoints.logoutRequest.initiate())
 

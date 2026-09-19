@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
   }:
     | CLSMetricWithAttribution
     | INPMetricWithAttribution
-    | LCPMetricWithAttribution) {
+    | LCPMetricWithAttribution): void {
     const eventParams: EventParams = {
       // Optional.
       metric_delta: delta,

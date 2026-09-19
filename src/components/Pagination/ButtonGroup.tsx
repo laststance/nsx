@@ -15,14 +15,13 @@ import type {
 interface Props {
   page: PagenationState['page']
   totalPage:
-    | UsePagenationResult['totalPage']
-    | UseTweetPagenationResult['totalPage']
+    UsePagenationResult['totalPage'] | UseTweetPagenationResult['totalPage']
 }
 
-const prevPage = (page: Props['page']) => () => {
+const prevPage = (page: Props['page']) => (): void => {
   dispatch(updatePage({ page: page - 1 }))
 }
-const nextPage = (page: Props['page']) => () => {
+const nextPage = (page: Props['page']) => (): void => {
   dispatch(updatePage({ page: page + 1 }))
 }
 
