@@ -206,6 +206,32 @@ describe('Extension popup token connection', () => {
     expect(axios.get).not.toHaveBeenCalled()
   })
 
+  test('swaps Already Exists for the Not connected notice when the token is removed while the popup is open', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
+    ;(axios.get as any).mockResolvedValue({ data: { exists: true } })
+    stubActiveTab()
+    render(<App />)
+    expect(await screen.findByText('Already Exists')).toBeVisible()
+    const [[notifyStorageChange]] = (
+      chrome.storage.onChanged.addListener as any
+    ).mock.calls
+    ;(chrome.storage.local.get as any).mockResolvedValue({})
+
+    // Act — another extension page disconnects the token.
+    await act(async () => {
+      notifyStorageChange({ nsx_pat: { oldValue: RAW_TOKEN } }, 'local')
+    })
+
+    // Assert — the notice and its Open options link are no longer hidden behind the old token's answer.
+    expect(await screen.findByText('Not connected')).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Open options' })).toBeVisible()
+    expect(screen.queryByText('Already Exists')).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('checkbox', { name: 'Save current page to NSX' }),
+    ).not.toBeChecked()
+  })
+
   test('does not flash the Not connected notice while the stored token is still loading', () => {
     // Arrange — the storage read never settles, so the popup stays in its loading state.
     ;(chrome.storage.local.get as any).mockReturnValue(new Promise(() => {}))

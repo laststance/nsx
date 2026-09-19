@@ -69,6 +69,51 @@ describe('Extension Options token connection', () => {
     expect(await screen.findByText('Connected to NSX')).toBeVisible()
   })
 
+  test('refuses a truncated paste and keeps the extension disconnected', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({})
+    const user = userEvent.setup()
+    render(<App />)
+    await screen.findByText('Not connected')
+
+    // Act — the last character of the token did not make it into the clipboard.
+    await user.type(screen.getByTestId('pat-input'), RAW_TOKEN.slice(0, -1))
+    await user.click(screen.getByRole('button', { name: 'Connect' }))
+
+    // Assert
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      "That doesn't look like an NSX token. Paste the whole nsx_pat_… value.",
+    )
+    expect(screen.getByTestId('pat-input')).toHaveAttribute(
+      'aria-invalid',
+      'true',
+    )
+    expect(screen.getByTestId('pat-input')).toHaveValue(RAW_TOKEN.slice(0, -1))
+    expect(screen.getByText('Not connected')).toBeVisible()
+    expect(chrome.storage.local.set).not.toHaveBeenCalled()
+  })
+
+  test('withdraws the not-a-token warning once the pasted value is edited', async () => {
+    // Arrange
+    ;(chrome.storage.local.get as any).mockResolvedValue({})
+    const user = userEvent.setup()
+    render(<App />)
+    await screen.findByText('Not connected')
+    await user.type(screen.getByTestId('pat-input'), 'my-github-token')
+    await user.click(screen.getByRole('button', { name: 'Connect' }))
+    await screen.findByRole('alert')
+
+    // Act
+    await user.clear(screen.getByTestId('pat-input'))
+
+    // Assert
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.getByTestId('pat-input')).toHaveAttribute(
+      'aria-invalid',
+      'false',
+    )
+  })
+
   test('shows the stored token masked, never in full, when already connected', async () => {
     // Arrange
     ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })

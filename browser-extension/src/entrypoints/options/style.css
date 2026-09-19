@@ -159,7 +159,19 @@ body {
 }
 
 .options-input::placeholder {
-  color: var(--nsx-ink-faint);
+  color: var(--nsx-ink-muted);
+}
+
+/* A malformed paste: the field's ring and the message under it both turn red. */
+.options-input[aria-invalid='true'] {
+  border-color: var(--nsx-danger);
+}
+
+.options-field-error {
+  margin: 6px 0 0;
+  color: var(--nsx-danger);
+  font-size: 13px;
+  text-wrap: pretty;
 }
 
 /* Read-only: a tinted surface instead of a white field, so it does not invite typing. */

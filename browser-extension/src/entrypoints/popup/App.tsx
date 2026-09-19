@@ -78,8 +78,15 @@ const App: FC = () => {
 
   useEffect(() => {
     // Only a connected token can answer the existence check; without one the API would just reply 401.
-    // Also waits for the stored token to load, and leaves Failed... alone when a save finds the token rejected.
-    if (connectionStatus !== 'connected') return undefined
+    // Also waits for the stored token to load.
+    if (connectionStatus !== 'connected') {
+      // A sticky Already Exists would outrank the connection notice and hide its Open options link, so it goes
+      // with the token. Failed... from a save that found the token rejected still fades out on its own.
+      setStockSaveState((currentState) =>
+        currentState.isAlreadySaved ? INITIAL_STOCK_SAVE_STATE : currentState,
+      )
+      return undefined
+    }
 
     const pushStockApiUrl = buildPushStockApiUrl(
       import.meta.env.VITE_API_ENDPOINT || DEFAULT_API_ENDPOINT,

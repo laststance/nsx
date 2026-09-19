@@ -323,8 +323,8 @@ The popup interface includes:
 The Options page (`chrome://extensions` → Details → Extension options, or the popup's **Open options** link) includes:
 
 - **Connection State**: `Connected to NSX`, `Not connected`, or `Token rejected`
-- **Token Form**: Paste a token generated at NSX → Dashboard → Settings → Extension token, then **Connect**
-- **Stored Token**: Shown masked (`nsx_pat_…` + last 4 characters) with a **Disconnect** button
+- **Token Form**: Paste a token generated at NSX → Dashboard → Settings → Extension token, then **Connect**; a value that is not `nsx_pat_` + 64 hex characters is refused before anything is stored
+- **Stored Token**: Shown masked (`nsx_pat_…` + last 4 characters, the same form the NSX token list uses) with a **Disconnect** button
 
 ## 🔗 Backend Integration
 

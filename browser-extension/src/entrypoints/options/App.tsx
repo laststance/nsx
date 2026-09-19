@@ -13,6 +13,7 @@ import {
 import {
   CONNECT_PROMPT_MESSAGE,
   EXTENSION_TOKEN_SETTINGS_URL,
+  INVALID_TOKEN_MESSAGE,
   RECONNECT_PROMPT_MESSAGE,
 } from './constants'
 import { maskPatToken } from './utils/maskPatToken'
@@ -37,17 +38,23 @@ const App: FC = () => {
   const { token, connectionStatus, connect, disconnect } =
     usePersonalAccessToken()
   const [pastedToken, setPastedToken] = useState<string>('')
+  const [isPastedTokenInvalid, setIsPastedTokenInvalid] =
+    useState<boolean>(false)
 
   /**
    * Connects the pasted token when the form is submitted by the Connect button or the Enter key.
    * @param event - The paste form's submit event.
-   * @returns Nothing; the hook stores the token and the card switches to the connected state.
+   * @returns Nothing; the hook stores the token and the card switches to the connected state, or the field is flagged when the value is not an NSX token.
    * @example
    * <form onSubmit={onConnectSubmit}>
    */
   const onConnectSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    void connect(pastedToken).then(() => setPastedToken(''))
+    void connect(pastedToken).then((isConnected) => {
+      // Only a stored token clears the field; a refused value stays, flagged, until it is edited.
+      if (isConnected) setPastedToken('')
+      setIsPastedTokenInvalid(!isConnected)
+    })
   }
 
   return (
@@ -108,9 +115,14 @@ const App: FC = () => {
                     value={pastedToken}
                     placeholder="nsx_pat_…"
                     autoComplete="off"
-                    onChange={(event): void =>
-                      setPastedToken(event.target.value)
+                    aria-invalid={isPastedTokenInvalid}
+                    aria-describedby={
+                      isPastedTokenInvalid ? 'pat-input-error' : undefined
                     }
+                    onChange={(event): void => {
+                      setPastedToken(event.target.value)
+                      setIsPastedTokenInvalid(false)
+                    }}
                   />
                   <button
                     type="submit"
@@ -121,6 +133,15 @@ const App: FC = () => {
                     Connect
                   </button>
                 </div>
+                {isPastedTokenInvalid ? (
+                  <p
+                    id="pat-input-error"
+                    role="alert"
+                    className="options-field-error"
+                  >
+                    {INVALID_TOKEN_MESSAGE}
+                  </p>
+                ) : null}
               </form>
             )}
           </>

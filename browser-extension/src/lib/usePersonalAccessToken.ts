@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import { PAT_TOKEN_PATTERN } from './constants'
 import {
   clearStoredPatToken,
   markStoredPatTokenRejected,
@@ -22,8 +23,8 @@ export interface PersonalAccessTokenState {
   /** The stored raw token (also while it is `rejected`), or null when none is stored. */
   token: StoredPatConnection['token']
   connectionStatus: PatConnectionStatus
-  /** Stores the trimmed token and marks the extension connected; blank input is ignored. */
-  connect: (rawToken: string) => Promise<void>
+  /** Stores the trimmed token and marks the extension connected; resolves false, storing nothing, when it is not an NSX token. */
+  connect: (rawToken: string) => Promise<boolean>
   /** Clears the stored token and returns to the disconnected state. */
   disconnect: () => Promise<void>
   /** Flags that the stored token was rejected, here and in storage, so every extension page asks to reconnect. */
@@ -70,11 +71,13 @@ export const usePersonalAccessToken = (): PersonalAccessTokenState => {
     }
   }, [])
 
-  const connect = useCallback(async (rawToken: string): Promise<void> => {
+  const connect = useCallback(async (rawToken: string): Promise<boolean> => {
     const trimmedToken = rawToken.trim()
-    if (!trimmedToken) return
+    // A truncated or wrong paste would read as "Connected" until the first save came back 401.
+    if (!PAT_TOKEN_PATTERN.test(trimmedToken)) return false
     await writeStoredPatToken(trimmedToken)
     setConnection({ token: trimmedToken, isRejected: false })
+    return true
   }, [])
 
   const disconnect = useCallback(async (): Promise<void> => {

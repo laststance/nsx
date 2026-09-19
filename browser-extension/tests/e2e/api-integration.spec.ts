@@ -137,7 +137,11 @@ test.describe('Extension API Integration Tests', () => {
     await popupPage.close()
   })
 
-  test('handles network timeout', async ({ context, extensionId, page }) => {
+  test('keeps a stalled save pending, then shows Failed... when the connection times out', async ({
+    context,
+    extensionId,
+    page,
+  }) => {
     const backendReady = await waitForBackendReady()
     expect(backendReady).toBe(true)
 
@@ -146,30 +150,35 @@ test.describe('Extension API Integration Tests', () => {
 
     const popupPage = await openPopup(context, extensionId)
 
-    // Intercept API and delay response
-    await popupPage.route('**/api/**', async (route) => {
-      // Delay for 10 seconds to simulate timeout
-      await new Promise((resolve) => setTimeout(resolve, 10000))
-      route.fulfill({
-        status: 200,
-        body: JSON.stringify({ success: true }),
-      })
+    // The save hangs until the test lets it die the way a timed-out connection does: with no HTTP response.
+    // The popup sets no request timeout of its own, so the network's is the one that ends the save.
+    let timeOutSave: () => void = () => {}
+    const saveTimedOut = new Promise<void>((resolve) => {
+      timeOutSave = resolve
+    })
+    await popupPage.route('**/api/push_stock**', async (route) => {
+      await saveTimedOut
+      await route.abort('timedout')
     })
 
-    // Save page
+    // A failed save unchecks the box again; click() because check() fails if that revert lands before it verifies.
     const checkbox = popupPage.locator('.checkbox')
-    await checkbox.check()
+    await checkbox.click()
 
-    // Should either timeout or show error
-    // (depending on axios timeout configuration)
-    await popupPage.waitForTimeout(5000)
+    // While the request hangs, the box shows the save underway and no result is claimed yet.
+    await expect(checkbox).toBeChecked()
+    await expect(
+      popupPage.getByRole('status').getByText('Success!'),
+    ).toBeHidden()
+    await expect(
+      popupPage.getByRole('status').getByText('Failed...'),
+    ).toBeHidden()
 
-    // Check if error message appeared
-    const result = popupPage.getByRole('status')
-    const content = await result.textContent()
+    timeOutSave()
 
-    // Either empty (still waiting) or has error message
-    expect(content).toBeDefined()
+    const error = await verifyErrorMessage(popupPage)
+    expect(error).toBe(true)
+    await expect(checkbox).not.toBeChecked()
 
     await popupPage.close()
   })

@@ -1,8 +1,8 @@
 /* Design tokens shared by the popup and the Options page. Ink, lines and the button black follow X's palette. */
 :root {
   --nsx-ink: #0f1419;
+  /* Also the placeholder color: placeholder text needs 4.5:1 too, and #536471 is 6.1:1 on white. */
   --nsx-ink-muted: #536471;
-  --nsx-ink-faint: #6b7a86;
   --nsx-line: #cfd9de;
   --nsx-line-hover: #8b98a5;
   /* Small text needs the darker green: #16a34a is 3.3:1 on white, #15803d is 5.0:1. */
