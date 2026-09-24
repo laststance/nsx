@@ -1,5 +1,5 @@
 /**
- * Shortens the current tab URL to the domain shown beside the favicon in the popup's status slot.
+ * Shortens the current tab URL to the domain shown in the popup's status slot.
  * @param url - The current tab URL.
  * @returns
  * - For http(s) pages: the hostname without a leading `www.`

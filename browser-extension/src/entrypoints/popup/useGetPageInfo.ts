@@ -3,16 +3,14 @@ import { useLayoutEffect, useState } from 'react'
 import { getCurrentTab } from '../../lib/getCurrentTab'
 
 import type { PopupState } from './App'
-import { getLoadableFaviconUrl } from './utils/getLoadableFaviconUrl'
 
 /**
- * Hook to fetch current page information for the popup
- * Retrieves page title, URL and favicon from the active tab
- * @returns PopupState with pageTitle, url and faviconUrl
+ * Hook to fetch current page information for the popup.
+ * Retrieves the page title and URL from the active tab when the popup opens; called once by {@link App}.
+ * @returns PopupState with pageTitle and url
  */
 export function useGetPageInfo(): PopupState {
   const [state, setState] = useState<PopupState>({
-    faviconUrl: '',
     pageTitle: '',
     url: '',
   })
@@ -21,7 +19,6 @@ export function useGetPageInfo(): PopupState {
     getCurrentTab().then((tab) => {
       setState(() => {
         return {
-          faviconUrl: getLoadableFaviconUrl(tab?.favIconUrl),
           pageTitle: tab?.title || '',
           url: tab?.url || '',
         }

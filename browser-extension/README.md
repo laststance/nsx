@@ -314,7 +314,7 @@ The extension uses GitHub Actions for continuous integration:
 
 The popup interface includes:
 
-- **Status Slot** (top-left): Shows the page's favicon and domain; cross-fades to `Success!` / `Failed...` for 1.5 seconds after a save, stays on `Already Exists` for a saved page, and shows `Not connected` / `Token rejected` with an **Open options** link while no usable token is stored
+- **Status Slot** (top-left): Shows the page's domain; cross-fades to `Success!` / `Failed...` for 1.5 seconds after a save, stays on `Already Exists` for a saved page, and shows `Not connected` / `Token rejected` with an **Open options** link while no usable token is stored
 - **Page Title Display**: Shows current page title
 - **Bookmark Checkbox**: Saves the page; disabled until a token is connected
 - **Comment Textarea**: Add notes before sharing

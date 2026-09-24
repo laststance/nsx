@@ -63,7 +63,7 @@ const TOKEN_REJECTED_STATUS_MESSAGE: PopupStatusMessage = {
  * @returns
  * - While save feedback is up: that feedback (it outranks a connection notice, so Failed... stays readable after a 401)
  * - Without a usable token: the "Not connected" / "Token rejected" notice with the Open options link
- * - Otherwise (connected, or the token is still loading): null, so the slot shows the favicon and domain
+ * - Otherwise (connected, or the token is still loading): null, so the slot shows the domain
  * @example
  * getPopupStatusMessage('Success!', 'connected') // => { tone: 'success', text: 'Success!', hasOptionsLink: false }
  * getPopupStatusMessage('', 'disconnected')      // => { tone: 'warning', text: 'Not connected', hasOptionsLink: true }
