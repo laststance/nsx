@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
@@ -28,7 +28,7 @@ const UNAUTHORIZED_ERROR = { isAxiosError: true, response: { status: 401 } }
 
 /**
  * Points chrome.tabs.query at one ordinary tab so useGetPageInfo resolves a saveable URL/title.
- * @param tab - The active tab; defaults to a page without a favicon.
+ * @param tab - The active tab; defaults to an ordinary https page.
  * @returns Nothing; configures the global chrome mock for the current test.
  */
 const stubActiveTab = (tab: Record<string, string> = ACTIVE_TAB): void => {
@@ -372,7 +372,7 @@ describe('Extension popup save result', () => {
 })
 
 describe('Extension popup status slot', () => {
-  test('shows the page favicon and domain while there is nothing to report', async () => {
+  test('shows the domain without a favicon while there is nothing to report', async () => {
     // Arrange
     ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
     stubActiveTab({
@@ -384,49 +384,8 @@ describe('Extension popup status slot', () => {
     // Act
     const { container } = render(<App />)
 
-    // Assert — the favicon is decorative (alt=""), so it has no accessible role to query by.
-    expect(await screen.findByText('example.com')).toBeVisible()
-    expect(container.querySelector('img')).toHaveAttribute(
-      'src',
-      'https://www.example.com/favicon.ico',
-    )
-  })
-
-  test('drops the favicon image when the site does not serve it', async () => {
-    // Arrange
-    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
-    stubActiveTab({
-      favIconUrl: 'https://example.com/missing.ico',
-      title: 'Example Page',
-      url: 'https://example.com',
-    })
-    const { container } = render(<App />)
-    await screen.findByText('example.com')
-    const favicon = container.querySelector('img')
-    expect(favicon).toBeVisible()
-
-    // Act
-    fireEvent.error(favicon!)
-
-    // Assert — no broken-image icon; the domain stays.
-    expect(container.querySelector('img')).not.toBeInTheDocument()
-    expect(screen.getByText('example.com')).toBeVisible()
-  })
-
-  test('never points an image at a browser-internal favicon', async () => {
-    // Arrange
-    ;(chrome.storage.local.get as any).mockResolvedValue({ nsx_pat: RAW_TOKEN })
-    stubActiveTab({
-      favIconUrl: 'chrome://theme/IDR_EXTENSIONS_FAVICON',
-      title: 'Example Page',
-      url: 'https://example.com',
-    })
-
-    // Act
-    const { container } = render(<App />)
-
     // Assert
     expect(await screen.findByText('example.com')).toBeVisible()
-    expect(container.querySelector('img')).not.toBeInTheDocument()
+    expect(container.querySelector('.status img, .status svg')).toBeNull()
   })
 })

@@ -46,7 +46,7 @@ main {
   width: 500px;
 }
 
-/* Top-left status slot: favicon + domain while idle, a small save / connection message otherwise. */
+/* Top-left status slot: the domain while idle, a small save / connection message otherwise. */
 .status {
   position: relative;
   height: 16px;
@@ -107,17 +107,6 @@ main {
 .status-icon {
   display: block;
   flex: none;
-}
-
-.status-favicon {
-  display: block;
-  flex: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  /* Pure black at low opacity: a tinted outline would read as dirt on the icon's edge. */
-  outline: 1px solid oklch(0 0 0 / 0.1);
-  outline-offset: -1px;
 }
 
 .status-domain {

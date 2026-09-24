@@ -6,24 +6,21 @@ import type { PopupStatusMessage } from './utils/getPopupStatusMessage'
 interface PopupStatusProps {
   /** Domain of the current tab; '' leaves the idle line empty. */
   domain: string
-  /** Loadable favicon URL of the current tab; '' draws the globe icon instead. */
-  faviconUrl: string
-  /** The message to show, or null to show the favicon and domain. */
+  /** The message to show, or null to show the domain. */
   message: PopupStatusMessage | null
   /** Runs when the "Open options" link of a connection notice is clicked. */
   onOpenOptions: () => void
 }
 
 /**
- * The popup's top-left status slot: favicon + domain while idle, cross-fading to a small save / connection message.
+ * The popup's top-left status slot: the domain while idle, cross-fading to a small save / connection message.
  * Both layers stay mounted so a message can fade out as well as in; rendered once by the popup {@link App}.
  * @returns The status slot, whose message layer is the popup's `role="status"` live region.
  * @example
- * <PopupStatus domain="example.com" faviconUrl="" message={null} onOpenOptions={openOptionsPage} />
+ * <PopupStatus domain="example.com" message={null} onOpenOptions={openOptionsPage} />
  */
 const PopupStatus: FC<PopupStatusProps> = ({
   domain,
-  faviconUrl,
   message,
   onOpenOptions,
 }) => {
@@ -54,13 +51,7 @@ const PopupStatus: FC<PopupStatusProps> = ({
         }
         style={{ visibility: isMessageShown ? 'hidden' : 'visible' }}
       >
-        {domain ? (
-          <>
-            {/* The key resets the load-failure state if the tab's favicon ever changes. */}
-            <PageFavicon key={faviconUrl} faviconUrl={faviconUrl} />
-            <span className="status-domain">{domain}</span>
-          </>
-        ) : null}
+        {domain ? <span className="status-domain">{domain}</span> : null}
       </div>
       <div role="status">
         <div
@@ -115,41 +106,3 @@ const StatusIcon: FC<{ tone: PopupStatusMessage['tone'] }> = ({ tone }) => (
     <path d={STATUS_ICON_PATHS[tone]} />
   </svg>
 )
-
-const PageFavicon: FC<{ faviconUrl: string }> = ({ faviconUrl }) => {
-  const [didFailToLoad, setDidFailToLoad] = useState<boolean>(false)
-
-  // No favicon, or one the site no longer serves: a neutral globe keeps the line's left edge in place.
-  if (!faviconUrl || didFailToLoad) {
-    return (
-      <svg
-        className="status-icon"
-        viewBox="0 0 16 16"
-        width="14"
-        height="14"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <circle cx="8" cy="8" r="6.25" />
-        <path d="M1.75 8h12.5M8 1.75c1.7 1.7 2.6 3.9 2.6 6.25S9.7 12.55 8 14.25C6.3 12.55 5.4 10.35 5.4 8S6.3 3.45 8 1.75z" />
-      </svg>
-    )
-  }
-
-  return (
-    <img
-      className="status-favicon"
-      src={faviconUrl}
-      alt=""
-      width={14}
-      height={14}
-      referrerPolicy="no-referrer"
-      draggable={false}
-      onError={(): void => setDidFailToLoad(true)}
-    />
-  )
-}

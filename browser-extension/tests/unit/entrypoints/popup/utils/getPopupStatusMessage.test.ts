@@ -78,7 +78,7 @@ describe('getPopupStatusMessage', () => {
     })
   })
 
-  test('leaves the slot to the favicon and domain while connected with nothing to report', () => {
+  test('leaves the slot to the domain while connected with nothing to report', () => {
     // Arrange
     const connectionStatus = 'connected'
 

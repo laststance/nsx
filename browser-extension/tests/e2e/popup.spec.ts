@@ -35,7 +35,7 @@ test.describe('Extension Popup UI Tests', () => {
     const appRoot = popupPage.locator('#popup')
     await expect(appRoot).toBeVisible()
 
-    // Verify the top-left status slot (favicon + domain, or a save / connection message)
+    // Verify the top-left status slot (domain, or a save / connection message)
     const status = popupPage.locator('.status')
     await expect(status).toBeVisible()
 

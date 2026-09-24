@@ -34,7 +34,6 @@ import { logStockRequestError } from './utils/logStockRequestError'
 import { normalizePopupUrl } from './utils/normalizePopupUrl'
 
 export interface PopupState {
-  faviconUrl: string
   pageTitle: string
   url: string
 }
@@ -234,7 +233,6 @@ const App: FC = () => {
     <main>
       <PopupStatus
         domain={getDisplayDomain(state.url)}
-        faviconUrl={state.faviconUrl}
         message={getPopupStatusMessage(
           stockSaveState.feedbackMessage,
           connectionStatus,
