@@ -17,9 +17,6 @@ updates:
       - dependency-name: '@chromatic-com/storybook'
       - dependency-name: '@headlessui/react'
       - dependency-name: '@types/express'
-      # @atproto/api 0.20.x is ESM-only and breaks this CJS Express server.
-      - dependency-name: '@atproto/api'
-        versions: ['0.20.x']
       # Vite 8.1.x (Rolldown) breaks MSW checkGlobals() in Storybook/Chromatic builds.
       - dependency-name: 'vite'
         versions: ['8.1.x']

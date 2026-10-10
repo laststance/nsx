@@ -1,4 +1,4 @@
-import { BskyAgent, RichText } from '@atproto/api'
+import type { BskyAgent } from '@atproto/api'
 import express from 'express'
 import type { Router } from 'express'
 
@@ -12,10 +12,36 @@ import { validateBody } from '../lib/validateRequest'
 
 const router: Router = express.Router()
 
-// Initialize BlueSky agent
-const agent = new BskyAgent({
-  service: 'https://bsky.social',
-})
+/** Created on first use by {@link getBlueskyClient}, then reused for every request. */
+let sharedAgent: BskyAgent | undefined
+
+/**
+ * Loads the Bluesky SDK on demand and returns the shared agent.
+ *
+ * `@atproto/api` is ESM-only since 0.20. A static import compiles to `require()`
+ * in this CJS server, and the tsx dev loader then resolves the SDK's own
+ * `multiformats/cid` import with CJS conditions, which crashes the server at
+ * boot (ERR_PACKAGE_PATH_NOT_EXPORTED). A dynamic `import()` stays on Node's
+ * ESM loader in both tsx and the esbuild bundle.
+ * Called by the `/bluesky/post` handler on every request; Node caches the module.
+ *
+ * @returns The shared agent plus the SDK's `RichText` class.
+ * @throws When the SDK module fails to load.
+ *
+ * @example
+ * ```ts
+ * const { agent, RichText } = await getBlueskyClient()
+ * ```
+ */
+const getBlueskyClient = async () => {
+  const { BskyAgent, RichText } = await import('@atproto/api')
+
+  sharedAgent ??= new BskyAgent({
+    service: 'https://bsky.social',
+  })
+
+  return { agent: sharedAgent, RichText }
+}
 
 // Keep track of authentication state
 const authState = {
@@ -25,7 +51,7 @@ const authState = {
 const AUTH_TIMEOUT = 30 * 60 * 1000 // 30 minutes
 
 // Helper function to ensure authentication
-const ensureAuthenticated = async (): Promise<void> => {
+const ensureAuthenticated = async (agent: BskyAgent): Promise<void> => {
   const now = Date.now()
 
   // Re-authenticate if not authenticated or session expired
@@ -57,8 +83,10 @@ router.post(
     try {
       const { text } = req.body as BlueskyPostBody
 
+      const { agent, RichText } = await getBlueskyClient()
+
       // Ensure we're authenticated
-      await ensureAuthenticated()
+      await ensureAuthenticated(agent)
 
       // Create rich text with automatic facet detection
       const richText = new RichText({ text })
