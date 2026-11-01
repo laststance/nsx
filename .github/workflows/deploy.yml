@@ -112,15 +112,21 @@ jobs:
           target: '/tmp'
           debug: true
 
+      # GitHub secrets are the only source of production credentials: every deploy
+      # re-writes them into the server .env, so nobody keeps a local copy. To rotate,
+      # `gh secret set <NAME>` and redeploy (MySQL passwords are applied via ALTER USER).
       - name: Extract and restart server
         uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
         env:
           NSX_ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
           NSX_BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
           NSX_BLUESKY_USERNAME: ${{ secrets.BLUESKY_USERNAME }}
-          NSX_DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NSX_LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+          NSX_MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          NSX_MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          NSX_MYSQL_USER: ${{ secrets.MYSQL_USER }}
           NSX_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          NSX_REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
           NSX_REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
           NSX_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           NSX_SENTRY_RELEASE: ${{ github.sha }}
@@ -129,7 +135,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: NSX_ACCESS_TOKEN_SECRET,NSX_BLUESKY_PASSWORD,NSX_BLUESKY_USERNAME,NSX_DATABASE_URL,NSX_LOG_LEVEL,NSX_OPENAI_API_KEY,NSX_REMOTE_DIR,NSX_SENTRY_DSN,NSX_SENTRY_RELEASE,NSX_SENTRY_TRACES_SAMPLE_RATE
+          envs: NSX_ACCESS_TOKEN_SECRET,NSX_BLUESKY_PASSWORD,NSX_BLUESKY_USERNAME,NSX_LOG_LEVEL,NSX_MYSQL_PASSWORD,NSX_MYSQL_ROOT_PASSWORD,NSX_MYSQL_USER,NSX_OPENAI_API_KEY,NSX_REFRESH_TOKEN_SECRET,NSX_REMOTE_DIR,NSX_SENTRY_DSN,NSX_SENTRY_RELEASE,NSX_SENTRY_TRACES_SAMPLE_RATE
           script: |
             set -eu
 
@@ -138,8 +144,10 @@ jobs:
             staging_dir="/tmp/nsx-deploy-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}"
             rollback_dir="${remote_dir%/}.rollback"
             health_url="https://nsx.malloc.tokyo/api/health"
+            db_container="nsx-db-1"
             deployment_applied="false"
             rollback_ready="false"
+            credentials_changed="false"
 
             cleanup() {
               if [ -d "$staging_dir" ]; then
@@ -208,6 +216,100 @@ jobs:
                 return 1
               }
               mv "$temp_env_file" "$remote_dir/.env"
+            }
+
+            require_secret() {
+              name="$1"
+              value="$2"
+
+              # Missing secrets must stop the deploy before anything on the server changes.
+              if [ -z "$value" ]; then
+                echo "::error::GitHub secret $name is missing or empty"
+                cleanup
+                exit 1
+              fi
+
+              # dotenv does not unescape \\ or \" inside double quotes, so such values would not round-trip.
+              if printf '%s' "$value" | grep -q '["\\]' || [ "$(printf '%s' "$value" | wc -l)" -ne 0 ]; then
+                echo "::error::GitHub secret $name must not contain quotes, backslashes or newlines"
+                cleanup
+                exit 1
+              fi
+            }
+
+            require_db_secret() {
+              require_secret "$1" "$2"
+
+              # DB credentials are embedded in SQL and in the DATABASE_URL, so keep them URL/SQL-safe.
+              if ! printf '%s' "$2" | grep -Eq '^[A-Za-z0-9._~-]+$'; then
+                echo "::error::GitHub secret $1 may only contain [A-Za-z0-9._~-]"
+                cleanup
+                exit 1
+              fi
+            }
+
+            read_env_value() {
+              # write_env_line wraps values in double quotes; older hand-written lines may be bare.
+              sed -n "s/^$1=//p" "$remote_dir/.env" | tail -n 1 | sed 's/^"\(.*\)"$/\1/'
+            }
+
+            mysql_as() {
+              user="$1"
+              password="$2"
+              # MYSQL_PWD keeps the password out of the host process list; SQL comes from stdin.
+              docker exec -i -e MYSQL_PWD="$password" "$db_container" mysql -u"$user" -N --batch
+            }
+
+            mysql_accepts() {
+              printf 'SELECT 1;\n' | mysql_as "$1" "$2" >/dev/null 2>&1
+            }
+
+            sync_mysql_passwords() {
+              # A fresh server initializes MySQL from .env on first `docker compose up`, so nothing to rotate yet.
+              if [ "$(docker inspect -f '{{.State.Running}}' "$db_container" 2>/dev/null || true)" != "true" ]; then
+                echo "::warning::$db_container is not running; skipping MySQL password sync"
+                return 0
+              fi
+
+              if mysql_accepts root "$NSX_MYSQL_ROOT_PASSWORD"; then
+                root_password="$NSX_MYSQL_ROOT_PASSWORD"
+              else
+                # First deploy after rotating the secret: MySQL still has the password currently in .env.
+                root_password=$(read_env_value MYSQL_ROOT_PASSWORD)
+                if [ -z "$root_password" ] || ! mysql_accepts root "$root_password"; then
+                  echo "::error::MySQL rejected both the new and the current root password"
+                  return 1
+                fi
+              fi
+
+              # Nothing to do when MySQL already accepts every password from GitHub secrets.
+              if [ "$root_password" = "$NSX_MYSQL_ROOT_PASSWORD" ] && mysql_accepts "$NSX_MYSQL_USER" "$NSX_MYSQL_PASSWORD"; then
+                return 0
+              fi
+
+              # MySQL keeps passwords in its data volume (MYSQL_* env only applies at init), so rotate in place.
+              echo "Rotating MySQL passwords to the values from GitHub secrets"
+              credentials_changed="true"
+              printf "ALTER USER 'root'@'%%' IDENTIFIED BY '%s';\nALTER USER IF EXISTS 'root'@'localhost' IDENTIFIED BY '%s';\nALTER USER '%s'@'%%' IDENTIFIED BY '%s';\n" \
+                "$NSX_MYSQL_ROOT_PASSWORD" "$NSX_MYSQL_ROOT_PASSWORD" "$NSX_MYSQL_USER" "$NSX_MYSQL_PASSWORD" \
+                | mysql_as root "$root_password"
+            }
+
+            write_production_env() {
+              # One entry per secret; values always come from GitHub, never from the existing server file.
+              set_env_value "DATABASE_URL" "mysql://root:${NSX_MYSQL_ROOT_PASSWORD}@localhost/digital?socketPath=${remote_dir%/}/run/mysqld/mysqld.sock" &&
+                set_env_value "MYSQL_ROOT_PASSWORD" "$NSX_MYSQL_ROOT_PASSWORD" &&
+                set_env_value "MYSQL_USER" "$NSX_MYSQL_USER" &&
+                set_env_value "MYSQL_PASSWORD" "$NSX_MYSQL_PASSWORD" &&
+                set_env_value "ACCESS_TOKEN_SECRET" "$NSX_ACCESS_TOKEN_SECRET" &&
+                set_env_value "REFRESH_TOKEN_SECRET" "$NSX_REFRESH_TOKEN_SECRET" &&
+                set_env_value "OPENAI_API_KEY" "$NSX_OPENAI_API_KEY" &&
+                set_env_value "BLUESKY_USERNAME" "$NSX_BLUESKY_USERNAME" &&
+                set_env_value "BLUESKY_PASSWORD" "$NSX_BLUESKY_PASSWORD" &&
+                set_env_value "SENTRY_DSN" "$NSX_SENTRY_DSN" &&
+                set_env_value "SENTRY_RELEASE" "$NSX_SENTRY_RELEASE" &&
+                set_env_value "SENTRY_TRACES_SAMPLE_RATE" "$NSX_SENTRY_TRACES_SAMPLE_RATE" &&
+                set_env_value "LOG_LEVEL" "$NSX_LOG_LEVEL"
             }
 
             verify_deployment() {
@@ -279,16 +381,30 @@ jobs:
               echo "::error::$message"
               if [ "$deployment_applied" = "true" ]; then
                 rollback_deployment || true
+              elif [ "$credentials_changed" = "true" ]; then
+                # MySQL now rejects the old passwords, so restart the current release to load the new .env.
+                echo "::warning::Restarting the current release so it picks up the rotated credentials"
+                (cd "$remote_dir" && sudo pm2 reload ecosystem.config.js --update-env) || true
               fi
               cleanup
               exit 1
             }
 
             require_command curl
+            require_command docker
             require_command find
             require_command node
             require_command rsync
             require_command tar
+
+            require_secret ACCESS_TOKEN_SECRET "$NSX_ACCESS_TOKEN_SECRET"
+            require_secret REFRESH_TOKEN_SECRET "$NSX_REFRESH_TOKEN_SECRET"
+            require_secret OPENAI_API_KEY "$NSX_OPENAI_API_KEY"
+            require_secret BLUESKY_USERNAME "$NSX_BLUESKY_USERNAME"
+            require_secret BLUESKY_PASSWORD "$NSX_BLUESKY_PASSWORD"
+            require_db_secret MYSQL_ROOT_PASSWORD "$NSX_MYSQL_ROOT_PASSWORD"
+            require_db_secret MYSQL_USER "$NSX_MYSQL_USER"
+            require_db_secret MYSQL_PASSWORD "$NSX_MYSQL_PASSWORD"
 
             mkdir -p "$remote_dir" "$rollback_dir" "$remote_dir/run/mysqld" "$remote_dir/logs" || fail_deployment "Failed to prepare deployment directories"
             reset_staging_dir || fail_deployment "Failed to prepare staging directory"
@@ -303,20 +419,12 @@ jobs:
             fi
 
             if [ ! -f "$remote_dir/.env" ]; then
-              {
-                write_env_line "DATABASE_URL" "$NSX_DATABASE_URL"
-                write_env_line "ACCESS_TOKEN_SECRET" "$NSX_ACCESS_TOKEN_SECRET"
-                write_env_line "OPENAI_API_KEY" "$NSX_OPENAI_API_KEY"
-                write_env_line "BLUESKY_USERNAME" "$NSX_BLUESKY_USERNAME"
-                write_env_line "BLUESKY_PASSWORD" "$NSX_BLUESKY_PASSWORD"
-              } > "$remote_dir/.env" || fail_deployment "Failed to create production .env"
-              chmod 600 "$remote_dir/.env" || fail_deployment "Failed to secure production .env"
+              install -m 600 /dev/null "$remote_dir/.env" || fail_deployment "Failed to create production .env"
             fi
 
-            set_env_value "SENTRY_DSN" "$NSX_SENTRY_DSN"
-            set_env_value "SENTRY_RELEASE" "$NSX_SENTRY_RELEASE"
-            set_env_value "SENTRY_TRACES_SAMPLE_RATE" "$NSX_SENTRY_TRACES_SAMPLE_RATE"
-            set_env_value "LOG_LEVEL" "$NSX_LOG_LEVEL"
+            # Rotate MySQL first: it reads the current root password from .env before .env is overwritten.
+            sync_mysql_passwords || fail_deployment "Failed to sync MySQL passwords"
+            write_production_env || fail_deployment "Failed to write production .env"
             cp "$remote_dir/.env" "$staging_dir/.env" || fail_deployment "Failed to stage production .env for Prisma"
 
             (
